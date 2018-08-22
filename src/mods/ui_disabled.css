@@ -1,0 +1,7 @@
+html {
+    cursor: wait;
+}
+
+.imgs_w_1, .input_fieldset {
+    pointer-events: none;
+}

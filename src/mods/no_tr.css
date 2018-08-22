@@ -1,0 +1,3 @@
+*:not(.img_w):not(.loading_screen):not(.img_div) {
+    transition: none!important;
+}

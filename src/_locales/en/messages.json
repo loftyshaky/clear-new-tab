@@ -1,0 +1,529 @@
+{
+  "desc": {
+    "message": "Remove the most visited and other Google stuff from new tab without removing theme image."
+  },
+
+
+  "loc": {
+    "message": "en"
+  },
+
+
+  "error_alert": {
+    "message": "An error occured. Error code: "
+  },
+
+
+
+  "options_title_text": {
+    "message": "Options"
+  },
+
+
+  "change_img_settings_alert": {
+    "message": "To change an image's settings select it by left-clicking on it."
+  },
+  "img_with_this_no_doesnt_exist_alert": {
+    "message": "Image with this number doesn't exist."
+  },
+  "select_img_alert": {
+    "message": "Select an image."
+  },
+  "cannot_disable_all_urls_permission_alert": {
+    "message": "This option cannot be disabled. If you want to disable this option and remove the permission \"Read and change all your data on the websites you visit\" reinstall the extension."
+  },
+
+  "restore_global_defaults_confirm": {
+    "message": "Restore global defaults?"
+  },
+  "delete_all_images_confirm": {
+    "message": "Delete all images?"
+  },
+
+
+  "theme_img_link_text": {
+    "message": "Link to theme image"
+  },
+
+
+  "upload_box_browse_label_text": {
+    "message": "Browse"
+  },
+  "upload_box_drag_label_text": {
+    "message": "or drag images here"
+  },
+
+  "upload_box_uploading_message_text": {
+    "message": "Loading..."
+  },
+  "upload_box_error_message_text": {
+    "message": "An error occured."
+  },
+
+
+  "upload_legend_text": {
+    "message": "Image upload"
+  },
+  "img_settings_legend_text": {
+    "message": "Image settings"
+  },
+  "other_settings_legend_text": {
+    "message": "Other settings"
+  },
+  "links_legend_text": {
+    "message": "Links"
+  },
+  "imgs_legend_text": {
+    "message": "Images"
+  },
+
+
+  "paste_label_text": {
+    "message": "Paste image or URL"
+  },
+  "download_img_when_link_given_label_text": {
+    "message": "Download image when link given"
+  },
+  "create_solid_color_img_label_text": {
+    "message": "Create solid color image"
+  },
+  "mode_label_text": {
+    "message": "Mode"
+  },
+  "change_interval_label_text": {
+    "message": "Change image every"
+  },
+  "keep_old_themes_imgs_label_text": {
+    "message": "Keep old themes' images"
+  },
+  "slideshow_label_text": {
+    "message": "Slideshow"
+  },
+  "shuffle_label_text": {
+    "message": "Shuffle images"
+  },
+  "current_img_label_text": {
+    "message": "Current image №"
+  },
+  "settings_type_label_text": {
+    "message": "Settings type"
+  },
+  "size_label_text": {
+    "message": "Image size"
+  },
+  "position_label_text": {
+    "message": "Image position"
+  },
+  "repeat_label_text": {
+    "message": "Image repeat"
+  }, 
+  "color_label_text": {
+    "message": "Background color"
+  },
+  "color_global_label_text": {
+    "message": "Global"
+  },
+  "show_bookmarks_bar_label_text": {
+    "message": "Show bookmarks bar in new tab"
+  },
+  "enable_paste_label_text": {
+    "message": "Add \"Paste\" button to paste input"
+  },
+  "allow_downloading_images_by_link_label_text": {
+    "message": "Allow downloading images by a link"
+  },
+
+
+  "paste_btn_text": {
+    "message": "Paste"
+  },
+  "current_img_btn_text": {
+    "message": "Set selected"
+  },
+  "restore_global_defaults_btn_text": {
+    "message": "Restore global defaults"
+  },
+  "delete_all_imgs_btn_text": {
+    "message": "Delete all images"
+  },
+  "load_more_btn_text": {
+    "message": "Load more"
+  },
+  "load_all_btn_text": {
+    "message": "Load all"
+  },
+
+
+  "option_theme_text": {
+    "message": "Theme image"
+  },
+  "option_one_text": {
+    "message": "One image"
+  },
+  "option_multiple_text": {
+    "message": "Multiple images"
+  },
+  "option_random_solid_color_text": {
+    "message": "Random solid color"
+  },
+
+  "option_1_millisecond_text": {
+    "message": "1 Millisecond"
+  },
+  "option_3_seconds_text": {
+    "message": "3 Seconds"
+  },
+  "option_5_seconds_text": {
+    "message": "5 Seconds"
+  },
+  "option_10_seconds_text": {
+    "message": "10 Seconds"
+  },
+  "option_15_seconds_text": {
+    "message": "15 Seconds"
+  },
+  "option_30_seconds_text": {
+    "message": "30 Seconds"
+  },
+  "option_1_minute_text": {
+    "message": "1 Minute"
+  },
+  "option_5_minutes_text": {
+    "message": "5 Minutes"
+  },
+  "option_10_minutes_text": {
+    "message": "10 Minutes"
+  },
+  "option_15_minutes_text": {
+    "message": "15 Minutes"
+  },
+  "option_30_minutes_text": {
+    "message": "30 Minutes"
+  },
+  "option_1_hour_text": {
+    "message": "1 Hour"
+  },
+  "option_3_hours_text": {
+    "message": "3 Hours"
+  },
+  "option_6_hours_text": {
+    "message": "6 Hours"
+  },
+  "option_12_hours_text": {
+    "message": "12 Hours"
+  },
+  "option_1_day_text": {
+    "message": "1 Day"
+  },
+  "option_2_days_text": {
+    "message": "2 Days"
+  },
+  "option_4_days_text": {
+    "message": "4 Days"
+  },
+  "option_1_week_text": {
+    "message": "1 Week"
+  },
+  "option_2_weeks_text": {
+    "message": "2 Weeks"
+  },
+  "option_4_weeks_text": {
+    "message": "4 Weeks"
+  },
+
+  "option_global_text": {
+    "message": "Global"
+  },
+  "option_specific_text": {
+    "message": "Only selected image"
+  },
+
+  "option_dont_resize_text": {
+    "message": "Don't resize"
+  },
+  "option_fit_screen_text": {
+    "message": "Fit to the screen"
+  },
+  "option_fit_browser_text": {
+    "message": "Fit to the browser window"
+  },
+  "option_cover_screen_text": {
+    "message": "Cover the screen"
+  },
+  "option_cover_browser_text": {
+    "message": "Cover the browser window"
+  },
+  "option_stretch_screen_text": {
+    "message": "Stretch to fit the screen"
+  },
+  "option_stretch_browser_text": {
+    "message": "Stretch to fit the browser window"
+  },
+
+  "option_center_top_text": {
+    "message": "Center top"
+  },
+  "option_center_center_text": {
+    "message": "Center"
+  },
+  "option_center_bottom_text": {
+    "message": "Center bottom"
+  },
+  "option_left_top_text": {
+    "message": "Left top"
+  },
+  "option_left_center_text": {
+    "message": "Left center"
+  },
+  "option_left_bottom_text": {
+    "message": "Left bottom"
+  },
+  "option_right_top_text": {
+    "message": "Right top"
+  },
+  "option_right_center_text": {
+    "message": "Right center"
+  },
+  "option_right_bottom_text": {
+    "message": "Right bottom"
+  }, 
+
+  "option_repeat_text": {
+    "message": "Repeat"
+  },  
+  "option_repeat_y_text": {
+    "message": "Repeat Y"
+  },
+  "option_repeat_x_text": {
+    "message": "Repeat X"
+  },
+  "option_no_repeat_text": {
+    "message": "No repeat"
+  },
+
+
+  "help_link_text": {
+    "message": "Help"
+  },
+
+
+  "install_help_text_chrome": {
+    "message": "Thanks for installing Clear New Tab! If your Chrome have theme from <a class='install_help_link' href='https://chrome.google.com/webstore/category/themes'>Chrome Web Store</a> installed, wait till its background image appear in an \"Images\" section, and then open new tab to see it. Otherwise, you can upload your own image with a form below. Click <a class='install_help_link hide_install_help_link' href='#'>here</a> to hide this message."
+  },
+  "install_help_text_firefox": {
+    "message": "Thanks for installing Clear New Tab! You can install theme from <a class='install_help_link' href='https://chrome.google.com/webstore/category/themes'>Chrome Web Store</a> or upload your own image with a form below. Click <a class='install_help_link hide_install_help_link' href='#'>here</a> to hide this message."
+  },
+  "upload_box_help_message_text": {
+    "message": "You can upload multiple images at once. Just select multiple images before clicking \"Open\" / dragging."
+  },
+  "paste_help_message_text": {
+    "message": "In this input you can paste direct link to an image or an image from clipboard. To get direct link to an image right-click on it, select \"Open image in new tab\" from the context menu, go to opened tab and then copy link from address bar. To copy an image to clipboard right-click on an it and then select \"Copy image\" from the context menu. Gif animation will not be preserved when you past an image from clipboard."
+  },
+  "settings_type_help_message_text": {
+    "message": "Select \"Global\" to set the default settings for all images. Select \"Only selected image\" to set the settings for the selected image only (to select an image, left-click on it). When \"Only selected image\" is selected, each setting below (\"Background color\", \"Image size\" etc.) will have its own \"Global\" value. If this value is selected, the image will use the default value for this setting, if any other value is selected, this setting will use this value instead of the default value. All uploaded images use global settings by default."
+  },
+  "size_help_message_text": {
+    "message": "Fit to the screen / browser window:<br>Resize the image to make sure the image is fully visible on screen / browser window.<br>Cover the screen / browser window:<br>Resize the image to cover the entire screen / browser window, even if it has to cut a part of it from the edges.<br>Stretch to fit the screen / browser window:<br>Resize the image to maximum screen / browser window width and height not preserving its aspect ratio."
+  },
+
+
+  "img_type_file_text": {
+    "message": "File"
+  },
+  "img_type_link_text": {
+    "message": "Link"
+  },
+  "img_type_color_text": {
+    "message": "Color"
+  },
+  "img_type_theme_file_text": {
+    "message": "File (theme)"
+  },
+  "img_type_theme_color_text": {
+    "message": "Color (theme)"
+  },
+
+  "img_preview_text": {
+    "message": "Preview"
+  },
+
+
+  "clear_new_tab_for_link_text_chrome": {
+    "message": "⚗️ Clear New Tab for Chrome"
+  },
+  "clear_new_tab_for_link_text_firefox": {
+    "message": "⚗️ Clear New Tab for Firefox"
+  },
+  "clear_new_tab_for_link_text_opera": {
+    "message": "⚗️ Clear New Tab for Opera"
+  },
+  "rate_link_text": {
+    "message": "⭐️ Rate this extension if you like it"
+  },
+  "deviant_art_group_link_text": {
+    "message": "🖼️ Join my Deviant Art group"
+  },
+  "donate_link_text": {
+    "message": "💖 Support the development of this extension by donating any amount via PayPal"
+  },
+
+  "clear_new_tab_for_link_href_chrome": {
+    "message": "https://bit.ly/clear-new-tab"
+  },
+  "clear_new_tab_for_link_href_firefox": {
+    "message": "https://bit.ly/clear-new-tab-firefox"
+  },
+  "clear_new_tab_for_link_href_opera": {
+    "message": ""
+  },
+  "rate_link_href_chrome": {
+    "message": "https://bit.ly/rate-clear-new-tab"
+  },
+  "rate_link_href_firefox": {
+    "message": "https://bit.ly/rate-clear-new-tab-firefox"
+  },
+  "rate_link_href_opera": {
+    "message": ""
+  },
+
+
+  "body_width": {
+    "message": "374px"
+  },
+  "imgs_w_width": {
+    "message": "1351px"
+  },
+
+
+  
+  "new_tab_title_text": {
+    "message": "New Tab"
+  },
+
+
+  "empty_subtree_content": {
+    "message": "empty"
+  },
+
+  "no_bookmarks_message_text": {
+    "message": "No bookmarks."
+  },
+
+
+  "open_open_cmi_text": {
+    "message": "Open"
+  },
+  "open_all_cmi_text": {
+    "message": "all"
+  },
+  "open_in_new_tab_cmi_text": {
+    "message": "in new tab"
+  },
+  "open_bookmark_cmi_text": {
+    "message": "bookmark"
+  },
+  "open_in_new_window_cmi_text": {
+    "message": "in new window"
+  },
+  "open_in_incognito_window_cmi_text": {
+    "message": "in incognito window"
+  },
+  "edit_cmi_text": {
+    "message": "Edit..."
+  },
+  "fd_edit_cmi_text": {
+    "message": "Edit"
+  },
+  "rename_cmi_text": {
+    "message": "Rename..."
+  },
+  "cut_cmi_text": {
+    "message": "Cut"
+  },
+  "copy_cmi_text": {
+    "message": "Copy"
+  },
+  "paste_cmi_text": {
+    "message": "Paste"
+  },
+  "delete_cmi_text": {
+    "message": "Delete"
+  },
+  "add_page_cmi_text": {
+    "message": "Add page..."
+  },
+  "add_folder_cmi_text": {
+    "message": "Add folder..."
+  },
+  "bookmark_manager_cmi_text": {
+    "message": "Bookmark manager"
+  },
+
+
+  "fd_edit_and_add_page_title_text": {
+    "message": "Edit bookmark"
+  },
+  "fd_rename_folder_title_text_text": {
+    "message": "Edit folder name"
+  },
+
+
+  "fd_name_input_label_text": {
+    "message": "Name"
+  },
+
+
+  "fd_new_folder_btn_text": {
+    "message": "New folder"
+  },
+  "fd_save_btn_text": {
+    "message": "Save"
+  },
+  "fd_cancel_btn_text": {
+    "message": "Cancel"
+  },
+
+  "fdfdcd_yes_btn_text": {
+    "message": "Yes"
+  },
+
+
+  "fdfdcd_this_folder_contains_message_text": {
+    "message": "This folder contains"
+  },
+  "fdfdcd_are_you_sure_message_text": {
+    "message": "Are you sure you want to delete it?"
+  },
+
+
+  "fd_btn_width": {
+    "message": "93px"
+  },
+  "fd_rename_folder_btns_width": {
+    "message": "68px"
+  },
+  "fdfdcd_btns_width": {
+    "message": "68px"
+  },
+  "fdfdcd_message_margin_bottom": {
+    "message": "38px"
+  },
+
+
+  "theme_installiation_error_alert": {
+    "message": "An error occurred when installing a theme. Most likely because this theme is paid."
+  },
+  "wrong_mode_alert": {
+    "message": "An error occured. Before installing themes from Chrome Web Store you need to select \"Theme image\" mode in options page."
+  },
+
+  "ff_install_btn_text": {
+    "message": "Install theme"
+  },
+  "ff_install_btn_installing_text": {
+    "message": "Installing..."
+  },
+  "undo_btn_text": {
+    "message": "Undo"
+  }
+}

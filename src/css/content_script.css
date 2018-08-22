@@ -1,0 +1,50 @@
+/*> mature */
+.a-na-d-bb { 
+    position: relative;
+    top: -115px;
+    right: -6px;
+}
+/*< mature */
+
+.btn {
+    border-radius: 2px;
+    border: 1px solid #212121;
+    background-color: #fbff75;
+    color: #212121;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #77ff6f;
+}
+
+.btn:active {
+    background-color: #f493ff;
+}
+
+.ff_install_btn {
+    float: right;
+    margin-top: 7px;
+    padding: 2px 8px 2px 8px;
+}
+
+.undo_btn {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 2147483647;
+    padding: 6px 12px 6px 12px;
+    font-size: 18px;
+}
+
+.btn {
+    transition: all 0.2s ease-out;
+}
+
+.btn {
+    transition-property: background-color;
+}
+
+.btn:active {
+    transition: none;
+}
