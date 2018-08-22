@@ -64,7 +64,7 @@ export class Input extends react.Component {
                         onChange={() => ''}
                         onPaste={this.props.name == 'paste' ? img_loading.get_pasted_image_or_image_url : null}
                         onBlur={this.props.name == 'current_img' ? settings.correct_current_img_input_val : null}
-                        onInput={settings.change_current_img_by_typing_into_currrent_img_input}
+                        onInput={this.props.name == 'current_img' ? settings.change_current_img_by_typing_into_currrent_img_input : null}
                         ref={this.input}
                     />
                     <Tr
