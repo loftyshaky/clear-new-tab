@@ -1,4 +1,4 @@
-//> load_imgs f
+//> load_imgs (runs on extension enable) t
 
 //> get ready image object for use in new tab t
 
@@ -22,7 +22,7 @@ import * as theme_img from 'background/theme_img';
 
 import * as r from 'ramda';
 
-//> load_imgs f
+//> load_imgs (runs on extension enable) t
 export const load_imgs = async () => {
     if (ed) {
         await retrieve_imgs();
@@ -38,7 +38,7 @@ export const load_imgs = async () => {
         }
     }
 };
-//< load_imgs f
+//< load_imgs (runs on extension enable) t
 
 //> get ready image object for use in new tab t
 export const retrieve_imgs = async send_response => {
