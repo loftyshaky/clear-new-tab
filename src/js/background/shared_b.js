@@ -36,6 +36,8 @@ export const load_imgs = async () => {
         if (mut.imgs.length > 0) {
             preload_current_and_future_img('reload');
         }
+
+        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'display_img_on_ext_enable' }]);
     }
 };
 //< load_imgs (runs on extension enable) t
