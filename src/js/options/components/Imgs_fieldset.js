@@ -151,21 +151,42 @@ class Imgs extends react.Component {
     constructor(props) {
         super(props);
 
-        this.set_img_refs = this.set_img_refs.bind(this);
-        this.img_refs = {};
+        this.set_img_w_refs = this.set_img_w_refs.bind(this);
+
+        this.img_w_refs = {};
         this.img_w_trs = [];
+
+        this.mut = {
+            broken_imgs_ids: []
+        }
     }
 
     //>1 img_load_callback f
-    set_img_refs(id, img) {
-        this.img_refs[id] = img;
+    set_img_w_refs(id, img) {
+        this.img_w_refs[id] = img;
     }
     //<1 img_load_callback f
 
+    //>1 delete_broken_imgs f
+    delete_broken_imgs = async () => {
+        if (this.mut.broken_imgs_ids.length > 0) {
+            await img_deletion.delete_img(this.mut.broken_imgs_ids[0]);
+
+            this.mut.broken_imgs_ids.shift();
+        }
+    }
+    //<1 delete_broken_imgs f
+
     //>1 img_load_callback f
-    img_load_callback = async id => {
+    img_load_callback = async (id, e) => {
+        const e_type = e.type;
+
         if (shared_o.ob.imgs.length != 0) { // prevent bug when deleting all images when solid color image present
             img_loading.mut.imgs_loaded++;
+
+            if (e_type == 'error') { // when broken image loaded
+                this.mut.broken_imgs_ids.push(id);
+            }
 
             if ((img_loading.mut.total_imgs_to_load > 0 && img_loading.mut.imgs_loaded == img_loading.mut.total_imgs_to_load) || (img_loading.mut.total_imgs_to_load == 0 && img_loading.mut.imgs_loaded == shared_o.ob.imgs.length)) {
                 img_loading.mut.imgs_loaded = 0;
@@ -178,15 +199,17 @@ class Imgs extends react.Component {
                     if (!img_loading.mut.loading_all) {
                         await x.delay(400);
                         shared_o.enable_ui();
+                        this.delete_broken_imgs();
                     }
 
                 } else {
                     await x.delay(400);
                     shared_o.enable_ui();
+                    this.delete_broken_imgs();
                 }
             }
 
-            img_loading.show_loaded_img(id, this.img_refs[id]);
+            img_loading.show_loaded_img(id, sb(this.img_w_refs[id], '.img'));
         }
     }
     //<1 img_load_callback f
@@ -210,7 +233,7 @@ class Imgs extends react.Component {
                                 tag='span'
                                 name='gen'
                                 state={img.show_delete}
-                                tr_end_callbacks={[img_deletion.delete_img_tr_end_callback]}
+                                tr_end_callbacks={[img_deletion.delete_img_tr_end_callback, this.delete_broken_imgs]}
                                 key={img.key}
                                 ref={img_w_tr => this.img_w_trs[i] = img_w_tr}
                             >
@@ -227,13 +250,13 @@ class Imgs extends react.Component {
                                     onMouseDown={(e) => moving.start_drag(react_dom.findDOMNode(this.img_w_trs[i]), e)}
                                     onMouseMove={(e) => moving.create_drop_area(react_dom.findDOMNode(this.img_w_trs[i]), 'options', e)}
                                     onTransitionEnd={this.show_checkerboard.bind(null, img.id)}
+                                    ref={img_ref => this.set_img_w_refs(img.id, img_ref)}
                                 >
                                     <Img_inner_w
                                         i={i}
                                         img={img}
                                         img_load_callback={this.img_load_callback}
                                         delete_img={img_deletion.delete_img.bind(null, img.id)}
-                                        set_img_refs={this.set_img_refs}
                                     />
                                 </span>
                             </Tr>
@@ -264,7 +287,6 @@ let Img_inner_w = props => {
                 img={img}
                 img_load_callback={props.img_load_callback}
                 delete_img={props.delete_img}
-                set_img_refs={props.set_img_refs}
             />
         </Tr>
     );
@@ -284,13 +306,13 @@ class Img extends react.Component {
                 className='img'
                 draggable='false'
                 src={this.img.img}
-                onLoad={this.props.img_load_callback.bind(null, this.img.id, this.props.i)}
-                ref={img_ref => this.props.set_img_refs(this.img.id, img_ref)}
+                onLoad={this.props.img_load_callback.bind(null, this.img.id)}
+                onError={this.props.img_load_callback.bind(null, this.img.id)}
             /> :
             <div
                 className="solid_color_img"
                 style={{ backgroundColor: this.img.img }}
-                ref={this.props.img_load_callback.bind(null, this.img.id, this.props.i)}
+                ref={this.props.img_load_callback.bind(null, this.img.id)}
             ></div>;
     }
 
