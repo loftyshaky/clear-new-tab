@@ -273,9 +273,9 @@ export const load_50_or_all_imgs = async (limit, mode) => { // g
         mut.loading_all = mode == 'load_all' && number_of_imgs > 0 ? true : false;
 
         if (number_of_imgs > 0) {
-            shared_o.unpack_and_load_imgs(imgs, mode, 0);
+            await shared_o.calculate_offset(mode);
 
-            shared_o.calculate_offset(mode);
+            shared_o.unpack_and_load_imgs(imgs, mode, 0);
         }
 
         if (number_of_imgs == 0) {
