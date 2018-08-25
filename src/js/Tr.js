@@ -35,12 +35,9 @@ export class Tr extends react.Component {
             dragged_img: this.create_fade(this.normal_duration, 0.8), // general
             theme_img_link: this.create_fade(this.normal_duration),
             img: this.create_fade(400),
-            img_remove: this.create_fade(this.normal_duration),
             loading_screen: this.create_fade(400),
             upload_box: this.create_tran(this.normal_duration, 'backgroundColor', '#5d7daf', '#3b6ab5') // 3b6ab5
         };
-
-        this.components_to_not_hide_on_fade_out = ['img_remove'];
 
         //>1 observables t
         this.display_style = {};
@@ -63,24 +60,21 @@ export class Tr extends react.Component {
 
     //>1 hide component when it faded out or show component when it starting fading in t
     hide_component = (called_from_component_did_update, tr_end_callbacks, e) => {
-        const component_is_allowed_to_be_hidden = this.components_to_not_hide_on_fade_out.indexOf(this.props.name) == - 1;
         const component_is_active = this.props.state;
         const component_is_visible = this.display_style.visibility;
         const component_uses_fading_transition = 'opacity' in this.transitions[this.props.name]['active'];
 
-        if (component_is_allowed_to_be_hidden) {
-            if (this.props.name != 'img' && !called_from_component_did_update && !component_is_active && component_uses_fading_transition) {
-                if (!component_is_active) {
-                    this.display_style = {
-                        position: 'fixed',
-                        visibility: 'hidden'
-                    };
-                }
+        if (this.props.name != 'img' && !called_from_component_did_update && !component_is_active && component_uses_fading_transition) {
+            if (!component_is_active) {
+                this.display_style = {
+                    position: 'fixed',
+                    visibility: 'hidden'
+                };
+            }
 
-            } else if (this.props.state) {
-                if (component_is_visible) {
-                    this.display_style = {};
-                }
+        } else if (this.props.state) {
+            if (component_is_visible) {
+                this.display_style = {};
             }
         }
 
@@ -91,7 +85,7 @@ export class Tr extends react.Component {
         }
 
         if (tr_end_callbacks && !component_is_active) {
-            tr_end_callbacks.forEach((f)=> f(e));
+            tr_end_callbacks.forEach((f) => f(e));
         }
     }
     //<1 hide component when it faded out or show component when it starting fading in t
