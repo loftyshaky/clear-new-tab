@@ -4,7 +4,9 @@
 
 //> Imgs c
 
-//>1 img_load_callback f
+//>1 set_img_w_refs f
+
+//>1 delete_broken_imgs f
 
 //>1 img_load_callback f
 
@@ -161,11 +163,11 @@ class Imgs extends react.Component {
         }
     }
 
-    //>1 img_load_callback f
+    //>1 set_img_w_refs f
     set_img_w_refs(id, img) {
         this.img_w_refs[id] = img;
     }
-    //<1 img_load_callback f
+    //<1 set_img_w_refs f
 
     //>1 delete_broken_imgs f
     delete_broken_imgs = async () => {
