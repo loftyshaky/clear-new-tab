@@ -13,8 +13,16 @@ import x from 'x';
 import react from 'react';
 import react_dom from 'react-dom';
 
-export const run_everything = All_type => {
+export const run_everything = async All_type => {
     let All;
+
+    if (!ed) {
+        x.error(2);
+
+        const background = await x.get_background();
+        await background.set_default_settings('options');
+        await x.get_ed();
+    }
 
     switch (All_type) {
         case 'options':
