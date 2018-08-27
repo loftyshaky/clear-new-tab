@@ -13,7 +13,6 @@ import db from 'js/init_db';
 
 import * as r from 'ramda';
 
-
 //> get_new_future_img f
 export const get_new_future_img = async new_future_img => {
     const number_of_imgs = await db.imgs.count();

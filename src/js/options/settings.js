@@ -336,19 +336,18 @@ export const restore_default_global_settings = async () => {
     const confirm = window.confirm(x.message('restore_global_defaults_confirm'));
 
     if (confirm) {
-        browser.runtime.getBackgroundPage(async background => {
-            try {
-                await background.set_default_settings('options');
-                await x.get_ed();
-                shared_o.deselect_selected_img();
-                shared_o.change_current_img_input_val(1);
-                shared_o.set_ed_ui_state();
-                shared_o.decide_what_input_items_to_hide();
+        try {
+            const background = await x.get_background();
+            await background.set_default_settings('options');
+            await x.get_ed();
+            shared_o.deselect_selected_img();
+            shared_o.change_current_img_input_val(1);
+            shared_o.set_ed_ui_state();
+            shared_o.decide_what_input_items_to_hide();
 
-            } catch (er) {
-                console.error(er);
-            }
-        });
+        } catch (er) {
+            console.error(er);
+        }
     }
 }
 //< restore_default_global_settings f

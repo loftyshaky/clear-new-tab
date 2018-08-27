@@ -30,6 +30,8 @@
 
 //>1 iterate_all_tabs f
 
+//>1 get background page t
+
 //^
 
 "use strict";
@@ -295,6 +297,21 @@ x.iterate_all_tabs = (callback, callback_args) => {
     });
 };
 //<1 iterate_all_tabs f
+
+//>1 get background page t
+x.get_background = () => {
+    return new Promise((resolve, reject) => {
+        browser.runtime.getBackgroundPage(async background => {
+            if (browser.runtime.lastError) {
+                reject(browser.runtime.lastError);
+
+            } else {
+                resolve(background);
+            }
+        });
+    });
+}
+//<1 get background page t
 //< chrome o
 
 decorate(window, {

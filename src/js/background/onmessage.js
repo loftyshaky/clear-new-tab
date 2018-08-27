@@ -213,15 +213,6 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
 
             setTimeout(revoke_preview_img.bind(null, preview_img.img), 10000);
         }
-
-    } else if (msg == 'set_default_settings') {
-        set_default_settings()
-            .then(() => {
-                send_response();
-
-            }).catch(er => {
-                console.error(er);
-            });
     }
 
     return true; // without this callback of sendMessage function fires without waiting for async operation completion
