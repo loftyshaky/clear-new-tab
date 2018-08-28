@@ -103,18 +103,13 @@ export const preload_current_and_future_img = (mode) => {
 
 //> get_installed_theme_id f
 export const get_installed_theme_id = () => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         browser.management.getAll(all_apps => {
             const enabled_themes_without_last_installed = all_apps.filter(app => app.type == 'theme' && app.enabled == true && app.id != ed.last_installed_theme_theme_id);
             const themes = enabled_themes_without_last_installed.length == 0 ? all_apps.filter(app => app.type == 'theme' && app.enabled == true) : enabled_themes_without_last_installed;
-            const theme_id = themes.length > - 1 ? themes[0].id : '';
+            const theme_id = themes.length > 0 ? themes[0].id : null;
 
-            if (theme_id) {
-                resolve(theme_id);
-
-            } else {
-                reject();
-            }
+            resolve(theme_id);
         });
     });
 };
