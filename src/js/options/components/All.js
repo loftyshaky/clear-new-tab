@@ -104,6 +104,7 @@ export class All extends react.Component {
                     <Left_fieldset name='img_settings'>
                         <Select
                             name='mode'
+                            add_help
                         />
                         <Select
                             name='change_interval'
