@@ -26,8 +26,10 @@ import * as r from 'ramda';
 export const load_imgs = async () => {
     if (ed) {
         await retrieve_imgs();
+
+        const at_least_one_theme_img_exist = mut.imgs.some(img => img.theme_id);
         
-        if (ed.mode == 'theme' && what_browser == 'chrome') {
+        if (ed.mode == 'theme' && what_browser == 'chrome' && at_least_one_theme_img_exist) {
             const get_first_encountered_theme_img_theme_id = () => {
                 const first_encountered_theme_img_theme_id = mut.imgs.find(img => img.theme_id).theme_id;
 
