@@ -137,7 +137,7 @@
   "paste_btn_text": {
     "message": "Вставить"
   },
-  "set_selected_btn_text": {
+  "current_img_btn_text": {
     "message": "Поставить выбранную"
   },
   "restore_global_defaults_btn_text": {
@@ -308,10 +308,10 @@
 
 
   "install_help_text_chrome": {
-    "message": "Спасибо за установку Clear New Tab! Если в вашем Chrome установлена тема из <a class='install_help_link' href='https://chrome.google.com/webstore/category/themes?hl=ru'>Интернет-магазина Chrome</a>, подождите пока её фоновая картинка появится в секции \"Картинки\", и затем откройте новую вкладку, чтобы увидеть ее. В противном случае вы можете загрузить свое изображение с помощью формы ниже. Нажмите <a class='install_help_link hide_install_help_link' href='#'>сюда</a> чтобы скрыть это сообщение."
+    "message": "Спасибо за установку Clear New Tab! Если в вашем Chrome установлена тема из <a class='install_help_link' href='https://chrome.google.com/webstore/category/themes?hl=ru'>интернет-магазина Chrome</a>, подождите пока её фоновая картинка появится в секции \"Картинки\", и затем откройте новую вкладку, чтобы увидеть ее. В противном случае вы можете загрузить свое изображение с помощью формы ниже. Нажмите <a class='install_help_link hide_install_help_link' href='#'>сюда</a> чтобы скрыть это сообщение."
   },
   "install_help_text_firefox": {
-    "message": "Спасибо за установку Clear New Tab! Вы можете установить тему из <a class='install_help_link' href='https://chrome.google.com/webstore/category/themes?hl=ru'>Интернет-магазина Chrome</a> или загрузить свое изображение с помощью формы ниже. Нажмите <a class='install_help_link hide_install_help_link' href='#'>сюда</a> чтобы скрыть это сообщение."
+    "message": "Спасибо за установку Clear New Tab! Вы можете установить тему из <a class='install_help_link' href='https://chrome.google.com/webstore/category/themes?hl=ru'>интернет-магазина Chrome</a> или загрузить свое изображение с помощью формы ниже. Нажмите <a class='install_help_link hide_install_help_link' href='#'>сюда</a> чтобы скрыть это сообщение."
   },
   "upload_box_help_message_text": {
     "message": "Вы можете загрузить несколько картинок сразу. Просто выберите несколько картинок перед нажатием \"Открыть\" / перетаскиванием."
