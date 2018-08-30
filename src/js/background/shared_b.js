@@ -26,18 +26,17 @@ import * as r from 'ramda';
 export const load_imgs = async () => {
     if (ed) {
         await retrieve_imgs();
-
-        const at_least_one_theme_img_exist = mut.imgs.some(img => img.theme_id);
         
-        if (ed.mode == 'theme' && what_browser == 'chrome' && at_least_one_theme_img_exist) {
+        if (ed.mode == 'theme' && what_browser == 'chrome') {
             const get_first_encountered_theme_img_theme_id = () => {
-                const first_encountered_theme_img_theme_id = mut.imgs.find(img => img.theme_id).theme_id;
+                const first_encountered_theme_img = mut.imgs.find(img => img.theme_id);
+                const first_encountered_theme_img_theme_id = first_encountered_theme_img ? first_encountered_theme_img.theme_id : null;
 
                 return first_encountered_theme_img_theme_id ? first_encountered_theme_img_theme_id : null;
             };
 
             const installed_theme_id = await get_installed_theme_id();
-            const theme_id = !installed_theme_id ? installed_theme_id : get_first_encountered_theme_img_theme_id();
+            const theme_id = installed_theme_id ? installed_theme_id : get_first_encountered_theme_img_theme_id();
 
             if (theme_id) {
                 await theme_img.get_theme_img(theme_id, false);
