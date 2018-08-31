@@ -88,7 +88,7 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
 
                     async () => await img_loading.populate_storage_with_images('color', 'resolved', [color], null, theme_id)
                 )();
-                
+
                 await db.ed.update(1, { last_installed_theme_theme_id: theme_id });
                 await shared_b.retrieve_imgs();
 
@@ -122,7 +122,9 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
         } catch (er) {
             console.error(er);
 
-            await x.send_message_to_tab_c(tab_id, { message: 'notify_about_paid_theme_error' });
+            if (what_browser != 'chrome') {
+                await x.send_message_to_tab_c(tab_id, { message: 'notify_about_paid_theme_error' });
+            }
 
             return 'error';
         }
