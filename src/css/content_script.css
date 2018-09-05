@@ -22,6 +22,10 @@
     background-color: #f493ff;
 }
 
+.g-U-c-Ph-Lh + .ff_install_btn_w {
+    margin-right: 56px;
+}
+
 .ff_install_btn {
     float: right;
     margin-top: 7px;
@@ -30,8 +34,8 @@
 
 .undo_btn {
     position: fixed;
-    top: 12px;
-    right: 12px;
+    top: 78px;
+    right: 29px;
     z-index: 2147483647;
     padding: 6px 12px 6px 12px;
     font-size: 18px;
