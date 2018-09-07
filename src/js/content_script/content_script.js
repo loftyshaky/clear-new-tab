@@ -43,7 +43,7 @@ import react_dom from 'react-dom';
                             const theme_id = theme_url.substring(theme_url.lastIndexOf("/") + 1).split('?')[0];
                             const ff_install_btn_w = x.create('div', 'ff_install_btn_w');
 
-                            x.after(sb(theme, '.g-U-c-Ph-Lh, .h-d-Ra-c'), ff_install_btn_w); // g-U-c-Ph-Lh = share button in theme install screen, h-d-Ra-c = available on chrome button in search list 
+                            x.after(sb(theme, '.h-e-f-Ra-c > .dd-Va, .h-d-Ra-c'), ff_install_btn_w); // h-e-f-Ra-c > .dd-Va = available on chrome button in theme install screen, h-d-Ra-c = available on chrome button in search list 
 
                             react_dom.render(
                                 <Ff_install_btn theme_id={theme_id} />,
