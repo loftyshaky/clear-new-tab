@@ -67,9 +67,9 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
                     color: color
                 }
 
-                const is_valid_img = img_name => valid_file_types.some(ext => img_name.includes(ext));
+                const is_valid_img = img_name ? img_name => valid_file_types.some(ext => img_name.includes(ext)) : null;
 
-                if (!is_valid_img(img_name) && what_browser != 'chrome') {
+                if (is_valid_img && !is_valid_img(img_name) && what_browser != 'chrome') {
                     throw 'Image is not valid image';
                 }
 

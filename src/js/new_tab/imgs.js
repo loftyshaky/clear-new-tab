@@ -60,7 +60,7 @@ const get_img = async mode => {
             )();
 
             if (img) {
-                const is_color_img = img.type == 'color';
+                const is_color_img = img.type.indexOf('color') > - 1;
                 mut.img.img = img.img;
 
                 if (!is_color_img) {
