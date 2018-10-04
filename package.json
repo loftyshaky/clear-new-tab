@@ -1,6 +1,6 @@
 {
   "name": "extension_name",
-  "version": "4.1.10",
+  "version": "4.1.12",
   "description": "extension_description",
   "private": true,
   "scripts": {
