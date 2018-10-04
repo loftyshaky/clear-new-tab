@@ -12,6 +12,9 @@
   "error_alert": {
     "message": "An error occured. Error code: "
   },
+  "error_alert_2": {
+    "message": "Please try to refresh the page."
+  },
 
 
 

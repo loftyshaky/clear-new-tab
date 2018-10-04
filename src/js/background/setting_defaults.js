@@ -4,7 +4,7 @@
 
 'use strict';
 
-import db from 'js/init_db';
+import { db, init_db } from 'js/init_db';
 import * as shared_b_o from 'js/shared_b_o';
 
 //> set_default_settings f
@@ -39,6 +39,8 @@ window.set_default_settings = async page => { // this function also called in op
 
     } else if (page == 'options') {
         try {
+            init_db();
+
             await db.transaction('rw', db.ed, () => {
                 db.ed.put(ext_data_o);
             });

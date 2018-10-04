@@ -17,7 +17,7 @@
 'use strict';
 
 import x from 'x';
-import db from 'js/init_db';
+import { db } from 'js/init_db';
 import * as theme_img from 'background/theme_img';
 
 import * as r from 'ramda';
@@ -136,7 +136,7 @@ export const get_ms_left = props => {
 
 //> varibles t
 export const mut = {
-    imgs: null,
+    imgs: [],
     current_img: null,
     future_img: null
 };

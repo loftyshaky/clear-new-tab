@@ -19,7 +19,7 @@
 'use strict';
 
 import x from 'x';
-import db from 'js/init_db';
+import { db } from 'js/init_db';
 import * as shared_b_o from 'js/shared_b_o';
 import * as determine_theme_current_img from 'js/determine_theme_current_img';
 import * as shared_o from 'options/shared_o';

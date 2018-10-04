@@ -7,7 +7,7 @@
 'use strict';
 
 import x from 'x';
-import db from 'js/init_db';
+import { db } from 'js/init_db';
 
 import react from 'react';
 import react_dom from 'react-dom';

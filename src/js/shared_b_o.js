@@ -9,7 +9,7 @@
 'use_strict';
 
 import x from 'x';
-import db from 'js/init_db';
+import { db } from 'js/init_db';
 
 import * as r from 'ramda';
 

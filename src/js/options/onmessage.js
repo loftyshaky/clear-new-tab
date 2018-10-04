@@ -9,7 +9,7 @@
 'use strict';
 
 import x from 'x';
-import db from 'js/init_db';
+import { db } from 'js/init_db';
 import * as shared_o from 'options/shared_o';
 import * as img_deletion from 'options/img_deletion';
 

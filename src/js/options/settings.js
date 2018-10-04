@@ -45,7 +45,7 @@
 'use strict';
 
 import x from 'x';
-import db from 'js/init_db';
+import { db } from 'js/init_db';
 import * as shared_o from 'options/shared_o';
 import { selects_options } from 'options/selects_options';
 import * as shared_b_o from 'js/shared_b_o';

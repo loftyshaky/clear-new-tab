@@ -4,11 +4,15 @@
 
 import dexie from 'dexie';
 
-const db = new dexie("Clear New Tab");
+export let db;
 
-db.version(1).stores({
-    ed: "id",
-    imgs: "id, position_id"
-});
+export const init_db = () => {
+    db = new dexie("Clear New Tab");
 
-export default db;
+    db.version(1).stores({
+        ed: "id",
+        imgs: "id, position_id"
+    });
+}
+
+init_db();

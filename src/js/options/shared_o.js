@@ -31,7 +31,7 @@
 'use strict';
 
 import x from 'x';
-import db from 'js/init_db';
+import { db } from 'js/init_db';
 import * as permissions from 'options/permissions';
 import * as settings from 'options/settings';
 import * as img_loading from 'js/img_loading';

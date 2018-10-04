@@ -171,6 +171,18 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
 
         send_response();
 
+    } else if (msg == 'load_imgs') { // when repairing extension from database wipe
+        x.get_ed()
+            .then(() => {
+                shared_b.load_imgs();
+
+            }).then(() => {
+                send_response();
+
+            }).catch(er => {
+                console.error(er);
+            });
+
     } else if (msg == 'install_theme') { // install theme when clicking on "Install theme" button in chrome web store (firefox only)
         theme_img.get_theme_img(message.theme_id, true, message.tab_id)
             .then(response => {

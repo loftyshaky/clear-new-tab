@@ -15,7 +15,7 @@
 'use strict';
 
 import x from 'x';
-import db from 'js/init_db';
+import { db } from 'js/init_db';
 import * as shared_b from 'background/shared_b';
 import * as shared_b_o from 'js/shared_b_o';
 import * as img_loading from 'js/img_loading';

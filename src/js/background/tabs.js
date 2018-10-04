@@ -11,7 +11,7 @@
 //^
 
 import x from 'x';
-import db from 'js/init_db';
+import { db } from 'js/init_db';
 import * as shared_b from 'background/shared_b';
 import * as multiple from 'background/multiple';
 
