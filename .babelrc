@@ -3,12 +3,6 @@
         "react"
     ],
     "plugins": [
-        [
-            "transform-react-jsx",
-            {
-                "pragma": "react.createElement"
-            }
-        ],
         "transform-class-properties"
     ]
 }
