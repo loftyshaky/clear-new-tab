@@ -15,6 +15,7 @@ module.exports = {
         'jsx-a11y/label-has-for': 0,
         'react/jsx-one-expression-per-line': 0,
         'react/no-multi-comp': 0,
+        'jsx-a11y/anchor-has-content': 0,
         'jsx-a11y/anchor-is-valid': ['error',
             {
                 'components': ['Link']
@@ -23,6 +24,9 @@ module.exports = {
         'indent': [
             'error',
             4,
+            {
+                "SwitchCase": 1,
+            }
         ],
         'react/jsx-indent': [
             'error',
@@ -60,6 +64,11 @@ module.exports = {
     },
 
     globals: {
+        'window': false,
+        'document': false,
+        'Image': false,
+        'File': false,
+        'MutationObserver': false,
         'err': false,
         't': false,
         'er_obj': false,
@@ -72,6 +81,17 @@ module.exports = {
         'sa': false,
         'sb': false,
         'sab': false,
+        'set_default_settings': false,
+    },
+
+    settings: {
+        'import/resolver':
+        {
+            'webpack':
+            {
+                'config': 'webpack.shared.js',
+            },
+        },
     },
 
     'parser': 'babel-eslint',
