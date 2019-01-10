@@ -6,12 +6,10 @@
 
 //^
 
-'use strict';
-
 import x from 'x';
 import * as shared_o from 'options/shared_o';
 
-import { action, configure } from "mobx";
+import { action, configure } from 'mobx';
 
 configure({ enforceActions: true });
 
@@ -25,17 +23,17 @@ export const select_img = async (clicked_img_id, e) => {
         change_selected_img(clicked_img_id, clicked_img_i);
 
         try {
-            const img = await x.send_message_to_background_c({ message: "get_img_obj_when_selecting_on_it", i: clicked_img_i });
+            const img = await x.send_message_to_background_c({ message: 'get_img_obj_when_selecting_on_it', i: clicked_img_i });
 
-            if (img.type.indexOf('file') > - 1 || img.type == 'link') {
+            if (img.type.indexOf('file') > -1 || img.type === 'link') {
                 shared_o.mut.storage_type = 'imgs';
 
                 shared_o.set_selects_text('img', img);
                 shared_o.show_or_hide_global_options(true);
 
-                shared_o.set_color_input_vizualization_color('color', img.color == 'global' ? ed.color : img.color);
+                shared_o.set_color_input_vizualization_color('color', img.color === 'global' ? ed.color : img.color);
 
-            } else if (img.type == 'color') {
+            } else if (img.type === 'color') {
                 shared_o.mut.storage_type = 'ed';
 
                 shared_o.set_selects_text('ed', ed);

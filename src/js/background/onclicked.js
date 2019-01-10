@@ -2,10 +2,8 @@
 
 //^
 
-'use strict';
-
 //> open options page when clicking on browser action t
 browser.browserAction.onClicked.addListener(() => {
-    browser.runtime.openOptionsPage()
+    browser.runtime.openOptionsPage();
 });
 //< open options page when clicking on browser action t

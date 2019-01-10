@@ -17,13 +17,13 @@ import * as multiple from 'background/multiple';
 
 //> on updated listener (when openining tab or changing url) t
 browser.tabs.onUpdated.addListener((id, info) => {
-    if (info.status == 'complete') {
-        confirm_that_opened_tab_is_new_tab_page_and_that_it_is_not_in_preview_mode(id, (id, is_opened_tab_new_tab_page) => {
-            if (is_opened_tab_new_tab_page && mut.new_tabs_ids.indexOf(id) == - 1) {
-                mut.new_tabs_ids.push(id);
+    if (info.status === 'complete') {
+        confirm_that_opened_tab_is_new_tab_page_and_that_it_is_not_in_preview_mode(id, (id_, is_opened_tab_new_tab_page) => {
+            if (is_opened_tab_new_tab_page && mut.new_tabs_ids.indexOf(id_) === -1) {
+                mut.new_tabs_ids.push(id_);
 
-            } else if (!is_opened_tab_new_tab_page && mut.new_tabs_ids.indexOf(id) > - 1) {
-                mut.new_tabs_ids.splice(mut.new_tabs_ids.indexOf(id), 1);
+            } else if (!is_opened_tab_new_tab_page && mut.new_tabs_ids.indexOf(id_) > -1) {
+                mut.new_tabs_ids.splice(mut.new_tabs_ids.indexOf(id_), 1);
             }
 
             if (is_opened_tab_new_tab_page) {
@@ -31,12 +31,12 @@ browser.tabs.onUpdated.addListener((id, info) => {
             }
         });
     }
-})
+});
 //< on updated listener (when openining tab or changing url) t
 
 //> on removed listener (when tab closed) t
 browser.tabs.onRemoved.addListener(id => {
-    if (mut.new_tabs_ids.indexOf(id) > - 1) {
+    if (mut.new_tabs_ids.indexOf(id) > -1) {
         mut.new_tabs_ids.splice(mut.new_tabs_ids.indexOf(id), 1);
     }
 });
@@ -75,6 +75,6 @@ export const update_time_setting_and_start_timer = async () => {
 
 //> varibles t
 export const mut = {
-    new_tabs_ids: []
+    new_tabs_ids: [],
 };
 //< varibles t

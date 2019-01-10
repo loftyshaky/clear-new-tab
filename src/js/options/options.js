@@ -1,7 +1,5 @@
 //^
 
-'use strict';
-
 import 'options/onmessage';
 
 import { run_everything } from 'js/init_All';

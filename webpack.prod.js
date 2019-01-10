@@ -1,12 +1,13 @@
-const path = require('path'),
-    webpack = require('webpack'),
-    merge = require('webpack-merge'),
-    shared = require(path.join(__dirname, 'webpack.shared.js'));
+const path = require('path');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+
+const shared = require(path.join(__dirname, 'webpack.shared.js')); // eslint-disable-line import/no-dynamic-require
 
 module.exports = merge(shared, {
     plugins: [
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('production')
-        })
-    ]
+            'process.env.NODE_ENV': JSON.stringify('production'),
+        }),
+    ],
 });

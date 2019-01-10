@@ -22,8 +22,6 @@
 
 //^
 
-'use strict';
-
 import x from 'x';
 
 import { observable, action, configure } from 'mobx';
@@ -44,30 +42,30 @@ export const display_img = async () => {
 
 //> get one image from background.js imgs object t
 const get_img = async mode => {
-    if (mode == 'img_or_color') {
+    if (mode === 'img_or_color') {
         try {
-            const query_string = location.search;
+            const query_string = window.location.search;
 
             const img = await r.ifElse(
-                () => query_string.indexOf('preview') == - 1,
-                async () => await x.send_message_to_background_c({ message: 'get_img' }),
+                () => query_string.indexOf('preview') === -1,
+                async () => x.send_message_to_background_c({ message: 'get_img' }),
 
                 async () => {
                     const img_id = query_string.split('preview_img_id=').pop();
 
-                    return await x.send_message_to_background_c({ message: 'get_preview_img', img_id: img_id });
-                }
+                    return x.send_message_to_background_c({ message: 'get_preview_img', img_id });
+                },
             )();
 
             if (img) {
-                const is_color_img = img.type.indexOf('color') > - 1;
+                const is_color_img = img.type.indexOf('color') > -1;
                 mut.img.img = img.img;
 
                 if (!is_color_img) {
-                    mut.size_db_val = img.size == 'global' ? ed.size : img.size;
-                    mut.img.position = img.position == 'global' ? ed.position : img.position;
-                    mut.img.repeat = img.repeat == 'global' ? ed.repeat : img.repeat;
-                    mut.img.color = img.color == 'global' ? ed.color : img.color;
+                    mut.size_db_val = img.size === 'global' ? ed.size : img.size;
+                    mut.img.position = img.position === 'global' ? ed.position : img.position;
+                    mut.img.repeat = img.repeat === 'global' ? ed.repeat : img.repeat;
+                    mut.img.color = img.color === 'global' ? ed.color : img.color;
 
                     determine_size('img');
 
@@ -80,7 +78,7 @@ const get_img = async mode => {
             console.error(er);
         }
 
-    } else if (mode == 'random_solid_color') {
+    } else if (mode === 'random_solid_color') {
         determine_size('random_solid_color');
     }
 };
@@ -88,25 +86,25 @@ const get_img = async mode => {
 
 //> determine actual size value based size value from database t
 const determine_size = async mode => {
-    if (mode == 'img') {
-        if (mut.size_db_val == 'dont_resize') {
+    if (mode === 'img') {
+        if (mut.size_db_val === 'dont_resize') {
             mut.img.size = 'auto auto';
 
-        } else if (mut.size_db_val == 'fit_browser') {
+        } else if (mut.size_db_val === 'fit_browser') {
             mut.img.size = 'contain';
 
-        } else if (mut.size_db_val == 'cover_browser') {
+        } else if (mut.size_db_val === 'cover_browser') {
             mut.img.size = 'cover';
 
-        } else if (mut.size_db_val == 'stretch_browser') {
+        } else if (mut.size_db_val === 'stretch_browser') {
             mut.img.size = '100% 100%';
 
-        } else if (mut.size_db_val == 'fit_screen' || mut.size_db_val == 'cover_screen' || mut.size_db_val == 'stretch_screen') {
-            if (mut.size_db_val == 'stretch_screen') {
+        } else if (mut.size_db_val === 'fit_screen' || mut.size_db_val === 'cover_screen' || mut.size_db_val === 'stretch_screen') {
+            if (mut.size_db_val === 'stretch_screen') {
                 calculate_dimensions();
             }
 
-            if (mut.size_db_val == 'fit_screen' || mut.size_db_val == 'cover_screen') {
+            if (mut.size_db_val === 'fit_screen' || mut.size_db_val === 'cover_screen') {
                 try {
                     await new Promise((resolve, reject) => {
                         mut.img_to_load = new Image();
@@ -115,11 +113,11 @@ const determine_size = async mode => {
                             calculate_dimensions(mut.img_to_load);
 
                             resolve();
-                        }
+                        };
 
                         mut.img_to_load.onerror = () => {
                             reject();
-                        }
+                        };
 
                         mut.img_to_load.src = mut.img.img;
                     });
@@ -138,8 +136,8 @@ const determine_size = async mode => {
 //> set css background property t
 const set_img = action(async mode => {
     if (!mut.first_run) {
-        const fade_in_first_img = mut.current_img_div_i == 1;
-        const fade_in_second_img = mut.current_img_div_i == 0;
+        const fade_in_first_img = mut.current_img_div_i === 1;
+        const fade_in_second_img = mut.current_img_div_i === 0;
 
         if (fade_in_first_img) {
             mut.current_img_div_i = 0;
@@ -155,13 +153,13 @@ const set_img = action(async mode => {
         }
     }
 
-    if (mode == 'img') {
-        ob.img_divs.background[mut.current_img_div_i] = 'url("' + mut.img.img + '") ' + mut.img.position + ' / ' + mut.img.size + ' ' + mut.img.repeat + ' ' + mut.img.color;
+    if (mode === 'img') {
+        ob.img_divs.background[mut.current_img_div_i] = `url("${mut.img.img}") ${mut.img.position} / ${mut.img.size} ${mut.img.repeat} ${mut.img.color}`;
 
-    } else if (mode == 'color') {
+    } else if (mode === 'color') {
         ob.img_divs.background[mut.current_img_div_i] = mut.img.img;
 
-    } else if (mode == 'random_solid_color') {
+    } else if (mode === 'random_solid_color') {
         ob.img_divs.background[mut.current_img_div_i] = ed.current_random_color;
     }
 
@@ -171,56 +169,56 @@ const set_img = action(async mode => {
 
 //> calculate image dimensions t
 const calculate_dimensions = img => {
-    const browser_is_in_fullscreen_mode = window.innerWidth == con.screen_width;
+    const browser_is_in_fullscreen_mode = window.innerWidth === con.screen_width;
     const window_size = {
         width: null,
-        height: null
+        height: null,
     };
     let dimensions;
 
     if (browser_is_in_fullscreen_mode) {
-        if (mut.size_db_val == 'stretch_screen') {
+        if (mut.size_db_val === 'stretch_screen') {
             dimensions = {
                 width: con.screen_width,
-                height: con.screen_height
-            }
+                height: con.screen_height,
+            };
 
-        } else if (mut.size_db_val == 'fit_screen' || mut.size_db_val == 'cover_screen') {
+        } else if (mut.size_db_val === 'fit_screen' || mut.size_db_val === 'cover_screen') {
             dimensions = calculate_img_dimensions_when_in_fit_or_cover_screen_mode(img, con.screen_width, con.screen_height);
         }
 
-        if (mut.size_db_val == 'cover_screen') {
+        if (mut.size_db_val === 'cover_screen') {
             window_size.width = con.screen_width;
             window_size.height = con.screen_height;
         }
 
     } else { // if browser is in windowed mode
-        if (mut.size_db_val == 'stretch_screen') {
+        if (mut.size_db_val === 'stretch_screen') {
             dimensions = {
                 width: con.browser_window_width,
-                height: con.browser_window_height
-            }
+                height: con.browser_window_height,
+            };
 
 
-        } else if (mut.size_db_val == 'fit_screen' || mut.size_db_val == 'cover_screen') {
+        } else if (mut.size_db_val === 'fit_screen' || mut.size_db_val === 'cover_screen') {
             dimensions = calculate_img_dimensions_when_in_fit_or_cover_screen_mode(img, con.browser_window_width, con.browser_window_height);
         }
 
-        if (mut.size_db_val == 'cover_screen') {
+        if (mut.size_db_val === 'cover_screen') {
             window_size.width = con.browser_window_width;
             window_size.height = con.browser_window_height;
         }
     }
 
-    if (mut.size_db_val == 'stretch_screen' || mut.size_db_val == 'fit_screen') {
-        mut.img.size = dimensions.width + 'px ' + dimensions.height + 'px';
+    if (mut.size_db_val === 'stretch_screen' || mut.size_db_val === 'fit_screen') {
+        mut.img.size = `${dimensions.width}px ${dimensions.height}px`;
 
-    } else if (mut.size_db_val == 'cover_screen') {
-        if (dimensions.width == window_size.width) {
-            mut.img.size = 'auto ' + window_size.height + 'px';
+    } else if (mut.size_db_val === 'cover_screen') {
+        if (dimensions.width === window_size.width) {
+            mut.img.size = `auto ${window_size.height}px`;
 
-        } else if (dimensions.height == window_size.height) {
-            mut.img.size = window_size.width + 'px auto';
+        } else if (dimensions.height === window_size.height) {
+            mut.img.size = `${window_size.width}px auto`;
         }
     }
 };
@@ -233,19 +231,19 @@ const calculate_img_dimensions_when_in_fit_or_cover_screen_mode = (img, window_w
 
     const aspect_ratio = Math.min(window_width / img_width, window_height / img_height); // calculate aspect ratio
 
-    const width = Math.round(img_width * aspect_ratio)
+    const width = Math.round(img_width * aspect_ratio);
     const height = Math.round(img_height * aspect_ratio);
 
     return {
-        width: width,
-        height: height
-    }
+        width,
+        height,
+    };
 };
 //< calculate_img_dimensions_when_in_fit_or_cover_screen_mode f
 
 //> resize image on window resize and expanding t
 export const resize_img = action(() => {
-    if (mut.size_db_val == 'fit_screen' || mut.size_db_val == 'cover_screen' || mut.size_db_val == 'stretch_screen') {
+    if (mut.size_db_val === 'fit_screen' || mut.size_db_val === 'cover_screen' || mut.size_db_val === 'stretch_screen') {
         con.browser_window_width = window.innerWidth;
         con.browser_window_height = window.outerHeight;
 
@@ -284,17 +282,17 @@ const reload_img_divs = action(() => {
         z_index_minus_1_cls: [false, true],
         opacity_0_cls: [false, false],
         background: [null, null],
-        background_size: [null, null]
-    }
+        background_size: [null, null],
+    };
 });
 //< reload_img_divs f
 
 //> variables t
 const con = {
-    screen_width: screen.width,
-    screen_height: screen.height,
+    screen_width: window.screen.width,
+    screen_height: window.screen.height,
     browser_window_width: window.innerWidth,
-    browser_window_height: window.outerHeight
+    browser_window_height: window.outerHeight,
 };
 
 const mut = {
@@ -307,8 +305,8 @@ const mut = {
         img: null,
         position: null,
         repeat: null,
-        color: null
-    }
+        color: null,
+    },
 };
 
 export const ob = observable({});

@@ -6,20 +6,18 @@
 
 //^
 
-'use strict';
-
 import * as shared_o from 'options/shared_o';
 import * as settings from 'options/settings';
 import { Tr } from 'js/Tr';
 
-import { Global_checkbox } from 'options_components/Checkbox';
+import { Global_checkbox } from 'options/components/Checkbox';
 
-import react from 'react';
+import React from 'react';
 import { SketchPicker } from 'react-color';
 import { observer } from "mobx-react";
 
 //> Color c
-export let Color = props => {
+export const Color = observer(props => {
     //>1 change_color_input_vizualization_color f
     const change_color_input_vizualization_color = color => {
         shared_o.set_color_input_vizualization_color(props.name, color.hex);
@@ -74,7 +72,5 @@ export let Color = props => {
             {global_checkbox}
         </div>
     );
-};
+});
 //< Color c
-
-Color = observer(Color);

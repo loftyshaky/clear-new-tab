@@ -42,15 +42,13 @@
 
 //^
 
-'use strict';
-
 import x from 'x';
 import { db } from 'js/init_db';
 import * as shared_o from 'options/shared_o';
 import { selects_options } from 'options/selects_options';
 import * as shared_b_o from 'js/shared_b_o';
 
-import { observable, action, configure } from "mobx";
+import { observable, action, configure } from 'mobx';
 import * as r from 'ramda';
 
 configure({ enforceActions: true });
@@ -59,25 +57,25 @@ configure({ enforceActions: true });
 export const change_settings = async (input_type, storage, val) => {
     try {
         const global_and_specefic_storages = ['size', 'position', 'repeat', 'color'];
-        const storage_type = global_and_specefic_storages.indexOf(storage) > - 1 ? shared_o.mut.storage_type : 'ed';
-        const storage_id = storage_type == 'ed' ? 1 : shared_o.mut.selected_img_id;
+        const storage_type = global_and_specefic_storages.indexOf(storage) > -1 ? shared_o.mut.storage_type : 'ed';
+        const storage_id = storage_type === 'ed' ? 1 : shared_o.mut.selected_img_id;
         const settings_obj = await db[storage_type].get(storage_id);
         const old_val = settings_obj[storage];
         let new_val;
 
-        if (input_type == 'checkbox') {
+        if (input_type === 'checkbox') {
             new_val = !old_val;
 
-        } else if (input_type == 'select' || input_type == 'color') {
+        } else if (input_type === 'select' || input_type === 'color') {
             new_val = val;
         }
 
-        if (storage == 'change_interval') {
+        if (storage === 'change_interval') {
             await x.send_message_to_background_c({ message: 'clear_change_img_timer' });
             await x.send_message_to_background({ message: 'update_time_setting_and_start_timer' });
         }
 
-        if (input_type == 'select' && val == 'theme') {
+        if (input_type === 'select' && val === 'theme') {
             const new_current_img = await x.send_message_to_background_c({ message: 'get_new_current_img_when_choosing_theme_mode' });
 
             await db.ed.update(1, { current_img: new_current_img });
@@ -87,25 +85,25 @@ export const change_settings = async (input_type, storage, val) => {
 
         await db[storage_type].update(storage_id, { [storage]: new_val });
 
-        await x.send_message_to_background_c({ message: "reload_ed" });
+        await x.send_message_to_background_c({ message: 'reload_ed' });
         await x.get_ed();
         shared_o.decide_what_input_items_to_hide();
-        x.send_message_to_background({ message: "update_imgs_obj", id: storage_id, storage: storage, val: new_val });
+        x.send_message_to_background({ message: 'update_imgs_obj', id: storage_id, storage, val: new_val });
 
-        if (input_type == 'select' && val == 'theme' && what_browser == 'chrome') {
+        if (input_type === 'select' && val === 'theme' && what_browser === 'chrome') {
             await x.send_message_to_background_c({ message: 'get_theme_img', reinstall_even_if_theme_img_already_exist: false });
         }
 
         x.send_message_to_background({ message: 'preload_img' });
 
-        if (input_type == 'color') {
+        if (input_type === 'color') {
             shared_o.mut.current_color_pickier.el = null;
 
             shared_o.set_color_input_vizualization_color('color', new_val);
 
-            if (storage_type == 'imgs') {
+            if (storage_type === 'imgs') {
                 await db.imgs.update(storage_id, { global: false });
-                x.send_message_to_background({ message: "update_imgs_obj", id: storage_id, storage: 'global', val: false });
+                x.send_message_to_background({ message: 'update_imgs_obj', id: storage_id, storage: 'global', val: false });
                 shared_o.set_color_global_checkbox_val();
             }
         }
@@ -125,16 +123,16 @@ export const change_settings_color = r.curry(change_settings)('color', 'color');
 
 //>1 change_color_global_checkbox_setting f
 export const change_color_global_checkbox_setting = async () => {
-    const new_val = ob.color_global_checkbox_state ? ed.color : 'global'
+    const new_val = ob.color_global_checkbox_state ? ed.color : 'global';
 
     await db.imgs.update(shared_o.mut.selected_img_id, { color: new_val });
-    x.send_message_to_background({ message: "update_imgs_obj", id: shared_o.mut.selected_img_id, storage: 'color', val: new_val });
-    x.send_message_to_background({ message: "reload_ed" });
+    x.send_message_to_background({ message: 'update_imgs_obj', id: shared_o.mut.selected_img_id, storage: 'color', val: new_val });
+    x.send_message_to_background({ message: 'reload_ed' });
     x.send_message_to_background({ message: 'preload_img' });
     x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
     shared_o.set_color_global_checkbox_val();
 
-    if (new_val == 'global') {
+    if (new_val === 'global') {
         shared_o.set_color_input_vizualization_color('color', ed.color);
     }
 };
@@ -165,10 +163,10 @@ export const show_or_hide_color_pickier_when_clicking_on_color_input_vizualizati
         const clicked_on_color_input_vizualization = x.matches(e.target, '.color_input_vizualization');
 
         if (clicked_on_color_input_vizualization) {
+            const { name } = e.target.dataset;
             const color_pickier = sb(e.target, '.color_pickier');
-            const name = e.target.dataset.name;
             const color_pickier_hidden = !ob.color_pickiers_state[name];
-            const clicked_on_same_color_input_vizualization_second_time = previously_opened_color_pickier == color_pickier
+            const clicked_on_same_color_input_vizualization_second_time = previously_opened_color_pickier === color_pickier;
 
             if (color_pickier_hidden && !clicked_on_same_color_input_vizualization_second_time) {
                 shared_o.mut.current_color_pickier.el = color_pickier;
@@ -206,34 +204,34 @@ export const set_color_color_pickier_position = action((color_pickier, val) => {
 //> selects text t
 //>1 change option value when selecting option; hide / show global options / background color 'Global' checkbox when selecting img / 'Global' option in settings type input t
 export const change_select_val = action((storage, val, text) => {
-    if (storage == 'settings_type' && val == 'global') {
+    if (storage === 'settings_type' && val === 'global') {
         shared_o.set_ed_ui_state();
         shared_o.deselect_selected_img();
     }
 
-    if (storage != 'settings_type' || (storage == 'settings_type' && val == 'global')) {
+    if (storage !== 'settings_type' || (storage === 'settings_type' && val === 'global')) {
         ob.selected_options[storage] = text;
     }
 
-    if (storage != 'settings_type') {
+    if (storage !== 'settings_type') {
         change_settings('select', storage, val);
 
-    } else if (storage == 'settings_type' && val == 'specific') {
+    } else if (storage === 'settings_type' && val === 'specific') {
         alert(x.message('change_img_settings_alert'));
     }
 });
 //>1 change option value when selecting option; hide / show global options / background color 'Global' checkbox when selecting img / 'Global' option in settings type input t
 
-//>1 get selects text on page load, all images deletion or image selection t  
+//>1 get selects text on page load, all images deletion or image selection t
 export const get_selects_text = (mode, settings) => {
     const mode_to_settings_type_dict = {
-        'ed': x.message('option_global_text'),
-        'img': x.message('option_specific_text'),
-    }
+        ed: x.message('option_global_text'),
+        img: x.message('option_specific_text'),
+    };
 
     const make_initial_selects_text_obj = r.mapObjIndexed((obj, key) => {
-        const extract_text_from_options_obj = (settings) => {
-            const get_selected_option_obj = r.find(r.propEq('val', settings[key]));
+        const extract_text_from_options_obj = settings_ => {
+            const get_selected_option_obj = r.find(r.propEq('val', settings_[key]));
             const get_selected_option_text = r.prop('text');
             const get_selected_option_text_p = r.pipe(get_selected_option_obj, get_selected_option_text);
 
@@ -243,8 +241,7 @@ export const get_selects_text = (mode, settings) => {
         return r.ifElse(() => settings[key],
             () => extract_text_from_options_obj(settings),
 
-            () => extract_text_from_options_obj(ed)
-        )()
+            () => extract_text_from_options_obj(ed))();
     });
 
     const set_settings_type_text = r.assoc('settings_type', mode_to_settings_type_dict[mode]);
@@ -253,15 +250,15 @@ export const get_selects_text = (mode, settings) => {
 
     return make_selects_text_obj_p(options);
 };
-//>1 get selects text on page load, all images deletion or image selection t  
-//< selects text t 
+//>1 get selects text on page load, all images deletion or image selection t
+//< selects text t
 
 //> current_img input t
 //>1 change_current_img_by_typing_into_currrent_img_input f
 export const change_current_img_by_typing_into_currrent_img_input = async e => {
     const actual_value = +e.target.value;
 
-    if (!isNaN(actual_value)) {
+    if (!window.sNaN(actual_value)) {
         const number_of_imgs = await db.imgs.count();
         mut.corrected_current_img_input_val = actual_value;
         let value_to_insert_into_db = mut.corrected_current_img_input_val - 1;
@@ -271,7 +268,7 @@ export const change_current_img_by_typing_into_currrent_img_input = async e => {
             value_to_insert_into_db = 0;
 
         } else if (mut.corrected_current_img_input_val > number_of_imgs) {
-            if (number_of_imgs != 0) {
+            if (number_of_imgs !== 0) {
                 mut.corrected_current_img_input_val = number_of_imgs;
 
             } else {
@@ -310,7 +307,7 @@ const change_current_img_insert_in_db = async (visible_value, value_to_insert_in
         await db.ed.update(1, { current_img: value_to_insert_into_db, future_img: value_to_insert_into_db + 1 });
         await shared_b_o.get_new_future_img(value_to_insert_into_db + 1);
         await x.get_ed();
-        await x.send_message_to_background_c({ message: "reload_ed" });
+        await x.send_message_to_background_c({ message: 'reload_ed' });
         await x.send_message_to_background({ message: 'preload_img' });
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
 
@@ -349,17 +346,17 @@ export const restore_default_global_settings = async () => {
             console.error(er);
         }
     }
-}
+};
 //< restore_default_global_settings f
 
 //> varibles t
 export const options = selects_options;
 
 let mut = {
-    corrected_current_img_input_val: null
-}
+    corrected_current_img_input_val: null,
+};
 
-export let ob;
+export let ob; // eslint-disable-line import/no-mutable-exports
 
 x.get_ed(() => {
     ob = observable({
@@ -369,16 +366,16 @@ x.get_ed(() => {
         current_img_input_val: ed.current_img + 1,
         color_input_vizualization_colors: {
             create_solid_color_img: '#ffffff',
-            color: ''
+            color: '',
         },
         color_pickiers_state: {
             create_solid_color_img: false,
-            color: false
+            color: false,
         },
         color_pickiers_position: {
             create_solid_color_img: 'top',
-            color: 'top'
-        }
+            color: 'top',
+        },
     });
 });
 //< varibles t

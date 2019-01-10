@@ -2,14 +2,10 @@
 
 //^
 
-'use strict';
-
 import x from 'x';
 
 //> create select text content t
-const create_option_data_text_val = modifier => {
-    return x.message('option_' + modifier + '_text');
-}
+const create_option_data_text_val = modifier => x.message(`option_${modifier}_text`);
 //< create select text content t
 
 export const selects_options = {
@@ -19,14 +15,14 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('theme'),
             storage: 'mode',
-            val: 'theme'
+            val: 'theme',
         },
         {
             key: x.unique_id(),
             global: false,
             text: create_option_data_text_val('one'),
             storage: 'mode',
-            val: 'one'
+            val: 'one',
         },
 
         {
@@ -34,7 +30,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('multiple'),
             storage: 'mode',
-            val: 'multiple'
+            val: 'multiple',
         },
 
         {
@@ -42,8 +38,8 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('random_solid_color'),
             storage: 'mode',
-            val: 'random_solid_color'
-        }
+            val: 'random_solid_color',
+        },
     ],
 
     change_interval: [
@@ -52,7 +48,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('1_millisecond'),
             storage: 'change_interval',
-            val: '1'
+            val: '1',
         },
 
         {
@@ -60,7 +56,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('3_seconds'),
             storage: 'change_interval',
-            val: '3000'
+            val: '3000',
         },
 
         {
@@ -68,7 +64,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('5_seconds'),
             storage: 'change_interval',
-            val: '5000'
+            val: '5000',
         },
 
         {
@@ -76,7 +72,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('10_seconds'),
             storage: 'change_interval',
-            val: '10000'
+            val: '10000',
         },
 
         {
@@ -84,7 +80,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('15_seconds'),
             storage: 'change_interval',
-            val: '15000'
+            val: '15000',
         },
 
         {
@@ -92,7 +88,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('30_seconds'),
             storage: 'change_interval',
-            val: '30000'
+            val: '30000',
         },
 
         {
@@ -100,7 +96,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('1_minute'),
             storage: 'change_interval',
-            val: '60000'
+            val: '60000',
         },
 
         {
@@ -108,7 +104,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('5_minutes'),
             storage: 'change_interval',
-            val: '300000'
+            val: '300000',
         },
 
         {
@@ -116,7 +112,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('10_minutes'),
             storage: 'change_interval',
-            val: '600000'
+            val: '600000',
         },
 
         {
@@ -124,7 +120,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('15_minutes'),
             storage: 'change_interval',
-            val: '900000'
+            val: '900000',
         },
 
         {
@@ -132,7 +128,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('30_minutes'),
             storage: 'change_interval',
-            val: '1800000'
+            val: '1800000',
         },
 
         {
@@ -140,7 +136,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('1_hour'),
             storage: 'change_interval',
-            val: '3600000'
+            val: '3600000',
         },
 
         {
@@ -148,7 +144,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('3_hours'),
             storage: 'change_interval',
-            val: '10800000'
+            val: '10800000',
         },
 
         {
@@ -156,7 +152,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('6_hours'),
             storage: 'change_interval',
-            val: '21600000'
+            val: '21600000',
         },
 
         {
@@ -164,7 +160,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('12_hours'),
             storage: 'change_interval',
-            val: '43200000'
+            val: '43200000',
         },
 
         {
@@ -173,7 +169,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('1_day'),
             storage: 'change_interval',
-            val: '86400000'
+            val: '86400000',
         },
 
         {
@@ -181,7 +177,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('2_days'),
             storage: 'change_interval',
-            val: '172800000'
+            val: '172800000',
         },
 
         {
@@ -189,7 +185,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('4_days'),
             storage: 'change_interval',
-            val: '345600000'
+            val: '345600000',
         },
 
         {
@@ -197,7 +193,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('1_week'),
             storage: 'change_interval',
-            val: '604800000'
+            val: '604800000',
         },
 
         {
@@ -205,7 +201,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('2_weeks'),
             storage: 'change_interval',
-            val: '1209600000'
+            val: '1209600000',
         },
 
         {
@@ -213,7 +209,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('4_weeks'),
             storage: 'change_interval',
-            val: '2419200000'
+            val: '2419200000',
         },
     ],
 
@@ -223,7 +219,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('global'),
             storage: 'settings_type',
-            val: 'global'
+            val: 'global',
         },
 
         {
@@ -231,8 +227,8 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('specific'),
             storage: 'settings_type',
-            val: 'specific'
-        }
+            val: 'specific',
+        },
     ],
 
     size: [
@@ -241,7 +237,7 @@ export const selects_options = {
             global: true,
             text: create_option_data_text_val('global'),
             storage: 'size',
-            val: 'global'
+            val: 'global',
         },
 
         {
@@ -249,7 +245,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('dont_resize'),
             storage: 'size',
-            val: 'dont_resize'
+            val: 'dont_resize',
         },
 
 
@@ -258,7 +254,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('fit_screen'),
             storage: 'size',
-            val: 'fit_screen'
+            val: 'fit_screen',
         },
 
         {
@@ -266,7 +262,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('fit_browser'),
             storage: 'size',
-            val: 'fit_browser'
+            val: 'fit_browser',
         },
 
         {
@@ -274,7 +270,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('cover_screen'),
             storage: 'size',
-            val: 'cover_screen'
+            val: 'cover_screen',
         },
 
         {
@@ -282,7 +278,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('cover_browser'),
             storage: 'size',
-            val: 'cover_browser'
+            val: 'cover_browser',
         },
 
         {
@@ -290,7 +286,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('stretch_screen'),
             storage: 'size',
-            val: 'stretch_screen'
+            val: 'stretch_screen',
         },
 
         {
@@ -298,7 +294,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('stretch_browser'),
             storage: 'size',
-            val: 'stretch_browser'
+            val: 'stretch_browser',
         },
     ],
 
@@ -308,7 +304,7 @@ export const selects_options = {
             global: true,
             text: create_option_data_text_val('global'),
             storage: 'position',
-            val: 'global'
+            val: 'global',
         },
 
         {
@@ -316,7 +312,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('center_top'),
             storage: 'position',
-            val: 'center top'
+            val: 'center top',
         },
 
         {
@@ -324,7 +320,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('center_center'),
             storage: 'position',
-            val: 'center center'
+            val: 'center center',
         },
 
         {
@@ -332,7 +328,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('center_bottom'),
             storage: 'position',
-            val: 'center bottom'
+            val: 'center bottom',
         },
 
         {
@@ -340,7 +336,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('left_top'),
             storage: 'position',
-            val: 'left top'
+            val: 'left top',
         },
 
         {
@@ -348,7 +344,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('left_center'),
             storage: 'position',
-            val: 'left center'
+            val: 'left center',
         },
 
         {
@@ -356,7 +352,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('left_bottom'),
             storage: 'position',
-            val: 'left bottom'
+            val: 'left bottom',
         },
 
         {
@@ -364,7 +360,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('right_top'),
             storage: 'position',
-            val: 'right top'
+            val: 'right top',
         },
 
         {
@@ -372,7 +368,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('right_center'),
             storage: 'position',
-            val: 'right center'
+            val: 'right center',
         },
 
         {
@@ -380,7 +376,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('right_bottom'),
             storage: 'position',
-            val: 'right bottom'
+            val: 'right bottom',
         },
     ],
 
@@ -390,7 +386,7 @@ export const selects_options = {
             global: true,
             text: create_option_data_text_val('global'),
             storage: 'repeat',
-            val: 'global'
+            val: 'global',
 
         },
 
@@ -399,7 +395,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('repeat'),
             storage: 'repeat',
-            val: 'repeat'
+            val: 'repeat',
         },
 
         {
@@ -407,7 +403,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('repeat_y'),
             storage: 'repeat',
-            val: 'repeat-y'
+            val: 'repeat-y',
         },
 
         {
@@ -415,7 +411,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('repeat_x'),
             storage: 'repeat',
-            val: 'repeat-x'
+            val: 'repeat-x',
         },
 
         {
@@ -423,7 +419,7 @@ export const selects_options = {
             global: false,
             text: create_option_data_text_val('no_repeat'),
             storage: 'repeat',
-            val: 'no-repeat'
-        }
-    ]
+            val: 'no-repeat',
+        },
+    ],
 };

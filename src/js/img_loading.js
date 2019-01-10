@@ -42,14 +42,12 @@
 
 //^
 
-'use strict';
-
 import x from 'x';
 import { db } from 'js/init_db';
 import * as shared_o from 'options/shared_o';
 import * as shared_b_o from 'js/shared_b_o';
 
-import { observable, action, runInAction, configure } from "mobx";
+import { observable, action, runInAction, configure } from 'mobx';
 import * as r from 'ramda';
 
 configure({ enforceActions: true });
@@ -69,31 +67,31 @@ export const get_pasted_image_or_image_url = async e => {
         () => contains_allow_downloading_images_by_link_permission && ed.download_img_when_link_given && input_given_text,
         async () => {
             try {
-                const response = await fetch(clipboard_text);
+                const response = await window.fetch(clipboard_text);
                 const blob = await response.blob();
-                if (blob.type.indexOf("image") > - 1) {
+                if (blob.type.indexOf('image') > -1) {
                     const file_object = new File([blob], '', { type: blob.type }); // '' is file name, it means that file object was created from blob object
 
                     return file_object;
 
-                } else {
-                    throw 'File given is not image.';
                 }
+
+                throw 'File given is not image.';
 
             } catch (er) {
                 console.error(er);
             }
+
+            return undefined;
         },
 
         () => {
-            const img_clipboard_item = r.find(clipboard_item => { // ordinary for each will not work
-                return clipboard_item.type.indexOf("image") > - 1 // check if img (its file object (after it will be converted with getAsFile below) if is) pasted
-            }, clipboard_items);
+            const img_clipboard_item = r.find(clipboard_item => clipboard_item.type.indexOf('image') > -1, clipboard_items);// ordinary for each will not work | check if img (its file object (after it will be converted with getAsFile below) if is) pasted
 
             const file_object = img_clipboard_item ? img_clipboard_item.getAsFile() : null;
 
-            return file_object
-        }
+            return file_object;
+        },
     )();
 
     const is_file = img;
@@ -108,11 +106,11 @@ export const get_pasted_image_or_image_url = async e => {
 
                 test_img.onload = () => {
                     resolve();
-                }
+                };
 
                 test_img.onerror = () => {
                     reject();
-                }
+                };
 
                 test_img.src = clipboard_text;
             });
@@ -133,7 +131,7 @@ export const get_pasted_image_or_image_url = async e => {
 };
 //< paste image or image url t
 
-//> filter files loaded with upload box (keep only images) and call put in db function t 
+//> filter files loaded with upload box (keep only images) and call put in db function t
 export const handle_files = async files => {
     shared_o.disable_ui();
     change_paste_input_placeholder_val(null);
@@ -141,17 +139,17 @@ export const handle_files = async files => {
     show_upload_box_uploading_message();
 
     const valid_file_types = ['image/gif', 'image/jpeg', 'image/png'];
-    const filter_out_non_imgs = r.filter(img => r.indexOf(img.type, valid_file_types) > - 1);
+    const filter_out_non_imgs = r.filter(img => r.indexOf(img.type, valid_file_types) > -1);
     const get_put_in_db_f = imgs => {
         const files_len = files.length;
         const get_f = r.cond([
             [r.equals(0), () => r.partial(show_or_hide_upload_error_messages, ['rejected'])], // all files are not images
             [r.equals(files_len), () => r.partial(populate_storage_with_images, ['file', 'resolved', imgs, {}, null])], // all files are images
-            [r.compose(r.not, r.equals(files_len)), () => r.partial(populate_storage_with_images, ['file', 'resolved_with_errors', imgs, {}, null])]// some files are not images
+            [r.compose(r.not, r.equals(files_len)), () => r.partial(populate_storage_with_images, ['file', 'resolved_with_errors', imgs, {}, null])], // some files are not images
         ]);
 
         return get_f(imgs.length);
-    }
+    };
 
 
     const put_in_db_p = r.pipe(filter_out_non_imgs, get_put_in_db_f);
@@ -160,7 +158,7 @@ export const handle_files = async files => {
 
     shared_o.enable_ui();
 };
-//< filter files loaded with upload box (keep only images) and call put in db function t 
+//< filter files loaded with upload box (keep only images) and call put in db function t
 
 //> create_solid_color_img t
 export const create_solid_color_img = color => {
@@ -176,11 +174,10 @@ export const create_solid_color_img = color => {
 export const populate_storage_with_images = async (type, status, imgs, theme_img_info, theme_id) => {
     try {
         //>1 pack images t
-        const add_theme_modifier_to_type = () => r.isEmpty(theme_img_info) ? type : 'theme_' + type;
+        const add_theme_modifier_to_type = () => (r.isEmpty(theme_img_info) ? type : `theme_${type}`);
 
         const number_of_imgs = await db.imgs.count();
-        const position_id = await r.ifElse(() =>
-            number_of_imgs > 0,
+        const position_id = await r.ifElse(() => number_of_imgs > 0,
             async () => {
                 const ordered_imgs = db.imgs.orderBy('position_id');
                 const img_with_highest_id = await ordered_imgs.last();
@@ -188,43 +185,42 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
                 return img_with_highest_id.position_id + 1;
             },
 
-            () => 0
-        )();
+            () => 0)();
 
         const packed_imgs = imgs.map((item, i) => {
-            if (type != 'color') {
+            if (type !== 'color') {
                 const img = {
                     id: x.unique_id(),
                     position_id: position_id + i,
-                    theme_id: theme_id,
+                    theme_id,
                     img: item,
                     type: add_theme_modifier_to_type(),
                     size: theme_img_info.size || 'global',
                     position: theme_img_info.position || 'global',
                     repeat: theme_img_info.repeat || 'global',
                     color: theme_img_info.color || 'global',
-                }
+                };
 
                 return img;
 
-            } else if (type == 'color') {
+            } if (type === 'color') {
                 const img = {
                     id: x.unique_id(),
                     position_id: position_id + i,
-                    theme_id: theme_id,
+                    theme_id,
                     img: item,
-                    type: add_theme_modifier_to_type()
-                }
+                    type: add_theme_modifier_to_type(),
+                };
 
                 return img;
             }
+
+            return undefined;
         });
         //<1 pack images t
 
         //>1 insert image packs in db t
-        const last_img_id = await db.transaction('rw', db.imgs, () => {
-            return db.imgs.bulkAdd(packed_imgs);
-        });
+        const last_img_id = await db.transaction('rw', db.imgs, () => db.imgs.bulkAdd(packed_imgs));
         //<1 insert image packs in db t
 
         const number_of_img_w = sa('.img_w').length;
@@ -240,8 +236,8 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
         }
 
         //>1 reload img_a in background.js t
-        if (page == 'options') {
-            await x.send_message_to_background_c({ message: "retrieve_imgs" });
+        if (page === 'options') {
+            await x.send_message_to_background_c({ message: 'retrieve_imgs' });
         }
         //>1 reload img_a in background.js t
 
@@ -259,7 +255,9 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
 
         x.error(1);
     }
-}
+
+    return undefined;
+};
 //< pack images and insert them in db t
 
 //> create images on extensions' options page on load or click on load btn t
@@ -270,7 +268,7 @@ export const load_50_or_all_imgs = async (limit, mode) => { // g
         const imgs = await db.imgs.orderBy('position_id').offset(shared_o.mut.offset).limit(limit).toArray();
         const number_of_imgs = imgs.length;
 
-        mut.loading_all = mode == 'load_all' && number_of_imgs > 0 ? true : false;
+        mut.loading_all = !!(mode === 'load_all' && number_of_imgs > 0);
 
         if (number_of_imgs > 0) {
             await shared_o.calculate_offset(mode);
@@ -278,7 +276,7 @@ export const load_50_or_all_imgs = async (limit, mode) => { // g
             shared_o.unpack_and_load_imgs(imgs, mode, 0);
         }
 
-        if (number_of_imgs == 0) {
+        if (number_of_imgs === 0) {
             hide_loading_screen();
 
             shared_o.enable_ui();
@@ -291,7 +289,7 @@ export const load_50_or_all_imgs = async (limit, mode) => { // g
 //< create images on extensions' options page on load or click on load btn t
 
 //> insert images in images fieldset (set state) t
-export const create_loaded_imgs = action((imgs) => { // action
+export const create_loaded_imgs = action(imgs => { // action
     shared_o.ob.imgs.replace(r.union(shared_o.ob.imgs.slice())(imgs));
 
     const last_inserted_img_id = imgs[imgs.length - 1] ? imgs[imgs.length - 1].id : 'uploaded_imgs_but_not_added_any_imgs_to_ui';
@@ -313,14 +311,14 @@ export const show_loaded_img = async (id, img_el) => {
         }
 
         if (is_img) {
-            shared_o.ob.imgs[i].img_size = img_el.naturalWidth + 'x' + img_el.naturalHeight;
+            shared_o.ob.imgs[i].img_size = `${img_el.naturalWidth}x${img_el.naturalHeight}`;
         }
     });
 };
 //< show one image after it fully loaded t
 
 //> show transparency background checkerboard t
-export const show_checkerboard = async (id) => {
+export const show_checkerboard = async id => {
     await x.delay(100);
 
     const i = shared_o.get_img_i_by_id(id);
@@ -337,15 +335,15 @@ export const show_checkerboard = async (id) => {
 const show_or_hide_upload_error_messages = status => {
     hide_upload_box_messages();
 
-    if (status == 'rejected' || status == 'resolved_with_errors') {
+    if (status === 'rejected' || status === 'resolved_with_errors') {
         show_upload_box_error_message();
     }
 
-    if (status == 'resolved_paste') {
+    if (status === 'resolved_paste') {
         change_paste_input_placeholder_val(null);
     }
 
-    if (status == 'rejected_paste') {
+    if (status === 'rejected_paste') {
         change_paste_input_placeholder_val(x.message('upload_box_error_message_text'));
     }
 };
@@ -356,7 +354,7 @@ const hide_or_show_load_btns = async last_inserted_img_id => {
     try {
         const number_of_imgs = await db.imgs.count();
         const last_img_in_db = await db.imgs.orderBy('position_id').last();
-        const there_is_img_after_last_inserted_img = last_inserted_img_id == 'uploaded_imgs_but_not_added_any_imgs_to_ui' || last_inserted_img_id != last_img_in_db.id ? true : false;
+        const there_is_img_after_last_inserted_img = !!(last_inserted_img_id === 'uploaded_imgs_but_not_added_any_imgs_to_ui' || last_inserted_img_id !== last_img_in_db.id);
 
         runInAction(() => {
             if (number_of_imgs > 50 && there_is_img_after_last_inserted_img) {
@@ -374,33 +372,31 @@ const hide_or_show_load_btns = async last_inserted_img_id => {
 //< hide_or_show_load_btns f
 
 //> hide_upload_box_messages f
-const hide_upload_box_messages = action(() => {  // action
+const hide_upload_box_messages = action(() => { // action
     ob.upload_box_uploading_message_none_cls = 'none';
     ob.upload_box_error_message_none_cls = 'none';
 });
 //< hide_upload_box_messages f
 
 //> show_upload_box_error_message f
-const show_upload_box_error_message = action(() => ob.upload_box_error_message_none_cls = '');
+const show_upload_box_error_message = action(() => { ob.upload_box_error_message_none_cls = ''; });
 //< show_upload_box_error_message f
 
 //> show_upload_box_uploading_message f
-const show_upload_box_uploading_message = action(() => ob.upload_box_uploading_message_none_cls = '');
+const show_upload_box_uploading_message = action(() => { ob.upload_box_uploading_message_none_cls = ''; });
 
 //< show_upload_box_uploading_message f
 
 //> change_paste_input_placeholder_val f
-const change_paste_input_placeholder_val = action(val => ob.paste_input_placeholder = val);
+const change_paste_input_placeholder_val = action(val => { ob.paste_input_placeholder = val; });
 //< change_paste_input_placeholder_val f
 
 //> hide loading_screen when images loaded on options page load t
-export const hide_loading_screen = action(() => ob.show_loading_screen = false);
+export const hide_loading_screen = action(() => { ob.show_loading_screen = false; });
 //< hide loading_screen when images loaded on options page load t
 
 //> generate_random_pastel_color f
-export const generate_random_pastel_color = () => {
-    return "hsl(" + 360 * Math.random() + ',' + (25 + 70 * Math.random()) + '%,' + (70 + 10 * Math.random()) + '%)';
-}
+export const generate_random_pastel_color = () => `hsl(${360 * Math.random()},${25 + 70 * Math.random()}%,${70 + 10 * Math.random()}%)`;
 //< generate_random_pastel_color f
 
 //> varibles t
@@ -408,13 +404,13 @@ export const mut = {
     imgs_loaded: 0,
     total_imgs_to_load: 0,
     previous_number_of_imgs: 0,
-    loading_all: false
+    loading_all: false,
 };
 
 export const ob = observable({
     show_loading_screen: true,
     upload_box_uploading_message_none_cls: 'none',
     upload_box_error_message_none_cls: 'none',
-    paste_input_placeholder: ''
+    paste_input_placeholder: '',
 });
 //< varibles t

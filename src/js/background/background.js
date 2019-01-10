@@ -1,6 +1,6 @@
 //^
 
-/* shortcuts: 
+/* shortcuts:
 w = wrapper
 svg = svg_wrapper
 fd = folders_dialog
@@ -9,11 +9,9 @@ cmi = context_menu_item
 fdfdcd = folders_dialog_folder_deletion_confirmation_dialog
 bookmark_r = bookmark_record
 bookmark_rs = bookmark_records
-dnd = drag and drop 
+dnd = drag and drop
 ed = extension data
 */
-
-'use strict';
 
 import x from 'x';
 import * as shared_b from 'background/shared_b';

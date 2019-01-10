@@ -6,11 +6,9 @@
 
 //^
 
-'use strict';
-
 import * as prevent_scrolling from 'js/prevent_scrolling';
 
-import { observable, action, configure } from "mobx";
+import { observable, action, configure } from 'mobx';
 
 configure({ enforceActions: true });
 
@@ -28,16 +26,16 @@ export const show_or_hide_imgs_fieldset_fillers = action(() => { // action
         ob.imgs_fieldset_filler_top_none_cls = '';
 
     } else if (at_the_top_of_imgs_fieldset_scrolling_up) {
-        ob.imgs_fieldset_filler_top_none_cls = 'none'
+        ob.imgs_fieldset_filler_top_none_cls = 'none';
 
     } else if (at_the_bottom_of_imgs_fieldset_scrolling_down) {
         ob.imgs_fieldset_filler_bottom_none_cls = 'none';
 
     } else if (not_at_the_top_of_imgs_fieldset_scrolling_up) {
-        ob.imgs_fieldset_filler_bottom_none_cls = ''
-  
+        ob.imgs_fieldset_filler_bottom_none_cls = '';
+
     } else if (not_at_the_bottom) {
-        ob.imgs_fieldset_filler_bottom_none_cls = ''
+        ob.imgs_fieldset_filler_bottom_none_cls = '';
     }
 });
 //< show / hide imgs_fieldset_fillers t
@@ -56,6 +54,6 @@ export const mut = {
 
 export const ob = observable({
     imgs_fieldset_filler_top_none_cls: 'none',
-    imgs_fieldset_filler_bottom_none_cls: ''
+    imgs_fieldset_filler_bottom_none_cls: '',
 });
 //< varibles t

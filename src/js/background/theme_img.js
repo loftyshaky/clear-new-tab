@@ -12,8 +12,6 @@
 
 //^
 
-'use strict';
-
 import x from 'x';
 import { db } from 'js/init_db';
 import * as shared_b from 'background/shared_b';
@@ -33,44 +31,44 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
         await x.get_ed();
     }
 
-    if (ed.mode == 'theme') {
+    if (ed.mode === 'theme') {
         try {
             const installing_theme_img_already_exist = r.find(r.propEq('theme_id', theme_id), shared_b.mut.imgs);
             let new_current_img;
 
             if ((!ed.keep_old_themes_imgs && reinstall_even_if_theme_img_already_exist) || !installing_theme_img_already_exist) {
                 const theme_package = await new jszip.external.Promise((resolve, reject) => {
-                    jszip_utils.getBinaryContent('https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D' + theme_id + '%26uc&prodversion=32', function (err, theme_package) {
+                    jszip_utils.getBinaryContent(`https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D${theme_id}%26uc&prodversion=32`, (err, theme_package_) => {
                         if (err) {
                             reject(err);
 
                         } else {
-                            resolve(theme_package);
+                            resolve(theme_package_);
                         }
                     });
                 });
 
                 const theme_package_data = await jszip.loadAsync(theme_package);
-                const manifest = await theme_package_data.file("manifest.json").async("string");
+                const manifest = await theme_package_data.file('manifest.json').async('string');
                 const manifest_obj = JSON.parse(manifest.trim()); // trim fixes bug with some themes. ex: https://chrome.google.com/webstore/detail/sexy-girl-chrome-theme-ar/pkibpgkliocdchedibhioiibdiddomac
                 const theme_obj = manifest_obj.theme;
                 const img_name = r.path(['images', 'theme_ntp_background'], theme_obj);
                 const position_prop = r.path(['properties', 'ntp_background_alignment'], theme_obj);
                 const repeat_prop = r.path(['properties', 'ntp_background_repeat'], theme_obj);
-                const position = positions.indexOf(position_prop) > - 1 ? positions_dict[position_prop] : 'center center';
-                const repeat = repeats.indexOf(repeat_prop) > - 1 ? repeat_prop : 'no-repeat';
+                const position = positions.indexOf(position_prop) > -1 ? positions_dict[position_prop] : 'center center';
+                const repeat = repeats.indexOf(repeat_prop) > -1 ? repeat_prop : 'no-repeat';
                 const color_rgb = r.path(['colors', 'ntp_background'], theme_obj);
-                const color = color_rgb ? '#' + rgb_to_hex(color_rgb) : '#ffffff';
+                const color = color_rgb ? `#${rgb_to_hex(color_rgb)}` : '#ffffff';
                 const theme_img_info = {
-                    position: position,
-                    repeat: repeat,
-                    color: color
-                }
+                    position,
+                    repeat,
+                    color,
+                };
 
-                const is_valid_img = img_name ? img_name => valid_file_types.some(ext => img_name.includes(ext)) : null;
+                const is_valid_img = img_name ? img_name_ => valid_file_types.some(ext => img_name_.includes(ext)) : null;
 
-                if (is_valid_img && !is_valid_img(img_name) && what_browser != 'chrome') {
-                    throw 'Image is not valid image';
+                if (is_valid_img && !is_valid_img(img_name) && what_browser !== 'chrome') {
+                    throw 'Image is not valid image'; // eslint-disable-line no-throw-literal
                 }
 
                 const ids_of_theme_imgs_to_delete = await delete_previous_themes_imgs();
@@ -80,13 +78,13 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
 
                     async () => {
                         let file = await theme_package_data.file(img_name); // download theme image
-                        file = file ? file : await theme_package_data.file(img_name.charAt(0).toUpperCase() + img_name.slice(1)); // download theme image (convert first letter of image name to uppercase)
+                        file = file || await theme_package_data.file(img_name.charAt(0).toUpperCase() + img_name.slice(1)); // download theme image (convert first letter of image name to uppercase)
                         const img = await file.async('blob');
 
-                        return await img_loading.populate_storage_with_images('file', 'resolved', [img], theme_img_info, theme_id);
+                        return img_loading.populate_storage_with_images('file', 'resolved', [img], theme_img_info, theme_id);
                     },
 
-                    async () => await img_loading.populate_storage_with_images('color', 'resolved', [color], null, theme_id)
+                    async () => img_loading.populate_storage_with_images('color', 'resolved', [color], null, theme_id),
                 )();
 
                 await db.ed.update(1, { last_installed_theme_theme_id: theme_id });
@@ -96,15 +94,15 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
 
                 x.iterate_all_tabs(x.send_message_to_tab, [{
                     message: 'load_theme_img',
-                    ids_of_theme_imgs_to_delete: ids_of_theme_imgs_to_delete,
-                    added_img_id: added_img_id,
-                    new_current_img: new_current_img
+                    ids_of_theme_imgs_to_delete,
+                    added_img_id,
+                    new_current_img,
                 }]);
 
             } else { // when undoing theme
-                const last_installed_theme_theme_id = what_browser == 'chrome' ? await shared_b.get_installed_theme_id() : theme_id;
+                const last_installed_theme_theme_id = what_browser === 'chrome' ? await shared_b.get_installed_theme_id() : theme_id;
 
-                await db.ed.update(1, { last_installed_theme_theme_id: last_installed_theme_theme_id });
+                await db.ed.update(1, { last_installed_theme_theme_id });
 
                 new_current_img = await determine_theme_current_img.determine_theme_current_img(last_installed_theme_theme_id, shared_b.mut.imgs);
             }
@@ -122,34 +120,32 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
         } catch (er) {
             console.error(er);
 
-            if (what_browser != 'chrome') {
+            if (what_browser !== 'chrome') {
                 await x.send_message_to_tab_c(tab_id, { message: 'notify_about_paid_theme_error' });
             }
 
             return 'error';
         }
 
-    } else {
-        if (what_browser != 'chrome') {
-            await x.send_message_to_tab_c(tab_id, { message: 'notify_about_wrong_mode' });
-        }
+    } else if (what_browser !== 'chrome') {
+        await x.send_message_to_tab_c(tab_id, { message: 'notify_about_wrong_mode' });
     }
-}
+
+    return undefined;
+};
 //< download theme crx, unpack it, access theme data from theme crx manifest, download theme image t
 
 //> delete_previous_themes_imgs f
 const delete_previous_themes_imgs = async () => {
     try {
-        if (ed.mode == 'theme' && !ed.keep_old_themes_imgs) {
-            const theme_imgs = shared_b.mut.imgs.filter((img) => img.theme_id);
+        if (ed.mode === 'theme' && !ed.keep_old_themes_imgs) {
+            const theme_imgs = shared_b.mut.imgs.filter(img => img.theme_id);
             const at_least_one_theme_image_found = theme_imgs[0];
 
             if (at_least_one_theme_image_found) {
                 const ids_of_theme_imgs_to_delete_final = theme_imgs.map(img => img.id);
 
-                await db.transaction('rw', db.imgs, async () => {
-                    return db.imgs.bulkDelete(ids_of_theme_imgs_to_delete_final);
-                });
+                await db.transaction('rw', db.imgs, async () => db.imgs.bulkDelete(ids_of_theme_imgs_to_delete_final));
 
                 return ids_of_theme_imgs_to_delete_final;
             }
@@ -164,13 +160,13 @@ const delete_previous_themes_imgs = async () => {
 //> delete_previous_themes_imgs f
 
 //> rgb_to_hex f
-const rgb_to_hex = r.pipe(r.map(x => x.toString(16).padStart(2, '0')), r.join(''));
+const rgb_to_hex = r.pipe(r.map(val => val.toString(16).padStart(2, '0')), r.join(''));
 //< rgb_to_hex f
 
 //> on theme installiation t
-if (what_browser == 'chrome') {
+if (what_browser === 'chrome') {
     browser.management.onEnabled.addListener(ext_info => {
-        if (ext_info.type == 'theme') {
+        if (ext_info.type === 'theme') {
             get_theme_img(ext_info.id, true);
         }
     });
@@ -179,9 +175,9 @@ if (what_browser == 'chrome') {
 
 //> varibles t
 const positions_dict = {
-    'top': 'center top',
-    'center': 'center center',
-    'bottom': 'center bottom',
+    top: 'center top',
+    center: 'center center',
+    bottom: 'center bottom',
     'left top': 'left top',
     'top left': 'left top',
     'left center': 'left center',
@@ -193,7 +189,7 @@ const positions_dict = {
     'right center': 'right center',
     'center right': 'right center',
     'right bottom': 'right bottom',
-    'bottom right': 'right bottom'
+    'bottom right': 'right bottom',
 };
 
 const valid_file_types = ['.gif', '.jpeg', '.jpg', '.png'];

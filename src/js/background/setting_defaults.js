@@ -2,8 +2,6 @@
 
 //^
 
-'use strict';
-
 import { db, init_db } from 'js/init_db';
 import * as shared_b_o from 'js/shared_b_o';
 
@@ -27,17 +25,17 @@ window.set_default_settings = async page => { // this function also called in op
         size: 'dont_resize',
         position: 'center center',
         repeat: 'no-repeat',
-        color: '#ffffff'
-    }
+        color: '#ffffff',
+    };
 
-    if (page == 'background') {
-        db.on("populate", function () {
+    if (page === 'background') {
+        db.on('populate', () => {
             db.ed.add(ext_data_o);
         });
 
         db.open();
 
-    } else if (page == 'options') {
+    } else if (page === 'options') {
         try {
             init_db();
 
@@ -50,5 +48,5 @@ window.set_default_settings = async page => { // this function also called in op
         }
     }
 
-}
+};
 //< set_default_settings f

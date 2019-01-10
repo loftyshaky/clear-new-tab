@@ -10,9 +10,7 @@
 
 //^
 
-'use strict';
-
-import { observable, action, configure } from "mobx";
+import { observable, action, configure } from 'mobx';
 
 configure({ enforceActions: true });
 
@@ -23,7 +21,7 @@ export const reset_upload_btn_val = action(() => {
 //< reset_upload_btn_val f
 
 //> dehighlight_upload_box_on_drop f
-export const dehighlight_upload_box_ondrop = action(e => {
+export const dehighlight_upload_box_ondrop = action(() => {
     mut.drag_counter = 0;
     ob.highlight_upload_box = false;
 });
@@ -38,10 +36,10 @@ export const highlight_upload_box_ondragenter = action(() => {
 //< highlight_upload_box_f f
 
 //> dehighlight_upload_box_on_dragleave f
-export const dehighlight_upload_box_ondragleave = action(e => {
+export const dehighlight_upload_box_ondragleave = action(() => {
     mut.drag_counter--;
 
-    if (mut.drag_counter == 0) {
+    if (mut.drag_counter === 0) {
         ob.highlight_upload_box = false;
     }
 });
@@ -49,11 +47,11 @@ export const dehighlight_upload_box_ondragleave = action(e => {
 
 //> varibles t
 export const mut = {
-    drag_counter: 0
+    drag_counter: 0,
 };
 
 export const ob = observable({
     upload_btn_val: '',
-    highlight_upload_box: false
+    highlight_upload_box: false,
 });
 //< varibles t

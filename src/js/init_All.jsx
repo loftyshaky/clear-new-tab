@@ -4,14 +4,12 @@
 
 //^
 
-'use strict';
-
 import 'normalize.css';
 
 import x from 'x';
 
-import react from 'react';
-import react_dom from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 export const run_everything = async All_type => {
     let All;
@@ -27,18 +25,20 @@ export const run_everything = async All_type => {
 
     switch (All_type) {
         case 'options':
-            All = require('options_components/All').All;
+            ({ All } = require('options/components/All')); // eslint-disable-line global-require
 
             break;
 
         case 'new_tab':
-            All = require('new_tab_components/All').All;
+            ({ All } = require('new_tab/components/All').All); // eslint-disable-line global-require
 
             break;
+
+        // no default
     }
 
     //> render options page ui t
-    react_dom.render(
+    ReactDOM.render(
         <All />,
         s('#root'),
         async () => {
@@ -51,9 +51,9 @@ export const run_everything = async All_type => {
                 x.remove(no_tr);
             }
             //<1 remove no_tr css t
-        }
+        },
     );
 
     x.localize(document);
     //< render options page ui t
-}
+};
