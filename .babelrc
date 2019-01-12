@@ -1,6 +1,14 @@
 {
     "presets": [
-        "react"
+        [
+            "@babel/preset-env",
+            {
+                "targets": {
+                    "node": "current"
+                }
+            }
+        ],
+        "@babel/preset-react"
     ],
     "plugins": [
         "transform-class-properties"

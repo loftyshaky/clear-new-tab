@@ -1,8 +1,9 @@
-const path = require('path');
+const { join } = require('path');
+
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 
-const shared = require(path.join(__dirname, 'webpack.shared.js')); // eslint-disable-line import/no-dynamic-require
+const shared = require(join(__dirname, 'webpack.shared.js')); // eslint-disable-line import/no-dynamic-require
 
 module.exports = merge(shared, {
     plugins: [

@@ -1,18 +1,17 @@
 // -p in 'scripts': { 'prod': } 'webpack -p in package.json needed to minify css
 
-const path = require('path');
-const Copy_webpack_plugin = require('copy-webpack-plugin');
+const { join } = require('path');
+
 const Html_webpack_plugin = require('html-webpack-plugin');
+const Copy_webpack_plugin = require('copy-webpack-plugin');
 const Clean_webpack_plugin = require('clean-webpack-plugin');
-const Write_file_webpack_plugin = require('write-file-webpack-plugin'); // needed to create dist folder and its content on npm start after it was deleted by Clean_webpack_plugin
-const Hard_source_webpack_plugin = require('hard-source-webpack-plugin');
 
 module.exports = {
     entry: {
-        background: path.join(__dirname, 'src', 'js', 'background', 'background.js'),
-        content_script: path.join(__dirname, 'src', 'js', 'content_script', 'content_script.jsx'),
-        options: path.join(__dirname, 'src', 'js', 'options', 'options.js'),
-        new_tab: path.join(__dirname, 'src', 'js', 'new_tab', 'new_tab.js'),
+        background: join(__dirname, 'src', 'js', 'background', 'background.js'),
+        content_script: join(__dirname, 'src', 'js', 'content_script', 'content_script.jsx'),
+        options: join(__dirname, 'src', 'js', 'options', 'options.js'),
+        new_tab: join(__dirname, 'src', 'js', 'new_tab', 'new_tab.js'),
     },
 
     output: {
@@ -22,21 +21,9 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.jsx$/,
+                test: /\.jsx?$/,
                 loader: 'babel-loader',
-
             },
-
-            {
-                test: /\.html$/,
-                loader: 'html-loader',
-            },
-
-            {
-                test: /\.json$/,
-                loader: 'json-loader',
-            },
-
             {
                 test: /\.css$/,
                 use: [
@@ -52,12 +39,10 @@ module.exports = {
                     },
                 ],
             },
-
             {
                 test: /\.svg$/,
                 loader: 'svg-inline-loader',
             },
-
             {
                 test: /\.(png|gif|ttf)$/,
                 loader: 'file-loader?name=[name].[ext]',
@@ -66,6 +51,18 @@ module.exports = {
     },
 
     plugins: [
+        new Html_webpack_plugin({
+            template: join(__dirname, 'src', 'html', 'options.html'),
+            filename: 'options.html',
+            chunks: ['options'],
+        }),
+
+        new Html_webpack_plugin({
+            template: join(__dirname, 'src', 'html', 'new_tab.html'),
+            filename: 'new_tab.html',
+            chunks: ['new_tab'],
+        }),
+
         new Copy_webpack_plugin([{
             //> generates the manifest file using the package.json informations t
             from: 'src/manifest.json',
@@ -81,45 +78,29 @@ module.exports = {
         },
         //< generates the manifest file using the package.json informations t
 
-        { from: path.join(__dirname, 'src', 'js', 'x.js'), to: path.join(__dirname, 'dist') },
-        { from: path.join(__dirname, 'src', 'css'), to: path.join(__dirname, 'dist') },
-        { from: path.join(__dirname, 'src', '_locales'), to: path.join(__dirname, 'dist', '_locales') },
-        { from: path.join(__dirname, 'src', 'mods'), to: path.join(__dirname, 'dist') },
-        { from: path.join(__dirname, 'src', 'icons'), to: path.join(__dirname, 'dist') },
-        { from: path.join(__dirname, 'src', 'images'), to: path.join(__dirname, 'dist') },
-        { from: path.join(__dirname, 'src', 'Roboto-Light.ttf'), to: path.join(__dirname, 'dist') },
+        { from: join(__dirname, 'src', 'js', 'x.js'), to: join(__dirname, 'dist') },
+        { from: join(__dirname, 'src', 'css'), to: join(__dirname, 'dist') },
+        { from: join(__dirname, 'src', '_locales'), to: join(__dirname, 'dist', '_locales') },
+        { from: join(__dirname, 'src', 'mods'), to: join(__dirname, 'dist') },
+        { from: join(__dirname, 'src', 'icons'), to: join(__dirname, 'dist') },
+        { from: join(__dirname, 'src', 'images'), to: join(__dirname, 'dist') },
+        { from: join(__dirname, 'src', 'Roboto-Light.ttf'), to: join(__dirname, 'dist') },
         ]),
 
-        new Html_webpack_plugin({
-            template: path.join(__dirname, 'src', 'html', 'options.html'),
-            filename: 'options.html',
-            chunks: ['options'],
-        }),
-
-        new Html_webpack_plugin({
-            template: path.join(__dirname, 'src', 'html', 'new_tab.html'),
-            filename: 'new_tab.html',
-            chunks: ['new_tab'],
-        }),
-
         new Clean_webpack_plugin(['dist']),
-
-        new Write_file_webpack_plugin(),
-
-        new Hard_source_webpack_plugin(),
     ],
 
     resolve: {
         alias: {
-            js: path.join(__dirname, 'src', 'js'),
-            options: path.join(__dirname, 'src', 'js', 'options'),
-            new_tab: path.join(__dirname, 'src', 'js', 'new_tab'),
-            content_script: path.join(__dirname, 'src', 'js', 'content_script'),
-            background: path.join(__dirname, 'src', 'js', 'background'),
-            x$: path.join(__dirname, 'src', 'js', 'x.js'),
-            vue$: path.join(__dirname, 'node_modules', 'vue', 'dist', 'vue.esm.js'),
-            svg: path.join(__dirname, 'src', 'svg'),
-            imgs: path.join(__dirname, 'src', 'imgs'),
+            js: join(__dirname, 'src', 'js'),
+            options: join(__dirname, 'src', 'js', 'options'),
+            new_tab: join(__dirname, 'src', 'js', 'new_tab'),
+            content_script: join(__dirname, 'src', 'js', 'content_script'),
+            background: join(__dirname, 'src', 'js', 'background'),
+            x$: join(__dirname, 'src', 'js', 'x.js'),
+            vue$: join(__dirname, 'node_modules', 'vue', 'dist', 'vue.esm.js'),
+            svg: join(__dirname, 'src', 'svg'),
+            imgs: join(__dirname, 'src', 'imgs'),
         },
         extensions: ['.js', '.jsx', '.css', '.svg', '.png', '.gif'],
     },
