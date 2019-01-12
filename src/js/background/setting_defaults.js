@@ -1,11 +1,6 @@
-//> set_default_settings f
-
-//^
-
 import { db, init_db } from 'js/init_db';
 import * as shared_b_o from 'js/shared_b_o';
 
-//> set_default_settings f
 window.set_default_settings = async page => { // this function also called in options.js when clicking on "Restore Defaults" button
     const ext_data_o = {
         id: 1,
@@ -49,4 +44,3 @@ window.set_default_settings = async page => { // this function also called in op
     }
 
 };
-//< set_default_settings f

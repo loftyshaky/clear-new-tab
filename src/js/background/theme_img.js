@@ -1,16 +1,6 @@
-//> download theme crx, unpack it, access theme data from theme crx manifest, download theme image t
-
-//> delete_previous_themes_imgs f
-
-//> delete_previous_themes_imgs f
-
-//> rgb_to_hex f
-
-//> on theme installiation t
-
-//> varibles t
-
-//^
+import * as r from 'ramda';
+import jszip from 'jszip';
+import jszip_utils from 'jszip-utils';
 
 import x from 'x';
 import { db } from 'js/init_db';
@@ -19,11 +9,7 @@ import * as shared_b_o from 'js/shared_b_o';
 import * as img_loading from 'js/img_loading';
 import * as determine_theme_current_img from 'js/determine_theme_current_img';
 
-import jszip from 'jszip';
-import jszip_utils from 'jszip-utils';
-import * as r from 'ramda';
-
-//> download theme crx, unpack it, access theme data from theme crx manifest, download theme image t
+//> download theme crx, unpack it, access theme data from theme crx manifest, download theme image
 export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_already_exist, tab_id) => {
     const ext_data_not_loaded_yet = !ed;
 
@@ -133,9 +119,8 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
 
     return undefined;
 };
-//< download theme crx, unpack it, access theme data from theme crx manifest, download theme image t
+//< download theme crx, unpack it, access theme data from theme crx manifest, download theme image
 
-//> delete_previous_themes_imgs f
 const delete_previous_themes_imgs = async () => {
     try {
         if (ed.mode === 'theme' && !ed.keep_old_themes_imgs) {
@@ -157,13 +142,10 @@ const delete_previous_themes_imgs = async () => {
 
     return [];
 };
-//> delete_previous_themes_imgs f
 
-//> rgb_to_hex f
 const rgb_to_hex = r.pipe(r.map(val => val.toString(16).padStart(2, '0')), r.join(''));
-//< rgb_to_hex f
 
-//> on theme installiation t
+//> on theme installiation
 if (what_browser === 'chrome') {
     browser.management.onEnabled.addListener(ext_info => {
         if (ext_info.type === 'theme') {
@@ -171,9 +153,8 @@ if (what_browser === 'chrome') {
         }
     });
 }
-//< on theme installiation t
+//< on theme installiation
 
-//> varibles t
 const positions_dict = {
     top: 'center top',
     center: 'center center',
@@ -193,8 +174,7 @@ const positions_dict = {
 };
 
 const valid_file_types = ['.gif', '.jpeg', '.jpg', '.png'];
-//>1 purpose of this arrays is to exclude developers mistakes. ex: ntp_background_alignment set to "middle" instead of "center" (https://chrome.google.com/webstore/detail/%D0%B1%D0%B5%D0%B3%D1%83%D1%89%D0%B0%D1%8F-%D0%BB%D0%B8%D1%81%D0%B8%D1%87%D0%BA%D0%B0/pcogoppjgcggbmflbmiihnbbdcbnbkjp) t
+//>1 purpose of this arrays is to exclude developers mistakes. ex: ntp_background_alignment set to "middle" instead of "center" (https://chrome.google.com/webstore/detail/%D0%B1%D0%B5%D0%B3%D1%83%D1%89%D0%B0%D1%8F-%D0%BB%D0%B8%D1%81%D0%B8%D1%87%D0%BA%D0%B0/pcogoppjgcggbmflbmiihnbbdcbnbkjp)
 const positions = ['top', 'center', 'bottom', 'left top', 'top left', 'left center', 'center left', 'left bottom', 'bottom left', 'right top', 'top right', 'right center', 'center right', 'right bottom', 'bottom right'];
 const repeats = ['repeat', 'repeat-y', 'repeat-x', 'no-repeat'];
-//>1 purpose of this arrays is to exclude developers mistakes. ex: ntp_background_alignment set to "middle" instead of "center" (https://chrome.google.com/webstore/detail/%D0%B1%D0%B5%D0%B3%D1%83%D1%89%D0%B0%D1%8F-%D0%BB%D0%B8%D1%81%D0%B8%D1%87%D0%BA%D0%B0/pcogoppjgcggbmflbmiihnbbdcbnbkjp) t
-//< varibles t
+//>1 purpose of this arrays is to exclude developers mistakes. ex: ntp_background_alignment set to "middle" instead of "center" (https://chrome.google.com/webstore/detail/%D0%B1%D0%B5%D0%B3%D1%83%D1%89%D0%B0%D1%8F-%D0%BB%D0%B8%D1%81%D0%B8%D1%87%D0%BA%D0%B0/pcogoppjgcggbmflbmiihnbbdcbnbkjp)

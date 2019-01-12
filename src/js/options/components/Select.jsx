@@ -1,26 +1,15 @@
-//> Select c
-
-//>1 create one option element t
-
-//>1 change option value when selecting option t
-
-//>1 hide options when clicking on option or select_title t
-
-//^
+import React from 'react';
+import * as r from 'ramda';
+import { observer } from 'mobx-react';
 
 import x from 'x';
 import * as prevent_scrolling from 'js/prevent_scrolling';
 import * as shared_o from 'options/shared_o';
 import * as settings from 'options/settings';
-import { Tr } from 'js/Tr';
 
+import { Tr } from 'js/Tr';
 import { Help } from 'options/components/Help';
 
-import React from 'react';
-import * as r from 'ramda';
-import { observer } from 'mobx-react';
-
-//> Select c
 export class Select extends React.Component {
     constructor(props) {
         super(props);
@@ -34,7 +23,7 @@ export class Select extends React.Component {
         this.select = React.createRef();
     }
 
-    //>1 create one option element t
+    //> create one option element
     create_option = option => {
         const get_none_class = r.ifElse(() => !this.show_global_options && option.global,
             () => 'none',
@@ -43,17 +32,17 @@ export class Select extends React.Component {
 
         return <li role="presentation" key={option.key} className={x.cls(['option', get_none_class()])} data-storage={option.storage} data-val={option.val} onClick={this.change_select_val}>{option.text}</li>;
     }
-    //<1 create one option element t
+    //< create one option element
 
-    //>1 change option value when selecting option t
+    //> change option value when selecting option
     change_select_val = e => {
         settings.change_select_val(e.target.dataset.storage, e.target.dataset.val, e.target.textContent);
 
         this.hide_options();
     }
-    //<1 change option value when selecting option t
+    //< change option value when selecting option
 
-    //>1 hide options when clicking on option or select_title t
+    //> hide options when clicking on option or select_title
     hide_options = async () => {
         if (document.activeElement === this.select_w.current) {
             await x.delay(0);
@@ -61,7 +50,7 @@ export class Select extends React.Component {
             this.select_w.current.blur();
         }
     }
-    //<1 hide options when clicking on option or select_title t
+    //< hide options when clicking on option or select_title
 
     render() {
         const options = settings.options[this.name];
@@ -106,6 +95,5 @@ export class Select extends React.Component {
         );
     }
 }
-//< Select c
 
 observer(Select);

@@ -1,58 +1,14 @@
-//> paste image or image url t
-
-//> filter files loaded with upload box (keep only images) and call put in db function t
-
-//> create_solid_color_img t
-
-//> pack images and insert them in db t
-
-//>1 pack images t
-
-//>1 insert image packs in db t
-
-//>1 reload img_a in background.js t
-
-//>1 reload img_a in background.js t
-
-//> create images on extensions' options page on load or click on load btn t
-
-//> insert images in images fieldset (set state) t
-
-//> show one image after it fully loaded t
-
-//> show transparency background checkerboard t
-
-//> show_or_hide_upload_error_messages f
-
-//> hide_or_show_load_btns f
-
-//> hide_upload_box_messages f
-
-//> show_upload_box_error_message f
-
-//> show_upload_box_uploading_message f
-
-//> change_paste_input_placeholder_val f
-
-//> hide loading_screen when images loaded on options page load t
-
-//> generate_random_pastel_color f
-
-//> varibles t
-
-//^
+import { observable, action, runInAction, configure } from 'mobx';
+import * as r from 'ramda';
 
 import x from 'x';
 import { db } from 'js/init_db';
 import * as shared_o from 'options/shared_o';
 import * as shared_b_o from 'js/shared_b_o';
 
-import { observable, action, runInAction, configure } from 'mobx';
-import * as r from 'ramda';
-
 configure({ enforceActions: true });
 
-//> paste image or image url t
+//> paste image or image url
 export const get_pasted_image_or_image_url = async e => {
     shared_o.disable_ui();
     hide_upload_box_messages();
@@ -129,9 +85,9 @@ export const get_pasted_image_or_image_url = async e => {
 
     shared_o.enable_ui();
 };
-//< paste image or image url t
+//< paste image or image url
 
-//> filter files loaded with upload box (keep only images) and call put in db function t
+//> filter files loaded with upload box (keep only images) and call put in db function
 export const handle_files = async files => {
     shared_o.disable_ui();
     change_paste_input_placeholder_val(null);
@@ -158,9 +114,9 @@ export const handle_files = async files => {
 
     shared_o.enable_ui();
 };
-//< filter files loaded with upload box (keep only images) and call put in db function t
+//< filter files loaded with upload box (keep only images) and call put in db function
 
-//> create_solid_color_img t
+//> create_solid_color_img
 export const create_solid_color_img = color => {
     shared_o.mut.current_color_pickier.el = null;
 
@@ -168,12 +124,12 @@ export const create_solid_color_img = color => {
 
     shared_o.set_color_input_vizualization_color('create_solid_color_img', color);
 };
-//< create_solid_color_img t
+//< create_solid_color_img
 
-//> pack images and insert them in db t
+//> pack images and insert them in db
 export const populate_storage_with_images = async (type, status, imgs, theme_img_info, theme_id) => {
     try {
-        //>1 pack images t
+        //>1 pack images
         const add_theme_modifier_to_type = () => (r.isEmpty(theme_img_info) ? type : `theme_${type}`);
 
         const number_of_imgs = await db.imgs.count();
@@ -217,11 +173,11 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
 
             return undefined;
         });
-        //<1 pack images t
+        //<1 pack images
 
-        //>1 insert image packs in db t
+        //>1 insert image packs in db
         const last_img_id = await db.transaction('rw', db.imgs, () => db.imgs.bulkAdd(packed_imgs));
-        //<1 insert image packs in db t
+        //<1 insert image packs in db
 
         const number_of_img_w = sa('.img_w').length;
 
@@ -235,11 +191,11 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
             hide_or_show_load_btns('uploaded_imgs_but_not_added_any_imgs_to_ui');
         }
 
-        //>1 reload img_a in background.js t
+        //>1 reload img_a in background.js
         if (page === 'options') {
             await x.send_message_to_background_c({ message: 'retrieve_imgs' });
         }
-        //>1 reload img_a in background.js t
+        //>1 reload img_a in background.js
 
         await shared_b_o.get_new_future_img(ed.current_img + 1);
         await x.send_message_to_background({ message: 'preload_img' });
@@ -258,9 +214,9 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
 
     return undefined;
 };
-//< pack images and insert them in db t
+//< pack images and insert them in db
 
-//> create images on extensions' options page on load or click on load btn t
+//> create images on extensions' options page on load or click on load btn
 export const load_50_or_all_imgs = async (limit, mode) => { // g
     shared_o.disable_ui();
 
@@ -286,19 +242,19 @@ export const load_50_or_all_imgs = async (limit, mode) => { // g
         console.error(er);
     }
 };
-//< create images on extensions' options page on load or click on load btn t
+//< create images on extensions' options page on load or click on load btn
 
-//> insert images in images fieldset (set state) t
-export const create_loaded_imgs = action(imgs => { // action
+//> insert images in images fieldset (set state)
+export const create_loaded_imgs = action(imgs => {
     shared_o.ob.imgs.replace(r.union(shared_o.ob.imgs.slice())(imgs));
 
     const last_inserted_img_id = imgs[imgs.length - 1] ? imgs[imgs.length - 1].id : 'uploaded_imgs_but_not_added_any_imgs_to_ui';
 
     hide_or_show_load_btns(last_inserted_img_id);
 });
-//< insert images in images fieldset (set state) t
+//< insert images in images fieldset (set state)
 
-//> show one image after it fully loaded t
+//> show one image after it fully loaded
 export const show_loaded_img = async (id, img_el) => {
     await x.delay(100);
 
@@ -315,9 +271,9 @@ export const show_loaded_img = async (id, img_el) => {
         }
     });
 };
-//< show one image after it fully loaded t
+//< show one image after it fully loaded
 
-//> show transparency background checkerboard t
+//> show transparency background checkerboard
 export const show_checkerboard = async id => {
     await x.delay(100);
 
@@ -329,9 +285,8 @@ export const show_checkerboard = async id => {
         }
     });
 };
-//< show transparency background checkerboard t
+//< show transparency background checkerboard
 
-//> show_or_hide_upload_error_messages f
 const show_or_hide_upload_error_messages = status => {
     hide_upload_box_messages();
 
@@ -347,9 +302,7 @@ const show_or_hide_upload_error_messages = status => {
         change_paste_input_placeholder_val(x.msg('upload_box_error_message_text'));
     }
 };
-//< show_or_hide_upload_error_messages f
 
-//> hide_or_show_load_btns f
 const hide_or_show_load_btns = async last_inserted_img_id => {
     try {
         const number_of_imgs = await db.imgs.count();
@@ -369,37 +322,22 @@ const hide_or_show_load_btns = async last_inserted_img_id => {
         console.error(er);
     }
 };
-//< hide_or_show_load_btns f
 
-//> hide_upload_box_messages f
-const hide_upload_box_messages = action(() => { // action
+const hide_upload_box_messages = action(() => {
     ob.upload_box_uploading_message_none_cls = 'none';
     ob.upload_box_error_message_none_cls = 'none';
 });
-//< hide_upload_box_messages f
 
-//> show_upload_box_error_message f
 const show_upload_box_error_message = action(() => { ob.upload_box_error_message_none_cls = ''; });
-//< show_upload_box_error_message f
 
-//> show_upload_box_uploading_message f
 const show_upload_box_uploading_message = action(() => { ob.upload_box_uploading_message_none_cls = ''; });
 
-//< show_upload_box_uploading_message f
-
-//> change_paste_input_placeholder_val f
 const change_paste_input_placeholder_val = action(val => { ob.paste_input_placeholder = val; });
-//< change_paste_input_placeholder_val f
 
-//> hide loading_screen when images loaded on options page load t
-export const hide_loading_screen = action(() => { ob.show_loading_screen = false; });
-//< hide loading_screen when images loaded on options page load t
+export const hide_loading_screen = action(() => { ob.show_loading_screen = false; }); //> hide loading_screen when images loaded on options page load
 
-//> generate_random_pastel_color f
 export const generate_random_pastel_color = () => `hsl(${360 * Math.random()},${25 + 70 * Math.random()}%,${70 + 10 * Math.random()}%)`;
-//< generate_random_pastel_color f
 
-//> varibles t
 export const mut = {
     imgs_loaded: 0,
     total_imgs_to_load: 0,
@@ -413,4 +351,3 @@ export const ob = observable({
     upload_box_error_message_none_cls: 'none',
     paste_input_placeholder: '',
 });
-//< varibles t

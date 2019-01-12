@@ -1,10 +1,6 @@
-//> recieve messages t
-
-//^
-
 import x from 'x';
 
-//> recieve messages t
+//> recieve messages
 browser.runtime.onMessage.addListener((message, sender, send_response) => {
     const msg = message.message;
 
@@ -19,4 +15,4 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
         send_response();
     }
 });
-//< recieve messages t
+//< recieve messages

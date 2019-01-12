@@ -1,22 +1,15 @@
-//> Ff_install_btn c
-
-//>1 install_theme f
-
-//^
-
-import x from 'x';
-import * as installing_theme from 'content_script/installing_theme';
-
 import React from 'react';
 import { observable, runInAction, configure } from 'mobx';
 import { observer } from 'mobx-react';
+
+import x from 'x';
+import * as installing_theme from 'content_script/installing_theme';
 
 configure({ enforceActions: true });
 
 const ff_install_btn_text = x.msg('ff_install_btn_text');
 const ff_install_btn_installing_text = x.msg('ff_install_btn_installing_text');
 
-//> Ff_install_btn c
 export class Ff_install_btn extends React.Component {
     constructor(props) {
         super(props);
@@ -26,7 +19,6 @@ export class Ff_install_btn extends React.Component {
         });
     }
 
-    //>1 install_theme f
     install_theme = async () => {
         const { theme_id } = this.props;
 
@@ -40,7 +32,6 @@ export class Ff_install_btn extends React.Component {
             this.ob.ff_install_btn_text = ff_install_btn_text;
         });
     }
-    //<1 install_theme f
 
     render() {
         return (
@@ -54,6 +45,5 @@ export class Ff_install_btn extends React.Component {
         );
     }
 }
-//< Ff_install_btn c
 
 observer(Ff_install_btn);

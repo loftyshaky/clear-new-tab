@@ -1,21 +1,9 @@
-//> on updated listener (when openining tab or changing url) t
-
-//> on removed listener (when tab closed) t
-
-//> confirm_that_opened_tab_is_new_tab_page_and_that_it_is_not_in_preview_mode f
-
-//> update_time_setting_and_start_timer f
-
-//> varibles t
-
-//^
-
 import x from 'x';
 import { db } from 'js/init_db';
 import * as shared_b from 'background/shared_b';
 import * as multiple from 'background/multiple';
 
-//> on updated listener (when openining tab or changing url) t
+//> on updated listener (when openining tab or changing url)
 browser.tabs.onUpdated.addListener((id, info) => {
     if (info.status === 'complete') {
         confirm_that_opened_tab_is_new_tab_page_and_that_it_is_not_in_preview_mode(id, (id_, is_opened_tab_new_tab_page) => {
@@ -32,17 +20,16 @@ browser.tabs.onUpdated.addListener((id, info) => {
         });
     }
 });
-//< on updated listener (when openining tab or changing url) t
+//< on updated listener (when openining tab or changing url)
 
-//> on removed listener (when tab closed) t
+//> on removed listener (when tab closed)
 browser.tabs.onRemoved.addListener(id => {
     if (mut.new_tabs_ids.indexOf(id) > -1) {
         mut.new_tabs_ids.splice(mut.new_tabs_ids.indexOf(id), 1);
     }
 });
-//< on removed listener (when tab closed) t
+//< on removed listener (when tab closed)
 
-//> confirm_that_opened_tab_is_new_tab_page_and_that_it_is_not_in_preview_mode f
 const confirm_that_opened_tab_is_new_tab_page_and_that_it_is_not_in_preview_mode = async (id, callback) => {
     let is_opened_tab_new_tab_page;
 
@@ -56,9 +43,7 @@ const confirm_that_opened_tab_is_new_tab_page_and_that_it_is_not_in_preview_mode
         callback(id, is_opened_tab_new_tab_page);
     }
 };
-//< confirm_that_opened_tab_is_new_tab_page_and_that_it_is_not_in_preview_mode f
 
-//> update_time_setting_and_start_timer f
 export const update_time_setting_and_start_timer = async () => {
     const ms_left = shared_b.get_ms_left();
 
@@ -71,10 +56,7 @@ export const update_time_setting_and_start_timer = async () => {
 
     multiple.start_timer();
 };
-//< update_time_setting_and_start_timer f
 
-//> varibles t
 export const mut = {
     new_tabs_ids: [],
 };
-//< varibles t

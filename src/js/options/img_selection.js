@@ -1,19 +1,12 @@
-//> select image when clicking on it t
 
-//> change_selected_img f
-
-//> deselect_selected_img f
-
-//^
+import { action, configure } from 'mobx';
 
 import x from 'x';
 import * as shared_o from 'options/shared_o';
 
-import { action, configure } from 'mobx';
-
 configure({ enforceActions: true });
 
-//> select image when clicking on it t
+//> select image when clicking on it
 export const select_img = async (clicked_img_id, e) => {
     const clicked_img_i = shared_o.get_img_i_by_id(clicked_img_id);
     const not_img_preview = !x.matches(e.target, '.img_preview');
@@ -49,18 +42,15 @@ export const select_img = async (clicked_img_id, e) => {
         }
     }
 };
-//< select image when clicking on it t
+//< select image when clicking on it
 
-//> change_selected_img f
 const change_selected_img = action((clicked_img_id, clicked_img_i) => {
     deselect_selected_img();
 
     shared_o.mut.selected_img_id = clicked_img_id;
     shared_o.ob.imgs[clicked_img_i].selected = true;
 });
-//< change_selected_img f
 
-//> deselect_selected_img f
 const deselect_selected_img = action(() => {
     const selected_img_i = shared_o.get_img_i_by_id(shared_o.mut.selected_img_id);
     const img_exist = shared_o.ob.imgs[selected_img_i]; // if not deleted selected image
@@ -69,4 +59,3 @@ const deselect_selected_img = action(() => {
         shared_o.ob.imgs[selected_img_i].selected = false;
     }
 });
-//< deselect_selected_img f

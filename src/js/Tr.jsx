@@ -1,19 +1,3 @@
-//> Tr c
-
-//>1 observables t
-
-//>1 choose component mode (shown or hidden) t
-
-//>1 hide component when it faded out or show component when it starting fading in t
-
-//>1 create fade transitions t
-
-//>1 create other transitions f
-
-//>1 camel_case_to_dash f
-
-//^
-
 import React from 'react';
 import { decorate, observable, action, configure } from 'mobx';
 import { observer } from 'mobx-react';
@@ -21,11 +5,9 @@ import * as r from 'ramda';
 
 configure({ enforceActions: true });
 
-//> Tr c
 export class Tr extends React.Component {
     constructor(props) {
         super(props);
-
 
         ({
             name: this.name,
@@ -46,9 +28,9 @@ export class Tr extends React.Component {
             upload_box: this.create_tran(this.normal_duration, 'backgroundColor', '#5d7daf', '#3b6ab5'), // 3b6ab5
         };
 
-        //>1 observables t
+        //> observables
         this.display_style = {};
-        //<1 observables t
+        //< observables
     }
 
     componentWillMount() {
@@ -59,15 +41,15 @@ export class Tr extends React.Component {
         this.hide_component(true);
     }
 
-    //>1 choose component mode (shown or hidden) t
+    //> choose component mode (shown or hidden)
     transit = (name, state) => {
         const result = state ? this.transitions[name].active : this.transitions[name].def;
 
         return result;
     }
-    //<1 choose component mode (shown or hidden) t
+    //< choose component mode (shown or hidden)
 
-    //>1 hide component when it faded out or show component when it starting fading in t
+    //> hide component when it faded out or show component when it starting fading in
     hide_component = (called_from_component_did_update, tr_end_callbacks, e) => {
         const { state } = this.props;
         const component_is_active = state;
@@ -98,9 +80,9 @@ export class Tr extends React.Component {
             tr_end_callbacks.forEach(f => f(e));
         }
     }
-    //<1 hide component when it faded out or show component when it starting fading in t
+    //< hide component when it faded out or show component when it starting fading in
 
-    //>1 create fade transitions t
+    //> create fade transitions
     create_fade = (duration, opacity) => {
         const fade = {
             def: {
@@ -115,9 +97,9 @@ export class Tr extends React.Component {
 
         return fade;
     };
-    //<1 create fade transitions t
+    //< create fade transitions
 
-    //>1 create other transitions f
+    //> create other transitions
     create_tran = (duration, type, def, active) => {
         const tran = {
             def: {
@@ -133,11 +115,9 @@ export class Tr extends React.Component {
 
         return tran;
     };
-    //<1 create other transitions f
+    //< create other transitions
 
-    //>1 camel_case_to_dash f
     camel_case_to_dash = str => str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
-    //<1 camel_case_to_dash f
 
     render() {
         const { state } = this.props;
@@ -153,7 +133,6 @@ export class Tr extends React.Component {
         );
     }
 }
-//< Tr c
 
 decorate(Tr, {
     display_style: observable,

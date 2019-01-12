@@ -4,7 +4,6 @@ import * as shared_b from 'background/shared_b';
 import * as tabs from 'background/tabs';
 import * as shared_b_o from 'js/shared_b_o';
 
-//> start_timer f
 export const start_timer = async () => {
     if (!mut.starting_timer) {
         mut.starting_timer = true;
@@ -26,9 +25,7 @@ export const start_timer = async () => {
         }
     }
 };
-//< start_timer f
 
-//> start_timer_inner f
 const start_timer_inner = async delay => {
     mut.timer = setTimeout(async () => {
         const at_least_one_new_tab_tab_opened = tabs.mut.new_tabs_ids.length > 0;
@@ -50,9 +47,7 @@ const start_timer_inner = async delay => {
         }, ed.change_interval !== 1 ? 0 : 3000);
     }, delay);
 };
-//< start_timer_inner f
 
-//> clear_timer f
 export const clear_timer = () => {
     clearTimeout(mut.timer);
     clearTimeout(mut.timer_innner);
@@ -60,9 +55,8 @@ export const clear_timer = () => {
     mut.starting_timer = false;
     mut.number_of_inner_timers_running = 0;
 };
-//< clear_timer f
 
-//> decide what image to show next t
+//> decide what image to show next
 const get_next_img = async () => {
     try {
         if (ed.mode === 'multiple') {
@@ -85,12 +79,10 @@ const get_next_img = async () => {
         console.error(er);
     }
 };
-//< decide what image to show next t
+//< decide what image to show next
 
-//> variables t
 const mut = {
     timer: null,
     starting_timer: false,
     number_of_inner_timers_running: 0,
 };
-//< varibles t

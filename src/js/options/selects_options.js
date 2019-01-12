@@ -1,12 +1,7 @@
-//> create select text content t
-
-//^
-
 import x from 'x';
 
-//> create select text content t
-const create_option_data_text_val = modifier => x.msg(`option_${modifier}_text`);
-//< create select text content t
+const create_option_data_text_val = modifier => x.msg(`option_${modifier}_text`); //< create select text content
+
 
 export const selects_options = {
     mode: [

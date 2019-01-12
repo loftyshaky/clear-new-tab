@@ -1,15 +1,9 @@
-//> render options page ui t
-
-//>1 remove no_tr css t
-
-//^
-
-import 'normalize.css';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 import x from 'x';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import 'normalize.css';
 
 export const run_everything = async All_type => {
     let All;
@@ -37,12 +31,12 @@ export const run_everything = async All_type => {
         // no default
     }
 
-    //> render options page ui t
+    //> render options page ui
     ReactDOM.render(
         <All />,
         s('#root'),
         async () => {
-            //>1 remove no_tr css t
+            //>1 remove no_tr css
             await x.delay(500);
 
             const no_tr = sb(document.head, '.no_tr');
@@ -50,10 +44,10 @@ export const run_everything = async All_type => {
             if (no_tr) {
                 x.remove(no_tr);
             }
-            //<1 remove no_tr css t
+            //<1 remove no_tr css
         },
     );
 
     x.localize(document);
-    //< render options page ui t
+    //< render options page ui
 };

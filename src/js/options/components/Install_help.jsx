@@ -1,24 +1,17 @@
-//> Install_help c
-
-//>1 hide install help when clicking on "here" t
-
-//^
-
-import x from 'x';
-import { db } from 'js/init_db';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { observable, action, configure } from 'mobx';
 import { observer } from 'mobx-react';
 
+import x from 'x';
+import { db } from 'js/init_db';
+
 import { Tr } from 'js/Tr';
 
 configure({ enforceActions: true });
 
-//> Install_help c
 export class Install_help extends React.Component {
-    //>1 hide install help when clicking on "here" t
+    //> hide install help when clicking on "here"
     hide_install_help = action(e => {
         e.preventDefault(e);
 
@@ -26,7 +19,7 @@ export class Install_help extends React.Component {
 
         this.ob.show_install_help = false;
     });
-    //<1 hide install help when clicking on "here" t
+    //< hide install help when clicking on "here"
 
     constructor(props) {
         super(props);
@@ -54,6 +47,5 @@ export class Install_help extends React.Component {
         );
     }
 }
-//< Install_help c
 
 observer(Install_help);

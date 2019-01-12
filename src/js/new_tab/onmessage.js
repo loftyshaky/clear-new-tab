@@ -1,11 +1,7 @@
-//> recieve messages t
-
-//^
-
 import x from 'x';
 import * as imgs from 'new_tab/imgs';
 
-//> recieve messages t
+//> recieve messages
 browser.runtime.onMessage.addListener(async (message, sender, send_response) => {
     const msg = message.message;
 
@@ -38,4 +34,4 @@ browser.runtime.onMessage.addListener(async (message, sender, send_response) => 
 
     return true;
 });
-//< recieve messages t
+//< recieve messages

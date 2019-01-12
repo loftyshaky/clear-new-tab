@@ -1,20 +1,14 @@
-//> Checkbox c
-
-//> Global_checkbox c
-
-//^
-
-import * as shared_o from 'options/shared_o';
-import * as permissions from 'options/permissions';
-import { Tr } from 'js/Tr';
-
-import checkmark_svg from 'svg/checkmark';
-
 import Svg from 'svg-inline-react';
 import React from 'react';
 import { observer } from 'mobx-react';
 
-//> Checkbox c
+import * as shared_o from 'options/shared_o';
+import * as permissions from 'options/permissions';
+
+import { Tr } from 'js/Tr';
+
+import checkmark_svg from 'svg/checkmark';
+
 export const Checkbox = observer(props => {
     const checkbox_visibility = shared_o.ob.hidable_input_items[props.name];
 
@@ -31,9 +25,7 @@ export const Checkbox = observer(props => {
         </Tr>
     );
 });
-//< Checkbox c
 
-//> Global_checkbox c
 export const Global_checkbox = observer(props => {
     const checked = ed[props.name] || permissions.ob.optional_permissions_checkboxes[props.name] || props.checked;
     const onchange_f = props.onchange_f.bind ? props.onchange_f.bind(null, 'checkbox', props.name, null) : props.onchange_f;
@@ -63,4 +55,3 @@ export const Global_checkbox = observer(props => {
         </Tr>
     );
 });
-//< Global_checkbox c

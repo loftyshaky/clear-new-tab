@@ -1,23 +1,16 @@
-//> insert "Install theme" buttons t
-
-//> insert "Undo" button t
-
-//^
-
-import 'normalize.css';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 import x from 'x';
-
 import 'content_script/onmessage';
 import * as installing_theme from 'content_script/installing_theme';
 
 import { Ff_install_btn } from 'content_script/components/Ff_install_btn';
 import { Undo_btn } from 'content_script/components/Undo_btn';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import 'normalize.css';
 
-//> insert "Install theme" buttons t
+//> insert "Install theme" buttons
 (() => {
     const observer = new MutationObserver((mutations => {
         mutations.forEach(mutation => {
@@ -56,9 +49,9 @@ import ReactDOM from 'react-dom';
 
     observer.observe(document.body, { childList: true, subtree: true });
 })();
-//< insert "Install theme" buttons t
+//< insert "Install theme" buttons
 
-//> insert "Undo" button t
+//> insert "Undo" button
 (() => {
     const undo_btn_w = x.create('div', 'undo_btn_w');
     x.append(document.body, undo_btn_w);
@@ -68,4 +61,4 @@ import ReactDOM from 'react-dom';
         undo_btn_w,
     );
 })();
-//< insert "Undo" button t
+//< insert "Undo" button

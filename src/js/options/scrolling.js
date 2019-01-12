@@ -1,19 +1,11 @@
-//> show / hide imgs_fieldset_fillers t
-
-//> show_imgs_fieldset_filler_bottom f
-
-//> varibles t
-
-//^
+import { observable, action, configure } from 'mobx';
 
 import * as prevent_scrolling from 'js/prevent_scrolling';
 
-import { observable, action, configure } from 'mobx';
-
 configure({ enforceActions: true });
 
-//> show / hide imgs_fieldset_fillers t
-export const show_or_hide_imgs_fieldset_fillers = action(() => { // action
+//> show / hide imgs_fieldset_fillers
+export const show_or_hide_imgs_fieldset_fillers = action(() => {
     const scroll_top = mut.imgs_fieldset.scrollTop;
     const scroll_height = mut.imgs_fieldset.scrollHeight - mut.imgs_fieldset.clientHeight;
     const at_the_top_of_imgs_fieldset_scrolling_down = scroll_top !== 0 && prevent_scrolling.mut.delta_y > 0 && scroll_top <= 14;
@@ -38,15 +30,11 @@ export const show_or_hide_imgs_fieldset_fillers = action(() => { // action
         ob.imgs_fieldset_filler_bottom_none_cls = '';
     }
 });
-//< show / hide imgs_fieldset_fillers t
+//< show / hide imgs_fieldset_fillers
 
-//> show_imgs_fieldset_filler_bottom f
-export const show_imgs_fieldset_filler_bottom = action(() => { // action
+export const show_imgs_fieldset_filler_bottom = action(() => {
     ob.imgs_fieldset_filler_bottom_none_cls = '';
 });
-//< show_imgs_fieldset_filler_bottom f
-
-//> varibles t
 
 export const mut = {
     imgs_fieldset: null,
@@ -56,4 +44,3 @@ export const ob = observable({
     imgs_fieldset_filler_top_none_cls: 'none',
     imgs_fieldset_filler_bottom_none_cls: '',
 });
-//< varibles t

@@ -1,14 +1,4 @@
-//> get_img_i_by_id f
-
-//> get_img_id_by_i f
-
-//> loop_through_imgs_a_elms_that_need_to_be_moved f
-
-//> revoke_preview_img f
-
-//> recieve messages t
-
-//^
+import * as r from 'ramda';
 
 import x from 'x';
 import * as shared_b from 'background/shared_b';
@@ -17,17 +7,9 @@ import * as tabs from 'background/tabs';
 import * as multiple from 'background/multiple';
 import * as determine_theme_current_img from 'js/determine_theme_current_img';
 
-import * as r from 'ramda';
-
-//> get_img_i_by_id f
 const get_img_i_by_id = id => shared_b.mut.imgs.findIndex(img => img.id === id);
-//< get_img_i_by_id f
 
-//> get_img_id_by_i f
 const get_img_id_by_i = i => shared_b.mut.imgs[i].id;
-//< get_img_id_by_i f
-
-//> loop_through_imgs_a_elms_that_need_to_be_moved f
 
 const loop_through_imgs_a_elms_that_need_to_be_moved = (move_type, start_i, end_i, callback) => {
     if (move_type === 'forward') {
@@ -41,15 +23,12 @@ const loop_through_imgs_a_elms_that_need_to_be_moved = (move_type, start_i, end_
         }
     }
 };
-//< loop_through_imgs_a_elms_that_need_to_be_moved f
 
-//> revoke_preview_img f
 const revoke_preview_img = preview_img_url => {
     URL.revokeObjectURL(preview_img_url);
 };
-//< revoke_preview_img f
 
-//> recieve messages t
+//> recieve messages
 browser.runtime.onMessage.addListener((message, sender, send_response) => {
     const msg = message.message;
 
@@ -219,4 +198,4 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
 
     return true; // without this callback of sendMessage function fires without waiting for async operation completion
 });
-//< recieve messages t
+//< recieve messages

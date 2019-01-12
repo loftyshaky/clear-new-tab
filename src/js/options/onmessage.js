@@ -1,22 +1,14 @@
-//> recieve messages t
-
-//> delete old theme images t
-
-//> add new theme image t
-
-//^
+import { runInAction, configure } from 'mobx';
+import * as r from 'ramda';
 
 import x from 'x';
 import { db } from 'js/init_db';
 import * as shared_o from 'options/shared_o';
 import * as img_deletion from 'options/img_deletion';
 
-import { runInAction, configure } from 'mobx';
-import * as r from 'ramda';
-
 configure({ enforceActions: true });
 
-//> recieve messages t
+//> recieve messages
 browser.runtime.onMessage.addListener(async message => {
     const msg = message.message;
 
@@ -28,7 +20,7 @@ browser.runtime.onMessage.addListener(async message => {
         const number_of_imgs = await db.imgs.count();
 
         if (there_is_imgs_to_delete) {
-            //> delete old theme images t
+            //>1 delete old theme images
             const imgs_deleted = shared_o.ob.imgs.map(img => {
                 const id_of_img_to_delete_matched = ids_of_theme_imgs_to_delete_filtered.indexOf(img.id) > -1;
 
@@ -43,7 +35,7 @@ browser.runtime.onMessage.addListener(async message => {
             runInAction(() => {
                 shared_o.ob.imgs.replace(imgs_deleted);
             });
-            //< delete old theme images t
+            //<1 delete old theme images
         }
 
         const ids_of_imgs_to_show = await x.send_message_to_background_c({
@@ -54,7 +46,7 @@ browser.runtime.onMessage.addListener(async message => {
             number_of_visible_imgs,
         });
 
-        //> add new theme image t
+        //>1 add new theme image
         const imgs_to_show = await db.imgs.where('id').anyOf(ids_of_imgs_to_show).toArray();
         const number_of_imgs_to_show_minus_number_of_imgs_to_delete = ids_of_imgs_to_show.length - ids_of_theme_imgs_to_delete_filtered.length;
 
@@ -66,7 +58,7 @@ browser.runtime.onMessage.addListener(async message => {
         } else {
             shared_o.mut.offset = 50;
         }
-        //< add new theme image t
+        //<1 add new theme image
     } else if (msg === 'change_current_img_input_val') {
         await x.get_ed();
 
@@ -82,4 +74,4 @@ browser.runtime.onMessage.addListener(async message => {
 
     return undefined;
 });
-//< recieve messages t
+//< recieve messages

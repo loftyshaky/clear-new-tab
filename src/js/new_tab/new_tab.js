@@ -1,5 +1,3 @@
-//^
-
 import x from 'x';
 import 'new_tab/onmessage';
 import { run_everything } from 'js/init_All';

@@ -1,9 +1,3 @@
-//> Help c
-
-//>1 show or hide help_message when clicking on help_link t
-
-//^
-
 import React from 'react';
 import { observable, action, configure } from 'mobx';
 import { observer } from 'mobx-react';
@@ -12,15 +6,14 @@ import { Tr } from 'js/Tr';
 
 configure({ enforceActions: true });
 
-//> Help c
 export class Help extends React.Component {
-    //>1 show or hide help_message when clicking on help_link t
+    //> show or hide help_message when clicking on help_link
     show_or_hide_help_message = action(e => {
         e.preventDefault(e);
 
         this.ob.show_help_message = !this.ob.show_help_message;
     });
-    //<1 show or hide help_message when clicking on help_link t
+    //< show or hide help_message when clicking on help_link
 
     constructor(props) {
         super(props);
@@ -61,6 +54,5 @@ export class Help extends React.Component {
             : null;
     }
 }
-//< Help c
 
 observer(Help);

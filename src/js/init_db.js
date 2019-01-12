@@ -1,5 +1,3 @@
-//^
-
 import Dexie from 'dexie';
 
 export let db; // eslint-disable-line import/no-mutable-exports

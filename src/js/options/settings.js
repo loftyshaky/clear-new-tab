@@ -1,59 +1,14 @@
-//> change_settings f
-
-//> color input t
-
-//>1 change color setting t
-
-//>1 change_color_global_checkbox_setting f
-
-//>1 show_or_hide_color_pickier_when_clicking_on_color_input_vizualization f
-
-//>2 try to hide color pickier when clicking outside of color pickier t
-
-//>2 try to show color pickier when clicking on color_input_vizualization t
-
-//>1 show_or_hide_color_pickier f
-
-//>1 set_color_color_pickier_position f
-
-//> selects text t
-
-//>1 change option value when selecting option; hide / show global options / background color 'Global' checkbox when selecting img / 'Global' option in settings type input t
-
-//>1 change option value when selecting option; hide / show global options / background color 'Global' checkbox when selecting img / 'Global' option in settings type input t
-
-//>1 get selects text on page load, all images deletion or image selection t
-
-//>1 get selects text on page load, all images deletion or image selection t
-
-//> current_img input t
-
-//>1 change_current_img_by_typing_into_currrent_img_input f
-
-//>1 change_current_img_by_clicking_on_select_img_btn f
-
-//>1 change_current_img_insert_in_db f
-
-//>1 correct current image input value when defocusing correct image input t
-
-//> restore_default_global_settings f
-
-//> varibles t
-
-//^
-
-import x from 'x';
-import { db } from 'js/init_db';
-import * as shared_o from 'options/shared_o';
-import { selects_options } from 'options/selects_options';
-import * as shared_b_o from 'js/shared_b_o';
-
 import { observable, action, configure } from 'mobx';
 import * as r from 'ramda';
 
+import x from 'x';
+import { db } from 'js/init_db';
+import { selects_options } from 'options/selects_options';
+import * as shared_o from 'options/shared_o';
+import * as shared_b_o from 'js/shared_b_o';
+
 configure({ enforceActions: true });
 
-//> change_settings f
 export const change_settings = async (input_type, storage, val) => {
     try {
         const global_and_specefic_storages = ['size', 'position', 'repeat', 'color'];
@@ -114,14 +69,10 @@ export const change_settings = async (input_type, storage, val) => {
         console.error(er);
     }
 };
-//< change_settings f
 
-//> color input t
-//>1 change color setting t
+//> color input
 export const change_settings_color = r.curry(change_settings)('color', 'color');
-//<1 change color setting t
 
-//>1 change_color_global_checkbox_setting f
 export const change_color_global_checkbox_setting = async () => {
     const new_val = ob.color_global_checkbox_state ? ed.color : 'global';
 
@@ -136,16 +87,14 @@ export const change_color_global_checkbox_setting = async () => {
         shared_o.set_color_input_vizualization_color('color', ed.color);
     }
 };
-//<1 change_color_global_checkbox_setting f
 
-//>1 show_or_hide_color_pickier_when_clicking_on_color_input_vizualization f
 export const show_or_hide_color_pickier_when_clicking_on_color_input_vizualization = e => {
     const color_ok_btn_clicked = x.matches(e.target, '.color_ok_btn');
 
     if (!color_ok_btn_clicked) {
         const previously_opened_color_pickier = shared_o.mut.current_color_pickier.el;
 
-        //>2 try to hide color pickier when clicking outside of color pickier t
+        //>1 try to hide color pickier when clicking outside of color pickier
         if (previously_opened_color_pickier) { // if current color pickier's current state exsist
             const clicked_outside_of_color_pickier = !shared_o.mut.current_color_pickier.el.contains(e.target);
 
@@ -157,9 +106,9 @@ export const show_or_hide_color_pickier_when_clicking_on_color_input_vizualizati
                 shared_o.set_color_input_vizualization_color(shared_o.mut.current_color_pickier.name, shared_o.mut.current_color_pickier.color);
             }
         }
-        //<2 try to hide color pickier when clicking outside of color pickier t
+        //<1 try to hide color pickier when clicking outside of color pickier
 
-        //>2 try to show color pickier when clicking on color_input_vizualization t
+        //>1 try to show color pickier when clicking on color_input_vizualization
         const clicked_on_color_input_vizualization = x.matches(e.target, '.color_input_vizualization');
 
         if (clicked_on_color_input_vizualization) {
@@ -183,26 +132,21 @@ export const show_or_hide_color_pickier_when_clicking_on_color_input_vizualizati
                 }
             }
         }
-        //<2 try to show color pickier when clicking on color_input_vizualization t
+        //<1 try to show color pickier when clicking on color_input_vizualization
     }
 };
-//<1 show_or_hide_color_pickier_when_clicking_on_color_input_vizualization f
 
-//>1 show_or_hide_color_pickier f
 export const show_or_hide_color_pickier = action((color_pickier, bool) => {
     ob.color_pickiers_state[color_pickier] = bool;
 });
-//<1 show_or_hide_color_pickier f
 
-//>1 set_color_color_pickier_position f
 export const set_color_color_pickier_position = action((color_pickier, val) => {
     ob.color_pickiers_position[color_pickier] = val;
 });
-//<1 set_color_color_pickier_position f
-//< color input t
+//< color input
 
-//> selects text t
-//>1 change option value when selecting option; hide / show global options / background color 'Global' checkbox when selecting img / 'Global' option in settings type input t
+//> selects text
+//>1 change option value when selecting option; hide / show global options / background color 'Global' checkbox when selecting img / 'Global' option in settings type input
 export const change_select_val = action((storage, val, text) => {
     if (storage === 'settings_type' && val === 'global') {
         shared_o.set_ed_ui_state();
@@ -220,9 +164,9 @@ export const change_select_val = action((storage, val, text) => {
         alert(x.msg('change_img_settings_alert'));
     }
 });
-//>1 change option value when selecting option; hide / show global options / background color 'Global' checkbox when selecting img / 'Global' option in settings type input t
+//>1 change option value when selecting option; hide / show global options / background color 'Global' checkbox when selecting img / 'Global' option in settings type input
 
-//>1 get selects text on page load, all images deletion or image selection t
+//>1 get selects text on page load, all images deletion or image selection
 export const get_selects_text = (mode, settings) => {
     const mode_to_settings_type_dict = {
         ed: x.msg('option_global_text'),
@@ -250,11 +194,10 @@ export const get_selects_text = (mode, settings) => {
 
     return make_selects_text_obj_p(options);
 };
-//>1 get selects text on page load, all images deletion or image selection t
-//< selects text t
+//>1 get selects text on page load, all images deletion or image selection
+//< selects text
 
-//> current_img input t
-//>1 change_current_img_by_typing_into_currrent_img_input f
+//> current_img input
 export const change_current_img_by_typing_into_currrent_img_input = async e => {
     const actual_value = +e.target.value;
 
@@ -281,9 +224,7 @@ export const change_current_img_by_typing_into_currrent_img_input = async e => {
         change_current_img_insert_in_db(actual_value, value_to_insert_into_db);
     }
 };
-//<1 change_current_img_by_typing_into_currrent_img_input f
 
-//>1 change_current_img_by_clicking_on_select_img_btn f
 export const change_current_img_by_clicking_on_select_img_btn = () => {
     const any_img_selected = s('.selected_img');
 
@@ -297,9 +238,7 @@ export const change_current_img_by_clicking_on_select_img_btn = () => {
         alert(x.msg('select_img_alert'));
     }
 };
-//<1 change_current_img_by_clicking_on_select_img_btn f
 
-//>1 change_current_img_insert_in_db f
 const change_current_img_insert_in_db = async (visible_value, value_to_insert_into_db) => {
     try {
         x.send_message_to_background({ message: 'clear_change_img_timer' });
@@ -315,9 +254,8 @@ const change_current_img_insert_in_db = async (visible_value, value_to_insert_in
         console.error(er);
     }
 };
-//<1 change_current_img_insert_in_db f
 
-//>1 correct current image input value when defocusing correct image input t
+//>1 correct current image input value when defocusing correct image input
 export const correct_current_img_input_val = () => {
     if (mut.corrected_current_img_input_val) {
         shared_o.change_current_img_input_val(mut.corrected_current_img_input_val);
@@ -325,10 +263,9 @@ export const correct_current_img_input_val = () => {
         mut.corrected_current_img_input_val = null;
     }
 };
-//<1 correct current image input value when defocusing correct image input t
-//< current_img input t
+//<1 correct current image input value when defocusing correct image input
+//< current_img input
 
-//> restore_default_global_settings f
 export const restore_default_global_settings = async () => {
     const confirm = window.confirm(x.msg('restore_global_defaults_confirm'));
 
@@ -347,9 +284,7 @@ export const restore_default_global_settings = async () => {
         }
     }
 };
-//< restore_default_global_settings f
 
-//> varibles t
 export const options = selects_options;
 
 let mut = {
@@ -378,4 +313,3 @@ x.get_ed(() => {
         },
     });
 });
-//< varibles t

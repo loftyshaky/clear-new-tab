@@ -1,21 +1,12 @@
-//> Input c
-
-//>1 paste image or image url when clicking on "Paste" button t
-
-//>1 paste image or image url when clicking on "Paste" button t
-
-//^
-
-import * as img_loading from 'js/img_loading';
-import * as settings from 'options/settings';
-import { Tr } from 'js/Tr';
-
 import React from 'react';
 import { observer } from 'mobx-react';
 
+import * as img_loading from 'js/img_loading';
+import * as settings from 'options/settings';
+
+import { Tr } from 'js/Tr';
 import { Help } from 'options/components/Help';
 
-//> Input c
 export class Input extends React.Component {
     constructor(props) {
         super(props);
@@ -32,7 +23,7 @@ export class Input extends React.Component {
         this.btn = React.createRef();
     }
 
-    //>1 paste image or image url when clicking on "Paste" button t
+    //> paste image or image url when clicking on "Paste" button
     paste_image_by_paste_btn = () => {
         this.input.current.select();
 
@@ -40,7 +31,7 @@ export class Input extends React.Component {
 
         this.btn.current.focus();
     }
-    //>1 paste image or image url when clicking on "Paste" button t
+    //> paste image or image url when clicking on "Paste" button
 
     render() {
         const pasted_url_img_el = this.name === 'paste' ? <img alt="" className="pasted_url_img_el" src="#" /> : null;
@@ -93,6 +84,5 @@ export class Input extends React.Component {
         );
     }
 }
-//< Input c
 
 observer(Input);

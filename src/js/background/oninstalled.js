@@ -1,8 +1,4 @@
-//> on install / on update actions t
-
-//^
-
-//> on install / on update actions t
+//> on install / on update actions
 browser.runtime.onInstalled.addListener(async obj => {
     if (obj.reason === 'install') {
         await set_default_settings('background');
@@ -13,4 +9,4 @@ browser.runtime.onInstalled.addListener(async obj => {
         await set_default_settings('background');
     }
 });
-//< on install / on update actions t
+//< on install / on update actions

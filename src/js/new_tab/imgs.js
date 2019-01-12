@@ -1,35 +1,11 @@
-//> display image on new tab page load or when image changes t
-
-//> get one image from background.js imgs object t
-
-//> determine actual size value based size value from database t
-
-//> set css background property t
-
-//> calculate image dimensions t
-
-//> calculate_img_dimensions_when_in_fit_or_cover_screen_mode f
-
-//> resize image on window resize and expanding t
-
-//> crossfade_imgs f
-
-//> reload image when chanmging settings in options page t
-
-//> reload_img_divs f
-
-//> variables t
-
-//^
-
-import x from 'x';
-
 import { observable, action, configure } from 'mobx';
 import * as r from 'ramda';
 
+import x from 'x';
+
 configure({ enforceActions: true });
 
-//> display image on new tab page load or when image changes t
+//> display image on new tab page load or when image changes
 export const display_img = async () => {
     const mode = r.cond([
         [r.anyPass([r.equals('one'), r.equals('multiple'), r.equals('theme')]), r.always('img_or_color')],
@@ -38,9 +14,9 @@ export const display_img = async () => {
 
     get_img(mode);
 };
-//< display image on new tab page load or when image changes t
+//< display image on new tab page load or when image changes
 
-//> get one image from background.js imgs object t
+//> get one image from background.js imgs object
 const get_img = async mode => {
     if (mode === 'img_or_color') {
         try {
@@ -82,9 +58,9 @@ const get_img = async mode => {
         determine_size('random_solid_color');
     }
 };
-//< get one image from background.js imgs object t
+//< get one image from background.js imgs object
 
-//> determine actual size value based size value from database t
+//> determine actual size value based size value from database
 const determine_size = async mode => {
     if (mode === 'img') {
         if (mut.size_db_val === 'dont_resize') {
@@ -131,9 +107,9 @@ const determine_size = async mode => {
 
     set_img(mode);
 };
-//< determine actual size value based size value from database t
+//< determine actual size value based size value from database
 
-//> set css background property t
+//> set css background property
 const set_img = action(async mode => {
     if (!mut.first_run) {
         const fade_in_first_img = mut.current_img_div_i === 1;
@@ -165,9 +141,9 @@ const set_img = action(async mode => {
 
     mut.first_run = false;
 });
-//< set css background property t
+//< set css background property
 
-//> calculate image dimensions t
+//> calculate image dimensions
 const calculate_dimensions = img => {
     const browser_is_in_fullscreen_mode = window.innerWidth === con.screen_width;
     const window_size = {
@@ -222,9 +198,8 @@ const calculate_dimensions = img => {
         }
     }
 };
-//< calculate image dimensions t
+//< calculate image dimensions
 
-//> calculate_img_dimensions_when_in_fit_or_cover_screen_mode f
 const calculate_img_dimensions_when_in_fit_or_cover_screen_mode = (img, window_width, window_height) => {
     const img_width = img.width;
     const img_height = img.height;
@@ -239,9 +214,8 @@ const calculate_img_dimensions_when_in_fit_or_cover_screen_mode = (img, window_w
         height,
     };
 };
-//< calculate_img_dimensions_when_in_fit_or_cover_screen_mode f
 
-//> resize image on window resize and expanding t
+//> resize image on window resize and expanding
 export const resize_img = action(() => {
     if (mut.size_db_val === 'fit_screen' || mut.size_db_val === 'cover_screen' || mut.size_db_val === 'stretch_screen') {
         con.browser_window_width = window.innerWidth;
@@ -252,9 +226,8 @@ export const resize_img = action(() => {
         ob.img_divs.background_size[mut.current_img_div_i] = mut.img.size;
     }
 });
-//< resize image on window resize and expanding t
+//< resize image on window resize and expanding
 
-//> crossfade_imgs f
 const crossfade_imgs = action((i1, i2) => {
     ob.img_divs.no_tr_cls[i2] = true;
     ob.img_divs.no_tr_cls[i1] = false;
@@ -265,16 +238,14 @@ const crossfade_imgs = action((i1, i2) => {
     ob.img_divs.opacity_0_cls[i1] = true;
     ob.img_divs.opacity_0_cls[i2] = false;
 });
-//< crossfade_imgs f
 
-//> reload image when chanmging settings in options page t
+//> reload image when chanmging settings in options page
 export const reload_img = () => {
     reload_img_divs();
     display_img();
 };
-//< reload image when chanmging settings in options page t
+//< reload image when chanmging settings in options page
 
-//> reload_img_divs f
 const reload_img_divs = action(() => {
     ob.img_divs = {
         keys: [x.unique_id(), x.unique_id()],
@@ -285,9 +256,7 @@ const reload_img_divs = action(() => {
         background_size: [null, null],
     };
 });
-//< reload_img_divs f
 
-//> variables t
 const con = {
     screen_width: window.screen.width,
     screen_height: window.screen.height,
@@ -310,6 +279,5 @@ const mut = {
 };
 
 export const ob = observable({});
-//< varibles t
 
 reload_img_divs();

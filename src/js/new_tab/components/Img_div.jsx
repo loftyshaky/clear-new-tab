@@ -1,14 +1,9 @@
-//> Imgs c
-
-//^
+import React from 'react';
+import { observer } from 'mobx-react';
 
 import x from 'x';
 import * as imgs from 'new_tab/imgs';
 
-import React from 'react';
-import { observer } from 'mobx-react';
-
-//> Imgs c
 export const Img_div = observer(props => {
     const { img_divs } = imgs.ob;
 
@@ -21,4 +16,3 @@ export const Img_div = observer(props => {
         </React.Fragment>
     );
 });
-//< Imgs c

@@ -1,10 +1,5 @@
-//> Button c
-
-//^
-
 import React from 'react';
 
-//> Button c
 export const Btn = props => {
     const { name, onclick_f, load_50_or_all_imgs } = props;
     return (
@@ -18,4 +13,3 @@ export const Btn = props => {
         />
     );
 };
-//< Button c

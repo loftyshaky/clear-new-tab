@@ -1,20 +1,4 @@
-//> one image deletion t
-
-//>1 delete_img f
-
-//>1 delete_img_tr_end_callback t
-
-//>1 hide_img_before_deletion f
-
-//> delete all image t
-
-//>1 delete all images when clicking delete_all_imgs t
-
-//>1 delete_all_images_tr_end f
-
-//> varibles t
-
-//^
+import { observable, action, runInAction, configure } from 'mobx';
 
 import x from 'x';
 import { db } from 'js/init_db';
@@ -22,12 +6,9 @@ import * as shared_b_o from 'js/shared_b_o';
 import * as determine_theme_current_img from 'js/determine_theme_current_img';
 import * as shared_o from 'options/shared_o';
 
-import { observable, action, runInAction, configure } from 'mobx';
-
 configure({ enforceActions: true });
 
-//> one image deletion t
-//>1 delete_img f
+//> one image deletion
 export const delete_img = async img_id => {
     try {
         shared_o.disable_ui();
@@ -85,9 +66,7 @@ export const delete_img = async img_id => {
         console.error(er);
     }
 };
-//<1 delete_img f
 
-//>1 delete_img_tr_end_callback t
 export const delete_img_tr_end_callback = e => {
     if (x.matches(e.target, '.img_w_tr')) {
         const img_to_delete_i = shared_o.get_img_i_by_el(e.target);
@@ -105,17 +84,14 @@ export const delete_img_tr_end_callback = e => {
         }
     }
 };
-//<1 delete_img_tr_end_callback t
 
-//>1 hide_img_before_deletion f
 const hide_img_before_deletion = action(img_i => {
     shared_o.ob.imgs[img_i].show_delete = false;
 });
-//<1 hide_img_before_deletion f
-//< one image deletion t
+//< one image deletion
 
-//> delete all image t
-//>1 delete all images when clicking delete_all_imgs t
+//> delete all image
+//>1 delete all images when clicking delete_all_imgs
 export const delete_all_images = async () => {
     const confirm = window.confirm(x.msg('delete_all_images_confirm'));
 
@@ -148,9 +124,8 @@ export const delete_all_images = async () => {
         }
     }
 };
-//<1 delete all images when clicking delete_all_imgs t
+//<1 delete all images when clicking delete_all_imgs
 
-//>1 delete_all_images_tr_end f
 export const delete_all_images_tr_end = action(() => {
     if (!ob.show_imgs_w_1) {
         shared_o.ob.imgs.clear();
@@ -160,10 +135,8 @@ export const delete_all_images_tr_end = action(() => {
         shared_o.enable_ui();
     }
 });
-//<1 delete_all_images_tr_end f
 //< delete all image
 
-//> varibles t
 export const mut = {
     next_imgs_after_last_visible_img: 'img_not_existing',
 };
@@ -171,4 +144,3 @@ export const mut = {
 export const ob = observable({
     show_imgs_w_1: true,
 });
-//< varibles t

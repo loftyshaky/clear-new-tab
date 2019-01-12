@@ -1,32 +1,4 @@
-//> get_img_i_by_id f
-
-//> get_img_i_by_el f
-
-//> decide_what_input_items_to_hide f
-
-//> deselect_selected_img f
-
-//> set_selects_text f
-
-//> show_or_hide_global_options f
-
-//> set_color_input_vizualization_color f
-
-//> change_current_img_input_val f
-
-//> set_color_global_checkbox_val f
-
-//> set_ed_ui_state f
-
-//> enable / disable ui t
-
-//> prepare images for loading in images fieldset and then load them into it t
-
-//> calculate_offset f
-
-//> varibles t
-
-//^
+import { observable, action, runInAction, configure } from 'mobx';
 
 import x from 'x';
 import { db } from 'js/init_db';
@@ -34,19 +6,12 @@ import * as permissions from 'options/permissions';
 import * as settings from 'options/settings';
 import * as img_loading from 'js/img_loading';
 
-import { observable, action, runInAction, configure } from 'mobx';
-
 configure({ enforceActions: true });
 
-//> get_img_i_by_id f
 export const get_img_i_by_id = img_id => ob.imgs.findIndex(img => img.id === img_id);
-//< get_img_i_by_id f
 
-//> get_img_i_by_el f
 export const get_img_i_by_el = el => Array.prototype.slice.call(mut.img_w_tr_nodes).indexOf(el);
-//< get_img_i_by_el f
 
-//> decide_what_input_items_to_hide f
 export const decide_what_input_items_to_hide = action(async () => {
     try {
         ob.hidable_input_items.keep_old_themes_imgs = ed.mode === 'theme';
@@ -67,9 +32,7 @@ export const decide_what_input_items_to_hide = action(async () => {
         console.error(er);
     }
 });
-//< decide_what_input_items_to_hide f
 
-//> deselect_selected_img f
 export const deselect_selected_img = action(() => {
     const selected_img_i = get_img_i_by_id(mut.selected_img_id);
     const img_exist = ob.imgs[selected_img_i]; // if not deleted selected image
@@ -78,33 +41,23 @@ export const deselect_selected_img = action(() => {
         ob.imgs[selected_img_i].selected = false;
     }
 });
-//< deselect_selected_img f
 
-//> set_selects_text f
 export const set_selects_text = action((settings_type, obj_to_get_selects_text_from) => {
     settings.ob.selected_options = settings.get_selects_text(settings_type, obj_to_get_selects_text_from);
 });
-//< set_selects_text f
 
-//> show_or_hide_global_options f
 export const show_or_hide_global_options = action(bool => {
     settings.ob.show_global_options = bool;
 });
-//< show_or_hide_global_options f
 
-//> set_color_input_vizualization_color f
 export const set_color_input_vizualization_color = action((name, color) => {
     settings.ob.color_input_vizualization_colors[name] = color;
 });
-//< set_color_input_vizualization_color f
 
-//> change_current_img_input_val f
 export const change_current_img_input_val = action(val => {
     settings.ob.current_img_input_val = val;
 });
-//< change_current_img_input_val f
 
-//> set_color_global_checkbox_val f
 export const set_color_global_checkbox_val = async () => {
     const settings_obj = await db.imgs.get(mut.selected_img_id);
 
@@ -117,9 +70,7 @@ export const set_color_global_checkbox_val = async () => {
         }
     });
 };
-//< set_color_global_checkbox_val f
 
-//> set_ed_ui_state f
 export const set_ed_ui_state = () => {
     mut.storage_type = 'ed';
 
@@ -127,14 +78,13 @@ export const set_ed_ui_state = () => {
     set_selects_text('ed', ed);
     set_color_input_vizualization_color('color', ed.color);
 };
-//< set_ed_ui_state f
 
-//> enable / disable ui t
+//> enable / disable ui
 export const enable_ui = () => x.remove(s('.ui_disabled'));
 export const disable_ui = () => x.load_css('ui_disabled');
-//< enable / disable ui t
+//< enable / disable ui
 
-//> prepare images for loading in images fieldset and then load them into it t
+//> prepare images for loading in images fieldset and then load them into it
 export const unpack_and_load_imgs = (imgs, mode, hide_or_show_load_btns_f_minus_val) => {
     const unpacked_imgs = imgs.map(img => ({
         key: x.unique_id(),
@@ -151,9 +101,8 @@ export const unpack_and_load_imgs = (imgs, mode, hide_or_show_load_btns_f_minus_
 
     img_loading.create_loaded_imgs(unpacked_imgs, hide_or_show_load_btns_f_minus_val);
 };
-//< prepare images for loading in images fieldset and then load them into it t
+//< prepare images for loading in images fieldset and then load them into it
 
-//> calculate_offset f
 export const calculate_offset = async mode => {
     const number_of_imgs = await db.imgs.count();
 
@@ -167,9 +116,7 @@ export const calculate_offset = async mode => {
         mut.offset = number_of_imgs;
     }
 };
-//< calculate_offset f
 
-//> varibles t
 export const mut = {
     img_w_tr_nodes: null,
     storage_type: 'ed',
@@ -190,4 +137,3 @@ export const ob = observable({
         paste_btn: false,
     },
 });
-//< varibles t

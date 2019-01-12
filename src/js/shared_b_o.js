@@ -1,19 +1,10 @@
-//> get_new_future_img f
-
-//> get_random_img f
-
-//> generate_random_color f
-
-//^
-
 'use_strict';
+
+import * as r from 'ramda';
 
 import x from 'x';
 import { db } from 'js/init_db';
 
-import * as r from 'ramda';
-
-//> get_new_future_img f
 export const get_new_future_img = async new_future_img => {
     const number_of_imgs = await db.imgs.count();
     const there_is_no_imgs_in_db = number_of_imgs === 0;
@@ -33,9 +24,7 @@ export const get_new_future_img = async new_future_img => {
 
     await db.ed.update(1, { future_img: new_future_img_final });
 };
-//< get_new_future_img f
 
-//> get_random_img f
 const get_random_img = async number_of_imgs => {
     await x.get_ed();
 
@@ -48,9 +37,7 @@ const get_random_img = async number_of_imgs => {
 
     return new_future_img;
 };
-//< get_random_img f
 
-//> generate_random_color f
 export const generate_random_color = () => {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -61,4 +48,3 @@ export const generate_random_color = () => {
 
     return color;
 };
-//< generate_random_color f

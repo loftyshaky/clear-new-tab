@@ -1,10 +1,5 @@
-//> Left_fieldset c
-
-//^
-
 import React from 'react';
 
-//> Left_fieldset c
 export const Left_fieldset = props => {
     const { name, children } = props;
     return (
@@ -19,4 +14,3 @@ export const Left_fieldset = props => {
         </fieldset>
     );
 };
-//< Left_fieldset c

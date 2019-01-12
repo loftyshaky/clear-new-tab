@@ -1,17 +1,13 @@
-//> Loading_screen c
-
-//^
-
-import * as img_loading from 'js/img_loading';
-import { Tr } from 'js/Tr';
-
-import hourglass_svg from 'svg/hourglass';
-
 import Svg from 'svg-inline-react';
 import React from 'react';
 import { observer } from 'mobx-react';
 
-//> Loading_screen c
+import * as img_loading from 'js/img_loading';
+
+import { Tr } from 'js/Tr';
+
+import hourglass_svg from 'svg/hourglass';
+
 export const Loading_screen = observer(() => (
     <Tr
         attr={{
@@ -25,4 +21,3 @@ export const Loading_screen = observer(() => (
         <Svg src={hourglass_svg} />
     </Tr>
 ));
-//< Loading_screen c

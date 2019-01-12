@@ -1,6 +1,6 @@
-//> All c
-
-//^
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { observer } from 'mobx-react';
 
 import * as shared_o from 'options/shared_o';
 import * as moving from 'js/moving';
@@ -23,11 +23,6 @@ import { Btn } from 'options/components/Btn';
 import { Link } from 'options/components/Link';
 import { Imgs_fieldset } from 'options/components/Imgs_fieldset';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { observer } from 'mobx-react';
-
-//> All c
 export class All extends React.Component {
     constructor(props) {
         super(props);
@@ -219,6 +214,5 @@ export class All extends React.Component {
         );
     }
 }
-//< All c
 
 observer(All);

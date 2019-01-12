@@ -1,39 +1,9 @@
-//> observables t
-
-//> start_drag f
-
-//> stop_drag f
-
-//> show dragged_item and insert dragged element into it / update dragged_item position t
-
-//> drop area t
-
-//>1 create_drop_area f
-
-//>1 remove_drop_area f
-
-//>1 get_first_or_last_visible_item f
-
-//>1 append_drop_area f
-
-//>1 append_drop_area f
-
-//> show_or_hide_dragged_item f
-
-//> options t
-
-//>1 drop_options f
-
-//>1 set_new_current_or_future_img_value_after_drop
-
-//^
+import { observable, action, configure } from 'mobx';
 
 import x from 'x';
 import { db } from 'js/init_db';
 import * as shared_o from 'options/shared_o';
 import * as shared_b_o from 'js/shared_b_o';
-
-import { observable, action, configure } from 'mobx';
 
 configure({ enforceActions: true });
 
@@ -59,22 +29,17 @@ export const mut = {
     mouse_is_down: false,
 };
 
-//> observables t
 export const ob = observable({
     show_dragged_item: false,
 });
-//< observables t
 
-//> start_drag f
 export const start_drag = (img_w_tr, e) => {
     mut.mouse_is_down = true;
     mut.item_to_move = img_w_tr;
     mut.start_y = e.clientY;
     mut.start_x = e.clientX;
 };
-//< start_drag f
 
-//> stop_drag f
 export const stop_drag = (mode, e) => {
     mut.mouse_is_down = false;
 
@@ -91,9 +56,8 @@ export const stop_drag = (mode, e) => {
         show_or_hide_dragged_item(false);
     }
 };
-//< stop_drag f
 
-//> show dragged_item and insert dragged element into it / update dragged_item position t
+//> show dragged_item and insert dragged element into it / update dragged_item position
 export const set_dragged_item_position = (mode, e) => {
     if (mut.mouse_is_down) {
         if (!ob.show_dragged_item) {
@@ -118,10 +82,9 @@ export const set_dragged_item_position = (mode, e) => {
         }
     }
 };
-//< show dragged_item and insert dragged element into it / update dragged_item position t
+//< show dragged_item and insert dragged element into it / update dragged_item position
 
-//> drop area t
-//>1 create_drop_area f
+//> drop area
 export const create_drop_area = (img_w_tr, mode, e) => {
     const not_hovering_over_drop_area = (mode === 'options' || mode === 'new_tab') && !x.matches(e.target, '.drop_area');
 
@@ -173,15 +136,11 @@ export const create_drop_area = (img_w_tr, mode, e) => {
         mut.current_y = e.clientY;
     }
 };
-//<1 create_drop_area f
 
-//>1 remove_drop_area f
 const remove_drop_area = () => {
     x.remove(s('.drop_area'));
 };
-//<1 remove_drop_area f
 
-//>1 get_first_or_last_visible_item f
 const get_first_or_last_visible_item = (mode, hovered_tree) => {
     if (mode === 'options') {
         return s('.img_w_tr:first-child');
@@ -192,9 +151,7 @@ const get_first_or_last_visible_item = (mode, hovered_tree) => {
 
     return undefined;
 };
-//<1 get_first_or_last_visible_item f
 
-//>1 append_drop_area f
 const append_drop_area = (mode, hovered_item, item_to_move, drop_area, first_item, second_item, traverse_1, traverse_2, append_f) => {
     if (item_to_move[traverse_1] || item_to_move[traverse_2] || (mode === 'new_tab' || mode === 'new_tab_bookmarks_bar')) {
         let el_to_append_before_or_after;
@@ -232,17 +189,13 @@ const append_drop_area = (mode, hovered_item, item_to_move, drop_area, first_ite
         }
     }
 };
-//>1 append_drop_area f
-//< drop area t
+//< drop area
 
-//> show_or_hide_dragged_item f
 const show_or_hide_dragged_item = action(bool => {
     ob.show_dragged_item = bool;
 });
-//< show_or_hide_dragged_item f
 
-//> options t
-//>1 drop_options f
+//> options
 const drop_options = async () => {
     try {
         shared_o.disable_ui();
@@ -311,9 +264,7 @@ const drop_options = async () => {
         shared_o.enable_ui();
     }
 };
-//<1 drop_options f
 
-//>1 set_new_current_or_future_img_value_after_drop
 const set_new_current_or_future_img_value_after_drop = async (type, move_type, img_i_before_drop, img_i_after_drop) => { // type: current_img, future_img
     if (type === 'current_img' || ed.shuffle) {
         if (ed[type] === img_i_before_drop) {
@@ -332,11 +283,8 @@ const set_new_current_or_future_img_value_after_drop = async (type, move_type, i
 
     await db.ed.update(1, { [type]: ed[type] });
 };
-//<1 set_new_current_or_future_img_value_after_drop f
 
-//>1 move_imgs_arr_item f
 const move_imgs_arr_item = action((from, to) => {
     x.move_a_item(shared_o.ob.imgs, from, to);
 });
-//<1 move_imgs_arr_item f
-//< options t
+//< options

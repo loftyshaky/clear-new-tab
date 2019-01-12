@@ -1,10 +1,5 @@
-//> determine_theme_current_img f
-
-//^
-
 import * as r from 'ramda';
 
-//> determine_theme_current_img f
 export const determine_theme_current_img = async (theme_id, imgs) => {
     try {
         const img_i = r.findIndex(r.propEq('theme_id', theme_id), imgs);
@@ -29,4 +24,3 @@ export const determine_theme_current_img = async (theme_id, imgs) => {
 
     return undefined;
 };
-//< determine_theme_current_img f

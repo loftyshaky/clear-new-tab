@@ -1,26 +1,10 @@
-//> load_imgs (runs on extension enable) t
-
-//> get ready image object for use in new tab t
-
-//> preload images t
-
-//> update_time_setting f
-
-//> get_installed_theme_id f
-
-//> get number of ms left till change interval elpse (may be negative) t
-
-//> varibles t
-
-//^
+import * as r from 'ramda';
 
 import x from 'x';
 import { db } from 'js/init_db';
 import * as theme_img from 'background/theme_img';
 
-import * as r from 'ramda';
-
-//> load_imgs (runs on extension enable) t
+//> load_imgs (runs on extension enable)
 export const load_imgs = async () => {
     if (ed) {
         await retrieve_imgs();
@@ -48,9 +32,9 @@ export const load_imgs = async () => {
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'display_img_on_ext_enable' }]);
     }
 };
-//< load_imgs (runs on extension enable) t
+//< load_imgs (runs on extension enable)
 
-//> get ready image object for use in new tab t
+//> get ready image object for use in new tab
 export const retrieve_imgs = async send_response => {
     try {
         mut.imgs = await db.imgs.orderBy('position_id').toArray();
@@ -63,9 +47,9 @@ export const retrieve_imgs = async send_response => {
         console.error(er);
     }
 };
-//< get ready image object for use in new tab t
+//< get ready image object for use in new tab
 
-//> preload images t
+//> preload images
 const preload_img = img_i => {
     if (mut.imgs.length !== 0) {
         const img = r.clone(mut.imgs[img_i]);
@@ -109,9 +93,8 @@ export const preload_current_and_future_img = mode => {
 
     mut.future_img = mut.imgs[ed.future_img] ? preload_img(ed.future_img) : null;
 };
-//< preload images t
+//< preload images
 
-//> get_installed_theme_id f
 export const get_installed_theme_id = () => new Promise(resolve => {
     browser.management.getAll(all_apps => {
         const enabled_themes_without_last_installed = all_apps.filter(app => app.type === 'theme' && app.enabled === true && app.id !== ed.last_installed_theme_theme_id);
@@ -121,21 +104,18 @@ export const get_installed_theme_id = () => new Promise(resolve => {
         resolve(theme_id);
     });
 });
-//< get_installed_theme_id f
 
-//> get number of ms left till change interval elpse (may be negative) t
+//> get number of ms left till change interval elpse (may be negative)
 export const get_ms_left = () => {
     const time = new Date().getTime();
     const ms_left = ed.change_interval - (time - ed.last_img_change_time);
 
     return ms_left;
 };
-//< get number of ms left till change interval elpse (may be negative) t
+//< get number of ms left till change interval elpse (may be negative)
 
-//> varibles t
 export const mut = {
     imgs: [],
     current_img: null,
     future_img: null,
 };
-//< varibles t

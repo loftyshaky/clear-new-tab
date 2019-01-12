@@ -1,5 +1,3 @@
-//^
-
 /* shortcuts:
 w = wrapper
 svg = svg_wrapper

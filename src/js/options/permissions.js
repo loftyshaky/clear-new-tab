@@ -1,27 +1,11 @@
-//> check for x permissions t
-
-//> request_permission f
-
-//> remove_permission f
-
-//> ask_for_permission_or_remove_it f
-
-//> restore_optional_permissions_checkboxes_state f
-
-//> set_val_of_permission_checkbox f
-
-//> varibles t
-
-//^
+import { observable, action, configure } from 'mobx';
 
 import x from 'x';
 import * as shared_o from 'options/shared_o';
 
-import { observable, action, configure } from 'mobx';
-
 configure({ enforceActions: true });
 
-//> check for x permissions t
+//> check for x permissions
 export const contains_permission = permissions => new Promise((resolve, reject) => { // ex: await contains_permission([{'permissions': ['clipboardRead'] }]);
     browser.permissions.contains(...permissions, result => {
         if (browser.runtime.lastError) {
@@ -32,9 +16,8 @@ export const contains_permission = permissions => new Promise((resolve, reject) 
         }
     });
 });
-//< check for x permissions t
+//< check for x permissions
 
-//> request_permission f
 const request_permission = permissions => new Promise((resolve, reject) => {
     browser.permissions.request(...permissions, result => {
         if (browser.runtime.lastError) {
@@ -45,9 +28,7 @@ const request_permission = permissions => new Promise((resolve, reject) => {
         }
     });
 });
-//< request_permission f
 
-//> remove_permission f
 const remove_permission = permissions => new Promise((resolve, reject) => {
     browser.permissions.remove(...permissions, result => {
         if (browser.runtime.lastError) {
@@ -58,9 +39,7 @@ const remove_permission = permissions => new Promise((resolve, reject) => {
         }
     });
 });
-//< remove_permission f
 
-//> ask_for_permission_or_remove_it f
 export const ask_for_permission_or_remove_it = async (checkbox_name, permissions) => {
     try {
 
@@ -86,9 +65,7 @@ export const ask_for_permission_or_remove_it = async (checkbox_name, permissions
         console.error(er);
     }
 };
-//< ask_for_permission_or_remove_it f
 
-//> restore_optional_permissions_checkboxes_state f
 export const restore_optional_permissions_checkboxes_state = () => {
     const checkbox_names = ['show_bookmarks_bar', 'enable_paste', 'allow_downloading_images_by_link'];
     const permissions = checkbox_names.map(checkbox_name => permissions_dict[checkbox_name]);
@@ -109,15 +86,11 @@ export const restore_optional_permissions_checkboxes_state = () => {
         }
     });
 };
-//< restore_optional_permissions_checkboxes_state f
 
-//> set_val_of_permission_checkbox f
 const set_val_of_permission_checkbox = action((checkbox_name, val) => {
     ob.optional_permissions_checkboxes[checkbox_name] = val;
 });
-//< set_val_of_permission_checkbox f
 
-//> varibles t
 export const permissions_dict = {
     show_bookmarks_bar: [{ permissions: ['bookmarks'] }], // 'origins': ['chrome://favicon/']
     enable_paste: [{ permissions: ['clipboardRead'] }],
@@ -127,4 +100,3 @@ export const permissions_dict = {
 export const ob = observable({
     optional_permissions_checkboxes: {},
 });
-//< varibles t

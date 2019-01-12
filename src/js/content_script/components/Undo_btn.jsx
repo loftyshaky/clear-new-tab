@@ -1,23 +1,14 @@
-//> Undo_btn c
-
-//>1 undo_theme f
-
-//^
+import React from 'react';
+import { observer } from 'mobx-react';
 
 import x from 'x';
 import * as installing_theme from 'content_script/installing_theme';
 import { Tr } from 'js/Tr';
 
-import React from 'react';
-import { observer } from 'mobx-react';
-
-//> Undo_btn c
 export const Undo_btn = observer(() => {
-    //>1 undo_theme f
     const undo_theme = () => {
         installing_theme.undo_theme(installing_theme.mut.previous_installed_theme_theme_id);
     };
-    //<1 undo_theme f
 
     return (
         <Tr
@@ -36,4 +27,3 @@ export const Undo_btn = observer(() => {
         </Tr>
     );
 });
-//< Undo_btn c

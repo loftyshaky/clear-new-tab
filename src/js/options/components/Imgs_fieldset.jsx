@@ -1,24 +1,8 @@
-//> Imgs_fieldset c
-
-//>1 get total number of images to load and previous number of images when imgs array length changes. i use it instead componentWillReceiveProps
-
-//> Imgs c
-
-//>1 set_img_w_refs f
-
-//>1 delete_broken_imgs f
-
-//>1 img_load_callback f
-
-//>1 show transparency background checkerboard t
-
-//> Img_inner_w c
-
-//> Img c
-
-//>1 open image in new tab when clicking on preview button t
-
-//^
+import Svg from 'svg-inline-react';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { reaction } from 'mobx';
+import { observer } from 'mobx-react';
 
 import x from 'x';
 import * as img_loading from 'js/img_loading';
@@ -29,19 +13,12 @@ import * as img_selection from 'options/img_selection';
 import * as img_deletion from 'options/img_deletion';
 import * as changing_imgs_fieldset_width from 'options/changing_imgs_fieldset_width';
 import * as scrolling from 'options/scrolling';
-import { Tr } from 'js/Tr';
 
+import { Tr } from 'js/Tr';
 import { Btn } from 'options/components/Btn';
 
 import cross_svg from 'svg/cross';
 
-import Svg from 'svg-inline-react';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { reaction } from 'mobx';
-import { observer } from 'mobx-react';
-
-//> Imgs_fieldset c
 export class Imgs_fieldset extends React.Component {
     constructor(props) {
         super(props);
@@ -68,7 +45,7 @@ export class Imgs_fieldset extends React.Component {
         window.removeEventListener('resize', this.resize_imgs_binded);
     }
 
-    //>1 get total number of images to load and previous number of images when imgs array length changes. i use it instead componentWillReceiveProps
+    //> get total number of images to load and previous number of images when imgs array length changes. i use it instead componentWillReceiveProps
     get_total_imgs_to_load_and_previous_number_of_imgs = reaction(
         () => shared_o.ob.imgs.length,
         number_of_displayed_imgs => {
@@ -79,7 +56,7 @@ export class Imgs_fieldset extends React.Component {
             }
         },
     )
-    //<1 get total number of images to load and previous number of images when imgs array length changes. i use it instead componentWillReceiveProps
+    //< get total number of images to load and previous number of images when imgs array length changes. i use it instead componentWillReceiveProps
 
     render() {
         return (
@@ -144,9 +121,7 @@ export class Imgs_fieldset extends React.Component {
         );
     }
 }
-//< Imgs_fieldset c
 
-//> Imgs c
 class Imgs extends React.Component {
     constructor(props) {
         super(props);
@@ -161,13 +136,10 @@ class Imgs extends React.Component {
         };
     }
 
-    //>1 set_img_w_refs f
     set_img_w_refs(id, img) {
         this.img_w_refs[id] = img;
     }
-    //<1 set_img_w_refs f
 
-    //>1 delete_broken_imgs f
     delete_broken_imgs = async () => {
         if (this.mut.broken_imgs_ids.length > 0) {
             await img_deletion.delete_img(this.mut.broken_imgs_ids[0]);
@@ -175,9 +147,7 @@ class Imgs extends React.Component {
             this.mut.broken_imgs_ids.shift();
         }
     }
-    //<1 delete_broken_imgs f
 
-    //>1 img_load_callback f
     img_load_callback = async (id, e) => {
         const e_type = e.type;
 
@@ -212,13 +182,12 @@ class Imgs extends React.Component {
             img_loading.show_loaded_img(id, sb(this.img_w_refs[id], '.img'));
         }
     }
-    //<1 img_load_callback f
 
-    //>1 show transparency background checkerboard t
+    //> show transparency background checkerboard
     show_checkerboard = id => {
         img_loading.show_checkerboard(id);
     }
-    //<1 show transparency background checkerboard t
+    //< show transparency background checkerboard
 
     render() {
         return (
@@ -266,9 +235,7 @@ class Imgs extends React.Component {
         );
     }
 }
-//< Imgs c
 
-//> Img_inner_w c
 const Img_inner_w = observer(props => {
     const { img } = props;
 
@@ -290,9 +257,7 @@ const Img_inner_w = observer(props => {
         </Tr>
     );
 });
-//< Img_inner_w c
 
-//> Img c
 class Img extends React.Component {
     constructor(props) {
         super(props);
@@ -325,11 +290,11 @@ class Img extends React.Component {
             );
     }
 
-    //>1 open image in new tab when clicking on preview button t
+    //> open image in new tab when clicking on preview button
     preview_img = id => {
         x.send_message_to_background({ message: 'open_preview_img_tab', img_id: id });
     }
-    //<1 open image in new tab when clicking on preview button t
+    //< open image in new tab when clicking on preview button
 
     render() {
         return (
@@ -356,7 +321,6 @@ class Img extends React.Component {
         );
     }
 }
-//< Img c
 
 observer(Imgs_fieldset);
 observer(Imgs);

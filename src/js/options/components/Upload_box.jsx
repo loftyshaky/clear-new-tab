@@ -1,24 +1,13 @@
-//> Upload_box c
-
-//> browse_handle_files f
-
-//> drop_handle_files f
-
-//> prevent_default_dnd_actions f
-
-//^
+import React from 'react';
+import { observer } from 'mobx-react';
 
 import x from 'x';
 import * as img_loading from 'js/img_loading';
 import * as managing_upload_box from 'options/managing_upload_box';
-import { Tr } from 'js/Tr';
 
+import { Tr } from 'js/Tr';
 import { Help } from 'options/components/Help';
 
-import React from 'react';
-import { observer } from 'mobx-react';
-
-//> Upload_box c
 export class Upload_box extends React.Component {
     componentDidMount() {
         window.addEventListener('drop', this.prevent_default_dnd_actions);
@@ -30,26 +19,20 @@ export class Upload_box extends React.Component {
         window.removeEventListener('dragover', this.prevent_default_dnd_actions);
     }
 
-    //> browse_handle_files f
     browse_handle_files = e => {
         img_loading.handle_files(e.target.files);
         managing_upload_box.reset_upload_btn_val();
     }
-    //< browse_handle_files f
 
-    //> drop_handle_files f
     drop_handle_files = e => {
         managing_upload_box.dehighlight_upload_box_ondrop();
         img_loading.handle_files(e.dataTransfer.files);
     }
-    //< drop_handle_files f
 
-    //> prevent_default_dnd_actions f
     prevent_default_dnd_actions = e => {
         e.stopPropagation();
         e.preventDefault();
     }
-    //< prevent_default_dnd_actions f
 
     render() {
         return (
@@ -98,6 +81,5 @@ export class Upload_box extends React.Component {
         );
     }
 }
-//< Upload_box c
 
 observer(Upload_box);

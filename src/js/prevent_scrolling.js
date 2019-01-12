@@ -1,15 +1,7 @@
-//>1 scrolling t
-
-//>1 prevent_scrolling of window when scrolling imgs_fieldset t
-
-//^
-
 export const mut = {
     delta_y: 3,
 };
 
-//>1 scrolling t
-//>1 prevent_scrolling of window when scrolling imgs_fieldset t
 export const prevent_scrolling = function prevent_scrolling(e) {
     if (this) {
         const scroll_height = this.scrollHeight;
@@ -25,5 +17,3 @@ export const prevent_scrolling = function prevent_scrolling(e) {
         }
     }
 };
-//<1 prevent_scrolling of window when scrolling imgs_fieldset t
-//<1 scrolling t
