@@ -13,8 +13,8 @@ import { observer } from 'mobx-react';
 
 configure({ enforceActions: true });
 
-const ff_install_btn_text = x.message('ff_install_btn_text');
-const ff_install_btn_installing_text = x.message('ff_install_btn_installing_text');
+const ff_install_btn_text = x.msg('ff_install_btn_text');
+const ff_install_btn_installing_text = x.msg('ff_install_btn_installing_text');
 
 //> Ff_install_btn c
 export class Ff_install_btn extends React.Component {

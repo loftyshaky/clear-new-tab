@@ -77,7 +77,7 @@ export const ask_for_permission_or_remove_it = async (checkbox_name, permissions
             set_val_of_permission_checkbox(checkbox_name, false);
 
         } else {
-            alert(x.message('cannot_disable_all_urls_permission_alert'));
+            alert(x.msg('cannot_disable_all_urls_permission_alert'));
         }
 
         shared_o.decide_what_input_items_to_hide();

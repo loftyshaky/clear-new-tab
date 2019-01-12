@@ -56,7 +56,7 @@ configure({ enforceActions: true });
 export const get_pasted_image_or_image_url = async e => {
     shared_o.disable_ui();
     hide_upload_box_messages();
-    change_paste_input_placeholder_val(x.message('upload_box_uploading_message_text'));
+    change_paste_input_placeholder_val(x.msg('upload_box_uploading_message_text'));
 
     const clipboard_items = e.clipboardData.items;
     const clipboard_text = e.clipboardData.getData('text');
@@ -344,7 +344,7 @@ const show_or_hide_upload_error_messages = status => {
     }
 
     if (status === 'rejected_paste') {
-        change_paste_input_placeholder_val(x.message('upload_box_error_message_text'));
+        change_paste_input_placeholder_val(x.msg('upload_box_error_message_text'));
     }
 };
 //< show_or_hide_upload_error_messages f

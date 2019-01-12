@@ -49,7 +49,7 @@ export class Install_help extends React.Component {
                 state={this.ob.show_install_help}
             >
                 {/* eslint-disable-next-line react/no-danger */}
-                <p className="install_help" dangerouslySetInnerHTML={{ __html: x.message(`install_help_text_${what_browser}`) }} />
+                <p className="install_help" dangerouslySetInnerHTML={{ __html: x.msg(`install_help_text_${what_browser}`) }} />
             </Tr>
         );
     }

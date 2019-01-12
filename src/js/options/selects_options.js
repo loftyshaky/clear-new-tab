@@ -5,7 +5,7 @@
 import x from 'x';
 
 //> create select text content t
-const create_option_data_text_val = modifier => x.message(`option_${modifier}_text`);
+const create_option_data_text_val = modifier => x.msg(`option_${modifier}_text`);
 //< create select text content t
 
 export const selects_options = {

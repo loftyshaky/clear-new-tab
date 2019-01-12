@@ -94,7 +94,7 @@ export class Imgs_fieldset extends React.Component {
                     <div
                         className="imgs_legend"
                     >
-                        {x.message('imgs_legend_text')}
+                        {x.msg('imgs_legend_text')}
                         <div className="imgs_legend_line" />
                     </div>
 
@@ -336,7 +336,7 @@ class Img extends React.Component {
             <React.Fragment>
                 <div className="img_cover" />
                 {this.is_img ? <div className="img_size img_info">{this.img.img_size}</div> : null}
-                <div className="img_type img_info">{x.message(`img_type_${this.img.type}_text`)}</div>
+                <div className="img_type img_info">{x.msg(`img_type_${this.img.type}_text`)}</div>
                 <button
                     type="button"
                     className="img_preview img_info"

@@ -117,7 +117,7 @@ const hide_img_before_deletion = action(img_i => {
 //> delete all image t
 //>1 delete all images when clicking delete_all_imgs t
 export const delete_all_images = async () => {
-    const confirm = window.confirm(x.message('delete_all_images_confirm'));
+    const confirm = window.confirm(x.msg('delete_all_images_confirm'));
 
     if (confirm) {
         try {

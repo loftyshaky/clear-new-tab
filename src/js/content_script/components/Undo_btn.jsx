@@ -31,7 +31,7 @@ export const Undo_btn = observer(() => {
                 className="btn undo_btn"
                 onClick={undo_theme}
             >
-                {x.message('undo_btn_text')}
+                {x.msg('undo_btn_text')}
             </button>
         </Tr>
     );

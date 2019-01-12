@@ -217,7 +217,7 @@ export const change_select_val = action((storage, val, text) => {
         change_settings('select', storage, val);
 
     } else if (storage === 'settings_type' && val === 'specific') {
-        alert(x.message('change_img_settings_alert'));
+        alert(x.msg('change_img_settings_alert'));
     }
 });
 //>1 change option value when selecting option; hide / show global options / background color 'Global' checkbox when selecting img / 'Global' option in settings type input t
@@ -225,8 +225,8 @@ export const change_select_val = action((storage, val, text) => {
 //>1 get selects text on page load, all images deletion or image selection t
 export const get_selects_text = (mode, settings) => {
     const mode_to_settings_type_dict = {
-        ed: x.message('option_global_text'),
-        img: x.message('option_specific_text'),
+        ed: x.msg('option_global_text'),
+        img: x.msg('option_specific_text'),
     };
 
     const make_initial_selects_text_obj = r.mapObjIndexed((obj, key) => {
@@ -294,7 +294,7 @@ export const change_current_img_by_clicking_on_select_img_btn = () => {
         change_current_img_insert_in_db(visible_value, value_to_insert_into_db);
 
     } else {
-        alert(x.message('select_img_alert'));
+        alert(x.msg('select_img_alert'));
     }
 };
 //<1 change_current_img_by_clicking_on_select_img_btn f
@@ -330,7 +330,7 @@ export const correct_current_img_input_val = () => {
 
 //> restore_default_global_settings f
 export const restore_default_global_settings = async () => {
-    const confirm = window.confirm(x.message('restore_global_defaults_confirm'));
+    const confirm = window.confirm(x.msg('restore_global_defaults_confirm'));
 
     if (confirm) {
         try {
