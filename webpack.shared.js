@@ -107,5 +107,6 @@ module.exports = {
 
     devServer: {
         hot: false,
+        disableHostCheck: true,
     },
 };
