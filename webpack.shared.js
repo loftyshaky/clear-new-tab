@@ -64,7 +64,7 @@ module.exports = {
         }),
 
         new Copy_webpack_plugin([{
-            //> generates the manifest file using the package.json informations t
+            //> generates the manifest file using the package.json informations
             from: 'src/manifest.json',
 
             transform(content) {
@@ -76,7 +76,7 @@ module.exports = {
             },
 
         },
-        //< generates the manifest file using the package.json informations t
+        //< generates the manifest file using the package.json informations
 
         { from: join(__dirname, 'src', 'js', 'x.js'), to: join(__dirname, 'dist') },
         { from: join(__dirname, 'src', 'css'), to: join(__dirname, 'dist') },
