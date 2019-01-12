@@ -8,7 +8,7 @@ import { db } from 'js/init_db';
 
 import { Tr } from 'js/Tr';
 
-configure({ enforceActions: true });
+configure({ enforceActions: 'observed' });
 
 export class Install_help extends React.Component {
     //> hide install help when clicking on "here"

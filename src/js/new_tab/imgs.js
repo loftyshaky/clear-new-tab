@@ -3,7 +3,7 @@ import * as r from 'ramda';
 
 import x from 'x';
 
-configure({ enforceActions: true });
+configure({ enforceActions: 'observed' });
 
 //> display image on new tab page load or when image changes
 export const display_img = async () => {

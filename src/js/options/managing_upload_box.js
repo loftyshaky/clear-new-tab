@@ -1,6 +1,6 @@
 import { observable, action, configure } from 'mobx';
 
-configure({ enforceActions: true });
+configure({ enforceActions: 'observed' });
 
 export const reset_upload_btn_val = action(() => {
     ob.upload_btn_val = '';

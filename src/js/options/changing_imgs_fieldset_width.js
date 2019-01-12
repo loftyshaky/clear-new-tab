@@ -1,6 +1,6 @@
 import { observable, action, configure } from 'mobx';
 
-configure({ enforceActions: true });
+configure({ enforceActions: 'observed' });
 
 //> set imgs width same as imgs_w
 export const resize_imgs = action(imgs_w => {

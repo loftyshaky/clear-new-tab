@@ -3,7 +3,7 @@ import * as r from 'ramda';
 
 import { db } from 'js/init_db';
 
-configure({ enforceActions: true });
+configure({ enforceActions: 'observed' });
 
 //--
 

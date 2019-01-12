@@ -2,7 +2,7 @@ import { observable, action, configure } from 'mobx';
 
 import * as prevent_scrolling from 'js/prevent_scrolling';
 
-configure({ enforceActions: true });
+configure({ enforceActions: 'observed' });
 
 //> show / hide imgs_fieldset_fillers
 export const show_or_hide_imgs_fieldset_fillers = action(() => {

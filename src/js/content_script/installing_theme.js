@@ -2,7 +2,7 @@ import { observable, action, configure } from 'mobx';
 
 import x from 'x';
 
-configure({ enforceActions: true });
+configure({ enforceActions: 'observed' });
 
 const download_theme = async (theme_id, show_undo_btn) => {
     const tab_id = await x.send_message_to_background_c({ message: 'get_current_tab_id' });

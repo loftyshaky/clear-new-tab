@@ -7,7 +7,7 @@ import { selects_options } from 'options/selects_options';
 import * as shared_o from 'options/shared_o';
 import * as shared_b_o from 'js/shared_b_o';
 
-configure({ enforceActions: true });
+configure({ enforceActions: 'observed' });
 
 export const change_settings = async (input_type, storage, val) => {
     try {

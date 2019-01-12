@@ -6,7 +6,7 @@ import { db } from 'js/init_db';
 import * as shared_o from 'options/shared_o';
 import * as img_deletion from 'options/img_deletion';
 
-configure({ enforceActions: true });
+configure({ enforceActions: 'observed' });
 
 //> recieve messages
 browser.runtime.onMessage.addListener(async message => {

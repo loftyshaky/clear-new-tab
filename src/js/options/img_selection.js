@@ -4,7 +4,7 @@ import { action, configure } from 'mobx';
 import x from 'x';
 import * as shared_o from 'options/shared_o';
 
-configure({ enforceActions: true });
+configure({ enforceActions: 'observed' });
 
 //> select image when clicking on it
 export const select_img = async (clicked_img_id, e) => {

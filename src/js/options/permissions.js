@@ -3,7 +3,7 @@ import { observable, action, configure } from 'mobx';
 import x from 'x';
 import * as shared_o from 'options/shared_o';
 
-configure({ enforceActions: true });
+configure({ enforceActions: 'observed' });
 
 //> check for x permissions
 export const contains_permission = permissions => new Promise((resolve, reject) => { // ex: await contains_permission([{'permissions': ['clipboardRead'] }]);

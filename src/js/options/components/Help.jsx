@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 
 import { Tr } from 'js/Tr';
 
-configure({ enforceActions: true });
+configure({ enforceActions: 'observed' });
 
 export class Help extends React.Component {
     //> show or hide help_message when clicking on help_link

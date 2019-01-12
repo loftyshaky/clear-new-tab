@@ -6,7 +6,7 @@ import { db } from 'js/init_db';
 import * as shared_o from 'options/shared_o';
 import * as shared_b_o from 'js/shared_b_o';
 
-configure({ enforceActions: true });
+configure({ enforceActions: 'observed' });
 
 //> paste image or image url
 export const get_pasted_image_or_image_url = async e => {

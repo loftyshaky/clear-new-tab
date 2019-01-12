@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import x from 'x';
 import * as installing_theme from 'content_script/installing_theme';
 
-configure({ enforceActions: true });
+configure({ enforceActions: 'observed' });
 
 const ff_install_btn_text = x.msg('ff_install_btn_text');
 const ff_install_btn_installing_text = x.msg('ff_install_btn_installing_text');

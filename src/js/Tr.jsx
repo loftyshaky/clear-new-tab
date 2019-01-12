@@ -3,7 +3,7 @@ import { decorate, observable, action, configure } from 'mobx';
 import { observer } from 'mobx-react';
 import * as r from 'ramda';
 
-configure({ enforceActions: true });
+configure({ enforceActions: 'observed' });
 
 export class Tr extends React.Component {
     constructor(props) {

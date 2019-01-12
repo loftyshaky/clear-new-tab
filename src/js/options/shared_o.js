@@ -6,7 +6,7 @@ import * as permissions from 'options/permissions';
 import * as settings from 'options/settings';
 import * as img_loading from 'js/img_loading';
 
-configure({ enforceActions: true });
+configure({ enforceActions: 'observed' });
 
 export const get_img_i_by_id = img_id => ob.imgs.findIndex(img => img.id === img_id);
 
