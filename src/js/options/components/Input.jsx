@@ -16,7 +16,6 @@ export class Input extends React.Component {
             val: this.val,
             storage: this.storage,
             input_visibility: this.input_visibility,
-            input_btn_visibility: this.input_btn_visibility,
         } = this.props);
 
         this.input = React.createRef();
@@ -34,6 +33,7 @@ export class Input extends React.Component {
     //> paste image or image url when clicking on "Paste" button
 
     render() {
+        const { input_btn_visibility } = this.props;
         const pasted_url_img_el = this.name === 'paste' ? <img alt="" className="pasted_url_img_el" src="#" /> : null;
 
         return (
@@ -65,9 +65,12 @@ export class Input extends React.Component {
                         ref={this.input}
                     />
                     <Tr
+                        attr={{
+                            className: 'adjacent_btn_w',
+                        }}
                         tag="span"
                         name="gen"
-                        state={typeof this.input_btn_visibility === 'boolean' ? this.input_btn_visibility : true}
+                        state={typeof input_btn_visibility === 'boolean' ? input_btn_visibility : true}
                     >
                         <button
                             type="button"

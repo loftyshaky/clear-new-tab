@@ -87,9 +87,9 @@ export class Imgs_fieldset extends React.Component {
                                 className: 'imgs_w_1',
                             }}
                             tag="div"
-                            name="imgs_w_1"
+                            name="gen"
                             state={img_deletion.ob.show_imgs_w_1}
-                            delete_all_images_tr_end={img_deletion.delete_all_images_tr_end}
+                            tr_end_callbacks={[img_deletion.delete_all_images_tr_end]}
                         >
                             <div className="imgs_w_2">
                                 <Imgs
@@ -199,7 +199,7 @@ class Imgs extends React.Component {
                                 className: 'img_w_tr',
                             }}
                             tag="span"
-                            name="gen"
+                            name="img"
                             state={img.show_delete}
                             tr_end_callbacks={[img_deletion.delete_img_tr_end_callback, this.delete_broken_imgs]}
                             key={img.key}
@@ -240,21 +240,23 @@ const Img_inner_w = observer(props => {
     const { img } = props;
 
     return (
-        <Tr
-            attr={{
-                className: 'img_inner_w',
-            }}
-            tag="div"
-            name="img"
-            state={img.show}
-        >
-            <Img
-                i={props.i}
-                img={img}
-                img_load_callback={props.img_load_callback}
-                delete_img={props.delete_img}
-            />
-        </Tr>
+        <div className="img_inner_ww">
+            <Tr
+                attr={{
+                    className: 'img_inner_w',
+                }}
+                tag="div"
+                name="img"
+                state={img.show}
+            >
+                <Img
+                    i={props.i}
+                    img={img}
+                    img_load_callback={props.img_load_callback}
+                    delete_img={props.delete_img}
+                />
+            </Tr>
+        </div>
     );
 });
 

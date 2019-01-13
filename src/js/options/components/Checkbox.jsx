@@ -32,6 +32,9 @@ export const Global_checkbox = observer(props => {
 
     return (
         <Tr
+            attr={{
+                className: 'checkbox_w',
+            }}
             tag="span"
             name="gen"
             state={props.active}

@@ -732,8 +732,12 @@ fieldset, .normal_input, .select_w, .checkbox_checkmark_w, .btn, .img_w, .select
 /*< loading screen */
 
 /*> transition */
-a, .upload_box_browse_label, svg, .theme_img_link, .delete_img_btn, .color_input_vizualization, .normal_input, .select_w, .select_title, .select_title:hover:after, .btn, .color_global_el, .input_item, .image_settings_wrapper, .load_btns_w, .dragged_item, .img_inner_w, .img_w, .img_preview {
+a, .upload_box_browse_label, svg, .theme_img_link, .delete_img_btn, .color_input_vizualization, .normal_input, .select_w, .select_title, .select_title:hover:after, .btn, .color_global_el, .input_item, .image_settings_wrapper, .load_btns_w, .dragged_item, .img_inner_ww, .img_w, .img_preview, .imgs_w_1, .upload_box, .help_message, .install_help_w, .color_pickier, .load_btns_w, .img_w_tr, .adjacent_btn_w {
     transition: all 0.2s ease-out;
+}
+
+.loading_screen, .img_inner_w {
+    transition: all 0.4s ease-out;
 }
 
 a, .upload_box_browse_label {
@@ -748,7 +752,7 @@ svg {
     transition-property: color, opacity;
 }
 
-.delete_img_btn, .color_input_vizualization {
+.delete_img_btn, .color_input_vizualization, .upload_box {
     transition-property: background-color;
 }
 
@@ -764,11 +768,11 @@ svg {
     transition-property: color, background-color, border-color, box-shadow;
 }
 
-.color_global_el, .input_item, .image_settings_wrapper, .load_btns_w, .dragged_item {
+.color_global_el, .input_item, .image_settings_wrapper, .load_btns_w, .dragged_item, .loading_screen, .imgs_w_1, .img_inner_w, .help_message, .install_help_w, .color_pickier, .load_btns_w, .img_w_tr, .adjacent_btn_w {
     transition-property: opacity;
 }
 
-.img_inner_w {
+.img_inner_ww {
     transition-property: border-color, box-shadow;
 }
 
@@ -794,6 +798,14 @@ a:active, .upload_box_browse_label:active, .btn:active, .img_preview:active, .th
     opacity: 0;
 }
 
+.opacity_1 {
+    opacity: 1;
+}
+
+.opacity_08 {
+    opacity: 0.8;
+}
+
 .overflow_auto {
     overflow: auto;
 }
@@ -804,6 +816,14 @@ a:active, .upload_box_browse_label:active, .btn:active, .img_preview:active, .th
 
 .margin_bottom_0 {
     margin-bottom: 0!important;
+}
+
+.upload_box_unhover {
+    background-color: #5d7daf;
+}
+
+.upload_box_hover {
+    background-color: #3b6ab5;
 }
 /*< mods */
 

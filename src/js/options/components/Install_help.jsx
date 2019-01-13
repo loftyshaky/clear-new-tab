@@ -36,7 +36,9 @@ export class Install_help extends React.Component {
     render() {
         return (
             <Tr
-                attr={{}}
+                attr={{
+                    className: 'install_help_w',
+                }}
                 tag="div"
                 name="gen"
                 state={this.ob.show_install_help}

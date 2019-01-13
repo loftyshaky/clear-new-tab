@@ -14,7 +14,7 @@ export const Loading_screen = observer(() => (
             className: 'loading_screen',
         }}
         tag="div"
-        name="loading_screen"
+        name="gen"
         state={img_loading.ob.show_loading_screen}
     >
 
