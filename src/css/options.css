@@ -837,7 +837,7 @@ svg {
     display: none;
 }
 
-.other_settings_w > div > div:first-child, .input:first-child li:nth-child(n+3) {
+.other_settings_w > div > div:first-child {
     display: none;
 }
 
