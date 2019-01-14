@@ -25,7 +25,7 @@ export const Link = props => {
     return create_link
         ? (
             <a
-                className={x.cls(['bottom_link', name])}
+                className={x.cls(['link', 'bottom_link', name])}
                 data-text={`${name}_text`}
                 href={href}
                 {...opts}

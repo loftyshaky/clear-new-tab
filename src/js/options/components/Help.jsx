@@ -34,7 +34,7 @@ export class Help extends React.Component {
                 <React.Fragment>
                     <button
                         type="button"
-                        className="help_link"
+                        className="link help_link"
                         data-help-message={`${this.name}_help_message`}
                         data-text="help_link_text"
                         href="#"

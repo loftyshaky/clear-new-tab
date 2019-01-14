@@ -311,10 +311,10 @@
 
 
   "install_help_text_chrome": {
-    "message": "Thanks for installing Clear New Tab! If your Chrome have theme from <a class='install_help_link' href='https://chrome.google.com/webstore/category/themes'>Chrome Web Store</a> installed, wait till its background image appear in an \"Images\" section, and then open new tab to see it. Otherwise, you can upload your own image with a form below. Click <a class='install_help_link hide_install_help_link' href='#'>here</a> to hide this message."
+    "message": "Thanks for installing Clear New Tab! If your Chrome have theme from <a class='link install_help_link' href='https://chrome.google.com/webstore/category/themes'>Chrome Web Store</a> installed, wait till its background image appear in an \"Images\" section, and then open new tab to see it. Otherwise, you can upload your own image with a form below. Click <a class='link install_help_link hide_install_help_link' href='#'>here</a> to hide this message."
   },
   "install_help_text_firefox": {
-    "message": "Thanks for installing Clear New Tab! You can install theme from <a class='install_help_link' href='https://chrome.google.com/webstore/category/themes'>Chrome Web Store</a> or upload your own image with a form below. Click <a class='install_help_link hide_install_help_link' href='#'>here</a> to hide this message."
+    "message": "Thanks for installing Clear New Tab! You can install theme from <a class='link install_help_link' href='https://chrome.google.com/webstore/category/themes'>Chrome Web Store</a> or upload your own image with a form below. Click <a class='link install_help_link hide_install_help_link' href='#'>here</a> to hide this message."
   },
   "upload_box_help_message_text": {
     "message": "You can upload multiple images at once. Just select multiple images before clicking \"Open\" / dragging."

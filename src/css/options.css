@@ -74,24 +74,29 @@ legend, .imgs_legend {
     padding-right: 4px;
 }
 
-a {
+.link {
 	display: table;
-	text-decoration: none;
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
 }
 
-a:not(.theme_img_link):not(.install_help_link):not(.help_link):visited {
+.link:not(.theme_img_link):not(.install_help_link):not(.help_link):visited {
 	color: #ff9090;
 }
 
-a, .upload_box_browse_label {
+.link, .upload_box_browse_label {
     color: #fbff75!important;
 }
 
-a:hover, .upload_box_browse_label:hover {
+.link:hover, .upload_box_browse_label:hover {
     color: #77ff6f!important;
 }
 
-a:active, .upload_box_browse_label:active {
+.link:active, .upload_box_browse_label:active {
     color: #f493ff!important;
 }
 
@@ -732,7 +737,7 @@ fieldset, .normal_input, .select_w, .checkbox_checkmark_w, .btn, .img_w, .select
 /*< loading screen */
 
 /*> transition */
-a, .upload_box_browse_label, svg, .theme_img_link, .delete_img_btn, .color_input_vizualization, .normal_input, .select_w, .select_title, .select_title:hover:after, .btn, .color_global_el, .input_item, .image_settings_wrapper, .load_btns_w, .dragged_item, .img_inner_ww, .img_w, .img_preview, .imgs_w_1, .upload_box, .help_message, .install_help_w, .color_pickier, .load_btns_w, .img_w_tr, .adjacent_btn_w {
+.link, .upload_box_browse_label, svg, .theme_img_link, .delete_img_btn, .color_input_vizualization, .normal_input, .select_w, .select_title, .select_title:hover:after, .btn, .color_global_el, .input_item, .image_settings_wrapper, .load_btns_w, .dragged_item, .img_inner_ww, .img_w, .img_preview, .imgs_w_1, .upload_box, .help_message, .install_help_w, .color_pickier, .load_btns_w, .img_w_tr, .adjacent_btn_w {
     transition: all 0.2s ease-out;
 }
 
@@ -740,7 +745,7 @@ a, .upload_box_browse_label, svg, .theme_img_link, .delete_img_btn, .color_input
     transition: all 0.4s ease-out;
 }
 
-a, .upload_box_browse_label {
+.link, .upload_box_browse_label {
     transition-property: color;
 }
 
@@ -784,7 +789,7 @@ svg {
     transition-property: color, background-color;
 }
 
-a:active, .upload_box_browse_label:active, .btn:active, .img_preview:active, .theme_img_link:active {
+.link:active, .upload_box_browse_label:active, .btn:active, .img_preview:active {
     transition: none;
 }
 /*< transition */

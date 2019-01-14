@@ -12,7 +12,7 @@ export const Theme_img_link = () => {
     return (
         <button
             type="button"
-            className="theme_img_link"
+            className="link theme_img_link"
             data-text="theme_img_link_text"
             href="#"
             onClick={open_theme_img}
