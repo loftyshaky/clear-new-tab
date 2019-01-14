@@ -44,7 +44,7 @@ const start_timer_inner = async delay => {
 
                 start_timer_inner(ed.change_interval);
             }
-        }, ed.change_interval !== 1 ? 0 : 3000);
+        }, ed.change_interval != 1 ? 0 : 3000); // eslint-disable-line eqeqeq
     }, delay);
 };
 
