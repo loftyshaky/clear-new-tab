@@ -39,7 +39,7 @@ export class Input extends React.Component {
         return (
             <Tr
                 attr={{
-                    className: 'input_item',
+                    className: 'input',
                 }}
                 tag="div"
                 name="gen"

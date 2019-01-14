@@ -36,7 +36,7 @@ export class Upload_box extends React.Component {
 
     render() {
         return (
-            <div className="input_item upload_box_input_item">
+            <div className="input upload_box_input">
                 <Tr
                     attr={{
                         className: 'upload_box',

@@ -37,7 +37,7 @@ export class All extends React.Component {
 
     componentWillMount() {
         permissions.restore_optional_permissions_checkboxes_state();
-        shared_o.decide_what_input_items_to_hide();
+        shared_o.decide_what_inputs_to_hide();
         shared_o.set_color_input_vizualization_color('color', ed.color);
     }
 
@@ -80,7 +80,7 @@ export class All extends React.Component {
                             name="paste"
                             storage="background_url"
                             add_help
-                            input_btn_visibility={shared_o.ob.hidable_input_items.paste_btn}
+                            input_btn_visibility={shared_o.ob.hidable_inputs.paste_btn}
                         />
                         <Checkbox
                             name="download_img_when_link_given"
@@ -120,7 +120,7 @@ export class All extends React.Component {
                             name="current_img"
                             storage="current_img"
                             val={settings.ob.current_img_input_val}
-                            input_visibility={shared_o.ob.hidable_input_items.current_img}
+                            input_visibility={shared_o.ob.hidable_inputs.current_img}
                         />
                         <hr className="separator" />
                         <Select

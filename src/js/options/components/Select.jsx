@@ -55,12 +55,12 @@ export class Select extends React.Component {
     render() {
         const options = settings.options[this.name];
         const selected_option_text = settings.ob.selected_options[this.name];
-        const select_visibility = shared_o.ob.hidable_input_items[this.name];
+        const select_visibility = shared_o.ob.hidable_inputs[this.name];
 
         return (
             <Tr
                 attr={{
-                    className: 'input_item select_input_item',
+                    className: 'input select_input',
                 }}
                 tag="div"
                 name="gen"

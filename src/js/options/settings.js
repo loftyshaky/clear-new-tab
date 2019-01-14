@@ -42,7 +42,7 @@ export const change_settings = async (input_type, storage, val) => {
 
         await x.send_message_to_background_c({ message: 'reload_ed' });
         await x.get_ed();
-        shared_o.decide_what_input_items_to_hide();
+        shared_o.decide_what_inputs_to_hide();
         x.send_message_to_background({ message: 'update_imgs_obj', id: storage_id, storage, val: new_val });
 
         if (input_type === 'select' && val === 'theme' && what_browser === 'chrome') {
@@ -277,7 +277,7 @@ export const restore_default_global_settings = async () => {
             shared_o.deselect_selected_img();
             shared_o.change_current_img_input_val(1);
             shared_o.set_ed_ui_state();
-            shared_o.decide_what_input_items_to_hide();
+            shared_o.decide_what_inputs_to_hide();
 
         } catch (er) {
             console.error(er);

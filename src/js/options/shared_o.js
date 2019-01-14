@@ -12,20 +12,20 @@ export const get_img_i_by_id = img_id => ob.imgs.findIndex(img => img.id === img
 
 export const get_img_i_by_el = el => Array.prototype.slice.call(mut.img_w_tr_nodes).indexOf(el);
 
-export const decide_what_input_items_to_hide = action(async () => {
+export const decide_what_inputs_to_hide = action(async () => {
     try {
-        ob.hidable_input_items.keep_old_themes_imgs = ed.mode === 'theme';
-        ob.hidable_input_items.slideshow = !!(ed.mode === 'multiple' || ed.mode === 'random_solid_color');
-        ob.hidable_input_items.shuffle = ed.mode === 'multiple';
-        ob.hidable_input_items.change_interval = !!(ed.mode === 'multiple' || ed.mode === 'random_solid_color');
-        ob.hidable_input_items.current_img = !!(ed.mode === 'one' || ed.mode === 'multiple');
+        ob.hidable_inputs.keep_old_themes_imgs = ed.mode === 'theme';
+        ob.hidable_inputs.slideshow = !!(ed.mode === 'multiple' || ed.mode === 'random_solid_color');
+        ob.hidable_inputs.shuffle = ed.mode === 'multiple';
+        ob.hidable_inputs.change_interval = !!(ed.mode === 'multiple' || ed.mode === 'random_solid_color');
+        ob.hidable_inputs.current_img = !!(ed.mode === 'one' || ed.mode === 'multiple');
 
         const contains_allow_downloading_images_by_link_permission = await permissions.contains_permission(permissions.permissions_dict.allow_downloading_images_by_link);
         const contains_enable_paste_permission = await permissions.contains_permission(permissions.permissions_dict.enable_paste);
 
         runInAction(() => {
-            ob.hidable_input_items.download_img_when_link_given = !!contains_allow_downloading_images_by_link_permission;
-            ob.hidable_input_items.paste_btn = !!contains_enable_paste_permission;
+            ob.hidable_inputs.download_img_when_link_given = !!contains_allow_downloading_images_by_link_permission;
+            ob.hidable_inputs.paste_btn = !!contains_enable_paste_permission;
         });
 
     } catch (er) {
@@ -132,7 +132,7 @@ export const mut = {
 export const ob = observable({
     imgs: [],
     show_load_btns_w: false,
-    hidable_input_items: {
+    hidable_inputs: {
         download_img_when_link_given: false,
         paste_btn: false,
     },

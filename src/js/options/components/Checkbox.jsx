@@ -10,12 +10,12 @@ import { Tr } from 'js/Tr';
 import checkmark_svg from 'svg/checkmark';
 
 export const Checkbox = observer(props => {
-    const checkbox_visibility = shared_o.ob.hidable_input_items[props.name];
+    const checkbox_visibility = shared_o.ob.hidable_inputs[props.name];
 
     return (
         <Tr
             attr={{
-                className: 'input_item',
+                className: 'input',
             }}
             tag="div"
             name="gen"

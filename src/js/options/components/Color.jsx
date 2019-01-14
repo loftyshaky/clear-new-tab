@@ -26,7 +26,7 @@ export const Color = observer(props => {
     const global_checkbox = props.include_global_checkbox ? <Global_checkbox name="color_global" active={settings.ob.show_global_options} checked={settings.ob.color_global_checkbox_state} onchange_f={settings.change_color_global_checkbox_setting} /> : null;
 
     return (
-        <div className="input_item">
+        <div className="input color_input">
             <label
                 className="input_label color_input_label"
                 data-text={`${props.name}_label_text`}

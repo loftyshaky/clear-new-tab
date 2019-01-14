@@ -48,7 +48,10 @@
 }
 
 body {
-    margin: auto;
+    margin-top: 9px;
+    margin-bottom: 16px;
+    margin-left: 16px;
+    margin-right: 16px;
 }
 
 body, .option, .imgs_legend_line, .imgs_fieldset_filler {
@@ -58,6 +61,7 @@ body, .option, .imgs_legend_line, .imgs_fieldset_filler {
 
 fieldset {
     padding: 0 12px 12px 12px;
+    margin: 0;
 }
 
 fieldset:not(:last-child) {
@@ -65,7 +69,7 @@ fieldset:not(:last-child) {
 }
 
 legend {
-    margin-bottom: 4px;
+    margin-bottom: 5px;
 }
 
 legend, .imgs_legend {
@@ -118,10 +122,6 @@ p {
 }
 
 .all {
-    padding-top: 6px;
-    padding-bottom: 16px;
-    padding-left: 16px;
-    padding-right: 16px;
     display: flex;
     justify-content: center;
     position: relative;
@@ -132,13 +132,13 @@ p {
     flex-shrink: 0;
 }
 
-.input_item {
+.input {
 	position: relative;
     display: table;
     width: 100%;
 }
 
-.input_item:not(:first-child), .separator {
+.input:not(:first-child), .separator {
     margin-top: 10px;
 }
 
@@ -189,7 +189,7 @@ fieldset, .normal_input, .select_w, .checkbox_checkmark_w, .btn, .img_w, .select
     margin-top: 5px;
 }
 
-.select_input_item .help_link {
+.select_input .help_link {
     margin-top: 36px;
 }
 
@@ -243,15 +243,16 @@ fieldset, .normal_input, .select_w, .checkbox_checkmark_w, .btn, .img_w, .select
     display: none;
 }
 
+.checkbox_w {
+    display: flex;
+    height: 18px;
+}
+
 .checkbox_checkmark_w {
     height: 16px;
     width: 16px;
-    position: relative;
-    top: 3px;
-    height: 16px;
-    width: 16px;
-    display: inline-block;
     cursor: pointer;
+    display: block;
 }
 
 .checkbox_checkmark_w svg {
@@ -265,16 +266,10 @@ fieldset, .normal_input, .select_w, .checkbox_checkmark_w, .btn, .img_w, .select
 
 .checkbox_label {
     margin-right: 8px;
-    margin-top: -2px;
-    display: inline-block;
 }
 /*<1 checkboxes */
 
 /*>1 color inputs */
-.color_input {
-    display: none;
-}
-
 .color_input_label {
     display: inline-block;
     margin-bottom: 0;
@@ -290,6 +285,11 @@ fieldset, .normal_input, .select_w, .checkbox_checkmark_w, .btn, .img_w, .select
     margin-left: 12px;
     cursor: pointer;
     position: relative;
+}
+
+.color_input {
+    display: flex;
+    align-items: center;
 }
 
 /*>2 color picker */
@@ -404,7 +404,7 @@ fieldset, .normal_input, .select_w, .checkbox_checkmark_w, .btn, .img_w, .select
 /*< image upload */
 
 /*> image settings */
-.select_input_item {
+.select_input {
     height: 50px;
 }
 
@@ -490,14 +490,14 @@ fieldset, .normal_input, .select_w, .checkbox_checkmark_w, .btn, .img_w, .select
 
 /*> links */
 .bottom_link:not(:first-child) {
-    margin-top: 8px;
+    margin-top: 11px;
 }
 /*< links */
 
 /*> images */
 .imgs_w {
     max-width: calc(__MSG_imgs_w_width__ - __MSG_body_width__);
-    margin-left: 12px;
+    margin-left: 16px;
     margin-top: 11px;
     position: relative;
     transition: margin-top 0.1s ease-out;
@@ -510,7 +510,7 @@ fieldset, .normal_input, .select_w, .checkbox_checkmark_w, .btn, .img_w, .select
 
 .imgs_w, .imgs {
     width: 100%;
-    height: calc(100vh - 33px);
+    height: calc(100vh - 36px);
 }
 
 .imgs_legend {
@@ -539,7 +539,7 @@ fieldset, .normal_input, .select_w, .checkbox_checkmark_w, .btn, .img_w, .select
 
 .imgs_fieldset_filler {
     position: absolute;
-    height: 15px;
+    height: 16px;
     width: calc(100% - 25px);
     right: 22px;
     z-index: 1;
@@ -554,8 +554,8 @@ fieldset, .normal_input, .select_w, .checkbox_checkmark_w, .btn, .img_w, .select
 }
 
 .imgs_w_1 {
-    margin-top: 15px;
-    margin-bottom: 3px;
+    margin-top: 16px;
+    margin-bottom: 4px;
 }
 
 .imgs_legend {
@@ -737,7 +737,7 @@ fieldset, .normal_input, .select_w, .checkbox_checkmark_w, .btn, .img_w, .select
 /*< loading screen */
 
 /*> transition */
-.link, .upload_box_browse_label, svg, .theme_img_link, .delete_img_btn, .color_input_vizualization, .normal_input, .select_w, .select_title, .select_title:hover:after, .btn, .color_global_el, .input_item, .image_settings_wrapper, .load_btns_w, .dragged_item, .img_inner_ww, .img_w, .img_preview, .imgs_w_1, .upload_box, .help_message, .install_help_w, .color_pickier, .load_btns_w, .img_w_tr, .adjacent_btn_w {
+.link, .upload_box_browse_label, svg, .theme_img_link, .delete_img_btn, .color_input_vizualization, .normal_input, .select_w, .select_title, .select_title:hover:after, .btn, .color_global_el, .input, .image_settings_wrapper, .load_btns_w, .dragged_item, .img_inner_ww, .img_w, .img_preview, .imgs_w_1, .upload_box, .help_message, .install_help_w, .color_pickier, .load_btns_w, .img_w_tr, .adjacent_btn_w {
     transition: all 0.2s ease-out;
 }
 
@@ -773,7 +773,7 @@ svg {
     transition-property: color, background-color, border-color, box-shadow;
 }
 
-.color_global_el, .input_item, .image_settings_wrapper, .load_btns_w, .dragged_item, .loading_screen, .imgs_w_1, .img_inner_w, .help_message, .install_help_w, .color_pickier, .load_btns_w, .img_w_tr, .adjacent_btn_w {
+.color_global_el, .input, .image_settings_wrapper, .load_btns_w, .dragged_item, .loading_screen, .imgs_w_1, .img_inner_w, .help_message, .install_help_w, .color_pickier, .load_btns_w, .img_w_tr, .adjacent_btn_w {
     transition-property: opacity;
 }
 
@@ -837,7 +837,7 @@ svg {
     display: none;
 }
 
-.other_settings_w > div > div:first-child, .input_item:first-child li:nth-child(n+3) {
+.other_settings_w > div > div:first-child, .input:first-child li:nth-child(n+3) {
     display: none;
 }
 

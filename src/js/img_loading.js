@@ -17,7 +17,7 @@ export const get_pasted_image_or_image_url = async e => {
     const clipboard_items = e.clipboardData.items;
     const clipboard_text = e.clipboardData.getData('text');
     const input_given_text = clipboard_text !== '';
-    const contains_allow_downloading_images_by_link_permission = shared_o.ob.hidable_input_items.download_img_when_link_given;
+    const contains_allow_downloading_images_by_link_permission = shared_o.ob.hidable_inputs.download_img_when_link_given;
 
     const img = await r.ifElse(
         () => contains_allow_downloading_images_by_link_permission && ed.download_img_when_link_given && input_given_text,
