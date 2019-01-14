@@ -24,7 +24,7 @@ export const run_everything = async All_type => {
             break;
 
         case 'new_tab':
-            ({ All } = require('new_tab/components/All').All); // eslint-disable-line global-require
+            ({ All } = require('new_tab/components/All')); // eslint-disable-line global-require
 
             break;
 
