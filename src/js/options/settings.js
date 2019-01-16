@@ -201,7 +201,7 @@ export const get_selects_text = (mode, settings) => {
 export const change_current_img_by_typing_into_currrent_img_input = async e => {
     const actual_value = +e.target.value;
 
-    if (!window.sNaN(actual_value)) {
+    if (!Number.isNaN(actual_value)) {
         const number_of_imgs = await db.imgs.count();
         mut.corrected_current_img_input_val = actual_value;
         let value_to_insert_into_db = mut.corrected_current_img_input_val - 1;
