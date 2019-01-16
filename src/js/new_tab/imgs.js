@@ -2,29 +2,39 @@ import { observable, action, configure } from 'mobx';
 import * as r from 'ramda';
 
 import x from 'x';
+import * as shared_b_n from 'js/shared_b_n';
 
 configure({ enforceActions: 'observed' });
 
 //> display image on new tab page load or when image changes
-export const display_img = async () => {
+export const display_img = async force_current_img => {
     const mode = r.cond([
         [r.anyPass([r.equals('one'), r.equals('multiple'), r.equals('theme')]), r.always('img_or_color')],
         [r.equals('random_solid_color'), r.always('random_solid_color')],
     ])(ed.mode);
 
-    get_img(mode);
+    get_img(mode, force_current_img);
 };
 //< display image on new tab page load or when image changes
 
 //> get one image from background.js imgs object
-const get_img = async mode => {
-    if (mode === 'img_or_color') {
+const get_img = async (mode, force_current_img) => {
+    if (mode === 'img_or_color') { // not random solid color
         try {
             const query_string = window.location.search;
 
             const img = await r.ifElse(
                 () => query_string.indexOf('preview') === -1,
-                async () => x.send_message_to_background_c({ message: 'get_img' }),
+                async () => {
+                    const ms_left = shared_b_n.get_ms_left();
+
+                    if (!force_current_img && ms_left <= 0) {
+                        return x.send_message_to_background_c({ message: 'get_future_img' });
+
+                    }
+
+                    return x.send_message_to_background_c({ message: 'get_img' });
+                },
 
                 async () => {
                     const img_id = query_string.split('preview_img_id=').pop();
@@ -55,8 +65,19 @@ const get_img = async mode => {
         }
 
     } else if (mode === 'random_solid_color') {
+        const ms_left = shared_b_n.get_ms_left();
+
+        if (!force_current_img && ms_left <= 0) {
+            mut.random_solid_color = await x.send_message_to_background_c({ message: 'get_img' });
+
+        } else {
+            mut.random_solid_color = r.clone(ed.current_random_color);
+        }
+
         determine_size('random_solid_color');
     }
+
+    x.send_message_to_background({ message: 'update_time_setting_and_start_timer', force_timer: false });
 };
 //< get one image from background.js imgs object
 
@@ -136,7 +157,7 @@ const set_img = action(async mode => {
         ob.img_divs.background[mut.current_img_div_i] = mut.img.img;
 
     } else if (mode === 'random_solid_color') {
-        ob.img_divs.background[mut.current_img_div_i] = ed.current_random_color;
+        ob.img_divs.background[mut.current_img_div_i] = mut.random_solid_color;
     }
 
     mut.first_run = false;

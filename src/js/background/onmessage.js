@@ -3,7 +3,6 @@ import * as r from 'ramda';
 import x from 'x';
 import * as shared_b from 'background/shared_b';
 import * as theme_img from 'background/theme_img';
-import * as tabs from 'background/tabs';
 import * as multiple from 'background/multiple';
 import * as determine_theme_current_img from 'js/determine_theme_current_img';
 
@@ -33,7 +32,23 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
     const msg = message.message;
 
     if (msg === 'get_img') { // set, preload images and get current image from new tab
-        send_response(shared_b.mut.current_img);
+        if (ed.mode === 'multiple') {
+            send_response(shared_b.mut.current_img);
+
+        } else if (ed.mode === 'random_solid_color') {
+            multiple.get_next_img()
+                .then(() => {
+                    send_response(ed.current_random_color);
+
+                }).catch(er => {
+                    console.error(er);
+                });
+        }
+
+    } else if (msg === 'get_future_img') {
+        send_response(shared_b.mut.future_img);
+
+        multiple.get_next_img();
 
     } else if (msg === 'preload_img') { // set, preload images and get current image from new tab
         shared_b.preload_current_and_future_img('reload');
@@ -127,7 +142,7 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
         send_response({ img_id_before_drop, ids_of_imgs_to_move });
 
     } else if (msg === 'update_time_setting_and_start_timer') { // when chasnging mode from options while at least one new tab page opened
-        tabs.update_time_setting_and_start_timer()
+        multiple.update_time_setting_and_start_timer(message.force_timer)
             .then(() => {
                 send_response();
 

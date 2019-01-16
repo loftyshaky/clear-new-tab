@@ -25,11 +25,6 @@ export const change_settings = async (input_type, storage, val) => {
             new_val = val;
         }
 
-        if (storage === 'change_interval') {
-            await x.send_message_to_background_c({ message: 'clear_change_img_timer' });
-            await x.send_message_to_background({ message: 'update_time_setting_and_start_timer' });
-        }
-
         if (input_type === 'select' && val === 'theme') {
             const new_current_img = await x.send_message_to_background_c({ message: 'get_new_current_img_when_choosing_theme_mode' });
 
@@ -44,6 +39,11 @@ export const change_settings = async (input_type, storage, val) => {
         await x.get_ed();
         shared_o.decide_what_inputs_to_hide();
         x.send_message_to_background({ message: 'update_imgs_obj', id: storage_id, storage, val: new_val });
+
+        if (storage === 'change_interval') {
+            await x.send_message_to_background_c({ message: 'clear_change_img_timer' });
+            await x.send_message_to_background({ message: 'update_time_setting_and_start_timer', force_timer: true });
+        }
 
         if (input_type === 'select' && val === 'theme' && what_browser === 'chrome') {
             await x.send_message_to_background_c({ message: 'get_theme_img', reinstall_even_if_theme_img_already_exist: false });

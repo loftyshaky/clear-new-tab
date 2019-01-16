@@ -3,77 +3,78 @@ import { db } from 'js/init_db';
 import * as shared_b from 'background/shared_b';
 import * as tabs from 'background/tabs';
 import * as shared_b_o from 'js/shared_b_o';
+import * as shared_b_n from 'js/shared_b_n';
 
-export const start_timer = async () => {
-    if (!mut.starting_timer) {
-        mut.starting_timer = true;
+export const start_timer = async force_timer => {
+    const one_new_tab_tab_opened = tabs.mut.new_tabs_ids.length === 1;
+    const at_least_one_new_tab_tab_opened = tabs.mut.new_tabs_ids.length > 0;
+
+    if (one_new_tab_tab_opened || !mut.timer_runned_once || (force_timer && at_least_one_new_tab_tab_opened)) {
+        clear_timer();
+
+        mut.timer_runned_once = true;
+
         const ext_data_not_loaded_yet = !ed;
-        const at_least_one_new_tab_tab_opened = tabs.mut.new_tabs_ids.length > 0;
 
         if (ext_data_not_loaded_yet) {
             await x.get_ed();
         }
 
-        clear_timer();
+        if (ed.mode === 'multiple' || ed.mode === 'random_solid_color') {
+            const ms_left = shared_b_n.get_ms_left();
 
-        if (at_least_one_new_tab_tab_opened) {
-            if (ed.mode === 'multiple' || ed.mode === 'random_solid_color') {
-                const ms_left = shared_b.get_ms_left();
-
-                start_timer_inner(ms_left);
-            }
+            start_timer_inner(force_timer ? ed.change_interval : ms_left); // eslint-disable-line eqeqeq
         }
     }
 };
 
-const start_timer_inner = async delay => {
-    mut.timer = setTimeout(async () => {
-        const at_least_one_new_tab_tab_opened = tabs.mut.new_tabs_ids.length > 0;
+const start_timer_inner = async ms_left => {
+    const at_least_one_new_tab_tab_opened = tabs.mut.new_tabs_ids.length > 0;
 
+    mut.timer = setTimeout(async () => {
         await get_next_img();
 
-        mut.starting_timer = false;
+        clear_timer();
 
-        mut.number_of_inner_timers_running++;
+        if (ed.slideshow && at_least_one_new_tab_tab_opened && (ed.mode === 'multiple' || ed.mode === 'random_solid_color')) {
+            x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'change_img' }]);
 
-        mut.timer_innner = setTimeout(async () => {
-            mut.number_of_inner_timers_running--;
+            start_timer_inner(ed.change_interval);
+        }
 
-            if (mut.number_of_inner_timers_running === 0 && ed.slideshow && at_least_one_new_tab_tab_opened && (ed.mode === 'multiple' || ed.mode === 'random_solid_color')) {
-                x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'change_img' }]);
-
-                start_timer_inner(ed.change_interval);
-            }
-        }, ed.change_interval != 1 ? 0 : 3000); // eslint-disable-line eqeqeq
-    }, delay);
+    }, ed.change_interval == 1 ? 3000 : ms_left); // eslint-disable-line eqeqeq
 };
 
 export const clear_timer = () => {
-    clearTimeout(mut.timer);
-    clearTimeout(mut.timer_innner);
 
-    mut.starting_timer = false;
-    mut.number_of_inner_timers_running = 0;
+    clearTimeout(mut.timer);
 };
 
 //> decide what image to show next
-const get_next_img = async () => {
+export const get_next_img = async () => {
     try {
-        if (ed.mode === 'multiple') {
-            const new_current_img = ed.future_img;
-            const new_future_img = new_current_img + 1;
+        if (!mut.get_next_img_f_is_running) {
+            mut.get_next_img_f_is_running = true;
 
-            await db.ed.update(1, { current_img: new_current_img });
-            await shared_b_o.get_new_future_img(new_future_img);
-            await x.get_ed();
+            if (ed.mode === 'multiple') {
+                const new_current_img = ed.future_img;
+                const new_future_img = new_current_img + 1;
 
-            x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'change_current_img_input_val' }]);
+                await db.ed.update(1, { current_img: new_current_img });
+                await shared_b_o.get_new_future_img(new_future_img);
+                await x.get_ed();
 
-            shared_b.preload_current_and_future_img('new_current_img');
+                x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'change_current_img_input_val' }]);
 
-        } else if (ed.mode === 'random_solid_color') {
-            await db.ed.update(1, { current_random_color: shared_b_o.generate_random_color() });
+                shared_b.preload_current_and_future_img('new_current_img');
+
+            } else if (ed.mode === 'random_solid_color') {
+                await db.ed.update(1, { current_random_color: shared_b_o.generate_random_color() });
+                await x.get_ed();
+            }
         }
+
+        mut.get_next_img_f_is_running = false;
 
     } catch (er) {
         console.error(er);
@@ -81,8 +82,22 @@ const get_next_img = async () => {
 };
 //< decide what image to show next
 
+export const update_time_setting_and_start_timer = async force_timer => {
+    const ms_left = shared_b_n.get_ms_left();
+
+    if (ms_left <= 0) {
+        const time = new Date().getTime();
+
+        await db.ed.update(1, { last_img_change_time: time });
+        await x.get_ed();
+    }
+
+    start_timer(force_timer);
+};
+
 const mut = {
+    timer_runned_once: false,
     timer: null,
-    starting_timer: false,
     number_of_inner_timers_running: 0,
+    get_next_img_f_is_running: false,
 };
