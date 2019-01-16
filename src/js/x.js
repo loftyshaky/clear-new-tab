@@ -12,6 +12,21 @@ const title = document.querySelector('title');
 window.page = title ? title.dataset.page : 'background';
 window.browser = (() => window.msBrowser || window.browser || window.chrome)();
 
+//> get extension data
+window.ed123 = async key => {
+    try {
+        const store = await db.ed.get(1);
+
+        return store[key];
+
+    } catch (er) {
+        console.error(er);
+    }
+
+    return undefined;
+};
+//< get extension data
+
 //> what browser
 (() => {
     const url = browser.extension.getURL('');
@@ -94,7 +109,7 @@ x.matches = (el, selector) => {
 
 x.closest = (el, selector) => {
     if (el && el.nodeType === 1) { // if not document
-        return el.closest(selector);  
+        return el.closest(selector);
     }
 
     return false;

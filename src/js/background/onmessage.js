@@ -32,18 +32,25 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
     const msg = message.message;
 
     if (msg === 'get_img') { // set, preload images and get current image from new tab
-        if (ed.mode !== 'random_solid_color') {
-            send_response(shared_b.mut.current_img);
+        ed123('mode')
+            .then(mode => {
+                if (mode !== 'random_solid_color') {
+                    send_response(shared_b.mut.current_img);
 
-        } else if (ed.mode === 'random_solid_color') {
-            multiple.get_next_img()
-                .then(() => {
-                    send_response(ed.current_random_color);
+                } else if (mode === 'random_solid_color') {
+                    multiple.get_next_img()
+                        .then(() => ed123('current_random_color'))
+                        .then(current_random_color => {
+                            send_response(current_random_color);
 
-                }).catch(er => {
-                    console.error(er);
-                });
-        }
+                        }).catch(er => {
+                            console.error(er);
+                        });
+                }
+
+            }).catch(er => {
+                console.error(er);
+            });
 
     } else if (msg === 'get_future_img') {
         send_response(shared_b.mut.future_img);
@@ -123,7 +130,8 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
         shared_b.mut.imgs = [];
 
     } else if (msg === 'get_new_current_img_when_choosing_theme_mode') {
-        determine_theme_current_img.determine_theme_current_img(ed.last_installed_theme_theme_id, shared_b.mut.imgs)
+        ed123('last_installed_theme_theme_id')
+            .then(last_installed_theme_theme_id => determine_theme_current_img.determine_theme_current_img(last_installed_theme_theme_id, shared_b.mut.imgs))
             .then(new_current_img => {
                 send_response(new_current_img);
 
@@ -182,7 +190,12 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
         });
 
     } else if (msg === 'get_last_installed_theme_theme_id') { // when installing theme (firefox only)
-        send_response(ed.last_installed_theme_theme_id);
+        ed123('last_installed_theme_theme_id').then(last_installed_theme_theme_id => {
+            send_response(last_installed_theme_theme_id);
+
+        }).catch(er => {
+            console.error(er);
+        });
 
     } else if (msg === 'open_preview_img_tab') { // open image (new tab) by click on "Preview" button
         let new_tab_url;

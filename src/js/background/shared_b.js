@@ -6,31 +6,29 @@ import * as theme_img from 'background/theme_img';
 
 //> load_imgs (runs on extension enable)
 export const load_imgs = async () => {
-    if (ed) {
-        await retrieve_imgs();
+    await retrieve_imgs();
 
-        if (ed.mode === 'theme' && what_browser === 'chrome') {
-            const get_first_encountered_theme_img_theme_id = () => {
-                const first_encountered_theme_img = mut.imgs.find(img => img.theme_id);
-                const first_encountered_theme_img_theme_id = first_encountered_theme_img ? first_encountered_theme_img.theme_id : null;
+    if (await ed123('mode') === 'theme' && what_browser === 'chrome') {
+        const get_first_encountered_theme_img_theme_id = () => {
+            const first_encountered_theme_img = mut.imgs.find(img => img.theme_id);
+            const first_encountered_theme_img_theme_id = first_encountered_theme_img ? first_encountered_theme_img.theme_id : null;
 
-                return first_encountered_theme_img_theme_id || null;
-            };
+            return first_encountered_theme_img_theme_id || null;
+        };
 
-            const installed_theme_id = await get_installed_theme_id();
-            const theme_id = installed_theme_id || get_first_encountered_theme_img_theme_id();
+        const installed_theme_id = await get_installed_theme_id();
+        const theme_id = installed_theme_id || get_first_encountered_theme_img_theme_id();
 
-            if (theme_id) {
-                await theme_img.get_theme_img(theme_id, false);
-            }
+        if (theme_id) {
+            await theme_img.get_theme_img(theme_id, false);
         }
-
-        if (mut.imgs.length > 0) {
-            preload_current_and_future_img('reload');
-        }
-
-        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'display_img_on_ext_enable' }]);
     }
+
+    if (mut.imgs.length > 0) {
+        preload_current_and_future_img('reload');
+    }
+
+    x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'display_img_on_ext_enable' }]);
 };
 //< load_imgs (runs on extension enable)
 
@@ -79,25 +77,29 @@ const remove_img_from_memory = async img => {
     }
 };
 
-export const preload_current_and_future_img = mode => {
+export const preload_current_and_future_img = async mode => {
     remove_img_from_memory(mut.current_img);
 
+    const future_img = await ed123('future_img');
+
     if (mode === 'new_current_img' && mut.future_img) {
-        mut.current_img = mut.imgs[ed.future_img] ? r.clone(mut).future_img : null;
+        mut.current_img = mut.imgs[future_img] ? r.clone(mut).future_img : null;
 
     } else if (mode === 'reload') {
+        const current_img = await ed123('current_img');
         remove_img_from_memory(mut.future_img);
 
-        mut.current_img = mut.imgs[ed.current_img] ? preload_img(ed.current_img) : null;
+        mut.current_img = mut.imgs[current_img] ? preload_img(current_img) : null;
     }
 
-    mut.future_img = mut.imgs[ed.future_img] ? preload_img(ed.future_img) : null;
+    mut.future_img = mut.imgs[future_img] ? preload_img(future_img) : null;
 };
 //< preload images
 
 export const get_installed_theme_id = () => new Promise(resolve => {
-    browser.management.getAll(all_apps => {
-        const enabled_themes_without_last_installed = all_apps.filter(app => app.type === 'theme' && app.enabled === true && app.id !== ed.last_installed_theme_theme_id);
+    browser.management.getAll(async all_apps => {
+        const last_installed_theme_theme_id = await ed123('last_installed_theme_theme_id');
+        const enabled_themes_without_last_installed = all_apps.filter(app => app.type === 'theme' && app.enabled === true && app.id !== last_installed_theme_theme_id);
         const themes = enabled_themes_without_last_installed.length === 0 ? all_apps.filter(app => app.type === 'theme' && app.enabled === true) : enabled_themes_without_last_installed;
         const theme_id = themes.length > 0 ? themes[0].id : null;
 

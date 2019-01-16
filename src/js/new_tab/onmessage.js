@@ -16,7 +16,7 @@ browser.runtime.onMessage.addListener(async (message, sender, send_response) => 
     } else if (msg === 'change_img') {
         await x.get_ed();
 
-        if (ed.slideshow && window.location.search.indexOf('preview') === -1) {
+        if (await ed123('slideshow') && window.location.search.indexOf('preview') === -1) {
             imgs.display_img(true);
         }
 

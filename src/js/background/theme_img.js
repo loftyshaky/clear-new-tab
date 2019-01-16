@@ -11,18 +11,12 @@ import * as determine_theme_current_img from 'js/determine_theme_current_img';
 
 //> download theme crx, unpack it, access theme data from theme crx manifest, download theme image
 export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_already_exist, tab_id) => {
-    const ext_data_not_loaded_yet = !ed;
-
-    if (ext_data_not_loaded_yet) {
-        await x.get_ed();
-    }
-
-    if (ed.mode === 'theme') {
+    if (await ed123('mode') === 'theme') {
         try {
             const installing_theme_img_already_exist = r.find(r.propEq('theme_id', theme_id), shared_b.mut.imgs);
             let new_current_img;
 
-            if ((!ed.keep_old_themes_imgs && reinstall_even_if_theme_img_already_exist) || !installing_theme_img_already_exist) {
+            if ((await !ed123('keep_old_themes_imgs') && reinstall_even_if_theme_img_already_exist) || !installing_theme_img_already_exist) {
                 const theme_package = await new jszip.external.Promise((resolve, reject) => {
                     jszip_utils.getBinaryContent(`https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D${theme_id}%26uc&prodversion=32`, (err, theme_package_) => {
                         if (err) {
@@ -123,7 +117,7 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
 
 const delete_previous_themes_imgs = async () => {
     try {
-        if (ed.mode === 'theme' && !ed.keep_old_themes_imgs) {
+        if (await ed123('mode') === 'theme' && await !ed123('keep_old_themes_imgs')) {
             const theme_imgs = shared_b.mut.imgs.filter(img => img.theme_id);
             const at_least_one_theme_image_found = theme_imgs[0];
 

@@ -12,18 +12,12 @@ export const start_timer = async force_timer => {
     if (one_new_tab_tab_opened || !mut.timer_runned_once || (force_timer && at_least_one_new_tab_tab_opened)) {
         clear_timer();
 
+        const mode = await ed123('mode');
         mut.timer_runned_once = true;
-
-        const ext_data_not_loaded_yet = !ed;
-
-        if (ext_data_not_loaded_yet) {
-            await x.get_ed();
-        }
-
-        if (ed.mode === 'multiple' || ed.mode === 'random_solid_color') {
+        if (mode === 'multiple' || mode === 'random_solid_color') {
             const ms_left = shared_b_n.get_ms_left();
 
-            start_timer_inner(force_timer ? ed.change_interval : ms_left); // eslint-disable-line eqeqeq
+            start_timer_inner(force_timer ? await ed123('change_interval') : ms_left); // eslint-disable-line eqeqeq
         }
     }
 };
@@ -33,16 +27,17 @@ const start_timer_inner = async ms_left => {
 
     mut.timer = setTimeout(async () => {
         await get_next_img();
+        const mode = await ed123('mode');
 
         clear_timer();
 
-        if (ed.slideshow && at_least_one_new_tab_tab_opened && (ed.mode === 'multiple' || ed.mode === 'random_solid_color')) {
+        if (await ed123('slideshow') && at_least_one_new_tab_tab_opened && (mode === 'multiple' || mode === 'random_solid_color')) {
             x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'change_img' }]);
 
-            start_timer_inner(ed.change_interval);
+            start_timer_inner(await ed123('change_interval'));
         }
 
-    }, ed.change_interval == 1 ? 3000 : ms_left); // eslint-disable-line eqeqeq
+    }, await ed123('change_interval') == 1 ? 3000 : ms_left); // eslint-disable-line eqeqeq
 };
 
 export const clear_timer = () => {
@@ -55,9 +50,10 @@ export const get_next_img = async () => {
     try {
         if (!mut.get_next_img_f_is_running) {
             mut.get_next_img_f_is_running = true;
+            const mode = await ed123('mode');
 
-            if (ed.mode === 'multiple') {
-                const new_current_img = ed.future_img;
+            if (mode === 'multiple') {
+                const new_current_img = await ed123('future_img');
                 const new_future_img = new_current_img + 1;
 
                 await db.ed.update(1, { current_img: new_current_img });
@@ -68,7 +64,7 @@ export const get_next_img = async () => {
 
                 shared_b.preload_current_and_future_img('new_current_img');
 
-            } else if (ed.mode === 'random_solid_color') {
+            } else if (mode === 'random_solid_color') {
                 await db.ed.update(1, { current_random_color: shared_b_o.generate_random_color() });
                 await x.get_ed();
             }
