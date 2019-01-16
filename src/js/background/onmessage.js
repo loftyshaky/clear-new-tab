@@ -32,7 +32,7 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
     const msg = message.message;
 
     if (msg === 'get_img') { // set, preload images and get current image from new tab
-        if (ed.mode === 'multiple') {
+        if (ed.mode !== 'random_solid_color') {
             send_response(shared_b.mut.current_img);
 
         } else if (ed.mode === 'random_solid_color') {

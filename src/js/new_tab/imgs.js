@@ -28,7 +28,7 @@ const get_img = async (mode, force_current_img) => {
                 async () => {
                     const ms_left = shared_b_n.get_ms_left();
 
-                    if (!force_current_img && ms_left <= 0) {
+                    if (!force_current_img && ed.mode === 'multiple' && ms_left <= 0) {
                         return x.send_message_to_background_c({ message: 'get_future_img' });
 
                     }
