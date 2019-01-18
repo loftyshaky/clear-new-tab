@@ -244,12 +244,12 @@ fieldset, .normal_input, .checkbox_checkmark_w, .btn, .img_w {
 
 .checkbox_w {
     display: flex;
-    height: 18px;
+    align-items: center;
 }
 
 .checkbox_checkmark_w {
-    height: 16px;
-    width: 16px;
+    height: 18px;
+    width: 18px;
     cursor: pointer;
     display: block;
 }
@@ -257,8 +257,8 @@ fieldset, .normal_input, .checkbox_checkmark_w, .btn, .img_w {
 .checkbox_checkmark_w svg {
     margin-top: 1px;
     margin-left: 1px;
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     fill: white;
     display: block;
 }
