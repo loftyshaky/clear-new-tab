@@ -70,6 +70,8 @@ module.exports = {
         'File': false,
         'MutationObserver': false,
         'ed123': false,
+        'ed': false,
+        'eda': false,
         'err': false,
         't': false,
         'er_obj': false,

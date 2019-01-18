@@ -1,9 +1,8 @@
-import { observable, action, configure } from 'mobx';
+import { toJS } from 'mobx';
 
 import x from 'x';
+import { inputs_data } from 'options/inputs_data';
 import * as shared_o from 'options/shared_o';
-
-configure({ enforceActions: 'observed' });
 
 //> check for x permissions
 export const contains_permission = permissions => new Promise((resolve, reject) => { // ex: await contains_permission([{'permissions': ['clipboardRead'] }]);
@@ -43,17 +42,17 @@ const remove_permission = permissions => new Promise((resolve, reject) => {
 export const ask_for_permission_or_remove_it = async (checkbox_name, permissions) => {
     try {
 
-        if (!ob.optional_permissions_checkboxes[checkbox_name]) { // if permission is NOT present
+        if (!inputs_data.obj.other_settings[checkbox_name].val) { // if permission is NOT present
             const granted = await request_permission(permissions);
 
             if (granted) {
-                set_val_of_permission_checkbox(checkbox_name, true);
+                shared_o.change_input_val('other_settings', checkbox_name, true);
             }
 
         } else if (checkbox_name !== 'allow_downloading_images_by_link' || what_browser === 'firefox') { // if permission is present
             await remove_permission(permissions);
 
-            set_val_of_permission_checkbox(checkbox_name, false);
+            shared_o.change_input_val('other_settings', checkbox_name, false);
 
         } else {
             alert(x.msg('cannot_disable_all_urls_permission_alert'));
@@ -68,17 +67,17 @@ export const ask_for_permission_or_remove_it = async (checkbox_name, permissions
 
 export const restore_optional_permissions_checkboxes_state = () => {
     const checkbox_names = ['show_bookmarks_bar', 'enable_paste', 'allow_downloading_images_by_link'];
-    const permissions = checkbox_names.map(checkbox_name => permissions_dict[checkbox_name]);
+    const permissions = toJS(checkbox_names.map(checkbox_name => toJS(inputs_data.obj.other_settings[checkbox_name].permissions)));
 
     checkbox_names.forEach(async (checkbox_name, i) => {
         try {
             const contains = await contains_permission(permissions[i]);
 
             if (contains) {
-                set_val_of_permission_checkbox(checkbox_name, true);
+                shared_o.change_input_val('other_settings', checkbox_name, true);
 
             } else {
-                set_val_of_permission_checkbox(checkbox_name, false);
+                shared_o.change_input_val('other_settings', checkbox_name, false);
             }
 
         } catch (er) {
@@ -86,17 +85,3 @@ export const restore_optional_permissions_checkboxes_state = () => {
         }
     });
 };
-
-const set_val_of_permission_checkbox = action((checkbox_name, val) => {
-    ob.optional_permissions_checkboxes[checkbox_name] = val;
-});
-
-export const permissions_dict = {
-    show_bookmarks_bar: [{ permissions: ['bookmarks'] }], // 'origins': ['chrome://favicon/']
-    enable_paste: [{ permissions: ['clipboardRead'] }],
-    allow_downloading_images_by_link: [{ origins: ['*://*/*'] }],
-};
-
-export const ob = observable({
-    optional_permissions_checkboxes: {},
-});

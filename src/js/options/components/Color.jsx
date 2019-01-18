@@ -2,6 +2,7 @@ import React from 'react';
 import { SketchPicker } from 'react-color';
 import { observer } from 'mobx-react';
 
+import { inputs_data } from 'options/inputs_data';
 import * as shared_o from 'options/shared_o';
 import * as settings from 'options/settings';
 
@@ -9,37 +10,52 @@ import { Tr } from 'js/Tr';
 import { Global_checkbox } from 'options/components/Checkbox';
 
 export const Color = observer(props => {
+    const { family, name, accept_color_f } = props;
+    const { vizualization_color, color_pickier_is_visible, color_pickier_position } = inputs_data.obj[family][name];
+    const global_checkbox = props.include_global_checkbox
+        ? (
+            <Global_checkbox
+                family={family}
+                name={name}
+                checkbox_type="color_global"
+                is_color_global_checkbox
+            />
+        )
+        : null;
+
     const change_color_input_vizualization_color = color => {
-        shared_o.set_color_input_vizualization_color(props.name, color.hex);
+        shared_o.set_color_input_vizualization_color(family, name, color.hex);
     };
 
     //> accept color when clicking OK
     const accept_color = () => {
-        props.accept_color(settings.ob.color_input_vizualization_colors[props.name]);
+        if (family !== 'img_settings') {
+            accept_color_f(vizualization_color);
 
-        settings.show_or_hide_color_pickier(props.name, false);
+        } else {
+            accept_color_f(name, vizualization_color);
+        }
+
+        settings.show_or_hide_color_pickier(family, name, false);
     };
     //< accept color when clicking OK
-
-    const color_pickier_state = settings.ob.color_pickiers_state[props.name];
-    const color_pickiers_position = settings.ob.color_pickiers_position[props.name];
-    const global_checkbox = props.include_global_checkbox ? <Global_checkbox name="color_global" active={settings.ob.show_global_options} checked={settings.ob.color_global_checkbox_state} onchange_f={settings.change_color_global_checkbox_setting} /> : null;
 
     return (
         <div className="input color_input">
             <label
                 className="input_label color_input_label"
-                data-text={`${props.name}_label_text`}
-                htmlFor={props.name}
+                data-text={`${name}_label_text`}
+                htmlFor={name}
             />
             <span
                 className="color_input_vizualization"
-                data-name={props.name}
-                style={{ backgroundColor: settings.ob.color_input_vizualization_colors[props.name] }}
+                data-family={family}
+                data-name={name}
+                style={{ backgroundColor: vizualization_color }}
             >
                 <div
                     className="color_pickier_w"
-                    style={{ [color_pickiers_position]: '-1px' }}
+                    style={{ [color_pickier_position]: '-1px' }}
                 >
                     <Tr
                         attr={{
@@ -47,10 +63,10 @@ export const Color = observer(props => {
                         }}
                         tag="div"
                         name="gen"
-                        state={color_pickier_state}
+                        state={color_pickier_is_visible}
                     >
                         <SketchPicker
-                            color={settings.ob.color_input_vizualization_colors[props.name]}
+                            color={vizualization_color}
                             disableAlpha
                             onChange={change_color_input_vizualization_color}
                         />

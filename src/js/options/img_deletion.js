@@ -3,7 +3,9 @@ import { observable, action, runInAction, configure } from 'mobx';
 import x from 'x';
 import { db } from 'js/init_db';
 import * as shared_b_o from 'js/shared_b_o';
+import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import * as determine_theme_current_img from 'js/determine_theme_current_img';
+import * as settings from 'options/settings';
 import * as shared_o from 'options/shared_o';
 
 configure({ enforceActions: 'observed' });
@@ -51,7 +53,7 @@ export const delete_img = async img_id => {
             }
 
             if (deleting_selected_img) {
-                shared_o.set_ed_ui_state();
+                shared_o.switch_to_settings_type(null, null, true);
             }
         });
 
@@ -70,11 +72,11 @@ export const delete_img = async img_id => {
 export const delete_img_tr_end_callback = e => {
     if (x.matches(e.target, '.img_w_tr')) {
         const img_to_delete_i = shared_o.get_img_i_by_el(e.target);
-        shared_o.ob.imgs.splice(img_to_delete_i, 1);
+        shared_b_o.ob.imgs.splice(img_to_delete_i, 1);
 
         if (mut.next_imgs_after_last_visible_img !== 'deleting_image_while_adding_theme_img') {
             if (mut.next_imgs_after_last_visible_img !== 'img_not_existing') {
-                shared_o.unpack_and_load_imgs(mut.next_imgs_after_last_visible_img, 'img_delete', 1);
+                populate_storage_with_images_and_display_them.unpack_and_load_imgs(mut.next_imgs_after_last_visible_img, 'img_delete', 1);
 
             } else {
                 shared_o.calculate_offset('img_delete');
@@ -86,7 +88,7 @@ export const delete_img_tr_end_callback = e => {
 };
 
 const hide_img_before_deletion = action(img_i => {
-    shared_o.ob.imgs[img_i].show_delete = false;
+    shared_b_o.ob.imgs[img_i].show_delete = false;
 });
 //< one image deletion
 
@@ -110,12 +112,12 @@ export const delete_all_images = async () => {
 
             runInAction(() => {
                 ob.show_imgs_w_1 = false;
-                shared_o.ob.show_load_btns_w = false;
+                shared_b_o.ob.show_load_btns_w = false;
             });
 
             shared_o.change_current_img_input_val(1);
-            shared_o.show_or_hide_global_options(false);
-            shared_o.set_selects_text('ed', ed);
+            shared_o.switch_to_settings_type(null, null, true);
+
             await x.send_message_to_background({ message: 'preload_img' });
             x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
 
@@ -128,7 +130,7 @@ export const delete_all_images = async () => {
 
 export const delete_all_images_tr_end = action(() => {
     if (!ob.show_imgs_w_1) {
-        shared_o.ob.imgs.clear();
+        shared_b_o.ob.imgs.clear();
 
         ob.show_imgs_w_1 = true;
 

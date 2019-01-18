@@ -1,6 +1,7 @@
 'use_strict';
 
 import * as r from 'ramda';
+import { observable } from 'mobx';
 
 import x from 'x';
 import { db } from 'js/init_db';
@@ -48,3 +49,8 @@ export const generate_random_color = () => {
 
     return color;
 };
+
+export const ob = observable({
+    imgs: [],
+    show_load_btns_w: false,
+});

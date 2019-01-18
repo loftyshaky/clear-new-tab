@@ -5,10 +5,11 @@ import { reaction } from 'mobx';
 import { observer } from 'mobx-react';
 
 import x from 'x';
-import * as img_loading from 'js/img_loading';
+import * as shared_b_o from 'js/shared_b_o';
 import * as moving from 'js/moving';
-import * as shared_o from 'options/shared_o';
 import * as prevent_scrolling from 'js/prevent_scrolling';
+import * as shared_o from 'options/shared_o';
+import * as img_loading from 'options/img_loading';
 import * as img_selection from 'options/img_selection';
 import * as img_deletion from 'options/img_deletion';
 import * as changing_imgs_fieldset_width from 'options/changing_imgs_fieldset_width';
@@ -47,7 +48,7 @@ export class Imgs_fieldset extends React.Component {
 
     //> get total number of images to load and previous number of images when imgs array length changes. i use it instead componentWillReceiveProps
     get_total_imgs_to_load_and_previous_number_of_imgs = reaction(
-        () => shared_o.ob.imgs.length,
+        () => shared_b_o.ob.imgs.length,
         number_of_displayed_imgs => {
             if (img_loading.mut.previous_number_of_imgs !== number_of_displayed_imgs) {
                 img_loading.mut.imgs_loaded = 0;
@@ -93,7 +94,7 @@ export class Imgs_fieldset extends React.Component {
                         >
                             <div className="imgs_w_2">
                                 <Imgs
-                                    imgs={shared_o.ob.imgs}
+                                    imgs={shared_b_o.ob.imgs}
                                 />
                             </div>
                             <Tr
@@ -102,7 +103,7 @@ export class Imgs_fieldset extends React.Component {
                                 }}
                                 tag="div"
                                 name="gen"
-                                state={shared_o.ob.show_load_btns_w}
+                                state={shared_b_o.ob.show_load_btns_w}
                             >
                                 <Btn
                                     name="load_more"
@@ -151,14 +152,14 @@ class Imgs extends React.Component {
     img_load_callback = async (id, e) => {
         const e_type = e.type;
 
-        if (shared_o.ob.imgs.length !== 0) { // prevent bug when deleting all images when solid color image present
+        if (shared_b_o.ob.imgs.length !== 0) { // prevent bug when deleting all images when solid color image present
             img_loading.mut.imgs_loaded++;
 
             if (e_type === 'error') { // when broken image loaded
                 this.mut.broken_imgs_ids.push(id);
             }
 
-            if ((img_loading.mut.total_imgs_to_load > 0 && img_loading.mut.imgs_loaded === img_loading.mut.total_imgs_to_load) || (img_loading.mut.total_imgs_to_load === 0 && img_loading.mut.imgs_loaded === shared_o.ob.imgs.length)) {
+            if ((img_loading.mut.total_imgs_to_load > 0 && img_loading.mut.imgs_loaded === img_loading.mut.total_imgs_to_load) || (img_loading.mut.total_imgs_to_load === 0 && img_loading.mut.imgs_loaded === shared_b_o.ob.imgs.length)) {
                 img_loading.mut.imgs_loaded = 0;
                 img_loading.hide_loading_screen();
                 scrolling.show_or_hide_imgs_fieldset_fillers();
@@ -193,7 +194,7 @@ class Imgs extends React.Component {
         return (
             <React.Fragment>
                 {
-                    shared_o.ob.imgs.map((img, i) => (
+                    shared_b_o.ob.imgs.map((img, i) => (
                         <Tr
                             attr={{
                                 className: 'img_w_tr',

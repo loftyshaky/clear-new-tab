@@ -3,19 +3,52 @@ import * as r from 'ramda';
 
 import x from 'x';
 import { db } from 'js/init_db';
+import { inputs_data } from 'options/inputs_data';
 import { selects_options } from 'options/selects_options';
 import * as shared_o from 'options/shared_o';
 import * as shared_b_o from 'js/shared_b_o';
 
 configure({ enforceActions: 'observed' });
 
-export const change_settings = async (input_type, storage, val) => {
+export const load_settings = async callback => {
+    try {
+        const ed_all = await eda();
+
+        load_settings_inner('upload', ed_all);
+        load_settings_inner('img_settings', ed_all);
+
+        callback();
+
+    } catch (er) {
+        console.error(er);
+    }
+};
+
+export const load_settings_inner = action((family, settings) => {
+    try {
+        Object.keys(inputs_data.obj[family]).map(async name => {
+            const val = settings[name];
+            const key_exist = typeof val !== 'undefined';
+
+            if (key_exist) {
+                const val_final = name === 'current_img' ? val + 1 : val;
+
+                inputs_data.obj[family][name].val = val_final;
+            }
+        });
+
+    } catch (er) {
+        console.error(er);
+    }
+});
+
+export const change_settings = async (input_type, family, name, val) => {
     try {
         const global_and_specefic_storages = ['size', 'position', 'repeat', 'color'];
-        const storage_type = global_and_specefic_storages.indexOf(storage) > -1 ? shared_o.mut.storage_type : 'ed';
+        const storage_type = global_and_specefic_storages.indexOf(name) > -1 ? shared_o.mut.storage_type : 'ed';
         const storage_id = storage_type === 'ed' ? 1 : shared_o.mut.selected_img_id;
         const settings_obj = await db[storage_type].get(storage_id);
-        const old_val = settings_obj[storage];
+        const old_val = settings_obj[name];
         let new_val;
 
         if (input_type === 'checkbox') {
@@ -33,14 +66,16 @@ export const change_settings = async (input_type, storage, val) => {
             await shared_b_o.get_new_future_img(new_current_img + 1);
         }
 
-        await db[storage_type].update(storage_id, { [storage]: new_val });
+        await db[storage_type].update(storage_id, { [name]: new_val });
+
+        shared_o.change_input_val(family, name, new_val);
 
         await x.send_message_to_background_c({ message: 'reload_ed' });
         await x.get_ed();
         shared_o.decide_what_inputs_to_hide();
-        x.send_message_to_background({ message: 'update_imgs_obj', id: storage_id, storage, val: new_val });
+        x.send_message_to_background({ message: 'update_imgs_obj', id: storage_id, storage: name, val: new_val });
 
-        if (storage === 'change_interval') {
+        if (name === 'change_interval') {
             await x.send_message_to_background_c({ message: 'clear_change_img_timer' });
             await x.send_message_to_background({ message: 'update_time_setting_and_start_timer', force_timer: true });
         }
@@ -54,12 +89,12 @@ export const change_settings = async (input_type, storage, val) => {
         if (input_type === 'color') {
             shared_o.mut.current_color_pickier.el = null;
 
-            shared_o.set_color_input_vizualization_color('color', new_val);
+            shared_o.set_color_input_vizualization_color('img_settings', 'color', new_val);
 
             if (storage_type === 'imgs') {
                 await db.imgs.update(storage_id, { global: false });
                 x.send_message_to_background({ message: 'update_imgs_obj', id: storage_id, storage: 'global', val: false });
-                shared_o.set_color_global_checkbox_val();
+                shared_o.set_color_global_checkbox_val('color');
             }
         }
 
@@ -71,20 +106,20 @@ export const change_settings = async (input_type, storage, val) => {
 };
 
 //> color input
-export const change_settings_color = r.curry(change_settings)('color', 'color');
+export const change_settings_color = r.curry(change_settings)('color', 'img_settings');
 
-export const change_color_global_checkbox_setting = async () => {
-    const new_val = ob.color_global_checkbox_state ? ed.color : 'global';
+export const change_color_global_checkbox_setting = async name => {
+    const new_val = inputs_data.obj.img_settings[name].color_global_checkbox_val ? ed[name] : 'global';
 
-    await db.imgs.update(shared_o.mut.selected_img_id, { color: new_val });
-    x.send_message_to_background({ message: 'update_imgs_obj', id: shared_o.mut.selected_img_id, storage: 'color', val: new_val });
+    await db.imgs.update(shared_o.mut.selected_img_id, { [name]: new_val });
+    x.send_message_to_background({ message: 'update_imgs_obj', id: shared_o.mut.selected_img_id, storage: name, val: new_val });
     x.send_message_to_background({ message: 'reload_ed' });
     x.send_message_to_background({ message: 'preload_img' });
     x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
-    shared_o.set_color_global_checkbox_val();
+    shared_o.set_color_global_checkbox_val(name);
 
     if (new_val === 'global') {
-        shared_o.set_color_input_vizualization_color('color', ed.color);
+        shared_o.set_color_input_vizualization_color('img_settings', [name], ed[name]);
     }
 };
 
@@ -101,9 +136,9 @@ export const show_or_hide_color_pickier_when_clicking_on_color_input_vizualizati
             if (clicked_outside_of_color_pickier) {
                 shared_o.mut.current_color_pickier.el = null;
 
-                show_or_hide_color_pickier(shared_o.mut.current_color_pickier.name, false);
+                show_or_hide_color_pickier(shared_o.mut.current_color_pickier.family, shared_o.mut.current_color_pickier.name, false);
 
-                shared_o.set_color_input_vizualization_color(shared_o.mut.current_color_pickier.name, shared_o.mut.current_color_pickier.color);
+                shared_o.set_color_input_vizualization_color(shared_o.mut.current_color_pickier.family, shared_o.mut.current_color_pickier.name, shared_o.mut.current_color_pickier.color);
             }
         }
         //<1 try to hide color pickier when clicking outside of color pickier
@@ -112,23 +147,24 @@ export const show_or_hide_color_pickier_when_clicking_on_color_input_vizualizati
         const clicked_on_color_input_vizualization = x.matches(e.target, '.color_input_vizualization');
 
         if (clicked_on_color_input_vizualization) {
-            const { name } = e.target.dataset;
+            const { family, name } = e.target.dataset;
             const color_pickier = sb(e.target, '.color_pickier');
-            const color_pickier_hidden = !ob.color_pickiers_state[name];
+            const color_pickier_hidden = !inputs_data.obj[family][name].color_pickier_is_visible;
             const clicked_on_same_color_input_vizualization_second_time = previously_opened_color_pickier === color_pickier;
 
             if (color_pickier_hidden && !clicked_on_same_color_input_vizualization_second_time) {
                 shared_o.mut.current_color_pickier.el = color_pickier;
+                shared_o.mut.current_color_pickier.family = family;
                 shared_o.mut.current_color_pickier.name = name;
-                shared_o.mut.current_color_pickier.color = ob.color_input_vizualization_colors[name];
+                shared_o.mut.current_color_pickier.color = inputs_data.obj[family][name].vizualization_color;
 
-                show_or_hide_color_pickier(name, true);
-                set_color_color_pickier_position(name, 'top');
+                show_or_hide_color_pickier(family, name, true);
+                set_color_color_pickier_position(family, name, 'top');
 
                 const color_pickier_is_fully_visible = color_pickier.getBoundingClientRect().bottom <= window.innerHeight;
 
                 if (!color_pickier_is_fully_visible) {
-                    set_color_color_pickier_position(name, 'bottom');
+                    set_color_color_pickier_position(family, name, 'bottom');
                 }
             }
         }
@@ -136,66 +172,14 @@ export const show_or_hide_color_pickier_when_clicking_on_color_input_vizualizati
     }
 };
 
-export const show_or_hide_color_pickier = action((color_pickier, bool) => {
-    ob.color_pickiers_state[color_pickier] = bool;
+export const show_or_hide_color_pickier = action((family, name, bool) => {
+    inputs_data.obj[family][name].color_pickier_is_visible = bool;
 });
 
-export const set_color_color_pickier_position = action((color_pickier, val) => {
-    ob.color_pickiers_position[color_pickier] = val;
+export const set_color_color_pickier_position = action((family, name, val) => {
+    inputs_data.obj[family][name].color_pickier_position = val;
 });
 //< color input
-
-//> selects text
-//>1 change option value when selecting option; hide / show global options / background color 'Global' checkbox when selecting img / 'Global' option in settings type input
-export const change_select_val = action((storage, val, text) => {
-    if (storage === 'settings_type' && val === 'global') {
-        shared_o.set_ed_ui_state();
-        shared_o.deselect_selected_img();
-    }
-
-    if (storage !== 'settings_type' || (storage === 'settings_type' && val === 'global')) {
-        ob.selected_options[storage] = text;
-    }
-
-    if (storage !== 'settings_type') {
-        change_settings('select', storage, val);
-
-    } else if (storage === 'settings_type' && val === 'specific') {
-        alert(x.msg('change_img_settings_alert'));
-    }
-});
-//>1 change option value when selecting option; hide / show global options / background color 'Global' checkbox when selecting img / 'Global' option in settings type input
-
-//>1 get selects text on page load, all images deletion or image selection
-export const get_selects_text = (mode, settings) => {
-    const mode_to_settings_type_dict = {
-        ed: x.msg('option_global_text'),
-        img: x.msg('option_specific_text'),
-    };
-
-    const make_initial_selects_text_obj = r.mapObjIndexed((obj, key) => {
-        const extract_text_from_options_obj = settings_ => {
-            const get_selected_option_obj = r.find(r.propEq('val', settings_[key]));
-            const get_selected_option_text = r.prop('text');
-            const get_selected_option_text_p = r.pipe(get_selected_option_obj, get_selected_option_text);
-
-            return get_selected_option_text_p(obj);
-        };
-
-        return r.ifElse(() => settings[key],
-            () => extract_text_from_options_obj(settings),
-
-            () => extract_text_from_options_obj(ed))();
-    });
-
-    const set_settings_type_text = r.assoc('settings_type', mode_to_settings_type_dict[mode]);
-    const remove_null_items = r.filter(item => item);
-    const make_selects_text_obj_p = r.pipe(make_initial_selects_text_obj, set_settings_type_text, remove_null_items);
-
-    return make_selects_text_obj_p(options);
-};
-//>1 get selects text on page load, all images deletion or image selection
-//< selects text
 
 //> current_img input
 export const change_current_img_by_typing_into_currrent_img_input = async e => {
@@ -276,7 +260,7 @@ export const restore_default_global_settings = async () => {
             await x.get_ed();
             shared_o.deselect_selected_img();
             shared_o.change_current_img_input_val(1);
-            shared_o.set_ed_ui_state();
+            shared_o.switch_to_settings_type(null, null, true);
             shared_o.decide_what_inputs_to_hide();
 
         } catch (er) {
@@ -295,21 +279,6 @@ export let ob; // eslint-disable-line import/no-mutable-exports
 
 x.get_ed(() => {
     ob = observable({
-        selected_options: get_selects_text('ed', ed),
-        show_global_options: false,
-        color_global_checkbox_state: false,
-        current_img_input_val: ed.current_img + 1,
-        color_input_vizualization_colors: {
-            create_solid_color_img: '#ffffff',
-            color: '',
-        },
-        color_pickiers_state: {
-            create_solid_color_img: false,
-            color: false,
-        },
-        color_pickiers_position: {
-            create_solid_color_img: 'top',
-            color: 'top',
-        },
+        global_options_is_visible: false,
     });
 });

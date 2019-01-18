@@ -9,23 +9,23 @@
     src: url("/Roboto-Light.ttf");
 }
 
-.select::-webkit-scrollbar, .imgs_fieldset::-webkit-scrollbar {
+.select__menu-list::-webkit-scrollbar, .imgs_fieldset::-webkit-scrollbar {
     width: 17px;
     background-color: #3c3c3c;
 }
 
-.select::-webkit-scrollbar-thumb, .imgs_fieldset::-webkit-scrollbar-thumb {
+.select__menu-list::-webkit-scrollbar-thumb, .imgs_fieldset::-webkit-scrollbar-thumb {
     background-color: #fbff75;
     background-clip: content-box;
     border-left: 5px solid #3c3c3c;
 	border-right: 5px solid #3c3c3c;
 }
 
-.select::-webkit-scrollbar-thumb:hover, .imgs_fieldset::-webkit-scrollbar-thumb:hover {
+.select__menu-list::-webkit-scrollbar-thumb:hover, .imgs_fieldset::-webkit-scrollbar-thumb:hover {
     background-color: #77ff6f;
 }
 
-.select::-webkit-scrollbar-thumb:active, .imgs_fieldset::-webkit-scrollbar-thumb:active {
+.select__menu-list::-webkit-scrollbar-thumb:active, .imgs_fieldset::-webkit-scrollbar-thumb:active {
     background-color: #f493ff;
 }
 
@@ -76,6 +76,11 @@ legend, .imgs_legend {
     font-size: 20px;
     padding-left: 4px;
     padding-right: 4px;
+}
+
+hr {
+    border-width: 0 0 1px 0;
+    border-color: white;
 }
 
 .link {
@@ -138,7 +143,7 @@ p {
     width: 100%;
 }
 
-.input:not(:first-child), .separator {
+.input:not(:first-child), hr {
     margin-top: 10px;
 }
 
@@ -151,13 +156,12 @@ p {
     display: flex;
 }
 
-.normal_input, .select_title, .option  {
+.normal_input, .option  {
     width: 100%;
     box-sizing: border-box;
     padding-left: 5px;
     padding-right: 5px;
 }
-
 
 .normal_input, .paste_input_w, .btn, .current_img_input_w {
     height: 28px;
@@ -167,17 +171,17 @@ p {
     margin-right: 10px;
 }
 
-fieldset, .normal_input, .select_w, .checkbox_checkmark_w, .btn, .img_w, .select_title, .separator {
+fieldset, .normal_input, .checkbox_checkmark_w, .btn, .img_w {
     border: 1px solid white;
 }
 
-.normal_input:focus, .select_w:focus, .btn:focus, .selected_img {
+.normal_input:focus, .btn:focus, .selected_img {
     outline: none;
     box-shadow: 0 0 5px #fbff75;
     border: 1px solid #fbff75;
 }
 
-.normal_input, .select_w, .checkbox_checkmark_w {
+.normal_input, .checkbox_checkmark_w {
     background-color: transparent;
 }
 
@@ -186,11 +190,7 @@ fieldset, .normal_input, .select_w, .checkbox_checkmark_w, .btn, .img_w, .select
 }
 
 .help_link {
-    margin-top: 5px;
-}
-
-.select_input .help_link {
-    margin-top: 36px;
+    margin-top: 6px;
 }
 
 .help_message {
@@ -200,7 +200,6 @@ fieldset, .normal_input, .select_w, .checkbox_checkmark_w, .btn, .img_w, .select
 .help_message {
     margin-bottom: 0;
 }
-
 /*>1 buttons */
 .btn {
     padding: 3px 6px 3px 6px;
@@ -403,90 +402,81 @@ fieldset, .normal_input, .select_w, .checkbox_checkmark_w, .btn, .img_w, .select
 }
 /*< image upload */
 
-/*> image settings */
-.select_input {
-    height: 50px;
+/*> selects */
+.select__control {
+    height: 28px;
+    min-height: unset!important;
+    background-color: transparent!important;
+    cursor: pointer!important;
 }
 
-.select_w:focus {
-    z-index: 2;
+.select__control, .select__menu {
+    border: 1px solid white!important;
 }
 
-.select_w {
-    border-bottom: none;
-    box-shadow: none;
-    user-select: none;
-    -moz-user-select: none;
-    position: absolute;
-    width: 100%;
-    box-sizing: border-box;
+.select__control--is-focused, .select__menu_is_focused {
+    box-shadow: 0 0 5px #fbff75!important;
+    border: 1px solid #fbff75!important;
 }
 
-.select_w:focus > .select_title {
-    box-shadow: 0px 1px 5px -1px #fbff75;
-    border-bottom: 1px solid #fbff75;
+.select__control--is-focused .select__dropdown-indicator svg {
+    fill: #fbff75;
 }
 
-.select_w > .select {
+.select__control--is-focused .select__indicator-separator {
+    background-color: #fbff75!important;
+}
+
+.select__control, .select__menu {
+    border-radius: 0!important;
+}
+
+.select__indicator-separator {
+    background-color: white!important;
+}
+
+.select__single-value {
+    top: 13px!important;
+}
+
+.select__single-value, .select__placeholder, .select__option--is-selected, .select__option--is-selected.select__option--is-focused, .select__menu-notice {
+    color: white!important;
+}
+
+.select__value-container {
+    padding: 0 3px!important;
+}
+
+.select__menu {
+    display: table;
+}
+
+.select__menu-list {
+    padding: 0!important;
+    max-height: 308px!important;
+}
+
+.select__option {
+    padding: 3px 5px 5px 5px!important;
+}
+
+.select__option, .select__menu-notice {
+    background-color: #212121!important;
+}
+
+.select__option--is-focused {
+    background-color: #fbff75!important;
+    color: #212121!important;
+}
+
+.select__option--is-selected {
+    background-color: #3892ff!important;
+}
+
+.global_options_is_hidden .global_option {
     display: none;
 }
-
-.select_w:focus > .select {
-    position: static;
-    display: block;
-}
-
-.select_title:after {
-    content: "";
-    width: 0;
-    height: 0;
-    position: absolute;
-    right: 8px;
-    top: 11px;
-    border-width: 6px 6px 0 6px;
-    border-style: solid;
-    border-color: white transparent;
-}
-
-.select_w:focus > .select_title:after {
-    border-color: #fbff75 transparent;
-}
-
-.select_title, .separator {
-    border-width: 0 0 1px 0;
-}
-
-.select_title {
-    height: 27px;
-    line-height: 26px;
-    cursor: pointer;
-    z-index: 1;
-    position: relative;
-}
-
-.select {
-    list-style-type: none;
-    margin: 0;
-    width: 100%;
-    max-height: 300px;
-    overflow: auto;
-    box-sizing: border-box;
-    margin: auto;
-    padding-left: 1px;
-    padding-right: 1px;
-}
-
-.option {
-    height: 25px;
-    line-height: 24px;
-    border-bottom: none;
-    border-right: none;
-    border-left: none;
-    cursor: default;
-    margin-left: -1px;
-    width: calc(100% + 2px);
-}
-/*< image settings */
+/*< selects */
 
 /*> links */
 .bottom_link:not(:first-child) {
@@ -737,8 +727,12 @@ fieldset, .normal_input, .select_w, .checkbox_checkmark_w, .btn, .img_w, .select
 /*< loading screen */
 
 /*> transition */
-.link, .upload_box_browse_label, svg, .theme_img_link, .delete_img_btn, .color_input_vizualization, .normal_input, .select_w, .select_title, .select_title:hover:after, .btn, .color_global_el, .input, .image_settings_wrapper, .load_btns_w, .dragged_item, .img_inner_ww, .img_w, .img_preview, .imgs_w_1, .upload_box, .help_message, .install_help_w, .color_pickier, .load_btns_w, .img_w_tr, .adjacent_btn_w {
+.link, .upload_box_browse_label, svg, .theme_img_link, .delete_img_btn, .color_input_vizualization, .normal_input, .btn, .color_global_el, .input, .image_settings_wrapper, .load_btns_w, .dragged_item, .img_inner_ww, .img_w, .img_preview, .imgs_w_1, .upload_box, .help_message, .install_help_w, .color_pickier, .load_btns_w, .img_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu {
     transition: all 0.2s ease-out;
+}
+
+.using_mouse .select__control, .using_mouse .select__menu {
+    transition: all 0.2s ease-out!important;
 }
 
 .loading_screen, .img_inner_w {
@@ -761,19 +755,15 @@ svg {
     transition-property: background-color;
 }
 
-.normal_input, .select_w, .select_title {
+.normal_input, .select__control, .select__menu {
     transition-property: border-color, box-shadow;
-}
-
-.select_title:hover:after {
-    transition-property: border-color;
 }
 
 .btn {
     transition-property: color, background-color, border-color, box-shadow;
 }
 
-.color_global_el, .input, .image_settings_wrapper, .load_btns_w, .dragged_item, .loading_screen, .imgs_w_1, .img_inner_w, .help_message, .install_help_w, .color_pickier, .load_btns_w, .img_w_tr, .adjacent_btn_w {
+.color_global_el, .input, .image_settings_wrapper, .load_btns_w, .dragged_item, .loading_screen, .imgs_w_1, .img_inner_w, .help_message, .install_help_w, .color_pickier, .load_btns_w, .img_w_tr, .adjacent_btn_w, .checkbox_w {
     transition-property: opacity;
 }
 
@@ -791,6 +781,10 @@ svg {
 
 .link:active, .upload_box_browse_label:active, .btn:active, .img_preview:active {
     transition: none;
+}
+
+body:not(.using_mouse) .select__control, body:not(.using_mouse) .select__menu {
+    transition: none!important;
 }
 /*< transition */
 

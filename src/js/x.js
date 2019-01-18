@@ -5,8 +5,6 @@ import { db } from 'js/init_db';
 
 configure({ enforceActions: 'observed' });
 
-//--
-
 const x = {};
 const title = document.querySelector('title');
 window.page = title ? title.dataset.page : 'background';
@@ -25,6 +23,19 @@ window.ed123 = async key => {
 
     return undefined;
 };
+
+//> get extension data
+window.eda = async () => {
+    try {
+        return await db.ed.get(1);
+
+    } catch (er) {
+        console.error(er);
+    }
+
+    return undefined;
+};
+//< get extension data
 //< get extension data
 
 //> what browser
@@ -113,6 +124,12 @@ x.closest = (el, selector) => {
     }
 
     return false;
+};
+
+x.add_cls = (el, cls_name) => {
+    if (el && el.nodeType === 1) { // if not document
+        el.classList.add(cls_name);
+    }
 };
 
 //> move an array item

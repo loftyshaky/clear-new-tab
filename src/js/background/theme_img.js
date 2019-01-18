@@ -6,7 +6,7 @@ import x from 'x';
 import { db } from 'js/init_db';
 import * as shared_b from 'background/shared_b';
 import * as shared_b_o from 'js/shared_b_o';
-import * as img_loading from 'js/img_loading';
+import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import * as determine_theme_current_img from 'js/determine_theme_current_img';
 
 //> download theme crx, unpack it, access theme data from theme crx manifest, download theme image
@@ -61,10 +61,10 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
                         file = file || await theme_package_data.file(img_name.charAt(0).toUpperCase() + img_name.slice(1)); // download theme image (convert first letter of image name to uppercase)
                         const img = await file.async('blob');
 
-                        return img_loading.populate_storage_with_images('file', 'resolved', [img], theme_img_info, theme_id);
+                        return populate_storage_with_images_and_display_them.populate_storage_with_images('file', 'resolved', [img], theme_img_info, theme_id);
                     },
 
-                    async () => img_loading.populate_storage_with_images('color', 'resolved', [color], null, theme_id),
+                    async () => populate_storage_with_images_and_display_them.populate_storage_with_images('color', 'resolved', [color], null, theme_id),
                 )();
 
                 await db.ed.update(1, { last_installed_theme_theme_id: theme_id });

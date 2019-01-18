@@ -3,6 +3,7 @@ import * as r from 'ramda';
 
 import x from 'x';
 import { db } from 'js/init_db';
+import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import * as shared_o from 'options/shared_o';
 import * as img_deletion from 'options/img_deletion';
 
@@ -14,14 +15,14 @@ browser.runtime.onMessage.addListener(async message => {
 
     if (msg === 'load_theme_img') { // remove old theme images and then load new
         img_deletion.mut.next_imgs_after_last_visible_img = 'deleting_image_while_adding_theme_img';
-        const ids_of_theme_imgs_to_delete_filtered = message.ids_of_theme_imgs_to_delete.filter(id => r.find(r.propEq('id', id), shared_o.ob.imgs));
+        const ids_of_theme_imgs_to_delete_filtered = message.ids_of_theme_imgs_to_delete.filter(id => r.find(r.propEq('id', id), shared_b_o.ob.imgs));
         const there_is_imgs_to_delete = ids_of_theme_imgs_to_delete_filtered && ids_of_theme_imgs_to_delete_filtered.length > 0;
         const number_of_visible_imgs = shared_o.mut.img_w_tr_nodes.length;
         const number_of_imgs = await db.imgs.count();
 
         if (there_is_imgs_to_delete) {
             //>1 delete old theme images
-            const imgs_deleted = shared_o.ob.imgs.map(img => {
+            const imgs_deleted = shared_b_o.ob.imgs.map(img => {
                 const id_of_img_to_delete_matched = ids_of_theme_imgs_to_delete_filtered.indexOf(img.id) > -1;
 
                 return r.ifElse(
@@ -33,7 +34,7 @@ browser.runtime.onMessage.addListener(async message => {
             });
 
             runInAction(() => {
-                shared_o.ob.imgs.replace(imgs_deleted);
+                shared_b_o.ob.imgs.replace(imgs_deleted);
             });
             //<1 delete old theme images
         }
@@ -50,7 +51,7 @@ browser.runtime.onMessage.addListener(async message => {
         const imgs_to_show = await db.imgs.where('id').anyOf(ids_of_imgs_to_show).toArray();
         const number_of_imgs_to_show_minus_number_of_imgs_to_delete = ids_of_imgs_to_show.length - ids_of_theme_imgs_to_delete_filtered.length;
 
-        shared_o.unpack_and_load_imgs(imgs_to_show, 'theme_img_adding', number_of_imgs_to_show_minus_number_of_imgs_to_delete);
+        populate_storage_with_images_and_display_them.unpack_and_load_imgs(imgs_to_show, 'theme_img_adding', number_of_imgs_to_show_minus_number_of_imgs_to_delete);
 
         if (number_of_imgs > 50) {
             shared_o.mut.offset += number_of_imgs_to_show_minus_number_of_imgs_to_delete;

@@ -2,8 +2,8 @@ import { observable, action, configure } from 'mobx';
 
 import x from 'x';
 import { db } from 'js/init_db';
-import * as shared_o from 'options/shared_o';
 import * as shared_b_o from 'js/shared_b_o';
+import * as shared_o from 'options/shared_o';
 
 configure({ enforceActions: 'observed' });
 
@@ -285,6 +285,6 @@ const set_new_current_or_future_img_value_after_drop = async (type, move_type, i
 };
 
 const move_imgs_arr_item = action((from, to) => {
-    x.move_a_item(shared_o.ob.imgs, from, to);
+    x.move_a_item(shared_b_o.ob.imgs, from, to);
 });
 //< options

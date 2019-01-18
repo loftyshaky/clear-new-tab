@@ -1,9 +1,10 @@
 import React from 'react';
-import * as r from 'ramda';
 import { observer } from 'mobx-react';
+import ReactSelect, { components } from 'react-select';
 
 import x from 'x';
-import * as prevent_scrolling from 'js/prevent_scrolling';
+import { inputs_data } from 'options/inputs_data';
+import { selects_options } from 'options/selects_options';
 import * as shared_o from 'options/shared_o';
 import * as settings from 'options/settings';
 
@@ -15,47 +16,44 @@ export class Select extends React.Component {
         super(props);
 
         ({
+            family: this.family,
             name: this.name,
-            show_global_options: this.show_global_options,
+            global_options_is_visible: this.global_options_is_visible,
         } = this.props);
 
         this.select_w = React.createRef();
         this.select = React.createRef();
     }
 
-    //> create one option element
-    create_option = option => {
-        const get_none_class = r.ifElse(() => !this.show_global_options && option.global,
-            () => 'none',
+    //> change option val when selecting option
+    change_select_val = selected_option => {
+        const { value } = selected_option;
 
-            () => '');
+        if (!selected_option.is_settings_type_select) {
+            settings.change_settings('select', this.family, this.name, value);
 
-        return <li role="presentation" key={option.key} className={x.cls(['option', get_none_class()])} data-storage={option.storage} data-val={option.val} onClick={this.change_select_val}>{option.text}</li>;
-    }
-    //< create one option element
-
-    //> change option value when selecting option
-    change_select_val = e => {
-        settings.change_select_val(e.target.dataset.storage, e.target.dataset.val, e.target.textContent);
-
-        this.hide_options();
-    }
-    //< change option value when selecting option
-
-    //> hide options when clicking on option or select_title
-    hide_options = async () => {
-        if (document.activeElement === this.select_w.current) {
-            await x.delay(0);
-
-            this.select_w.current.blur();
+        } else if (selected_option.is_settings_type_select && value === 'global') {
+            shared_o.change_input_val(this.family, this.name, value);
         }
+
+        shared_o.switch_to_settings_type(this.name, value);
     }
-    //< hide options when clicking on option or select_title
+    //< change option val when selecting option
+
+    on_menu_open = async () => {
+        await x.delay(0);
+
+        this.transit_menu();
+    }
+
+    transit_menu = () => {
+        x.add_cls(s('.select__menu'), 'select__menu_is_focused');
+    }
 
     render() {
-        const options = settings.options[this.name];
-        const selected_option_text = settings.ob.selected_options[this.name];
-        const select_visibility = shared_o.ob.hidable_inputs[this.name];
+        const { val } = inputs_data.obj[this.family][this.name];
+        const options = selects_options[this.name];
+        const selected_option = options.find(option => option.value === val);
 
         return (
             <Tr
@@ -64,36 +62,38 @@ export class Select extends React.Component {
                 }}
                 tag="div"
                 name="gen"
-                state={typeof select_visibility === 'boolean' ? select_visibility : true}
+                state={inputs_data.obj[this.family][this.name].visible}
             >
-                <label
-                    className="input_label"
-                    data-text={`${this.name}_label_text`}
-                />
-                <div
-                    role="button"
-                    className="select_w settings_input"
-                    tabIndex="0"
-                    ref={this.select_w}
-                >
-                    <div
-                        role="presentation"
-                        className="select_title"
-                        onMouseDown={this.hide_options}
-                    >{selected_option_text}
-                    </div>
-                    <ul
-                        className="select"
-                        onWheel={prevent_scrolling.prevent_scrolling.bind(this.select.current)}
-                        ref={this.select}
-                    >
-                        {options.map(this.create_option)}
-                    </ul>
+                <div>
+                    <label
+                        className="input_label"
+                        data-text={`${this.name}_label_text`}
+                    />
+                    <ReactSelect
+                        value={selected_option}
+                        options={options}
+                        components={{ Option }}
+                        classNamePrefix="select"
+                        backspaceRemovesValue={false}
+                        onChange={this.change_select_val}
+                        onMenuOpen={this.on_menu_open}
+                    />
+                    <Help {...this.props} />
                 </div>
-                <Help {...this.props} />
             </Tr>
         );
     }
 }
+
+const Option = props => {
+    const { data: { global } } = props;
+
+    return (
+        <components.Option
+            {...props}
+            className={global ? 'global_option' : null}
+        />
+    );
+};
 
 observer(Select);

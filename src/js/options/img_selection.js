@@ -1,8 +1,9 @@
-
 import { action, configure } from 'mobx';
 
 import x from 'x';
+import * as shared_b_o from 'js/shared_b_o';
 import * as shared_o from 'options/shared_o';
+import * as settings from 'options/settings';
 
 configure({ enforceActions: 'observed' });
 
@@ -21,21 +22,21 @@ export const select_img = async (clicked_img_id, e) => {
             if (img.type.indexOf('file') > -1 || img.type === 'link') {
                 shared_o.mut.storage_type = 'imgs';
 
-                shared_o.set_selects_text('img', img);
+                settings.load_settings_inner('img_settings', img);
                 shared_o.show_or_hide_global_options(true);
-
-                shared_o.set_color_input_vizualization_color('color', img.color === 'global' ? ed.color : img.color);
+                shared_o.set_color_input_vizualization_color('img_settings', 'color', img.color === 'global' ? ed.color : img.color);
+                shared_o.change_input_val('img_settings', 'settings_type', 'specific');
 
             } else if (img.type === 'color') {
                 shared_o.mut.storage_type = 'ed';
 
-                shared_o.set_selects_text('ed', ed);
+                settings.load_settings_inner('img_settings', await eda());
                 shared_o.show_or_hide_global_options(false);
-
-                shared_o.set_color_input_vizualization_color('color', ed.color);
+                shared_o.set_color_input_vizualization_color('img_settings', 'color', ed.color);
+                shared_o.change_input_val('img_settings', 'settings_type', 'global');
             }
 
-            shared_o.set_color_global_checkbox_val();
+            shared_o.set_color_global_checkbox_val('color');
 
         } catch (er) {
             console.error(er);
@@ -48,14 +49,14 @@ const change_selected_img = action((clicked_img_id, clicked_img_i) => {
     deselect_selected_img();
 
     shared_o.mut.selected_img_id = clicked_img_id;
-    shared_o.ob.imgs[clicked_img_i].selected = true;
+    shared_b_o.ob.imgs[clicked_img_i].selected = true;
 });
 
 const deselect_selected_img = action(() => {
     const selected_img_i = shared_o.get_img_i_by_id(shared_o.mut.selected_img_id);
-    const img_exist = shared_o.ob.imgs[selected_img_i]; // if not deleted selected image
+    const img_exist = shared_b_o.ob.imgs[selected_img_i]; // if not deleted selected image
 
     if (img_exist) {
-        shared_o.ob.imgs[selected_img_i].selected = false;
+        shared_b_o.ob.imgs[selected_img_i].selected = false;
     }
 });

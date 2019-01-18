@@ -2,7 +2,7 @@ import Svg from 'svg-inline-react';
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import * as img_loading from 'js/img_loading';
+import * as img_loading from 'options/img_loading';
 
 import { Tr } from 'js/Tr';
 

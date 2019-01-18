@@ -1,7 +1,8 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import * as img_loading from 'js/img_loading';
+import * as upload_messages from 'js/upload_messages';
+import { inputs_data } from 'options/inputs_data';
 import * as settings from 'options/settings';
 
 import { Tr } from 'js/Tr';
@@ -12,8 +13,8 @@ export class Input extends React.Component {
         super(props);
 
         ({
+            family: this.family,
             name: this.name,
-            storage: this.storage,
         } = this.props);
 
         this.input = React.createRef();
@@ -31,7 +32,8 @@ export class Input extends React.Component {
     //> paste image or image url when clicking on "Paste" button
 
     render() {
-        const { val, input_visibility, input_btn_visibility } = this.props;
+        const { on_paste, on_input, on_blur } = this.props;
+        const { val, visible, adjacent_btn_is_visible } = inputs_data.obj[this.family][this.name];
         const pasted_url_img_el = this.name === 'paste' ? <img alt="" className="pasted_url_img_el" src="#" /> : null;
 
         return (
@@ -41,7 +43,7 @@ export class Input extends React.Component {
                 }}
                 tag="div"
                 name="gen"
-                state={typeof input_visibility === 'boolean' ? input_visibility : true}
+                state={visible}
             >
                 <label
                     className="input_label"
@@ -53,13 +55,12 @@ export class Input extends React.Component {
                         className="normal_input adjacent_input"
                         value={val || ''}
                         type="text"
-                        data-storage={this.storage}
                         id={`${this.name}_input`}
-                        placeholder={img_loading.ob.paste_input_placeholder}
+                        placeholder={upload_messages.ob.paste_input_placeholder}
                         onChange={() => ''}
-                        onPaste={this.name === 'paste' ? img_loading.get_pasted_image_or_image_url : null}
-                        onBlur={this.name === 'current_img' ? settings.correct_current_img_input_val : null}
-                        onInput={this.name === 'current_img' ? settings.change_current_img_by_typing_into_currrent_img_input : null}
+                        onPaste={on_paste}
+                        onInput={on_input}
+                        onBlur={on_blur}
                         ref={this.input}
                     />
                     <Tr
@@ -68,7 +69,7 @@ export class Input extends React.Component {
                         }}
                         tag="span"
                         name="gen"
-                        state={typeof input_btn_visibility === 'boolean' ? input_btn_visibility : true}
+                        state={adjacent_btn_is_visible}
                     >
                         <button
                             type="button"
