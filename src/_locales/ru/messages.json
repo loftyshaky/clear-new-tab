@@ -363,11 +363,17 @@
   "clear_new_tab_for_link_text_opera": {
     "message": "⚗️ Clear New Tab для Opera"
   },
+  "chrome_theme_creator_microsoft_store_link_text": {
+    "message": "🛠️ Создайте свою собственную тему с помощью приложения Chrome Theme Creator (Windows 10)"
+  },
+  "chrome_theme_creator_packages_link_text": {
+    "message": "🛠️ Создайте свою собственную тему с помощью приложения Chrome Theme Creator (Windows 7, macOS, Linux)"
+  },
   "rate_link_text": {
     "message": "⭐️ Оцените расширение, если оно вам нравится"
   },
-  "deviant_art_group_link_text": {
-    "message": "🖼️ Присоединяйтесь к моей группе на Deviant Art"
+  "facebook_page_link_text": {
+    "message": "🖼️ Подписывайтесь на мою страницу в Facebook"
   },
   "donate_link_text": {
     "message": "💖 Поддержать разработку этого расширения пожертвовав любую сумму через PayPal"

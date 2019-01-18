@@ -363,11 +363,17 @@
   "clear_new_tab_for_link_text_opera": {
     "message": "⚗️ Clear New Tab for Opera"
   },
+  "chrome_theme_creator_microsoft_store_link_text": {
+    "message": "🛠️ Create your own theme with the Chrome Theme Creator app (Windows 10)"
+  },
+  "chrome_theme_creator_packages_link_text": {
+    "message": "🛠️ Create your own theme with the Chrome Theme Creator app (Windows 7, macOS, Linux)"
+  },
   "rate_link_text": {
     "message": "⭐️ Rate this extension if you like it"
   },
-  "deviant_art_group_link_text": {
-    "message": "🖼️ Join my Deviant Art group"
+  "facebook_page_link_text": {
+    "message": "🖼️  Follow my Facebook page"
   },
   "donate_link_text": {
     "message": "💖 Support the development of this extension by donating any amount via PayPal"
