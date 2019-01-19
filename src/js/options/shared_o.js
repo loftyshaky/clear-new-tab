@@ -79,20 +79,6 @@ export const enable_ui = () => x.remove(s('.ui_disabled'));
 export const disable_ui = () => x.load_css('ui_disabled');
 //< enable / disable ui
 
-export const calculate_offset = async mode => {
-    const number_of_imgs = await db.imgs.count();
-
-    if (mode === 'first_load' || (mode === 'load_more' && mut.offset <= number_of_imgs - 50)) {
-        mut.offset += 50;
-
-    } else if (mode === 'load_all' && mut.offset <= number_of_imgs - 1000) {
-        mut.offset += 1000;
-
-    } else if (mode === 'load_more' || mode === 'load_all' || (mode === 'img_delete' && number_of_imgs >= 50)) {
-        mut.offset = number_of_imgs;
-    }
-};
-
 export const switch_to_settings_type = async (name, val, force_inputs_reset) => {
     if ((name === 'settings_type' && val === 'global') || force_inputs_reset) {
         mut.storage_type = 'ed';

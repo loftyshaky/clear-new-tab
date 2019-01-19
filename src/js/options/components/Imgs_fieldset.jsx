@@ -3,8 +3,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { reaction } from 'mobx';
 import { observer } from 'mobx-react';
+import Pagination from 'react-js-pagination';
 
 import x from 'x';
+import { db } from 'js/init_db';
 import * as shared_b_o from 'js/shared_b_o';
 import * as moving from 'js/moving';
 import * as prevent_scrolling from 'js/prevent_scrolling';
@@ -14,11 +16,15 @@ import * as img_selection from 'options/img_selection';
 import * as img_deletion from 'options/img_deletion';
 import * as changing_imgs_fieldset_width from 'options/changing_imgs_fieldset_width';
 import * as scrolling from 'options/scrolling';
+import * as pagination from 'options/pagination';
 
 import { Tr } from 'js/Tr';
-import { Btn } from 'options/components/Btn';
 
 import cross_svg from 'svg/cross';
+import arrow_left from 'svg/arrow_left';
+import arrow_right from 'svg/arrow_right';
+import first_page from 'svg/first_page';
+import last_page from 'svg/last_page';
 
 export class Imgs_fieldset extends React.Component {
     constructor(props) {
@@ -26,6 +32,10 @@ export class Imgs_fieldset extends React.Component {
 
         this.imgs_w = React.createRef();
         this.imgs_fieldset = React.createRef();
+    }
+
+    async componentWillMount() {
+        this.number_of_imgs = await db.imgs.count();
     }
 
     componentDidMount() {
@@ -38,8 +48,13 @@ export class Imgs_fieldset extends React.Component {
         changing_imgs_fieldset_width.resize_imgs(this.imgs_w.current);
     }
 
+    async componentWillUpdate() {
+        this.number_of_imgs = await db.imgs.count();
+    }
+
     componentDidUpdate() {
         scrolling.show_or_hide_imgs_fieldset_fillers();
+        pagination.add_and_remove_tabindex_to_pagination_els();
     }
 
     componentWillUnmount() {
@@ -58,6 +73,10 @@ export class Imgs_fieldset extends React.Component {
         },
     )
     //< get total number of images to load and previous number of images when imgs array length changes. i use it instead componentWillReceiveProps
+
+    change_page = page => {
+        img_loading.load_page('load_page', page);
+    }
 
     render() {
         return (
@@ -92,32 +111,29 @@ export class Imgs_fieldset extends React.Component {
                             state={img_deletion.ob.show_imgs_w_1}
                             tr_end_callbacks={[img_deletion.delete_all_images_tr_end]}
                         >
-                            <div className="imgs_w_2">
+                            <div
+                                className="imgs_w_2"
+                                style={{ counterReset: `counter ${img_loading.ob.css_counter_offset}` }}
+                            >
                                 <Imgs
                                     imgs={shared_b_o.ob.imgs}
                                 />
                             </div>
-                            <Tr
-                                attr={{
-                                    className: 'load_btns_w',
-                                }}
-                                tag="div"
-                                name="gen"
-                                state={shared_b_o.ob.show_load_btns_w}
-                            >
-                                <Btn
-                                    name="load_more"
-                                    load_50_or_all_imgs={{ onClick: img_loading.load_50_or_all_imgs.bind(null, 50, 'load_more') }}
-                                />
-                                <Btn
-                                    name="load_all"
-                                    load_50_or_all_imgs={{ onClick: img_loading.load_50_or_all_imgs.bind(null, 1000, 'load_all') }}
-                                />
-                            </Tr>
                         </Tr>
                     </fieldset>
                     <div className={x.cls(['imgs_fieldset_filler', 'imgs_fieldset_filler_bottom', scrolling.ob.imgs_fieldset_filler_bottom_none_cls])} />
                 </div>
+                <Pagination
+                    activePage={img_loading.ob.active_page}
+                    itemsCountPerPage={img_loading.sta.imgs_per_page}
+                    totalItemsCount={this.number_of_imgs}
+                    itemClass="btn pagination_btn"
+                    prevPageText={<Svg src={arrow_left} />}
+                    nextPageText={<Svg src={arrow_right} />}
+                    firstPageText={<Svg src={first_page} />}
+                    lastPageText={<Svg src={last_page} />}
+                    onChange={this.change_page}
+                />
             </div>
         );
     }
@@ -164,20 +180,9 @@ class Imgs extends React.Component {
                 img_loading.hide_loading_screen();
                 scrolling.show_or_hide_imgs_fieldset_fillers();
 
-                if (img_loading.mut.loading_all) {
-                    await img_loading.load_50_or_all_imgs(1000, 'load_all');
-
-                    if (!img_loading.mut.loading_all) {
-                        await x.delay(400);
-                        shared_o.enable_ui();
-                        this.delete_broken_imgs();
-                    }
-
-                } else {
-                    await x.delay(400);
-                    shared_o.enable_ui();
-                    this.delete_broken_imgs();
-                }
+                await x.delay(400);
+                shared_o.enable_ui();
+                this.delete_broken_imgs();
             }
 
             img_loading.show_loaded_img(id, sb(this.img_w_refs[id], '.img'));

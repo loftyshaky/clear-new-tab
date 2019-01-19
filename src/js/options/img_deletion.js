@@ -78,8 +78,6 @@ export const delete_img_tr_end_callback = e => {
             if (mut.next_imgs_after_last_visible_img !== 'img_not_existing') {
                 populate_storage_with_images_and_display_them.unpack_and_load_imgs(mut.next_imgs_after_last_visible_img, 'img_delete', 1);
 
-            } else {
-                shared_o.calculate_offset('img_delete');
             }
 
             shared_o.enable_ui();
@@ -107,8 +105,6 @@ export const delete_all_images = async () => {
             x.get_ed();
             x.send_message_to_background({ message: 'reload_ed' });
             x.send_message_to_background({ message: 'empty_imgs_a' });
-
-            shared_o.mut.offset = 50;
 
             runInAction(() => {
                 ob.show_imgs_w_1 = false;

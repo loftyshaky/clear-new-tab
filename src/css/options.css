@@ -54,6 +54,10 @@ body {
     margin-right: 16px;
 }
 
+body, .pagination {
+    margin-bottom: 16px!important;
+}
+
 body, .option, .imgs_legend_line, .imgs_fieldset_filler {
     background-color: #212121;
 } 
@@ -109,7 +113,7 @@ hr {
     color: #f493ff!important;
 }
 
-.option:hover, .btn:hover, .btn:active, .img_preview:active {
+.option:hover, .btn:hover, .btn:active, .pagination li:hover a, .pagination li:active a, .img_preview:active {
     color: #212121;
 }
 
@@ -171,7 +175,7 @@ p {
     margin-right: 10px;
 }
 
-fieldset, .normal_input, .checkbox_checkmark_w, .btn, .img_w {
+fieldset, .normal_input, .checkbox_checkmark_w, .btn, .img_w, .pagination {
     border: 1px solid white;
 }
 
@@ -200,6 +204,20 @@ fieldset, .normal_input, .checkbox_checkmark_w, .btn, .img_w {
 .help_message {
     margin-bottom: 0;
 }
+
+svg {
+    display: block;
+}
+
+.delete_img_btn svg, .checkbox_checkmark_w svg, .pagination svg {
+    fill: white;
+}
+
+.pagination svg, .checkbox_checkmark_w svg {
+    width: 16px;
+    height: 16px;
+}
+
 /*>1 buttons */
 .btn {
     padding: 3px 6px 3px 6px;
@@ -257,10 +275,6 @@ fieldset, .normal_input, .checkbox_checkmark_w, .btn, .img_w {
 .checkbox_checkmark_w svg {
     margin-top: 1px;
     margin-left: 1px;
-    width: 16px;
-    height: 16px;
-    fill: white;
-    display: block;
 }
 
 .checkbox_label {
@@ -500,7 +514,7 @@ fieldset, .normal_input, .checkbox_checkmark_w, .btn, .img_w {
 
 .imgs_w, .imgs {
     width: 100%;
-    height: calc(100vh - 36px);
+    height: calc(100vh - 89px);
 }
 
 .imgs_legend {
@@ -555,7 +569,7 @@ fieldset, .normal_input, .checkbox_checkmark_w, .btn, .img_w {
 }
 
 .imgs_w_2 {
-    counter-reset: section;
+    counter-reset: counter;
 }
 
 .img_inner_w {
@@ -651,8 +665,8 @@ fieldset, .normal_input, .checkbox_checkmark_w, .btn, .img_w {
 }
 
 .img_inner_w:before {
-    counter-increment: section;            
-    content: counter(section);
+    counter-increment: counter;            
+    content: counter(counter);
     top: 4px;
     cursor: move;
 }
@@ -689,8 +703,6 @@ fieldset, .normal_input, .checkbox_checkmark_w, .btn, .img_w {
 }
 
 .delete_img_btn svg {
-    fill: white;
-    display: block;
     width: 12px;
     height: 12px;
     position: absolute;
@@ -702,6 +714,71 @@ fieldset, .normal_input, .checkbox_checkmark_w, .btn, .img_w {
     background-color: #ff6565;
 }
 /*<1 delete image buttons */
+
+/*>1 pagination */
+.pagination {
+    position: fixed;
+    width: 100%;
+    max-width: calc(__MSG_imgs_w_width__ - __MSG_body_width__);
+    bottom: 0;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    border-top: none;
+    padding: 12px;
+    box-sizing: border-box;
+}
+
+.pagination_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 8px 0px 8px;
+    height: 26px;
+    margin: 0!important;
+    position: relative;
+}
+
+.pagination_btn:not(:last-child) {
+    border-right: none;
+}
+
+.pagination_btn:focus {
+    z-index: 2;
+}
+
+.pagination_btn:focus + .pagination_btn {
+    border-left-color: #fbff75;
+}
+
+.pagination_btn.active {
+    background-color: #3892ff;
+}
+
+
+.pagination_btn.disabled, .pagination_btn.active {
+    pointer-events: none;
+}
+
+.pagination_btn a {
+    text-decoration: none;
+    outline: none;
+}
+
+.pagination_btn.active a {
+    color: white!important;
+}
+
+.pagination_btn:hover svg, .pagination_btn:active svg {
+    fill: #212121;
+}
+
+.pagination_btn.disabled svg {
+    fill: #8b8b8b;
+}
+/*<1 pagination */
 /*< images */
 
 /*> loading screen */

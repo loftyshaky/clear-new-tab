@@ -65,7 +65,7 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
         const number_of_img_w = sa('.img_w').length;
 
         if (number_of_img_w < 50) {
-            const mode = 'load_more';
+            const mode = 'load_page';
             const imgs_to_load = packed_imgs.slice(0, 50 - number_of_img_w); // get first 50 of uploaded images
 
             unpack_and_load_imgs(imgs_to_load, mode, 0);
@@ -120,7 +120,7 @@ export const unpack_and_load_imgs = (imgs, mode, hide_or_show_load_btns_f_minus_
 
 //> insert images in images fieldset (set state)
 export const create_loaded_imgs = action(imgs => {
-    shared_b_o.ob.imgs.replace(r.union(shared_b_o.ob.imgs.slice())(imgs));
+    shared_b_o.ob.imgs.replace(imgs);
 
     const last_inserted_img_id = imgs[imgs.length - 1] ? imgs[imgs.length - 1].id : 'uploaded_imgs_but_not_added_any_imgs_to_ui';
 

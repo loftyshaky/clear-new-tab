@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const Btn = props => {
-    const { name, onclick_f, load_50_or_all_imgs } = props;
+    const { name, onclick_f } = props;
     return (
         <button
             type="button"
@@ -9,7 +9,6 @@ export const Btn = props => {
             className="btn"
             data-text={`${name}_btn_text`}
             onClick={onclick_f}
-            {...load_50_or_all_imgs}
         />
     );
 };

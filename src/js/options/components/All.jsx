@@ -9,6 +9,7 @@ import * as permissions from 'options/permissions';
 import * as settings from 'options/settings';
 import * as img_loading from 'options/img_loading';
 import * as img_deletion from 'options/img_deletion';
+
 import { Tr } from 'js/Tr';
 
 import { Loading_screen } from 'options/components/Loading_screen';
@@ -41,7 +42,7 @@ export class All extends React.Component {
     componentDidMount() {
         moving.mut.dragged_item = ReactDOM.findDOMNode(this.dragged_item.current);
 
-        img_loading.load_50_or_all_imgs(50, 'first_load');
+        img_loading.load_page('first_load', 0);
 
         document.addEventListener('mousedown', settings.show_or_hide_color_pickier_when_clicking_on_color_input_vizualization);
         document.addEventListener('mouseup', this.evl.stop_drag);

@@ -53,13 +53,7 @@ browser.runtime.onMessage.addListener(async message => {
         const number_of_imgs_to_show_minus_number_of_imgs_to_delete = ids_of_imgs_to_show.length - ids_of_theme_imgs_to_delete_filtered.length;
 
         populate_storage_with_images_and_display_them.unpack_and_load_imgs(imgs_to_show, 'theme_img_adding', number_of_imgs_to_show_minus_number_of_imgs_to_delete);
-
-        if (number_of_imgs > 50) {
-            shared_o.mut.offset += number_of_imgs_to_show_minus_number_of_imgs_to_delete;
-
-        } else {
-            shared_o.mut.offset = 50;
-        }
+        
         //<1 add new theme image
     } else if (msg === 'change_current_img_input_val') {
         await x.get_ed();

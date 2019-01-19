@@ -130,18 +130,20 @@ export const create_solid_color_img = color => {
 //< create_solid_color_img
 
 //> create images on extensions' options page on load or click on load btn
-export const load_50_or_all_imgs = async (limit, mode) => { // g
+export const load_page = async (mode, page) => { // g
     shared_o.disable_ui();
 
     try {
-        const imgs = await db.imgs.orderBy('position_id').offset(shared_o.mut.offset).limit(limit).toArray();
+        const offset = page * sta.imgs_per_page - sta.imgs_per_page;
+
+        if (mode === 'load_page') {
+            change_page(page);
+        }
+
+        const imgs = await db.imgs.orderBy('position_id').offset(offset).limit(sta.imgs_per_page).toArray();
         const number_of_imgs = imgs.length;
 
-        mut.loading_all = !!(mode === 'load_all' && number_of_imgs > 0);
-
         if (number_of_imgs > 0) {
-            await shared_o.calculate_offset(mode);
-
             populate_storage_with_images_and_display_them.unpack_and_load_imgs(imgs, mode, 0);
         }
 
@@ -151,11 +153,23 @@ export const load_50_or_all_imgs = async (limit, mode) => { // g
             shared_o.enable_ui();
         }
 
+        if (mode === 'load_page') {
+            change_css_counter_offset(offset);
+        }
+
     } catch (er) {
         console.error(er);
     }
 };
 //< create images on extensions' options page on load or click on load btn
+
+const change_css_counter_offset = action(offset => {
+    ob.css_counter_offset = offset;
+});
+
+const change_page = action(new_page => {
+    ob.active_page = new_page;
+});
 
 //> show one image after it fully loaded
 export const show_loaded_img = async (id, img_el) => {
@@ -192,13 +206,18 @@ export const show_checkerboard = async id => {
 
 export const hide_loading_screen = action(() => { ob.show_loading_screen = false; }); //> hide loading_screen when images loaded on options page load
 
+export const sta = {
+    imgs_per_page: 50,
+};
+
 export const mut = {
     imgs_loaded: 0,
     total_imgs_to_load: 0,
     previous_number_of_imgs: 0,
-    loading_all: false,
 };
 
 export const ob = observable({
     show_loading_screen: true,
+    active_page: 1,
+    css_counter_offset: 0,
 });
