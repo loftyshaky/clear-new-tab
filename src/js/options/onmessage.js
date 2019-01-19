@@ -3,6 +3,7 @@ import * as r from 'ramda';
 
 import x from 'x';
 import { db } from 'js/init_db';
+import * as shared_b_o from 'js/shared_b_o';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import * as shared_o from 'options/shared_o';
 import * as img_deletion from 'options/img_deletion';
