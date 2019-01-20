@@ -153,6 +153,33 @@ x.load_css = filename => {
     return link;
 };
 
+x.debounce = (f, wait, immediate) => {
+    let timeout;
+
+    return function () { // eslint-disable-line func-names
+        const context = this;
+        const args = arguments; // eslint-disable-line prefer-rest-params
+
+        const later = () => {
+            timeout = null;
+
+            if (!immediate) {
+                f.apply(context, args);
+            }
+        };
+
+        const call_now = immediate && !timeout;
+
+        clearTimeout(timeout);
+
+        timeout = setTimeout(later, wait);
+
+        if (call_now) {
+            f.apply(context, args);
+        }
+    };
+};
+
 x.delay = delay => new Promise(resolve => window.setTimeout(() => resolve(), delay));
 
 x.unique_id = () => {
