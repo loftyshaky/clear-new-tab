@@ -77,7 +77,7 @@ const get_img = async (mode, force_current_img) => {
         determine_size('random_solid_color');
     }
 
-    x.send_message_to_background({ message: 'update_time_setting_and_start_timer', force_timer: false });
+    x.send_message_to_background({ message: 'update_time_setting_and_start_timer' });
 };
 //< get one image from background.js imgs object
 

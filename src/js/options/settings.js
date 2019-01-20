@@ -77,7 +77,7 @@ export const change_settings = async (input_type, family, name, val) => {
 
         if (name === 'change_interval') {
             await x.send_message_to_background_c({ message: 'clear_change_img_timer' });
-            await x.send_message_to_background({ message: 'update_time_setting_and_start_timer', force_timer: true });
+            await x.send_message_to_background({ message: 'update_time_setting' });
         }
 
         if (input_type === 'select' && val === 'theme' && what_browser === 'chrome') {

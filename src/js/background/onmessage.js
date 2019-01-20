@@ -149,14 +149,11 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
 
         send_response({ img_id_before_drop, ids_of_imgs_to_move });
 
-    } else if (msg === 'update_time_setting_and_start_timer') { // when chasnging mode from options while at least one new tab page opened
-        multiple.update_time_setting_and_start_timer(message.force_timer)
-            .then(() => {
-                send_response();
+    } else if (msg === 'update_time_setting_and_start_timer') {
+        multiple.update_time_setting_and_start_timer();
 
-            }).catch(er => {
-                console.error(er);
-            });
+    } else if (msg === 'update_time_setting') { // when chasnging mode from options while at least one new tab page opened
+        multiple.update_time_setting();
 
     } else if (msg === 'clear_change_img_timer') { // when setting image
         multiple.clear_timer();
