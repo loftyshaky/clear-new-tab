@@ -8,17 +8,19 @@ configure({ enforceActions: 'observed' });
 
 //> display image on new tab page load or when image changes
 export const display_img = async force_current_img => {
+    const ed_all = await eda();
+
     const mode = r.cond([
         [r.anyPass([r.equals('one'), r.equals('multiple'), r.equals('theme')]), r.always('img_or_color')],
         [r.equals('random_solid_color'), r.always('random_solid_color')],
-    ])(await ed123('mode'));
+    ])(ed_all.mode);
 
-    get_img(mode, force_current_img);
+    get_img(mode, ed_all, force_current_img);
 };
 //< display image on new tab page load or when image changes
 
 //> get one image from background.js imgs object
-const get_img = async (mode, force_current_img) => {
+const get_img = async (mode, ed_all, force_current_img) => {
     if (mode === 'img_or_color') { // not random solid color
         try {
             const query_string = window.location.search;
@@ -28,9 +30,8 @@ const get_img = async (mode, force_current_img) => {
                 async () => {
                     const ms_left = shared_b_n.get_ms_left();
 
-                    if (!force_current_img && await ed123('mode') === 'multiple' && ms_left <= 0) {
+                    if (!force_current_img && ed_all.mode === 'multiple' && ms_left <= 0) {
                         return x.send_message_to_background_c({ message: 'get_future_img' });
-
                     }
 
                     return x.send_message_to_background_c({ message: 'get_img' });
@@ -48,10 +49,10 @@ const get_img = async (mode, force_current_img) => {
                 mut.img.img = img.img;
 
                 if (!is_color_img) {
-                    mut.size_db_val = img.size === 'global' ? await ed123('size') : img.size;
-                    mut.img.position = img.position === 'global' ? await ed123('position') : img.position;
-                    mut.img.repeat = img.repeat === 'global' ? await ed123('repeat') : img.repeat;
-                    mut.img.color = img.color === 'global' ? await ed123('color') : img.color;
+                    mut.size_db_val = img.size === 'global' ? ed_all.size : img.size;
+                    mut.img.position = img.position === 'global' ? ed_all.position : img.position;
+                    mut.img.repeat = img.repeat === 'global' ? ed_all.repeat : img.repeat;
+                    mut.img.color = img.color === 'global' ? ed_all.color : img.color;
 
                     determine_size('img');
 
@@ -71,7 +72,7 @@ const get_img = async (mode, force_current_img) => {
             mut.random_solid_color = await x.send_message_to_background_c({ message: 'get_img' });
 
         } else {
-            mut.random_solid_color = r.clone(await ed123('current_random_color'));
+            mut.random_solid_color = r.clone(ed_all.current_random_color);
         }
 
         determine_size('random_solid_color');
