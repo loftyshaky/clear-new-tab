@@ -3,12 +3,15 @@ import * as r from 'ramda';
 import x from 'x';
 import { db } from 'js/init_db';
 import * as theme_img from 'background/theme_img';
+import * as multiple from 'background/multiple';
+import * as tabs from 'background/tabs';
 
 //> load_imgs (runs on extension enable)
 export const load_imgs = async () => {
+    const ed_all = await eda();
     await retrieve_imgs();
 
-    if (await ed123('mode') === 'theme' && what_browser === 'chrome') {
+    if (ed_all.mode === 'theme' && what_browser === 'chrome') {
         const get_first_encountered_theme_img_theme_id = () => {
             const first_encountered_theme_img = mut.imgs.find(img => img.theme_id);
             const first_encountered_theme_img_theme_id = first_encountered_theme_img ? first_encountered_theme_img.theme_id : null;
@@ -25,10 +28,18 @@ export const load_imgs = async () => {
     }
 
     if (mut.imgs.length > 0) {
-        preload_current_and_future_img('reload');
+        await preload_current_and_future_img('reload');
     }
 
-    x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'display_img_on_ext_enable' }]);
+    browser.tabs.query({ currentWindow: true, active: true }, async tabs_ => {
+        tabs.confirm_that_opened_tab_is_new_tab_page_and_that_it_is_not_in_preview_mode_and_store_id_if_true(tabs_[0].id); // get first opened new tab on browser start
+
+        const ms_left = await multiple.get_ms_left();
+
+        if (ed_all.change_interval == 1 || ms_left > 0) { // eslint-disable-line eqeqeq
+            x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'display_img_on_ext_enable' }]);
+        }
+    });
 };
 //< load_imgs (runs on extension enable)
 

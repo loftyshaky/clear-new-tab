@@ -2,7 +2,6 @@ import { observable, action, configure } from 'mobx';
 import * as r from 'ramda';
 
 import x from 'x';
-import * as shared_b_n from 'js/shared_b_n';
 
 configure({ enforceActions: 'observed' });
 
@@ -20,22 +19,14 @@ export const display_img = async force_current_img => {
 //< display image on new tab page load or when image changes
 
 //> get one image from background.js imgs object
-const get_img = async (mode, ed_all, force_current_img) => {
+const get_img = async (mode, ed_all) => {
     if (mode === 'img_or_color') { // not random solid color
         try {
             const query_string = window.location.search;
 
             const img = await r.ifElse(
                 () => query_string.indexOf('preview') === -1,
-                async () => {
-                    const ms_left = shared_b_n.get_ms_left();
-
-                    if (!force_current_img && ed_all.mode === 'multiple' && ms_left <= 0) {
-                        return x.send_message_to_background_c({ message: 'get_future_img' });
-                    }
-
-                    return x.send_message_to_background_c({ message: 'get_img' });
-                },
+                async () => x.send_message_to_background_c({ message: 'get_img' }),
 
                 async () => {
                     const img_id = query_string.split('preview_img_id=').pop();
@@ -66,19 +57,10 @@ const get_img = async (mode, ed_all, force_current_img) => {
         }
 
     } else if (mode === 'random_solid_color') {
-        const ms_left = shared_b_n.get_ms_left();
-
-        if (!force_current_img && ms_left <= 0) {
-            mut.random_solid_color = await x.send_message_to_background_c({ message: 'get_img' });
-
-        } else {
-            mut.random_solid_color = r.clone(ed_all.current_random_color);
-        }
+        mut.random_solid_color = r.clone(ed_all.current_random_color);
 
         determine_size('random_solid_color');
     }
-
-    x.send_message_to_background({ message: 'update_time_setting_and_start_timer' });
 };
 //< get one image from background.js imgs object
 

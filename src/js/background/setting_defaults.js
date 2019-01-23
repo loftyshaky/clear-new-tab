@@ -13,6 +13,7 @@ window.set_default_settings = async page => { // this function also called in op
         use_theme_img: true,
         keep_old_themes_imgs: false,
         change_interval: '3600000',
+        img_already_changed: true,
         mode: 'theme',
         current_random_color: shared_b_o.generate_random_color(),
         shuffle: true,

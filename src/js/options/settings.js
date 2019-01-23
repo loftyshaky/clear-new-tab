@@ -75,9 +75,8 @@ export const change_settings = async (input_type, family, name, val) => {
         shared_o.decide_what_inputs_to_hide();
         x.send_message_to_background({ message: 'update_imgs_obj', id: storage_id, storage: name, val: new_val });
 
-        if (name === 'change_interval') {
-            await x.send_message_to_background_c({ message: 'clear_change_img_timer' });
-            await x.send_message_to_background({ message: 'update_time_setting' });
+        if (name === 'mode' || name === 'change_interval') {
+            await x.send_message_to_background({ message: 'reset_timer' });
         }
 
         if (input_type === 'select' && val === 'theme' && what_browser === 'chrome') {
@@ -225,7 +224,7 @@ export const change_current_img_by_clicking_on_select_img_btn = () => {
 
 const change_current_img_insert_in_db = async (visible_value, value_to_insert_into_db) => {
     try {
-        x.send_message_to_background({ message: 'clear_change_img_timer' });
+        x.send_message_to_background({ message: 'reset_timer' });
         shared_o.change_current_img_input_val(visible_value);
         await db.ed.update(1, { current_img: value_to_insert_into_db, future_img: value_to_insert_into_db + 1 });
         await shared_b_o.get_new_future_img(value_to_insert_into_db + 1);

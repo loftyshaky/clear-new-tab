@@ -5,38 +5,56 @@ import { db } from 'js/init_db';
 import * as shared_b from 'background/shared_b';
 import * as tabs from 'background/tabs';
 import * as shared_b_o from 'js/shared_b_o';
-import * as shared_b_n from 'js/shared_b_n';
 
-export const start_timer = x.debounce(async () => {
-    const one_new_tab_tab_opened = tabs.mut.new_tabs_ids.length === 1;
+export const start_timer = x.debounce(async update_last_img_change_time => {
+    const ed_all = await eda();
 
-    if (one_new_tab_tab_opened || !mut.timer_runned_once) {
-        const mode = await ed123('mode');
-        mut.timer_runned_once = true;
+    if (!ed_all.img_already_changed && (ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color')) {
+        const ms_left = await get_ms_left();
 
-        if (mode === 'multiple' || mode === 'random_solid_color') {
-            const ms_left = shared_b_n.get_ms_left();
+        start_timer_inner(ms_left, update_last_img_change_time); // eslint-disable-line eqeqeq
 
-            clear_timer();
-            start_timer_inner(ms_left); // eslint-disable-line eqeqeq
-        }
+    } else {
+        await db.ed.update(1, { img_already_changed: false });
+
+        await update_last_img_change_time_f();
+
+        await start_timer_inner(ed_all.change_interval, update_last_img_change_time); // eslint-disable-line eqeqeq
     }
 }, 50);
 
-const start_timer_inner = async ms_left => {
-    const at_least_one_new_tab_tab_opened = tabs.mut.new_tabs_ids.length > 0;
+const start_timer_inner = async (ms_left, update_last_img_change_time) => {
+    clear_timer();
 
     mut.timers.push(setTimeout(async () => {
         await get_next_img();
-        const mode = await ed123('mode');
 
-        if (await ed123('slideshow') && at_least_one_new_tab_tab_opened && (mode === 'multiple' || mode === 'random_solid_color')) {
-            x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'change_img' }]);
-
-            start_timer_inner(await ed123('change_interval'));
+        if (update_last_img_change_time) {
+            update_last_img_change_time_f();
         }
 
-    }, await ed123('change_interval') == 1 ? 3000 : ms_left)); // eslint-disable-line eqeqeq
+        const ed_all = await eda();
+
+        if (ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color') {
+            mut.timers.push(setTimeout(async () => {
+                if (await ed123('slideshow')) {
+                    x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'change_img' }]);
+                }
+
+                const at_least_one_new_tab_tab_opened = tabs.mut.new_tabs_ids.length > 0;
+                const no_new_tab_tabs_opened = tabs.mut.new_tabs_ids.length === 0;
+
+                if (at_least_one_new_tab_tab_opened) {
+                    start_timer_inner(ed_all.change_interval, true);
+
+                } else if (no_new_tab_tabs_opened) {
+
+                    await db.ed.update(1, { img_already_changed: true });
+                }
+            }, ed_all.change_interval == 1 ? 3000 : 0)); // eslint-disable-line eqeqeq
+        }
+
+    }, ms_left)); // eslint-disable-line eqeqeq
 };
 
 export const clear_timer = () => {
@@ -80,26 +98,25 @@ export const get_next_img = async () => {
 };
 //< decide what image to show next
 
-export const update_time_setting_and_start_timer = async () => {
-    const ms_left = shared_b_n.get_ms_left();
-
-    if (ms_left <= 0) {
-        await update_time_setting();
-    }
-
-    start_timer();
-};
-
-export const update_time_setting = async () => {
+export const update_last_img_change_time_f = async () => {
     const time = new Date().getTime();
 
     await db.ed.update(1, { last_img_change_time: time });
     await x.get_ed();
-}
+};
+
+//> get number of ms left till change interval elpse (may be negative)
+export const get_ms_left = async () => {
+    const ed_all = await eda();
+    const time = new Date().getTime();
+    const ms_left = ed_all.change_interval - (time - ed_all.last_img_change_time);
+
+    return ms_left;
+};
+//< get number of ms left till change interval elpse (may be negative)
+
 
 const mut = {
-    timer_runned_once: false,
     timers: [],
-    number_of_inner_timers_running: 0,
     get_next_img_f_is_running: false,
 };

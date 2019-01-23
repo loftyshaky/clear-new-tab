@@ -1,9 +1,11 @@
 import * as r from 'ramda';
 
 import x from 'x';
+import { db } from 'js/init_db';
 import * as shared_b from 'background/shared_b';
 import * as theme_img from 'background/theme_img';
 import * as multiple from 'background/multiple';
+import * as tabs from 'background/tabs';
 import * as determine_theme_current_img from 'js/determine_theme_current_img';
 
 const get_img_i_by_id = id => shared_b.mut.imgs.findIndex(img => img.id === id);
@@ -32,25 +34,7 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
     const msg = message.message;
 
     if (msg === 'get_img') { // set, preload images and get current image from new tab
-        ed123('mode')
-            .then(mode => {
-                if (mode !== 'random_solid_color') {
-                    send_response(shared_b.mut.current_img);
-
-                } else if (mode === 'random_solid_color') {
-                    multiple.get_next_img()
-                        .then(() => ed123('current_random_color'))
-                        .then(current_random_color => {
-                            send_response(current_random_color);
-
-                        }).catch(er => {
-                            console.error(er);
-                        });
-                }
-
-            }).catch(er => {
-                console.error(er);
-            });
+        send_response(shared_b.mut.current_img);
 
     } else if (msg === 'get_future_img') {
         send_response(shared_b.mut.future_img);
@@ -149,16 +133,21 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
 
         send_response({ img_id_before_drop, ids_of_imgs_to_move });
 
-    } else if (msg === 'update_time_setting_and_start_timer') {
-        multiple.update_time_setting_and_start_timer();
+    } else if (msg === 'start_timer') {
+        multiple.start_timer(true);
 
-    } else if (msg === 'update_time_setting') { // when chasnging mode from options while at least one new tab page opened
-        multiple.update_time_setting();
-
-    } else if (msg === 'clear_change_img_timer') { // when setting image
+    } else if (msg === 'reset_timer') { // when changing change_interval or selecting image
         multiple.clear_timer();
+        multiple.update_last_img_change_time_f();
 
-        send_response();
+        const at_least_one_new_tab_tab_opened = tabs.mut.new_tabs_ids.length > 0;
+
+        if (at_least_one_new_tab_tab_opened) {
+            multiple.start_timer();
+
+        } else {
+            db.ed.update(1, { img_already_changed: true });
+        }
 
     } else if (msg === 'load_imgs') { // when repairing extension from database wipe
         x.get_ed()
