@@ -122,6 +122,8 @@ export const delete_all_images = async () => {
             await x.send_message_to_background({ message: 'preload_img' });
             x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
 
+            pagination.change_page(1);
+
         } catch (er) {
             console.error(er);
         }
