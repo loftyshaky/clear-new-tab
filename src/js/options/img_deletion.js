@@ -81,7 +81,7 @@ export const delete_img_tr_end_callback = e => {
 
         if (mut.next_imgs_after_last_visible_img !== 'deleting_image_while_adding_theme_img') {
             if (mut.next_imgs_after_last_visible_img !== 'img_not_existing') {
-                populate_storage_with_images_and_display_them.unpack_and_load_imgs(mut.next_imgs_after_last_visible_img, 'img_delete', 1);
+                populate_storage_with_images_and_display_them.unpack_and_load_imgs(mut.next_imgs_after_last_visible_img, null, 'img_delete', 1);
 
             }
 

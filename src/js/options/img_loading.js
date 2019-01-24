@@ -145,7 +145,7 @@ export const load_page = async (mode, page) => { // g
         const number_of_imgs = imgs.length;
 
         if (number_of_imgs > 0) {
-            populate_storage_with_images_and_display_them.unpack_and_load_imgs(imgs, mode, 0);
+            populate_storage_with_images_and_display_them.unpack_and_load_imgs(imgs, null, mode, 0);
         }
 
         if (number_of_imgs === 0) {

@@ -69,9 +69,8 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
 
         if (number_of_img_w < shared_b_o.sta.imgs_per_page) {
             const mode = 'upload_imgs';
-            const imgs_to_load = packed_imgs.slice(0, 50 - number_of_img_w); // get first 50 of uploaded images
-
-            unpack_and_load_imgs(imgs_to_load, mode, 0);
+            const imgs_to_load = packed_imgs.slice(0, shared_b_o.sta.imgs_per_page - number_of_img_w); // get first 50 of uploaded images
+            unpack_and_load_imgs(imgs_to_load, packed_imgs, mode, 0);
 
         } else {
             hide_or_show_load_btns('uploaded_imgs_but_not_added_any_imgs_to_ui');
@@ -88,6 +87,12 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
         show_or_hide_upload_error_messages(status);
 
+        //>1 switch to last page if uploaded images reached new page
+        const last_page_btn = s('.pagination_btn:last-child');
+
+        last_page_btn.click();
+        //<1 switch to last page if uploaded images reached new page
+
         return last_img_id;
 
     } catch (er) {
@@ -103,8 +108,8 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
 //< pack images and insert them in db
 
 //> prepare images for loading in images fieldset and then load them into it
-export const unpack_and_load_imgs = (imgs, mode, hide_or_show_load_btns_f_minus_val) => {
-    const unpacked_imgs = imgs.map(img => ({
+export const unpack_and_load_imgs = (imgs_to_load, packed_imgs, mode, hide_or_show_load_btns_f_minus_val) => {
+    const unpacked_imgs = imgs_to_load.map(img => ({
         key: x.unique_id(),
         id: img.id,
         placeholder_color: generate_random_pastel_color(),
@@ -121,7 +126,20 @@ export const unpack_and_load_imgs = (imgs, mode, hide_or_show_load_btns_f_minus_
         create_loaded_imgs_on_page_change(unpacked_imgs, hide_or_show_load_btns_f_minus_val);
 
     } else {
-        create_loaded_imgs_on_img_load(unpacked_imgs);
+        const uploaded_imgs_reach_next_page = r.ifElse(
+            () => mode === 'upload_imgs',
+            () => {
+                const number_of_img_w_before_insertion = sa('.img_w').length;
+
+                return number_of_img_w_before_insertion + packed_imgs.length > shared_b_o.sta.imgs_per_page;
+            },
+
+            () => false,
+        )();
+
+        if (mode !== 'upload_imgs' || !uploaded_imgs_reach_next_page) {
+            create_loaded_imgs_on_img_load(unpacked_imgs);
+        }
     }
 };
 //< prepare images for loading in images fieldset and then load them into it
