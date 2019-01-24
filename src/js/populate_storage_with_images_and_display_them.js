@@ -82,6 +82,8 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
         show_or_hide_upload_error_messages(status);
 
+        switch_to_last_page();
+
         return last_img_id;
 
     } catch (er) {
@@ -135,9 +137,7 @@ export const unpack_and_load_imgs = async (mode, imgs_to_load, packed_imgs) => {
 
     //>1 switch to last page if uploaded images reached new page
     if (mode === 'upload_imgs' || mode === 'theme_img_adding') {
-        const last_page_btn = s('.pagination_btn:last-child');
-
-        last_page_btn.click();
+        switch_to_last_page();
     }
     //<1 switch to last page if uploaded images reached new page
 };
@@ -173,3 +173,11 @@ export const show_or_hide_upload_error_messages = status => {
 };
 
 const generate_random_pastel_color = () => `hsl(${360 * Math.random()},${25 + 70 * Math.random()}%,${70 + 10 * Math.random()}%)`;
+
+const switch_to_last_page = () => {
+    const last_page_btn = s('.pagination_btn:last-child');
+
+    if (last_page_btn) {
+        last_page_btn.click();
+    }
+};
