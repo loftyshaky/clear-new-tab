@@ -71,9 +71,6 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
             const mode = 'upload_imgs';
             const imgs_to_load = packed_imgs.slice(0, shared_b_o.sta.imgs_per_page - number_of_img_w); // get first 50 of uploaded images
             unpack_and_load_imgs(imgs_to_load, packed_imgs, mode, 0);
-
-        } else {
-            hide_or_show_load_btns('uploaded_imgs_but_not_added_any_imgs_to_ui');
         }
 
         //>1 reload img_a in background.js
@@ -108,7 +105,7 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
 //< pack images and insert them in db
 
 //> prepare images for loading in images fieldset and then load them into it
-export const unpack_and_load_imgs = (imgs_to_load, packed_imgs, mode, hide_or_show_load_btns_f_minus_val) => {
+export const unpack_and_load_imgs = (mode, imgs_to_load, packed_imgs) => {
     const unpacked_imgs = imgs_to_load.map(img => ({
         key: x.unique_id(),
         id: img.id,
@@ -123,7 +120,7 @@ export const unpack_and_load_imgs = (imgs_to_load, packed_imgs, mode, hide_or_sh
     }));
 
     if (mode === 'load_page') {
-        create_loaded_imgs_on_page_change(unpacked_imgs, hide_or_show_load_btns_f_minus_val);
+        create_loaded_imgs_on_page_change(unpacked_imgs);
 
     } else {
         const uploaded_imgs_reach_next_page = r.ifElse(
@@ -147,10 +144,6 @@ export const unpack_and_load_imgs = (imgs_to_load, packed_imgs, mode, hide_or_sh
 //> insert images in images fieldset (set state)
 export const create_loaded_imgs_on_page_change = action(imgs => {
     shared_b_o.ob.imgs.replace(imgs);
-
-    const last_inserted_img_id = imgs[imgs.length - 1] ? imgs[imgs.length - 1].id : 'uploaded_imgs_but_not_added_any_imgs_to_ui';
-
-    hide_or_show_load_btns(last_inserted_img_id);
 });
 
 const create_loaded_imgs_on_img_load = action(imgs => {
@@ -174,26 +167,6 @@ export const show_or_hide_upload_error_messages = status => {
 
     if (status === 'rejected_paste') {
         upload_messages.change_paste_input_placeholder_val(x.msg('upload_box_error_message_text'));
-    }
-};
-
-const hide_or_show_load_btns = async last_inserted_img_id => {
-    try {
-        const number_of_imgs = await db.imgs.count();
-        const last_img_in_db = await db.imgs.orderBy('position_id').last();
-        const there_is_img_after_last_inserted_img = !!(last_inserted_img_id === 'uploaded_imgs_but_not_added_any_imgs_to_ui' || last_inserted_img_id !== last_img_in_db.id);
-
-        runInAction(() => {
-            if (number_of_imgs > 50 && there_is_img_after_last_inserted_img) {
-                shared_b_o.ob.show_load_btns_w = true;
-
-            } else {
-                shared_b_o.ob.show_load_btns_w = false;
-            }
-        });
-
-    } catch (er) {
-        console.error(er);
     }
 };
 

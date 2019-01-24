@@ -593,11 +593,11 @@ svg {
     display: inline-flex;
 }
 
-.img_w, .load_btns_w .load_btn, .drop_area {
+.img_w, .load_btn, .drop_area {
     margin-bottom: 12px;
 }
 
-.img_w, .load_btns_w, .drop_area {
+.img_w, .drop_area {
     margin-right: 12px;
 }
 
@@ -634,11 +634,6 @@ svg {
     height: 94px;
     border: 3px dashed #fbff75;
     vertical-align: bottom;
-}
-
-.load_btns_w {
-    text-align: center;
-    margin-bottom: 5px;
 }
 
 .load_btn {
@@ -804,7 +799,7 @@ svg {
 /*< loading screen */
 
 /*> transition */
-.link, .upload_box_browse_label, svg, .theme_img_link, .delete_img_btn, .color_input_vizualization, .normal_input, .btn, .color_global_el, .input, .image_settings_wrapper, .load_btns_w, .dragged_item, .img_inner_ww, .img_w, .img_preview, .imgs_w_1, .upload_box, .help_message, .install_help_w, .color_pickier, .load_btns_w, .img_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu {
+.link, .upload_box_browse_label, svg, .theme_img_link, .delete_img_btn, .color_input_vizualization, .normal_input, .btn, .color_global_el, .input, .image_settings_wrapper, .dragged_item, .img_inner_ww, .img_w, .img_preview, .imgs_w_1, .upload_box, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu {
     transition: all 0.2s ease-out;
 }
 
@@ -840,7 +835,7 @@ svg {
     transition-property: color, background-color, border-color, box-shadow;
 }
 
-.color_global_el, .input, .image_settings_wrapper, .load_btns_w, .dragged_item, .loading_screen, .imgs_w_1, .img_inner_w, .help_message, .install_help_w, .color_pickier, .load_btns_w, .img_w_tr, .adjacent_btn_w, .checkbox_w {
+.color_global_el, .input, .image_settings_wrapper, .dragged_item, .loading_screen, .imgs_w_1, .img_inner_w, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w {
     transition-property: opacity;
 }
 

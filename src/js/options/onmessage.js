@@ -50,9 +50,8 @@ browser.runtime.onMessage.addListener(async message => {
 
         //>1 add new theme image
         const imgs_to_show = await db.imgs.where('id').anyOf(ids_of_imgs_to_show).toArray();
-        const number_of_imgs_to_show_minus_number_of_imgs_to_delete = ids_of_imgs_to_show.length - ids_of_theme_imgs_to_delete_filtered.length;
 
-        populate_storage_with_images_and_display_them.unpack_and_load_imgs(imgs_to_show, null, 'theme_img_adding', number_of_imgs_to_show_minus_number_of_imgs_to_delete);
+        populate_storage_with_images_and_display_them.unpack_and_load_imgs('theme_img_adding', imgs_to_show, null);
         
         //<1 add new theme image
     } else if (msg === 'change_current_img_input_val') {
