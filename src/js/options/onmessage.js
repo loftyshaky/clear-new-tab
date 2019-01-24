@@ -52,8 +52,8 @@ browser.runtime.onMessage.addListener(async message => {
         const imgs_to_show = await db.imgs.where('id').anyOf(ids_of_imgs_to_show).toArray();
 
         populate_storage_with_images_and_display_them.unpack_and_load_imgs('theme_img_adding', imgs_to_show, null);
-        
         //<1 add new theme image
+
     } else if (msg === 'change_current_img_input_val') {
         await x.get_ed();
 

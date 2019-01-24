@@ -212,7 +212,5 @@ export const mut = {
 
 export const ob = observable({
     show_loading_screen: true,
-    get css_counter_offset() {
-        return pagination.ob.active_page * shared_b_o.sta.imgs_per_page - shared_b_o.sta.imgs_per_page;
-    },
+    css_counter_offset: 0,
 });

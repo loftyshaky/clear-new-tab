@@ -1,4 +1,4 @@
-import { action, runInAction, configure } from 'mobx';
+import { action, configure } from 'mobx';
 import * as r from 'ramda';
 
 import x from 'x';
@@ -63,14 +63,12 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
         const last_img_id = await db.transaction('rw', db.imgs, () => db.imgs.bulkAdd(packed_imgs));
         //<1 insert image packs in db
 
-        total_number_of_imgs.set_total_number_of_imgs();
-
         const number_of_img_w = sa('.img_w').length;
 
-        if (number_of_img_w < shared_b_o.sta.imgs_per_page) {
+        if (number_of_img_w && number_of_img_w < shared_b_o.sta.imgs_per_page) {
             const mode = 'upload_imgs';
             const imgs_to_load = packed_imgs.slice(0, shared_b_o.sta.imgs_per_page - number_of_img_w); // get first 50 of uploaded images
-            unpack_and_load_imgs(imgs_to_load, packed_imgs, mode, 0);
+            unpack_and_load_imgs(mode, imgs_to_load, packed_imgs);
         }
 
         //>1 reload img_a in background.js
@@ -83,12 +81,6 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
         await x.send_message_to_background({ message: 'preload_img' });
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
         show_or_hide_upload_error_messages(status);
-
-        //>1 switch to last page if uploaded images reached new page
-        const last_page_btn = s('.pagination_btn:last-child');
-
-        last_page_btn.click();
-        //<1 switch to last page if uploaded images reached new page
 
         return last_img_id;
 
@@ -105,7 +97,7 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
 //< pack images and insert them in db
 
 //> prepare images for loading in images fieldset and then load them into it
-export const unpack_and_load_imgs = (mode, imgs_to_load, packed_imgs) => {
+export const unpack_and_load_imgs = async (mode, imgs_to_load, packed_imgs) => {
     const unpacked_imgs = imgs_to_load.map(img => ({
         key: x.unique_id(),
         id: img.id,
@@ -138,6 +130,16 @@ export const unpack_and_load_imgs = (mode, imgs_to_load, packed_imgs) => {
             create_loaded_imgs_on_img_load(unpacked_imgs);
         }
     }
+
+    await total_number_of_imgs.set_total_number_of_imgs();
+
+    //>1 switch to last page if uploaded images reached new page
+    if (mode === 'upload_imgs' || mode === 'theme_img_adding') {
+        const last_page_btn = s('.pagination_btn:last-child');
+
+        last_page_btn.click();
+    }
+    //<1 switch to last page if uploaded images reached new page
 };
 //< prepare images for loading in images fieldset and then load them into it
 
