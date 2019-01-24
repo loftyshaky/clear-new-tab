@@ -64,8 +64,8 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
 
         const number_of_img_w = sa('.img_w').length;
 
-        if (number_of_img_w < 50) {
-            const mode = 'load_page';
+        if (number_of_img_w < shared_b_o.sta.imgs_per_page) {
+            const mode = 'upload_imgs';
             const imgs_to_load = packed_imgs.slice(0, 50 - number_of_img_w); // get first 50 of uploaded images
 
             unpack_and_load_imgs(imgs_to_load, mode, 0);
@@ -114,17 +114,29 @@ export const unpack_and_load_imgs = (imgs, mode, hide_or_show_load_btns_f_minus_
         selected: false,
     }));
 
-    create_loaded_imgs(unpacked_imgs, hide_or_show_load_btns_f_minus_val);
+    if (mode === 'load_page') {
+        create_loaded_imgs_on_page_change(unpacked_imgs, hide_or_show_load_btns_f_minus_val);
+
+    } else {
+        create_loaded_imgs_on_img_load(unpacked_imgs);
+    }
 };
 //< prepare images for loading in images fieldset and then load them into it
 
 //> insert images in images fieldset (set state)
-export const create_loaded_imgs = action(imgs => {
+export const create_loaded_imgs_on_page_change = action(imgs => {
     shared_b_o.ob.imgs.replace(imgs);
 
     const last_inserted_img_id = imgs[imgs.length - 1] ? imgs[imgs.length - 1].id : 'uploaded_imgs_but_not_added_any_imgs_to_ui';
 
     hide_or_show_load_btns(last_inserted_img_id);
+});
+
+const create_loaded_imgs_on_img_load = action(imgs => {
+    const all_imgs = r.union(shared_b_o.ob.imgs.slice())(imgs); // visible + uploaded now images
+    const first_50_or_less_imgs = r.take(50, all_imgs);
+
+    shared_b_o.ob.imgs.replace(first_50_or_less_imgs);
 });
 //< insert images in images fieldset (set state)
 

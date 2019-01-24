@@ -125,7 +125,7 @@ export class Imgs_fieldset extends React.Component {
                 </div>
                 <Pagination
                     activePage={img_loading.ob.active_page}
-                    itemsCountPerPage={img_loading.sta.imgs_per_page}
+                    itemsCountPerPage={shared_b_o.sta.imgs_per_page}
                     totalItemsCount={img_loading.ob.number_of_imgs}
                     itemClass="btn pagination_btn"
                     prevPageText={<Svg src={arrow_left} />}

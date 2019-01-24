@@ -134,13 +134,13 @@ export const load_page = async (mode, page) => { // g
     shared_o.disable_ui();
 
     try {
-        const offset = page * sta.imgs_per_page - sta.imgs_per_page;
+        const offset = page * shared_b_o.sta.imgs_per_page - shared_b_o.sta.imgs_per_page;
 
         if (mode === 'load_page') {
             change_page(page);
         }
 
-        const imgs = await db.imgs.orderBy('position_id').offset(offset).limit(sta.imgs_per_page).toArray();
+        const imgs = await db.imgs.orderBy('position_id').offset(offset).limit(shared_b_o.sta.imgs_per_page).toArray();
         const number_of_imgs = imgs.length;
 
         if (number_of_imgs > 0) {
@@ -212,10 +212,6 @@ export const set_number_of_imgs = async () => {
     runInAction(() => {
         ob.number_of_imgs = number_of_imgs;
     });
-};
-
-export const sta = {
-    imgs_per_page: 50,
 };
 
 export const mut = {
