@@ -124,7 +124,7 @@ export class Imgs_fieldset extends React.Component {
                     <div className={x.cls(['imgs_fieldset_filler', 'imgs_fieldset_filler_bottom', scrolling.ob.imgs_fieldset_filler_bottom_none_cls])} />
                 </div>
                 <Pagination
-                    activePage={img_loading.ob.active_page}
+                    activePage={shared_b_o.ob.active_page}
                     itemsCountPerPage={shared_b_o.sta.imgs_per_page}
                     totalItemsCount={img_loading.ob.number_of_imgs}
                     itemClass="btn pagination_btn"

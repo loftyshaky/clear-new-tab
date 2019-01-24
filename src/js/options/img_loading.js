@@ -168,7 +168,7 @@ const change_css_counter_offset = action(offset => {
 });
 
 const change_page = action(new_page => {
-    ob.active_page = new_page;
+    shared_b_o.ob.active_page = new_page;
 });
 
 //> show one image after it fully loaded
@@ -223,6 +223,5 @@ export const mut = {
 export const ob = observable({
     number_of_imgs: 0,
     show_loading_screen: true,
-    active_page: 1,
     css_counter_offset: 0,
 });

@@ -17,21 +17,21 @@ export const delete_img = async img_id => {
 
         const img_to_delete = await db.imgs.get(img_id);
         const img_to_delete_i = shared_o.get_img_i_by_id(img_id);
-        const img_to_delete_i_is_lower_than_current_img = img_to_delete_i < ed.current_img;
-        const img_to_delete_i_equals_to_current_img = img_to_delete_i === ed.current_img;
+        const all_imgs_img_to_delete_i = img_to_delete_i + shared_o.determine_img_i_modificator();
+        const img_to_delete_i_is_lower_than_current_img = all_imgs_img_to_delete_i < ed.current_img;
+        const img_to_delete_i_equals_to_current_img = all_imgs_img_to_delete_i === ed.current_img;
         const deleting_selected_img = img_to_delete_i === shared_o.get_img_i_by_id(shared_o.mut.selected_img_id);
         const img_to_delete_is_theme_img = img_to_delete.theme_id;
 
         const response = await x.send_message_to_background_c({
             message: 'get_id_of_img_to_add',
-            next_img_after_last_visible_img_i: shared_o.get_img_i_by_el(s('.img_w_tr:last-child')) + 1,
+            next_img_after_last_visible_img_i: shared_o.get_img_i_by_el(s('.img_w_tr:last-child')) + 1 + shared_o.determine_img_i_modificator(),
             img_to_delete_i,
         });
 
         let new_current_img;
 
         mut.next_imgs_after_last_visible_img = response.next_img_after_last_visible_img_id === 'img_not_existing' ? response.next_img_after_last_visible_img_id : [await db.imgs.get(response.next_img_after_last_visible_img_id)];
-
         if (img_to_delete_i_equals_to_current_img && img_to_delete_is_theme_img) {
             const imgs = await x.send_message_to_background_c({ message: 'get_imgs_arr' });
 

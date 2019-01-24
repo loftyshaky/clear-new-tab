@@ -94,6 +94,8 @@ export const switch_to_settings_type = async (name, val, force_inputs_reset) => 
     }
 };
 
+export const determine_img_i_modificator = () => shared_b_o.ob.active_page * shared_b_o.sta.imgs_per_page - shared_b_o.sta.imgs_per_page;
+
 export const mut = {
     img_w_tr_nodes: null,
     storage_type: 'ed',

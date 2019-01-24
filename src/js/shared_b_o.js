@@ -57,4 +57,5 @@ export const sta = {
 export const ob = observable({
     imgs: [],
     show_load_btns_w: false,
+    active_page: 1,
 });

@@ -212,7 +212,7 @@ export const change_current_img_by_clicking_on_select_img_btn = () => {
     const any_img_selected = s('.selected_img');
 
     if (any_img_selected) {
-        const selected_img_i = shared_o.get_img_i_by_id(shared_o.mut.selected_img_id);
+        const selected_img_i = shared_o.get_img_i_by_id(shared_o.mut.selected_img_id) + shared_o.determine_img_i_modificator();
         const visible_value = selected_img_i + 1;
         const value_to_insert_into_db = selected_img_i;
         change_current_img_insert_in_db(visible_value, value_to_insert_into_db);
