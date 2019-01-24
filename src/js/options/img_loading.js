@@ -6,6 +6,7 @@ import { db } from 'js/init_db';
 import * as shared_b_o from 'js/shared_b_o';
 import * as upload_messages from 'js/upload_messages';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
+import * as total_number_of_imgs from 'js/total_number_of_imgs';
 import { inputs_data } from 'options/inputs_data';
 import * as shared_o from 'options/shared_o';
 import * as pagination from 'options/pagination';
@@ -211,5 +212,7 @@ export const mut = {
 
 export const ob = observable({
     show_loading_screen: true,
-    css_counter_offset: 0,
+    get css_counter_offset() {
+        return pagination.ob.active_page * shared_b_o.sta.imgs_per_page - shared_b_o.sta.imgs_per_page;
+    },
 });
