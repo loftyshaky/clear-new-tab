@@ -206,6 +206,14 @@ export const show_checkerboard = async id => {
 
 export const hide_loading_screen = action(() => { ob.show_loading_screen = false; }); //> hide loading_screen when images loaded on options page load
 
+export const set_number_of_imgs = async () => {
+    const number_of_imgs = await db.imgs.count();
+
+    runInAction(() => {
+        ob.number_of_imgs = number_of_imgs;
+    });
+};
+
 export const sta = {
     imgs_per_page: 50,
 };
@@ -217,6 +225,7 @@ export const mut = {
 };
 
 export const ob = observable({
+    number_of_imgs: 0,
     show_loading_screen: true,
     active_page: 1,
     css_counter_offset: 0,

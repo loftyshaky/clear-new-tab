@@ -35,7 +35,7 @@ export class Imgs_fieldset extends React.Component {
     }
 
     async componentWillMount() {
-        this.number_of_imgs = await db.imgs.count();
+        img_loading.set_number_of_imgs();
     }
 
     componentDidMount() {
@@ -49,7 +49,7 @@ export class Imgs_fieldset extends React.Component {
     }
 
     async componentWillUpdate() {
-        this.number_of_imgs = await db.imgs.count();
+        img_loading.set_number_of_imgs();
     }
 
     componentDidUpdate() {
@@ -126,7 +126,7 @@ export class Imgs_fieldset extends React.Component {
                 <Pagination
                     activePage={img_loading.ob.active_page}
                     itemsCountPerPage={img_loading.sta.imgs_per_page}
-                    totalItemsCount={this.number_of_imgs}
+                    totalItemsCount={img_loading.ob.number_of_imgs}
                     itemClass="btn pagination_btn"
                     prevPageText={<Svg src={arrow_left} />}
                     nextPageText={<Svg src={arrow_right} />}
