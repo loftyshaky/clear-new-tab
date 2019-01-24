@@ -6,6 +6,7 @@ import x from 'x';
 import { db } from 'js/init_db';
 import * as shared_b_o from 'js/shared_b_o';
 import * as upload_messages from 'js/upload_messages';
+import * as total_number_of_imgs from 'js/total_number_of_imgs';
 
 configure({ enforceActions: 'observed' });
 
@@ -61,6 +62,8 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
         //>1 insert image packs in db
         const last_img_id = await db.transaction('rw', db.imgs, () => db.imgs.bulkAdd(packed_imgs));
         //<1 insert image packs in db
+
+        total_number_of_imgs.set_total_number_of_imgs();
 
         const number_of_img_w = sa('.img_w').length;
 

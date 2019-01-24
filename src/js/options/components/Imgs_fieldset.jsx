@@ -6,10 +6,10 @@ import { observer } from 'mobx-react';
 import Pagination from 'react-js-pagination';
 
 import x from 'x';
-import { db } from 'js/init_db';
 import * as shared_b_o from 'js/shared_b_o';
 import * as moving from 'js/moving';
 import * as prevent_scrolling from 'js/prevent_scrolling';
+import * as total_number_of_imgs from 'js/total_number_of_imgs';
 import * as shared_o from 'options/shared_o';
 import * as img_loading from 'options/img_loading';
 import * as img_selection from 'options/img_selection';
@@ -35,7 +35,7 @@ export class Imgs_fieldset extends React.Component {
     }
 
     async componentWillMount() {
-        img_loading.set_number_of_imgs();
+        total_number_of_imgs.set_total_number_of_imgs();
     }
 
     componentDidMount() {
@@ -49,7 +49,7 @@ export class Imgs_fieldset extends React.Component {
     }
 
     async componentWillUpdate() {
-        img_loading.set_number_of_imgs();
+        total_number_of_imgs.set_total_number_of_imgs();
     }
 
     componentDidUpdate() {
@@ -126,7 +126,7 @@ export class Imgs_fieldset extends React.Component {
                 <Pagination
                     activePage={shared_b_o.ob.active_page}
                     itemsCountPerPage={shared_b_o.sta.imgs_per_page}
-                    totalItemsCount={img_loading.ob.number_of_imgs}
+                    totalItemsCount={total_number_of_imgs.ob.number_of_imgs}
                     itemClass="btn pagination_btn"
                     prevPageText={<Svg src={arrow_left} />}
                     nextPageText={<Svg src={arrow_right} />}
