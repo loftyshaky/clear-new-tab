@@ -1,4 +1,8 @@
 import x from 'x';
+import { observable, action, configure } from 'mobx';
+
+configure({ enforceActions: 'observed' });
+
 
 export const add_and_remove_tabindex_to_pagination_els = async () => {
     const pagination_btn = sa('.pagination_btn');
@@ -20,3 +24,11 @@ const set_tabindex = (els, tabindex_value) => {
         btn.setAttribute('tabindex', tabindex_value);
     });
 };
+
+export const change_page = action(new_page => {
+    ob.active_page = new_page;
+});
+
+export const ob = observable({
+    active_page: 1,
+});

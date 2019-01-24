@@ -5,8 +5,11 @@ import { db } from 'js/init_db';
 import * as shared_b_o from 'js/shared_b_o';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import * as determine_theme_current_img from 'js/determine_theme_current_img';
+import * as total_number_of_imgs from 'js/total_number_of_imgs';
 import * as settings from 'options/settings';
 import * as shared_o from 'options/shared_o';
+import * as img_loading from 'options/img_loading';
+import * as pagination from 'options/pagination';
 
 configure({ enforceActions: 'observed' });
 
@@ -63,6 +66,8 @@ export const delete_img = async img_id => {
         await x.send_message_to_background({ message: 'preload_img' });
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
         hide_img_before_deletion(img_to_delete_i);
+        change_page_to_previous_when_last_img_on_page_deleted();
+        total_number_of_imgs.set_total_number_of_imgs();
 
     } catch (er) {
         console.error(er);
@@ -134,6 +139,16 @@ export const delete_all_images_tr_end = action(() => {
     }
 });
 //< delete all image
+
+const change_page_to_previous_when_last_img_on_page_deleted = () => {
+    const last_img_on_page_deleted = shared_b_o.ob.imgs.length === 1;
+
+    if (last_img_on_page_deleted && pagination.ob.active_page > 1) {
+        const previous_page = pagination.ob.active_page - 1;
+
+        img_loading.load_page('load_page', previous_page);
+    }
+};
 
 export const mut = {
     next_imgs_after_last_visible_img: 'img_not_existing',

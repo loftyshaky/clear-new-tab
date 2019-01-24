@@ -3,11 +3,12 @@ import * as r from 'ramda';
 
 import x from 'x';
 import { db } from 'js/init_db';
+import * as shared_b_o from 'js/shared_b_o';
 import * as upload_messages from 'js/upload_messages';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import { inputs_data } from 'options/inputs_data';
 import * as shared_o from 'options/shared_o';
-import * as shared_b_o from 'js/shared_b_o';
+import * as pagination from 'options/pagination';
 
 configure({ enforceActions: 'observed' });
 
@@ -137,7 +138,7 @@ export const load_page = async (mode, page) => { // g
         const offset = page * shared_b_o.sta.imgs_per_page - shared_b_o.sta.imgs_per_page;
 
         if (mode === 'load_page') {
-            change_page(page);
+            pagination.change_page(page);
         }
 
         const imgs = await db.imgs.orderBy('position_id').offset(offset).limit(shared_b_o.sta.imgs_per_page).toArray();
@@ -165,10 +166,6 @@ export const load_page = async (mode, page) => { // g
 
 const change_css_counter_offset = action(offset => {
     ob.css_counter_offset = offset;
-});
-
-const change_page = action(new_page => {
-    shared_b_o.ob.active_page = new_page;
 });
 
 //> show one image after it fully loaded
