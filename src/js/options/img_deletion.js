@@ -66,8 +66,7 @@ export const delete_img = async img_id => {
         await x.send_message_to_background({ message: 'preload_img' });
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
         hide_img_before_deletion(img_to_delete_i);
-        change_page_to_previous_when_last_img_on_page_deleted();
-        total_number_of_imgs.set_total_number_of_imgs();
+        total_number_of_imgs.set_total_number_of_imgs_and_switch_to_last_or_previous_page();
 
     } catch (er) {
         console.error(er);
@@ -81,7 +80,7 @@ export const delete_img_tr_end_callback = e => {
 
         if (mut.next_imgs_after_last_visible_img !== 'deleting_image_while_adding_theme_img') {
             if (mut.next_imgs_after_last_visible_img !== 'img_not_existing') {
-                populate_storage_with_images_and_display_them.unpack_and_load_imgs('img_delete', mut.next_imgs_after_last_visible_img, null);
+                populate_storage_with_images_and_display_them.unpack_and_load_imgs('img_delete', mut.next_imgs_after_last_visible_img);
 
             }
 
@@ -122,6 +121,7 @@ export const delete_all_images = async () => {
             x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
 
             pagination.change_page(1);
+            total_number_of_imgs.set_total_number_of_imgs();
 
         } catch (er) {
             console.error(er);
@@ -140,16 +140,6 @@ export const delete_all_images_tr_end = action(() => {
     }
 });
 //< delete all image
-
-const change_page_to_previous_when_last_img_on_page_deleted = () => {
-    const last_img_on_page_deleted = shared_b_o.ob.imgs.length === 1;
-
-    if (last_img_on_page_deleted && pagination.ob.active_page > 1) {
-        const previous_page = pagination.ob.active_page - 1;
-
-        img_loading.load_page('load_page', previous_page);
-    }
-};
 
 export const mut = {
     next_imgs_after_last_visible_img: 'img_not_existing',

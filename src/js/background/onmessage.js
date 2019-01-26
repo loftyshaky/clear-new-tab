@@ -77,27 +77,6 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
 
         send_response({ next_img_after_last_visible_img_id });
 
-    } else if (msg === 'get_ids_of_imgs_to_show_on_place_of_deleted_theme_imgs') {
-        const ids_of_imgs_to_show = [];
-
-        if (message.number_of_imgs <= 50 && message.number_of_imgs_to_delete === 0) {
-            ids_of_imgs_to_show.push(message.added_img_id);
-
-        } else if (message.number_of_imgs >= 50 || message.number_of_imgs_to_delete > 0) {
-            let img_i = message.number_of_visible_imgs - message.number_of_imgs_to_delete;
-
-            while (img_i < message.number_of_visible_imgs && shared_b.mut.imgs[img_i] && img_i <= 49) {
-                ids_of_imgs_to_show.push(shared_b.mut.imgs[img_i].id);
-
-                img_i++;
-            }
-
-        } else if (message.number_of_visible_imgs === 0) { // when images fieldset empty
-            ids_of_imgs_to_show.push(shared_b.mut.imgs[0].id);
-        }
-
-        send_response(ids_of_imgs_to_show);
-
     } else if (msg === 'get_theme_img') {
         shared_b.get_installed_theme_id()
             .then(theme_id => theme_img.get_theme_img(theme_id, message.reinstall_even_if_theme_img_already_exist)).then(() => {

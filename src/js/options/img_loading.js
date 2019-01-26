@@ -6,7 +6,6 @@ import { db } from 'js/init_db';
 import * as shared_b_o from 'js/shared_b_o';
 import * as upload_messages from 'js/upload_messages';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
-import * as total_number_of_imgs from 'js/total_number_of_imgs';
 import { inputs_data } from 'options/inputs_data';
 import * as shared_o from 'options/shared_o';
 import * as pagination from 'options/pagination';
@@ -146,7 +145,7 @@ export const load_page = async (mode, page) => { // g
         const number_of_imgs = imgs.length;
 
         if (number_of_imgs > 0) {
-            populate_storage_with_images_and_display_them.unpack_and_load_imgs(mode, imgs, null);
+            populate_storage_with_images_and_display_them.unpack_and_load_imgs(mode, imgs);
         }
 
         if (number_of_imgs === 0) {

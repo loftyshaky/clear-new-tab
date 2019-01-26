@@ -51,9 +51,9 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
                     throw 'Image is not valid image'; // eslint-disable-line no-throw-literal
                 }
 
-                const ids_of_theme_imgs_to_delete = await delete_previous_themes_imgs();
+                await delete_previous_themes_imgs();
 
-                const added_img_id = await r.ifElse(
+                await r.ifElse(
                     () => img_name,
 
                     async () => {
@@ -73,10 +73,7 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
                 new_current_img = await determine_theme_current_img.determine_theme_current_img(theme_id, shared_b.mut.imgs);
 
                 x.iterate_all_tabs(x.send_message_to_tab, [{
-                    message: 'load_theme_img',
-                    ids_of_theme_imgs_to_delete,
-                    added_img_id,
-                    new_current_img,
+                    message: 'load_last_page',
                 }]);
 
             } else { // when undoing theme
@@ -117,7 +114,9 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
 
 const delete_previous_themes_imgs = async () => {
     try {
-        if (await ed123('mode') === 'theme' && await !ed123('keep_old_themes_imgs')) {
+        const ed_all = await eda();
+
+        if (ed_all.mode === 'theme' && await !ed_all.keep_old_themes_imgs) {
             const theme_imgs = shared_b.mut.imgs.filter(img => img.theme_id);
             const at_least_one_theme_image_found = theme_imgs[0];
 
@@ -125,8 +124,6 @@ const delete_previous_themes_imgs = async () => {
                 const ids_of_theme_imgs_to_delete_final = theme_imgs.map(img => img.id);
 
                 await db.transaction('rw', db.imgs, async () => db.imgs.bulkDelete(ids_of_theme_imgs_to_delete_final));
-
-                return ids_of_theme_imgs_to_delete_final;
             }
         }
 

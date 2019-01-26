@@ -132,6 +132,12 @@ x.add_cls = (el, cls_name) => {
     }
 };
 
+x.remove_cls = (el, cls_name) => {
+    if (el && el.nodeType === 1) { // if not document
+        el.classList.remove(cls_name);
+    }
+};
+
 //> move an array item
 x.move_a_item = (a, from, to) => {
     a.splice(to, 0, a.splice(from, 1)[0]);

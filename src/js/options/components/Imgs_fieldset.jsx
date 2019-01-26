@@ -48,10 +48,6 @@ export class Imgs_fieldset extends React.Component {
         changing_imgs_fieldset_width.resize_imgs(this.imgs_w.current);
     }
 
-    async componentWillUpdate() {
-        total_number_of_imgs.set_total_number_of_imgs();
-    }
-
     componentDidUpdate() {
         scrolling.show_or_hide_imgs_fieldset_fillers();
         pagination.add_and_remove_tabindex_to_pagination_els();
