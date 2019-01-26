@@ -119,6 +119,9 @@ export const unpack_and_load_imgs = async (mode, imgs_to_load) => {
     if (mode === 'load_page') {
         create_loaded_imgs_on_page_change(unpacked_imgs);
 
+    } else if (mode === 'img_delete') {
+        create_loaded_imgs_on_img_load(unpacked_imgs, true);
+
     } else {
         total_number_of_imgs.set_total_number_of_imgs_and_switch_to_last_or_previous_page(unpacked_imgs);
     }
@@ -136,8 +139,8 @@ export const create_loaded_imgs_on_page_change = action(imgs => {
     mut.uploading_imgs = false;
 });
 
-export const create_loaded_imgs_on_img_load = action(imgs => {
-    mut.scroll_to = 'bottom';
+export const create_loaded_imgs_on_img_load = action((imgs, null_scroll_to) => {
+    mut.scroll_to = null_scroll_to ? null : 'bottom';
 
     set_previous_number_of_imgs(shared_b_o.ob.imgs.length);
 
