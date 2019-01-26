@@ -135,13 +135,13 @@ export const load_page = async (mode, page) => { // g
     shared_o.disable_ui();
 
     try {
-        const offset = page * shared_b_o.sta.imgs_per_page - shared_b_o.sta.imgs_per_page;
+        const offset = page * populate_storage_with_images_and_display_them.sta.imgs_per_page - populate_storage_with_images_and_display_them.sta.imgs_per_page;
 
         if (mode === 'load_page') {
             pagination.change_page(page);
         }
 
-        const imgs = await db.imgs.orderBy('position_id').offset(offset).limit(shared_b_o.sta.imgs_per_page).toArray();
+        const imgs = await db.imgs.orderBy('position_id').offset(offset).limit(populate_storage_with_images_and_display_them.sta.imgs_per_page).toArray();
         const number_of_imgs = imgs.length;
 
         if (number_of_imgs > 0) {
@@ -205,8 +205,6 @@ export const hide_loading_screen = action(() => { ob.show_loading_screen = false
 
 export const mut = {
     imgs_loaded: 0,
-    total_imgs_to_load: 0,
-    previous_number_of_imgs: 0,
 };
 
 export const ob = observable({

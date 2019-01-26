@@ -1,12 +1,12 @@
 import Svg from 'svg-inline-react';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { reaction } from 'mobx';
 import { observer } from 'mobx-react';
 import Pagination from 'react-js-pagination';
 
 import x from 'x';
 import * as shared_b_o from 'js/shared_b_o';
+import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import * as moving from 'js/moving';
 import * as prevent_scrolling from 'js/prevent_scrolling';
 import * as total_number_of_imgs from 'js/total_number_of_imgs';
@@ -31,7 +31,6 @@ export class Imgs_fieldset extends React.Component {
         super(props);
 
         this.imgs_w = React.createRef();
-        this.imgs_fieldset = React.createRef();
     }
 
     async componentWillMount() {
@@ -40,7 +39,8 @@ export class Imgs_fieldset extends React.Component {
 
     componentDidMount() {
         shared_o.mut.img_w_tr_nodes = this.imgs_w.current.getElementsByClassName('img_w_tr');
-        scrolling.mut.imgs_fieldset = this.imgs_fieldset.current;
+
+        scrolling.mut.imgs_fieldset = ref.imgs_fieldset.current;
         this.resize_imgs_binded = changing_imgs_fieldset_width.resize_imgs.bind(null, this.imgs_w.current);
 
         window.addEventListener('resize', this.resize_imgs_binded);
@@ -56,19 +56,6 @@ export class Imgs_fieldset extends React.Component {
     componentWillUnmount() {
         window.removeEventListener('resize', this.resize_imgs_binded);
     }
-
-    //> get total number of images to load and previous number of images when imgs array length changes. i use it instead componentWillReceiveProps
-    get_total_imgs_to_load_and_previous_number_of_imgs = reaction(
-        () => shared_b_o.ob.imgs.length,
-        number_of_displayed_imgs => {
-            if (img_loading.mut.previous_number_of_imgs !== number_of_displayed_imgs) {
-                img_loading.mut.imgs_loaded = 0;
-                img_loading.mut.total_imgs_to_load = number_of_displayed_imgs - img_loading.mut.previous_number_of_imgs;
-                img_loading.mut.previous_number_of_imgs = number_of_displayed_imgs;
-            }
-        },
-    )
-    //< get total number of images to load and previous number of images when imgs array length changes. i use it instead componentWillReceiveProps
 
     change_page = page => {
         img_loading.load_page('load_page', page);
@@ -94,9 +81,9 @@ export class Imgs_fieldset extends React.Component {
                     <div className={x.cls(['imgs_fieldset_filler', 'imgs_fieldset_filler_top', scrolling.ob.imgs_fieldset_filler_top_none_cls])} />
                     <fieldset
                         className="imgs_fieldset"
-                        onWheel={prevent_scrolling.prevent_scrolling.bind(this.imgs_fieldset.current)}
+                        onWheel={prevent_scrolling.prevent_scrolling.bind(ref.imgs_fieldset.current)}
                         onScroll={scrolling.show_or_hide_imgs_fieldset_fillers}
-                        ref={this.imgs_fieldset}
+                        ref={ref.imgs_fieldset}
                     >
                         <Tr
                             attr={{
@@ -121,7 +108,7 @@ export class Imgs_fieldset extends React.Component {
                 </div>
                 <Pagination
                     activePage={pagination.ob.active_page}
-                    itemsCountPerPage={shared_b_o.sta.imgs_per_page}
+                    itemsCountPerPage={populate_storage_with_images_and_display_them.sta.imgs_per_page}
                     totalItemsCount={total_number_of_imgs.ob.number_of_imgs}
                     itemClass="btn pagination_btn"
                     prevPageText={<Svg src={arrow_left} />}
@@ -162,26 +149,37 @@ class Imgs extends React.Component {
     }
 
     img_load_callback = async (id, e) => {
-        const e_type = e.type;
+        if (e) {
+            const e_type = e.type;
 
-        if (shared_b_o.ob.imgs.length !== 0) { // prevent bug when deleting all images when solid color image present
-            img_loading.mut.imgs_loaded++;
+            if (shared_b_o.ob.imgs.length !== 0) { // prevent bug when deleting all images when solid color image present
+                img_loading.mut.imgs_loaded++;
 
-            if (e_type === 'error') { // when broken image loaded
-                this.mut.broken_imgs_ids.push(id);
+                const number_of_imgs_to_load = shared_b_o.ob.imgs.length - populate_storage_with_images_and_display_them.mut.previous_number_of_imgs;
+
+                if (e_type === 'error') { // when broken image loaded
+                    this.mut.broken_imgs_ids.push(id);
+                }
+
+                if ((populate_storage_with_images_and_display_them.mut.previous_number_of_imgs === populate_storage_with_images_and_display_them.sta.imgs_per_page && img_loading.mut.imgs_loaded === populate_storage_with_images_and_display_them.sta.imgs_per_page) || (populate_storage_with_images_and_display_them.mut.previous_number_of_imgs !== populate_storage_with_images_and_display_them.sta.imgs_per_page && img_loading.mut.imgs_loaded >= number_of_imgs_to_load)) {
+                    img_loading.mut.imgs_loaded = 0;
+                    img_loading.hide_loading_screen();
+                    scrolling.show_or_hide_imgs_fieldset_fillers();
+
+                    if (populate_storage_with_images_and_display_them.mut.scroll_to === 'bottom') {
+                        ref.imgs_fieldset.current.scrollTop = ref.imgs_fieldset.current.scrollHeight;
+
+                    } else if (populate_storage_with_images_and_display_them.mut.scroll_to === 'top') {
+                        ref.imgs_fieldset.current.scrollTop = 0;
+                    }
+
+                    await x.delay(400);
+                    shared_o.enable_ui();
+                    this.delete_broken_imgs();
+                }
+
+                img_loading.show_loaded_img(id, sb(this.img_w_refs[id], '.img'));
             }
-
-            if ((img_loading.mut.total_imgs_to_load > 0 && img_loading.mut.imgs_loaded === img_loading.mut.total_imgs_to_load) || (img_loading.mut.total_imgs_to_load === 0 && img_loading.mut.imgs_loaded === shared_b_o.ob.imgs.length)) {
-                img_loading.mut.imgs_loaded = 0;
-                img_loading.hide_loading_screen();
-                scrolling.show_or_hide_imgs_fieldset_fillers();
-
-                await x.delay(400);
-                shared_o.enable_ui();
-                this.delete_broken_imgs();
-            }
-
-            img_loading.show_loaded_img(id, sb(this.img_w_refs[id], '.img'));
         }
     }
 
@@ -325,6 +323,9 @@ class Img extends React.Component {
         );
     }
 }
+const ref = {
+    imgs_fieldset: React.createRef(),
+};
 
 observer(Imgs_fieldset);
 observer(Imgs);

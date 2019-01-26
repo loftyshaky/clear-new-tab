@@ -50,10 +50,6 @@ export const generate_random_color = () => {
     return color;
 };
 
-export const sta = {
-    imgs_per_page: 50,
-};
-
 export const ob = observable({
     imgs: [],
 });

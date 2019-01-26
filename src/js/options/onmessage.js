@@ -1,5 +1,5 @@
 import x from 'x';
-import * as shared_b_o from 'js/shared_b_o';
+import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import * as total_number_of_imgs from 'js/total_number_of_imgs';
 import * as shared_o from 'options/shared_o';
 import * as img_loading from 'options/img_loading';
@@ -9,9 +9,11 @@ browser.runtime.onMessage.addListener(async message => {
     const msg = message.message;
 
     if (msg === 'load_last_page') { // remove old theme images and then load new
+        populate_storage_with_images_and_display_them.mut.uploading_imgs = true;
+
         total_number_of_imgs.set_total_number_of_imgs()
             .then(() => {
-                const last_page = Math.ceil(total_number_of_imgs.ob.number_of_imgs / shared_b_o.sta.imgs_per_page) ;
+                const last_page = Math.ceil(total_number_of_imgs.ob.number_of_imgs / populate_storage_with_images_and_display_them.sta.imgs_per_page);
 
                 img_loading.load_page('load_page', last_page);
 

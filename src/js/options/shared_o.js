@@ -3,6 +3,7 @@ import { toJS, action, runInAction, configure } from 'mobx';
 import x from 'x';
 import { db } from 'js/init_db';
 import * as shared_b_o from 'js/shared_b_o';
+import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import { inputs_data } from 'options/inputs_data';
 import * as permissions from 'options/permissions';
 import * as settings from 'options/settings';
@@ -95,7 +96,7 @@ export const switch_to_settings_type = async (name, val, force_inputs_reset) => 
     }
 };
 
-export const determine_img_i_modificator = () => pagination.ob.active_page * shared_b_o.sta.imgs_per_page - shared_b_o.sta.imgs_per_page;
+export const determine_img_i_modificator = () => pagination.ob.active_page * populate_storage_with_images_and_display_them.sta.imgs_per_page - populate_storage_with_images_and_display_them.sta.imgs_per_page;
 
 export const mut = {
     img_w_tr_nodes: null,
