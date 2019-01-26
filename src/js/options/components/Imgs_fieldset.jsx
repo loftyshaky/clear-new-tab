@@ -163,8 +163,6 @@ class Imgs extends React.Component {
 
                 if ((populate_storage_with_images_and_display_them.mut.previous_number_of_imgs === populate_storage_with_images_and_display_them.sta.imgs_per_page && img_loading.mut.imgs_loaded === populate_storage_with_images_and_display_them.sta.imgs_per_page) || (populate_storage_with_images_and_display_them.mut.previous_number_of_imgs !== populate_storage_with_images_and_display_them.sta.imgs_per_page && img_loading.mut.imgs_loaded >= number_of_imgs_to_load)) {
                     img_loading.mut.imgs_loaded = 0;
-                    img_loading.hide_loading_screen();
-                    scrolling.show_or_hide_imgs_fieldset_fillers();
 
                     if (populate_storage_with_images_and_display_them.mut.scroll_to === 'bottom') {
                         ref.imgs_fieldset.current.scrollTop = ref.imgs_fieldset.current.scrollHeight;
@@ -173,6 +171,8 @@ class Imgs extends React.Component {
                         ref.imgs_fieldset.current.scrollTop = 0;
                     }
 
+                    img_loading.hide_loading_screen();
+                    scrolling.show_or_hide_imgs_fieldset_fillers();
                     await x.delay(400);
                     shared_o.enable_ui();
                     this.delete_broken_imgs();
