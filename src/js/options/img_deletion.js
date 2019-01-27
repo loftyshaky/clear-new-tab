@@ -60,12 +60,6 @@ export const delete_img = async img_id => {
             }
         });
 
-        await x.send_message_to_background_c({ message: 'reload_ed' });
-        await x.get_ed();
-        await x.send_message_to_background_c({ message: 'retrieve_imgs' });
-        await x.send_message_to_background({ message: 'preload_img' });
-        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
-
         const img_ws = sa('.img_w');
         const no_imgs_left_on_page = img_ws.length === 1;
 
@@ -73,7 +67,16 @@ export const delete_img = async img_id => {
 
         if (no_imgs_left_on_page) {
             total_number_of_imgs.set_total_number_of_imgs_and_switch_to_last_or_previous_page();
+
+        } else {
+            total_number_of_imgs.set_total_number_of_imgs();
         }
+
+        await x.send_message_to_background_c({ message: 'reload_ed' });
+        await x.get_ed();
+        await x.send_message_to_background_c({ message: 'retrieve_imgs' });
+        await x.send_message_to_background({ message: 'preload_img' });
+        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
 
     } catch (er) {
         console.error(er);
