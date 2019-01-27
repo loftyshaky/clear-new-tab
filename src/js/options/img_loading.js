@@ -172,7 +172,7 @@ const change_css_counter_offset = action(offset => {
 export const show_loaded_img = async img_w => {
     await x.delay(100);
 
-    x.remove_cls(sb(img_w, '.img_inner_w'), 'opacity_0');
+    x.remove_cls(sb(img_w, '.img_inner_w_2'), 'opacity_0');
 };
 //< show one image after it fully loaded
 
@@ -188,7 +188,7 @@ export const hide_loading_screen = action(() => { ob.show_loading_screen = false
 
 export const mut = {
     imgs_loaded: 0,
-    img_inner_w_mounts_transparent: false,
+    img_inner_w_2_mounts_transparent: false,
 };
 
 export const ob = observable({

@@ -557,7 +557,7 @@ svg {
     bottom: 1px;
 }
 
-.imgs_w_1 {
+.imgs_w_2 {
     margin-top: 16px;
     margin-bottom: 4px;
 }
@@ -568,11 +568,11 @@ svg {
     margin-left: 15px;
 }
 
-.imgs_w_2 {
+.imgs_w_3 {
     counter-reset: counter;
 }
 
-.img_inner_w {
+.img_inner_w_2 {
     position: relative;
     outline: none;
     vertical-align: top;
@@ -581,7 +581,7 @@ svg {
     -moz-user-select: none;
 }
 
-.img_inner_w, .img {
+.img_inner_w_2, .img {
     min-width: 80px;
 }
 
@@ -651,7 +651,7 @@ svg {
     left: 4px;
 }
 
-.img_info, .img_inner_w:before {
+.img_info, .img_inner_w_2:before {
     position: absolute;
     background-color: rgba(33, 33, 33, 0.8);
     left: 4px;
@@ -659,7 +659,7 @@ svg {
     padding: 2px;
 }
 
-.img_inner_w:before {
+.img_inner_w_2:before {
     counter-increment: counter;            
     content: counter(counter);
     top: 4px;
@@ -802,7 +802,7 @@ svg {
 /*< loading screen */
 
 /*> transition */
-.link, .upload_box_browse_label, svg, .theme_img_link, .delete_img_btn, .color_input_vizualization, .normal_input, .btn, .color_global_el, .input, .image_settings_wrapper, .dragged_item, .img_inner_ww, .img_w, .img_preview, .imgs_w_1, .upload_box, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu {
+.link, .upload_box_browse_label, svg, .theme_img_link, .delete_img_btn, .color_input_vizualization, .normal_input, .btn, .color_global_el, .input, .image_settings_wrapper, .dragged_item, .img_inner_w, .img_w, .img_preview, .imgs_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu {
     transition: all 0.2s ease-out;
 }
 
@@ -810,7 +810,7 @@ svg {
     transition: all 0.2s ease-out!important;
 }
 
-.loading_screen, .img_inner_w {
+.loading_screen, .img_inner_w_2 {
     transition: all 0.4s ease-out;
 }
 
@@ -838,11 +838,11 @@ svg {
     transition-property: color, background-color, border-color, box-shadow;
 }
 
-.color_global_el, .input, .image_settings_wrapper, .dragged_item, .loading_screen, .imgs_w_1, .img_inner_w, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w {
+.color_global_el, .input, .image_settings_wrapper, .dragged_item, .loading_screen, .imgs_w_2, .img_inner_w_2, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w {
     transition-property: opacity;
 }
 
-.img_inner_ww {
+.img_inner_w {
     transition-property: border-color, box-shadow;
 }
 

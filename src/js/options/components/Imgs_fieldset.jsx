@@ -87,15 +87,15 @@ export class Imgs_fieldset extends React.Component {
                     >
                         <Tr
                             attr={{
-                                className: 'imgs_w_1',
+                                className: 'imgs_w_2',
                             }}
                             tag="div"
                             name="gen"
-                            state={img_deletion.ob.show_imgs_w_1}
+                            state={img_deletion.ob.show_imgs_w_2}
                             tr_end_callbacks={[img_deletion.delete_all_images_tr_end]}
                         >
                             <div
-                                className="imgs_w_2"
+                                className="imgs_w_3"
                                 style={{ counterReset: `counter ${img_loading.ob.css_counter_offset}` }}
                             >
                                 <Imgs
@@ -180,7 +180,7 @@ class Imgs extends React.Component {
                     shared_o.enable_ui();
                     this.delete_broken_imgs();
 
-                    img_loading.mut.img_inner_w_mounts_transparent = true;
+                    img_loading.mut.img_inner_w_2_mounts_transparent = true;
                 }
 
                 img_loading.show_loaded_img(this.img_w_refs[id]);
@@ -244,8 +244,8 @@ const Img_inner_w = observer(props => {
     const { img } = props;
 
     return (
-        <div className="img_inner_ww">
-            <div className="img_inner_w opacity_0" style={{ opacity: img_loading.mut.img_inner_w_mounts_transparent ? null : 1 }}>
+        <div className="img_inner_w">
+            <div className="img_inner_w_2 opacity_0" style={{ opacity: img_loading.mut.img_inner_w_2_mounts_transparent ? null : 1 }}>
                 <Img
                     i={props.i}
                     img={img}

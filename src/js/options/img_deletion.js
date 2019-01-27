@@ -121,7 +121,7 @@ export const delete_all_images = async () => {
             x.send_message_to_background({ message: 'empty_imgs_a' });
 
             runInAction(() => {
-                ob.show_imgs_w_1 = false;
+                ob.show_imgs_w_2 = false;
             });
 
             shared_o.change_current_img_input_val(1);
@@ -141,10 +141,10 @@ export const delete_all_images = async () => {
 //<1 delete all images when clicking delete_all_imgs
 
 export const delete_all_images_tr_end = action(() => {
-    if (!ob.show_imgs_w_1) {
+    if (!ob.show_imgs_w_2) {
         shared_b_o.ob.imgs.clear();
 
-        ob.show_imgs_w_1 = true;
+        ob.show_imgs_w_2 = true;
 
         shared_o.enable_ui();
     }
@@ -156,5 +156,5 @@ export const mut = {
 };
 
 export const ob = observable({
-    show_imgs_w_1: true,
+    show_imgs_w_2: true,
 });
