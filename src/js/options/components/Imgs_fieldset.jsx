@@ -106,17 +106,19 @@ export class Imgs_fieldset extends React.Component {
                     </fieldset>
                     <div className={x.cls(['imgs_fieldset_filler', 'imgs_fieldset_filler_bottom', scrolling.ob.imgs_fieldset_filler_bottom_none_cls])} />
                 </div>
-                <Pagination
-                    activePage={pagination.ob.active_page}
-                    itemsCountPerPage={populate_storage_with_images_and_display_them.sta.imgs_per_page}
-                    totalItemsCount={total_number_of_imgs.ob.number_of_imgs}
-                    itemClass="btn pagination_btn"
-                    prevPageText={<Svg src={arrow_left} />}
-                    nextPageText={<Svg src={arrow_right} />}
-                    firstPageText={<Svg src={first_page} />}
-                    lastPageText={<Svg src={last_page} />}
-                    onChange={this.change_page}
-                />
+                <div className="pagination_w" style={{ width: changing_imgs_fieldset_width.ob.imgs_width }}>
+                    <Pagination
+                        activePage={pagination.ob.active_page}
+                        itemsCountPerPage={populate_storage_with_images_and_display_them.sta.imgs_per_page}
+                        totalItemsCount={total_number_of_imgs.ob.number_of_imgs}
+                        itemClass="btn pagination_btn"
+                        prevPageText={<Svg src={arrow_left} />}
+                        nextPageText={<Svg src={arrow_right} />}
+                        firstPageText={<Svg src={first_page} />}
+                        lastPageText={<Svg src={last_page} />}
+                        onChange={this.change_page}
+                    />
+                </div>
             </div>
         );
     }

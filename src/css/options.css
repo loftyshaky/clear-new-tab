@@ -711,13 +711,16 @@ svg {
 /*<1 delete image buttons */
 
 /*>1 pagination */
-.pagination {
+.pagination_w {
     position: fixed;
     width: 100%;
     max-width: calc(__MSG_imgs_w_width__ - __MSG_body_width__);
     bottom: 0;
     padding: 0;
     margin: 0;
+}
+
+.pagination {
     display: flex;
     justify-content: center;
     list-style-type: none;
