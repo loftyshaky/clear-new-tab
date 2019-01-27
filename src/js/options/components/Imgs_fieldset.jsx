@@ -152,6 +152,8 @@ class Imgs extends React.Component {
         if (e) {
             const e_type = e.type;
 
+            await x.delay(0);
+
             if (shared_b_o.ob.imgs.length !== 0) { // prevent bug when deleting all images when solid color image present
                 img_loading.mut.imgs_loaded++;
 
@@ -173,19 +175,20 @@ class Imgs extends React.Component {
 
                     img_loading.hide_loading_screen();
                     scrolling.show_or_hide_imgs_fieldset_fillers();
-                    await x.delay(400);
                     shared_o.enable_ui();
                     this.delete_broken_imgs();
+
+                    img_loading.mut.img_inner_w_mounts_transparent = true;
                 }
 
-                img_loading.show_loaded_img(id, sb(this.img_w_refs[id], '.img'));
+                img_loading.show_loaded_img(this.img_w_refs[id]);
             }
         }
     }
 
     //> show transparency background checkerboard
     show_checkerboard = id => {
-        img_loading.show_checkerboard(id);
+        img_loading.show_checkerboard(this.img_w_refs[id]);
     }
     //< show transparency background checkerboard
 
@@ -211,7 +214,6 @@ class Imgs extends React.Component {
                                 tabIndex="0"
                                 style={{
                                     backgroundColor: img.placeholder_color,
-                                    backgroundImage: img.show_checkerboard ? 'url("checkerboard.png")' : null,
                                     backgroundRepeat: '14px 14px',
                                     backgroundSize: '14px 14px',
                                 }}
@@ -241,21 +243,14 @@ const Img_inner_w = observer(props => {
 
     return (
         <div className="img_inner_ww">
-            <Tr
-                attr={{
-                    className: 'img_inner_w',
-                }}
-                tag="div"
-                name="img"
-                state={img.show}
-            >
+            <div className="img_inner_w opacity_0" style={{ opacity: img_loading.mut.img_inner_w_mounts_transparent ? null : 1 }}>
                 <Img
                     i={props.i}
                     img={img}
                     img_load_callback={props.img_load_callback}
                     delete_img={props.delete_img}
                 />
-            </Tr>
+            </div>
         </div>
     );
 });

@@ -40,6 +40,7 @@
     "react-dom": "^16.7.0",
     "react-js-pagination": "^3.0.2",
     "react-select": "^2.2.0",
+    "resize-image": "^0.1.0",
     "style-loader": "^0.23.1",
     "svg-inline-loader": "^0.8.0",
     "svg-inline-react": "^3.1.0",

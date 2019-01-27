@@ -1,4 +1,5 @@
 import { action, configure } from 'mobx';
+import resizeImage from 'resize-image';
 import * as r from 'ramda';
 
 import x from 'x';
@@ -29,6 +30,43 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
 
             () => 0)();
 
+        const thumbnails = {};
+
+        //>1 create thumbnails and get natural width and height
+        if (type !== 'color') {
+            await Promise.all(imgs.map(async (item, i) => {
+                await new Promise((resolve, reject) => {
+                    const img = new Image();
+
+                    img.onload = async () => {
+                        const natural_hidth = img.naturalWidth;
+                        const natural_height = img.naturalHeight;
+
+                        thumbnails[i] = {
+                            width: natural_hidth,
+                            height: natural_height,
+                        };
+
+                        if (type !== 'link') {
+                            const thumbnail_dimensions = calculate_img_aspect_ratio_fit(natural_hidth, natural_hidth);
+                            const base64 = resizeImage.resize(img, thumbnail_dimensions.width, thumbnail_dimensions.height, resizeImage.PNG);
+
+                            thumbnails[i].thumbnail = base64;
+                        }
+
+                        resolve();
+                    };
+
+                    img.onerror = () => {
+                        reject();
+                    };
+
+                    img.src = typeof item === 'string' ? item : URL.createObjectURL(item);
+                });
+            }));
+        }
+        //<1 create thumbnails and get natural width and height
+
         const packed_imgs = imgs.map((item, i) => {
             if (type !== 'color') {
                 const img = {
@@ -36,6 +74,9 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
                     position_id: position_id + i,
                     theme_id,
                     img: item,
+                    thumbnail: thumbnails[i].thumbnail,
+                    width: thumbnails[i].width,
+                    height: thumbnails[i].height,
                     type: add_theme_modifier_to_type(),
                     size: theme_img_info.size || 'global',
                     position: theme_img_info.position || 'global',
@@ -107,12 +148,10 @@ export const unpack_and_load_imgs = async (mode, imgs_to_load) => {
         key: x.unique_id(),
         id: img.id,
         placeholder_color: generate_random_pastel_color(),
-        img: img.type.indexOf('file') > -1 ? URL.createObjectURL(img.img) : img.img,
+        img: img.type.indexOf('file') > -1 ? img.thumbnail || URL.createObjectURL(img.img) : img.img,
         type: img.type,
-        img_size: '?',
-        show: mode === 'first_load' || false,
+        img_size: img.width ? (`${img.width}x${img.height}`) : '?',
         show_delete: true,
-        show_checkerboard: mode === 'first_load' || false,
         selected: false,
     }));
 
@@ -144,10 +183,9 @@ export const create_loaded_imgs_on_img_load = action((imgs, null_scroll_to) => {
 
     set_previous_number_of_imgs(shared_b_o.ob.imgs.length);
 
-    const all_imgs = r.union(shared_b_o.ob.imgs.slice())(imgs); // visible + uploaded now images
-    const first_50_or_less_imgs = r.take(50, all_imgs);
+    const all_imgs = shared_b_o.ob.imgs.concat(imgs); // visible + uploaded now images
 
-    shared_b_o.ob.imgs.replace(first_50_or_less_imgs);
+    shared_b_o.ob.imgs.replace(all_imgs);
 
     mut.uploading_imgs = false;
 });
@@ -173,6 +211,12 @@ export const show_or_hide_upload_error_messages = status => {
     }
 };
 
+const calculate_img_aspect_ratio_fit = (src_width, src_height) => {
+    const ratio = Math.min(Infinity / src_width, 98 / src_height);
+
+    return { width: src_width * ratio, height: src_height * ratio };
+};
+
 const generate_random_pastel_color = () => `hsl(${360 * Math.random()},${25 + 70 * Math.random()}%,${70 + 10 * Math.random()}%)`;
 
 export const mut = {
@@ -182,5 +226,5 @@ export const mut = {
 };
 
 export const sta = {
-    imgs_per_page: 50,
+    imgs_per_page: 200,
 };

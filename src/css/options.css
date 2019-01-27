@@ -896,6 +896,10 @@ body:not(.using_mouse) .select__control, body:not(.using_mouse) .select__menu {
 .upload_box_hover {
     background-color: #3b6ab5;
 }
+
+.checkerboard {
+    background-image: url("checkerboard.png");
+}
 /*< mods */
 
 /*> delete later */

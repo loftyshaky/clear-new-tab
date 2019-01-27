@@ -30,7 +30,7 @@ export const get_pasted_image_or_image_url = async e => {
                 const response = await window.fetch(clipboard_text);
                 const blob = await response.blob();
                 if (blob.type.indexOf('image') > -1) {
-                    const file_object = new File([blob], '', { type: blob.type }); // '' is file name, it means that file object was created from blob object
+                    const file_object = shared_b_o.blob_to_file(blob);
 
                     return file_object;
 
@@ -169,35 +169,18 @@ const change_css_counter_offset = action(offset => {
 });
 
 //> show one image after it fully loaded
-export const show_loaded_img = async (id, img_el) => {
+export const show_loaded_img = async img_w => {
     await x.delay(100);
 
-    const i = shared_o.get_img_i_by_id(id);
-    const is_img = img_el; // not color
-
-    runInAction(() => {
-        if (shared_b_o.ob.imgs[i]) {
-            shared_b_o.ob.imgs[i].show = true;
-        }
-
-        if (is_img) {
-            shared_b_o.ob.imgs[i].img_size = `${img_el.naturalWidth}x${img_el.naturalHeight}`;
-        }
-    });
+    x.remove_cls(sb(img_w, '.img_inner_w'), 'opacity_0');
 };
 //< show one image after it fully loaded
 
 //> show transparency background checkerboard
-export const show_checkerboard = async id => {
+export const show_checkerboard = async img_w => {
     await x.delay(100);
 
-    const i = shared_o.get_img_i_by_id(id);
-
-    runInAction(() => {
-        if (shared_b_o.ob.imgs[i]) {
-            shared_b_o.ob.imgs[i].show_checkerboard = true;
-        }
-    });
+    x.add_cls(img_w, 'checkerboard');
 };
 //< show transparency background checkerboard
 
@@ -205,6 +188,7 @@ export const hide_loading_screen = action(() => { ob.show_loading_screen = false
 
 export const mut = {
     imgs_loaded: 0,
+    img_inner_w_mounts_transparent: false,
 };
 
 export const ob = observable({
