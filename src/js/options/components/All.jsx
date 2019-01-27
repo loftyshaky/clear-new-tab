@@ -56,7 +56,6 @@ export class All extends React.Component {
     }
 
     render() {
-        // <Loading_screen show_loading_screen={img_loading.show_loading_screen} />
         return (
             <div className={x.cls(['all', settings.ob.global_options_is_visible ? null : 'global_options_is_hidden'])}>
                 <Tr
