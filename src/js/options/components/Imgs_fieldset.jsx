@@ -46,6 +46,8 @@ export class Imgs_fieldset extends React.Component {
         window.addEventListener('resize', this.resize_imgs_binded);
 
         changing_imgs_fieldset_width.resize_imgs(this.imgs_w.current);
+
+        x.bind(s('.pagination'), 'mousedown', pagination.send_click_to_pagination_btn);
     }
 
     componentDidUpdate() {
