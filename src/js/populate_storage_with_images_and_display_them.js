@@ -134,6 +134,7 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
 
         if (page === 'options') {
+            set_last_uploaded_image_as_current();
             show_or_hide_upload_error_messages(status);
         }
 
@@ -152,6 +153,18 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
     return undefined;
 };
 //< pack images and insert them in db
+
+const set_last_uploaded_image_as_current = async () => {
+    const ed_all = await eda();
+
+    if (ed_all.set_last_uploaded && (ed_all.mode === 'one' || ed_all.mode === 'multiple')) {
+        const number_of_imgs = await db.imgs.count();
+        const visible_value = number_of_imgs;
+        const value_to_insert_into_db = number_of_imgs - 1;
+
+        settings.change_current_img_insert_in_db(visible_value, value_to_insert_into_db);
+    }
+};
 
 //> prepare images for loading in images fieldset and then load them into it
 export const unpack_and_load_imgs = async (mode, imgs_to_load) => {
@@ -175,18 +188,6 @@ export const unpack_and_load_imgs = async (mode, imgs_to_load) => {
     } else {
         total_number_of_imgs.set_total_number_of_imgs_and_switch_to_last_or_previous_page(unpacked_imgs);
     }
-
-    //>1 set last uploaded image as current
-    const ed_all = await eda();
-
-    if (mode === 'upload_imgs' && ed_all.set_last_uploaded && (ed_all.mode === 'one' || ed_all.mode === 'multiple')) {
-        const number_of_imgs = await db.imgs.count();
-        const visible_value = number_of_imgs;
-        const value_to_insert_into_db = number_of_imgs - 1;
-
-        settings.change_current_img_insert_in_db(visible_value, value_to_insert_into_db);
-    }
-    //<1 set last uploaded image as current
 };
 //< prepare images for loading in images fieldset and then load them into it
 
