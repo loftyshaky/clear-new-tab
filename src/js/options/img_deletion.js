@@ -3,6 +3,7 @@ import { observable, action, runInAction, configure } from 'mobx';
 import x from 'x';
 import { db } from 'js/init_db';
 import * as shared_b_o from 'js/shared_b_o';
+import * as get_new_future_img from 'js/get_new_future_img';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import * as determine_theme_current_img from 'js/determine_theme_current_img';
 import * as total_number_of_imgs from 'js/total_number_of_imgs';
@@ -54,7 +55,7 @@ export const delete_img = async img_id => {
             if (img_to_delete_i_is_lower_than_current_img || (ed_all.mode !== 'theme' && img_to_delete_i_equals_to_current_img) || (img_to_delete_i_equals_to_current_img && img_to_delete_is_theme_img)) {
                 await db.ed.update(1, { current_img: new_current_img });
                 shared_o.change_current_img_input_val(new_current_img + 1);
-                await shared_b_o.get_new_future_img(new_current_img + 1);
+                await get_new_future_img.get_new_future_img(new_current_img + 1);
             }
 
             if (deleting_selected_img) {

@@ -3,6 +3,7 @@ import { observable, action, configure } from 'mobx';
 import x from 'x';
 import { db } from 'js/init_db';
 import * as shared_b_o from 'js/shared_b_o';
+import * as get_new_future_img from 'js/get_new_future_img';
 import * as shared_o from 'options/shared_o';
 import * as ui_state from 'options/ui_state';
 
@@ -248,7 +249,7 @@ const drop_options = async () => {
 
             const current_img = await ed('current_img');
 
-            await shared_b_o.get_new_future_img(current_img + 1);
+            await get_new_future_img.get_new_future_img(current_img + 1);
         });
 
         const current_img = await ed('current_img');

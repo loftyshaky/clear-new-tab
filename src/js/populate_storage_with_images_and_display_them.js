@@ -6,8 +6,10 @@ import x from 'x';
 
 import { db } from 'js/init_db';
 import * as shared_b_o from 'js/shared_b_o';
+import * as get_new_future_img from 'js/get_new_future_img';
 import * as upload_messages from 'js/upload_messages';
 import * as total_number_of_imgs from 'js/total_number_of_imgs';
+import * as generate_random_color from 'js/generate_random_color';
 
 configure({ enforceActions: 'observed' });
 
@@ -127,7 +129,7 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
         }
 
         const current_img = await ed('current_img');
-        await shared_b_o.get_new_future_img(current_img + 1);
+        await get_new_future_img.get_new_future_img(current_img + 1);
         await x.send_message_to_background({ message: 'preload_img' });
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
 
@@ -156,7 +158,7 @@ export const unpack_and_load_imgs = async (mode, imgs_to_load) => {
     const unpacked_imgs = imgs_to_load.map(img => ({
         key: x.unique_id(),
         id: img.id,
-        placeholder_color: generate_random_pastel_color(),
+        placeholder_color: generate_random_color.generate_random_pastel_color(),
         img: img.type.indexOf('file') > -1 ? img.thumbnail || URL.createObjectURL(img.img) : img.img,
         type: img.type,
         img_size: img.width ? (`${img.width}x${img.height}`) : '?',
@@ -237,8 +239,6 @@ const calculate_img_aspect_ratio_fit = (src_width, src_height) => {
 
     return { width: src_width * ratio, height: src_height * ratio };
 };
-
-const generate_random_pastel_color = () => `hsl(${360 * Math.random()},${25 + 70 * Math.random()}%,${70 + 10 * Math.random()}%)`;
 
 export const mut = {
     previous_number_of_imgs: 0,

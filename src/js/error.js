@@ -1,3 +1,5 @@
+'use_strict';
+
 import { observable, action, configure } from 'mobx';
 
 import x from 'x';

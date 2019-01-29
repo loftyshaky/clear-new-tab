@@ -6,7 +6,7 @@ import { db } from 'js/init_db';
 import { inputs_data } from 'options/inputs_data';
 import { selects_options } from 'options/selects_options';
 import * as shared_o from 'options/shared_o';
-import * as shared_b_o from 'js/shared_b_o';
+import * as get_new_future_img from 'js/get_new_future_img';
 
 configure({ enforceActions: 'observed' });
 
@@ -63,7 +63,7 @@ export const change_settings = async (input_type, family, name, val) => {
 
             await db.ed.update(1, { current_img: new_current_img });
             shared_o.change_current_img_input_val(new_current_img + 1);
-            await shared_b_o.get_new_future_img(new_current_img + 1);
+            await get_new_future_img.get_new_future_img(new_current_img + 1);
         }
 
         await db[storage_type].update(storage_id, { [name]: new_val });
@@ -225,7 +225,7 @@ export const change_current_img_insert_in_db = async (visible_value, value_to_in
         x.send_message_to_background({ message: 'reset_timer' });
         shared_o.change_current_img_input_val(visible_value);
         await db.ed.update(1, { current_img: value_to_insert_into_db, future_img: value_to_insert_into_db + 1 });
-        await shared_b_o.get_new_future_img(value_to_insert_into_db + 1);
+        await get_new_future_img.get_new_future_img(value_to_insert_into_db + 1);
         await x.send_message_to_background({ message: 'preload_img' });
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
 
