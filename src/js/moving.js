@@ -255,8 +255,6 @@ const drop_options = async () => {
 
         shared_o.change_current_img_input_val(current_img + 1);
 
-        x.get_ed();
-        await x.send_message_to_background_c({ message: 'reload_ed' });
         await x.send_message_to_background_c({ message: 'retrieve_imgs' });
 
         move_imgs_arr_item(img_i_before_drop, img_i_after_drop);

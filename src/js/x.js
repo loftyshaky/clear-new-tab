@@ -236,25 +236,6 @@ x.cls = classes => {
     return pipe_f(item => item, classes);
 };
 
-//> get extension data
-x.get_ed = async callback => {
-    try {
-        const new_ed = await db.ed.get(1);
-
-        runInAction(() => {
-            window.ed = new_ed;
-        });
-
-        if (callback) {
-            callback();
-        }
-
-    } catch (er) {
-        console.error(er);
-    }
-};
-//< get extension data
-
 //> chrome
 //>1 localization
 x.msg = message => browser.i18n.getMessage(message);

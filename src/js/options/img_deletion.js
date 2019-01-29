@@ -74,8 +74,6 @@ export const delete_img = async img_id => {
             total_number_of_imgs.set_total_number_of_imgs();
         }
 
-        await x.send_message_to_background_c({ message: 'reload_ed' });
-        await x.get_ed();
         await x.send_message_to_background_c({ message: 'retrieve_imgs' });
         await x.send_message_to_background({ message: 'preload_img' });
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
@@ -118,8 +116,6 @@ export const delete_all_images = async () => {
             await db.imgs.clear();
             await db.ed.update(1, { current_img: 0, future_img: 1 });
 
-            x.get_ed();
-            x.send_message_to_background({ message: 'reload_ed' });
             x.send_message_to_background({ message: 'empty_imgs_a' });
 
             runInAction(() => {

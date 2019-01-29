@@ -88,7 +88,6 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
 
             await db.ed.update(1, { current_img: new_current_img });
             await shared_b_o.get_new_future_img(new_current_img + 1);
-            await x.get_ed();
             shared_b.preload_current_and_future_img('reload');
 
             x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'change_current_img_input_val' }]);

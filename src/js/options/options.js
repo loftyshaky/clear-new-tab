@@ -8,4 +8,4 @@ import { run_everything } from 'js/init_All';
 
 s('title').textContent = x.msg('options_title_text');
 
-x.get_ed(settings.load_settings.bind(null, run_everything.bind(null, 'options')));
+settings.load_settings(run_everything.bind(null, 'options'));

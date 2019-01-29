@@ -8,15 +8,6 @@ import 'normalize.css';
 export const run_everything = async All_type => {
     let All;
 
-    if (!ed) {
-        x.error(2, 'error_alert_2');
-
-        const background = await x.get_background();
-        await background.set_default_settings('options');
-        await x.get_ed();
-        await x.send_message_to_background_c({ message: 'load_imgs' });
-    }
-
     switch (All_type) {
         case 'options':
             ({ All } = require('options/components/All')); // eslint-disable-line global-require

@@ -14,14 +14,11 @@ browser.runtime.onMessage.addListener(async (message, sender, send_response) => 
         }
 
     } else if (msg === 'change_img') {
-        await x.get_ed();
-
         if (await ed123('slideshow') && window.location.search.indexOf('preview') === -1) {
             imgs.display_img(true);
         }
 
     } else if (msg === 'reload_img') {
-        await x.get_ed();
         imgs.reload_img();
         x.send_message_to_background({ message: 'start_timer' });
 

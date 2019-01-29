@@ -78,7 +78,6 @@ export const get_next_img = async () => {
 
                 await db.ed.update(1, { current_img: new_current_img });
                 await shared_b_o.get_new_future_img(new_future_img);
-                await x.get_ed();
 
                 x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'change_current_img_input_val' }]);
 
@@ -86,7 +85,6 @@ export const get_next_img = async () => {
 
             } else if (ed_all.mode === 'random_solid_color') {
                 await db.ed.update(1, { current_random_color: shared_b_o.generate_random_color() });
-                await x.get_ed();
             }
         }
 
@@ -102,7 +100,6 @@ export const update_last_img_change_time_f = async () => {
     const time = new Date().getTime();
 
     await db.ed.update(1, { last_img_change_time: time });
-    await x.get_ed();
 };
 
 //> get number of ms left till change interval elpse (may be negative)

@@ -5,4 +5,4 @@ import { run_everything } from 'js/init_All';
 
 s('title').textContent = x.msg('new_tab_title_text');
 
-x.get_ed(run_everything.bind(null, 'new_tab'));
+run_everything('new_tab');

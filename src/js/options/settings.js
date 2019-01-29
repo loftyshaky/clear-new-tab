@@ -70,8 +70,6 @@ export const change_settings = async (input_type, family, name, val) => {
 
         shared_o.change_input_val(family, name, new_val);
 
-        await x.send_message_to_background_c({ message: 'reload_ed' });
-        await x.get_ed();
         shared_o.decide_what_inputs_to_hide();
         x.send_message_to_background({ message: 'update_imgs_obj', id: storage_id, storage: name, val: new_val });
 
@@ -113,7 +111,6 @@ export const change_color_global_checkbox_setting = async name => {
 
     await db.imgs.update(shared_o.mut.selected_img_id, { [name]: new_val });
     x.send_message_to_background({ message: 'update_imgs_obj', id: shared_o.mut.selected_img_id, storage: name, val: new_val });
-    x.send_message_to_background({ message: 'reload_ed' });
     x.send_message_to_background({ message: 'preload_img' });
     x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
     shared_o.set_color_global_checkbox_val(name);
@@ -229,8 +226,6 @@ export const change_current_img_insert_in_db = async (visible_value, value_to_in
         shared_o.change_current_img_input_val(visible_value);
         await db.ed.update(1, { current_img: value_to_insert_into_db, future_img: value_to_insert_into_db + 1 });
         await shared_b_o.get_new_future_img(value_to_insert_into_db + 1);
-        await x.get_ed();
-        await x.send_message_to_background_c({ message: 'reload_ed' });
         await x.send_message_to_background({ message: 'preload_img' });
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
 
@@ -257,7 +252,6 @@ export const restore_default_global_settings = async () => {
         try {
             const background = await x.get_background();
             await background.set_default_settings('options');
-            await x.get_ed();
             shared_o.deselect_selected_img();
             shared_o.change_current_img_input_val(1);
             shared_o.switch_to_settings_type(null, null, true);
@@ -275,10 +269,6 @@ let mut = {
     corrected_current_img_input_val: null,
 };
 
-export let ob; // eslint-disable-line import/no-mutable-exports
-
-x.get_ed(() => {
-    ob = observable({
-        global_options_is_visible: false,
-    });
+export const ob = observable({
+    global_options_is_visible: false,
 });

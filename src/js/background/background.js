@@ -11,7 +11,6 @@ dnd = drag and drop
 ed = extension data
 */
 
-import x from 'x';
 import * as shared_b from 'background/shared_b';
 import 'background/onmessage';
 import 'background/onclicked';
@@ -20,4 +19,4 @@ import 'background/setting_defaults';
 import 'background/open_theme_img';
 import 'background/theme_img';
 
-x.get_ed(shared_b.load_imgs);
+shared_b.load_imgs();

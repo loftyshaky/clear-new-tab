@@ -45,15 +45,6 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
         shared_b.preload_current_and_future_img('reload');
         send_response();
 
-    } else if (msg === 'reload_ed') { // reload ed variable
-        x.get_ed()
-            .then(() => {
-                send_response();
-
-            }).catch(er => {
-                console.error(er);
-            });
-
     } else if (msg === 'retrieve_imgs') { // get ready shared_b.mut.imgs for use in new tab
         shared_b.retrieve_imgs(send_response);
 
@@ -129,11 +120,8 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
         }
 
     } else if (msg === 'load_imgs') { // when repairing extension from database wipe
-        x.get_ed()
+        shared_b.load_imgs()
             .then(() => {
-                shared_b.load_imgs();
-
-            }).then(() => {
                 send_response();
 
             }).catch(er => {
