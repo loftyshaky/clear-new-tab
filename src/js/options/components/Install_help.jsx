@@ -30,7 +30,7 @@ export class Install_help extends React.Component {
     }
 
     async componentWillMount() {
-        const show_install_help = await ed123('show_install_help');
+        const show_install_help = await ed('show_install_help');
 
         runInAction(() => {
             this.ob.show_install_help = show_install_help;

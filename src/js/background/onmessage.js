@@ -84,7 +84,7 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
         shared_b.mut.imgs = [];
 
     } else if (msg === 'get_new_current_img_when_choosing_theme_mode') {
-        ed123('last_installed_theme_theme_id')
+        ed('last_installed_theme_theme_id')
             .then(last_installed_theme_theme_id => determine_theme_current_img.determine_theme_current_img(last_installed_theme_theme_id, shared_b.mut.imgs))
             .then(new_current_img => {
                 send_response(new_current_img);
@@ -143,7 +143,7 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
         });
 
     } else if (msg === 'get_last_installed_theme_theme_id') { // when installing theme (firefox only)
-        ed123('last_installed_theme_theme_id').then(last_installed_theme_theme_id => {
+        ed('last_installed_theme_theme_id').then(last_installed_theme_theme_id => {
             send_response(last_installed_theme_theme_id);
 
         }).catch(er => {

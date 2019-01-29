@@ -77,7 +77,7 @@ module.exports = {
         'File': false,
         'NodeList': false,
         'MutationObserver': false,
-        'ed123': false,
+        'ed': false,
         'ed': false,
         'eda': false,
         'err': false,

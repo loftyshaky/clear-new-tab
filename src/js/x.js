@@ -11,7 +11,7 @@ window.page = title ? title.dataset.page : 'background';
 window.browser = (() => window.msBrowser || window.browser || window.chrome)();
 
 //> get extension data
-window.ed123 = async key => {
+window.ed = async key => {
     try {
         const store = await db.ed.get(1);
 

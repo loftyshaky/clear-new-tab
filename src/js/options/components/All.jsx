@@ -36,7 +36,7 @@ export class All extends React.Component {
     async componentWillMount() {
         permissions.restore_optional_permissions_checkboxes_state();
         shared_o.decide_what_inputs_to_hide();
-        shared_o.set_color_input_vizualization_color('img_settings', 'color', await ed123('color'));
+        shared_o.set_color_input_vizualization_color('img_settings', 'color', await ed('color'));
     }
 
     componentDidMount() {

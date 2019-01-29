@@ -17,7 +17,7 @@ export const get_img_i_by_el = el => Array.prototype.slice.call(mut.img_w_tr_nod
 
 export const decide_what_inputs_to_hide = async () => {
     try {
-        const mode = await ed123('mode');
+        const mode = await ed('mode');
 
         runInAction(() => {
             inputs_data.obj.img_settings.keep_old_themes_imgs.visible = mode === 'theme';

@@ -246,12 +246,12 @@ const drop_options = async () => {
             await set_new_current_or_future_img_value_after_drop('current_img', move_type, img_i_before_drop, img_i_after_drop);
             await set_new_current_or_future_img_value_after_drop('future_img', move_type, img_i_before_drop, img_i_after_drop);
 
-            const current_img = await ed123('current_img');
+            const current_img = await ed('current_img');
 
             await shared_b_o.get_new_future_img(current_img + 1);
         });
 
-        const current_img = await ed123('current_img');
+        const current_img = await ed('current_img');
 
         shared_o.change_current_img_input_val(current_img + 1);
 

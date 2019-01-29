@@ -126,7 +126,7 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
             await x.send_message_to_background_c({ message: 'retrieve_imgs' }); //> reload img_a in background.js
         }
 
-        const current_img = await ed123('current_img');
+        const current_img = await ed('current_img');
         await shared_b_o.get_new_future_img(current_img + 1);
         await x.send_message_to_background({ message: 'preload_img' });
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);

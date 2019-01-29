@@ -108,7 +108,7 @@ export const preload_current_and_future_img = async mode => {
 
 export const get_installed_theme_id = () => new Promise(resolve => {
     browser.management.getAll(async all_apps => {
-        const last_installed_theme_theme_id = await ed123('last_installed_theme_theme_id');
+        const last_installed_theme_theme_id = await ed('last_installed_theme_theme_id');
         const enabled_themes_without_last_installed = all_apps.filter(app => app.type === 'theme' && app.enabled === true && app.id !== last_installed_theme_theme_id);
         const themes = enabled_themes_without_last_installed.length === 0 ? all_apps.filter(app => app.type === 'theme' && app.enabled === true) : enabled_themes_without_last_installed;
         const theme_id = themes.length > 0 ? themes[0].id : null;

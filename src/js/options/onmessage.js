@@ -22,7 +22,7 @@ browser.runtime.onMessage.addListener(async message => {
             });
 
     } else if (msg === 'change_current_img_input_val') {
-        const current_img = await ed123('current_img');
+        const current_img = await ed('current_img');
 
         shared_o.change_current_img_input_val(current_img + 1);
 
