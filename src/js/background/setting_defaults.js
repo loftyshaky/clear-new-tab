@@ -12,6 +12,7 @@ window.set_default_settings = async page => { // this function also called in op
         last_img_change_time: 0,
         use_theme_img: true,
         keep_old_themes_imgs: false,
+        set_last_uploaded: false,
         change_interval: '3600000',
         img_already_changed: true,
         mode: 'theme',

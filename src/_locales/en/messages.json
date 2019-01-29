@@ -108,6 +108,9 @@
   "current_img_label_text": {
     "message": "Current image №"
   },
+  "set_last_uploaded_label_text": {
+    "message": "Automatically set the last uploaded image as current"
+  },
   "settings_type_label_text": {
     "message": "Settings type"
   },

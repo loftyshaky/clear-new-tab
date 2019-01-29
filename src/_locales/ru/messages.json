@@ -108,6 +108,9 @@
   "current_img_label_text": {
     "message": "№ Текущей картинки"
   },
+  "set_last_uploaded_label_text": {
+    "message": "Автоматически делать последнюю загруженную картинку текущей"
+  },
   "settings_type_label_text": {
     "message": "Тип настроек"
   },

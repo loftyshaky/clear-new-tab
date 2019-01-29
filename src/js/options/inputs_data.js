@@ -96,6 +96,14 @@ export const inputs_data = observable({
                 on_input: settings.change_current_img_by_typing_into_currrent_img_input,
                 on_blur: settings.correct_current_img_input_val,
             },
+            set_last_uploaded: {
+                key: x.unique_id(),
+                family: 'img_settings',
+                name: 'set_last_uploaded',
+                type: 'checkbox',
+                checkbox_type: 'ed',
+                val: false,
+            },
             separator: {
                 key: x.unique_id(),
                 type: 'separator',

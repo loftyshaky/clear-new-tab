@@ -22,6 +22,7 @@ export const decide_what_inputs_to_hide = action(async () => {
         inputs_data.obj.img_settings.shuffle.visible = ed.mode === 'multiple';
         inputs_data.obj.img_settings.change_interval.visible = !!(ed.mode === 'multiple' || ed.mode === 'random_solid_color');
         inputs_data.obj.img_settings.current_img.visible = !!(ed.mode === 'one' || ed.mode === 'multiple');
+        inputs_data.obj.img_settings.set_last_uploaded.visible = !!(ed.mode === 'one' || ed.mode === 'multiple');
 
         const contains_allow_downloading_images_by_link_permission = await permissions.contains_permission(toJS(inputs_data.obj.other_settings.allow_downloading_images_by_link.permissions));
         const contains_enable_paste_permission = await permissions.contains_permission(toJS(inputs_data.obj.other_settings.enable_paste.permissions));
