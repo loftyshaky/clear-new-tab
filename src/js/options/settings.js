@@ -108,7 +108,8 @@ export const change_settings = async (input_type, family, name, val) => {
 export const change_settings_color = r.curry(change_settings)('color', 'img_settings');
 
 export const change_color_global_checkbox_setting = async name => {
-    const new_val = inputs_data.obj.img_settings[name].color_global_checkbox_val ? ed[name] : 'global';
+    const ed_all = await eda();
+    const new_val = inputs_data.obj.img_settings[name].color_global_checkbox_val ? ed_all[name] : 'global';
 
     await db.imgs.update(shared_o.mut.selected_img_id, { [name]: new_val });
     x.send_message_to_background({ message: 'update_imgs_obj', id: shared_o.mut.selected_img_id, storage: name, val: new_val });
@@ -118,7 +119,7 @@ export const change_color_global_checkbox_setting = async name => {
     shared_o.set_color_global_checkbox_val(name);
 
     if (new_val === 'global') {
-        shared_o.set_color_input_vizualization_color('img_settings', [name], ed[name]);
+        shared_o.set_color_input_vizualization_color('img_settings', [name], ed_all[name]);
     }
 };
 

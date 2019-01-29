@@ -22,9 +22,9 @@ browser.runtime.onMessage.addListener(async message => {
             });
 
     } else if (msg === 'change_current_img_input_val') {
-        await x.get_ed();
+        const current_img = await ed123('current_img');
 
-        shared_o.change_current_img_input_val(ed.current_img + 1);
+        shared_o.change_current_img_input_val(current_img + 1);
 
     } else if (msg !== 'confirm_that_opened_tab_is_new_tab_page_and_that_it_is_not_in_preview_mode') {
         await x.delay(30000); // fixes bug when response is not received from background when sending same message to background while options page is open (firefox only)

@@ -15,14 +15,18 @@ export const get_img_i_by_id = img_id => shared_b_o.ob.imgs.findIndex(img => img
 
 export const get_img_i_by_el = el => Array.prototype.slice.call(mut.img_w_tr_nodes).indexOf(el);
 
-export const decide_what_inputs_to_hide = action(async () => {
+export const decide_what_inputs_to_hide = async () => {
     try {
-        inputs_data.obj.img_settings.keep_old_themes_imgs.visible = ed.mode === 'theme';
-        inputs_data.obj.img_settings.slideshow.visible = !!(ed.mode === 'multiple' || ed.mode === 'random_solid_color');
-        inputs_data.obj.img_settings.shuffle.visible = ed.mode === 'multiple';
-        inputs_data.obj.img_settings.change_interval.visible = !!(ed.mode === 'multiple' || ed.mode === 'random_solid_color');
-        inputs_data.obj.img_settings.current_img.visible = !!(ed.mode === 'one' || ed.mode === 'multiple');
-        inputs_data.obj.img_settings.set_last_uploaded.visible = !!(ed.mode === 'one' || ed.mode === 'multiple');
+        const mode = await ed123('mode');
+
+        runInAction(() => {
+            inputs_data.obj.img_settings.keep_old_themes_imgs.visible = mode === 'theme';
+            inputs_data.obj.img_settings.slideshow.visible = !!(mode === 'multiple' || mode === 'random_solid_color');
+            inputs_data.obj.img_settings.shuffle.visible = mode === 'multiple';
+            inputs_data.obj.img_settings.change_interval.visible = !!(mode === 'multiple' || mode === 'random_solid_color');
+            inputs_data.obj.img_settings.current_img.visible = !!(mode === 'one' || mode === 'multiple');
+            inputs_data.obj.img_settings.set_last_uploaded.visible = !!(mode === 'one' || mode === 'multiple');
+        });
 
         const contains_allow_downloading_images_by_link_permission = await permissions.contains_permission(toJS(inputs_data.obj.other_settings.allow_downloading_images_by_link.permissions));
         const contains_enable_paste_permission = await permissions.contains_permission(toJS(inputs_data.obj.other_settings.enable_paste.permissions));
@@ -35,7 +39,7 @@ export const decide_what_inputs_to_hide = action(async () => {
     } catch (er) {
         console.error(er);
     }
-});
+};
 
 export const deselect_selected_img = action(() => {
     const selected_img_i = get_img_i_by_id(mut.selected_img_id);
@@ -79,10 +83,11 @@ export const set_color_global_checkbox_val = async name => {
 
 export const switch_to_settings_type = async (name, val, force_inputs_reset) => {
     if ((name === 'settings_type' && val === 'global') || force_inputs_reset) {
+        const ed_all = await eda();
         mut.storage_type = 'ed';
 
-        settings.load_settings_inner('img_settings', await eda());
-        set_color_input_vizualization_color('img_settings', 'color', ed.color);
+        settings.load_settings_inner('img_settings', ed_all);
+        set_color_input_vizualization_color('img_settings', 'color', ed_all.color);
         deselect_selected_img();
         show_or_hide_global_options(false);
     }

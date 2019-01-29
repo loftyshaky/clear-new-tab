@@ -19,11 +19,12 @@ export const delete_img = async img_id => {
     try {
         ui_state.disable_ui();
 
+        const ed_all = await eda();
         const img_to_delete = await db.imgs.get(img_id);
         const img_to_delete_i = shared_o.get_img_i_by_id(img_id);
         const all_imgs_img_to_delete_i = img_to_delete_i + shared_o.determine_img_i_modificator();
-        const img_to_delete_i_is_lower_than_current_img = all_imgs_img_to_delete_i < ed.current_img;
-        const img_to_delete_i_equals_to_current_img = all_imgs_img_to_delete_i === ed.current_img;
+        const img_to_delete_i_is_lower_than_current_img = all_imgs_img_to_delete_i < ed_all.current_img;
+        const img_to_delete_i_equals_to_current_img = all_imgs_img_to_delete_i === ed_all.current_img;
         const deleting_selected_img = img_to_delete_i === shared_o.get_img_i_by_id(shared_o.mut.selected_img_id);
         const img_to_delete_is_theme_img = img_to_delete.theme_id;
 
@@ -39,18 +40,18 @@ export const delete_img = async img_id => {
         if (img_to_delete_i_equals_to_current_img && img_to_delete_is_theme_img) {
             const imgs = await x.send_message_to_background_c({ message: 'get_imgs_arr' });
 
-            new_current_img = await determine_theme_current_img.determine_theme_current_img(ed.last_installed_theme_theme_id, imgs);
+            new_current_img = await determine_theme_current_img.determine_theme_current_img(ed_all.last_installed_theme_theme_id, imgs);
         }
 
         await db.transaction('rw', db.ed, db.imgs, async () => {
             await db.imgs.delete(img_id);
 
-            if (img_to_delete_i_is_lower_than_current_img || (ed.mode !== 'theme' && img_to_delete_i_equals_to_current_img)) {
-                new_current_img = ed.current_img === 0 ? 0 : ed.current_img - 1;
+            if (img_to_delete_i_is_lower_than_current_img || (ed_all.mode !== 'theme' && img_to_delete_i_equals_to_current_img)) {
+                new_current_img = ed_all.current_img === 0 ? 0 : ed_all.current_img - 1;
 
             }
 
-            if (img_to_delete_i_is_lower_than_current_img || (ed.mode !== 'theme' && img_to_delete_i_equals_to_current_img) || (img_to_delete_i_equals_to_current_img && img_to_delete_is_theme_img)) {
+            if (img_to_delete_i_is_lower_than_current_img || (ed_all.mode !== 'theme' && img_to_delete_i_equals_to_current_img) || (img_to_delete_i_equals_to_current_img && img_to_delete_is_theme_img)) {
                 await db.ed.update(1, { current_img: new_current_img });
                 shared_o.change_current_img_input_val(new_current_img + 1);
                 await shared_b_o.get_new_future_img(new_current_img + 1);

@@ -91,19 +91,18 @@ const remove_img_from_memory = async img => {
 export const preload_current_and_future_img = async mode => {
     remove_img_from_memory(mut.current_img);
 
-    const future_img = await ed123('future_img');
+    const ed_all = await eda();
 
     if (mode === 'new_current_img' && mut.future_img) {
-        mut.current_img = mut.imgs[future_img] ? r.clone(mut).future_img : null;
+        mut.current_img = mut.imgs[ed_all.future_img] ? r.clone(mut).future_img : null;
 
     } else if (mode === 'reload') {
-        const current_img = await ed123('current_img');
         remove_img_from_memory(mut.future_img);
 
-        mut.current_img = mut.imgs[current_img] ? preload_img(current_img) : null;
+        mut.current_img = mut.imgs[ed_all.current_img] ? preload_img(ed_all.current_img) : null;
     }
 
-    mut.future_img = mut.imgs[future_img] ? preload_img(future_img) : null;
+    mut.future_img = mut.imgs[ed_all.future_img] ? preload_img(ed_all.future_img) : null;
 };
 //< preload images
 

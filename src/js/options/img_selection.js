@@ -17,6 +17,7 @@ export const select_img = async (clicked_img_id, e) => {
         change_selected_img(clicked_img_id, clicked_img_i);
 
         try {
+            const ed_all = await eda();
             const img = await x.send_message_to_background_c({ message: 'get_img_obj_when_selecting_on_it', i: clicked_img_i });
 
             if (img.type.indexOf('file') > -1 || img.type === 'link') {
@@ -24,15 +25,15 @@ export const select_img = async (clicked_img_id, e) => {
 
                 settings.load_settings_inner('img_settings', img);
                 shared_o.show_or_hide_global_options(true);
-                shared_o.set_color_input_vizualization_color('img_settings', 'color', img.color === 'global' ? ed.color : img.color);
+                shared_o.set_color_input_vizualization_color('img_settings', 'color', img.color === 'global' ? ed_all.color : img.color);
                 shared_o.change_input_val('img_settings', 'settings_type', 'specific');
 
             } else if (img.type === 'color') {
                 shared_o.mut.storage_type = 'ed';
 
-                settings.load_settings_inner('img_settings', await eda());
+                settings.load_settings_inner('img_settings', ed_all);
                 shared_o.show_or_hide_global_options(false);
-                shared_o.set_color_input_vizualization_color('img_settings', 'color', ed.color);
+                shared_o.set_color_input_vizualization_color('img_settings', 'color', ed_all.color);
                 shared_o.change_input_val('img_settings', 'settings_type', 'global');
             }
 

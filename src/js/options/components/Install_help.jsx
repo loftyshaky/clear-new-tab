@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { observable, action, configure } from 'mobx';
+import { observable, action, runInAction, configure } from 'mobx';
 import { observer } from 'mobx-react';
 
 import x from 'x';
@@ -25,7 +25,15 @@ export class Install_help extends React.Component {
         super(props);
 
         this.ob = observable({
-            show_install_help: ed.show_install_help,
+            show_install_help: null,
+        });
+    }
+
+    async componentWillMount() {
+        const show_install_help = await ed123('show_install_help');
+
+        runInAction(() => {
+            this.ob.show_install_help = show_install_help;
         });
     }
 

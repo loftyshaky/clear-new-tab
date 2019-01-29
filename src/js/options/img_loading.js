@@ -23,9 +23,10 @@ export const get_pasted_image_or_image_url = async e => {
     const clipboard_text = e.clipboardData.getData('text');
     const input_given_text = clipboard_text !== '';
     const contains_allow_downloading_images_by_link_permission = inputs_data.obj.upload.download_img_when_link_given.val;
+    const download_img_when_link_given = await ed123('download_img_when_link_given');
 
     const img = await r.ifElse(
-        () => contains_allow_downloading_images_by_link_permission && ed.download_img_when_link_given && input_given_text,
+        () => contains_allow_downloading_images_by_link_permission && download_img_when_link_given && input_given_text,
         async () => {
             try {
                 const response = await window.fetch(clipboard_text);

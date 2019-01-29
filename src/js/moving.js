@@ -246,10 +246,14 @@ const drop_options = async () => {
             await set_new_current_or_future_img_value_after_drop('current_img', move_type, img_i_before_drop, img_i_after_drop);
             await set_new_current_or_future_img_value_after_drop('future_img', move_type, img_i_before_drop, img_i_after_drop);
 
-            await shared_b_o.get_new_future_img(ed.current_img + 1);
+            const current_img = await ed123('current_img');
+
+            await shared_b_o.get_new_future_img(current_img + 1);
         });
 
-        shared_o.change_current_img_input_val(ed.current_img + 1);
+        const current_img = await ed123('current_img');
+
+        shared_o.change_current_img_input_val(current_img + 1);
 
         x.get_ed();
         await x.send_message_to_background_c({ message: 'reload_ed' });
@@ -267,22 +271,24 @@ const drop_options = async () => {
 };
 
 const set_new_current_or_future_img_value_after_drop = async (type, move_type, img_i_before_drop, img_i_after_drop) => { // type: current_img, future_img
-    if (type === 'current_img' || ed.shuffle) {
-        if (ed[type] === img_i_before_drop) {
-            ed[type] = img_i_after_drop;
+    const ed_all = await eda();
 
-        } else if (move_type === 'forward' && ed[type] <= img_i_after_drop && ed[type] >= img_i_before_drop) {
-            ed[type] -= ed[type];
+    if (type === 'current_img' || ed_all.shuffle) {
+        if (ed_all[type] === img_i_before_drop) {
+            ed_all[type] = img_i_after_drop;
 
-        } else if (move_type === 'backward' && ed[type] >= img_i_after_drop && ed[type] <= img_i_before_drop) {
-            ed[type] += ed[type];
+        } else if (move_type === 'forward' && ed_all[type] <= img_i_after_drop && ed_all[type] >= img_i_before_drop) {
+            ed_all[type] -= ed_all[type];
+
+        } else if (move_type === 'backward' && ed_all[type] >= img_i_after_drop && ed_all[type] <= img_i_before_drop) {
+            ed_all[type] += ed_all[type];
         }
 
     } else {
-        ed[type] = ed.current_img + 1;
+        ed_all[type] = ed_all.current_img + 1;
     }
 
-    await db.ed.update(1, { [type]: ed[type] });
+    await db.ed.update(1, { [type]: ed_all[type] });
 };
 
 const move_imgs_arr_item = action((from, to) => {
