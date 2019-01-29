@@ -144,6 +144,36 @@ x.move_a_item = (a, from, to) => {
 };
 //< move an array item
 
+//> add event listener to one or multiple elements t
+x.bind = (els, event, f) => {
+    if (els) {
+        if (Object.prototype.isPrototypeOf.call(NodeList.prototype, els)) { // NodeList.prototype.isPrototypeOf(els) * returns true if els is node list (querySelectorAll) not (querySelector)
+            for (const el of els) {
+                el.addEventListener(event, f);
+            }
+
+        } else {
+            els.addEventListener(event, f);
+        }
+    }
+};
+//< add event listener to one or multiple elements t
+
+//> add event listener with arguments to one or multiple elements t
+x.bind_a = (els, event, f, args) => {
+    if (els) {
+        if (Object.prototype.isPrototypeOf.call(NodeList.prototype, els)) { // NodeList.prototype.isPrototypeOf(els) * returns true if els is node list (querySelectorAll) not (querySelector)
+            for (const el of els) {
+                el.addEventListener(event, f.bind(...[el].concat(args)));
+            }
+
+        } else {
+            els.addEventListener(event, f.bind(...[els].concat(args)));
+        }
+    }
+};
+//< add event listener with arguments to one or multiple elements t
+
 x.load_css = filename => {
     let link;
 
