@@ -21,6 +21,13 @@ module.exports = {
                 'components': ['Link']
             },
         ],
+        "no-restricted-syntax": [
+            "error",
+            "ForInStatement",
+            "LabeledStatement",
+            "WithStatement"
+        ],
+
         'indent': [
             'error',
             4,
@@ -68,6 +75,7 @@ module.exports = {
         'document': false,
         'Image': false,
         'File': false,
+        'NodeList': false,
         'MutationObserver': false,
         'ed123': false,
         'ed': false,
