@@ -90,7 +90,7 @@ export const inputs_data = observable({
                 name: 'current_img',
                 type: 'input',
                 val: '',
-                visible: true,
+                visible: false,
                 adjacent_btn_is_visible: true,
                 add_help: false,
                 on_input: settings.change_current_img_by_typing_into_currrent_img_input,
