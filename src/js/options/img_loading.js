@@ -9,12 +9,13 @@ import * as populate_storage_with_images_and_display_them from 'js/populate_stor
 import { inputs_data } from 'options/inputs_data';
 import * as shared_o from 'options/shared_o';
 import * as pagination from 'options/pagination';
+import * as ui_state from 'options/ui_state';
 
 configure({ enforceActions: 'observed' });
 
 //> paste image or image url
 export const get_pasted_image_or_image_url = async e => {
-    shared_o.disable_ui();
+    ui_state.disable_ui();
     upload_messages.hide_upload_box_messages();
     upload_messages.change_paste_input_placeholder_val(x.msg('upload_box_uploading_message_text'));
 
@@ -87,13 +88,13 @@ export const get_pasted_image_or_image_url = async e => {
         populate_storage_with_images_and_display_them.show_or_hide_upload_error_messages('rejected_paste');
     }
 
-    shared_o.enable_ui();
+    ui_state.enable_ui();
 };
 //< paste image or image url
 
 //> filter files loaded with upload box (keep only images) and call put in db function
 export const handle_files = async files => {
-    shared_o.disable_ui();
+    ui_state.disable_ui();
     upload_messages.change_paste_input_placeholder_val(null);
     upload_messages.hide_upload_box_messages();
     upload_messages.show_upload_box_uploading_message();
@@ -116,7 +117,7 @@ export const handle_files = async files => {
 
     await put_in_db_p(files)();
 
-    shared_o.enable_ui();
+    ui_state.enable_ui();
 };
 //< filter files loaded with upload box (keep only images) and call put in db function
 
@@ -132,7 +133,7 @@ export const create_solid_color_img = color => {
 
 //> create images on extensions' options page on load or click on load btn
 export const load_page = async (mode, page) => { // g
-    shared_o.disable_ui();
+    ui_state.disable_ui();
 
     try {
         const offset = page * populate_storage_with_images_and_display_them.sta.imgs_per_page - populate_storage_with_images_and_display_them.sta.imgs_per_page;
@@ -151,7 +152,7 @@ export const load_page = async (mode, page) => { // g
         if (number_of_imgs === 0) {
             hide_loading_screen();
 
-            shared_o.enable_ui();
+            ui_state.enable_ui();
         }
 
         if (mode === 'load_page') {

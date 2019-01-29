@@ -10,13 +10,14 @@ import * as settings from 'options/settings';
 import * as shared_o from 'options/shared_o';
 import * as img_loading from 'options/img_loading';
 import * as pagination from 'options/pagination';
+import * as ui_state from 'options/ui_state';
 
 configure({ enforceActions: 'observed' });
 
 //> one image deletion
 export const delete_img = async img_id => {
     try {
-        shared_o.disable_ui();
+        ui_state.disable_ui();
 
         const img_to_delete = await db.imgs.get(img_id);
         const img_to_delete_i = shared_o.get_img_i_by_id(img_id);
@@ -94,7 +95,7 @@ export const delete_img_tr_end_callback = e => {
 
             }
 
-            shared_o.enable_ui();
+            ui_state.enable_ui();
         }
     }
 };
@@ -111,7 +112,7 @@ export const delete_all_images = async () => {
 
     if (confirm) {
         try {
-            shared_o.disable_ui();
+            ui_state.disable_ui();
 
             await db.imgs.clear();
             await db.ed.update(1, { current_img: 0, future_img: 1 });
@@ -146,7 +147,7 @@ export const delete_all_images_tr_end = action(() => {
 
         ob.show_imgs_w_2 = true;
 
-        shared_o.enable_ui();
+        ui_state.enable_ui();
     }
 });
 //< delete all image

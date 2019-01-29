@@ -1,4 +1,5 @@
 import x from 'x';
+import 'js/error_init';
 import 'options/inputs_data';
 import 'options/onmessage';
 

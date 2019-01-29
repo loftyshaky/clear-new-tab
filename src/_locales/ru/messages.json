@@ -532,5 +532,27 @@
   },
   "undo_btn_text": {
     "message": "Отмена"
+  },
+  
+
+  "an_error_occured_msg": {
+    "message": "Произошла ошибка."
+  },
+  "error_code_label": {
+    "message": "Код ошибки: "
+  },
+  "error_type_label": {
+    "message": "Тип: "
+  },
+  "error_msg_label": {
+    "message": "Сообщение: "
+  },
+
+  "cant_render_ui_er": {
+    "message": "Не удалось отобразить пользовательский интерфейс"
+  },
+  
+  "reload_ui_btn_text": {
+    "message": "Перезагрузить"
   }
 }

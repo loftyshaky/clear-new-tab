@@ -77,11 +77,6 @@ export const set_color_global_checkbox_val = async name => {
     });
 };
 
-//> enable / disable ui
-export const enable_ui = () => x.remove(s('.ui_disabled'));
-export const disable_ui = () => x.load_css('ui_disabled');
-//< enable / disable ui
-
 export const switch_to_settings_type = async (name, val, force_inputs_reset) => {
     if ((name === 'settings_type' && val === 'global') || force_inputs_reset) {
         mut.storage_type = 'ed';

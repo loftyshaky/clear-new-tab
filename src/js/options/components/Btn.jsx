@@ -2,6 +2,7 @@ import React from 'react';
 
 export const Btn = props => {
     const { name, onclick_f } = props;
+
     return (
         <button
             type="button"

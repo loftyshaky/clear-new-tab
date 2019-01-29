@@ -534,5 +534,27 @@
   },
   "undo_btn_text": {
     "message": "Undo"
+  },
+
+
+  "an_error_occured_msg": {
+    "message":  "An error occured."
+  },
+  "error_code_label": {
+    "message": "Error code: "
+  },
+  "error_type_label": {
+    "message": "Type: "
+  },
+  "error_msg_label": {
+    "message": "Message: "
+  },
+
+  "cant_render_ui_er": {
+    "message": "Can't render user interface"
+  },
+
+  "reload_ui_btn_text": {
+    "message": "Reload"
   }
 }

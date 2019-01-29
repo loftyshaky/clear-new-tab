@@ -1,0 +1,18 @@
+@font-face {
+    font-family: "Roboto";
+    src: url("/Roboto-Light.ttf");
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("/Roboto-Light.ttf");
+}
+
+* {
+	font-size: 17px;
+	font-family: Roboto;
+}
+
+* {
+    color: white;
+}

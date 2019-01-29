@@ -17,6 +17,7 @@ import * as img_deletion from 'options/img_deletion';
 import * as changing_imgs_fieldset_width from 'options/changing_imgs_fieldset_width';
 import * as scrolling from 'options/scrolling';
 import * as pagination from 'options/pagination';
+import * as ui_state from 'options/ui_state';
 
 import { Tr } from 'js/Tr';
 
@@ -38,6 +39,8 @@ export class Imgs_fieldset extends React.Component {
     }
 
     componentDidMount() {
+        img_loading.load_page('first_load', 0);
+
         shared_o.mut.img_w_tr_nodes = this.imgs_w.current.getElementsByClassName('img_w_tr');
 
         scrolling.mut.imgs_fieldset = ref.imgs_fieldset.current;
@@ -179,7 +182,7 @@ class Imgs extends React.Component {
 
                     img_loading.hide_loading_screen();
                     scrolling.show_or_hide_imgs_fieldset_fillers();
-                    shared_o.enable_ui();
+                    ui_state.enable_ui();
                     this.delete_broken_imgs();
 
                     img_loading.mut.img_inner_w_2_mounts_transparent = true;

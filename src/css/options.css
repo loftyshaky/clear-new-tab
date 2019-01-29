@@ -1,14 +1,4 @@
 /*> general */
-@font-face {
-    font-family: "Roboto";
-    src: url("/Roboto-Light.ttf");
-}
-
-@font-face {
-    font-family: "Roboto";
-    src: url("/Roboto-Light.ttf");
-}
-
 .select__menu-list::-webkit-scrollbar, .imgs_fieldset::-webkit-scrollbar {
     width: 17px;
     background-color: #3c3c3c;
@@ -37,15 +27,6 @@
     color: #999999;
     opacity: 1
   }
-
-* {
-	font-size: 17px;
-	font-family: Roboto;
-}
-
-*, option {
-    color: white;
-}
 
 body {
     margin-top: 9px;
@@ -85,6 +66,10 @@ legend, .imgs_legend {
 hr {
     border-width: 0 0 1px 0;
     border-color: white;
+}
+
+option {
+    color: white;
 }
 
 .link {

@@ -4,6 +4,7 @@ import x from 'x';
 import { db } from 'js/init_db';
 import * as shared_b_o from 'js/shared_b_o';
 import * as shared_o from 'options/shared_o';
+import * as ui_state from 'options/ui_state';
 
 configure({ enforceActions: 'observed' });
 
@@ -198,7 +199,7 @@ const show_or_hide_dragged_item = action(bool => {
 //> options
 const drop_options = async () => {
     try {
-        shared_o.disable_ui();
+        ui_state.disable_ui();
 
         const drop_area = s('.drop_area');
 
@@ -256,12 +257,12 @@ const drop_options = async () => {
 
         move_imgs_arr_item(img_i_before_drop, img_i_after_drop);
 
-        shared_o.enable_ui();
+        ui_state.enable_ui();
 
     } catch (er) {
         console.error(er);
 
-        shared_o.enable_ui();
+        ui_state.enable_ui();
     }
 };
 

@@ -1,4 +1,5 @@
 import x from 'x';
+import 'js/error_init';
 import 'new_tab/onmessage';
 import { run_everything } from 'js/init_All';
 
