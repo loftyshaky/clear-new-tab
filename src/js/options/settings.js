@@ -222,7 +222,7 @@ export const change_current_img_by_clicking_on_select_img_btn = () => {
     }
 };
 
-const change_current_img_insert_in_db = async (visible_value, value_to_insert_into_db) => {
+export const change_current_img_insert_in_db = async (visible_value, value_to_insert_into_db) => {
     try {
         x.send_message_to_background({ message: 'reset_timer' });
         shared_o.change_current_img_input_val(visible_value);

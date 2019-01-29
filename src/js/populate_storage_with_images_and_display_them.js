@@ -11,10 +11,14 @@ import * as total_number_of_imgs from 'js/total_number_of_imgs';
 
 configure({ enforceActions: 'observed' });
 
+const settings = page === 'options' ? require('options/settings') : null; // eslint-disable-line global-require
+
 //> pack images and insert them in db
 export const populate_storage_with_images = async (type, status, imgs, theme_img_info, theme_id) => {
     try {
-        mut.uploading_imgs = true;
+        if (page === 'options') {
+            mut.uploading_imgs = true;
+        }
 
         //>1 pack images
         const add_theme_modifier_to_type = () => (r.isEmpty(theme_img_info) ? type : `theme_${type}`);
@@ -106,34 +110,38 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
         const last_img_id = await db.transaction('rw', db.imgs, () => db.imgs.bulkAdd(packed_imgs));
         //<1 insert image packs in db
 
-        const number_of_img_w = sa('.img_w').length || 0;
-        if (number_of_img_w < sta.imgs_per_page) {
-            const mode = 'upload_imgs';
-            const imgs_to_load = packed_imgs.slice(0, sta.imgs_per_page - number_of_img_w); // get first 50 of uploaded images
-
-            unpack_and_load_imgs(mode, imgs_to_load);
-
-        } else {
-            total_number_of_imgs.set_total_number_of_imgs_and_switch_to_last_or_previous_page();
-        }
-
-        //>1 reload img_a in background.js
         if (page === 'options') {
-            await x.send_message_to_background_c({ message: 'retrieve_imgs' });
+            const number_of_img_w = sa('.img_w').length || 0;
+            if (number_of_img_w < sta.imgs_per_page) {
+                const mode = 'upload_imgs';
+                const imgs_to_load = packed_imgs.slice(0, sta.imgs_per_page - number_of_img_w); // get first 50 of uploaded images
+
+                unpack_and_load_imgs(mode, imgs_to_load);
+
+            } else {
+                total_number_of_imgs.set_total_number_of_imgs_and_switch_to_last_or_previous_page();
+            }
+
+
+            await x.send_message_to_background_c({ message: 'retrieve_imgs' }); //> reload img_a in background.js
         }
-        //>1 reload img_a in background.js
 
         await shared_b_o.get_new_future_img(ed.current_img + 1);
         await x.send_message_to_background({ message: 'preload_img' });
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
-        show_or_hide_upload_error_messages(status);
+
+        if (page === 'options') {
+            show_or_hide_upload_error_messages(status);
+        }
 
         return last_img_id;
 
     } catch (er) {
         console.error(er);
 
-        show_or_hide_upload_error_messages('resolved_with_errors');
+        if (page === 'options') {
+            show_or_hide_upload_error_messages('resolved_with_errors');
+        }
 
         x.error(1);
     }
@@ -164,6 +172,18 @@ export const unpack_and_load_imgs = async (mode, imgs_to_load) => {
     } else {
         total_number_of_imgs.set_total_number_of_imgs_and_switch_to_last_or_previous_page(unpacked_imgs);
     }
+
+    //>1 set last uploaded image as current
+    const ed_all = await eda();
+
+    if (mode === 'upload_imgs' && ed_all.set_last_uploaded && (ed_all.mode === 'one' || ed_all.mode === 'multiple')) {
+        const number_of_imgs = await db.imgs.count();
+        const visible_value = number_of_imgs;
+        const value_to_insert_into_db = number_of_imgs - 1;
+
+        settings.change_current_img_insert_in_db(visible_value, value_to_insert_into_db);
+    }
+    //<1 set last uploaded image as current
 };
 //< prepare images for loading in images fieldset and then load them into it
 
