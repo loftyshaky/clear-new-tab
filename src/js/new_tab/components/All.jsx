@@ -1,6 +1,9 @@
+'use_strict';
+
 import React from 'react';
 import { observer } from 'mobx-react';
 
+import x from 'x';
 import * as imgs from 'new_tab/imgs';
 
 import { Img_div } from 'new_tab/components/Img_div';
@@ -9,15 +12,15 @@ import { Error_boundary } from 'js/components/Error_boundary';
 
 export class All extends React.Component {
     async componentDidMount() {
-        imgs.display_img();
+        try {
+            imgs.display_img();
 
-        window.addEventListener('resize', imgs.resize_img);
-        document.addEventListener('visibilitychange', imgs.resize_img);
-    }
+            x.bind(window, 'resize', imgs.resize_img);
+            x.bind(document, 'visibilitychange', imgs.resize_img);
 
-    componentWillUnmount() {
-        window.removeEventListener('resize', imgs.resize_img);
-        document.removeEventListener('visibilitychange', imgs.resize_img);
+        } catch (er) {
+            err(er, 56);
+        }
     }
 
     render() {

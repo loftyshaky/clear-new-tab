@@ -1,3 +1,5 @@
+'use_strict';
+
 import x from 'x';
 import 'js/error_init';
 import 'new_tab/onmessage';
