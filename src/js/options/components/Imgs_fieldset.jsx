@@ -1,23 +1,23 @@
+'use_strict';
+
 import Svg from 'svg-inline-react';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { observer } from 'mobx-react';
 import Pagination from 'react-js-pagination';
 
 import x from 'x';
-import * as shared_b_o from 'js/shared_b_o';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
-import * as moving from 'js/moving';
-import * as prevent_scrolling from 'js/prevent_scrolling';
-import * as total_number_of_imgs from 'js/total_number_of_imgs';
-import * as shared_o from 'options/shared_o';
 import * as img_loading from 'options/img_loading';
 import * as img_selection from 'options/img_selection';
 import * as img_deletion from 'options/img_deletion';
+import * as pagination from 'options/pagination';
+import * as moving from 'options/moving';
+import * as prevent_scrolling from 'js/prevent_scrolling';
+import * as total_number_of_imgs from 'js/total_number_of_imgs';
 import * as changing_imgs_fieldset_width from 'options/changing_imgs_fieldset_width';
 import * as scrolling from 'options/scrolling';
-import * as pagination from 'options/pagination';
 import * as ui_state from 'options/ui_state';
+import * as img_i from 'options/img_i';
 
 import { Tr } from 'js/Tr';
 
@@ -35,35 +35,50 @@ export class Imgs_fieldset extends React.Component {
     }
 
     async componentWillMount() {
-        total_number_of_imgs.set_total_number_of_imgs();
+        try {
+            total_number_of_imgs.set_total_number_of_imgs();
+
+        } catch (er) {
+            err(er, 76);
+        }
     }
 
     componentDidMount() {
-        img_loading.load_page('first_load', 0);
+        try {
+            img_loading.load_page('first_load', 0);
 
-        shared_o.mut.img_w_tr_nodes = this.imgs_w.current.getElementsByClassName('img_w_tr');
+            img_i.mut.img_w_tr_nodes = this.imgs_w.current.getElementsByClassName('img_w_tr');
 
-        scrolling.mut.imgs_fieldset = ref.imgs_fieldset.current;
-        this.resize_imgs_binded = changing_imgs_fieldset_width.resize_imgs.bind(null, this.imgs_w.current);
+            scrolling.mut.imgs_fieldset = ref.imgs_fieldset.current;
+            this.resize_imgs_binded = changing_imgs_fieldset_width.resize_imgs.bind(null, this.imgs_w.current);
 
-        window.addEventListener('resize', this.resize_imgs_binded);
+            changing_imgs_fieldset_width.resize_imgs(this.imgs_w.current);
 
-        changing_imgs_fieldset_width.resize_imgs(this.imgs_w.current);
+            x.bind(window, 'resize', this.resize_imgs_binded);
+            x.bind(s('.pagination'), 'mousedown', pagination.send_click_to_pagination_btn);
 
-        x.bind(s('.pagination'), 'mousedown', pagination.send_click_to_pagination_btn);
+        } catch (er) {
+            err(er, 77);
+        }
     }
 
     componentDidUpdate() {
-        scrolling.show_or_hide_imgs_fieldset_fillers();
-        pagination.add_and_remove_tabindex_to_pagination_els();
-    }
+        try {
+            scrolling.show_or_hide_imgs_fieldset_fillers();
+            pagination.add_and_remove_tabindex_to_pagination_els();
 
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.resize_imgs_binded);
+        } catch (er) {
+            err(er, 78);
+        }
     }
 
     change_page = page => {
-        img_loading.load_page('load_page', page);
+        try {
+            img_loading.load_page('load_page', page);
+
+        } catch (er) {
+            err(er, 79);
+        }
     }
 
     render() {
@@ -104,7 +119,7 @@ export class Imgs_fieldset extends React.Component {
                                 style={{ counterReset: `counter ${img_loading.ob.css_counter_offset}` }}
                             >
                                 <Imgs
-                                    imgs={shared_b_o.ob.imgs}
+                                    imgs={populate_storage_with_images_and_display_them.ob.imgs}
                                 />
                             </div>
                         </Tr>
@@ -144,58 +159,77 @@ class Imgs extends React.Component {
     }
 
     set_img_w_refs(id, img) {
-        this.img_w_refs[id] = img;
+        try {
+            this.img_w_refs[id] = img;
+
+        } catch (er) {
+            err(er, 80);
+        }
     }
 
     delete_broken_imgs = async () => {
-        if (this.mut.broken_imgs_ids.length > 0) {
-            await img_deletion.delete_img(this.mut.broken_imgs_ids[0]);
+        try {
+            if (this.mut.broken_imgs_ids.length > 0) {
+                await img_deletion.delete_img(this.mut.broken_imgs_ids[0]);
 
-            this.mut.broken_imgs_ids.shift();
+                this.mut.broken_imgs_ids.shift();
+            }
+
+        } catch (er) {
+            err(er, 81);
         }
     }
 
     img_load_callback = async (id, e) => {
-        if (e) {
-            const e_type = e.type;
+        try {
+            if (e) {
+                const e_type = e.type;
 
-            await x.delay(0);
+                await x.delay(0);
 
-            if (shared_b_o.ob.imgs.length !== 0) { // prevent bug when deleting all images when solid color image present
-                img_loading.mut.imgs_loaded++;
+                if (populate_storage_with_images_and_display_them.ob.imgs.length !== 0) { // prevent bug when deleting all images when solid color image present
+                    img_loading.mut.imgs_loaded++;
 
-                const number_of_imgs_to_load = shared_b_o.ob.imgs.length - populate_storage_with_images_and_display_them.mut.previous_number_of_imgs;
+                    const number_of_imgs_to_load = populate_storage_with_images_and_display_them.ob.imgs.length - populate_storage_with_images_and_display_them.mut.previous_number_of_imgs;
 
-                if (e_type === 'error') { // when broken image loaded
-                    this.mut.broken_imgs_ids.push(id);
-                }
-
-                if ((populate_storage_with_images_and_display_them.mut.previous_number_of_imgs === populate_storage_with_images_and_display_them.sta.imgs_per_page && img_loading.mut.imgs_loaded === populate_storage_with_images_and_display_them.sta.imgs_per_page) || (populate_storage_with_images_and_display_them.mut.previous_number_of_imgs !== populate_storage_with_images_and_display_them.sta.imgs_per_page && img_loading.mut.imgs_loaded >= number_of_imgs_to_load)) {
-                    img_loading.mut.imgs_loaded = 0;
-
-                    if (populate_storage_with_images_and_display_them.mut.scroll_to === 'bottom') {
-                        ref.imgs_fieldset.current.scrollTop = ref.imgs_fieldset.current.scrollHeight;
-
-                    } else if (populate_storage_with_images_and_display_them.mut.scroll_to === 'top') {
-                        ref.imgs_fieldset.current.scrollTop = 0;
+                    if (e_type === 'error') { // when broken image loaded
+                        this.mut.broken_imgs_ids.push(id);
                     }
 
-                    img_loading.hide_loading_screen();
-                    scrolling.show_or_hide_imgs_fieldset_fillers();
-                    ui_state.enable_ui();
-                    this.delete_broken_imgs();
+                    if ((populate_storage_with_images_and_display_them.mut.previous_number_of_imgs === populate_storage_with_images_and_display_them.sta.imgs_per_page && img_loading.mut.imgs_loaded === populate_storage_with_images_and_display_them.sta.imgs_per_page) || (populate_storage_with_images_and_display_them.mut.previous_number_of_imgs !== populate_storage_with_images_and_display_them.sta.imgs_per_page && img_loading.mut.imgs_loaded >= number_of_imgs_to_load)) {
+                        img_loading.mut.imgs_loaded = 0;
 
-                    img_loading.mut.img_inner_w_2_mounts_transparent = true;
+                        if (populate_storage_with_images_and_display_them.mut.scroll_to === 'bottom') {
+                            ref.imgs_fieldset.current.scrollTop = ref.imgs_fieldset.current.scrollHeight;
+
+                        } else if (populate_storage_with_images_and_display_them.mut.scroll_to === 'top') {
+                            ref.imgs_fieldset.current.scrollTop = 0;
+                        }
+
+                        img_loading.hide_loading_screen();
+                        scrolling.show_or_hide_imgs_fieldset_fillers();
+                        ui_state.enable_ui();
+                        this.delete_broken_imgs();
+
+                        img_loading.mut.img_inner_w_2_mounts_transparent = true;
+                    }
+
+                    img_loading.show_loaded_img(this.img_w_refs[id]);
                 }
-
-                img_loading.show_loaded_img(this.img_w_refs[id]);
             }
+        } catch (er) {
+            err(er, 82);
         }
     }
 
     //> show transparency background checkerboard
     show_checkerboard = id => {
-        img_loading.show_checkerboard(this.img_w_refs[id]);
+        try {
+            img_loading.show_checkerboard(this.img_w_refs[id]);
+
+        } catch (er) {
+            err(er, 83);
+        }
     }
     //< show transparency background checkerboard
 
@@ -203,7 +237,7 @@ class Imgs extends React.Component {
         return (
             <React.Fragment>
                 {
-                    shared_b_o.ob.imgs.map((img, i) => (
+                    populate_storage_with_images_and_display_them.ob.imgs.map((img, i) => (
                         <Tr
                             attr={{
                                 className: 'img_w_tr',
@@ -213,7 +247,7 @@ class Imgs extends React.Component {
                             state={img.show_delete}
                             tr_end_callbacks={[img_deletion.delete_img_tr_end_callback, this.delete_broken_imgs]}
                             key={img.key}
-                            ref={img_w_tr => { this.img_w_trs[i] = img_w_tr; }}
+                            tr_ref={node => { this.img_w_trs[i] = node; }}
                         >
                             <span
                                 className={x.cls(['img_w', img.selected ? 'selected_img' : null])}
@@ -225,8 +259,9 @@ class Imgs extends React.Component {
                                     backgroundSize: '14px 14px',
                                 }}
                                 onClick={img_selection.select_img.bind(null, img.id)}
-                                onMouseDown={e => moving.start_drag(ReactDOM.findDOMNode(this.img_w_trs[i]), e)}
-                                onMouseMove={e => moving.create_drop_area(ReactDOM.findDOMNode(this.img_w_trs[i]), 'options', e)}
+                                onMouseDown={e => moving.start_drag(this.img_w_trs[i], e)}
+                                onMouseMove={e => moving.create_drop_area(this.img_w_trs[i], 'options', e)}
+                                onKeyUp={() => null}
                                 onTransitionEnd={this.show_checkerboard.bind(null, img.id)}
                                 ref={img_ref => this.set_img_w_refs(img.id, img_ref)}
                             >
@@ -272,7 +307,7 @@ class Img extends React.Component {
         } = this.props);
 
         this.img = props.img;
-        this.is_img = this.img_el = this.img.type.indexOf('file') > -1 || this.img.type.indexOf('link') > -1;
+        this.is_img = this.img.type.indexOf('file') > -1 || this.img.type.indexOf('link') > -1;
 
         this.img_el = this.is_img
             ? (
@@ -296,7 +331,12 @@ class Img extends React.Component {
 
     //> open image in new tab when clicking on preview button
     preview_img = id => {
-        x.send_message_to_background({ message: 'open_preview_img_tab', img_id: id });
+        try {
+            x.send_message_to_background({ message: 'open_preview_img_tab', img_id: id });
+
+        } catch (er) {
+            err(er, 84);
+        }
     }
     //< open image in new tab when clicking on preview button
 

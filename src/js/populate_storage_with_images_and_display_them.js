@@ -1,11 +1,10 @@
-import { action, configure } from 'mobx';
+import { observable, action, configure } from 'mobx';
 import resizeImage from 'resize-image';
 import * as r from 'ramda';
 
 import x from 'x';
 
 import { db } from 'js/init_db';
-import * as shared_b_o from 'js/shared_b_o';
 import * as get_new_future_img from 'js/get_new_future_img';
 import * as upload_messages from 'js/upload_messages';
 import * as total_number_of_imgs from 'js/total_number_of_imgs';
@@ -64,7 +63,7 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
                     };
 
                     img.onerror = () => {
-                        reject();
+                        reject(er_obj('Failed to load image.'));
                     };
 
                     img.src = typeof item === 'string' ? item : URL.createObjectURL(item);
@@ -197,7 +196,7 @@ export const create_loaded_imgs_on_page_change = action(imgs => {
 
     set_previous_number_of_imgs(0);
 
-    shared_b_o.ob.imgs.replace(imgs);
+    ob.imgs.replace(imgs);
 
     mut.uploading_imgs = false;
 });
@@ -205,11 +204,11 @@ export const create_loaded_imgs_on_page_change = action(imgs => {
 export const create_loaded_imgs_on_img_load = action((imgs, null_scroll_to) => {
     mut.scroll_to = null_scroll_to ? null : 'bottom';
 
-    set_previous_number_of_imgs(shared_b_o.ob.imgs.length);
+    set_previous_number_of_imgs(ob.imgs.length);
 
-    const all_imgs = shared_b_o.ob.imgs.concat(imgs); // visible + uploaded now images
+    const all_imgs = ob.imgs.concat(imgs); // visible + uploaded now images
 
-    shared_b_o.ob.imgs.replace(all_imgs);
+    ob.imgs.replace(all_imgs);
 
     mut.uploading_imgs = false;
 });
@@ -250,3 +249,7 @@ export const mut = {
 export const sta = {
     imgs_per_page: 200,
 };
+
+export const ob = observable({
+    imgs: [],
+});

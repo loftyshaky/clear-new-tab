@@ -1,8 +1,12 @@
+
+'use_strict';
+
 import { toJS } from 'mobx';
 
 import x from 'x';
 import { inputs_data } from 'options/inputs_data';
-import * as shared_o from 'options/shared_o';
+import * as settings from 'options/settings';
+import * as inputs_hiding from 'options/inputs_hiding';
 
 //> check for x permissions
 export const contains_permission = permissions => new Promise((resolve, reject) => { // ex: await contains_permission([{'permissions': ['clipboardRead'] }]);
@@ -41,47 +45,51 @@ const remove_permission = permissions => new Promise((resolve, reject) => {
 
 export const ask_for_permission_or_remove_it = async (checkbox_name, permissions) => {
     try {
-
         if (!inputs_data.obj.other_settings[checkbox_name].val) { // if permission is NOT present
             const granted = await request_permission(permissions);
 
             if (granted) {
-                shared_o.change_input_val('other_settings', checkbox_name, true);
+                settings.change_input_val('other_settings', checkbox_name, true);
             }
 
         } else if (checkbox_name !== 'allow_downloading_images_by_link' || what_browser === 'firefox') { // if permission is present
             await remove_permission(permissions);
 
-            shared_o.change_input_val('other_settings', checkbox_name, false);
+            settings.change_input_val('other_settings', checkbox_name, false);
 
         } else {
-            alert(x.msg('cannot_disable_all_urls_permission_alert'));
+            window.alert(x.msg('cannot_disable_all_urls_permission_alert'));
         }
 
-        shared_o.decide_what_inputs_to_hide();
+        inputs_hiding.decide_what_inputs_to_hide();
 
     } catch (er) {
-        console.error(er);
+        err(er, 140);
     }
 };
 
 export const restore_optional_permissions_checkboxes_state = () => {
-    const checkbox_names = ['show_bookmarks_bar', 'enable_paste', 'allow_downloading_images_by_link'];
-    const permissions = toJS(checkbox_names.map(checkbox_name => toJS(inputs_data.obj.other_settings[checkbox_name].permissions)));
+    try {
+        const checkbox_names = ['show_bookmarks_bar', 'enable_paste', 'allow_downloading_images_by_link'];
+        const permissions = toJS(checkbox_names.map(checkbox_name => toJS(inputs_data.obj.other_settings[checkbox_name].permissions)));
 
-    checkbox_names.forEach(async (checkbox_name, i) => {
-        try {
-            const contains = await contains_permission(permissions[i]);
+        checkbox_names.forEach(async (checkbox_name, i) => {
+            try {
+                const contains = await contains_permission(permissions[i]);
 
-            if (contains) {
-                shared_o.change_input_val('other_settings', checkbox_name, true);
+                if (contains) {
+                    settings.change_input_val('other_settings', checkbox_name, true);
 
-            } else {
-                shared_o.change_input_val('other_settings', checkbox_name, false);
+                } else {
+                    settings.change_input_val('other_settings', checkbox_name, false);
+                }
+
+            } catch (er) {
+                err(er, 142);
             }
+        });
 
-        } catch (er) {
-            console.error(er);
-        }
-    });
+    } catch (er) {
+        err(er, 141);
+    }
 };

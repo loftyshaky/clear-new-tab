@@ -1,9 +1,10 @@
+'use_strict';
+
 import React from 'react';
 import { SketchPicker } from 'react-color';
 import { observer } from 'mobx-react';
 
 import { inputs_data } from 'options/inputs_data';
-import * as shared_o from 'options/shared_o';
 import * as settings from 'options/settings';
 
 import { Tr } from 'js/Tr';
@@ -24,19 +25,29 @@ export const Color = observer(props => {
         : null;
 
     const change_color_input_vizualization_color = color => {
-        shared_o.set_color_input_vizualization_color(family, name, color.hex);
+        try {
+            settings.set_color_input_vizualization_color(family, name, color.hex);
+
+        } catch (er) {
+            err(er, 73);
+        }
     };
 
     //> accept color when clicking OK
     const accept_color = () => {
-        if (family !== 'img_settings') {
-            accept_color_f(vizualization_color);
+        try {
+            if (family !== 'img_settings') {
+                accept_color_f(vizualization_color);
 
-        } else {
-            accept_color_f(name, vizualization_color);
+            } else {
+                accept_color_f(name, vizualization_color);
+            }
+
+            settings.show_or_hide_color_pickier(family, name, false);
+
+        } catch (er) {
+            err(er, 74);
         }
-
-        settings.show_or_hide_color_pickier(family, name, false);
     };
     //< accept color when clicking OK
 

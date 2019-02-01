@@ -1,3 +1,5 @@
+'use_strict';
+
 import React from 'react';
 
 import { inputs_data } from 'options/inputs_data';

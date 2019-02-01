@@ -1,16 +1,17 @@
+'use_strict';
+
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { observer } from 'mobx-react';
 
 import x from 'x';
-import * as shared_o from 'options/shared_o';
-import * as moving from 'js/moving';
-import * as permissions from 'options/permissions';
+
 import * as settings from 'options/settings';
 import * as img_deletion from 'options/img_deletion';
+import * as moving from 'options/moving';
+import * as permissions from 'options/permissions';
+import * as inputs_hiding from 'options/inputs_hiding';
 
 import { Tr } from 'js/Tr';
-
 import { Error_boundary } from 'js/components/Error_boundary';
 import { Loading_screen } from 'options/components/Loading_screen';
 import { Left_fieldset } from 'options/components/Left_fieldset';
@@ -25,8 +26,6 @@ export class All extends React.Component {
     constructor(props) {
         super(props);
 
-        this.dragged_item = React.createRef();
-
         this.evl = {
             stop_drag: moving.stop_drag.bind(null, 'options'),
             set_dragged_item_position: moving.set_dragged_item_position.bind(null, 'options'),
@@ -34,23 +33,27 @@ export class All extends React.Component {
     }
 
     async componentWillMount() {
-        permissions.restore_optional_permissions_checkboxes_state();
-        shared_o.decide_what_inputs_to_hide();
-        shared_o.set_color_input_vizualization_color('img_settings', 'color', await ed('color'));
+        try {
+            permissions.restore_optional_permissions_checkboxes_state();
+            inputs_hiding.decide_what_inputs_to_hide();
+            settings.set_color_input_vizualization_color('img_settings', 'color', await ed('color'));
+
+        } catch (er) {
+            err(er, 71);
+        }
     }
 
     componentDidMount() {
-        moving.mut.dragged_item = ReactDOM.findDOMNode(this.dragged_item.current);
+        try {
+            moving.mut.dragged_item = this.dragged_item;
 
-        document.addEventListener('mousedown', settings.show_or_hide_color_pickier_when_clicking_on_color_input_vizualization);
-        document.addEventListener('mouseup', this.evl.stop_drag);
-        document.addEventListener('mousemove', this.evl.set_dragged_item_position);
-    }
+            x.bind(document, 'mousedown', settings.show_or_hide_color_pickier_when_clicking_on_color_input_vizualization);
+            x.bind(document, 'mouseup', this.evl.stop_drag);
+            x.bind(document, 'mousemove', this.evl.set_dragged_item_position);
 
-    componentWillUnmount() {
-        document.removeEventListener('mousedown', settings.show_or_hide_color_pickier_when_clicking_on_color_input_vizualization);
-        document.removeEventListener('mousedown', this.evl.stop_drag);
-        document.removeEventListener('mousedown', this.evl.set_dragged_item_position);
+        } catch (er) {
+            err(er, 72);
+        }
     }
 
     render() {
@@ -64,7 +67,7 @@ export class All extends React.Component {
                         tag="div"
                         name="dragged_img"
                         state={moving.ob.show_dragged_item}
-                        ref={this.dragged_item}
+                        tr_ref={node => { this.dragged_item = node; }}
                     />
                     <Loading_screen />
                     <div className="main">

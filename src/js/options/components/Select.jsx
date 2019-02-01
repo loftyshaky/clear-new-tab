@@ -1,3 +1,5 @@
+'use_strict';
+
 import React from 'react';
 import { observer } from 'mobx-react';
 import ReactSelect, { components } from 'react-select';
@@ -5,7 +7,6 @@ import ReactSelect, { components } from 'react-select';
 import x from 'x';
 import { inputs_data } from 'options/inputs_data';
 import { selects_options } from 'options/selects_options';
-import * as shared_o from 'options/shared_o';
 import * as settings from 'options/settings';
 
 import { Tr } from 'js/Tr';
@@ -27,27 +28,43 @@ export class Select extends React.Component {
 
     //> change option val when selecting option
     change_select_val = selected_option => {
-        const { value } = selected_option;
+        try {
+            const { value } = selected_option;
 
-        if (!selected_option.is_settings_type_select) {
-            settings.change_settings('select', this.family, this.name, value);
+            if (!selected_option.is_settings_type_select) {
+                settings.change_settings('select', this.family, this.name, value);
 
-        } else if (selected_option.is_settings_type_select && value === 'global') {
-            shared_o.change_input_val(this.family, this.name, value);
+            } else if (selected_option.is_settings_type_select && value === 'global') {
+                settings.change_input_val(this.family, this.name, value);
+            }
+
+            settings.switch_to_settings_type(this.name, value);
+
+
+        } catch (er) {
+            err(er, 90);
         }
-
-        shared_o.switch_to_settings_type(this.name, value);
     }
     //< change option val when selecting option
 
     on_menu_open = async () => {
-        await x.delay(0);
+        try {
+            await x.delay(0);
 
-        this.transit_menu();
+            this.transit_menu();
+
+        } catch (er) {
+            err(er, 91);
+        }
     }
 
     transit_menu = () => {
-        x.add_cls(s('.select__menu'), 'select__menu_is_focused');
+        try {
+            x.add_cls(s('.select__menu'), 'select__menu_is_focused');
+
+        } catch (er) {
+            err(er, 92);
+        }
     }
 
     render() {

@@ -1,3 +1,5 @@
+'use_strict';
+
 import Svg from 'svg-inline-react';
 import React from 'react';
 import { toJS } from 'mobx';
@@ -5,8 +7,8 @@ import { observer } from 'mobx-react';
 import * as r from 'ramda';
 
 import { inputs_data } from 'options/inputs_data';
-import * as permissions_file from 'options/permissions';
 import * as settings from 'options/settings';
+import * as permissions_file from 'options/permissions';
 
 import { Tr } from 'js/Tr';
 

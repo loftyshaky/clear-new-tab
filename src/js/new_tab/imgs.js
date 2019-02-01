@@ -109,7 +109,7 @@ const determine_size = async mode => {
                         };
 
                         mut.img_to_load.onerror = () => {
-                            reject();
+                            reject(er_obj('Failed to load image.'));
                         };
 
                         mut.img_to_load.src = mut.img.img;

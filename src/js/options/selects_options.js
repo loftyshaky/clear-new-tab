@@ -1,6 +1,19 @@
+'use_strict';
+
 import x from 'x';
 
-const create_option_data_text_val = modifier => x.msg(`option_${modifier}_text`); //< create select text content
+//> create select text content
+const create_option_data_text_val = modifier => {
+    try {
+        return x.msg(`option_${modifier}_text`);
+
+    } catch (er) {
+        err(er, 145);
+    }
+
+    return undefined;
+};
+//< create select text content
 
 export const selects_options = {
     mode: [

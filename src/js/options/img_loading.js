@@ -1,13 +1,14 @@
-import { observable, action, runInAction, configure } from 'mobx';
+'use_strict';
+
+import { observable, action, configure } from 'mobx';
 import * as r from 'ramda';
 
 import x from 'x';
 import { db } from 'js/init_db';
-import * as shared_b_o from 'js/shared_b_o';
-import * as upload_messages from 'js/upload_messages';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
+import * as upload_messages from 'js/upload_messages';
 import { inputs_data } from 'options/inputs_data';
-import * as shared_o from 'options/shared_o';
+import * as settings from 'options/settings';
 import * as pagination from 'options/pagination';
 import * as ui_state from 'options/ui_state';
 
@@ -15,128 +16,165 @@ configure({ enforceActions: 'observed' });
 
 //> paste image or image url
 export const get_pasted_image_or_image_url = async e => {
-    ui_state.disable_ui();
-    upload_messages.hide_upload_box_messages();
-    upload_messages.change_paste_input_placeholder_val(x.msg('upload_box_uploading_message_text'));
+    try {
+        ui_state.disable_ui();
+        upload_messages.hide_upload_box_messages();
+        upload_messages.change_paste_input_placeholder_val(x.msg('upload_box_uploading_message_text'));
 
-    const clipboard_items = e.clipboardData.items;
-    const clipboard_text = e.clipboardData.getData('text');
-    const input_given_text = clipboard_text !== '';
-    const contains_allow_downloading_images_by_link_permission = inputs_data.obj.upload.download_img_when_link_given.val;
-    const download_img_when_link_given = await ed('download_img_when_link_given');
+        const clipboard_items = e.clipboardData.items;
+        const clipboard_text = e.clipboardData.getData('text');
+        const input_given_text = clipboard_text !== '';
+        const contains_allow_downloading_images_by_link_permission = inputs_data.obj.upload.download_img_when_link_given.val;
+        const download_img_when_link_given = await ed('download_img_when_link_given');
 
-    const img = await r.ifElse(
-        () => contains_allow_downloading_images_by_link_permission && download_img_when_link_given && input_given_text,
-        async () => {
-            try {
-                const response = await window.fetch(clipboard_text);
-                const blob = await response.blob();
-                if (blob.type.indexOf('image') > -1) {
-                    const file_object = shared_b_o.blob_to_file(blob);
+        const img = await r.ifElse(
+            () => contains_allow_downloading_images_by_link_permission && download_img_when_link_given && input_given_text,
+            async () => {
+                try {
+                    const response = await window.fetch(clipboard_text);
+                    const blob = await response.blob();
+                    if (blob.type.indexOf('image') > -1) {
+                        const file_object = new File([blob], '', { type: blob.type }); // '' is file name, it means that file object was created from blob object
+
+                        return file_object;
+                    }
+
+                    t('File given is not image.');
+
+                } catch (er) {
+                    err(er, 106, null, true);
+                }
+
+                return undefined;
+            },
+
+            () => {
+                try {
+                    const img_clipboard_item = r.find(clipboard_item => clipboard_item.type.indexOf('image') > -1, clipboard_items);// ordinary for each will not work | check if img (its file object (after it will be converted with getAsFile below) if is) pasted
+
+                    const file_object = img_clipboard_item ? img_clipboard_item.getAsFile() : null;
 
                     return file_object;
 
+                } catch (er) {
+                    err(er, 107);
                 }
 
-                throw 'File given is not image.';
+                return undefined;
+            },
+        )();
+
+        const is_file = img;
+
+        if (is_file) {
+            populate_storage_with_images_and_display_them.populate_storage_with_images('file', 'resolved_paste', [img], {}, null);
+
+        } else if (input_given_text) { // if link
+            try {
+                await new Promise((resolve, reject) => {
+                    const test_img = new Image();
+
+                    test_img.onload = () => {
+                        resolve();
+                    };
+
+                    test_img.onerror = () => {
+                        reject(er_obj('Not a link.'));
+                    };
+
+                    test_img.src = clipboard_text;
+                });
+
+                populate_storage_with_images_and_display_them.populate_storage_with_images('link', 'resolved_paste', [clipboard_text], {}, null);
 
             } catch (er) {
-                console.error(er);
+                err(er, 108, null, true);
+
+                populate_storage_with_images_and_display_them.show_or_hide_upload_error_messages('rejected_paste');
             }
 
-            return undefined;
-        },
-
-        () => {
-            const img_clipboard_item = r.find(clipboard_item => clipboard_item.type.indexOf('image') > -1, clipboard_items);// ordinary for each will not work | check if img (its file object (after it will be converted with getAsFile below) if is) pasted
-
-            const file_object = img_clipboard_item ? img_clipboard_item.getAsFile() : null;
-
-            return file_object;
-        },
-    )();
-
-    const is_file = img;
-
-    if (is_file) {
-        populate_storage_with_images_and_display_them.populate_storage_with_images('file', 'resolved_paste', [img], {}, null);
-
-    } else if (input_given_text) { // if link
-        try {
-            await new Promise((resolve, reject) => {
-                const test_img = new Image();
-
-                test_img.onload = () => {
-                    resolve();
-                };
-
-                test_img.onerror = () => {
-                    reject();
-                };
-
-                test_img.src = clipboard_text;
-            });
-
-            populate_storage_with_images_and_display_them.populate_storage_with_images('link', 'resolved_paste', [clipboard_text], {}, null);
-
-        } catch (er) {
-            console.error(er);
-
+        } else { // if anything other (error)
             populate_storage_with_images_and_display_them.show_or_hide_upload_error_messages('rejected_paste');
         }
 
-    } else { // if anything other (error)
-        populate_storage_with_images_and_display_them.show_or_hide_upload_error_messages('rejected_paste');
-    }
+        ui_state.enable_ui();
 
-    ui_state.enable_ui();
+    } catch (er) {
+        err(er, 105);
+    }
 };
 //< paste image or image url
 
 //> filter files loaded with upload box (keep only images) and call put in db function
 export const handle_files = async files => {
-    ui_state.disable_ui();
-    upload_messages.change_paste_input_placeholder_val(null);
-    upload_messages.hide_upload_box_messages();
-    upload_messages.show_upload_box_uploading_message();
+    try {
+        ui_state.disable_ui();
+        upload_messages.change_paste_input_placeholder_val(null);
+        upload_messages.hide_upload_box_messages();
+        upload_messages.show_upload_box_uploading_message();
 
-    const valid_file_types = ['image/gif', 'image/jpeg', 'image/png'];
-    const filter_out_non_imgs = r.filter(img => r.indexOf(img.type, valid_file_types) > -1);
-    const get_put_in_db_f = imgs => {
-        const files_len = files.length;
-        const get_f = r.cond([
-            [r.equals(0), () => r.partial(populate_storage_with_images_and_display_them.show_or_hide_upload_error_messages, ['rejected'])], // all files are not images
-            [r.equals(files_len), () => r.partial(populate_storage_with_images_and_display_them.populate_storage_with_images, ['file', 'resolved', imgs, {}, null])], // all files are images
-            [r.compose(r.not, r.equals(files_len)), () => r.partial(populate_storage_with_images_and_display_them.populate_storage_with_images, ['file', 'resolved_with_errors', imgs, {}, null])], // some files are not images
-        ]);
+        const valid_file_types = ['image/gif', 'image/jpeg', 'image/png'];
+        const filter_out_non_imgs = r.filter(img => {
+            try {
+                return r.indexOf(img.type, valid_file_types) > -1;
 
-        return get_f(imgs.length);
-    };
+            } catch (er) {
+                err(er, 110);
+            }
 
+            return undefined;
+        });
 
-    const put_in_db_p = r.pipe(filter_out_non_imgs, get_put_in_db_f);
+        const get_put_in_db_f = imgs => {
+            try {
+                const files_len = files.length;
+                const get_f = r.cond([
+                    [r.equals(0), () => r.partial(populate_storage_with_images_and_display_them.show_or_hide_upload_error_messages, ['rejected'])], // all files are not images
+                    [r.equals(files_len), () => r.partial(populate_storage_with_images_and_display_them.populate_storage_with_images, ['file', 'resolved', imgs, {}, null])], // all files are images
+                    [r.compose(r.not, r.equals(files_len)), () => r.partial(populate_storage_with_images_and_display_them.populate_storage_with_images, ['file', 'resolved_with_errors', imgs, {}, null])], // some files are not images
+                ]);
 
-    await put_in_db_p(files)();
+                return get_f(imgs.length);
 
-    ui_state.enable_ui();
+            } catch (er) {
+                err(er, 111);
+            }
+
+            return undefined;
+        };
+
+        const put_in_db_p = r.pipe(filter_out_non_imgs, get_put_in_db_f);
+
+        await put_in_db_p(files)();
+
+        ui_state.enable_ui();
+
+    } catch (er) {
+        err(er, 109);
+    }
 };
 //< filter files loaded with upload box (keep only images) and call put in db function
 
 //> create_solid_color_img
 export const create_solid_color_img = color => {
-    shared_o.mut.current_color_pickier.el = null;
+    try {
+        settings.mut.current_color_pickier.el = null;
 
-    populate_storage_with_images_and_display_them.populate_storage_with_images('color', 'resolved_color', [color], {}, null);
+        populate_storage_with_images_and_display_them.populate_storage_with_images('color', 'resolved_color', [color], {}, null);
 
-    shared_o.set_color_input_vizualization_color('upload', 'create_solid_color_img', color);
+        settings.set_color_input_vizualization_color('upload', 'create_solid_color_img', color);
+
+    } catch (er) {
+        err(er, 112);
+    }
 };
 //< create_solid_color_img
 
 //> create images on extensions' options page on load or click on load btn
 export const load_page = async (mode, page) => { // g
-    ui_state.disable_ui();
-
     try {
+        ui_state.disable_ui();
+
         const offset = page * populate_storage_with_images_and_display_them.sta.imgs_per_page - populate_storage_with_images_and_display_them.sta.imgs_per_page;
 
         if (mode === 'load_page') {
@@ -161,7 +199,7 @@ export const load_page = async (mode, page) => { // g
         }
 
     } catch (er) {
-        console.error(er);
+        err(er, 113);
     }
 };
 //< create images on extensions' options page on load or click on load btn
@@ -172,21 +210,38 @@ const change_css_counter_offset = action(offset => {
 
 //> show one image after it fully loaded
 export const show_loaded_img = async img_w => {
-    await x.delay(100);
+    try {
+        await x.delay(100);
 
-    x.remove_cls(sb(img_w, '.img_inner_w_2'), 'opacity_0');
+        x.remove_cls(sb(img_w, '.img_inner_w_2'), 'opacity_0');
+
+    } catch (er) {
+        err(er, 114);
+    }
 };
 //< show one image after it fully loaded
 
 //> show transparency background checkerboard
 export const show_checkerboard = async img_w => {
-    await x.delay(100);
+    try {
+        await x.delay(100);
 
-    x.add_cls(img_w, 'checkerboard');
+        x.add_cls(img_w, 'checkerboard');
+
+    } catch (er) {
+        err(er, 115);
+    }
 };
 //< show transparency background checkerboard
 
-export const hide_loading_screen = action(() => { ob.show_loading_screen = false; }); //> hide loading_screen when images loaded on options page load
+export const hide_loading_screen = action(() => {
+    try {
+        ob.show_loading_screen = false;
+
+    } catch (er) {
+        err(er, 116);
+    }
+}); //> hide loading_screen when images loaded on options page load
 
 export const mut = {
     imgs_loaded: 0,

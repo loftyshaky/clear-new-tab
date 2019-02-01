@@ -108,7 +108,7 @@ export class Tr extends React.Component {
     //< create other transitions
 
     render() {
-        const { attr, state, children } = this.props;
+        const { attr, state, children, tr_ref } = this.props;
 
         if (attr) {
             const class_name = `${attr.className} ${this.transit(this.name, state)}`;
@@ -118,7 +118,7 @@ export class Tr extends React.Component {
                 <this.props.tag
                     {...attr}
                     className={class_name}
-                    ref={this.tr}
+                    ref={tr_ref}
                     style={display_style}
                     onTransitionEnd={this.handle_transition.bind(null, false, this.tr_end_callbacks)}
                 >

@@ -1,3 +1,5 @@
+'use_strict';
+
 import Svg from 'svg-inline-react';
 import React from 'react';
 import { observer } from 'mobx-react';

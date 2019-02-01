@@ -1,3 +1,5 @@
+'use_strict';
+
 import React from 'react';
 import { observer } from 'mobx-react';
 
@@ -11,28 +13,43 @@ import { Help } from 'options/components/Help';
 
 export class Upload_box extends React.Component {
     componentDidMount() {
-        window.addEventListener('drop', this.prevent_default_dnd_actions);
-        window.addEventListener('dragover', this.prevent_default_dnd_actions);
-    }
+        try {
+            x.bind(window, 'drop', this.prevent_default_dnd_actions);
+            x.bind(window, 'dragover', this.prevent_default_dnd_actions);
 
-    componentWillUnmount() {
-        window.removeEventListener('drop', this.prevent_default_dnd_actions);
-        window.removeEventListener('dragover', this.prevent_default_dnd_actions);
+        } catch (er) {
+            err(er, 94);
+        }
     }
 
     browse_handle_files = e => {
-        img_loading.handle_files(e.target.files);
-        managing_upload_box.reset_upload_btn_val();
+        try {
+            img_loading.handle_files(e.target.files);
+            managing_upload_box.reset_upload_btn_val();
+
+        } catch (er) {
+            err(er, 95);
+        }
     }
 
     drop_handle_files = e => {
-        managing_upload_box.dehighlight_upload_box_ondrop();
-        img_loading.handle_files(e.dataTransfer.files);
+        try {
+            managing_upload_box.dehighlight_upload_box_ondrop();
+            img_loading.handle_files(e.dataTransfer.files);
+
+        } catch (er) {
+            err(er, 96);
+        }
     }
 
     prevent_default_dnd_actions = e => {
-        e.stopPropagation();
-        e.preventDefault();
+        try {
+            e.stopPropagation();
+            e.preventDefault();
+
+        } catch (er) {
+            err(er, 97);
+        }
     }
 
     render() {

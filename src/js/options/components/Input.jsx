@@ -1,3 +1,5 @@
+'use_strict';
+
 import React from 'react';
 import { observer } from 'mobx-react';
 
@@ -23,11 +25,16 @@ export class Input extends React.Component {
 
     //> paste image or image url when clicking on "Paste" button
     paste_image_by_paste_btn = () => {
-        this.input.current.select();
+        try {
+            this.input.current.select();
 
-        document.execCommand('paste');
+            document.execCommand('paste');
 
-        this.btn.current.focus();
+            this.btn.current.focus();
+
+        } catch (er) {
+            err(er, 85);
+        }
     }
     //> paste image or image url when clicking on "Paste" button
 

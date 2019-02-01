@@ -1,3 +1,5 @@
+'use_strict';
+
 import React from 'react';
 import { observable, action, configure } from 'mobx';
 import { observer } from 'mobx-react';
@@ -9,9 +11,14 @@ configure({ enforceActions: 'observed' });
 export class Help extends React.Component {
     //> show or hide help_message when clicking on help_link
     show_or_hide_help_message = action(e => {
-        e.preventDefault(e);
+        try {
+            e.preventDefault(e);
 
-        this.ob.show_help_message = !this.ob.show_help_message;
+            this.ob.show_help_message = !this.ob.show_help_message;
+
+        } catch (er) {
+            err(er, 75);
+        }
     });
     //< show or hide help_message when clicking on help_link
 
