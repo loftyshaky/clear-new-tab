@@ -98,8 +98,6 @@ export const change_settings = async (input_type, family, name, val) => {
             set_color_input_vizualization_color('img_settings', 'color', new_val);
 
             if (storage_type === 'imgs') {
-                await db.imgs.update(storage_id, { global: false });
-                x.send_message_to_background({ message: 'update_imgs_obj', id: storage_id, storage: 'global', val: false });
                 set_color_global_checkbox_val('color');
             }
         }
