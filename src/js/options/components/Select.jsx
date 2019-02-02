@@ -9,7 +9,7 @@ import { inputs_data } from 'options/inputs_data';
 import { selects_options } from 'options/selects_options';
 import * as settings from 'options/settings';
 
-import { Tr } from 'js/Tr';
+import { Tr } from 'js/components/Tr';
 import { Help } from 'options/components/Help';
 
 export class Select extends React.Component {

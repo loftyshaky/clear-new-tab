@@ -1,3 +1,5 @@
+'use_strict';
+
 import { observable, action, configure } from 'mobx';
 import resizeImage from 'resize-image';
 import * as r from 'ramda';
@@ -13,6 +15,7 @@ import * as generate_random_color from 'js/generate_random_color';
 configure({ enforceActions: 'observed' });
 
 const settings = page === 'options' ? require('options/settings') : null; // eslint-disable-line global-require
+const ui_state = page === 'options' ? require('options/ui_state') : null; // eslint-disable-line global-require
 
 //> pack images and insert them in db
 export const populate_storage_with_images = async (type, status, imgs, theme_img_info, theme_id) => {
@@ -36,38 +39,57 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
             () => 0)();
 
         const thumbnails = {};
-
         //>1 create thumbnails and get natural width and height
         if (type !== 'color') {
             await Promise.all(imgs.map(async (item, i) => {
-                await new Promise((resolve, reject) => {
-                    const img = new Image();
+                try {
+                    await new Promise(async (resolve, reject) => {
+                        const img = new Image();
 
-                    img.onload = async () => {
-                        const natural_hidth = img.naturalWidth;
-                        const natural_height = img.naturalHeight;
+                        img.onload = async () => {
+                            try {
+                                const natural_hidth = img.naturalWidth;
+                                const natural_height = img.naturalHeight;
 
-                        thumbnails[i] = {
-                            width: natural_hidth,
-                            height: natural_height,
+                                thumbnails[i] = {
+                                    width: natural_hidth,
+                                    height: natural_height,
+                                };
+
+                                if (type !== 'link') {
+                                    const thumbnail_dimensions = calculate_img_aspect_ratio_fit(natural_hidth, natural_hidth);
+                                    const base64 = resizeImage.resize(img, thumbnail_dimensions.width, thumbnail_dimensions.height, resizeImage.PNG);
+
+                                    thumbnails[i].thumbnail = base64;
+                                }
+
+                                resolve();
+
+                            } catch (er) {
+                                show_or_hide_upload_error_messages('rejected');
+
+                                err(er, 174);
+                            }
                         };
 
-                        if (type !== 'link') {
-                            const thumbnail_dimensions = calculate_img_aspect_ratio_fit(natural_hidth, natural_hidth);
-                            const base64 = resizeImage.resize(img, thumbnail_dimensions.width, thumbnail_dimensions.height, resizeImage.PNG);
+                        img.onerror = () => {
+                            try {
+                                reject(er_obj('Failed to load image.'));
 
-                            thumbnails[i].thumbnail = base64;
-                        }
+                            } catch (er) {
+                                show_or_hide_upload_error_messages('rejected');
 
-                        resolve();
-                    };
+                                err(er, 175);
+                            }
+                        };
 
-                    img.onerror = () => {
-                        reject(er_obj('Failed to load image.'));
-                    };
+                        img.src = typeof item === 'string' ? item : URL.createObjectURL(item);
+                    });
+                } catch (er) {
+                    show_or_hide_upload_error_messages('rejected');
 
-                    img.src = typeof item === 'string' ? item : URL.createObjectURL(item);
-                });
+                    err(er, 173, null, false, false, true);
+                }
             }));
         }
         //<1 create thumbnails and get natural width and height
@@ -134,19 +156,16 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
 
         if (page === 'options') {
             set_last_uploaded_image_as_current();
-            show_or_hide_upload_error_messages(status);
         }
+
+        show_or_hide_upload_error_messages(status);
 
         return last_img_id;
 
     } catch (er) {
-        console.error(er);
+        err(er, 172);
 
-        if (page === 'options') {
-            show_or_hide_upload_error_messages('resolved_with_errors');
-        }
-
-        x.error(1);
+        show_or_hide_upload_error_messages('resolved_with_errors');
     }
 
     return undefined;
@@ -154,90 +173,130 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
 //< pack images and insert them in db
 
 const set_last_uploaded_image_as_current = async () => {
-    const ed_all = await eda();
+    try {
+        const ed_all = await eda();
 
-    if (ed_all.set_last_uploaded && (ed_all.mode === 'one' || ed_all.mode === 'multiple')) {
-        const number_of_imgs = await db.imgs.count();
-        const visible_value = number_of_imgs;
-        const value_to_insert_into_db = number_of_imgs - 1;
+        if (ed_all.set_last_uploaded && (ed_all.mode === 'one' || ed_all.mode === 'multiple')) {
+            const number_of_imgs = await db.imgs.count();
+            const visible_value = number_of_imgs;
+            const value_to_insert_into_db = number_of_imgs - 1;
 
-        settings.change_current_img_insert_in_db(visible_value, value_to_insert_into_db);
+            settings.change_current_img_insert_in_db(visible_value, value_to_insert_into_db);
+        }
+    } catch (er) {
+        err(er, 176);
     }
 };
 
 //> prepare images for loading in images fieldset and then load them into it
 export const unpack_and_load_imgs = async (mode, imgs_to_load) => {
-    const unpacked_imgs = imgs_to_load.map(img => ({
-        key: x.unique_id(),
-        id: img.id,
-        placeholder_color: generate_random_color.generate_random_pastel_color(),
-        img: img.type.indexOf('file') > -1 ? img.thumbnail || URL.createObjectURL(img.img) : img.img,
-        type: img.type,
-        img_size: img.width ? (`${img.width}x${img.height}`) : '?',
-        show_delete: true,
-        selected: false,
-    }));
+    try {
+        const unpacked_imgs = imgs_to_load.map(img => ({
+            key: x.unique_id(),
+            id: img.id,
+            placeholder_color: generate_random_color.generate_random_pastel_color(),
+            img: img.type.indexOf('file') > -1 ? img.thumbnail || URL.createObjectURL(img.img) : img.img,
+            type: img.type,
+            img_size: img.width ? (`${img.width}x${img.height}`) : '?',
+            show_delete: true,
+            selected: false,
+        }));
 
-    if (mode === 'load_page') {
-        create_loaded_imgs_on_page_change(unpacked_imgs);
+        if (mode === 'load_page') {
+            create_loaded_imgs_on_page_change(unpacked_imgs);
 
-    } else if (mode === 'img_delete') {
-        create_loaded_imgs_on_img_load(unpacked_imgs, true);
+        } else if (mode === 'img_delete') {
+            create_loaded_imgs_on_img_load(unpacked_imgs, true);
 
-    } else {
-        total_number_of_imgs.set_total_number_of_imgs_and_switch_to_last_or_previous_page(unpacked_imgs);
+        } else {
+            total_number_of_imgs.set_total_number_of_imgs_and_switch_to_last_or_previous_page(unpacked_imgs);
+        }
+
+    } catch (er) {
+        err(er, 177);
     }
 };
 //< prepare images for loading in images fieldset and then load them into it
 
 //> insert images in images fieldset (set state)
 export const create_loaded_imgs_on_page_change = action(imgs => {
-    mut.scroll_to = mut.uploading_imgs ? 'bottom' : 'top';
+    try {
+        mut.scroll_to = mut.uploading_imgs ? 'bottom' : 'top';
 
-    set_previous_number_of_imgs(0);
+        set_previous_number_of_imgs(0);
 
-    ob.imgs.replace(imgs);
+        ob.imgs.replace(imgs);
 
-    mut.uploading_imgs = false;
+        mut.uploading_imgs = false;
+
+    } catch (er) {
+        err(er, 178);
+    }
 });
 
 export const create_loaded_imgs_on_img_load = action((imgs, null_scroll_to) => {
-    mut.scroll_to = null_scroll_to ? null : 'bottom';
+    try {
+        mut.scroll_to = null_scroll_to ? null : 'bottom';
 
-    set_previous_number_of_imgs(ob.imgs.length);
+        set_previous_number_of_imgs(ob.imgs.length);
 
-    const all_imgs = ob.imgs.concat(imgs); // visible + uploaded now images
+        const all_imgs = ob.imgs.concat(imgs); // visible + uploaded now images
 
-    ob.imgs.replace(all_imgs);
+        ob.imgs.replace(all_imgs);
 
-    mut.uploading_imgs = false;
+        mut.uploading_imgs = false;
+
+    } catch (er) {
+        err(er, 179);
+    }
 });
 
 const set_previous_number_of_imgs = number_of_imgs => {
-    mut.previous_number_of_imgs = number_of_imgs;
+    try {
+        mut.previous_number_of_imgs = number_of_imgs;
+
+    } catch (er) {
+        err(er, 180);
+    }
 };
 //< insert images in images fieldset (set state)
 
 export const show_or_hide_upload_error_messages = status => {
-    upload_messages.hide_upload_box_messages();
+    try {
+        if (page === 'options') {
+            ui_state.enable_ui();
 
-    if (status === 'rejected' || status === 'resolved_with_errors') {
-        upload_messages.show_upload_box_error_message();
-    }
+            upload_messages.hide_upload_box_messages();
 
-    if (status === 'resolved_paste') {
-        upload_messages.change_paste_input_placeholder_val(null);
-    }
+            if (status === 'rejected' || status === 'resolved_with_errors') {
+                upload_messages.show_upload_box_error_message();
+            }
 
-    if (status === 'rejected_paste') {
-        upload_messages.change_paste_input_placeholder_val(x.msg('upload_box_error_message_text'));
+            if (status === 'resolved_paste') {
+                upload_messages.change_paste_input_placeholder_val(null);
+            }
+
+            if (status === 'rejected_paste') {
+                upload_messages.change_paste_input_placeholder_val(x.msg('upload_box_error_message_text'));
+            }
+        }
+
+    } catch (er) {
+        err(er, 181);
     }
 };
 
 const calculate_img_aspect_ratio_fit = (src_width, src_height) => {
-    const ratio = Math.min(Infinity / src_width, 98 / src_height);
+    try {
+        const ratio = Math.min(Infinity / src_width, 98 / src_height);
 
-    return { width: src_width * ratio, height: src_height * ratio };
+        return { width: src_width * ratio, height: src_height * ratio };
+
+    } catch (er) {
+        err(er, 182);
+    }
+
+    return undefined;
 };
 
 export const mut = {

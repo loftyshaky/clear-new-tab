@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 
 import * as img_loading from 'options/img_loading';
 
-import { Tr } from 'js/Tr';
+import { Tr } from 'js/components/Tr';
 
 import hourglass_svg from 'svg/hourglass';
 

@@ -11,7 +11,7 @@ import * as moving from 'options/moving';
 import * as permissions from 'options/permissions';
 import * as inputs_hiding from 'options/inputs_hiding';
 
-import { Tr } from 'js/Tr';
+import { Tr } from 'js/components/Tr';
 import { Error_boundary } from 'js/components/Error_boundary';
 import { Loading_screen } from 'options/components/Loading_screen';
 import { Left_fieldset } from 'options/components/Left_fieldset';

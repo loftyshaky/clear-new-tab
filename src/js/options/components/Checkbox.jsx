@@ -10,7 +10,7 @@ import { inputs_data } from 'options/inputs_data';
 import * as settings from 'options/settings';
 import * as permissions_file from 'options/permissions';
 
-import { Tr } from 'js/Tr';
+import { Tr } from 'js/components/Tr';
 
 import checkmark_svg from 'svg/checkmark';
 

@@ -8,7 +8,7 @@ import * as upload_messages from 'js/upload_messages';
 import * as img_loading from 'options/img_loading';
 import * as managing_upload_box from 'options/managing_upload_box';
 
-import { Tr } from 'js/Tr';
+import { Tr } from 'js/components/Tr';
 import { Help } from 'options/components/Help';
 
 export class Upload_box extends React.Component {

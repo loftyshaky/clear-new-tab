@@ -1,3 +1,5 @@
+'use_strict';
+
 import React from 'react';
 import { toJS, decorate, observable, action, configure } from 'mobx';
 import { observer } from 'mobx-react';
@@ -21,11 +23,21 @@ export class Tr extends React.Component {
     }
 
     componentWillMount() {
-        this.handle_transition(false);
+        try {
+            this.handle_transition(false);
+
+        } catch (er) {
+            err(er, 187);
+        }
     }
 
     componentDidUpdate() {
-        this.handle_transition(true);
+        try {
+            this.handle_transition(true);
+
+        } catch (er) {
+            err(er, 188);
+        }
     }
 
     create_transitions = () => {
@@ -38,7 +50,8 @@ export class Tr extends React.Component {
             };
 
         } catch (er) {
-            // err(er, 115);
+            err(er, 189);
+
         }
     }
 
@@ -48,7 +61,7 @@ export class Tr extends React.Component {
             return state ? this.transitions[name].active : this.transitions[name].unactive;
 
         } catch (er) {
-            //err(er, 116);
+            err(er, 190);
         }
 
         return undefined;
@@ -80,11 +93,13 @@ export class Tr extends React.Component {
             }
 
             if (tr_end_callbacks && !state) {
-                tr_end_callbacks.forEach(f => f(e));
+                for (const tr_end_callback of tr_end_callbacks) {
+                    tr_end_callback(e);
+                }
             }
 
         } catch (er) {
-            // err(er, 117);
+            err(er, 191);
         }
     }
     //< hide component when it faded out or show component when it starting fading in
@@ -100,7 +115,7 @@ export class Tr extends React.Component {
             return tran;
 
         } catch (er) {
-            // err(er, 119);
+            err(er, 192);
         }
 
         return undefined;

@@ -19,7 +19,7 @@ import * as scrolling from 'options/scrolling';
 import * as ui_state from 'options/ui_state';
 import * as img_i from 'options/img_i';
 
-import { Tr } from 'js/Tr';
+import { Tr } from 'js/components/Tr';
 
 import cross_svg from 'svg/cross';
 import arrow_left from 'svg/arrow_left';

@@ -7,7 +7,7 @@ import { observer } from 'mobx-react';
 import x from 'x';
 import { db } from 'js/init_db';
 
-import { Tr } from 'js/Tr';
+import { Tr } from 'js/components/Tr';
 
 configure({ enforceActions: 'observed' });
 

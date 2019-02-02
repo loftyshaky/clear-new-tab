@@ -4,7 +4,7 @@ import React from 'react';
 import { observable, action, configure } from 'mobx';
 import { observer } from 'mobx-react';
 
-import { Tr } from 'js/Tr';
+import { Tr } from 'js/components/Tr';
 
 configure({ enforceActions: 'observed' });
 

@@ -1,3 +1,5 @@
+'use_strict';
+
 import * as r from 'ramda';
 
 export const determine_theme_current_img = async (theme_id, imgs) => {
@@ -19,7 +21,7 @@ export const determine_theme_current_img = async (theme_id, imgs) => {
         return 0;
 
     } catch (er) {
-        console.error(er);
+        err(er, 168);
     }
 
     return undefined;

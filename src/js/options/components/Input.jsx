@@ -7,7 +7,7 @@ import * as upload_messages from 'js/upload_messages';
 import { inputs_data } from 'options/inputs_data';
 import * as settings from 'options/settings';
 
-import { Tr } from 'js/Tr';
+import { Tr } from 'js/components/Tr';
 import { Help } from 'options/components/Help';
 
 export class Input extends React.Component {

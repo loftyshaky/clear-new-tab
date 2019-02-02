@@ -7,7 +7,7 @@ import { observer } from 'mobx-react';
 import { inputs_data } from 'options/inputs_data';
 import * as settings from 'options/settings';
 
-import { Tr } from 'js/Tr';
+import { Tr } from 'js/components/Tr';
 import { Global_checkbox } from 'options/components/Checkbox';
 
 export const Color = observer(props => {
