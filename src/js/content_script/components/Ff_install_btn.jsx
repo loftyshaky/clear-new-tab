@@ -1,3 +1,5 @@
+'use_strict';
+
 import React from 'react';
 import { observable, runInAction, configure } from 'mobx';
 import { observer } from 'mobx-react';
@@ -20,17 +22,32 @@ export class Ff_install_btn extends React.Component {
     }
 
     install_theme = async () => {
-        const { theme_id } = this.props;
+        try {
+            const { theme_id } = this.props;
 
-        runInAction(() => {
-            this.ob.ff_install_btn_text = ff_install_btn_installing_text;
-        });
+            runInAction(() => {
+                try {
+                    this.ob.ff_install_btn_text = ff_install_btn_installing_text;
 
-        await installing_theme.install_theme(theme_id);
+                } catch (er) {
+                    err(er, 198);
+                }
+            });
 
-        runInAction(() => {
-            this.ob.ff_install_btn_text = ff_install_btn_text;
-        });
+            await installing_theme.install_theme(theme_id);
+
+            runInAction(() => {
+                try {
+                    this.ob.ff_install_btn_text = ff_install_btn_text;
+
+                } catch (er) {
+                    err(er, 199);
+                }
+            });
+
+        } catch (er) {
+            err(er, 197);
+        }
     }
 
     render() {
