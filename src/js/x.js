@@ -1,4 +1,4 @@
-import { decorate, observable, runInAction, configure } from 'mobx';
+import { decorate, observable, configure } from 'mobx';
 import * as r from 'ramda';
 
 import { db } from 'js/init_db';
@@ -18,24 +18,22 @@ window.ed = async key => {
         return store[key];
 
     } catch (er) {
-        console.error(er);
+        console.error(er); // eslint-disable-line no-console
     }
 
     return undefined;
 };
 
-//> get extension data
 window.eda = async () => {
     try {
         return await db.ed.get(1);
 
     } catch (er) {
-        console.error(er);
+        console.error(er); // eslint-disable-line no-console
     }
 
     return undefined;
 };
-//< get extension data
 //< get extension data
 
 //> what browser
@@ -57,9 +55,7 @@ window.eda = async () => {
 })();
 //< what browser
 
-//> console.log
 window.l = console.log.bind(console); // eslint-disable-line no-console
-//< console.log
 
 //> selecting elements
 window.s = selector => document.querySelector(selector); // $
@@ -311,14 +307,6 @@ x.get_background = () => new Promise((resolve, reject) => {
     });
 });
 //< chrome
-
-//> notify about error f
-x.error = (error_code, extra) => { // last error code: 2
-    const error_message = x.message('error_alert') + error_code + (extra ? `\n${x.message(extra)}` : '');
-
-    alert(error_message);
-};
-//< notify about error f
 
 decorate(window, {
     ed: observable,
