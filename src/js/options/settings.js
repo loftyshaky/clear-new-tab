@@ -68,11 +68,7 @@ export const change_settings = async (input_type, family, name, val) => {
         }
 
         if (input_type === 'select' && val === 'theme') {
-            const new_current_img = await x.send_message_to_background_c({ message: 'get_new_current_img_when_choosing_theme_mode' });
-
-            await db.ed.update(1, { current_img: new_current_img });
-            change_current_img_input_val(new_current_img + 1);
-            await get_new_future_img.get_new_future_img(new_current_img + 1);
+            select_theme_img_when_selecting_theme_mode();
         }
 
         await db[storage_type].update(storage_id, { [name]: new_val });
@@ -293,11 +289,14 @@ export const restore_default_global_settings = async () => {
 
         if (confirm) {
             const background = await x.get_background();
+
             await background.set_default_settings('options');
             img_selection.deselect_selected_img(true);
-            change_current_img_input_val(1);
             switch_to_settings_type(null, null, true);
             inputs_hiding.decide_what_inputs_to_hide();
+            await select_theme_img_when_selecting_theme_mode();
+            await x.send_message_to_background_c({ message: 'get_theme_img', reinstall_even_if_theme_img_already_exist: false });
+            x.send_message_to_background({ message: 'preload_img' });
         }
 
     } catch (er) {
@@ -382,6 +381,19 @@ export const switch_to_settings_type = async (name, val, force_inputs_reset) => 
 
     } catch (er) {
         err(er, 165);
+    }
+};
+
+const select_theme_img_when_selecting_theme_mode = async () => {
+    try {
+        const new_current_img = await x.send_message_to_background_c({ message: 'get_new_current_img_when_choosing_theme_mode' });
+
+        await db.ed.update(1, { current_img: new_current_img });
+        change_current_img_input_val(new_current_img + 1);
+        await get_new_future_img.get_new_future_img(new_current_img + 1);
+
+    } catch (er) {
+        err(er, 209);
     }
 };
 
