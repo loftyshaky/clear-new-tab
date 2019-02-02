@@ -434,6 +434,11 @@ svg {
     background-color: white!important;
 }
 
+.select__dropdown-indicator {
+    padding-top: 0!important;
+    padding-bottom: 0!important;
+}
+
 .select__single-value {
     top: 13px!important;
 }
