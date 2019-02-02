@@ -21,7 +21,8 @@ export const get_pasted_image_or_image_url = async e => {
         upload_messages.hide_upload_box_messages();
         upload_messages.change_paste_input_placeholder_val(x.msg('upload_box_uploading_message_text'));
 
-        const clipboard_items = e.clipboardData.items;
+        const pasted_img_clipboard_item = r.find(clipboard_item => clipboard_item.type.indexOf('image') > -1, e.clipboardData.items); // ordinary for each will not work | check if img (its file object (after it will be converted with getAsFile below) if is) pasted
+        const pasted_img_file_object = pasted_img_clipboard_item ? pasted_img_clipboard_item.getAsFile() : null; // not link, copied image
         const clipboard_text = e.clipboardData.getData('text');
         const input_given_text = clipboard_text !== '';
         const contains_allow_downloading_images_by_link_permission = inputs_data.obj.upload.download_img_when_link_given.val;
@@ -50,11 +51,7 @@ export const get_pasted_image_or_image_url = async e => {
 
             () => {
                 try {
-                    const img_clipboard_item = r.find(clipboard_item => clipboard_item.type.indexOf('image') > -1, clipboard_items);// ordinary for each will not work | check if img (its file object (after it will be converted with getAsFile below) if is) pasted
-
-                    const file_object = img_clipboard_item ? img_clipboard_item.getAsFile() : null;
-
-                    return file_object;
+                    return pasted_img_file_object;
 
                 } catch (er) {
                     err(er, 107);
