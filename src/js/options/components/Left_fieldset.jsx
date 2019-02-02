@@ -15,7 +15,7 @@ export const Left_fieldset = props => {
     const there_are_inputs_in_this_fieldset = inputs_data.obj[family];
     const inputs = there_are_inputs_in_this_fieldset
         ? Object.keys(inputs_data.obj[family]).map(name => {
-            const Component = sta.components[inputs_data.obj[family][name].type];
+            const Component = con.components[inputs_data.obj[family][name].type];
 
             return (
                 <Component
@@ -39,7 +39,7 @@ export const Left_fieldset = props => {
     );
 };
 
-const sta = {
+const con = {
     components: {
         input: Input,
         select: Select,

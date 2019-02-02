@@ -16,7 +16,7 @@ browser.runtime.onMessage.addListener(async message => {
 
             total_number_of_imgs.set_total_number_of_imgs()
                 .then(() => {
-                    const last_page = Math.ceil(total_number_of_imgs.ob.number_of_imgs / populate_storage_with_images_and_display_them.sta.imgs_per_page);
+                    const last_page = Math.ceil(total_number_of_imgs.ob.number_of_imgs / populate_storage_with_images_and_display_them.con.imgs_per_page);
 
                     img_loading.load_page('load_page', last_page);
 

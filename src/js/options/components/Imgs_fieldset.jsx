@@ -129,7 +129,7 @@ export class Imgs_fieldset extends React.Component {
                 <div className="pagination_w" style={{ width: changing_imgs_fieldset_width.ob.imgs_width }}>
                     <Pagination
                         activePage={pagination.ob.active_page}
-                        itemsCountPerPage={populate_storage_with_images_and_display_them.sta.imgs_per_page}
+                        itemsCountPerPage={populate_storage_with_images_and_display_them.con.imgs_per_page}
                         totalItemsCount={total_number_of_imgs.ob.number_of_imgs}
                         itemClass="btn pagination_btn"
                         prevPageText={<Svg src={arrow_left} />}
@@ -196,7 +196,7 @@ class Imgs extends React.Component {
                         this.mut.broken_imgs_ids.push(id);
                     }
 
-                    if ((populate_storage_with_images_and_display_them.mut.previous_number_of_imgs === populate_storage_with_images_and_display_them.sta.imgs_per_page && img_loading.mut.imgs_loaded === populate_storage_with_images_and_display_them.sta.imgs_per_page) || (populate_storage_with_images_and_display_them.mut.previous_number_of_imgs !== populate_storage_with_images_and_display_them.sta.imgs_per_page && img_loading.mut.imgs_loaded >= number_of_imgs_to_load)) {
+                    if ((populate_storage_with_images_and_display_them.mut.previous_number_of_imgs === populate_storage_with_images_and_display_them.con.imgs_per_page && img_loading.mut.imgs_loaded === populate_storage_with_images_and_display_them.con.imgs_per_page) || (populate_storage_with_images_and_display_them.mut.previous_number_of_imgs !== populate_storage_with_images_and_display_them.con.imgs_per_page && img_loading.mut.imgs_loaded >= number_of_imgs_to_load)) {
                         img_loading.mut.imgs_loaded = 0;
 
                         if (populate_storage_with_images_and_display_them.mut.scroll_to === 'bottom') {

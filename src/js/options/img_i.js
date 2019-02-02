@@ -27,7 +27,7 @@ export const get_img_i_by_el = el => {
 
 export const determine_img_i_modificator = () => {
     try {
-        return pagination.ob.active_page * populate_storage_with_images_and_display_them.sta.imgs_per_page - populate_storage_with_images_and_display_them.sta.imgs_per_page;
+        return pagination.ob.active_page * populate_storage_with_images_and_display_them.con.imgs_per_page - populate_storage_with_images_and_display_them.con.imgs_per_page;
 
     } catch (er) {
         err(er, 70);

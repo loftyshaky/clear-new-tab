@@ -135,9 +135,9 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
 
         if (page === 'options') {
             const number_of_img_w = sa('.img_w').length || 0;
-            if (number_of_img_w < sta.imgs_per_page) {
+            if (number_of_img_w < con.imgs_per_page) {
                 const mode = 'upload_imgs';
-                const imgs_to_load = packed_imgs.slice(0, sta.imgs_per_page - number_of_img_w); // get first 50 of uploaded images
+                const imgs_to_load = packed_imgs.slice(0, con.imgs_per_page - number_of_img_w); // get first 50 of uploaded images
 
                 unpack_and_load_imgs(mode, imgs_to_load);
 
@@ -305,7 +305,7 @@ export const mut = {
     uploading_imgs: true,
 };
 
-export const sta = {
+export const con = {
     imgs_per_page: 200,
 };
 
