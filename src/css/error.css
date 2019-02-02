@@ -42,6 +42,10 @@
 }
 
 /*> mods */
+.none {
+    display: none;
+}
+
 .er_highlighted {
     background-color: #fbff75;
 }
