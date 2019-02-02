@@ -1,3 +1,0 @@
-.bookmarks_bar_bookmark:hover, .selected_subtree + .bookmarks_bar_bookmark, .subtree_bookmark:not(.folder) {
-    background-color: unset!important;
-}
