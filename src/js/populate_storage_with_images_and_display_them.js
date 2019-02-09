@@ -189,7 +189,7 @@ const set_last_uploaded_image_as_current = async () => {
 };
 
 //> prepare images for loading in images fieldset and then load them into it
-export const unpack_and_load_imgs = async (mode, imgs_to_load) => {
+export const unpack_and_load_imgs = async (mode, imgs_to_load, null_scroll_to) => {
     try {
         const unpacked_imgs = imgs_to_load.map(img => ({
             key: x.unique_id(),
@@ -203,7 +203,7 @@ export const unpack_and_load_imgs = async (mode, imgs_to_load) => {
         }));
 
         if (mode === 'load_page') {
-            create_loaded_imgs_on_page_change(unpacked_imgs);
+            create_loaded_imgs_on_page_change(unpacked_imgs, null_scroll_to);
 
         } else if (mode === 'img_delete') {
             create_loaded_imgs_on_img_load(unpacked_imgs, true);
@@ -219,9 +219,14 @@ export const unpack_and_load_imgs = async (mode, imgs_to_load) => {
 //< prepare images for loading in images fieldset and then load them into it
 
 //> insert images in images fieldset (set state)
-export const create_loaded_imgs_on_page_change = action(imgs => {
+export const create_loaded_imgs_on_page_change = action((imgs, null_scroll_to) => {
     try {
-        mut.scroll_to = mut.uploading_imgs ? 'bottom' : 'top';
+        if (!null_scroll_to) {
+            mut.scroll_to = mut.uploading_imgs ? 'bottom' : 'top';
+
+        } else {
+            mut.scroll_to = null;
+        }
 
         set_previous_number_of_imgs(0);
 

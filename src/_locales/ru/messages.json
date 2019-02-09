@@ -43,6 +43,10 @@
     "message": "Удалить все картинки?"
   },
 
+  "enter_new_img_no": {
+    "message": "Введите новый № картинки:"
+  },
+
 
   "theme_img_link_text": {
     "message": "Ссылка на картинку темы"
@@ -344,9 +348,11 @@
   "img_type_theme_color_text": {
     "message": "Цвет (тема)"
   },
-
   "img_preview_text": {
     "message": "Открыть"
+  },
+  "move_img_text": {
+    "message": "Переместить"
   },
 
 

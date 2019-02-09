@@ -268,6 +268,7 @@ class Imgs extends React.Component {
                                 <Img_inner_w
                                     i={i}
                                     img={img}
+                                    img_w_trs={this.img_w_trs}
                                     img_load_callback={this.img_load_callback}
                                     delete_img={() => img_deletion.delete_img(img.id)}
                                 />
@@ -281,16 +282,17 @@ class Imgs extends React.Component {
 }
 
 const Img_inner_w = observer(props => {
-    const { img } = props;
+    const { i, img, img_w_trs, img_load_callback, delete_img } = props;
 
     return (
         <div className="img_inner_w">
             <div className="img_inner_w_2 opacity_0" style={{ opacity: img_loading.mut.img_inner_w_2_mounts_transparent ? null : 1 }}>
                 <Img
-                    i={props.i}
+                    i={i}
                     img={img}
-                    img_load_callback={props.img_load_callback}
-                    delete_img={props.delete_img}
+                    img_w_trs={img_w_trs}
+                    img_load_callback={img_load_callback}
+                    delete_img={delete_img}
                 />
             </div>
         </div>
@@ -302,11 +304,11 @@ class Img extends React.Component {
         super(props);
 
         ({
+            img: this.img,
             img_load_callback: this.img_load_callback,
             delete_img: this.delete_img,
         } = this.props);
 
-        this.img = props.img;
         this.is_img = this.img.type.indexOf('file') > -1 || this.img.type.indexOf('link') > -1;
 
         this.img_el = this.is_img
@@ -341,18 +343,29 @@ class Img extends React.Component {
     //< open image in new tab when clicking on preview button
 
     render() {
+        const { i, img_w_trs } = this.props;
+
         return (
             <React.Fragment>
                 <div className="img_cover" />
-                {this.is_img ? <div className="img_size img_info">{this.img.img_size}</div> : null}
-                <div className="img_type img_info">{x.msg(`img_type_${this.img.type}_text`)}</div>
-                <button
-                    type="button"
-                    className="img_preview img_info"
-                    onClick={this.preview_img.bind(null, this.img.id)}
-                >
-                    Preview
-                </button>
+                <div className="img_info_and_btns">
+                    {this.is_img ? <div className="img_size img_info">{this.img.img_size}</div> : null}
+                    <div className="img_type img_info">{x.msg(`img_type_${this.img.type}_text`)}</div>
+                    <button
+                        type="button"
+                        className="move_img_btn img_btn img_info"
+                        onClick={() => moving.prompt_to_move(img_w_trs[i])}
+                    >
+                        {x.msg('move_img_text')}
+                    </button>
+                    <button
+                        type="button"
+                        className="img_preview_btn img_btn img_info"
+                        onClick={this.preview_img.bind(null, this.img.id)}
+                    >
+                        {x.msg('img_preview_text')}
+                    </button>
+                </div>
                 {this.img_el}
                 <button
                     type="button"

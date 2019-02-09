@@ -168,7 +168,7 @@ export const create_solid_color_img = color => {
 //< create_solid_color_img
 
 //> create images on extensions' options page on load or click on load btn
-export const load_page = async (mode, page) => { // g
+export const load_page = async (mode, page, null_scroll_to) => { // g
     try {
         ui_state.disable_ui();
 
@@ -182,7 +182,7 @@ export const load_page = async (mode, page) => { // g
         const number_of_imgs = imgs.length;
 
         if (number_of_imgs > 0) {
-            populate_storage_with_images_and_display_them.unpack_and_load_imgs(mode, imgs);
+            populate_storage_with_images_and_display_them.unpack_and_load_imgs(mode, imgs, null_scroll_to);
         }
 
         if (number_of_imgs === 0) {

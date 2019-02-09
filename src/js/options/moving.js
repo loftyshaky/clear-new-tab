@@ -5,7 +5,9 @@ import { observable, action, configure } from 'mobx';
 import x from 'x';
 import { db } from 'js/init_db';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
+import * as img_loading from 'options/img_loading';
 import * as settings from 'options/settings';
+import * as pagination from 'options/pagination';
 import * as get_new_future_img from 'js/get_new_future_img';
 import * as ui_state from 'options/ui_state';
 import * as img_i from 'options/img_i';
@@ -32,6 +34,35 @@ export const start_drag = (img_w_tr, e) => {
 
     } catch (er) {
         err(er, 123);
+    }
+};
+
+export const prompt_to_move = async img_w_tr => {
+    try {
+        mut.item_to_move = img_w_tr;
+
+        const new_position_i = window.prompt(x.msg('enter_new_img_no'));
+        const given_value_is_number = !Number.isNaN(new_position_i);
+        const number_of_imgs = await db.imgs.count();
+
+        if (new_position_i && given_value_is_number && number_of_imgs > 1) {
+            let new_position_i_final;
+
+            if (new_position_i < 1) {
+                new_position_i_final = 1;
+
+            } else if (new_position_i > number_of_imgs) {
+                new_position_i_final = number_of_imgs;
+
+            } else {
+                new_position_i_final = new_position_i;
+            }
+
+            move('prompt', new_position_i_final);
+        }
+
+    } catch (er) {
+        err(er, 210);
     }
 };
 
@@ -135,7 +166,7 @@ export const create_drop_area = (img_w_tr, mode, e) => {
             if (mode === 'options') {
                 new_drop_area.style.width = `${mut.dragged_item_width - 4}px`;
 
-                new_drop_area.addEventListener('mouseup', drop_options);
+                new_drop_area.addEventListener('mouseup', move.bind(null, 'drop'));
             }
 
             mut.current_x = e.clientX;
@@ -225,72 +256,104 @@ const show_or_hide_dragged_item = action(bool => {
     }
 });
 
-//> options
-const drop_options = async () => {
+const move = async (mode, new_position_no) => {
     try {
         ui_state.disable_ui();
 
-        const drop_area = s('.drop_area');
+        const img_i_modificator = img_i.determine_img_i_modificator();
+        const img_i_after_move = new_position_no - 1 - img_i_modificator;
+        let el_to_move_img_before_or_after;
 
-        const img_i_before_drop = img_i.get_img_i_by_el(mut.item_to_move);
+        if (mode === 'drop') {
+            el_to_move_img_before_or_after = s('.drop_area');
 
-        x.after(drop_area, mut.item_to_move);
+        } else if (mode === 'prompt') {
+            if (new_position_no <= img_i_modificator || new_position_no > img_i_modificator + populate_storage_with_images_and_display_them.con.imgs_per_page) {
+                el_to_move_img_before_or_after = 'img_is_out_of_page';
 
-        const img_i_after_drop = img_i.get_img_i_by_el(mut.item_to_move);
-
-        x.remove(drop_area);
-
-        let move_type;
-        let start_i;
-        let end_i;
-
-        if (img_i_before_drop < img_i_after_drop) {
-            move_type = 'forward';
-            start_i = img_i_before_drop + 1;
-            end_i = img_i_after_drop;
-
-        } else if (img_i_before_drop > img_i_after_drop) {
-            move_type = 'backward';
-            start_i = img_i_before_drop - 1;
-            end_i = img_i_after_drop;
+            } else {
+                el_to_move_img_before_or_after = s(`.img_w_tr:nth-child(${new_position_no - img_i_modificator})`);
+            }
         }
 
-        const response = await x.send_message_to_background_c({ message: 'get_ids_of_imgs_to_shift', move_type, img_i_before_drop, start_i, end_i });
+        if (el_to_move_img_before_or_after !== mut.item_to_move) {
+            const img_i_before_move = img_i.get_img_i_by_el(mut.item_to_move);
 
-        await db.transaction('rw', db.ed, db.imgs, async () => {
-            const modifier_1 = move_type === 'forward' ? -1 : 1; // if forwsard - 1 if backward 1
-            const modifier_2 = move_type === 'forward' ? 1 : -1; // if forwsard 1 if backward - 1
-            const imgs_to_move = [];
+            if (mode === 'drop' || (mode === 'prompt' && el_to_move_img_before_or_after !== 'img_is_out_of_page' && img_i_before_move < img_i_after_move)) {
+                x.after(el_to_move_img_before_or_after, mut.item_to_move);
 
-            for (const id of response.ids_of_imgs_to_move) {
-                imgs_to_move.push(db.imgs.get(id));
+            } if (mode === 'prompt' && el_to_move_img_before_or_after !== 'img_is_out_of_page' && img_i_before_move > img_i_after_move) {
+                x.before(el_to_move_img_before_or_after, mut.item_to_move);
             }
 
-            await Promise.all(imgs_to_move);
+            const all_imgs_img_i_before_move = img_i_before_move + img_i_modificator;
+            let all_imgs_img_i_after_move;
 
-            for (const img of imgs_to_move) { // forEach will not work here (position_id will not update)
-                db.imgs.update(img.id, { position_id: img.position_id + modifier_1 });
+            if (mode === 'drop') {
+                all_imgs_img_i_after_move = img_i.get_img_i_by_el(mut.item_to_move);
+
+            } else if (mode === 'prompt') {
+                all_imgs_img_i_after_move = new_position_no - 1;
             }
 
-            const img = await db.imgs.get(response.ids_of_imgs_to_move[response.ids_of_imgs_to_move.length - 1]);
+            x.remove(s('.drop_area'));
 
-            await db.imgs.update(response.img_id_before_drop, { position_id: img.position_id + modifier_2 });
+            let move_type;
+            let start_i;
+            let end_i;
 
-            await set_new_current_or_future_img_value_after_drop('current_img', move_type, img_i_before_drop, img_i_after_drop);
-            await set_new_current_or_future_img_value_after_drop('future_img', move_type, img_i_before_drop, img_i_after_drop);
+            if (all_imgs_img_i_before_move < all_imgs_img_i_after_move) {
+                move_type = 'forward';
+                start_i = all_imgs_img_i_before_move + 1;
+                end_i = all_imgs_img_i_after_move;
+
+            } else if (all_imgs_img_i_before_move > all_imgs_img_i_after_move) {
+                move_type = 'backward';
+                start_i = all_imgs_img_i_before_move - 1;
+                end_i = all_imgs_img_i_after_move;
+            }
+
+            const response = await x.send_message_to_background_c({ message: 'get_ids_of_imgs_to_shift', move_type, all_imgs_img_i_before_move, start_i, end_i });
+
+            await db.transaction('rw', db.ed, db.imgs, async () => {
+                const modifier_1 = move_type === 'forward' ? -1 : 1; // if forwsard - 1 if backward 1
+                const modifier_2 = move_type === 'forward' ? 1 : -1; // if forwsard 1 if backward - 1
+
+                const imgs_to_move = await Promise.all(response.ids_of_imgs_to_move.map(async id => {
+                    const img = await db.imgs.get(id);
+
+                    return img;
+                }));
+
+                await Promise.all(imgs_to_move.map(async img => {
+                    await db.imgs.update(img.id, { position_id: img.position_id + modifier_1 });
+                }));
+
+                const img = await db.imgs.get(response.ids_of_imgs_to_move[response.ids_of_imgs_to_move.length - 1]);
+
+                await db.imgs.update(response.img_id_before_move, { position_id: img.position_id + modifier_2 });
+
+                await set_new_current_or_future_img_value_after_move('current_img', move_type, all_imgs_img_i_before_move, all_imgs_img_i_after_move);
+                await set_new_current_or_future_img_value_after_move('future_img', move_type, all_imgs_img_i_before_move, all_imgs_img_i_after_move);
+
+                const current_img = await ed('current_img');
+
+                await get_new_future_img.get_new_future_img(current_img + 1);
+            });
 
             const current_img = await ed('current_img');
 
-            await get_new_future_img.get_new_future_img(current_img + 1);
-        });
+            settings.change_current_img_input_val(current_img + 1);
 
-        const current_img = await ed('current_img');
+            await x.send_message_to_background_c({ message: 'retrieve_imgs' });
 
-        settings.change_current_img_input_val(current_img + 1);
+            if (el_to_move_img_before_or_after !== 'img_is_out_of_page') {
+                move_imgs_arr_item(img_i_before_move, img_i_after_move);
 
-        await x.send_message_to_background_c({ message: 'retrieve_imgs' });
-
-        move_imgs_arr_item(img_i_before_drop, img_i_after_drop);
+            } else {
+                img_loading.load_page('load_page', pagination.ob.active_page, true);
+            }
+        }
 
         ui_state.enable_ui();
 
@@ -301,18 +364,18 @@ const drop_options = async () => {
     }
 };
 
-const set_new_current_or_future_img_value_after_drop = async (type, move_type, img_i_before_drop, img_i_after_drop) => { // type: current_img, future_img
+const set_new_current_or_future_img_value_after_move = async (type, move_type, img_i_before_move, img_i_after_move) => { // type: current_img, future_img
     try {
         const ed_all = await eda();
 
         if (type === 'current_img' || ed_all.shuffle) {
-            if (ed_all[type] === img_i_before_drop) {
-                ed_all[type] = img_i_after_drop;
+            if (ed_all[type] === img_i_before_move) {
+                ed_all[type] = img_i_after_move;
 
-            } else if (move_type === 'forward' && ed_all[type] <= img_i_after_drop && ed_all[type] >= img_i_before_drop) {
+            } else if (move_type === 'forward' && ed_all[type] <= img_i_after_move && ed_all[type] >= img_i_before_move) {
                 ed_all[type] -= ed_all[type];
 
-            } else if (move_type === 'backward' && ed_all[type] >= img_i_after_drop && ed_all[type] <= img_i_before_drop) {
+            } else if (move_type === 'backward' && ed_all[type] >= img_i_after_move && ed_all[type] <= img_i_before_move) {
                 ed_all[type] += ed_all[type];
             }
 
@@ -335,7 +398,6 @@ const move_imgs_arr_item = action((from, to) => {
         err(er, 133);
     }
 });
-//< options
 
 export const mut = {
     item_to_move: null,

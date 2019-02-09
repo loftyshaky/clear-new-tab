@@ -94,15 +94,15 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
                     err(er, 22, null, true);
                 });
 
-        } else if (msg === 'get_ids_of_imgs_to_shift') { // send img_id_before_drop, ids_of_imgs_to_move
-            const img_id_before_drop = get_img_id_by_i(message.img_i_before_drop);
+        } else if (msg === 'get_ids_of_imgs_to_shift') { // send img_id_before_move, ids_of_imgs_to_move
+            const img_id_before_move = get_img_id_by_i(message.all_imgs_img_i_before_move);
             const ids_of_imgs_to_move = [];
 
             loop_through_imgs_a_elms_that_need_to_be_moved(message.move_type, message.start_i, message.end_i, i => {
                 ids_of_imgs_to_move.push(imgs.mut.imgs[i].id);
             });
 
-            send_response({ img_id_before_drop, ids_of_imgs_to_move });
+            send_response({ img_id_before_move, ids_of_imgs_to_move });
 
         } else if (msg === 'start_timer') {
             multiple.start_timer(true);
@@ -170,7 +170,7 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
                 url: new_tab_url,
             });
 
-        } else if (msg === 'get_preview_img') { // send img_id_before_drop, ids_of_imgs_to_move
+        } else if (msg === 'get_preview_img') { // send img_id_before_move, ids_of_imgs_to_move
             const img_i = get_img_i_by_id(message.img_id);
             const preview_img = r.clone(imgs.mut.imgs[img_i]);
 

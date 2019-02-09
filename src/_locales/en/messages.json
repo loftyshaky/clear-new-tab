@@ -43,6 +43,10 @@
     "message": "Delete all images?"
   },
 
+  "enter_new_img_no": {
+    "message": "Enter the new image №:"
+  },
+
 
   "theme_img_link_text": {
     "message": "Link to theme image"
@@ -345,9 +349,11 @@
   "img_type_theme_color_text": {
     "message": "Color (theme)"
   },
-
   "img_preview_text": {
     "message": "Preview"
+  },
+  "move_img_text": {
+    "message": "Move"
   },
 
 

@@ -98,11 +98,11 @@ option {
     color: #f493ff!important;
 }
 
-.option:hover, .btn:hover, .btn:active, .pagination li:hover a, .pagination li:active a, .img_preview:active {
+.option:hover, .btn:hover, .btn:active, .pagination li:hover a, .pagination li:active a, .img_btn:active {
     color: #212121;
 }
 
-.option:hover, .btn:hover, .img_preview:active, .loading_screen {
+.option:hover, .btn:hover, .img_btn:active, .loading_screen {
     background-color: #fbff75;
 }
 
@@ -606,7 +606,7 @@ svg {
     height: 100%;
 }
 
-.img_cover, .solid_color_img, .img_type, .img_size {
+.img_cover, .solid_color_img {
     cursor: move;
 }
 
@@ -634,19 +634,28 @@ svg {
     box-shadow: 0 0 15px #fbff75;
 }
 
-.img_info {
+.img_info_and_btns {
     bottom: 4px;
-    font-size: 10px;
-    padding: 2px;
+}
+
+.img_info_and_btns, .img_inner_w_2:before {
+    position: absolute;
     left: 4px;
 }
 
 .img_info, .img_inner_w_2:before {
-    position: absolute;
-    background-color: rgba(33, 33, 33, 0.8);
-    left: 4px;
     font-size: 10px;
+    background-color: rgba(33, 33, 33, 0.8);
     padding: 2px;
+}
+
+.img_info {
+    cursor: move;
+    display: table;
+}
+
+.img_info:not(:last-child) {
+    margin-bottom: 2px;
 }
 
 .img_inner_w_2:before {
@@ -656,19 +665,8 @@ svg {
     cursor: move;
 }
 
-.img_preview {
+.img_btn {
     cursor: pointer;
-}
-
-.img_type {
-    bottom: 21px;
-}
-
-.img_size {
-    bottom: 38px;
-}
-
-.img_preview {
     border: none;
     outline: none;
 }
@@ -792,7 +790,7 @@ svg {
 /*< loading screen */
 
 /*> transition */
-.link, .upload_box_browse_label, svg, .theme_img_link, .delete_img_btn, .color_input_vizualization, .normal_input, .btn, .color_global_el, .input, .image_settings_wrapper, .dragged_item, .img_inner_w, .img_w, .img_preview, .imgs_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu {
+.link, .upload_box_browse_label, svg, .theme_img_link, .delete_img_btn, .color_input_vizualization, .normal_input, .btn, .color_global_el, .input, .image_settings_wrapper, .dragged_item, .img_inner_w, .img_w, .img_btn, .imgs_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu {
     transition: all 0.2s ease-out;
 }
 
@@ -840,11 +838,11 @@ svg {
     transition-property: border-color, box-shadow;
 }
 
-.img_preview {
+.img_btn {
     transition-property: color, background-color;
 }
 
-.link:active, .upload_box_browse_label:active, .btn:active, .img_preview:active {
+.link:active, .upload_box_browse_label:active, .btn:active, .img_btn:active {
     transition: none;
 }
 
