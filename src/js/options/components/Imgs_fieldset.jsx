@@ -52,7 +52,7 @@ export class Imgs_fieldset extends React.Component {
             scrolling.mut.imgs_fieldset = ref.imgs_fieldset.current;
             this.resize_imgs_binded = changing_imgs_fieldset_width.resize_imgs.bind(null, this.imgs_w.current);
 
-            changing_imgs_fieldset_width.resize_imgs(this.imgs_w.current);
+            window.requestAnimationFrame(this.resize_imgs_binded);
 
             x.bind(window, 'resize', this.resize_imgs_binded);
             x.bind(s('.pagination'), 'mousedown', pagination.send_click_to_pagination_btn);
