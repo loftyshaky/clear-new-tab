@@ -261,7 +261,7 @@ const move = async (mode, new_position_no) => {
         ui_state.disable_ui();
 
         const img_i_modificator = img_i.determine_img_i_modificator();
-        const img_i_after_move = new_position_no - 1 - img_i_modificator;
+        let img_i_after_move = new_position_no - 1 - img_i_modificator;
         let el_to_move_img_before_or_after;
 
         if (mode === 'drop') {
@@ -290,7 +290,8 @@ const move = async (mode, new_position_no) => {
             let all_imgs_img_i_after_move;
 
             if (mode === 'drop') {
-                all_imgs_img_i_after_move = img_i.get_img_i_by_el(mut.item_to_move);
+                img_i_after_move = img_i.get_img_i_by_el(mut.item_to_move);
+                all_imgs_img_i_after_move = img_i_after_move + img_i_modificator;
 
             } else if (mode === 'prompt') {
                 all_imgs_img_i_after_move = new_position_no - 1;
