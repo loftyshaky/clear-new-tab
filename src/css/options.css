@@ -606,7 +606,7 @@ svg {
     height: 100%;
 }
 
-.img_cover, .solid_color_img {
+.img_cover, .solid_color_img, .img_info, .img_info_and_btns {
     cursor: move;
 }
 
@@ -650,7 +650,6 @@ svg {
 }
 
 .img_info {
-    cursor: move;
     display: table;
 }
 
@@ -662,7 +661,6 @@ svg {
     counter-increment: counter;            
     content: counter(counter);
     top: 4px;
-    cursor: move;
 }
 
 .img_btn {
