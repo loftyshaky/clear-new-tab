@@ -9,6 +9,7 @@ import * as r from 'ramda';
 import { inputs_data } from 'options/inputs_data';
 import * as settings from 'options/settings';
 import * as permissions_file from 'options/permissions';
+import * as enter_click from 'js/enter_click';
 
 import { Tr } from 'js/components/Tr';
 
@@ -59,7 +60,12 @@ export const Global_checkbox = observer(props => {
                     id={props.name}
                     onChange={on_change}
                 />
-                <span className="checkbox_checkmark_w">
+                <span
+                    className="checkbox_checkmark_w"
+                    role="button"
+                    tabIndex="0"
+                    onKeyUp={enter_click.simulate_click_on_enter}
+                >
                     <Svg src={checkmark_svg} />
                 </span>
             </label>

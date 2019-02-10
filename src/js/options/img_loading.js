@@ -155,11 +155,11 @@ export const handle_files = async files => {
 //> create_solid_color_img
 export const create_solid_color_img = color => {
     try {
-        settings.mut.current_color_pickier.el = null;
-
         populate_storage_with_images_and_display_them.populate_storage_with_images('color', 'resolved_color', [color], {}, null);
 
         settings.set_color_input_vizualization_color('upload', 'create_solid_color_img', color);
+
+        settings.mut.current_color_pickier.el = null;
 
     } catch (er) {
         err(er, 112);

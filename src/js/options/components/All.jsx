@@ -10,6 +10,7 @@ import * as img_deletion from 'options/img_deletion';
 import * as moving from 'options/moving';
 import * as permissions from 'options/permissions';
 import * as inputs_hiding from 'options/inputs_hiding';
+import * as tab_focus from 'js/tab_focus';
 
 import { Tr } from 'js/components/Tr';
 import { Error_boundary } from 'js/components/Error_boundary';
@@ -50,6 +51,10 @@ export class All extends React.Component {
             x.bind(document, 'mousedown', settings.show_or_hide_color_pickier_when_clicking_on_color_input_vizualization);
             x.bind(document, 'mouseup', this.evl.stop_drag);
             x.bind(document, 'mousemove', this.evl.set_dragged_item_position);
+            x.bind(document.body, 'mousedown', tab_focus.set_using_mouse_cls.bind(null, 'add_cls'));
+            x.bind(document.body, 'keydown', tab_focus.prevent_el_focus_on_esc);
+            x.bind(document.body, 'keydown', tab_focus.set_using_mouse_cls.bind(null, 'remove_cls'));
+            x.bind(document.body, 'keydown', settings.close_color_pickier_by_keyboard);
 
         } catch (er) {
             err(er, 72);

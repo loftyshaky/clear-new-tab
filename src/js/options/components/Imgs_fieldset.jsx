@@ -18,6 +18,7 @@ import * as changing_imgs_fieldset_width from 'options/changing_imgs_fieldset_wi
 import * as scrolling from 'options/scrolling';
 import * as ui_state from 'options/ui_state';
 import * as img_i from 'options/img_i';
+import * as enter_click from 'js/enter_click';
 
 import { Tr } from 'js/components/Tr';
 
@@ -45,6 +46,8 @@ export class Imgs_fieldset extends React.Component {
 
     componentDidMount() {
         try {
+            const pagination_el = s('.pagination');
+
             img_loading.load_page('first_load', 0);
 
             img_i.mut.img_w_tr_nodes = this.imgs_w.current.getElementsByClassName('img_w_tr');
@@ -58,7 +61,8 @@ export class Imgs_fieldset extends React.Component {
             });
 
             x.bind(window, 'resize', this.resize_imgs_binded);
-            x.bind(s('.pagination'), 'mousedown', pagination.send_click_to_pagination_btn);
+            x.bind(pagination_el, 'mousedown', pagination.send_click_to_pagination_btn);
+            x.bind(pagination_el, 'keyup', enter_click.simulate_click_on_enter);
 
         } catch (er) {
             err(er, 77);
@@ -264,7 +268,7 @@ class Imgs extends React.Component {
                                 onClick={img_selection.select_img.bind(null, img.id)}
                                 onMouseDown={e => moving.start_drag(this.img_w_trs[i], e)}
                                 onMouseMove={e => moving.create_drop_area(this.img_w_trs[i], 'options', e)}
-                                onKeyUp={() => null}
+                                onKeyUp={enter_click.simulate_click_on_enter}
                                 onTransitionEnd={this.show_checkerboard.bind(null, img.id)}
                                 ref={img_ref => this.set_img_w_refs(img.id, img_ref)}
                             >
@@ -358,6 +362,7 @@ class Img extends React.Component {
                         type="button"
                         className="move_img_btn img_btn img_info"
                         onClick={() => moving.prompt_to_move(img_w_trs[i])}
+                        onKeyUp={e => e.stopPropagation()}
                     >
                         {x.msg('move_img_text')}
                     </button>
@@ -365,6 +370,7 @@ class Img extends React.Component {
                         type="button"
                         className="img_preview_btn img_btn img_info"
                         onClick={this.preview_img.bind(null, this.img.id)}
+                        onKeyUp={e => e.stopPropagation()}
                     >
                         {x.msg('img_preview_text')}
                     </button>
@@ -374,6 +380,7 @@ class Img extends React.Component {
                     type="button"
                     className="delete_img_btn"
                     onClick={this.delete_img}
+                    onKeyUp={e => e.stopPropagation()}
                 >
                     <Svg src={cross_svg} />
                 </button>

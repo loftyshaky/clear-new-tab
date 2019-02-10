@@ -42,7 +42,6 @@ export const inputs_data = observable({
                 vizualization_color: '#ffffff',
                 color_pickier_is_visible: false,
                 color_pickier_position: 'top',
-                accept_color_f: img_loading.create_solid_color_img,
             },
         },
         img_settings: {
@@ -156,7 +155,6 @@ export const inputs_data = observable({
                 vizualization_color: '#ffffff',
                 color_pickier_is_visible: false,
                 color_pickier_position: 'top',
-                accept_color_f: settings.change_settings_color,
             },
         },
         other_settings: {

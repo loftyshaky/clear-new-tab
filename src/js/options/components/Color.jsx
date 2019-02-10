@@ -6,12 +6,13 @@ import { observer } from 'mobx-react';
 
 import { inputs_data } from 'options/inputs_data';
 import * as settings from 'options/settings';
+import * as enter_click from 'js/enter_click';
 
 import { Tr } from 'js/components/Tr';
 import { Global_checkbox } from 'options/components/Checkbox';
 
 export const Color = observer(props => {
-    const { family, name, accept_color_f } = props;
+    const { family, name } = props;
     const { vizualization_color, color_pickier_is_visible, color_pickier_position } = inputs_data.obj[family][name];
     const global_checkbox = props.include_global_checkbox
         ? (
@@ -36,13 +37,7 @@ export const Color = observer(props => {
     //> accept color when clicking OK
     const accept_color = () => {
         try {
-            if (family !== 'img_settings') {
-                accept_color_f(vizualization_color);
-
-            } else {
-                accept_color_f(name, vizualization_color);
-            }
-
+            settings.determine_and_run_accept_color_f(family, name, vizualization_color);
             settings.show_or_hide_color_pickier(family, name, false);
 
         } catch (er) {
@@ -60,9 +55,12 @@ export const Color = observer(props => {
             />
             <span
                 className="color_input_vizualization"
+                role="button"
+                tabIndex={0}
                 data-family={family}
                 data-name={name}
                 style={{ backgroundColor: vizualization_color }}
+                onKeyUp={enter_click.open_color_pickier_on_enter}
             >
                 <div
                     className="color_pickier_w"

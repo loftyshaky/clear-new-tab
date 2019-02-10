@@ -79,7 +79,6 @@ option {
     border: none;
     padding: 0;
     cursor: pointer;
-    outline: none;
 }
 
 .link:not(.theme_img_link):not(.install_help_link):not(.help_link):visited {
@@ -102,7 +101,7 @@ option {
     color: #212121;
 }
 
-.option:hover, .btn:hover, .img_btn:active, .loading_screen {
+.option:hover, .btn:hover, .loading_screen {
     background-color: #fbff75;
 }
 
@@ -160,14 +159,23 @@ p {
     margin-right: 10px;
 }
 
-fieldset, .normal_input, .checkbox_checkmark_w, .btn, .img_w, .pagination {
+fieldset, .normal_input, .checkbox_checkmark_w, .btn, .img_w, .pagination, .using_mouse .btn:focus, .using_mouse .checkbox_checkmark_w:focus, .using_mouse .color_input_vizualization:focus, .checkbox_checkmark_w {
     border: 1px solid white;
 }
 
-.normal_input:focus, .btn:focus, .selected_img {
+.normal_input:focus, .btn:focus, .checkbox_checkmark_w:focus, .color_input_vizualization:focus, .selected_img, .img_w:focus {
     outline: none;
     box-shadow: 0 0 5px #fbff75;
     border: 1px solid #fbff75;
+}
+
+.using_mouse .img_w {
+    box-shadow: none;
+    border: 1px solid white;
+}
+
+.using_mouse .btn:focus, .using_mouse .checkbox_checkmark_w:focus, .using_mouse .color_input_vizualization:focus {
+    box-shadow: none;
 }
 
 .normal_input, .checkbox_checkmark_w {
@@ -178,8 +186,24 @@ fieldset, .normal_input, .checkbox_checkmark_w, .btn, .img_w, .pagination {
     font-size: 14px;
 }
 
+.using_mouse .help_link, .using_mouse .theme_img_link {
+    margin-left: 0;
+}
+
 .help_link {
     margin-top: 6px;
+}
+
+.help_link:focus, .link:focus, .upload_box_browse_label:focus {
+    outline: 1px solid #fbff75;
+}
+
+.using_mouse .link, .using_mouse .help_link, .using_mouse .upload_box_browse_label, .using_mouse .img_w {
+    outline: none;
+}
+
+.help_link:focus, .theme_img_link:focus {
+    margin-left: 1px;
 }
 
 .help_message {
@@ -201,6 +225,14 @@ svg {
 .pagination svg, .checkbox_checkmark_w svg {
     width: 16px;
     height: 16px;
+}
+
+.delete_img_btn:focus, .img_btn:focus, .color_ok_btn:focus, body.using_mouse .color_ok_btn:hover:focus, .color_ok_btn:hover {
+    background-color: #3892ff;
+}
+
+.img_btn:active {
+    background-color: #fbff75!important;
 }
 
 /*>1 buttons */
@@ -306,7 +338,6 @@ svg {
     width: 220px;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px, rgba(0, 0, 0, 0.15) 0px 8px 16px;
     border: none;
-    background-color: white;
     font-size: 14px;
     height: 21px;
     cursor: pointer;
@@ -314,9 +345,8 @@ svg {
     vertical-align: top;
 }
 
-.color_ok_btn:hover {
-    color: white;
-    background-color: #4285f4;
+.color_ok_btn, .using_mouse .color_ok_btn:focus {
+    background-color: white;
 }
 
 .flexbox-fix input, .color_ok_btn {
@@ -575,10 +605,6 @@ svg {
     min-width: 80px;
 }
 
-.img_w {
-    outline: none;
-}
-
 .img_w, .drop_area {
     display: inline-flex;
 }
@@ -631,7 +657,8 @@ svg {
 }
 
 .selected_img {
-    box-shadow: 0 0 15px #fbff75;
+    box-shadow: 0 0 15px #fbff75!important;
+    border-color: #fbff75!important;
 }
 
 .img_info_and_btns {
@@ -645,8 +672,11 @@ svg {
 
 .img_info, .img_inner_w_2:before {
     font-size: 10px;
-    background-color: rgba(33, 33, 33, 0.8);
     padding: 2px;
+}
+
+.img_info, .using_mouse .img_info, .img_inner_w_2:before {
+    background-color: rgba(33, 33, 33, 0.8);
 }
 
 .img_info {
@@ -678,9 +708,12 @@ svg {
     border: none;
     width: 22px;
     height: 22px;
-    background-color: #de5454;
     outline: none;
     cursor: pointer;
+}
+
+.using_mouse .delete_img_btn, .delete_img_btn {
+    background-color: #de5454;
 }
 
 .delete_img_btn svg {
@@ -788,7 +821,7 @@ svg {
 /*< loading screen */
 
 /*> transition */
-.link, .upload_box_browse_label, svg, .theme_img_link, .delete_img_btn, .color_input_vizualization, .normal_input, .btn, .color_global_el, .input, .image_settings_wrapper, .dragged_item, .img_inner_w, .img_w, .img_btn, .imgs_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu {
+.link, .upload_box_browse_label, svg, .theme_img_link, .using_mouse .delete_img_btn, .color_input_vizualization, .using_mouse .normal_input, .using_mouse .btn, .color_global_el, .input, .image_settings_wrapper, .dragged_item, .img_inner_w, .using_mouse .img_w, .selected_img, .using_mouse .img_btn, .imgs_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu {
     transition: all 0.2s ease-out;
 }
 
@@ -812,15 +845,15 @@ svg {
     transition-property: color, opacity;
 }
 
-.delete_img_btn, .color_input_vizualization, .upload_box {
+.using_mouse .delete_img_btn, .color_input_vizualization, .upload_box {
     transition-property: background-color;
 }
 
-.normal_input, .select__control, .select__menu {
+.using_mouse .normal_input, .select__control, .select__menu {
     transition-property: border-color, box-shadow;
 }
 
-.btn {
+.using_mouse .btn {
     transition-property: color, background-color, border-color, box-shadow;
 }
 
@@ -832,11 +865,11 @@ svg {
     transition-property: border-color, box-shadow;
 }
 
-.img_w {
+.using_mouse .img_w, .selected_img {
     transition-property: border-color, box-shadow;
 }
 
-.img_btn {
+.using_mouse .img_btn {
     transition-property: color, background-color;
 }
 

@@ -7,6 +7,7 @@ import x from 'x';
 import * as upload_messages from 'js/upload_messages';
 import * as img_loading from 'options/img_loading';
 import * as managing_upload_box from 'options/managing_upload_box';
+import * as enter_click from 'js/enter_click';
 
 import { Tr } from 'js/components/Tr';
 import { Help } from 'options/components/Help';
@@ -81,6 +82,8 @@ export class Upload_box extends React.Component {
                             className="upload_box_browse_label"
                             htmlFor="file"
                             data-text="upload_box_browse_label_text"
+                            tabIndex="0"
+                            onKeyUp={enter_click.simulate_click_on_enter}
                         />
                         {' '}
                         <label data-text="upload_box_drag_label_text" />

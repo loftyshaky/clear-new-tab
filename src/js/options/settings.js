@@ -7,6 +7,7 @@ import x from 'x';
 import { db } from 'js/init_db';
 import { inputs_data } from 'options/inputs_data';
 import { selects_options } from 'options/selects_options';
+import * as img_loading from 'options/img_loading';
 import * as img_selection from 'options/img_selection';
 import * as inputs_hiding from 'options/inputs_hiding';
 import * as get_new_future_img from 'js/get_new_future_img';
@@ -199,6 +200,66 @@ export const set_color_color_pickier_position = action((family, name, val) => {
         err(er, 153);
     }
 });
+
+export const close_color_pickier_by_keyboard = e => {
+    try {
+        const { family, name } = mut.current_color_pickier;
+        const any_color_pickier_is_opened = mut.current_color_pickier.el;
+        const enter_pressed = e.keyCode === 13;
+        const esc_pressed = e.keyCode === 27;
+
+        if (enter_pressed && any_color_pickier_is_opened) {
+            document.activeElement.blur(); // prevent color_input_vizualization focus
+        }
+
+        if (enter_pressed) {
+            if (any_color_pickier_is_opened) {
+                const { vizualization_color } = inputs_data.obj[family][name];
+
+                determine_and_run_accept_color_f(family, name, vizualization_color);
+            }
+
+        } else if (esc_pressed) {
+            cancel_color_picking();
+        }
+
+    } catch (er) {
+        err(er, 216);
+    }
+};
+
+export const cancel_color_picking = () => {
+    try {
+        const any_color_pickier_is_opened = mut.current_color_pickier.el;
+
+        if (any_color_pickier_is_opened) {
+            mut.current_color_pickier.el = null;
+            const { family, name, color } = mut.current_color_pickier;
+
+            show_or_hide_color_pickier(family, name, false);
+
+            set_color_input_vizualization_color(family, name, color);
+        }
+    } catch (er) {
+        err(er, 217);
+    }
+};
+
+export const determine_and_run_accept_color_f = (family, name, vizualization_color) => {
+    try {
+        if (family !== 'img_settings') {
+            img_loading.create_solid_color_img(vizualization_color);
+
+        } else {
+            change_settings_color(name, vizualization_color);
+        }
+
+        show_or_hide_color_pickier(family, name, false);
+
+    } catch (er) {
+        err(er, 218);
+    }
+};
 //< color input
 
 //> current_img input
