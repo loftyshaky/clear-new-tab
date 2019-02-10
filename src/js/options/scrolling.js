@@ -16,14 +16,16 @@ export const show_or_hide_imgs_fieldset_fillers = action(() => {
         const at_the_bottom_of_imgs_fieldset_scrolling_down = scroll_top >= scroll_height - 15 && prevent_scrolling.mut.delta_y > 0;
         const not_at_the_top_of_imgs_fieldset_scrolling_up = scroll_top <= scroll_height - 15 && prevent_scrolling.mut.delta_y < 0;
         const not_at_the_bottom = scroll_top <= scroll_height - 15;
+        const no_scrollbar = scroll_top === 0;
 
         if (at_the_top_of_imgs_fieldset_scrolling_down) {
             ob.imgs_fieldset_filler_top_none_cls = '';
 
-        } else if (at_the_top_of_imgs_fieldset_scrolling_up) {
+        } else if (at_the_top_of_imgs_fieldset_scrolling_up || no_scrollbar) {
             ob.imgs_fieldset_filler_top_none_cls = 'none';
 
         } else if (at_the_bottom_of_imgs_fieldset_scrolling_down) {
+            ob.imgs_fieldset_filler_top_none_cls = '';
             ob.imgs_fieldset_filler_bottom_none_cls = 'none';
 
         } else if (not_at_the_top_of_imgs_fieldset_scrolling_up) {
