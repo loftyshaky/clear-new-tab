@@ -44,8 +44,10 @@ window.set_default_settings = async page => { // this function also called in op
             try {
                 init_db();
 
-                await db.transaction('rw', db.ed, () => {
+                await db.transaction('rw', db.ed, async () => {
                     try {
+                        ext_data_o.show_install_help = await ed('show_install_help');
+
                         db.ed.put(ext_data_o);
 
                     } catch (er) {
