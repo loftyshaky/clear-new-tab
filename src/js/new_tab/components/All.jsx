@@ -7,6 +7,7 @@ import x from 'x';
 import * as imgs from 'new_tab/imgs';
 
 import { Img_div } from 'new_tab/components/Img_div';
+import { Link_to_default_new_tab } from 'new_tab/components/Link_to_default_new_tab';
 
 import { Error_boundary } from 'js/components/Error_boundary';
 
@@ -35,6 +36,7 @@ export class All extends React.Component {
                             />
                         ))
                     }
+                    <Link_to_default_new_tab />
                 </div>
             </Error_boundary>
         );

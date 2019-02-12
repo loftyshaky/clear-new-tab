@@ -21,8 +21,11 @@ export const load_settings = async callback => {
 
         load_settings_inner('upload', ed_all);
         load_settings_inner('img_settings', ed_all);
+        load_settings_inner('other_settings', ed_all);
 
-        callback();
+        if (callback) {
+            callback();
+        }
 
     } catch (er) {
         err(er, 146);
@@ -430,7 +433,7 @@ export const switch_to_settings_type = async (name, val, force_inputs_reset) => 
             const ed_all = await eda();
             mut.storage_type = 'ed';
 
-            load_settings_inner('img_settings', ed_all);
+            load_settings();
             set_color_input_vizualization_color('img_settings', 'color', ed_all.color);
             img_selection.deselect_selected_img(true);
             show_or_hide_global_options(false);

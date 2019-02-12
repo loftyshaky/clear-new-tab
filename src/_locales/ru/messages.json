@@ -133,6 +133,9 @@
   "color_global_label_text": {
     "message": "Глобальные"
   },
+  "show_link_to_default_new_tab_label_text": {
+    "message": "Показывать ссылку на стандартную страницу новой вкладки в новой вкладке"
+  },
   "show_bookmarks_bar_label_text": {
     "message": "Показывать панель закладок на странице новой вкладки"
   },
@@ -412,6 +415,11 @@
 
   "new_tab_title_text": {
     "message": "Новая вкладка"
+  },
+
+
+  "link_to_default_new_tab_tooltip": {
+    "message": "Перейти на стандартную страницу новой вкладки"
   },
 
 

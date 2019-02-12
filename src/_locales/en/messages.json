@@ -133,6 +133,9 @@
   "color_global_label_text": {
     "message": "Global"
   },
+  "show_link_to_default_new_tab_label_text": {
+    "message": "Show a link to default new tab page in new tab"
+  },
   "show_bookmarks_bar_label_text": {
     "message": "Show bookmarks bar in new tab"
   },
@@ -413,6 +416,11 @@
   
   "new_tab_title_text": {
     "message": "New Tab"
+  },
+
+
+  "link_to_default_new_tab_tooltip": {
+    "message": "Go to default new tab page"
   },
 
 

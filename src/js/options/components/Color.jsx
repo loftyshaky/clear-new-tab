@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 
 import { inputs_data } from 'options/inputs_data';
 import * as settings from 'options/settings';
-import * as enter_click from 'js/enter_click';
+import * as enter_click_color_pickier from 'options/enter_click_color_pickier';
 
 import { Tr } from 'js/components/Tr';
 import { Global_checkbox } from 'options/components/Checkbox';
@@ -60,7 +60,7 @@ export const Color = observer(props => {
                 data-family={family}
                 data-name={name}
                 style={{ backgroundColor: vizualization_color }}
-                onKeyUp={enter_click.open_color_pickier_on_enter}
+                onKeyUp={enter_click_color_pickier.open_color_pickier_on_enter}
             >
                 <div
                     className="color_pickier_w"

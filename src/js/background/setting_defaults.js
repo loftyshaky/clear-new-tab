@@ -26,6 +26,7 @@ window.set_default_settings = async page => { // this function also called in op
             position: 'center center',
             repeat: 'no-repeat',
             color: '#ffffff',
+            show_link_to_default_new_tab: false,
         };
 
         if (page === 'background') {

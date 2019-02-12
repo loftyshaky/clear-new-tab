@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import x from 'x';
+import 'js/tab_focus';
 
 import 'normalize.css';
 

@@ -253,6 +253,7 @@ x.localize = base_element => {
     localize_without_browser('innerHTML', 'text');
     localize_without_browser('placeholder', 'placeholder');
     localize_without_browser('href', 'href');
+    localize_without_browser('title', 'tooltip');
     localize_inner('innerHTML', 'bstext', `_${what_browser}`); // browser specefic text
     localize_inner('href', 'bshref', `_${what_browser}`); // browser specefic href
 };

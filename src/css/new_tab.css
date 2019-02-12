@@ -17,6 +17,32 @@ html, body {
 }
 /*< images */
 
+/*> default new tab page link */
+.link_to_default_new_tab {
+    position: fixed;
+    top: 8px;
+    right: 8px;
+    cursor: pointer;
+    outline: none;
+}
+
+.link_to_default_new_tab svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+    stroke: white;
+    stroke-width: 1px;
+}
+
+.link_to_default_new_tab:focus svg {
+    fill: #3892ff;
+}
+
+.link_to_default_new_tab svg, .using_mouse .link_to_default_new_tab svg {
+    fill: #212121;
+}
+/*< default new tab page link */
+
 /*> transition */
 .img_div {
     transition: all 1s ease-in-out;

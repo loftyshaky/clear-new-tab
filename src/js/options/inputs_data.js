@@ -158,6 +158,15 @@ export const inputs_data = observable({
             },
         },
         other_settings: {
+            show_link_to_default_new_tab: {
+                key: x.unique_id(),
+                family: 'other_settings',
+                name: 'show_link_to_default_new_tab',
+                type: 'checkbox',
+                checkbox_type: 'ed',
+                val: false,
+                visible: true,
+            },
             show_bookmarks_bar: {
                 key: x.unique_id(),
                 family: 'other_settings',
