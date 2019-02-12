@@ -54,7 +54,12 @@ const start_timer_inner = async (ms_left, update_last_img_change_time) => {
                             const no_new_tab_tabs_opened = tabs.mut.new_tabs_ids.length === 0;
 
                             if (at_least_one_new_tab_tab_opened) {
-                                start_timer_inner(ed_all.change_interval, true);
+                                if (ed_all.slideshow) {
+                                    start_timer_inner(ed_all.change_interval, true);
+
+                                } else {
+                                    await db.ed.update(1, { img_already_changed: true });
+                                }
 
                             } else if (no_new_tab_tabs_opened) {
                                 await db.ed.update(1, { img_already_changed: true });
