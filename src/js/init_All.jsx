@@ -32,6 +32,8 @@ export const run_everything = async All_type => {
             s('#root'),
             async () => {
                 try {
+                    x.localize(document);
+
                     //>1 remove no_tr css
                     await x.delay(500);
 
@@ -47,8 +49,6 @@ export const run_everything = async All_type => {
                 }
             },
         );
-
-        x.localize(document);
         //< render options page ui
 
     } catch (er) {
