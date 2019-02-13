@@ -27,7 +27,6 @@ module.exports = {
             "LabeledStatement",
             "WithStatement"
         ],
-
         'indent': [
             'error',
             4,
