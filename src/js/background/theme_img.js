@@ -9,6 +9,7 @@ import { db } from 'js/init_db';
 import * as get_new_future_img from 'js/get_new_future_img';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import * as determine_theme_current_img from 'js/determine_theme_current_img';
+import * as convert_to_file_object from 'js/convert_to_file_object';
 import * as imgs from 'background/imgs';
 
 //> download theme crx, unpack it, access theme data from theme crx manifest, download theme image
@@ -63,11 +64,14 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
 
                     async () => {
                         try {
-                            let file = await theme_package_data.file(img_name); // download theme image
-                            file = file || await theme_package_data.file(img_name.charAt(0).toUpperCase() + img_name.slice(1)); // download theme image (convert first letter of image name to uppercase)
-                            const img = await file.async('blob');
+                            const clear_new_tab_video = await theme_package_data.file('clear_new_tab_video.mp4');
+                            const theme_img = await theme_package_data.file(img_name); // download theme image
+                            const theme_img_or_video = clear_new_tab_video || theme_img || await theme_package_data.file(img_name.charAt(0).toUpperCase() + img_name.slice(1)); // download theme image (convert first letter of image name to uppercase)
+                            const type = clear_new_tab_video ? 'video/mp4' : 'image/png'; // image may not be actually png, 'image/png' just shows that file is image, not video
+                            const blob = await theme_img_or_video.async('blob');
+                            const file_object = convert_to_file_object.convert_to_file_object(blob, type);
 
-                            return populate_storage_with_images_and_display_them.populate_storage_with_images('file', 'resolved', [img], theme_img_info, theme_id);
+                            return populate_storage_with_images_and_display_them.populate_storage_with_images('file', 'resolved', [file_object], theme_img_info, theme_id);
 
                         } catch (er) {
                             err(er, 45, null, true);

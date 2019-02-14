@@ -3,6 +3,8 @@
 import { observable, action, configure } from 'mobx';
 import * as r from 'ramda';
 
+import * as file_types from 'js/file_types';
+
 import x from 'x';
 
 configure({ enforceActions: 'observed' });
@@ -50,7 +52,7 @@ const get_img = async (mode, ed_all) => {
             )();
 
             if (img) {
-                const is_color_img = img.type.indexOf('color') > -1;
+                const is_color_img = file_types.con.types[img.type] === 'colors';
                 mut.img.img = img.img;
 
                 if (!is_color_img) {

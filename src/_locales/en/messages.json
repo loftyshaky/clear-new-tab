@@ -336,15 +336,11 @@
     "message": "Fit to the screen / browser window:<br>Resize the image to make sure the image is fully visible on screen / browser window.<br>Cover the screen / browser window:<br>Resize the image to cover the entire screen / browser window, even if it has to cut a part of it from the edges.<br>Stretch to fit the screen / browser window:<br>Resize the image to maximum screen / browser window width and height not preserving its aspect ratio."
   },
 
-
   "img_type_file_text": {
     "message": "File"
   },
   "img_type_link_text": {
     "message": "Link"
-  },
-  "img_type_color_text": {
-    "message": "Color"
   },
   "img_type_theme_file_text": {
     "message": "File (theme)"
@@ -352,6 +348,29 @@
   "img_type_theme_color_text": {
     "message": "Color (theme)"
   },
+
+  "img_type_color_text": {
+    "message": "Color"
+  },
+  "img_type_color_theme_text": {
+    "message": "Color (theme)"
+  },
+  "img_type_img_link_text": {
+    "message": "Image link"
+  },
+  "img_type_img_file_text": {
+    "message": "Image file"
+  },
+  "img_type_img_file_theme_text": {
+    "message": "Image file (theme)"
+  },
+  "img_type_video_file_text": {
+    "message": "Video file"
+  },
+  "img_type_video_file_theme_text": {
+    "message": "Video file (theme)"
+  },
+  
   "img_preview_text": {
     "message": "Preview"
   },

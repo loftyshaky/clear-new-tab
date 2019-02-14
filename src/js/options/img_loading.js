@@ -7,10 +7,12 @@ import x from 'x';
 import { db } from 'js/init_db';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import * as upload_messages from 'js/upload_messages';
+import * as convert_to_file_object from 'js/convert_to_file_object';
 import { inputs_data } from 'options/inputs_data';
 import * as settings from 'options/settings';
 import * as pagination from 'options/pagination';
 import * as ui_state from 'options/ui_state';
+import * as file_types from 'js/file_types';
 
 configure({ enforceActions: 'observed' });
 
@@ -35,8 +37,7 @@ export const get_pasted_image_or_image_url = async e => {
                     const response = await window.fetch(clipboard_text);
                     const blob = await response.blob();
                     if (blob.type.indexOf('image') > -1) {
-                        const file_object = new File([blob], '', { type: blob.type }); // '' is file name, it means that file object was created from blob object
-
+                        const file_object = convert_to_file_object.convert_to_file_object(blob);
                         return file_object;
                     }
 
@@ -110,10 +111,11 @@ export const handle_files = async files => {
         upload_messages.hide_upload_box_messages();
         upload_messages.show_upload_box_uploading_message();
 
-        const valid_file_types = ['image/gif', 'image/jpeg', 'image/png'];
-        const filter_out_non_imgs = r.filter(img => {
+        const filter_out_non_media = r.filter(img => {
             try {
-                return r.indexOf(img.type, valid_file_types) > -1;
+                const is_allowed_media = file_types.con.exts[img.type];
+
+                return is_allowed_media;
 
             } catch (er) {
                 err(er, 110);
@@ -140,7 +142,7 @@ export const handle_files = async files => {
             return undefined;
         };
 
-        const put_in_db_p = r.pipe(filter_out_non_imgs, get_put_in_db_f);
+        const put_in_db_p = r.pipe(filter_out_non_media, get_put_in_db_f);
 
         await put_in_db_p(files)();
 

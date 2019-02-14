@@ -342,15 +342,35 @@
   "img_type_link_text": {
     "message": "Ссылка"
   },
-  "img_type_color_text": {
-    "message": "Цвет"
-  },
   "img_type_theme_file_text": {
     "message": "Файл (тема)"
   },
   "img_type_theme_color_text": {
     "message": "Цвет (тема)"
   },
+
+  "img_type_color_text": {
+    "message": "Цвет"
+  },
+  "img_type_color_theme_text": {
+    "message": "Цвет (тема)"
+  },
+  "img_type_img_link_text": {
+    "message": "Ссылка на картинку"
+  },
+  "img_type_img_file_text": {
+    "message": "Файл картинки"
+  },
+  "img_type_img_file_theme_text": {
+    "message": "Файл картинки (тема)"
+  },
+  "img_type_video_file_text": {
+    "message": "Видео файл"
+  },
+  "img_type_video_file_theme_text": {
+    "message": "Видео файл (тема)"
+  },
+
   "img_preview_text": {
     "message": "Открыть"
   },

@@ -7,10 +7,12 @@ import * as r from 'ramda';
 import x from 'x';
 
 import { db } from 'js/init_db';
+import { Video } from 'js/new_video';
 import * as get_new_future_img from 'js/get_new_future_img';
 import * as upload_messages from 'js/upload_messages';
 import * as total_number_of_imgs from 'js/total_number_of_imgs';
 import * as generate_random_color from 'js/generate_random_color';
+import * as file_types from 'js/file_types';
 
 configure({ enforceActions: 'observed' });
 
@@ -25,8 +27,6 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
         }
 
         //>1 pack images
-        const add_theme_modifier_to_type = () => (r.isEmpty(theme_img_info) ? type : `theme_${type}`);
-
         const number_of_imgs = await db.imgs.count();
         const position_id = await r.ifElse(() => number_of_imgs > 0,
             async () => {
@@ -38,61 +38,7 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
 
             () => 0)();
 
-        const thumbnails = {};
-        //>1 create thumbnails and get natural width and height
-        if (type !== 'color') {
-            await Promise.all(imgs.map(async (item, i) => {
-                try {
-                    await new Promise(async (resolve, reject) => {
-                        const img = new Image();
-
-                        img.onload = async () => {
-                            try {
-                                const natural_hidth = img.naturalWidth;
-                                const natural_height = img.naturalHeight;
-
-                                thumbnails[i] = {
-                                    width: natural_hidth,
-                                    height: natural_height,
-                                };
-
-                                if (type !== 'link') {
-                                    const thumbnail_dimensions = calculate_img_aspect_ratio_fit(natural_hidth, natural_hidth);
-                                    const base64 = resizeImage.resize(img, thumbnail_dimensions.width, thumbnail_dimensions.height, resizeImage.PNG);
-
-                                    thumbnails[i].thumbnail = base64;
-                                }
-
-                                resolve();
-
-                            } catch (er) {
-                                show_or_hide_upload_error_messages('rejected');
-
-                                err(er, 174);
-                            }
-                        };
-
-                        img.onerror = () => {
-                            try {
-                                reject(er_obj('Failed to load image.'));
-
-                            } catch (er) {
-                                show_or_hide_upload_error_messages('rejected');
-
-                                err(er, 175);
-                            }
-                        };
-
-                        img.src = typeof item === 'string' ? item : URL.createObjectURL(item);
-                    });
-                } catch (er) {
-                    show_or_hide_upload_error_messages('rejected');
-
-                    err(er, 173, null, false, false, true);
-                }
-            }));
-        }
-        //<1 create thumbnails and get natural width and height
+        const thumbnails = await create_thumbnails_and_get_natural_width_and_height(imgs, type);
 
         const packed_imgs = imgs.map((item, i) => {
             if (type !== 'color') {
@@ -104,7 +50,7 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
                     thumbnail: thumbnails[i].thumbnail,
                     width: thumbnails[i].width,
                     height: thumbnails[i].height,
-                    type: add_theme_modifier_to_type(),
+                    type: generate_type(item.type || 'img_link', theme_img_info),
                     size: theme_img_info.size || 'global',
                     position: theme_img_info.position || 'global',
                     repeat: theme_img_info.repeat || 'global',
@@ -119,7 +65,7 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
                     position_id: position_id + i,
                     theme_id,
                     img: item,
-                    type: add_theme_modifier_to_type(),
+                    type: generate_type('color', theme_img_info),
                 };
 
                 return img;
@@ -172,6 +118,125 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
 };
 //< pack images and insert them in db
 
+const generate_type = (ext_or_type, theme_img_info) => {
+    const type = file_types.con.exts[ext_or_type] || ext_or_type;
+    const is_theme_file = !r.isEmpty(theme_img_info);
+    const type_final = is_theme_file ? `${type}_theme` : type;
+
+    return type_final;
+};
+
+const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) => {
+    const thumbnails = {};
+
+    if (type !== 'color') {
+        await Promise.all(imgs.map(async (item, i) => {
+            try {
+                await new Promise(async (resolve, reject) => {
+                    const is_img = type === 'link' ? true : file_types.con.exts[item.type] === 'img_file';
+                    const media = is_img ? new Image() : Video();
+
+                    if (!is_img) {
+                        media.addEventListener('loadedmetadata', () => {
+                            media.currentTime = media.duration / 3;
+                        });
+                    }
+
+                    media.addEventListener(is_img ? 'load' : 'loadeddata', async () => {
+                        try {
+                            const natural_width = media.naturalWidth || media.videoWidth;
+                            const natural_height = media.naturalHeight || media.videoHeight;
+
+                            thumbnails[i] = {
+                                width: natural_width,
+                                height: natural_height,
+                            };
+
+                            if (type === 'link') {
+                                resolve();
+
+                            } else {
+                                const thumbnail_dimensions = calculate_img_aspect_ratio_fit(natural_width, natural_height);
+
+                                if (is_img) {
+                                    thumbnails[i].thumbnail = resizeImage.resize(media, thumbnail_dimensions.width, thumbnail_dimensions.height);
+
+                                    resolve();
+
+                                } else {
+                                    const canvas = document.createElement('canvas');
+                                    canvas.width = natural_width;
+                                    canvas.height = natural_height;
+
+                                    canvas.getContext('2d').drawImage(media, 0, 0, natural_width, natural_height);
+                                    const base64_thumbnail = canvas.toDataURL();
+
+                                    const img = new Image();
+
+                                    img.onload = () => {
+                                        try {
+                                            thumbnails[i].thumbnail = resizeImage.resize(img, thumbnail_dimensions.width, thumbnail_dimensions.height, resizeImage.PNG);
+
+                                            resolve();
+
+                                        } catch (er) {
+                                            show_or_hide_upload_error_messages('rejected');
+
+                                            err(er, 223);
+                                        }
+                                    };
+
+                                    img.onerror = () => {
+                                        try {
+                                            reject(er_obj('Failed to load media.'));
+
+                                        } catch (er) {
+                                            show_or_hide_upload_error_messages('rejected');
+
+                                            err(er, 222);
+                                        }
+                                    };
+
+                                    img.src = base64_thumbnail;
+                                }
+                            }
+
+                        } catch (er) {
+                            show_or_hide_upload_error_messages('rejected');
+
+                            err(er, 174);
+                        }
+                    });
+
+                    media.onerror = () => {
+                        try {
+                            reject(er_obj('Failed to load media.'));
+
+                        } catch (er) {
+                            show_or_hide_upload_error_messages('rejected');
+
+                            err(er, 175);
+                        }
+                    };
+
+                    media.src = typeof item === 'string' ? item : URL.createObjectURL(item);
+
+                    if (!is_img) {
+                        media.load();
+                    }
+                });
+
+            } catch (er) {
+                show_or_hide_upload_error_messages('rejected');
+
+                err(er, 173, null, false, false, true);
+            }
+        }));
+    }
+
+    return thumbnails;
+};
+
 const set_last_uploaded_image_as_current = async () => {
     try {
         const ed_all = await eda();
@@ -191,11 +256,12 @@ const set_last_uploaded_image_as_current = async () => {
 //> prepare images for loading in images fieldset and then load them into it
 export const unpack_and_load_imgs = async (mode, imgs_to_load, null_scroll_to) => {
     try {
+
         const unpacked_imgs = imgs_to_load.map(img => ({
             key: x.unique_id(),
             id: img.id,
             placeholder_color: generate_random_color.generate_random_pastel_color(),
-            img: img.type.indexOf('file') > -1 ? img.thumbnail || URL.createObjectURL(img.img) : img.img,
+            img: file_types.con.types[img.type] === 'files' ? img.thumbnail || URL.createObjectURL(img.img) : img.img,
             type: img.type,
             img_size: img.width ? (`${img.width}x${img.height}`) : '?',
             show_delete: true,

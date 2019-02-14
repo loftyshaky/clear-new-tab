@@ -7,6 +7,7 @@ import { db } from 'js/init_db';
 import * as theme_img from 'background/theme_img';
 import * as multiple from 'background/multiple';
 import * as tabs from 'background/tabs';
+import * as file_types from 'js/file_types';
 
 //> load_imgs (runs on extension enable)
 export const load_imgs = async () => {
@@ -36,12 +37,14 @@ export const load_imgs = async () => {
         }
 
         browser.tabs.query({ currentWindow: true, active: true }, async tabs_ => {
-            tabs.confirm_that_opened_tab_is_new_tab_page_and_that_it_is_not_in_preview_mode_and_store_id_if_true(tabs_[0].id); // get first opened new tab on browser start
+            if (tabs_.length > 0) {
+                tabs.confirm_that_opened_tab_is_new_tab_page_and_that_it_is_not_in_preview_mode_and_store_id_if_true(tabs_[0].id); // get first opened new tab on browser start
 
-            const ms_left = await multiple.get_ms_left();
+                const ms_left = await multiple.get_ms_left();
 
-            if (ed_all.change_interval == 1 || ms_left > 0) { // eslint-disable-line eqeqeq
-                x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'display_img_on_ext_enable' }]);
+                if (ed_all.change_interval == 1 || ms_left > 0) { // eslint-disable-line eqeqeq
+                    x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'display_img_on_ext_enable' }]);
+                }
             }
         });
 
@@ -74,11 +77,11 @@ const preload_img = img_i => {
             const not_color = img.type;
 
             if (not_color) {
-                if (img.type.indexOf('file') > -1) {
+                if (file_types.con.types[img.type] === 'files') {
                     img.img = URL.createObjectURL(img.img);
                 }
 
-                if (img.type.indexOf('link') > -1) {
+                if (file_types.con.types[img.type] === 'links') {
                     new Image().src = img.img;
                 }
             }
@@ -96,7 +99,7 @@ const preload_img = img_i => {
 const remove_img_from_memory = async img => {
     try {
         if (img) {
-            const img_is_file = img.type.indexOf('file') > -1;
+            const img_is_file = file_types.con.types[img.type] === 'files';
 
             if (img_is_file) {
                 await x.delay(10000);

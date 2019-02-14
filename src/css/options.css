@@ -663,6 +663,7 @@ svg {
 
 .img_info_and_btns {
     bottom: 4px;
+    width: 100%;
 }
 
 .img_info_and_btns, .img_inner_w_2:before {
@@ -680,7 +681,12 @@ svg {
 }
 
 .img_info {
-    display: table;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    overflow: hidden;
+    max-width: fit-content;
+    margin-right: 8px;
 }
 
 .img_info:not(:last-child) {

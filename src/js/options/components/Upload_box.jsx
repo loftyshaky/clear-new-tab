@@ -72,7 +72,7 @@ export class Upload_box extends React.Component {
                         className="upload_btn"
                         id="file"
                         type="file"
-                        accept="image/*"
+                        accept="image/gif, image/jpeg, image/png, video/mp4"
                         value={managing_upload_box.ob.upload_btn_val}
                         multiple
                         onChange={this.browse_handle_files}

@@ -19,6 +19,7 @@ import * as scrolling from 'options/scrolling';
 import * as ui_state from 'options/ui_state';
 import * as img_i from 'options/img_i';
 import * as enter_click from 'js/enter_click';
+import * as file_types from 'js/file_types';
 
 import { Tr } from 'js/components/Tr';
 
@@ -316,7 +317,7 @@ class Img extends React.Component {
             delete_img: this.delete_img,
         } = this.props);
 
-        this.is_img = this.img.type.indexOf('file') > -1 || this.img.type.indexOf('link') > -1;
+        this.is_img = file_types.con.types[this.img.type] === 'files' || file_types.con.types[this.img.type] === 'links';
 
         this.img_el = this.is_img
             ? (
@@ -349,6 +350,17 @@ class Img extends React.Component {
     }
     //< open image in new tab when clicking on preview button
 
+    img_btn_on_keyup = e => {
+        try {
+            e.stopPropagation();
+
+            enter_click.simulate_click_on_enter(e);
+
+        } catch (er) {
+            err(er, 224);
+        }
+    }
+
     render() {
         const { i, img_w_trs } = this.props;
 
@@ -358,22 +370,24 @@ class Img extends React.Component {
                 <div className="img_info_and_btns">
                     {this.is_img ? <div className="img_size img_info">{this.img.img_size}</div> : null}
                     <div className="img_type img_info">{x.msg(`img_type_${this.img.type}_text`)}</div>
-                    <button
-                        type="button"
+                    <div
+                        role="button"
                         className="move_img_btn img_btn img_info"
+                        tabIndex="0"
                         onClick={() => moving.prompt_to_move(img_w_trs[i])}
-                        onKeyUp={e => e.stopPropagation()}
+                        onKeyUp={this.img_btn_on_keyup}
                     >
                         {x.msg('move_img_text')}
-                    </button>
-                    <button
-                        type="button"
+                    </div>
+                    <div
+                        role="button"
                         className="img_preview_btn img_btn img_info"
+                        tabIndex="0"
                         onClick={this.preview_img.bind(null, this.img.id)}
-                        onKeyUp={e => e.stopPropagation()}
+                        onKeyUp={this.img_btn_on_keyup}
                     >
                         {x.msg('img_preview_text')}
-                    </button>
+                    </div>
                 </div>
                 {this.img_el}
                 <button
