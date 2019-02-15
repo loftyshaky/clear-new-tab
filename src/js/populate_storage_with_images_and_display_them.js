@@ -134,18 +134,18 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
             try {
                 await new Promise(async (resolve, reject) => {
                     const is_img = type === 'link' ? true : file_types.con.exts[item.type] === 'img_file';
-                    const media = is_img ? new Image() : Video();
+                    const img = is_img ? new Image() : Video();
 
                     if (!is_img) {
-                        media.addEventListener('loadedmetadata', () => {
-                            media.currentTime = media.duration / 3;
+                        img.addEventListener('loadedmetadata', () => {
+                            img.currentTime = img.duration / 3;
                         });
                     }
 
-                    media.addEventListener(is_img ? 'load' : 'loadeddata', async () => {
+                    img.addEventListener(is_img ? 'load' : 'loadeddata', async () => {
                         try {
-                            const natural_width = media.naturalWidth || media.videoWidth;
-                            const natural_height = media.naturalHeight || media.videoHeight;
+                            const natural_width = img.naturalWidth || img.videoWidth;
+                            const natural_height = img.naturalHeight || img.videoHeight;
 
                             thumbnails[i] = {
                                 width: natural_width,
@@ -159,7 +159,7 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                                 const thumbnail_dimensions = calculate_img_aspect_ratio_fit(natural_width, natural_height);
 
                                 if (is_img) {
-                                    thumbnails[i].thumbnail = resizeImage.resize(media, thumbnail_dimensions.width, thumbnail_dimensions.height);
+                                    thumbnails[i].thumbnail = resizeImage.resize(img, thumbnail_dimensions.width, thumbnail_dimensions.height);
 
                                     resolve();
 
@@ -168,14 +168,14 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                                     canvas.width = natural_width;
                                     canvas.height = natural_height;
 
-                                    canvas.getContext('2d').drawImage(media, 0, 0, natural_width, natural_height);
+                                    canvas.getContext('2d').drawImage(img, 0, 0, natural_width, natural_height);
                                     const base64_thumbnail = canvas.toDataURL();
 
-                                    const img = new Image();
+                                    const not_resized_thumbnail = new Image();
 
-                                    img.onload = () => {
+                                    not_resized_thumbnail.onload = () => {
                                         try {
-                                            thumbnails[i].thumbnail = resizeImage.resize(img, thumbnail_dimensions.width, thumbnail_dimensions.height, resizeImage.PNG);
+                                            thumbnails[i].thumbnail = resizeImage.resize(not_resized_thumbnail, thumbnail_dimensions.width, thumbnail_dimensions.height, resizeImage.PNG);
 
                                             resolve();
 
@@ -186,9 +186,9 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                                         }
                                     };
 
-                                    img.onerror = () => {
+                                    not_resized_thumbnail.onerror = () => {
                                         try {
-                                            reject(er_obj('Failed to load media.'));
+                                            reject(er_obj('Failed to load img.'));
 
                                         } catch (er) {
                                             show_or_hide_upload_error_messages('rejected');
@@ -197,7 +197,7 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                                         }
                                     };
 
-                                    img.src = base64_thumbnail;
+                                    not_resized_thumbnail.src = base64_thumbnail;
                                 }
                             }
 
@@ -208,9 +208,9 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                         }
                     });
 
-                    media.onerror = () => {
+                    img.onerror = () => {
                         try {
-                            reject(er_obj('Failed to load media.'));
+                            reject(er_obj('Failed to load img.'));
 
                         } catch (er) {
                             show_or_hide_upload_error_messages('rejected');
@@ -219,10 +219,10 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                         }
                     };
 
-                    media.src = typeof item === 'string' ? item : URL.createObjectURL(item);
+                    img.src = typeof item === 'string' ? item : URL.createObjectURL(item);
 
                     if (!is_img) {
-                        media.load();
+                        img.load();
                     }
                 });
 
