@@ -77,7 +77,7 @@ const preload_img = img_i => {
             const not_color = img.type;
 
             if (not_color) {
-                if (file_types.con.types[img.type] === 'files') {
+                if (file_types.con.files[img.type]) {
                     img.img = URL.createObjectURL(img.img);
                 }
 
@@ -99,7 +99,7 @@ const preload_img = img_i => {
 const remove_img_from_memory = async img => {
     try {
         if (img) {
-            const img_is_file = file_types.con.types[img.type] === 'files';
+            const img_is_file = file_types.con.files[img.type];
 
             if (img_is_file) {
                 await x.delay(10000);

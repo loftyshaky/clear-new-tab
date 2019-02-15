@@ -33,7 +33,7 @@ const get_img = async (mode, ed_all) => {
         if (mode === 'img_or_color') { // not random solid color
             const query_string = window.location.search;
 
-            const img = await r.ifElse(
+            mut.loaded_img = await r.ifElse(
                 () => query_string.indexOf('preview') === -1,
                 async () => x.send_message_to_background_c({ message: 'get_img' }),
 
@@ -50,26 +50,30 @@ const get_img = async (mode, ed_all) => {
                     return undefined;
                 },
             )();
-
-            if (img) {
-                const is_color_img = file_types.con.types[img.type] === 'colors';
-                mut.img.img = img.img;
+            if (mut.loaded_img) {
+                const is_color_img = file_types.con.types[mut.loaded_img.type] === 'colors';
+                mut.img.img = mut.loaded_img.img;
 
                 if (!is_color_img) {
-                    mut.size_db_val = img.size === 'global' ? ed_all.size : img.size;
-                    mut.img.position = img.position === 'global' ? ed_all.position : img.position;
-                    mut.img.repeat = img.repeat === 'global' ? ed_all.repeat : img.repeat;
-                    mut.img.color = img.color === 'global' ? ed_all.color : img.color;
+                    mut.size_db_val = mut.loaded_img.size === 'global' ? ed_all.size : mut.loaded_img.size;
+                    mut.img.position = mut.loaded_img.position === 'global' ? ed_all.position : mut.loaded_img.position;
+                    mut.img.repeat = mut.loaded_img.repeat === 'global' ? ed_all.repeat : mut.loaded_img.repeat;
+                    mut.img.color = mut.loaded_img.color === 'global' ? ed_all.color : mut.loaded_img.color;
 
-                    determine_size('img');
+                    mut.mode = file_types.con.types[mut.loaded_img.type] === 'img_files' || file_types.con.types[mut.loaded_img.type] === 'links' ? 'img' : 'video';
+
+                    determine_size();
 
                 } else if (is_color_img) {
+                    mut.mode = 'color';
+
                     determine_size('color');
                 }
             }
 
         } else if (mode === 'random_solid_color') {
             mut.random_solid_color = r.clone(ed_all.current_random_color);
+            mut.mode = 'random_solid_color';
 
             determine_size('random_solid_color');
         }
@@ -80,11 +84,16 @@ const get_img = async (mode, ed_all) => {
 //< get one image from background.js imgs object
 
 //> determine actual size value based size value from database
-const determine_size = async mode => {
+const determine_size = async () => {
     try {
-        if (mode === 'img') {
+        if (mut.mode === 'img' || mut.mode === 'video') {
+            if (mut.size_db_val === 'dont_resize' || mut.size_db_val === 'fit_browser' || mut.size_db_val === 'cover_browser' || mut.size_db_val === 'stretch_browser') {
+                mut.img.video_width = '100%';
+                mut.img.video_height = '100%';
+            }
+
             if (mut.size_db_val === 'dont_resize') {
-                mut.img.size = 'auto auto';
+                mut.img.size = mut.mode === 'img' ? 'auto auto' : 'none';
 
             } else if (mut.size_db_val === 'fit_browser') {
                 mut.img.size = 'contain';
@@ -93,34 +102,14 @@ const determine_size = async mode => {
                 mut.img.size = 'cover';
 
             } else if (mut.size_db_val === 'stretch_browser') {
-                mut.img.size = '100% 100%';
+                mut.img.size = mut.mode === 'img' ? '100% 100%' : 'fill';
 
             } else if (mut.size_db_val === 'fit_screen' || mut.size_db_val === 'cover_screen' || mut.size_db_val === 'stretch_screen') {
-                if (mut.size_db_val === 'stretch_screen') {
-                    calculate_dimensions();
-                }
-
-                if (mut.size_db_val === 'fit_screen' || mut.size_db_val === 'cover_screen') {
-                    await new Promise((resolve, reject) => {
-                        mut.img_to_load = new Image();
-
-                        mut.img_to_load.onload = () => {
-                            calculate_dimensions(mut.img_to_load);
-
-                            resolve();
-                        };
-
-                        mut.img_to_load.onerror = () => {
-                            reject(er_obj('Failed to load image.'));
-                        };
-
-                        mut.img_to_load.src = mut.img.img;
-                    });
-                }
+                calculate_dimensions();
             }
         }
 
-        set_img(mode);
+        set_img();
 
     } catch (er) {
         err(er, 60);
@@ -129,7 +118,7 @@ const determine_size = async mode => {
 //< determine actual size value based size value from database
 
 //> set css background property
-const set_img = action(async mode => {
+const set_img = action(async () => {
     try {
         if (!mut.first_run) {
             const fade_in_first_img = mut.current_img_div_i === 1;
@@ -149,13 +138,25 @@ const set_img = action(async mode => {
             }
         }
 
-        if (mode === 'img') {
+        ob.img_divs.is_video[mut.current_img_div_i] = false;
+
+        if (mut.mode === 'img') {
             ob.img_divs.background[mut.current_img_div_i] = `url("${mut.img.img}") ${mut.img.position} / ${mut.img.size} ${mut.img.repeat} ${mut.img.color}`;
 
-        } else if (mode === 'color') {
+        } else if (mut.mode === 'video') {
+            ob.img_divs.is_video[mut.current_img_div_i] = true;
+            ob.img_divs.background[mut.current_img_div_i] = mut.img.img;
+            ob.img_divs.video_background_color[mut.current_img_div_i] = mut.img.color;
+            ob.img_divs.video_background_position[mut.current_img_div_i] = mut.img.position;
+            ob.img_divs.video_background_position_class[mut.current_img_div_i] = positions_dict[mut.img.position];
+            ob.img_divs.background_size[mut.current_img_div_i] = mut.img.size;
+            ob.img_divs.video_width[mut.current_img_div_i] = mut.img.video_width;
+            ob.img_divs.video_height[mut.current_img_div_i] = mut.img.video_height;
+
+        } else if (mut.mode === 'color') {
             ob.img_divs.background[mut.current_img_div_i] = mut.img.img;
 
-        } else if (mode === 'random_solid_color') {
+        } else if (mut.mode === 'random_solid_color') {
             ob.img_divs.background[mut.current_img_div_i] = mut.random_solid_color;
         }
 
@@ -168,7 +169,7 @@ const set_img = action(async mode => {
 //< set css background property
 
 //> calculate image dimensions
-const calculate_dimensions = img => {
+const calculate_dimensions = () => {
     try {
         const browser_is_in_fullscreen_mode = window.innerWidth === con.screen_width;
         const window_size = {
@@ -185,7 +186,7 @@ const calculate_dimensions = img => {
                 };
 
             } else if (mut.size_db_val === 'fit_screen' || mut.size_db_val === 'cover_screen') {
-                dimensions = calculate_img_dimensions_when_in_fit_or_cover_screen_mode(img, con.screen_width, con.screen_height);
+                dimensions = calculate_img_dimensions_when_in_fit_or_cover_screen_mode(con.screen_width, con.screen_height);
             }
 
             if (mut.size_db_val === 'cover_screen') {
@@ -202,7 +203,7 @@ const calculate_dimensions = img => {
 
 
             } else if (mut.size_db_val === 'fit_screen' || mut.size_db_val === 'cover_screen') {
-                dimensions = calculate_img_dimensions_when_in_fit_or_cover_screen_mode(img, con.browser_window_width, con.browser_window_height);
+                dimensions = calculate_img_dimensions_when_in_fit_or_cover_screen_mode(con.browser_window_width, con.browser_window_height);
             }
 
             if (mut.size_db_val === 'cover_screen') {
@@ -212,15 +213,37 @@ const calculate_dimensions = img => {
         }
 
         if (mut.size_db_val === 'stretch_screen' || mut.size_db_val === 'fit_screen') {
-            mut.img.size = `${dimensions.width}px ${dimensions.height}px`;
+            if (mut.mode === 'img') {
+                mut.img.size = `${dimensions.width}px ${dimensions.height}px`;
+
+            } else if (mut.mode === 'video') {
+                mut.img.video_width = dimensions.width;
+                mut.img.video_height = dimensions.height;
+            }
 
         } else if (mut.size_db_val === 'cover_screen') {
             if (dimensions.width === window_size.width) {
-                mut.img.size = `auto ${window_size.height}px`;
+                if (mut.mode === 'img') {
+                    mut.img.size = `auto ${window_size.height}px`;
+
+                } else if (mut.mode === 'video') {
+                    mut.img.video_width = 'auto';
+                    mut.img.video_height = window_size.height;
+                }
 
             } else if (dimensions.height === window_size.height) {
-                mut.img.size = `${window_size.width}px auto`;
+                if (mut.mode === 'img') {
+                    mut.img.size = `${window_size.width}px auto`;
+
+                } else if (mut.mode === 'video') {
+                    mut.img.video_width = window_size.width;
+                    mut.img.video_height = 'auto';
+                }
             }
+        }
+
+        if (mut.mode === 'video') {
+            mut.img.size = 'unset';
         }
 
     } catch (er) {
@@ -229,10 +252,10 @@ const calculate_dimensions = img => {
 };
 //< calculate image dimensions
 
-const calculate_img_dimensions_when_in_fit_or_cover_screen_mode = (img, window_width, window_height) => {
+const calculate_img_dimensions_when_in_fit_or_cover_screen_mode = (window_width, window_height) => {
     try {
-        const img_width = img.width;
-        const img_height = img.height;
+        const img_width = mut.loaded_img.width;
+        const img_height = mut.loaded_img.height;
 
         const aspect_ratio = Math.min(window_width / img_width, window_height / img_height); // calculate aspect ratio
 
@@ -258,9 +281,11 @@ export const resize_img = action(() => {
             con.browser_window_width = window.innerWidth;
             con.browser_window_height = window.outerHeight;
 
-            calculate_dimensions(mut.img_to_load);
+            calculate_dimensions();
 
             ob.img_divs.background_size[mut.current_img_div_i] = mut.img.size;
+            ob.img_divs.video_width[mut.current_img_div_i] = mut.img.video_width;
+            ob.img_divs.video_height[mut.current_img_div_i] = mut.img.video_height;
         }
 
     } catch (er) {
@@ -300,13 +325,31 @@ export const reload_img = () => {
 const reload_img_divs = action(() => {
     ob.img_divs = {
         keys: [x.unique_id(), x.unique_id()],
+        is_video: [false, false],
         no_tr_cls: [false, false],
         z_index_minus_1_cls: [false, true],
         opacity_0_cls: [false, false],
         background: [null, null],
         background_size: [null, null],
+        video_background_position: [null, null],
+        video_background_position_class: [null, null],
+        video_width: [null, null],
+        video_height: [null, null],
+        video_background_color: [null, null],
     };
 });
+
+const positions_dict = {
+    '50% 0%': 'top',
+    '50% 50%': 'center',
+    '50% 100%': 'bottom',
+    '0% 0%': 'left_top',
+    '0% 50%': 'left_center',
+    '0% 100%': 'left_bottom',
+    '100% 0%': 'right_top',
+    '100% 50%': 'right_center',
+    '100% 100%': 'right_bottom',
+};
 
 const con = {
     screen_width: window.screen.width,
@@ -315,17 +358,21 @@ const con = {
     browser_window_height: window.outerHeight,
 };
 
-const mut = {
+export const mut = {
     first_run: true,
     current_img_div_i: 0,
     size_db_val: null,
-    img_to_load: null,
+    mode: null,
+    loaded_img: null,
     img: {
         size: null,
         img: null,
         position: null,
         repeat: null,
         color: null,
+        video_width: null,
+        video_height: null,
+        video_background_color: null,
     },
 };
 

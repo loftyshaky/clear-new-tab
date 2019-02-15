@@ -176,39 +176,39 @@ export const selects_options = {
         },
         {
             label: create_option_data_text_val('center_top'),
-            value: 'center top',
+            value: '50% 0%',
         },
         {
             label: create_option_data_text_val('center_center'),
-            value: 'center center',
+            value: '50% 50%',
         },
         {
             label: create_option_data_text_val('center_bottom'),
-            value: 'center bottom',
+            value: '50% 100%',
         },
         {
             label: create_option_data_text_val('left_top'),
-            value: 'left top',
+            value: '0% 0%',
         },
         {
             label: create_option_data_text_val('left_center'),
-            value: 'left center',
+            value: '0% 50%',
         },
         {
             label: create_option_data_text_val('left_bottom'),
-            value: 'left bottom',
+            value: '0% 100%',
         },
         {
             label: create_option_data_text_val('right_top'),
-            value: 'right top',
+            value: '100% 0%',
         },
         {
             label: create_option_data_text_val('right_center'),
-            value: 'right center',
+            value: '100% 50%',
         },
         {
             label: create_option_data_text_val('right_bottom'),
-            value: 'right bottom',
+            value: '100% 100%',
         },
     ],
     repeat: [

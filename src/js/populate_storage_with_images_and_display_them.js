@@ -261,7 +261,7 @@ export const unpack_and_load_imgs = async (mode, imgs_to_load, null_scroll_to) =
             key: x.unique_id(),
             id: img.id,
             placeholder_color: generate_random_color.generate_random_pastel_color(),
-            img: file_types.con.types[img.type] === 'files' ? img.thumbnail || URL.createObjectURL(img.img) : img.img,
+            img: file_types.con.files[img.type] ? img.thumbnail || URL.createObjectURL(img.img) : img.img,
             type: img.type,
             img_size: img.width ? (`${img.width}x${img.height}`) : '?',
             show_delete: true,

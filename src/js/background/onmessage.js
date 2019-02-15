@@ -175,7 +175,7 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
             const img_i = get_img_i_by_id(message.img_id);
             const preview_img = r.clone(imgs.mut.imgs[img_i]);
 
-            if (file_types.con.types[preview_img.type] === 'files') {
+            if (file_types.con.files[preview_img.type]) {
                 preview_img.img = URL.createObjectURL(preview_img.img);
 
                 send_response(preview_img);

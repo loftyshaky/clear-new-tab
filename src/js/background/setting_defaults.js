@@ -23,7 +23,7 @@ window.set_default_settings = async page => { // this function also called in op
             shuffle: true,
             slideshow: false,
             size: 'dont_resize',
-            position: 'center center',
+            position: '50% 50%',
             repeat: 'no-repeat',
             color: '#ffffff',
             show_link_to_default_new_tab: false,

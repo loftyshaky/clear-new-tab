@@ -317,7 +317,7 @@ class Img extends React.Component {
             delete_img: this.delete_img,
         } = this.props);
 
-        this.is_img = file_types.con.types[this.img.type] === 'files' || file_types.con.types[this.img.type] === 'links';
+        this.is_img = file_types.con.files[this.img.type] || file_types.con.types[this.img.type] === 'links';
 
         this.img_el = this.is_img
             ? (

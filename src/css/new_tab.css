@@ -15,6 +15,10 @@ html, body {
     bottom: 0;
     position: absolute;
 }
+
+.video_img_div {
+    display: flex;
+}
 /*< images */
 
 /*> default new tab page link */
@@ -54,6 +58,10 @@ html, body {
 /*< transition */
 
 /*> mods */
+.hidden {
+    visibility: hidden;
+}
+
 .opacity_0 {
     opacity: 0;
 }
@@ -64,5 +72,50 @@ html, body {
 
 .no_tr {
     transition: none;
+}
+
+.top {
+    align-items: end;
+    justify-content: center;
+}
+
+.center {
+    align-items: center;
+    justify-content: center;
+}
+
+.bottom {
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.left_top {
+    align-items: end;
+    justify-content: end;
+}
+
+.left_center {
+    align-items: center;
+    justify-content: end;
+}
+
+.left_bottom {
+    align-items: flex-end;
+    justify-content: end;
+}
+
+.right_top {
+    align-items: end;
+    justify-content: flex-end;
+}
+
+.right_center {
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.right_bottom {
+    align-items: flex-end;
+    justify-content: flex-end;
 }
 /*< mods */

@@ -41,7 +41,7 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
                 const img_name = r.path(['images', 'theme_ntp_background'], theme_obj);
                 const position_prop = r.path(['properties', 'ntp_background_alignment'], theme_obj);
                 const repeat_prop = r.path(['properties', 'ntp_background_repeat'], theme_obj);
-                const position = positions.indexOf(position_prop) > -1 ? positions_dict[position_prop] : 'center center';
+                const position = positions.indexOf(position_prop) > -1 ? positions_dict[position_prop] : positions_dict.center;
                 const repeat = repeats.indexOf(repeat_prop) > -1 ? repeat_prop : 'no-repeat';
                 const color_rgb = r.path(['colors', 'ntp_background'], theme_obj);
                 const color = color_rgb ? `#${rgb_to_hex(color_rgb)}` : '#ffffff';
@@ -71,7 +71,7 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
                             const blob = await theme_img_or_video.async('blob');
                             const file_object = convert_to_file_object.convert_to_file_object(blob, type);
 
-                            return populate_storage_with_images_and_display_them.populate_storage_with_images('file', 'resolved', [file_object], theme_img_info, theme_id);
+                            return await populate_storage_with_images_and_display_them.populate_storage_with_images('file', 'resolved', [file_object], theme_img_info, theme_id);
 
                         } catch (er) {
                             err(er, 45, null, true);
@@ -82,7 +82,7 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
 
                     async () => {
                         try {
-                            populate_storage_with_images_and_display_them.populate_storage_with_images('color', 'resolved', [color], null, theme_id);
+                            await populate_storage_with_images_and_display_them.populate_storage_with_images('color', 'resolved', [color], null, theme_id);
 
                         } catch (er) {
                             err(er, 46, null, true);
@@ -250,21 +250,21 @@ export const get_installed_theme_id = () => new Promise(resolve => {
 });
 
 const positions_dict = {
-    top: 'center top',
-    center: 'center center',
-    bottom: 'center bottom',
-    'left top': 'left top',
-    'top left': 'left top',
-    'left center': 'left center',
-    'center left': 'left center',
-    'left bottom': 'left bottom',
-    'bottom left': 'left bottom',
-    'right top': 'right top',
-    'top right': 'right top',
-    'right center': 'right center',
-    'center right': 'right center',
-    'right bottom': 'right bottom',
-    'bottom right': 'right bottom',
+    top: '50% 0%',
+    center: '50% 50%',
+    bottom: '50% 100%',
+    'left top': '0% 0%',
+    'top left': '0% 0%',
+    'left center': '0% 50%',
+    'center left': '0% 50%',
+    'left bottom': '0% 100%',
+    'bottom left': '0% 100%',
+    'right top': '100% 0%',
+    'top right': '100% 0%',
+    'right center': '100% 50%',
+    'center right': '100% 50%',
+    'right bottom': '100% 100%',
+    'bottom right': '100% 100%',
 };
 
 const valid_file_types = ['.gif', '.jpeg', '.jpg', '.png'];
