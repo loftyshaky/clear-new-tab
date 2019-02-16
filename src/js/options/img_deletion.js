@@ -13,6 +13,7 @@ import * as determine_theme_current_img from 'js/determine_theme_current_img';
 import * as total_number_of_imgs from 'js/total_number_of_imgs';
 import * as ui_state from 'options/ui_state';
 import * as img_i from 'options/img_i';
+import * as inputs_hiding from 'options/inputs_hiding';
 
 configure({ enforceActions: 'observed' });
 
@@ -79,6 +80,8 @@ export const delete_img = async img_id => {
         await x.send_message_to_background_c({ message: 'retrieve_imgs' });
         await x.send_message_to_background({ message: 'preload_img' });
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
+
+        inputs_hiding.decide_what_inputs_to_hide();
 
     } catch (er) {
         err(er, 99);
@@ -147,6 +150,8 @@ export const delete_all_images = async () => {
 
             pagination.change_page(1);
             total_number_of_imgs.set_total_number_of_imgs();
+
+            inputs_hiding.decide_what_inputs_to_hide();
         }
 
     } catch (er) {

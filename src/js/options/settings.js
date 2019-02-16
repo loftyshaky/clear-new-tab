@@ -437,6 +437,7 @@ export const switch_to_settings_type = async (name, val, force_inputs_reset) => 
             set_color_input_vizualization_color('img_settings', 'color', ed_all.color);
             img_selection.deselect_selected_img(true);
             show_or_hide_global_options(false);
+            inputs_hiding.decide_what_inputs_to_hide();
         }
 
         if (name === 'settings_type' && val === 'specific') {

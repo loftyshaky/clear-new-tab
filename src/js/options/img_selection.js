@@ -7,6 +7,7 @@ import * as populate_storage_with_images_and_display_them from 'js/populate_stor
 import * as file_types from 'js/file_types';
 import * as settings from 'options/settings';
 import * as img_i from 'options/img_i';
+import * as inputs_hiding from 'options/inputs_hiding';
 
 configure({ enforceActions: 'observed' });
 
@@ -42,6 +43,8 @@ export const select_img = async (clicked_img_id, e) => {
             }
 
             settings.set_color_global_checkbox_val('color');
+
+            inputs_hiding.decide_what_inputs_to_hide();
         }
 
     } catch (er) {
@@ -66,6 +69,7 @@ export const deselect_selected_img = action(set_settings_type_to_global => {
     try {
         const selected_img_i = img_i.get_img_i_by_id(mut.selected_img_id);
         const img_exist = populate_storage_with_images_and_display_them.ob.imgs[selected_img_i]; // if not deleted selected image
+        mut.selected_img_id = null;
 
         if (img_exist) {
             populate_storage_with_images_and_display_them.ob.imgs[selected_img_i].selected = false;
@@ -81,5 +85,5 @@ export const deselect_selected_img = action(set_settings_type_to_global => {
 });
 
 export const mut = {
-    selected_img_id: 1,
+    selected_img_id: null,
 };
