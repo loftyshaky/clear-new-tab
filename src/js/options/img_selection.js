@@ -4,6 +4,7 @@ import { action, configure } from 'mobx';
 
 import x from 'x';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
+import * as file_types from 'js/file_types';
 import * as settings from 'options/settings';
 import * as img_i from 'options/img_i';
 
@@ -23,7 +24,7 @@ export const select_img = async (clicked_img_id, e) => {
             const ed_all = await eda();
             const img = await x.send_message_to_background_c({ message: 'get_img_obj_when_selecting_on_it', i: clicked_img_i });
 
-            if (img.type.indexOf('file') > -1 || img.type === 'link') {
+            if (file_types.con.files[img.type] || file_types.con.types[img.type] === 'links') {
                 settings.mut.storage_type = 'imgs';
 
                 settings.load_settings_inner('img_settings', img);
@@ -31,7 +32,7 @@ export const select_img = async (clicked_img_id, e) => {
                 settings.set_color_input_vizualization_color('img_settings', 'color', img.color === 'global' ? ed_all.color : img.color);
                 settings.change_input_val('img_settings', 'settings_type', 'specific');
 
-            } else if (img.type === 'color') {
+            } else if (file_types.con.types[img.type] === 'colors') {
                 settings.mut.storage_type = 'ed';
 
                 settings.load_settings_inner('img_settings', ed_all);
