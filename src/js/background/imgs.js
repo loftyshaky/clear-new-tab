@@ -81,11 +81,13 @@ const preload_img = async img_i => {
 
                 if (file_types.con.files[img_obj.type]) {
                     img_obj.img = URL.createObjectURL(img.img);
-                }
 
-                if (file_types.con.types[img_obj.type] === 'links') {
+                } else if (file_types.con.types[img_obj.type] === 'links') {
                     new Image().src = img.img;
 
+                    img_obj.img = img.img;
+
+                } else if (file_types.con.types[img_obj.type] === 'colors') {
                     img_obj.img = img.img;
                 }
             }
