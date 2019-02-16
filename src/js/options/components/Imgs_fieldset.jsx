@@ -218,13 +218,12 @@ class Imgs extends React.Component {
                         scrolling.show_or_hide_imgs_fieldset_fillers();
                         ui_state.enable_ui();
                         this.delete_broken_imgs();
-
-                        img_loading.mut.img_inner_w_2_mounts_transparent = true;
                     }
 
                     img_loading.show_loaded_img(this.img_w_refs[id]);
                 }
             }
+
         } catch (er) {
             err(er, 82);
         }

@@ -236,6 +236,7 @@ export const show_checkerboard = async img_w => {
 export const hide_loading_screen = action(() => {
     try {
         ob.show_loading_screen = false;
+        mut.img_inner_w_2_mounts_transparent = true;
 
     } catch (er) {
         err(er, 116);
