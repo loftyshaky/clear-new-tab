@@ -188,16 +188,22 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
             const img_i = get_img_i_by_id(message.img_id);
             const preview_img = r.clone(imgs.mut.imgs[img_i]);
 
-            if (file_types.con.files[preview_img.type]) {
-                preview_img.img = URL.createObjectURL(preview_img.img);
+            db.imgs.get(message.img_id)
+                .then(img => {
+                    if (file_types.con.files[preview_img.type]) {
+                        preview_img.img = URL.createObjectURL(img.img);
 
-                send_response(preview_img);
+                        send_response(preview_img);
 
-                setTimeout(revoke_preview_img.bind(null, preview_img.img), 10000);
+                        setTimeout(revoke_preview_img.bind(null, preview_img.img), 10000);
 
-            } else {
-                send_response(preview_img);
-            }
+                    } else {
+                        send_response(preview_img);
+                    }
+
+                }).catch(er => {
+                    err(er, 227, null, true);
+                });
         }
 
     } catch (er) {
