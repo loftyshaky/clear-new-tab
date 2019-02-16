@@ -10,7 +10,8 @@ export const init_db = () => {
 
         db.version(1).stores({
             ed: 'id',
-            imgs: 'id, position_id',
+            imgs: 'id',
+            imgsd: 'id, position_id',
         });
 
     } catch (er) {

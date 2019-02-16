@@ -43,7 +43,7 @@ export const prompt_to_move = async img_w_tr => {
 
         const new_position_i = window.prompt(x.msg('enter_new_img_no'));
         const given_value_is_number = !Number.isNaN(new_position_i);
-        const number_of_imgs = await db.imgs.count();
+        const number_of_imgs = await db.imgsd.count();
 
         if (new_position_i && given_value_is_number && number_of_imgs > 1) {
             let new_position_i_final;
@@ -316,23 +316,23 @@ const move = async (mode, new_position_no) => {
 
             const response = await x.send_message_to_background_c({ message: 'get_ids_of_imgs_to_shift', move_type, all_imgs_img_i_before_move, start_i, end_i });
 
-            await db.transaction('rw', db.ed, db.imgs, async () => {
+            await db.transaction('rw', db.ed, db.imgsd, async () => {
                 const modifier_1 = move_type === 'forward' ? -1 : 1; // if forwsard - 1 if backward 1
                 const modifier_2 = move_type === 'forward' ? 1 : -1; // if forwsard 1 if backward - 1
 
                 const imgs_to_move = await Promise.all(response.ids_of_imgs_to_move.map(async id => {
-                    const img = await db.imgs.get(id);
+                    const img = await db.imgsd.get(id);
 
                     return img;
                 }));
 
                 await Promise.all(imgs_to_move.map(async img => {
-                    await db.imgs.update(img.id, { position_id: img.position_id + modifier_1 });
+                    await db.imgsd.update(img.id, { position_id: img.position_id + modifier_1 });
                 }));
 
-                const img = await db.imgs.get(response.ids_of_imgs_to_move[response.ids_of_imgs_to_move.length - 1]);
+                const img = await db.imgsd.get(response.ids_of_imgs_to_move[response.ids_of_imgs_to_move.length - 1]);
 
-                await db.imgs.update(response.img_id_before_move, { position_id: img.position_id + modifier_2 });
+                await db.imgsd.update(response.img_id_before_move, { position_id: img.position_id + modifier_2 });
 
                 await set_new_current_or_future_img_value_after_move('current_img', move_type, all_imgs_img_i_before_move, all_imgs_img_i_after_move);
                 await set_new_current_or_future_img_value_after_move('future_img', move_type, all_imgs_img_i_before_move, all_imgs_img_i_after_move);

@@ -57,7 +57,7 @@ export const load_imgs = async () => {
 //> get ready image object for use in new tab
 export const retrieve_imgs = async send_response => {
     try {
-        mut.imgs = await db.imgs.orderBy('position_id').toArray();
+        mut.imgs = await db.imgsd.orderBy('position_id').toArray();
 
         if (send_response) {
             send_response();
@@ -70,23 +70,27 @@ export const retrieve_imgs = async send_response => {
 //< get ready image object for use in new tab
 
 //> preload images
-const preload_img = img_i => {
+const preload_img = async img_i => {
     try {
         if (mut.imgs.length > 0) {
-            const img = r.clone(mut.imgs[img_i]);
-            const not_color = img.type;
+            const img_obj = r.clone(mut.imgs[img_i]);
+            const not_color = img_obj.type;
 
             if (not_color) {
-                if (file_types.con.files[img.type]) {
-                    img.img = URL.createObjectURL(img.img);
+                const img = await db.imgs.get(img_obj.id);
+
+                if (file_types.con.files[img_obj.type]) {
+                    img_obj.img = URL.createObjectURL(img.img);
                 }
 
-                if (file_types.con.types[img.type] === 'links') {
+                if (file_types.con.types[img_obj.type] === 'links') {
                     new Image().src = img.img;
+
+                    img_obj.img = img.img;
                 }
             }
 
-            return img;
+            return img_obj;
         }
 
     } catch (er) {
@@ -125,10 +129,10 @@ export const preload_current_and_future_img = async mode => {
         } else if (mode === 'reload') {
             remove_img_from_memory(mut.future_img);
 
-            mut.current_img = mut.imgs[ed_all.current_img] ? preload_img(ed_all.current_img) : null;
+            mut.current_img = mut.imgs[ed_all.current_img] ? await preload_img(ed_all.current_img) : null;
         }
 
-        mut.future_img = mut.imgs[ed_all.future_img] ? preload_img(ed_all.future_img) : null;
+        mut.future_img = mut.imgs[ed_all.future_img] ? await preload_img(ed_all.future_img) : null;
 
     } catch (er) {
         err(er, 5, null, true);

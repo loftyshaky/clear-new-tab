@@ -27,10 +27,10 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
         }
 
         //>1 pack images
-        const number_of_imgs = await db.imgs.count();
+        const number_of_imgs = await db.imgsd.count();
         const position_id = await r.ifElse(() => number_of_imgs > 0,
             async () => {
-                const ordered_imgs = db.imgs.orderBy('position_id');
+                const ordered_imgs = db.imgsd.orderBy('position_id');
                 const img_with_highest_id = await ordered_imgs.last();
 
                 return img_with_highest_id.position_id + 1;
@@ -40,13 +40,21 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
 
         const thumbnails = await create_thumbnails_and_get_natural_width_and_height(imgs, type);
 
-        const packed_imgs = imgs.map((item, i) => {
+        const packed_imgs = imgs.map(item => {
+            const img = {
+                id: x.unique_id(),
+                img: item,
+            };
+
+            return img;
+        });
+
+        const packed_imgsd = imgs.map((item, i) => {
             if (type !== 'color') {
                 const img = {
-                    id: x.unique_id(),
+                    id: packed_imgs[i].id,
                     position_id: position_id + i,
                     theme_id,
-                    img: item,
                     thumbnail: thumbnails[i].thumbnail,
                     width: thumbnails[i].width,
                     height: thumbnails[i].height,
@@ -64,7 +72,6 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
                     id: x.unique_id(),
                     position_id: position_id + i,
                     theme_id,
-                    img: item,
                     type: generate_type('color', theme_img_info),
                 };
 
@@ -76,14 +83,17 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
         //<1 pack images
 
         //>1 insert image packs in db
-        const last_img_id = await db.transaction('rw', db.imgs, () => db.imgs.bulkAdd(packed_imgs));
+        const last_img_id = await db.transaction('rw', db.imgs, db.imgsd, () => {
+            db.imgs.bulkAdd(packed_imgs);
+            db.imgsd.bulkAdd(packed_imgsd);
+        });
         //<1 insert image packs in db
 
         if (page === 'options') {
             const number_of_img_w = sa('.img_w').length || 0;
             if (number_of_img_w < con.imgs_per_page) {
                 const mode = 'upload_imgs';
-                const imgs_to_load = packed_imgs.slice(0, con.imgs_per_page - number_of_img_w); // get first 50 of uploaded images
+                const imgs_to_load = packed_imgsd.slice(0, con.imgs_per_page - number_of_img_w); // get first 50 of uploaded images
 
                 unpack_and_load_imgs(mode, imgs_to_load);
 
@@ -242,7 +252,7 @@ const set_last_uploaded_image_as_current = async () => {
         const ed_all = await eda();
 
         if (ed_all.set_last_uploaded && (ed_all.mode === 'one' || ed_all.mode === 'multiple')) {
-            const number_of_imgs = await db.imgs.count();
+            const number_of_imgs = await db.imgsd.count();
             const visible_value = number_of_imgs;
             const value_to_insert_into_db = number_of_imgs - 1;
 

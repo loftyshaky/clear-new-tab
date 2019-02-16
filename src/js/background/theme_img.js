@@ -174,7 +174,10 @@ const delete_previous_themes_imgs = async () => {
                     return undefined;
                 });
 
-                await db.transaction('rw', db.imgs, async () => db.imgs.bulkDelete(ids_of_theme_imgs_to_delete_final));
+                await db.transaction('rw', db.imgs, db.imgsd, async () => {
+                    db.imgs.bulkDelete(ids_of_theme_imgs_to_delete_final);
+                    db.imgsd.bulkDelete(ids_of_theme_imgs_to_delete_final);
+                });
             }
         }
 

@@ -50,6 +50,7 @@ const get_img = async (mode, ed_all) => {
                     return undefined;
                 },
             )();
+
             if (mut.loaded_img) {
                 const is_color_img = file_types.con.types[mut.loaded_img.type] === 'colors';
                 mut.img.img = mut.loaded_img.img;

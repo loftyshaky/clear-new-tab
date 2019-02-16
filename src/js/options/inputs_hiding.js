@@ -13,7 +13,7 @@ configure({ enforceActions: 'observed' });
 export const decide_what_inputs_to_hide = async () => {
     try {
         const mode = await ed('mode');
-        const selected_img = await db.imgs.get(img_selection.mut.selected_img_id || 1) || 'none';
+        const selected_img = await db.imgsd.get(img_selection.mut.selected_img_id || 1) || 'none';
 
         runInAction(() => {
             inputs_data.obj.img_settings.keep_old_themes_imgs.visible = mode === 'theme';

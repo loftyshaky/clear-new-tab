@@ -7,7 +7,7 @@ import { db } from 'js/init_db';
 export const get_new_future_img = async new_future_img => {
     try {
         const shuffle = await ed('shuffle');
-        const number_of_imgs = await db.imgs.count();
+        const number_of_imgs = await db.imgsd.count();
         const there_is_no_imgs_in_db = number_of_imgs === 0;
         let new_future_img_final = new_future_img;
 

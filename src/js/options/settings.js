@@ -97,7 +97,7 @@ export const change_settings = async (input_type, family, name, val) => {
 
             set_color_input_vizualization_color('img_settings', 'color', new_val);
 
-            if (storage_type === 'imgs') {
+            if (storage_type === 'imgsd') {
                 set_color_global_checkbox_val('color');
             }
         }
@@ -117,7 +117,7 @@ export const change_color_global_checkbox_setting = async name => {
         const ed_all = await eda();
         const new_val = inputs_data.obj.img_settings[name].color_global_checkbox_val ? ed_all[name] : 'global';
 
-        await db.imgs.update(img_selection.mut.selected_img_id, { [name]: new_val });
+        await db.imgsd.update(img_selection.mut.selected_img_id, { [name]: new_val });
         x.send_message_to_background({ message: 'update_imgs_obj', id: img_selection.mut.selected_img_id, storage: name, val: new_val });
         x.send_message_to_background({ message: 'preload_img' });
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
@@ -271,7 +271,7 @@ export const change_current_img_by_typing_into_currrent_img_input = async e => {
         const actual_value = +e.target.value;
 
         if (!Number.isNaN(actual_value)) {
-            const number_of_imgs = await db.imgs.count();
+            const number_of_imgs = await db.imgsd.count();
             mut.corrected_current_img_input_val = actual_value;
             let value_to_insert_into_db = mut.corrected_current_img_input_val - 1;
 
@@ -406,7 +406,7 @@ export const show_or_hide_global_options = action(bool => {
 
 export const set_color_global_checkbox_val = async name => {
     try {
-        const settings_obj = await db.imgs.get(img_selection.mut.selected_img_id);
+        const settings_obj = await db.imgsd.get(img_selection.mut.selected_img_id);
 
         runInAction(() => {
             try {

@@ -10,7 +10,7 @@ configure({ enforceActions: 'observed' });
 
 export const set_total_number_of_imgs = async () => {
     try {
-        const number_of_imgs = await db.imgs.count();
+        const number_of_imgs = await db.imgsd.count();
 
         runInAction(() => {
             try {

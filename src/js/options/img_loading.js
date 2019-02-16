@@ -180,7 +180,7 @@ export const load_page = async (mode, page, null_scroll_to) => { // g
             pagination.change_page(page);
         }
 
-        const imgs = await db.imgs.orderBy('position_id').offset(offset).limit(populate_storage_with_images_and_display_them.con.imgs_per_page).toArray();
+        const imgs = await db.imgsd.orderBy('position_id').offset(offset).limit(populate_storage_with_images_and_display_them.con.imgs_per_page).toArray();
         const number_of_imgs = imgs.length;
 
         if (number_of_imgs > 0) {

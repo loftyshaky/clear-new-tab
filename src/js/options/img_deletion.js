@@ -23,7 +23,7 @@ export const delete_img = async img_id => {
         ui_state.disable_ui();
 
         const ed_all = await eda();
-        const img_to_delete = await db.imgs.get(img_id);
+        const img_to_delete = await db.imgsd.get(img_id);
         const img_to_delete_i = img_i.get_img_i_by_id(img_id);
         const all_imgs_img_to_delete_i = img_to_delete_i + img_i.determine_img_i_modificator();
         const img_to_delete_i_is_lower_than_current_img = all_imgs_img_to_delete_i < ed_all.current_img;
@@ -46,8 +46,9 @@ export const delete_img = async img_id => {
             new_current_img = await determine_theme_current_img.determine_theme_current_img(ed_all.last_installed_theme_theme_id, imgs);
         }
 
-        await db.transaction('rw', db.ed, db.imgs, async () => {
+        await db.transaction('rw', db.ed, db.imgs, db.imgsd, async () => {
             await db.imgs.delete(img_id);
+            await db.imgsd.delete(img_id);
 
             if (img_to_delete_i_is_lower_than_current_img || (ed_all.mode !== 'theme' && img_to_delete_i_equals_to_current_img)) {
                 new_current_img = ed_all.current_img === 0 ? 0 : ed_all.current_img - 1;
@@ -129,6 +130,7 @@ export const delete_all_images = async () => {
             ui_state.disable_ui();
 
             await db.imgs.clear();
+            await db.imgsd.clear();
             await db.ed.update(1, { current_img: 0, future_img: 1 });
 
             x.send_message_to_background({ message: 'empty_imgs_a' });

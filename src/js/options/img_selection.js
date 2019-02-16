@@ -26,7 +26,7 @@ export const select_img = async (clicked_img_id, e) => {
             const img = await x.send_message_to_background_c({ message: 'get_img_obj_when_selecting_on_it', i: clicked_img_i });
 
             if (file_types.con.files[img.type] || file_types.con.types[img.type] === 'links') {
-                settings.mut.storage_type = 'imgs';
+                settings.mut.storage_type = 'imgsd';
 
                 settings.load_settings_inner('img_settings', img);
                 settings.show_or_hide_global_options(true);
