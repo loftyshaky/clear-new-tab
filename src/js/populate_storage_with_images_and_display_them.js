@@ -116,6 +116,9 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
 
         show_or_hide_upload_error_messages(status);
 
+        await x.send_message_to_background_c({ message: 'preload_img' });
+        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
+
         return last_img_id;
 
     } catch (er) {

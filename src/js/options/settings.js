@@ -80,7 +80,7 @@ export const change_settings = async (input_type, family, name, val) => {
         change_input_val(family, name, new_val);
 
         inputs_hiding.decide_what_inputs_to_hide();
-        x.send_message_to_background({ message: 'update_imgs_obj', id: storage_id, storage: name, val: new_val });
+        await x.send_message_to_background_c({ message: 'update_imgs_obj', id: storage_id, storage: name, val: new_val });
 
         if (name === 'mode' || name === 'change_interval') {
             await x.send_message_to_background({ message: 'reset_timer' });
@@ -323,7 +323,7 @@ export const change_current_img_insert_in_db = async (visible_value, value_to_in
         change_current_img_input_val(visible_value);
         await db.ed.update(1, { current_img: value_to_insert_into_db, future_img: value_to_insert_into_db + 1 });
         await get_new_future_img.get_new_future_img(value_to_insert_into_db + 1);
-        await x.send_message_to_background({ message: 'preload_img' });
+        await x.send_message_to_background_c({ message: 'preload_img' });
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
 
     } catch (er) {

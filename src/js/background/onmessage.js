@@ -23,8 +23,13 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
             multiple.get_next_img();
 
         } else if (msg === 'preload_img') { // set, preload images and get current image from new tab
-            imgs.preload_current_and_future_img('reload');
-            send_response();
+            imgs.preload_current_and_future_img('reload')
+                .then(() => {
+                    send_response();
+
+                }).catch(er => {
+                    err(er, 226, null, true);
+                });
 
         } else if (msg === 'retrieve_imgs') { // get ready imgs.mut.imgs for use in new tab
             imgs.retrieve_imgs(send_response);
@@ -35,6 +40,14 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
             if (imgs.mut.imgs[i] && imgs.mut.imgs[i][message.storage]) {
                 imgs.mut.imgs[i][message.storage] = message.val;
             }
+
+            imgs.preload_current_and_future_img('reload')
+                .then(() => {
+                    send_response();
+
+                }).catch(er => {
+                    err(er, 225, null, true);
+                });
 
         } else if (msg === 'get_img_obj_when_selecting_on_it') { // get image object by index when selecting it (= clicking on it)
             send_response(imgs.mut.imgs[message.i]);
