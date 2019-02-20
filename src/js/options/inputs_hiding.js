@@ -23,6 +23,7 @@ export const decide_what_inputs_to_hide = async () => {
             inputs_data.obj.img_settings.current_img.visible = !!(mode === 'one' || mode === 'multiple');
             inputs_data.obj.img_settings.set_last_uploaded.visible = !!(mode === 'one' || mode === 'multiple');
             inputs_data.obj.img_settings.repeat.visible = selected_img === 'none' ? true : file_types.con.types[selected_img.type] !== 'video_files';
+            inputs_data.obj.img_settings.video_volume.visible = selected_img === 'none' ? true : file_types.con.types[selected_img.type] === 'video_files';
         });
 
         const contains_allow_downloading_images_by_link_permission = await permissions.contains_permission(toJS(inputs_data.obj.other_settings.allow_downloading_images_by_link.permissions));

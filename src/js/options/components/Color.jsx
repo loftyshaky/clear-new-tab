@@ -12,15 +12,15 @@ import { Tr } from 'js/components/Tr';
 import { Global_checkbox } from 'options/components/Checkbox';
 
 export const Color = observer(props => {
-    const { family, name } = props;
+    const { family, name, include_global_checkbox } = props;
     const { vizualization_color, color_pickier_is_visible, color_pickier_position } = inputs_data.obj[family][name];
-    const global_checkbox = props.include_global_checkbox
+    const global_checkbox = include_global_checkbox
         ? (
             <Global_checkbox
                 family={family}
                 name={name}
-                checkbox_type="color_global"
-                is_color_global_checkbox
+                checkbox_type="global"
+                is_global_checkbox
             />
         )
         : null;

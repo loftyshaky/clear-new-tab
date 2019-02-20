@@ -37,7 +37,7 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
         } else if (msg === 'update_imgs_obj') { //< update imgs object when changing image specefic values
             const i = get_img_i_by_id(message.id);
 
-            if (imgs.mut.imgs[i] && imgs.mut.imgs[i][message.storage]) {
+            if (imgs.mut.imgs[i] && typeof imgs.mut.imgs[i][message.storage] !== 'undefined') {
                 imgs.mut.imgs[i][message.storage] = message.val;
             }
 

@@ -35,6 +35,7 @@
     "mobx-react": "^5.4.3",
     "normalize.css": "^8.0.1",
     "ramda": "^0.26.1",
+    "rc-slider": "^8.6.5",
     "react": "^16.7.0",
     "react-color": "^2.17.0",
     "react-dom": "^16.7.0",

@@ -42,7 +42,8 @@ export const select_img = async (clicked_img_id, e) => {
                 settings.change_input_val('img_settings', 'settings_type', 'global');
             }
 
-            settings.set_color_global_checkbox_val('color');
+            settings.set_global_checkbox_val('color');
+            settings.set_global_checkbox_val('video_volume');
 
             inputs_hiding.decide_what_inputs_to_hide();
         }

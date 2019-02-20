@@ -60,6 +60,7 @@ const get_img = async (mode, ed_all) => {
                     mut.img.position = mut.loaded_img.position === 'global' ? ed_all.position : mut.loaded_img.position;
                     mut.img.repeat = mut.loaded_img.repeat === 'global' ? ed_all.repeat : mut.loaded_img.repeat;
                     mut.img.color = mut.loaded_img.color === 'global' ? ed_all.color : mut.loaded_img.color;
+                    mut.img.video_volume = mut.loaded_img.video_volume === 'global' ? ed_all.video_volume : mut.loaded_img.video_volume;
 
                     mut.mode = file_types.con.types[mut.loaded_img.type] === 'img_files' || file_types.con.types[mut.loaded_img.type] === 'links' ? 'img' : 'video';
 
@@ -153,6 +154,7 @@ const set_img = action(async () => {
             ob.img_divs.background_size[mut.current_img_div_i] = mut.img.size;
             ob.img_divs.video_width[mut.current_img_div_i] = mut.img.video_width;
             ob.img_divs.video_height[mut.current_img_div_i] = mut.img.video_height;
+            ob.img_divs.video_volume[mut.current_img_div_i] = mut.img.video_volume;
 
         } else if (mut.mode === 'color') {
             ob.img_divs.background[mut.current_img_div_i] = mut.img.img;
@@ -337,6 +339,7 @@ const reload_img_divs = action(() => {
         video_width: [null, null],
         video_height: [null, null],
         video_background_color: [null, null],
+        video_volume: [null, null],
     };
 });
 
@@ -374,6 +377,7 @@ export const mut = {
         video_width: null,
         video_height: null,
         video_background_color: null,
+        video_volume: null,
     },
 };
 

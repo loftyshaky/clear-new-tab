@@ -32,7 +32,7 @@ export const load_settings = async callback => {
     }
 };
 
-export const load_settings_inner = action((family, settings) => {
+export const load_settings_inner = (family, settings) => {
     try {
         Object.keys(inputs_data.obj[family]).map(async name => {
             try {
@@ -40,9 +40,15 @@ export const load_settings_inner = action((family, settings) => {
                 const key_exist = typeof val !== 'undefined';
 
                 if (key_exist) {
-                    const val_final = name === 'current_img' ? val + 1 : val;
+                    const val_final = await r.cond([
+                        [r.equals('video_volume'), async () => (val === 'global' ? ed('video_volume') : val)],
+                        [r.equals('current_img'), () => val + 1],
+                        [r.T, () => val],
+                    ])(name);
 
-                    inputs_data.obj[family][name].val = val_final;
+                    runInAction(() => {
+                        inputs_data.obj[family][name].val = val_final;
+                    });
                 }
 
             } catch (er) {
@@ -53,11 +59,11 @@ export const load_settings_inner = action((family, settings) => {
     } catch (er) {
         err(er, 147);
     }
-});
+};
 
 export const change_settings = async (input_type, family, name, val) => {
     try {
-        const global_and_specefic_storages = ['size', 'position', 'repeat', 'color'];
+        const global_and_specefic_storages = ['size', 'position', 'repeat', 'color', 'video_volume'];
         const storage_type = global_and_specefic_storages.indexOf(name) > -1 ? mut.storage_type : 'ed';
         const storage_id = storage_type === 'ed' ? 1 : img_selection.mut.selected_img_id;
         const settings_obj = await db[storage_type].get(storage_id);
@@ -67,7 +73,7 @@ export const change_settings = async (input_type, family, name, val) => {
         if (input_type === 'checkbox') {
             new_val = !old_val;
 
-        } else if (input_type === 'select' || input_type === 'color') {
+        } else if (input_type === 'select' || input_type === 'color' || input_type === 'slider') {
             new_val = val;
         }
 
@@ -77,9 +83,12 @@ export const change_settings = async (input_type, family, name, val) => {
 
         await db[storage_type].update(storage_id, { [name]: new_val });
 
-        change_input_val(family, name, new_val);
+        if (input_type !== 'slider') {
+            change_input_val(family, name, new_val);
+        }
 
         inputs_hiding.decide_what_inputs_to_hide();
+
         await x.send_message_to_background_c({ message: 'update_imgs_obj', id: storage_id, storage: name, val: new_val });
 
         if (name === 'mode' || name === 'change_interval') {
@@ -96,10 +105,10 @@ export const change_settings = async (input_type, family, name, val) => {
             mut.current_color_pickier.el = null;
 
             set_color_input_vizualization_color('img_settings', 'color', new_val);
+        }
 
-            if (storage_type === 'imgsd') {
-                set_color_global_checkbox_val('color');
-            }
+        if (storage_type === 'imgsd') {
+            set_global_checkbox_val(name);
         }
 
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
@@ -109,23 +118,27 @@ export const change_settings = async (input_type, family, name, val) => {
     }
 };
 
+export const change_settings_slider = x.debounce(change_settings, 200);
+
 //> color input
 export const change_settings_color = r.curry(change_settings)('color', 'img_settings');
 
-export const change_color_global_checkbox_setting = async name => {
+export const change_global_checkbox_setting = async name => {
     try {
         const ed_all = await eda();
-        const new_val = inputs_data.obj.img_settings[name].color_global_checkbox_val ? ed_all[name] : 'global';
+        const new_val = inputs_data.obj.img_settings[name].global_checkbox_val ? ed_all[name] : 'global';
 
         await db.imgsd.update(img_selection.mut.selected_img_id, { [name]: new_val });
-        x.send_message_to_background({ message: 'update_imgs_obj', id: img_selection.mut.selected_img_id, storage: name, val: new_val });
-        x.send_message_to_background({ message: 'preload_img' });
-        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
-        set_color_global_checkbox_val(name);
+        await x.send_message_to_background_c({ message: 'update_imgs_obj', id: img_selection.mut.selected_img_id, storage: name, val: new_val });
+        await x.send_message_to_background_c({ message: 'preload_img' });
+        set_global_checkbox_val(name);
 
         if (new_val === 'global') {
             set_color_input_vizualization_color('img_settings', [name], ed_all[name]);
+            change_input_val('img_settings', name, ed_all[name]);
         }
+
+        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
 
     } catch (er) {
         err(er, 150);
@@ -404,17 +417,17 @@ export const show_or_hide_global_options = action(bool => {
     }
 });
 
-export const set_color_global_checkbox_val = async name => {
+export const set_global_checkbox_val = async name => {
     try {
         const settings_obj = await db.imgsd.get(img_selection.mut.selected_img_id);
 
         runInAction(() => {
             try {
                 if (settings_obj[name] === 'global') {
-                    inputs_data.obj.img_settings[name].color_global_checkbox_val = true;
+                    inputs_data.obj.img_settings[name].global_checkbox_val = true;
 
                 } else {
-                    inputs_data.obj.img_settings[name].color_global_checkbox_val = false;
+                    inputs_data.obj.img_settings[name].global_checkbox_val = false;
                 }
 
             } catch (er) {

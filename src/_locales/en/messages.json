@@ -130,7 +130,10 @@
   "color_label_text": {
     "message": "Background color"
   },
-  "color_global_label_text": {
+  "video_volume_label_text": {
+    "message": "Video volume"
+  },
+  "global_label_text": {
     "message": "Global"
   },
   "show_link_to_default_new_tab_label_text": {

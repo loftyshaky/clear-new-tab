@@ -39,7 +39,7 @@ body, .pagination {
     margin-bottom: 16px!important;
 }
 
-body, .option, .imgs_legend_line, .imgs_fieldset_filler {
+body, .option, .imgs_legend_line, .imgs_fieldset_filler, .rc-slider-handle {
     background-color: #212121;
 } 
 
@@ -101,7 +101,7 @@ option {
     color: #212121;
 }
 
-.option:hover, .btn:hover, .loading_screen {
+.option:hover, .btn:hover, .loading_screen, .rc-slider-track, .rc-slider-handle {
     background-color: #fbff75;
 }
 
@@ -227,7 +227,7 @@ svg {
     height: 16px;
 }
 
-.delete_img_btn:focus, .img_btn:focus, .color_ok_btn:focus, body.using_mouse .color_ok_btn:hover:focus, .color_ok_btn:hover {
+.delete_img_btn:focus, .img_btn:focus, .color_ok_btn:focus, body.using_mouse .color_ok_btn:hover:focus, .color_ok_btn:hover, .rc-slider-handle:focus {
     background-color: #3892ff;
 }
 
@@ -511,6 +511,56 @@ svg {
     display: none;
 }
 /*< selects */
+
+/*> sliders */
+.slider_w {
+    display: flex;
+    align-items: center;
+}
+
+
+.slider_w .checkbox_w {
+    margin-left: 10px;
+}
+
+.rc-slider {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.rc-slider-rail {
+    width: calc(100% + 10px);
+}
+
+.rc-slider-rail, .rc-slider-track {
+    margin-left: -5px;
+}
+
+.rc-slider-track, .rc-slider-rail {
+    border-radius: 0;
+}
+
+.rc-slider-handle {
+    width: 10px;
+    margin-top: -7px;
+    margin-left: -5px;;
+    height: 18px;
+    border: unset;
+    border-radius: unset;
+}
+
+.rc-slider-handle:focus {
+    box-shadow: none;
+}
+
+.rc-slider-handle:active, .rc-slider-handle:hover, .rc-slider-handle-click-focused  {
+    box-shadow: 0 0 5px #f8ff29;
+}
+
+.rc-slider-handle:active, .rc-slider-handle:hover, .using_mouse .rc-slider-handle:focus, .rc-slider-handle-click-focused:focus {
+    background-color: #f8ff29;
+}
+/*< sliders */
 
 /*> links */
 .bottom_link:not(:first-child) {
@@ -827,7 +877,7 @@ svg {
 /*< loading screen */
 
 /*> transition */
-.link, .upload_box_browse_label, svg, .theme_img_link, .using_mouse .delete_img_btn, .color_input_vizualization, .using_mouse .normal_input, .using_mouse .btn, .color_global_el, .input, .image_settings_wrapper, .dragged_item, .img_inner_w, .using_mouse .img_w, .selected_img, .using_mouse .img_btn, .imgs_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu {
+.link, .upload_box_browse_label, svg, .theme_img_link, .using_mouse .delete_img_btn, .color_input_vizualization, .using_mouse .normal_input, .using_mouse .btn, .global_el, .input, .image_settings_wrapper, .dragged_item, .img_inner_w, .using_mouse .img_w, .selected_img, .using_mouse .img_btn, .imgs_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu {
     transition: all 0.2s ease-out;
 }
 
@@ -863,7 +913,7 @@ svg {
     transition-property: color, background-color, border-color, box-shadow;
 }
 
-.color_global_el, .input, .image_settings_wrapper, .dragged_item, .loading_screen, .imgs_w_2, .img_inner_w_2, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w {
+.global_el, .input, .image_settings_wrapper, .dragged_item, .loading_screen, .imgs_w_2, .img_inner_w_2, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w {
     transition-property: opacity;
 }
 

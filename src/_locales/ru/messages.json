@@ -130,7 +130,10 @@
   "color_label_text": {
     "message": "Цвет фона"
   },
-  "color_global_label_text": {
+  "video_volume_label_text": {
+    "message": "Громкость видео"
+  },
+  "global_label_text": {
     "message": "Глобальные"
   },
   "show_link_to_default_new_tab_label_text": {

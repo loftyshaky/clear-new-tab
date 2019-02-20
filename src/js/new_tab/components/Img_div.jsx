@@ -23,14 +23,60 @@ export class Img_div extends React.Component {
         this.video = React.createRef();
     }
 
+    componentDidMount() {
+        try {
+            document.addEventListener('visibilitychange', this.set_video_volume);
+
+        } catch (er) {
+            err(er, 232);
+        }
+    }
+
     componentWillUpdate() {
-        const hiding_this_video = this.img_divs.opacity_0_cls[this.img_div_i];
+        try {
+            this.set_video_volume();
 
-        if (imgs.mut.mode !== 'video' || hiding_this_video) {
-            this.video.current.muted = true;
+        } catch (er) {
+            err(er, 233);
+        }
+    }
 
-        } else {
-            this.video.current.muted = false;
+    componentWillUnmount() {
+        try {
+            document.removeEventListener('visibilitychange', this.set_video_volume);
+
+        } catch (er) {
+            err(er, 234);
+        }
+    }
+
+    set_video_volume = () => {
+        try {
+            const hiding_this_video = this.img_divs.opacity_0_cls[this.img_div_i];
+
+            if (document.hidden || imgs.mut.mode !== 'video' || hiding_this_video) {
+                this.set_video_volume_inner(true);
+
+            } else {
+                this.set_video_volume_inner(false);
+            }
+
+        } catch (er) {
+            err(er, 235);
+        }
+    }
+
+    set_video_volume_inner = mute => {
+        try {
+            if (mute) {
+                this.video.current.volume = 0;
+
+            } else {
+                this.video.current.volume = this.img_divs.video_volume[this.img_div_i] / 100;
+            }
+
+        } catch (er) {
+            err(er, 236);
         }
     }
 

@@ -8,6 +8,7 @@ import { Input } from 'options/components/Input';
 import { Select } from 'options/components/Select';
 import { Checkbox } from 'options/components/Checkbox';
 import { Color } from 'options/components/Color';
+import { Slider } from 'options/components/Slider';
 import { Separator } from 'options/components/Separator';
 
 export const Left_fieldset = props => {
@@ -46,5 +47,6 @@ const con = {
         checkbox: Checkbox,
         color: Color,
         separator: Separator,
+        slider: Slider,
     },
 };
