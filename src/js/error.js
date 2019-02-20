@@ -38,7 +38,7 @@ window.err = action((er_obj, er_code, er_msg_param, silent, persistent, exit) =>
         throw updated_er_obj;
 
     } else {
-        console.error(er_obj.stack); // eslint-disable-line no-console
+        console.error(er_obj.stack || er_obj.message); // eslint-disable-line no-console
     }
 
     //analytics.send_event('error', er_code);

@@ -260,7 +260,11 @@ x.localize = base_element => {
 //<1 localization
 
 x.send_message_to_background = message => { // to background.js ex: '{"message": "create_search_engine_form"}'
-    browser.runtime.sendMessage(message, () => { });
+    browser.runtime.sendMessage(message, () => {
+        if (browser.runtime.lastError) {
+            console.error(browser.runtime.lastError.message); // eslint-disable-line no-console
+        }
+    });
 };
 
 x.send_message_to_background_c = message => new Promise((resolve, reject) => { // c = callback
@@ -275,7 +279,11 @@ x.send_message_to_background_c = message => new Promise((resolve, reject) => { /
 });
 
 x.send_message_to_tab = (id, message) => {
-    browser.tabs.sendMessage(id, message, () => { });
+    browser.tabs.sendMessage(id, message, () => {
+        if (browser.runtime.lastError) {
+            console.error(browser.runtime.lastError.message); // eslint-disable-line no-console
+        }
+    });
 };
 
 x.send_message_to_tab_c = (id, message) => new Promise((resolve, reject) => {
