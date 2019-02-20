@@ -33,18 +33,19 @@ export const load_imgs = async () => {
         }
 
         if (mut.imgs.length > 0) {
-            await preload_current_and_future_img('reload');
+            const ms_left = await multiple.get_ms_left();
+
+            if (ms_left < 0 && ed_all.change_interval != 1) { // eslint-disable-line eqeqeq
+                await preload_current_and_future_img('new_current_img');
+
+            } else {
+                await preload_current_and_future_img('reload');
+            }
         }
 
         browser.tabs.query({ currentWindow: true, active: true }, async tabs_ => {
             if (tabs_.length > 0) {
                 tabs.confirm_that_opened_tab_is_new_tab_page_and_that_it_is_not_in_preview_mode_and_store_id_if_true(tabs_[0].id); // get first opened new tab on browser start
-
-                const ms_left = await multiple.get_ms_left();
-
-                if (ed_all.change_interval == 1 || ms_left > 0) { // eslint-disable-line eqeqeq
-                    x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'display_img_on_ext_enable' }]);
-                }
             }
         });
 
