@@ -9,9 +9,9 @@ const create_pair = (arr, key, val) => {
 const imgs = ['image/png', 'image/jpeg', 'image/gif'];
 const videos = ['video/mp4'];
 
-const colors = ['color', 'color_theme', 'theme_color']; // 'theme_color' left for backwards compability
-const links = ['img_link', 'link']; // 'link' left for backwards compability
-const img_files = ['img_file', 'img_file_theme', 'file', 'theme_file']; // 'file', 'theme_file' left for backwards compability
+const colors = ['color', 'color_theme'];
+const links = ['img_link'];
+const img_files = ['img_file', 'img_file_theme'];
 const video_files = ['video_file', 'video_file_theme'];
 
 const files = r.union(img_files, video_files);
