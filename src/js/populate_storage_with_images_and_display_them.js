@@ -270,16 +270,16 @@ const set_last_uploaded_image_as_current = async () => {
 //> prepare images for loading in images fieldset and then load them into it
 export const unpack_and_load_imgs = async (mode, imgs_to_load, null_scroll_to) => {
     try {
-        const unpacked_imgs = await Promise.all(imgs_to_load.map(async img => {
-            const link_or_color = !file_types.con.files[img.type] ? await db.imgs.get(img.id) : null;
+        const unpacked_imgs = await Promise.all(imgs_to_load.map(async img_data => {
+            const img = await db.imgs.get(img_data.id); // get full image for backwards compability. Replace with this later: !file_types.con.files[img_data.type] ? await db.imgs.get(img_data.id) : null;
 
             return {
                 key: x.unique_id(),
-                id: img.id,
+                id: img_data.id,
                 placeholder_color: generate_random_color.generate_random_pastel_color(),
-                img: file_types.con.files[img.type] ? img.thumbnail || URL.createObjectURL(link_or_color.img) : link_or_color.img,
-                type: img.type,
-                img_size: img.width ? (`${img.width}x${img.height}`) : '?',
+                img: file_types.con.files[img_data.type] ? img_data.thumbnail || URL.createObjectURL(img.img) : img.img,
+                type: img_data.type,
+                img_size: img_data.width ? (`${img_data.width}x${img_data.height}`) : '?',
                 show_delete: true,
                 selected: false,
             };
