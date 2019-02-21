@@ -170,7 +170,7 @@ const set_img = action(async () => {
             ob.img_divs.background[mut.current_img_div_i] = mut.img.img;
             ob.img_divs.video_background_color[mut.current_img_div_i] = mut.img.color;
             ob.img_divs.video_background_position[mut.current_img_div_i] = mut.img.position;
-            ob.img_divs.video_background_position_class[mut.current_img_div_i] = positions_dict[mut.img.position];
+            ob.img_divs.video_background_position_class[mut.current_img_div_i] = con.positions_dict[mut.img.position];
             ob.img_divs.background_size[mut.current_img_div_i] = mut.img.size;
             ob.img_divs.video_width[mut.current_img_div_i] = mut.img.video_width;
             ob.img_divs.video_height[mut.current_img_div_i] = mut.img.video_height;
@@ -363,23 +363,22 @@ const reload_img_divs = action(() => {
     };
 });
 
-const positions_dict = {
-    '50% 0%': 'top',
-    '50% 50%': 'center',
-    '50% 100%': 'bottom',
-    '0% 0%': 'left_top',
-    '0% 50%': 'left_center',
-    '0% 100%': 'left_bottom',
-    '100% 0%': 'right_top',
-    '100% 50%': 'right_center',
-    '100% 100%': 'right_bottom',
-};
-
 const con = {
     screen_width: window.screen.width,
     screen_height: window.screen.height,
     browser_window_width: window.innerWidth,
     browser_window_height: window.outerHeight,
+    positions_dict: {
+        '50% 0%': 'top',
+        '50% 50%': 'center',
+        '50% 100%': 'bottom',
+        '0% 0%': 'left_top',
+        '0% 50%': 'left_center',
+        '0% 100%': 'left_bottom',
+        '100% 0%': 'right_top',
+        '100% 50%': 'right_center',
+        '100% 100%': 'right_bottom',
+    },
 };
 
 export const mut = {

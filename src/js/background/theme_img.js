@@ -41,8 +41,8 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
                 const img_name = r.path(['images', 'theme_ntp_background'], theme_obj);
                 const position_prop = r.path(['properties', 'ntp_background_alignment'], theme_obj);
                 const repeat_prop = r.path(['properties', 'ntp_background_repeat'], theme_obj);
-                const position = positions.indexOf(position_prop) > -1 ? positions_dict[position_prop] : positions_dict.center;
-                const repeat = repeats.indexOf(repeat_prop) > -1 ? repeat_prop : 'no-repeat';
+                const position = con.positions.indexOf(position_prop) > -1 ? con.positions_dict[position_prop] : con.positions_dict.center;
+                const repeat = con.repeats.indexOf(repeat_prop) > -1 ? repeat_prop : 'no-repeat';
                 const color_rgb = r.path(['colors', 'ntp_background'], theme_obj);
                 const color = color_rgb ? `#${rgb_to_hex(color_rgb)}` : '#ffffff';
                 const theme_img_info = {
@@ -51,7 +51,7 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
                     color,
                 };
 
-                const is_valid_img = img_name ? img_name_ => valid_file_types.some(ext => img_name_.includes(ext)) : null;
+                const is_valid_img = img_name ? img_name_ => con.valid_file_types.some(ext => img_name_.includes(ext)) : null;
 
                 if (is_valid_img && !is_valid_img(img_name) && what_browser !== 'chrome') {
                     throw 'Image is not valid image'; // eslint-disable-line no-throw-literal
@@ -252,26 +252,25 @@ export const get_installed_theme_id = () => new Promise(resolve => {
     });
 });
 
-const positions_dict = {
-    top: '50% 0%',
-    center: '50% 50%',
-    bottom: '50% 100%',
-    'left top': '0% 0%',
-    'top left': '0% 0%',
-    'left center': '0% 50%',
-    'center left': '0% 50%',
-    'left bottom': '0% 100%',
-    'bottom left': '0% 100%',
-    'right top': '100% 0%',
-    'top right': '100% 0%',
-    'right center': '100% 50%',
-    'center right': '100% 50%',
-    'right bottom': '100% 100%',
-    'bottom right': '100% 100%',
+const con = {
+    positions_dict: {
+        top: '50% 0%',
+        center: '50% 50%',
+        bottom: '50% 100%',
+        'left top': '0% 0%',
+        'top left': '0% 0%',
+        'left center': '0% 50%',
+        'center left': '0% 50%',
+        'left bottom': '0% 100%',
+        'bottom left': '0% 100%',
+        'right top': '100% 0%',
+        'top right': '100% 0%',
+        'right center': '100% 50%',
+        'center right': '100% 50%',
+        'right bottom': '100% 100%',
+        'bottom right': '100% 100%',
+    },
+    valid_file_types: ['.gif', '.jpeg', '.jpg', '.png'],
+    positions: ['top', 'center', 'bottom', 'left top', 'top left', 'left center', 'center left', 'left bottom', 'bottom left', 'right top', 'top right', 'right center', 'center right', 'right bottom', 'bottom right'], //> purpose of this arrays is to exclude developers mistakes. ex: ntp_background_alignment set to "middle" instead of "center" (https://chrome.google.com/webstore/detail/%D0%B1%D0%B5%D0%B3%D1%83%D1%89%D0%B0%D1%8F-%D0%BB%D0%B8%D1%81%D0%B8%D1%87%D0%BA%D0%B0/pcogoppjgcggbmflbmiihnbbdcbnbkjp)
+    repeats: ['repeat', 'repeat-y', 'repeat-x', 'no-repeat'],
 };
-
-const valid_file_types = ['.gif', '.jpeg', '.jpg', '.png'];
-//> purpose of this arrays is to exclude developers mistakes. ex: ntp_background_alignment set to "middle" instead of "center" (https://chrome.google.com/webstore/detail/%D0%B1%D0%B5%D0%B3%D1%83%D1%89%D0%B0%D1%8F-%D0%BB%D0%B8%D1%81%D0%B8%D1%87%D0%BA%D0%B0/pcogoppjgcggbmflbmiihnbbdcbnbkjp)
-const positions = ['top', 'center', 'bottom', 'left top', 'top left', 'left center', 'center left', 'left bottom', 'bottom left', 'right top', 'top right', 'right center', 'center right', 'right bottom', 'bottom right'];
-const repeats = ['repeat', 'repeat-y', 'repeat-x', 'no-repeat'];
-//> purpose of this arrays is to exclude developers mistakes. ex: ntp_background_alignment set to "middle" instead of "center" (https://chrome.google.com/webstore/detail/%D0%B1%D0%B5%D0%B3%D1%83%D1%89%D0%B0%D1%8F-%D0%BB%D0%B8%D1%81%D0%B8%D1%87%D0%BA%D0%B0/pcogoppjgcggbmflbmiihnbbdcbnbkjp)

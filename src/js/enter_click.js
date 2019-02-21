@@ -1,6 +1,6 @@
 export const simulate_click_on_enter = e => {
     try {
-        if (e.keyCode === sta.enter_key_code) {
+        if (e.keyCode === con.enter_key_code) {
             document.activeElement.click();
         }
 
@@ -9,6 +9,6 @@ export const simulate_click_on_enter = e => {
     }
 };
 
-export const sta = {
+export const con = {
     enter_key_code: 13,
 };

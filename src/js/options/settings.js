@@ -6,7 +6,6 @@ import * as r from 'ramda';
 import x from 'x';
 import { db } from 'js/init_db';
 import { inputs_data } from 'options/inputs_data';
-import { selects_options } from 'options/selects_options';
 import * as img_loading from 'options/img_loading';
 import * as img_selection from 'options/img_selection';
 import * as inputs_hiding from 'options/inputs_hiding';
@@ -474,8 +473,6 @@ const select_theme_img_when_selecting_theme_mode = async () => {
         err(er, 209);
     }
 };
-
-export const options = selects_options;
 
 export const mut = {
     storage_type: 'ed',
