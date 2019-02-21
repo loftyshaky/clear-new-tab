@@ -4,6 +4,8 @@ import * as r from 'ramda';
 
 import x from 'x';
 import { db } from 'js/init_db';
+import * as get_ms_left from 'js/get_ms_left';
+import * as last_img_change_time from 'js/last_img_change_time';
 import * as get_new_future_img from 'js/get_new_future_img';
 import * as generate_random_color from 'js/generate_random_color';
 import * as imgs from 'background/imgs';
@@ -14,13 +16,13 @@ export const start_timer = x.debounce(async update_last_img_change_time => {
         const ed_all = await eda();
 
         if (!ed_all.img_already_changed && (ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color')) {
-            const ms_left = await get_ms_left();
+            const ms_left = await get_ms_left.get_ms_left();
 
             start_timer_inner(ms_left, update_last_img_change_time);
 
         } else {
             await db.ed.update(1, { img_already_changed: false });
-            await update_last_img_change_time_f();
+            await last_img_change_time.update_last_img_change_time();
             await start_timer_inner(ed_all.change_interval, update_last_img_change_time);
         }
 
@@ -38,7 +40,7 @@ const start_timer_inner = async (ms_left, update_last_img_change_time) => {
                 await get_next_img();
 
                 if (update_last_img_change_time) {
-                    update_last_img_change_time_f();
+                    last_img_change_time.update_last_img_change_time();
                 }
 
                 const ed_all = await eda();
@@ -124,34 +126,6 @@ export const get_next_img = async () => {
     }
 };
 //< decide what image to show next
-
-export const update_last_img_change_time_f = async () => {
-    try {
-        const time = new Date().getTime();
-
-        await db.ed.update(1, { last_img_change_time: time });
-
-    } catch (er) {
-        err(er, 12, null, true);
-    }
-};
-
-//> get number of ms left till change interval elpse (may be negative)
-export const get_ms_left = async () => {
-    try {
-        const ed_all = await eda();
-        const time = new Date().getTime();
-        const ms_left = ed_all.change_interval - (time - ed_all.last_img_change_time);
-
-        return ms_left;
-
-    } catch (er) {
-        err(er, 13, null, true);
-    }
-
-    return undefined;
-};
-//< get number of ms left till change interval elpse (may be negative)
 
 const mut = {
     timers: [],

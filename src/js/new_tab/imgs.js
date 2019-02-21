@@ -3,7 +3,11 @@
 import { observable, action, configure } from 'mobx';
 import * as r from 'ramda';
 
+import { db } from 'js/init_db';
 import * as file_types from 'js/file_types';
+import * as get_ms_left from 'js/get_ms_left';
+import * as last_img_change_time from 'js/last_img_change_time';
+import * as generate_random_color from 'js/generate_random_color';
 
 import x from 'x';
 
@@ -12,15 +16,19 @@ configure({ enforceActions: 'observed' });
 //> display image on new tab page load or when image changes
 export const display_img = async force_current_img => {
     try {
-        const ed_all = await eda();
+        if (!mut.prevent_next_img_change) {
+            const ed_all = await eda();
 
-        const mode = r.cond([
-            [r.anyPass([r.equals('one'), r.equals('multiple'), r.equals('theme')]), r.always('img_or_color')],
-            [r.equals('random_solid_color'), r.always('random_solid_color')],
-        ])(ed_all.mode);
+            const mode = r.cond([
+                [r.anyPass([r.equals('one'), r.equals('multiple'), r.equals('theme')]), r.always('img_or_color')],
+                [r.equals('random_solid_color'), r.always('random_solid_color')],
+            ])(ed_all.mode);
 
-        get_img(mode, ed_all, force_current_img);
+            get_img(mode, ed_all, force_current_img);
 
+        } else {
+            mut.prevent_next_img_change = false;
+        }
     } catch (er) {
         err(er, 57);
     }
@@ -74,7 +82,19 @@ const get_img = async (mode, ed_all) => {
             }
 
         } else if (mode === 'random_solid_color') {
-            mut.random_solid_color = r.clone(ed_all.current_random_color);
+            const ms_left = await get_ms_left.get_ms_left();
+
+            if (ms_left < 0 && ed_all.change_interval != 1 && !ed_all.img_already_changed) { // eslint-disable-line eqeqeq
+                mut.prevent_next_img_change = true;
+                mut.random_solid_color = generate_random_color.generate_random_color();
+
+                await db.ed.update(1, { current_random_color: mut.random_solid_color });
+                last_img_change_time.update_last_img_change_time();
+
+            } else {
+                mut.random_solid_color = r.clone(ed_all.current_random_color);
+            }
+
             mut.mode = 'random_solid_color';
 
             determine_size('random_solid_color');
@@ -368,6 +388,7 @@ export const mut = {
     size_db_val: null,
     mode: null,
     loaded_img: null,
+    prevent_next_img_change: false,
     img: {
         size: null,
         img: null,

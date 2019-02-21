@@ -5,7 +5,6 @@ import * as r from 'ramda';
 import x from 'x';
 import { db } from 'js/init_db';
 import * as theme_img from 'background/theme_img';
-import * as multiple from 'background/multiple';
 import * as tabs from 'background/tabs';
 import * as file_types from 'js/file_types';
 
@@ -33,14 +32,7 @@ export const load_imgs = async () => {
         }
 
         if (mut.imgs.length > 0) {
-            const ms_left = await multiple.get_ms_left();
-
-            if (ms_left < 0 && ed_all.change_interval != 1) { // eslint-disable-line eqeqeq
-                await preload_current_and_future_img('new_current_img');
-
-            } else {
-                await preload_current_and_future_img('reload');
-            }
+            await preload_current_and_future_img('reload');
         }
 
         browser.tabs.query({ currentWindow: true, active: true }, async tabs_ => {
@@ -147,4 +139,5 @@ export const mut = {
     imgs: [],
     current_img: null,
     future_img: null,
+    got_img_once: false,
 };

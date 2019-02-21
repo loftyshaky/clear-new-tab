@@ -3,6 +3,8 @@
 import * as r from 'ramda';
 
 import { db } from 'js/init_db';
+import * as get_ms_left from 'js/get_ms_left';
+import * as last_img_change_time from 'js/last_img_change_time';
 import * as determine_theme_current_img from 'js/determine_theme_current_img';
 import * as imgs from 'background/imgs';
 import * as theme_img from 'background/theme_img';
@@ -15,7 +17,32 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
         const msg = message.message;
 
         if (msg === 'get_img') { // set, preload images and get current image from new tab
-            send_response(imgs.mut.current_img);
+            if (!imgs.mut.got_img_once) {
+                imgs.mut.got_img_once = true;
+                let ms_left;
+
+                get_ms_left.get_ms_left()
+                    .then(ms_left_then => {
+                        ms_left = ms_left_then;
+                        return eda();
+
+                    }).then(ed_all => {
+                        if (ms_left < 0 && ed_all.change_interval != 1 && !ed_all.img_already_changed && ed_all.mode === 'multiple') { // eslint-disable-line eqeqeq
+                            return imgs.preload_current_and_future_img('new_current_img');
+                        }
+
+                        return null;
+
+                    }).then(() => {
+                        send_response(imgs.mut.current_img);
+                    })
+                    .catch(er => {
+                        err(er, 226, null, true);
+                    });
+
+            } else {
+                send_response(imgs.mut.current_img);
+            }
 
         } else if (msg === 'get_future_img') {
             send_response(imgs.mut.future_img);
@@ -123,7 +150,7 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
 
         } else if (msg === 'reset_timer') { // when changing change_interval or selecting image
             multiple.clear_timer();
-            multiple.update_last_img_change_time_f();
+            last_img_change_time.update_last_img_change_time();
 
             const at_least_one_new_tab_tab_opened = tabs.mut.new_tabs_ids.length > 0;
 
