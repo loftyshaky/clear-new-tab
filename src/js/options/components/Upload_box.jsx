@@ -4,7 +4,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 
 import x from 'x';
-import * as upload_messages from 'js/upload_messages';
+import * as ui_state from 'options/ui_state';
 import * as img_loading from 'options/img_loading';
 import * as managing_upload_box from 'options/managing_upload_box';
 import * as enter_click from 'js/enter_click';
@@ -67,7 +67,7 @@ export class Upload_box extends React.Component {
                     name="upload_box"
                     state={managing_upload_box.ob.highlight_upload_box}
                 >
-                    <div className={x.cls(['upload_box_loader', 'upload_box_uploading_message', upload_messages.ob.upload_box_uploading_message_none_cls])} />
+                    <div className={x.cls(['upload_box_loader', 'upload_box_uploading_message', ui_state.ob.upload_box_uploading_message_none_cls])} />
                     <input
                         className="upload_btn"
                         id="file"
@@ -89,11 +89,11 @@ export class Upload_box extends React.Component {
                         <label data-text="upload_box_drag_label_text" />
                     </span>
                     <div
-                        className={x.cls(['upload_box_message', 'upload_box_uploading_message', upload_messages.ob.upload_box_uploading_message_none_cls])}
+                        className={x.cls(['upload_box_message', 'upload_box_uploading_message', ui_state.ob.upload_box_uploading_message_none_cls])}
                         data-text="upload_box_uploading_message_text"
                     />
                     <div
-                        className={x.cls(['upload_box_message', 'upload_box_error_message', upload_messages.ob.upload_box_error_message_none_cls])}
+                        className={x.cls(['upload_box_message', 'upload_box_error_message', ui_state.ob.upload_box_error_message_none_cls])}
                         data-text="upload_box_error_message_text"
                     />
                 </Tr>

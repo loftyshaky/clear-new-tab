@@ -10,6 +10,7 @@ import * as img_deletion from 'options/img_deletion';
 import * as moving from 'options/moving';
 import * as permissions from 'options/permissions';
 import * as inputs_hiding from 'options/inputs_hiding';
+import * as ui_state from 'options/ui_state';
 
 import { Tr } from 'js/components/Tr';
 import { Error_boundary } from 'js/components/Error_boundary';
@@ -43,7 +44,7 @@ export class All extends React.Component {
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         try {
             moving.mut.dragged_item = this.dragged_item;
 
@@ -51,6 +52,12 @@ export class All extends React.Component {
             x.bind(document, 'mouseup', this.evl.stop_drag);
             x.bind(document, 'mousemove', this.evl.set_dragged_item_position);
             x.bind(document.body, 'keydown', settings.close_color_pickier_by_keyboard);
+
+            const uploading_theme_img = await x.send_message_to_background_c({ message: 'check_if_uploading_theme_img' });
+
+            if (uploading_theme_img) {
+                ui_state.enter_upload_mode();
+            }
 
         } catch (er) {
             err(er, 72);

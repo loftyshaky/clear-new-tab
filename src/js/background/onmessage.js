@@ -170,6 +170,9 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
                     err(er, 23, null, true);
                 });
 
+        } else if (msg === 'check_if_uploading_theme_img') { // install theme when clicking on "Install theme" button in chrome web store (firefox only)
+            send_response(theme_img.mut.uploading_theme_img);
+
         } else if (msg === 'install_theme') { // install theme when clicking on "Install theme" button in chrome web store (firefox only)
             theme_img.get_theme_img(message.theme_id, true, message.tab_id)
                 .then(response => {

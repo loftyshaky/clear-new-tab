@@ -6,7 +6,6 @@ import * as r from 'ramda';
 import x from 'x';
 import { db } from 'js/init_db';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
-import * as upload_messages from 'js/upload_messages';
 import * as convert_to_file_object from 'js/convert_to_file_object';
 import { inputs_data } from 'options/inputs_data';
 import * as settings from 'options/settings';
@@ -20,8 +19,8 @@ configure({ enforceActions: 'observed' });
 export const get_pasted_image_or_image_url = async e => {
     try {
         ui_state.disable_ui();
-        upload_messages.hide_upload_box_messages();
-        upload_messages.change_paste_input_placeholder_val(x.msg('upload_box_uploading_message_text'));
+        ui_state.hide_upload_box_messages();
+        ui_state.change_paste_input_placeholder_val(x.msg('upload_box_uploading_message_text'));
 
         const pasted_img_clipboard_item = r.find(clipboard_item => clipboard_item.type.indexOf('image') > -1, e.clipboardData.items); // ordinary for each will not work | check if img (its file object (after it will be converted with getAsFile below) if is) pasted
         const pasted_img_file_object = pasted_img_clipboard_item ? pasted_img_clipboard_item.getAsFile() : null; // not link, copied image
@@ -88,11 +87,11 @@ export const get_pasted_image_or_image_url = async e => {
             } catch (er) {
                 err(er, 108, null, true);
 
-                populate_storage_with_images_and_display_them.show_or_hide_upload_error_messages('rejected_paste');
+                ui_state.exit_upload_mode('rejected_paste');
             }
 
         } else { // if anything other (error)
-            populate_storage_with_images_and_display_them.show_or_hide_upload_error_messages('rejected_paste');
+            ui_state.exit_upload_mode('rejected_paste');
         }
 
         ui_state.enable_ui();
@@ -106,10 +105,7 @@ export const get_pasted_image_or_image_url = async e => {
 //> filter files loaded with upload box (keep only images) and call put in db function
 export const handle_files = async files => {
     try {
-        ui_state.disable_ui();
-        upload_messages.change_paste_input_placeholder_val(null);
-        upload_messages.hide_upload_box_messages();
-        upload_messages.show_upload_box_uploading_message();
+        ui_state.enter_upload_mode();
 
         const filter_out_non_media = r.filter(img => {
             try {
@@ -128,7 +124,7 @@ export const handle_files = async files => {
             try {
                 const files_len = files.length;
                 const get_f = r.cond([
-                    [r.equals(0), () => r.partial(populate_storage_with_images_and_display_them.show_or_hide_upload_error_messages, ['rejected'])], // all files are not images
+                    [r.equals(0), () => r.partial(ui_state.exit_upload_mode, ['rejected'])], // all files are not images
                     [r.equals(files_len), () => r.partial(populate_storage_with_images_and_display_them.populate_storage_with_images, ['file', 'resolved', imgs, {}, null])], // all files are images
                     [r.compose(r.not, r.equals(files_len)), () => r.partial(populate_storage_with_images_and_display_them.populate_storage_with_images, ['file', 'resolved_with_errors', imgs, {}, null])], // some files are not images
                 ]);

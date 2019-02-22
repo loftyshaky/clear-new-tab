@@ -3,7 +3,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import * as upload_messages from 'js/upload_messages';
+import * as ui_state from 'options/ui_state';
 import { inputs_data } from 'options/inputs_data';
 import * as settings from 'options/settings';
 
@@ -63,7 +63,7 @@ export class Input extends React.Component {
                         value={val || ''}
                         type="text"
                         id={`${this.name}_input`}
-                        placeholder={upload_messages.ob.paste_input_placeholder}
+                        placeholder={ui_state.ob.paste_input_placeholder}
                         onChange={() => ''}
                         onPaste={on_paste}
                         onInput={on_input}

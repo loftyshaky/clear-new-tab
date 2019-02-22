@@ -22,6 +22,10 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
             let new_current_img;
 
             if ((!ed_all.keep_old_themes_imgs && reinstall_even_if_theme_img_already_exist) || !installing_theme_img_already_exist) {
+                mut.uploading_theme_img = true;
+
+                x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'enter_upload_mode' }]);
+
                 const theme_package = await new jszip.external.Promise((resolve, reject) => {
                     jszip_utils.getBinaryContent(`https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D${theme_id}%26uc&prodversion=32`, (er, theme_package_) => {
                         if (er) {
@@ -128,6 +132,9 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
 
             x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'change_current_img_input_val' }]);
             x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
+            x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'exit_upload_mode', status: 'resolved' }]);
+
+            mut.uploading_theme_img = false;
 
             return 'success';
 
@@ -142,6 +149,10 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
             } catch (er2) {
                 err(er2, 43, null, true);
             }
+
+            x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'exit_upload_mode', status: 'rejected' }]);
+
+            mut.uploading_theme_img = false;
 
             return 'error';
         }
@@ -302,4 +313,8 @@ const con = {
     positions: ['top', 'center', 'bottom', 'left top', 'top left', 'left center', 'center left', 'left bottom', 'bottom left', 'right top', 'top right', 'right center', 'center right', 'right bottom', 'bottom right'], //> purpose of this arrays is to exclude developers mistakes. ex: ntp_background_alignment set to "middle" instead of "center" (https://chrome.google.com/webstore/detail/%D0%B1%D0%B5%D0%B3%D1%83%D1%89%D0%B0%D1%8F-%D0%BB%D0%B8%D1%81%D0%B8%D1%87%D0%BA%D0%B0/pcogoppjgcggbmflbmiihnbbdcbnbkjp)
     repeats: ['repeat', 'repeat-y', 'repeat-x', 'no-repeat'],
     sizes: ['dont_resize', 'fit_screen', 'fit_browser', 'cover_screen', 'cover_browser', 'stretch_screen', 'stretch_browser'],
+};
+
+export const mut = {
+    uploading_theme_img: false,
 };

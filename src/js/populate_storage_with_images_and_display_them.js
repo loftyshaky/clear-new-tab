@@ -9,7 +9,6 @@ import x from 'x';
 import { db } from 'js/init_db';
 import { Video } from 'js/new_video';
 import * as get_new_future_img from 'js/get_new_future_img';
-import * as upload_messages from 'js/upload_messages';
 import * as total_number_of_imgs from 'js/total_number_of_imgs';
 import * as generate_random_color from 'js/generate_random_color';
 import * as file_types from 'js/file_types';
@@ -114,7 +113,7 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
             set_last_uploaded_image_as_current();
         }
 
-        show_or_hide_upload_error_messages(status);
+        ui_state.exit_upload_mode(status);
 
         await x.send_message_to_background_c({ message: 'preload_img' });
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
@@ -124,7 +123,7 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
     } catch (er) {
         err(er, 172);
 
-        show_or_hide_upload_error_messages('resolved_with_errors');
+        ui_state.exit_upload_mode('resolved_with_errors');
     }
 
     return undefined;
@@ -193,7 +192,7 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                                             resolve();
 
                                         } catch (er) {
-                                            show_or_hide_upload_error_messages('rejected');
+                                            ui_state.exit_upload_mode('rejected');
 
                                             err(er, 223);
                                         }
@@ -204,7 +203,7 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                                             reject(er_obj('Failed to load img.'));
 
                                         } catch (er) {
-                                            show_or_hide_upload_error_messages('rejected');
+                                            ui_state.exit_upload_mode('rejected');
 
                                             err(er, 222);
                                         }
@@ -215,7 +214,7 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                             }
 
                         } catch (er) {
-                            show_or_hide_upload_error_messages('rejected');
+                            ui_state.exit_upload_mode('rejected');
 
                             err(er, 174);
                         }
@@ -226,7 +225,7 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                             reject(er_obj('Failed to load img.'));
 
                         } catch (er) {
-                            show_or_hide_upload_error_messages('rejected');
+                            ui_state.exit_upload_mode('rejected');
 
                             err(er, 175);
                         }
@@ -240,7 +239,7 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                 });
 
             } catch (er) {
-                show_or_hide_upload_error_messages('rejected');
+                ui_state.exit_upload_mode('rejected');
 
                 err(er, 173, null, false, false, true);
             }
@@ -347,31 +346,6 @@ const set_previous_number_of_imgs = number_of_imgs => {
     }
 };
 //< insert images in images fieldset (set state)
-
-export const show_or_hide_upload_error_messages = status => {
-    try {
-        if (page === 'options') {
-            ui_state.enable_ui();
-
-            upload_messages.hide_upload_box_messages();
-
-            if (status === 'rejected' || status === 'resolved_with_errors') {
-                upload_messages.show_upload_box_error_message();
-            }
-
-            if (status === 'resolved_paste') {
-                upload_messages.change_paste_input_placeholder_val(null);
-            }
-
-            if (status === 'rejected_paste') {
-                upload_messages.change_paste_input_placeholder_val(x.msg('upload_box_error_message_text'));
-            }
-        }
-
-    } catch (er) {
-        err(er, 181);
-    }
-};
 
 const calculate_img_aspect_ratio_fit = (src_width, src_height) => {
     try {
