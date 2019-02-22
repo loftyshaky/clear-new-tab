@@ -57,7 +57,7 @@
     "message": "Browse"
   },
   "upload_box_drag_label_text": {
-    "message": "or drag images here"
+    "message": "or drag images/videos here"
   },
 
   "upload_box_uploading_message_text": {
@@ -354,19 +354,19 @@
     "message": "Thanks for installing Clear New Tab! You can install theme from <a class='link install_help_link' href='https://chrome.google.com/webstore/category/themes'>Chrome Web Store</a> or upload your own image with a form below. Click <a class='link install_help_link hide_install_help_link' href='#'>here</a> to hide this message."
   },
   "upload_box_help_message_text": {
-    "message": "You can upload multiple images at once. Just select multiple images before clicking \"Open\" / dragging."
+    "message": "You can upload multiple images/videos at once. Just select multiple images/videos before clicking \"Open\"/dragging.<br>Supported formats: png, jpg, gif, mp4, webm, ogg."
   },
   "paste_help_message_text": {
-    "message": "In this input you can paste direct link to an image or an image from clipboard. To get direct link to an image right-click on it, select \"Open image in new tab\" from the context menu, go to opened tab and then copy link from address bar. To copy an image to clipboard right-click on an it and then select \"Copy image\" from the context menu. Gif animation will not be preserved when you past an image from clipboard."
+    "message": "In this input you can paste direct link to an image or an image from clipboard. To get direct link to an image right-click on it, select \"Open image in new tab\" from the context menu, go to opened tab and then copy link from address bar. To copy an image to clipboard right-click on an it and then select \"Copy image\" from the context menu. Gif animation will not be preserved when you past an image from clipboard.<br>Supported formats: png, jpg, gif."
   },
   "mode_help_message_text": {
-    "message": "Theme image: when this mode is selected, images of themes that you install in the Chrome Web Store will be automatically downloaded and appear in a new tab. In this mode, you do not need to upload your own images. If you uploaded your own images, use the \"One image\" mode.<br>One image: when this mode is selected, a new tab will show you an image you selected using the \"Set selected\" button. Use this mode if you have uploaded your own images and want to see one of them in a new tab."
+    "message": "Theme image: when this mode is selected, images of themes that you install in the Chrome Web Store will be automatically downloaded and appear in a new tab. In this mode, you do not need to upload your own images. If you uploaded your own images, use the \"One image\" or \"Multiple images\" mode.<br>One image: when this mode is selected, a new tab will show you an image you selected using the \"Set selected\" button. Use this mode if you have uploaded your own images and want to see one of them in a new tab.<br>Multiple images: when this mode is selected, a new tab will show one of the images you uploaded, changing it at a given interval. Use this mode if you want to see all images you uploaded.<br>Random solid color: when this mode is selected, a new tab will show a randomly chosen color, changing it at a given interval."
   },
   "settings_type_help_message_text": {
     "message": "Select \"Global\" to set the default settings for all images. Select \"Only selected image\" to set the settings for the selected image only (to select an image, left-click on it). When \"Only selected image\" is selected, each setting below (\"Background color\", \"Image size\" etc.) will have its own \"Global\" value. If this value is selected, the image will use the default value for this setting, if any other value is selected, this setting will use this value instead of the default value. All uploaded images use global settings by default."
   },
   "size_help_message_text": {
-    "message": "Fit to the screen / browser window:<br>Resize the image to make sure the image is fully visible on screen / browser window.<br>Cover the screen / browser window:<br>Resize the image to cover the entire screen / browser window, even if it has to cut a part of it from the edges.<br>Stretch to fit the screen / browser window:<br>Resize the image to maximum screen / browser window width and height not preserving its aspect ratio."
+    "message": "Fit to the screen/browser window:<br>Resize the image to make sure the image is fully visible on screen/browser window.<br>Cover the screen/browser window:<br>Resize the image to cover the entire screen/browser window, even if it has to cut a part of it from the edges.<br>Stretch to fit the screen/browser window:<br>Resize the image to maximum screen/browser window width and height not preserving its aspect ratio."
   },
 
   "img_type_file_text": {
