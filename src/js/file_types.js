@@ -7,7 +7,7 @@ const create_pair = (arr, key, val) => {
 };
 
 const imgs = ['image/png', 'image/jpeg', 'image/gif'];
-const videos = ['video/mp4'];
+const videos = ['video/mp4', 'video/webm', 'video/ogg'];
 
 const colors = ['color', 'color_theme'];
 const links = ['img_link'];
