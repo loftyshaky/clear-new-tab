@@ -64,6 +64,15 @@ const get_img = async (mode, ed_all, reload_img_even_if_it_didnt_change, transit
                     return undefined;
                 },
             )();
+            const no_images_uploaded = !mut.loaded_img;
+
+            if (no_images_uploaded) {
+                mut.loaded_img = {
+                    id: 'no_images_color',
+                    img: '#ffffff',
+                    type: 'color',
+                };
+            }
 
             if (mut.loaded_img) {
                 const is_color_img = file_types.con.types[mut.loaded_img.type] === 'colors';
@@ -146,7 +155,7 @@ const determine_size = async (reload_img_even_if_it_didnt_change, transition_img
 const set_img = action(async (reload_img_even_if_it_didnt_change, transition_img_change) => {
     try {
         const current_img = mut.mode === 'random_solid_color' ? { id: mut.random_solid_color } : mut.loaded_img;
-        const reloading_same_img = current_img.id === mut.previous_img.id;
+        const reloading_same_img = current_img && mut.previous_img && current_img.id === mut.previous_img.id;
 
         if (!reloading_same_img || reload_img_even_if_it_didnt_change) {
             if (!mut.first_run) {
