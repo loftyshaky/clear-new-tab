@@ -52,7 +52,7 @@ export class Img_div extends React.Component {
 
     set_video_volume = () => {
         try {
-            const hiding_this_video = this.img_divs.opacity_0_cls[this.img_div_i];
+            const hiding_this_video = this.img_divs.mute_video[this.img_div_i];
 
             if (document.hidden || imgs.mut.mode !== 'video' || hiding_this_video) {
                 this.set_video_volume_inner(true);
@@ -81,7 +81,7 @@ export class Img_div extends React.Component {
     }
 
     render() {
-        const showing_this_video = !this.img_divs.opacity_0_cls[this.img_div_i];
+        const showing_this_video = !this.img_divs.mute_video[this.img_div_i];
 
         return (
             <React.Fragment>

@@ -340,6 +340,9 @@ const transition_imgs = async (i1, i2, transition_img_change) => {
 
         runInAction(async () => {
             try {
+                ob.img_divs.mute_video[i1] = true;
+                ob.img_divs.mute_video[i2] = false;
+
                 if (ed_all.img_change_effect === 'crossfade') {
                     ob.img_divs.no_tr_cls[i2] = true;
                     ob.img_divs.no_tr_cls[i1] = false;
@@ -412,6 +415,7 @@ const reload_img_divs = action(() => {
     ob.img_divs = {
         keys: [x.unique_id(), x.unique_id()],
         is_video: [false, false],
+        mute_video: [false, false],
         no_tr_cls: [false, false],
         z_index_minus_1_cls: [false, true],
         opacity_0_cls: [false, false],
