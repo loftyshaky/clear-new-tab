@@ -12,16 +12,18 @@ configure({ enforceActions: 'observed' });
 
 export const decide_what_inputs_to_hide = async () => {
     try {
-        const mode = await ed('mode');
+        const ed_all = await eda();
         const selected_img = await db.imgsd.get(img_selection.mut.selected_img_id || 1) || 'none';
 
         runInAction(() => {
-            inputs_data.obj.img_settings.keep_old_themes_imgs.visible = mode === 'theme';
-            inputs_data.obj.img_settings.slideshow.visible = !!(mode === 'multiple' || mode === 'random_solid_color');
-            inputs_data.obj.img_settings.shuffle.visible = mode === 'multiple';
-            inputs_data.obj.img_settings.change_interval.visible = !!(mode === 'multiple' || mode === 'random_solid_color');
-            inputs_data.obj.img_settings.current_img.visible = !!(mode === 'one' || mode === 'multiple');
-            inputs_data.obj.img_settings.set_last_uploaded.visible = !!(mode === 'one' || mode === 'multiple');
+            inputs_data.obj.img_settings.keep_old_themes_imgs.visible = ed_all.mode === 'theme';
+            inputs_data.obj.img_settings.slideshow.visible = !!(ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color');
+            inputs_data.obj.img_settings.shuffle.visible = ed_all.mode === 'multiple';
+            inputs_data.obj.img_settings.change_interval.visible = !!(ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color');
+            inputs_data.obj.img_settings.img_change_effect.visible = !!((ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color') && ed_all.slideshow);
+            inputs_data.obj.img_settings.slide_direction.visible = !!((ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color') && ed_all.slideshow && ed_all.img_change_effect === 'slide');
+            inputs_data.obj.img_settings.current_img.visible = !!(ed_all.mode === 'one' || ed_all.mode === 'multiple');
+            inputs_data.obj.img_settings.set_last_uploaded.visible = !!(ed_all.mode === 'one' || ed_all.mode === 'multiple');
             inputs_data.obj.img_settings.repeat.visible = selected_img === 'none' ? true : file_types.con.types[selected_img.type] !== 'video_files';
             inputs_data.obj.img_settings.video_volume.visible = selected_img === 'none' ? true : file_types.con.types[selected_img.type] === 'video_files';
         });

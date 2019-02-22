@@ -1,6 +1,6 @@
 'use_strict';
 
-import { observable, action, configure } from 'mobx';
+import { observable, action, runInAction, configure } from 'mobx';
 import * as r from 'ramda';
 
 import { db } from 'js/init_db';
@@ -14,21 +14,17 @@ import x from 'x';
 configure({ enforceActions: 'observed' });
 
 //> display image on new tab page load or when image changes
-export const display_img = async force_current_img => {
+export const display_img = async (reload_img_even_if_it_didnt_change, transition_img_change) => {
     try {
-        if (!mut.prevent_next_img_change) {
-            const ed_all = await eda();
+        const ed_all = await eda();
 
-            const mode = r.cond([
-                [r.anyPass([r.equals('one'), r.equals('multiple'), r.equals('theme')]), r.always('img_or_color')],
-                [r.equals('random_solid_color'), r.always('random_solid_color')],
-            ])(ed_all.mode);
+        const mode = r.cond([
+            [r.anyPass([r.equals('one'), r.equals('multiple'), r.equals('theme')]), r.always('img_or_color')],
+            [r.equals('random_solid_color'), r.always('random_solid_color')],
+        ])(ed_all.mode);
 
-            get_img(mode, ed_all, force_current_img);
+        get_img(mode, ed_all, reload_img_even_if_it_didnt_change, transition_img_change);
 
-        } else {
-            mut.prevent_next_img_change = false;
-        }
     } catch (er) {
         err(er, 57);
     }
@@ -36,10 +32,20 @@ export const display_img = async force_current_img => {
 //< display image on new tab page load or when image changes
 
 //> get one image from background.js imgs object
-const get_img = async (mode, ed_all) => {
+const get_img = async (mode, ed_all, reload_img_even_if_it_didnt_change, transition_img_change) => {
     try {
         if (mode === 'img_or_color') { // not random solid color
             const query_string = window.location.search;
+
+            if (mode === 'random_solid_color') {
+                mut.previous_img = {
+                    id: mut.random_solid_color,
+
+                };
+            } else {
+                mut.previous_img = mut.loaded_img;
+            }
+
 
             mut.loaded_img = await r.ifElse(
                 () => query_string.indexOf('preview') === -1,
@@ -72,12 +78,8 @@ const get_img = async (mode, ed_all) => {
 
                     mut.mode = file_types.con.types[mut.loaded_img.type] === 'img_files' || file_types.con.types[mut.loaded_img.type] === 'links' ? 'img' : 'video';
 
-                    determine_size();
-
                 } else if (is_color_img) {
                     mut.mode = 'color';
-
-                    determine_size('color');
                 }
             }
 
@@ -85,10 +87,10 @@ const get_img = async (mode, ed_all) => {
             const ms_left = await get_ms_left.get_ms_left();
 
             if (ms_left < 0 && ed_all.change_interval != 1 && !ed_all.img_already_changed) { // eslint-disable-line eqeqeq
-                mut.prevent_next_img_change = true;
                 mut.random_solid_color = generate_random_color.generate_random_color();
 
                 await db.ed.update(1, { current_random_color: mut.random_solid_color });
+
                 last_img_change_time.update_last_img_change_time();
 
             } else {
@@ -96,9 +98,10 @@ const get_img = async (mode, ed_all) => {
             }
 
             mut.mode = 'random_solid_color';
-
-            determine_size('random_solid_color');
         }
+
+        determine_size(reload_img_even_if_it_didnt_change, transition_img_change);
+
     } catch (er) {
         err(er, 58);
     }
@@ -106,7 +109,7 @@ const get_img = async (mode, ed_all) => {
 //< get one image from background.js imgs object
 
 //> determine actual size value based size value from database
-const determine_size = async () => {
+const determine_size = async (reload_img_even_if_it_didnt_change, transition_img_change) => {
     try {
         if (mut.mode === 'img' || mut.mode === 'video') {
             if (mut.size_db_val === 'dont_resize' || mut.size_db_val === 'fit_browser' || mut.size_db_val === 'cover_browser' || mut.size_db_val === 'stretch_browser') {
@@ -131,7 +134,7 @@ const determine_size = async () => {
             }
         }
 
-        set_img();
+        set_img(reload_img_even_if_it_didnt_change, transition_img_change);
 
     } catch (er) {
         err(er, 60);
@@ -140,50 +143,55 @@ const determine_size = async () => {
 //< determine actual size value based size value from database
 
 //> set css background property
-const set_img = action(async () => {
+const set_img = action(async (reload_img_even_if_it_didnt_change, transition_img_change) => {
     try {
-        if (!mut.first_run) {
-            const fade_in_first_img = mut.current_img_div_i === 1;
-            const fade_in_second_img = mut.current_img_div_i === 0;
+        const current_img = mut.mode === 'random_solid_color' ? { id: mut.random_solid_color } : mut.loaded_img;
+        const reloading_same_img = current_img.id === mut.previous_img.id;
 
-            if (fade_in_first_img) {
-                mut.current_img_div_i = 0;
+        if (!reloading_same_img || reload_img_even_if_it_didnt_change) {
+            if (!mut.first_run) {
+                const fade_in_first_img = mut.current_img_div_i === 1;
+                const fade_in_second_img = mut.current_img_div_i === 0;
 
-                crossfade_imgs(1, 0);
+                if (fade_in_first_img) {
+                    mut.current_img_div_i = 0;
 
-            } else if (fade_in_second_img) {
-                mut.fade_in_first_img = true;
+                    transition_imgs(1, 0, transition_img_change);
 
-                mut.current_img_div_i = 1;
+                } else if (fade_in_second_img) {
+                    mut.fade_in_first_img = true;
 
-                crossfade_imgs(0, 1);
+                    mut.current_img_div_i = 1;
+
+                    transition_imgs(0, 1, transition_img_change);
+                }
             }
+
+            ob.img_divs.is_video[mut.current_img_div_i] = false;
+
+            if (mut.mode === 'img') {
+                ob.img_divs.background[mut.current_img_div_i] = `url("${mut.img.img}") ${mut.img.position} / ${mut.img.size} ${mut.img.repeat} ${mut.img.color}`;
+
+            } else if (mut.mode === 'video') {
+                ob.img_divs.is_video[mut.current_img_div_i] = true;
+                ob.img_divs.background[mut.current_img_div_i] = mut.img.img;
+                ob.img_divs.video_background_color[mut.current_img_div_i] = mut.img.color;
+                ob.img_divs.video_background_position[mut.current_img_div_i] = mut.img.position;
+                ob.img_divs.video_background_position_class[mut.current_img_div_i] = con.positions_dict[mut.img.position];
+                ob.img_divs.background_size[mut.current_img_div_i] = mut.img.size;
+                ob.img_divs.video_width[mut.current_img_div_i] = mut.img.video_width;
+                ob.img_divs.video_height[mut.current_img_div_i] = mut.img.video_height;
+                ob.img_divs.video_volume[mut.current_img_div_i] = mut.img.video_volume;
+
+            } else if (mut.mode === 'color') {
+                ob.img_divs.background[mut.current_img_div_i] = mut.img.img;
+
+            } else if (mut.mode === 'random_solid_color') {
+                ob.img_divs.background[mut.current_img_div_i] = mut.random_solid_color;
+            }
+
+            mut.first_run = false;
         }
-
-        ob.img_divs.is_video[mut.current_img_div_i] = false;
-
-        if (mut.mode === 'img') {
-            ob.img_divs.background[mut.current_img_div_i] = `url("${mut.img.img}") ${mut.img.position} / ${mut.img.size} ${mut.img.repeat} ${mut.img.color}`;
-
-        } else if (mut.mode === 'video') {
-            ob.img_divs.is_video[mut.current_img_div_i] = true;
-            ob.img_divs.background[mut.current_img_div_i] = mut.img.img;
-            ob.img_divs.video_background_color[mut.current_img_div_i] = mut.img.color;
-            ob.img_divs.video_background_position[mut.current_img_div_i] = mut.img.position;
-            ob.img_divs.video_background_position_class[mut.current_img_div_i] = con.positions_dict[mut.img.position];
-            ob.img_divs.background_size[mut.current_img_div_i] = mut.img.size;
-            ob.img_divs.video_width[mut.current_img_div_i] = mut.img.video_width;
-            ob.img_divs.video_height[mut.current_img_div_i] = mut.img.video_height;
-            ob.img_divs.video_volume[mut.current_img_div_i] = mut.img.video_volume;
-
-        } else if (mut.mode === 'color') {
-            ob.img_divs.background[mut.current_img_div_i] = mut.img.img;
-
-        } else if (mut.mode === 'random_solid_color') {
-            ob.img_divs.background[mut.current_img_div_i] = mut.random_solid_color;
-        }
-
-        mut.first_run = false;
 
     } catch (er) {
         err(er, 61);
@@ -317,27 +325,73 @@ export const resize_img = action(() => {
 });
 //< resize image on window resize and expanding
 
-const crossfade_imgs = action((i1, i2) => {
+const transition_imgs = async (i1, i2, transition_img_change) => {
     try {
-        ob.img_divs.no_tr_cls[i2] = true;
-        ob.img_divs.no_tr_cls[i1] = false;
+        const ed_all = await eda();
 
-        ob.img_divs.z_index_minus_1_cls[i2] = true;
-        ob.img_divs.z_index_minus_1_cls[i1] = false;
+        runInAction(async () => {
+            try {
+                if (ed_all.img_change_effect === 'crossfade') {
+                    ob.img_divs.no_tr_cls[i2] = true;
+                    ob.img_divs.no_tr_cls[i1] = false;
 
-        ob.img_divs.opacity_0_cls[i1] = true;
-        ob.img_divs.opacity_0_cls[i2] = false;
+                    ob.img_divs.slide_cls[i1] = null;
+                    ob.img_divs.slide_cls[i2] = null;
+
+                    ob.img_divs.z_index_minus_1_cls[i2] = true;
+                    ob.img_divs.z_index_minus_1_cls[i1] = false;
+
+                    ob.img_divs.opacity_0_cls[i1] = true;
+                    ob.img_divs.opacity_0_cls[i2] = false;
+
+                } else if (ed_all.img_change_effect === 'slide') {
+                    const slide_direction = ed_all.slide_direction === 'random' ? con.slide_directions[con.slide_directions.length * Math.random() << 0] : ed_all.slide_direction; // eslint-disable-line no-bitwise
+
+                    ob.img_divs.no_tr_cls[i2] = true;
+                    ob.img_divs.no_tr_cls[i1] = true;
+
+                    ob.img_divs.opacity_0_cls[i1] = false;
+                    ob.img_divs.opacity_0_cls[i2] = false;
+
+                    ob.img_divs.z_index_minus_1_cls[i1] = true;
+                    ob.img_divs.z_index_minus_1_cls[i2] = false;
+
+
+                    if (transition_img_change) {
+                        ob.img_divs.slide_cls[i2] = `${slide_direction}_100`;
+                        ob.img_divs.slide_cls[i1] = null;
+
+                        ob.img_divs.no_tr_cls[i2] = false;
+
+                        await x.delay(50);
+
+
+                        runInAction(async () => {
+                            try {
+                                ob.img_divs.slide_cls[i2] = `${slide_direction}_0`;
+
+                            } catch (er) {
+                                err(er, 238);
+                            }
+                        });
+                    }
+                }
+
+            } catch (er) {
+                err(er, 237);
+            }
+        });
 
     } catch (er) {
         err(er, 65);
     }
-});
+};
 
 //> reload image when chanmging settings in options page
 export const reload_img = () => {
     try {
         reload_img_divs();
-        display_img();
+        display_img(true, false);
 
     } catch (er) {
         err(er, 66);
@@ -352,6 +406,7 @@ const reload_img_divs = action(() => {
         no_tr_cls: [false, false],
         z_index_minus_1_cls: [false, true],
         opacity_0_cls: [false, false],
+        slide_cls: [null, null],
         background: [null, null],
         background_size: [null, null],
         video_background_position: [null, null],
@@ -379,6 +434,7 @@ const con = {
         '100% 50%': 'right_center',
         '100% 100%': 'right_bottom',
     },
+    slide_directions: ['from_right_to_left', 'from_left_to_right', 'from_top_to_bottom', 'from_bottom_to_top'],
 };
 
 export const mut = {
@@ -386,8 +442,13 @@ export const mut = {
     current_img_div_i: 0,
     size_db_val: null,
     mode: null,
-    loaded_img: null,
-    prevent_next_img_change: false,
+    loaded_img: {
+        id: 'loaded_img',
+    },
+    previous_img: {
+        id: 'previous_img',
+    },
+    random_solid_color: 'random_solid_color',
     img: {
         size: null,
         img: null,
@@ -403,4 +464,4 @@ export const mut = {
 
 export const ob = observable({});
 
-reload_img_divs();
+reload_img_divs(false);

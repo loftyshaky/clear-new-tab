@@ -92,6 +92,7 @@ export class Img_div extends React.Component {
                         this.img_divs.z_index_minus_1_cls[this.img_div_i] ? 'z_index_minus_1' : null,
                         this.img_divs.opacity_0_cls[this.img_div_i] ? 'opacity_0' : null,
                         this.img_divs.is_video[this.img_div_i] ? 'hidden' : null,
+                        this.img_divs.slide_cls[this.img_div_i],
                     ])}
                     style={{
                         background: this.img_divs.background[this.img_div_i],
@@ -107,6 +108,7 @@ export class Img_div extends React.Component {
                         this.img_divs.z_index_minus_1_cls[this.img_div_i] ? 'z_index_minus_1' : null,
                         this.img_divs.opacity_0_cls[this.img_div_i] ? 'opacity_0' : null,
                         this.img_divs.is_video[this.img_div_i] ? null : 'hidden',
+                        this.img_divs.slide_cls[this.img_div_i],
                     ])}
                     style={{
                         backgroundColor: this.img_divs.video_background_color[this.img_div_i],

@@ -50,6 +50,8 @@ export const init_db = () => {
                 ed.img_already_changed = true;
                 ed.video_volume = 0;
                 ed.show_link_to_default_new_tab = false;
+                ed.img_change_effect = 'crossfade';
+                ed.slide_direction = 'from_right_to_left';
                 ed.position = con.positions_dict[ed.position];
             });
         });

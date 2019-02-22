@@ -109,7 +109,6 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
         const current_img = await ed('current_img');
         await get_new_future_img.get_new_future_img(current_img + 1);
         await x.send_message_to_background({ message: 'preload_img' });
-        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
 
         if (page === 'options') {
             set_last_uploaded_image_as_current();

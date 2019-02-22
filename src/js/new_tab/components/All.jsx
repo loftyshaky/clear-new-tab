@@ -14,7 +14,7 @@ import { Error_boundary } from 'js/components/Error_boundary';
 export class All extends React.Component {
     async componentDidMount() {
         try {
-            imgs.display_img();
+            imgs.display_img(false, false);
 
             x.bind(window, 'resize', imgs.resize_img);
             x.bind(document, 'visibilitychange', imgs.resize_img);

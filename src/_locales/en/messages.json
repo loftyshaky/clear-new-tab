@@ -100,6 +100,12 @@
   "change_interval_label_text": {
     "message": "Change image every"
   },
+  "img_change_effect_label_text": {
+    "message": "Image change effect"
+  },
+  "slide_direction_label_text": {
+    "message": "Slide direction"
+  },
   "keep_old_themes_imgs_label_text": {
     "message": "Keep old themes' images"
   },
@@ -240,6 +246,30 @@
   "option_4_weeks_text": {
     "message": "4 Weeks"
   },
+
+  "option_crossfade_text": {
+    "message": "Сrossfade"
+  },
+  "option_slide_text": {
+    "message": "Slide"
+  },
+
+  "option_random_text": {
+    "message": "Random"
+  },
+  "option_from_right_to_left_text": {
+    "message": "From right to left"
+  },
+  "option_from_left_to_right_text": {
+    "message": "From left to right"
+  },
+  "option_from_top_to_bottom_text": {
+    "message": "From top to bottom"
+  },
+  "option_from_bottom_to_top_text": {
+    "message": "From bottom to top"
+  },
+
 
   "option_global_text": {
     "message": "Global"

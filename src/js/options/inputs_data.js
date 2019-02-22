@@ -77,6 +77,20 @@ export const inputs_data = observable({
                 checkbox_type: 'ed',
                 val: false,
             },
+            img_change_effect: {
+                key: x.unique_id(),
+                family: 'img_settings',
+                name: 'img_change_effect',
+                type: 'select',
+                val: '',
+            },
+            slide_direction: {
+                key: x.unique_id(),
+                family: 'img_settings',
+                name: 'slide_direction',
+                type: 'select',
+                val: '',
+            },
             shuffle: {
                 key: x.unique_id(),
                 family: 'img_settings',

@@ -121,6 +121,38 @@ export const selects_options = {
             value: '2419200000',
         },
     ],
+    img_change_effect: [
+        {
+            label: create_option_data_text_val('crossfade'),
+            value: 'crossfade',
+        },
+        {
+            label: create_option_data_text_val('slide'),
+            value: 'slide',
+        },
+    ],
+    slide_direction: [
+        {
+            label: create_option_data_text_val('random'),
+            value: 'random',
+        },
+        {
+            label: create_option_data_text_val('from_right_to_left'),
+            value: 'from_right_to_left',
+        },
+        {
+            label: create_option_data_text_val('from_left_to_right'),
+            value: 'from_left_to_right',
+        },
+        {
+            label: create_option_data_text_val('from_top_to_bottom'),
+            value: 'from_top_to_bottom',
+        },
+        {
+            label: create_option_data_text_val('from_bottom_to_top'),
+            value: 'from_bottom_to_top',
+        },
+    ],
     settings_type: [
         {
             label: create_option_data_text_val('global'),

@@ -79,7 +79,7 @@ export const delete_img = async img_id => {
         }
 
         await x.send_message_to_background_c({ message: 'retrieve_imgs' });
-        await x.send_message_to_background({ message: 'preload_img' });
+        await x.send_message_to_background_c({ message: 'preload_img' });
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
 
         inputs_hiding.decide_what_inputs_to_hide();

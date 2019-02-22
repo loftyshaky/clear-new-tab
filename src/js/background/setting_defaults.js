@@ -22,6 +22,8 @@ window.set_default_settings = async page => { // this function also called in op
             current_random_color: generate_random_color.generate_random_color(),
             shuffle: true,
             slideshow: false,
+            img_change_effect: 'crossfade',
+            slide_direction: 'from_right_to_left',
             size: 'dont_resize',
             position: '50% 50%',
             repeat: 'no-repeat',

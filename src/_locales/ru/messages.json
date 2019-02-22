@@ -100,6 +100,12 @@
   "change_interval_label_text": {
     "message": "Интервал смены картинки"
   },
+  "img_change_effect_label_text": {
+    "message": "Эффект смены картинки"
+  },
+  "slide_direction_label_text": {
+    "message": "Направление скольжения"
+  },
   "keep_old_themes_imgs_label_text": {
     "message": "Не удалять картинки старых тем"
   },
@@ -238,6 +244,29 @@
   },
   "option_4_weeks_text": {
     "message": "4 недели"
+  },
+
+  "option_crossfade_text": {
+    "message": "Кроссфейд"
+  },
+  "option_slide_text": {
+    "message": "Скольжение"
+  },
+
+  "option_random_text": {
+    "message": "Случайное"
+  },
+  "option_from_right_to_left_text": {
+    "message": "Справа налево"
+  },
+  "option_from_left_to_right_text": {
+    "message": "Cлева направо"
+  },
+  "option_from_top_to_bottom_text": {
+    "message": "Сверху вниз"
+  },
+  "option_from_bottom_to_top_text": {
+    "message": "Снизу вверх"
   },
 
   "option_global_text": {
