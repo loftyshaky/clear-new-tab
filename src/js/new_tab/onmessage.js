@@ -2,6 +2,7 @@
 
 import x from 'x';
 import * as imgs from 'new_tab/imgs';
+import * as link_to_default_new_tab from 'new_tab/link_to_default_new_tab';
 
 //> recieve messages
 browser.runtime.onMessage.addListener(async (message, sender, send_response) => {
@@ -22,6 +23,7 @@ browser.runtime.onMessage.addListener(async (message, sender, send_response) => 
             }
 
         } else if (msg === 'reload_img') {
+            link_to_default_new_tab.set_show_link_to_default_new_tab_observable();
             imgs.reload_img();
             x.send_message_to_background({ message: 'start_timer' });
 
