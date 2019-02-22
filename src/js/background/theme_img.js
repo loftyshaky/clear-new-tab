@@ -41,14 +41,20 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
                 const img_name = r.path(['images', 'theme_ntp_background'], theme_obj);
                 const position_prop = r.path(['properties', 'ntp_background_alignment'], theme_obj);
                 const repeat_prop = r.path(['properties', 'ntp_background_repeat'], theme_obj);
+                const size_prop = r.path(['clear_new_tab', 'size'], theme_obj);
+                const video_volume_prop = r.path(['clear_new_tab', 'video_volume'], theme_obj);
                 const position = con.positions.indexOf(position_prop) > -1 ? con.positions_dict[position_prop] : con.positions_dict.center;
                 const repeat = con.repeats.indexOf(repeat_prop) > -1 ? repeat_prop : 'no-repeat';
+                const size = con.sizes.indexOf(size_prop) > -1 ? size_prop : 'global';
+                const video_volume = video_volume_prop >= 0 && video_volume_prop <= 100 ? +video_volume_prop : 'global';
                 const color_rgb = r.path(['colors', 'ntp_background'], theme_obj);
                 const color = color_rgb ? `#${rgb_to_hex(color_rgb)}` : '#ffffff';
                 const theme_img_info = {
                     position,
                     repeat,
                     color,
+                    size,
+                    video_volume,
                 };
 
                 const is_valid_img = img_name ? img_name_ => con.valid_file_types.some(ext => img_name_.includes(ext)) : null;
@@ -64,10 +70,19 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
 
                     async () => {
                         try {
-                            const clear_new_tab_video = await theme_package_data.file('clear_new_tab_video.mp4');
+                            let clear_new_tab_video = await theme_package_data.file('clear_new_tab_video.mp4');
+
+                            if (!clear_new_tab_video) {
+                                clear_new_tab_video = await theme_package_data.file('clear_new_tab_video.webm');
+                            }
+
+                            if (!clear_new_tab_video) {
+                                clear_new_tab_video = await theme_package_data.file('clear_new_tab_video.ogv');
+                            }
+
                             const theme_img = await theme_package_data.file(img_name); // download theme image
                             const theme_img_or_video = clear_new_tab_video || theme_img || await theme_package_data.file(img_name.charAt(0).toUpperCase() + img_name.slice(1)); // download theme image (convert first letter of image name to uppercase)
-                            const type = clear_new_tab_video ? 'video/mp4' : 'image/png'; // image may not be actually png, 'image/png' just shows that file is image, not video
+                            const type = clear_new_tab_video ? `video/${get_file_extension(clear_new_tab_video.name)}` : `image/${get_file_extension(img_name)}`;
                             const blob = await theme_img_or_video.async('blob');
                             const file_object = convert_to_file_object.convert_to_file_object(blob, type);
 
@@ -252,6 +267,19 @@ export const get_installed_theme_id = () => new Promise(resolve => {
     });
 });
 
+const get_file_extension = filename => {
+    let ext = filename.split('.').pop();
+
+    if (ext === 'jpg') {
+        ext = 'jpeg';
+
+    } else if (ext === 'ogv') {
+        ext = 'ogg';
+    }
+
+    return ext;
+};
+
 const con = {
     positions_dict: {
         top: '50% 0%',
@@ -273,4 +301,5 @@ const con = {
     valid_file_types: ['.gif', '.jpeg', '.jpg', '.png'],
     positions: ['top', 'center', 'bottom', 'left top', 'top left', 'left center', 'center left', 'left bottom', 'bottom left', 'right top', 'top right', 'right center', 'center right', 'right bottom', 'bottom right'], //> purpose of this arrays is to exclude developers mistakes. ex: ntp_background_alignment set to "middle" instead of "center" (https://chrome.google.com/webstore/detail/%D0%B1%D0%B5%D0%B3%D1%83%D1%89%D0%B0%D1%8F-%D0%BB%D0%B8%D1%81%D0%B8%D1%87%D0%BA%D0%B0/pcogoppjgcggbmflbmiihnbbdcbnbkjp)
     repeats: ['repeat', 'repeat-y', 'repeat-x', 'no-repeat'],
+    sizes: ['dont_resize', 'fit_screen', 'fit_browser', 'cover_screen', 'cover_browser', 'stretch_screen', 'stretch_browser'],
 };

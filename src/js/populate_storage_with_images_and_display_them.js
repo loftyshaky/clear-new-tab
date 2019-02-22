@@ -63,7 +63,7 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
                     position: theme_img_info.position || 'global',
                     repeat: theme_img_info.repeat || 'global',
                     color: theme_img_info.color || 'global',
-                    video_volume: theme_img_info.video_volume || 'global',
+                    video_volume: typeof theme_img_info.video_volume !== 'undefined' ? theme_img_info.video_volume : 'global',
                 };
 
                 return img;
