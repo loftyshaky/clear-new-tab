@@ -439,6 +439,10 @@ svg {
     cursor: pointer!important;
 }
 
+.select__indicators {
+    margin-bottom: 1px;
+}
+
 .select__control, .select__menu {
     border: 1px solid white!important;
 }
