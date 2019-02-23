@@ -739,7 +739,7 @@ svg {
     white-space: nowrap;
     display: block;
     overflow: hidden;
-    max-width: fit-content;
+    display: table;
     margin-right: 8px;
 }
 
