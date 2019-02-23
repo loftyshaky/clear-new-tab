@@ -33,7 +33,8 @@ browser.runtime.onMessage.addListener(async message => {
         } else if (msg === 'enter_upload_mode') { // when uploading theme image
             ui_state.enter_upload_mode();
 
-        } else if (msg === 'exit_upload_mode') { // when uploading theme image
+        } else if (msg === 'exit_upload_mode_and_deselect_img') { // when uploading theme image
+            settings.switch_to_settings_type(null, null, true);
             ui_state.exit_upload_mode(message.status);
 
         } else if (msg !== 'confirm_that_opened_tab_is_new_tab_page_and_that_it_is_not_in_preview_mode') {

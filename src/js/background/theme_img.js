@@ -132,7 +132,7 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
 
             x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'change_current_img_input_val' }]);
             x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
-            x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'exit_upload_mode', status: 'resolved' }]);
+            x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'exit_upload_mode_and_deselect_img', status: 'resolved' }]);
 
             mut.uploading_theme_img = false;
 
@@ -150,7 +150,7 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
                 err(er2, 43, null, true);
             }
 
-            x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'exit_upload_mode', status: 'rejected' }]);
+            x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'exit_upload_mode_and_deselect_img', status: 'rejected' }]);
 
             mut.uploading_theme_img = false;
 

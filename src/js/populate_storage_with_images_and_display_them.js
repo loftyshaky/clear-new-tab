@@ -111,9 +111,8 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
 
         if (page === 'options') {
             set_last_uploaded_image_as_current();
+            ui_state.exit_upload_mode(status);
         }
-
-        ui_state.exit_upload_mode(status);
 
         await x.send_message_to_background_c({ message: 'preload_img' });
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
@@ -123,7 +122,9 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
     } catch (er) {
         err(er, 172);
 
-        ui_state.exit_upload_mode('resolved_with_errors');
+        if (page === 'options') {
+            ui_state.exit_upload_mode('resolved_with_errors');
+        }
     }
 
     return undefined;
