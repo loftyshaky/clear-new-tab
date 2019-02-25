@@ -39,7 +39,7 @@ body, .pagination {
     margin-bottom: 16px!important;
 }
 
-body, .option, .imgs_legend_line, .imgs_fieldset_filler, .rc-slider-handle {
+body, .option, .imgs_legend_line, .imgs_fieldset_filler, .rc-slider-handle, .analytics_privacy {
     background-color: #212121;
 } 
 
@@ -859,12 +859,16 @@ svg {
 /*< images */
 
 /*> loading screen */
-.loading_screen {
+.loading_screen, .analytics_privacy_protecting_screen {
     height: 100%;
     width: 100%;
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 1;
+}
+
+.loading_screen {
     z-index: 2147483646;
 }
 
@@ -880,8 +884,47 @@ svg {
 }
 /*< loading screen */
 
+/*> analytics_privacy */
+.analytics_privacy {
+    position: fixed;
+    padding: 12px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    box-shadow: 0 0 15px #fbff75;
+    border: 1px solid #fbff75;
+    z-index: 1;
+}
+
+.analytics_privacy_protecting_screen {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.analytics_privacy_btns_and_link {
+    display: flex;
+    align-items: center;
+}
+
+.analytics_privacy_privacy_policy_link {
+    margin-left: auto;
+}
+
+.analytics_privacy_message {
+    margin-bottom: 11px;
+}
+
+.analytics_privacy .btn {
+    margin-bottom: 0
+}
+
+.analytics_privacy .btn:not(:last-child) {
+    margin-right: 10px
+}
+/*< analytics_privacy */
+
 /*> transition */
-.link, .upload_box_browse_label, svg, .theme_img_link, .using_mouse .delete_img_btn, .color_input_vizualization, .using_mouse .normal_input, .using_mouse .btn, .global_el, .input, .image_settings_wrapper, .dragged_item, .img_inner_w, .using_mouse .img_w, .selected_img, .using_mouse .img_btn, .imgs_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu {
+.link, .upload_box_browse_label, svg, .theme_img_link, .using_mouse .delete_img_btn, .color_input_vizualization, .using_mouse .normal_input, .using_mouse .btn, .global_el, .input, .image_settings_wrapper, .dragged_item, .img_inner_w, .using_mouse .img_w, .selected_img, .using_mouse .img_btn, .imgs_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu, .analytics_privacy, .analytics_privacy_protecting_screen {
     transition: all 0.2s ease-out;
 }
 
@@ -917,7 +960,7 @@ svg {
     transition-property: color, background-color, border-color, box-shadow;
 }
 
-.global_el, .input, .image_settings_wrapper, .dragged_item, .loading_screen, .imgs_w_2, .img_inner_w_2, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w {
+.global_el, .input, .image_settings_wrapper, .dragged_item, .loading_screen, .imgs_w_2, .img_inner_w_2, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w, .analytics_privacy, .analytics_privacy_protecting_screen {
     transition-property: opacity;
 }
 
@@ -989,7 +1032,7 @@ body:not(.using_mouse) .select__control, body:not(.using_mouse) .select__menu {
     display: none;
 }
 
-.other_settings_w > div > div:nth-child(2) {
+.other_settings_w > div > div:nth-child(3) {
     display: none;
 }
 /*< delete later */

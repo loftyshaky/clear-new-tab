@@ -3,6 +3,7 @@
 import { action, configure } from 'mobx';
 
 import x from 'x';
+import * as analytics from 'js/analytics';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import * as file_types from 'js/file_types';
 import * as settings from 'options/settings';
@@ -19,6 +20,8 @@ export const select_img = async (clicked_img_id, e) => {
         const not_img_btn = !x.matches(e.target, '.img_btn');
 
         if (not_img_preview && not_delete_img_btn && not_img_btn) {
+            analytics.send_options_imgs_event('selected');
+
             const clicked_img_page_i = img_i.get_img_i_by_id(clicked_img_id);
             const clicked_img_i = clicked_img_page_i + img_i.determine_img_i_modificator();
             change_selected_img(clicked_img_id, clicked_img_page_i);

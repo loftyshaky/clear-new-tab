@@ -6,6 +6,7 @@ import jszip_utils from 'jszip-utils';
 
 import x from 'x';
 import { db } from 'js/init_db';
+import * as analytics from 'js/analytics';
 import * as get_new_future_img from 'js/get_new_future_img';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import * as determine_theme_current_img from 'js/determine_theme_current_img';
@@ -23,6 +24,8 @@ export const get_theme_img = async (theme_id, reinstall_even_if_theme_img_alread
 
             if ((!ed_all.keep_old_themes_imgs && reinstall_even_if_theme_img_already_exist) || !installing_theme_img_already_exist) {
                 mut.uploading_theme_img = true;
+
+                analytics.send_event('theme_img', 'loaded');
 
                 x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'enter_upload_mode' }]);
 

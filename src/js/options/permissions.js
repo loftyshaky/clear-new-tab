@@ -4,6 +4,8 @@
 import { toJS } from 'mobx';
 
 import x from 'x';
+import * as analytics from 'js/analytics';
+import * as analytics_privacy from 'options/analytics_privacy';
 import { inputs_data } from 'options/inputs_data';
 import * as settings from 'options/settings';
 import * as inputs_hiding from 'options/inputs_hiding';
@@ -45,20 +47,37 @@ const remove_permission = permissions => new Promise((resolve, reject) => {
 
 export const ask_for_permission_or_remove_it = async (checkbox_name, permissions) => {
     try {
-        if (!inputs_data.obj.other_settings[checkbox_name].val) { // if permission is NOT present
-            const granted = await request_permission(permissions);
+        const cannot_uncheck_checkboxes = ['allow_downloading_images_by_link', 'enable_analytics'];
 
-            if (granted) {
+        if (!inputs_data.obj.other_settings[checkbox_name].val) { // if permission is NOT present
+            analytics.send_permissions_event('requested', checkbox_name);
+
+            const allowed = await request_permission(permissions);
+
+            if (allowed) {
+                analytics.send_permissions_event('allowed', checkbox_name);
+
                 settings.change_input_val('other_settings', checkbox_name, true);
+
+                if (checkbox_name === 'enable_analytics') {
+                    analytics_privacy.allow_analytics();
+                }
+
+            } else {
+                analytics.send_permissions_event('denied', checkbox_name);
             }
 
-        } else if (checkbox_name !== 'allow_downloading_images_by_link' || what_browser === 'firefox') { // if permission is present
+        } else if (cannot_uncheck_checkboxes.indexOf(checkbox_name) === -1 || what_browser === 'firefox') { // if permission is present
+            analytics.send_permissions_event('removed', checkbox_name);
+
             await remove_permission(permissions);
 
             settings.change_input_val('other_settings', checkbox_name, false);
 
         } else {
-            window.alert(x.msg('cannot_disable_all_urls_permission_alert'));
+            analytics.send_alerts_event(`cannot_disable_permission-${checkbox_name}`);
+
+            window.alert(x.msg('cannot_disable_permission_alert'));
         }
 
         inputs_hiding.decide_what_inputs_to_hide();
@@ -70,7 +89,7 @@ export const ask_for_permission_or_remove_it = async (checkbox_name, permissions
 
 export const restore_optional_permissions_checkboxes_state = () => {
     try {
-        const checkbox_names = ['show_bookmarks_bar', 'enable_paste', 'allow_downloading_images_by_link'];
+        const checkbox_names = ['show_bookmarks_bar', 'enable_paste', 'allow_downloading_images_by_link', 'enable_analytics'];
         const permissions = toJS(checkbox_names.map(checkbox_name => toJS(inputs_data.obj.other_settings[checkbox_name].permissions)));
 
         checkbox_names.forEach(async (checkbox_name, i) => {

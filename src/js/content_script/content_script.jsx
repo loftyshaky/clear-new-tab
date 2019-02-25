@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import x from 'x';
+import 'js/error';
 import 'content_script/onmessage';
 import * as installing_theme from 'content_script/installing_theme';
 

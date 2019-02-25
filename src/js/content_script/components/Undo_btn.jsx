@@ -20,7 +20,9 @@ export const Undo_btn = observer(() => {
 
     return (
         <Tr
-            attr={{}}
+            attr={{
+                className: 'undo_btn_w_2',
+            }}
             tag="div"
             name="gen"
             state={installing_theme.ob.show_undo_btn}

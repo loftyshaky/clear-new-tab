@@ -16,7 +16,16 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
     try {
         const msg = message.message;
 
-        if (msg === 'get_img') { // set, preload images and get current image from new tab
+        if (msg === 'get_enable_analytics_val') {
+            ed('enable_analytics')
+                .then(enable_analytics => {
+                    send_response(enable_analytics);
+
+                }).catch(er => {
+                    err(er, 267, null, true);
+                });
+
+        } else if (msg === 'get_img') { // set, preload images and get current image from new tab
             if (!imgs.mut.got_img_once) {
                 imgs.mut.got_img_once = true;
                 let ms_left;

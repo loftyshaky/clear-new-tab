@@ -4,6 +4,8 @@ import React from 'react';
 import { observable, action, configure } from 'mobx';
 import { observer } from 'mobx-react';
 
+import * as analytics from 'js/analytics';
+
 import { Tr } from 'js/components/Tr';
 
 configure({ enforceActions: 'observed' });
@@ -13,6 +15,13 @@ export class Help extends React.Component {
     show_or_hide_help_message = action(e => {
         try {
             e.preventDefault(e);
+
+            if (this.ob.show_help_message) {
+                analytics.send_help_event('hidden', this.family, this.name);
+
+            } else {
+                analytics.send_help_event('showed', this.family, this.name);
+            }
 
             this.ob.show_help_message = !this.ob.show_help_message;
 
@@ -27,6 +36,7 @@ export class Help extends React.Component {
 
         ({
             add_help: this.add_help,
+            family: this.family,
             name: this.name,
         } = this.props);
 

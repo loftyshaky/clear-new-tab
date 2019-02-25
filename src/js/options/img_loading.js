@@ -5,6 +5,7 @@ import * as r from 'ramda';
 
 import x from 'x';
 import { db } from 'js/init_db';
+import * as analytics from 'js/analytics';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import * as convert_to_file_object from 'js/convert_to_file_object';
 import { inputs_data } from 'options/inputs_data';
@@ -22,6 +23,8 @@ export const get_pasted_image_or_image_url = async e => {
         ui_state.hide_upload_box_messages();
         ui_state.change_paste_input_placeholder_val(x.msg('upload_box_uploading_message_text'));
 
+        const family = 'upload';
+        const name = 'paste';
         const pasted_img_clipboard_item = r.find(clipboard_item => clipboard_item.type.indexOf('image') > -1, e.clipboardData.items); // ordinary for each will not work | check if img (its file object (after it will be converted with getAsFile below) if is) pasted
         const pasted_img_file_object = pasted_img_clipboard_item ? pasted_img_clipboard_item.getAsFile() : null; // not link, copied image
         const clipboard_text = e.clipboardData.getData('text');
@@ -36,6 +39,8 @@ export const get_pasted_image_or_image_url = async e => {
                     const response = await window.fetch(clipboard_text);
                     const blob = await response.blob();
                     if (blob.type.indexOf('image') > -1) {
+                        analytics.send_text_inputs_event(`pasted_link_to_img_and_downloaded_it_${blob.type}`, family, name);
+
                         const file_object = convert_to_file_object.convert_to_file_object(blob);
                         return file_object;
                     }
@@ -51,6 +56,12 @@ export const get_pasted_image_or_image_url = async e => {
 
             () => {
                 try {
+                    const is_file = pasted_img_file_object;
+
+                    if (is_file) {
+                        analytics.send_text_inputs_event(`pasted_img_from_clipboard_${pasted_img_file_object.type}`, family, name);
+                    }
+
                     return pasted_img_file_object;
 
                 } catch (er) {
@@ -72,10 +83,14 @@ export const get_pasted_image_or_image_url = async e => {
                     const test_img = new Image();
 
                     test_img.onload = () => {
+                        analytics.send_text_inputs_event(`pasted_link_to_img_${clipboard_text.split('.').pop()}`, family, name);
+
                         resolve();
                     };
 
                     test_img.onerror = () => {
+                        analytics.send_text_inputs_event('tried_to_paste_img_but_its_not_img', family, name);
+
                         reject(er_obj('Not a link.'));
                     };
 

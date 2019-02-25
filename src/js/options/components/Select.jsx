@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import ReactSelect, { components } from 'react-select';
 
 import x from 'x';
+import * as analytics from 'js/analytics';
 import { inputs_data } from 'options/inputs_data';
 import { selects_options } from 'options/selects_options';
 import * as settings from 'options/settings';
@@ -30,6 +31,8 @@ export class Select extends React.Component {
     change_select_val = selected_option => {
         try {
             const { value } = selected_option;
+
+            analytics.send_event('selects', `selected_option-${this.family}-${this.name}-${value}`);
 
             if (!selected_option.is_settings_type_select) {
                 settings.change_settings('select', this.family, this.name, value);

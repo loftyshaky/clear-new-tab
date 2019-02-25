@@ -6,6 +6,7 @@ import { observer } from 'mobx-react';
 
 import x from 'x';
 import { db } from 'js/init_db';
+import * as analytics from 'js/analytics';
 
 import { Tr } from 'js/components/Tr';
 
@@ -16,6 +17,8 @@ export class Install_help extends React.Component {
     hide_install_help = action(e => {
         try {
             e.preventDefault(e);
+
+            analytics.send_btns_event('upload', 'hide_install_help_link');
 
             db.ed.update(1, { show_install_help: false });
 
@@ -55,7 +58,8 @@ export class Install_help extends React.Component {
 
     componentDidMount() {
         try {
-            sb(this.install_help_w, '.hide_install_help_link').addEventListener('click', this.hide_install_help);
+            x.bind(sb(this.install_help_w, '.hide_install_help_link'), 'click', this.hide_install_help);
+            x.bind(sb(this.install_help_w, '.chrome_web_store_link'), 'mousedown', analytics.send_links_event.bind(null, 'upload', 'chrome_web_store_link', null));
 
         } catch (er) {
             err(er, 89);

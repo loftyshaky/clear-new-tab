@@ -22,6 +22,7 @@ export const inputs_data = observable({
                 visible: true,
                 add_help: true,
                 on_paste: img_loading.get_pasted_image_or_image_url,
+                entered_one_char_in_text_input_after_focus: false,
             },
             download_img_when_link_given: {
                 key: x.unique_id(),
@@ -42,6 +43,7 @@ export const inputs_data = observable({
                 vizualization_color: '#ffffff',
                 color_pickier_is_visible: false,
                 color_pickier_position: 'top',
+                changed_color_once_after_focus: false,
             },
         },
         img_settings: {
@@ -110,6 +112,7 @@ export const inputs_data = observable({
                 add_help: false,
                 on_input: settings.change_current_img_by_typing_into_currrent_img_input,
                 on_blur: settings.correct_current_img_input_val,
+                entered_one_char_in_text_input_after_focus: false,
             },
             set_last_uploaded: {
                 key: x.unique_id(),
@@ -169,6 +172,7 @@ export const inputs_data = observable({
                 vizualization_color: '#ffffff',
                 color_pickier_is_visible: false,
                 color_pickier_position: 'top',
+                changed_color_once_after_focus: false,
             },
             video_volume: {
                 key: x.unique_id(),
@@ -179,9 +183,20 @@ export const inputs_data = observable({
                 global_checkbox_val: false,
                 visible: true,
                 include_global_checkbox: true,
+                adjusting_slider_once_after_focus: false,
             },
         },
         other_settings: {
+            enable_analytics: {
+                key: x.unique_id(),
+                family: 'other_settings',
+                name: 'enable_analytics',
+                type: 'checkbox',
+                checkbox_type: 'permissions',
+                permissions: [{ origins: ['https://www.google-analytics.com/*'] }],
+                val: false,
+                visible: true,
+            },
             show_link_to_default_new_tab: {
                 key: x.unique_id(),
                 family: 'other_settings',

@@ -6,6 +6,7 @@ import { observer } from 'mobx-react';
 import Pagination from 'react-js-pagination';
 
 import x from 'x';
+import * as analytics from 'js/analytics';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import * as img_loading from 'options/img_loading';
 import * as img_selection from 'options/img_selection';
@@ -341,6 +342,8 @@ class Img extends React.Component {
     //> open image in new tab when clicking on preview button
     preview_img = id => {
         try {
+            analytics.send_options_imgs_event('previewed');
+
             x.send_message_to_background({ message: 'open_preview_img_tab', img_id: id });
 
         } catch (er) {

@@ -6,10 +6,11 @@ import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as r from 'ramda';
 
+import * as enter_click from 'js/enter_click';
+import * as analytics from 'js/analytics';
 import { inputs_data } from 'options/inputs_data';
 import * as settings from 'options/settings';
 import * as permissions_file from 'options/permissions';
-import * as enter_click from 'js/enter_click';
 
 import { Tr } from 'js/components/Tr';
 
@@ -37,11 +38,17 @@ export const Global_checkbox = observer(props => {
     const { key, checkbox_type, is_global_checkbox, family, name, permissions } = props;
     const checkbox_id = is_global_checkbox ? `${name}_global` : name;
 
-    const on_change = r.cond([
+    const on_change_f = r.cond([
         [r.equals('ed'), () => settings.change_settings.bind(null, 'checkbox', family, name, null)],
         [r.equals('permissions'), () => permissions_file.ask_for_permission_or_remove_it.bind(null, name, toJS(permissions))],
         [r.equals('global'), () => settings.change_global_checkbox_setting.bind(null, name)],
     ])(checkbox_type);
+
+    const on_change = async e => {
+        analytics.send_event('checkboxes', `${e.target.checked ? 'checked' : 'unchecked'}-${family}-${name}${is_global_checkbox ? '-global' : ''}`);
+
+        on_change_f();
+    };
 
     return (
         <Tr

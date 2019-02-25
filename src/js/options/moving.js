@@ -4,6 +4,7 @@ import { observable, action, configure } from 'mobx';
 
 import x from 'x';
 import { db } from 'js/init_db';
+import * as analytics from 'js/analytics';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import * as img_loading from 'options/img_loading';
 import * as settings from 'options/settings';
@@ -41,11 +42,21 @@ export const prompt_to_move = async img_w_tr => {
     try {
         mut.item_to_move = img_w_tr;
 
+        analytics.send_options_imgs_event('opened_enter_new_img_no_prompt');
+
         const new_position_i = window.prompt(x.msg('enter_new_img_no'));
-        const given_value_is_number = !Number.isNaN(new_position_i);
+
+        if (new_position_i) {
+            analytics.send_prompts_accepted_event('enter_new_img_no');
+
+        } else {
+            analytics.send_prompts_canceled_event('enter_new_img_no');
+        }
+
+        const given_value_is_integer = Number.isInteger(+new_position_i);
         const number_of_imgs = await db.imgsd.count();
 
-        if (new_position_i && given_value_is_number && number_of_imgs > 1) {
+        if (new_position_i && given_value_is_integer && number_of_imgs > 1) {
             let new_position_i_final;
 
             if (new_position_i < 1) {
@@ -59,6 +70,9 @@ export const prompt_to_move = async img_w_tr => {
             }
 
             move('prompt', new_position_i_final);
+
+        } else if (new_position_i) {
+            analytics.send_options_imgs_event('unable_to_move_by_prompt');
         }
 
     } catch (er) {
@@ -265,9 +279,13 @@ const move = async (mode, new_position_no) => {
         let el_to_move_img_before_or_after;
 
         if (mode === 'drop') {
+            analytics.send_options_imgs_event('moved_by_dragging_and_dropping');
+
             el_to_move_img_before_or_after = s('.drop_area');
 
         } else if (mode === 'prompt') {
+            analytics.send_options_imgs_event('moved_by_prompt');
+
             if (new_position_no <= img_i_modificator || new_position_no > img_i_modificator + populate_storage_with_images_and_display_them.con.imgs_per_page) {
                 el_to_move_img_before_or_after = 'img_is_out_of_page';
 

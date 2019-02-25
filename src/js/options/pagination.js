@@ -3,6 +3,7 @@
 import { observable, action, configure } from 'mobx';
 
 import x from 'x';
+import * as analytics from 'js/analytics';
 
 configure({ enforceActions: 'observed' });
 
@@ -42,7 +43,12 @@ export const send_click_to_pagination_btn = e => { // fixes bug when page not ch
         const pagination_btn = x.closest(e.target, '.pagination_btn');
 
         if (pagination_btn) { // pagination_btn is not active / disabled
+
             pagination_btn.click();
+
+            const new_page = s('.pagination_btn.active a').textContent;
+
+            analytics.send_event('pagination', `switched_to_page_${new_page}`);
         }
 
     } catch (er) {

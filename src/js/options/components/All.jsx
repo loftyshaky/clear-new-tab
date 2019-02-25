@@ -14,6 +14,7 @@ import * as ui_state from 'options/ui_state';
 
 import { Tr } from 'js/components/Tr';
 import { Error_boundary } from 'js/components/Error_boundary';
+import { Analytics_privacy } from 'options/components/Analytics_privacy';
 import { Loading_screen } from 'options/components/Loading_screen';
 import { Left_fieldset } from 'options/components/Left_fieldset';
 import { Install_help } from 'options/components/Install_help';
@@ -91,11 +92,11 @@ export class All extends React.Component {
                         >
                             <Btn
                                 name="restore_global_defaults"
-                                onclick_f={settings.restore_default_global_settings}
+                                on_click={settings.restore_default_global_settings}
                             />
                             <Btn
                                 name="delete_all_imgs"
-                                onclick_f={img_deletion.delete_all_images}
+                                on_click={img_deletion.delete_all_images}
                             />
                         </Left_fieldset>
                         <Left_fieldset family="links">
@@ -145,6 +146,7 @@ export class All extends React.Component {
                         </Left_fieldset>
                     </div>
                     <Imgs_fieldset />
+                    <Analytics_privacy />
                 </div>
             </Error_boundary>
         );

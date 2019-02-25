@@ -32,7 +32,7 @@
     padding: 2px 8px 2px 8px;
 }
 
-.undo_btn {
+.undo_btn_w_2, .undo_btn {
     position: fixed;
     top: 78px;
     right: 29px;
@@ -41,14 +41,28 @@
     font-size: 18px;
 }
 
-.btn {
-    transition: all 0.2s ease-out;
+.btn, .undo_btn_w_2 {
+    transition: all 0.2s ease-out!important;
 }
 
 .btn {
-    transition-property: background-color;
+    transition-property: background-color, opacity!important;
+}
+
+.undo_btn_w_2 {
+    transition-property: opacity!important;
 }
 
 .btn:active {
     transition: none;
 }
+
+/*> mods */
+.opacity_0 {
+    opacity: 0;
+}
+
+.opacity_1 {
+    opacity: 1;
+}
+/*< mods */

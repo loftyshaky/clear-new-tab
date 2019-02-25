@@ -4,6 +4,7 @@ import { observable, action, runInAction, configure } from 'mobx';
 
 import x from 'x';
 import { db } from 'js/init_db';
+import * as analytics from 'js/analytics';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import * as settings from 'options/settings';
 import * as img_selection from 'options/img_selection';
@@ -20,6 +21,8 @@ configure({ enforceActions: 'observed' });
 //> one image deletion
 export const delete_img = async img_id => {
     try {
+        analytics.send_options_imgs_event('deleted');
+
         ui_state.disable_ui();
 
         const ed_all = await eda();
@@ -124,9 +127,16 @@ const hide_img_before_deletion = action(deleted_img_i => {
 //>1 delete all images when clicking delete_all_imgs
 export const delete_all_images = async () => {
     try {
+        const family = 'other_settings';
+        const name = 'delete_all_imgs';
+
+        analytics.send_btns_event(family, name);
+
         const confirm = window.confirm(x.msg('delete_all_images_confirm'));
 
         if (confirm) {
+            analytics.send_confirms_accepted_event(name);
+
             ui_state.disable_ui();
 
             await db.imgs.clear();
@@ -154,6 +164,9 @@ export const delete_all_images = async () => {
             total_number_of_imgs.set_total_number_of_imgs();
 
             inputs_hiding.decide_what_inputs_to_hide();
+
+        } else {
+            analytics.send_confirms_canceled_event(name);
         }
 
     } catch (er) {

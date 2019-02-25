@@ -4,6 +4,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 
 import x from 'x';
+import * as analytics from 'js/analytics';
 import * as ui_state from 'options/ui_state';
 import * as img_loading from 'options/img_loading';
 import * as managing_upload_box from 'options/managing_upload_box';
@@ -25,6 +26,7 @@ export class Upload_box extends React.Component {
 
     browse_handle_files = e => {
         try {
+            analytics.send_upload_box_upload_event('uploaded_by_browse_btn');
             img_loading.handle_files(e.target.files);
             managing_upload_box.reset_upload_btn_val();
 
@@ -35,6 +37,7 @@ export class Upload_box extends React.Component {
 
     drop_handle_files = e => {
         try {
+            analytics.send_upload_box_upload_event('uploaded_by_dragging_and_dropping');
             managing_upload_box.dehighlight_upload_box_ondrop();
             img_loading.handle_files(e.dataTransfer.files);
 
@@ -84,6 +87,7 @@ export class Upload_box extends React.Component {
                             data-text="upload_box_browse_label_text"
                             tabIndex="0"
                             onKeyUp={enter_click.simulate_click_on_enter}
+                            onClick={analytics.send_event.bind(null, 'browse_btn', 'clicked')}
                         />
                         {' '}
                         <label data-text="upload_box_drag_label_text" />
@@ -97,7 +101,7 @@ export class Upload_box extends React.Component {
                         data-text="upload_box_error_message_text"
                     />
                 </Tr>
-                <Help name="upload_box" add_help />
+                <Help family="upload" name="upload_box" add_help />
             </div>
         );
     }

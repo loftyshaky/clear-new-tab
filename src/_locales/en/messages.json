@@ -32,8 +32,8 @@
   "select_img_alert": {
     "message": "Select an image."
   },
-  "cannot_disable_all_urls_permission_alert": {
-    "message": "This option cannot be disabled. If you want to disable this option and remove the permission \"Read and change all your data on the websites you visit\" reinstall the extension."
+  "cannot_disable_permission_alert": {
+    "message": "This option cannot be disabled. If you want to disable this option reinstall the extension."
   },
 
   "restore_global_defaults_confirm": {
@@ -141,6 +141,9 @@
   },
   "global_label_text": {
     "message": "Global"
+  },
+  "enable_analytics_label_text": {
+    "message": "Allow Clear New Tab to send anonymous usage information"
   },
   "show_link_to_default_new_tab_label_text": {
     "message": "Show a link to default new tab page in new tab"
@@ -348,10 +351,10 @@
 
 
   "install_help_text_chrome": {
-    "message": "Thanks for installing Clear New Tab! If your Chrome have theme from <a class='link install_help_link' href='https://chrome.google.com/webstore/category/themes'>Chrome Web Store</a> installed, wait till its background image appear in an \"Images\" section, and then open new tab to see it. Otherwise, you can upload your own image with a form below. Click <a class='link install_help_link hide_install_help_link' href='#'>here</a> to hide this message."
+    "message": "Thanks for installing Clear New Tab! If your Chrome have theme from <a class='link install_help_link chrome_web_store_link' href='https://chrome.google.com/webstore/category/themes'>Chrome Web Store</a> installed, wait till its background image appear in an \"Images\" section, and then open new tab to see it. Otherwise, you can upload your own image with a form below. Click <a class='link install_help_link hide_install_help_link' href='#'>here</a> to hide this message."
   },
   "install_help_text_firefox": {
-    "message": "Thanks for installing Clear New Tab! You can install theme from <a class='link install_help_link' href='https://chrome.google.com/webstore/category/themes'>Chrome Web Store</a> or upload your own image with a form below. Click <a class='link install_help_link hide_install_help_link' href='#'>here</a> to hide this message."
+    "message": "Thanks for installing Clear New Tab! You can install theme from <a class='link install_help_link chrome_web_store_link' href='https://chrome.google.com/webstore/category/themes'>Chrome Web Store</a> or upload your own image with a form below. Click <a class='link install_help_link hide_install_help_link' href='#'>here</a> to hide this message."
   },
   "upload_box_help_message_text": {
     "message": "You can upload multiple images/videos at once. Just select multiple images/videos before clicking \"Open\"/dragging.<br>Supported formats: png, jpg, gif, mp4, webm, ogg."
@@ -436,6 +439,9 @@
   "donate_link_text": {
     "message": "💖 Support the development of this extension by donating any amount via PayPal"
   },
+  "privacy_policy_link_text": {
+    "message": "📜 Privacy policy"
+  },
 
   "clear_new_tab_for_link_href_chrome": {
     "message": "https://bit.ly/clear-new-tab"
@@ -454,6 +460,17 @@
   },
   "rate_link_href_opera": {
     "message": ""
+  },
+
+
+  "analytics_privacy_message_text": {
+    "message": "Do you want to allow Clear New Tab to send anonymous usage information to Google Analytics for product improvement purposes?"
+  },
+  "allow_analytics_btn_text": {
+    "message": "Allow"
+  },
+  "disallow_analytics_btn_text": {
+    "message": "Disallow"
   },
 
 

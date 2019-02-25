@@ -3,7 +3,7 @@
 import React from 'react';
 
 export const Btn = props => {
-    const { name, onclick_f } = props;
+    const { name, on_click } = props;
 
     return (
         <button
@@ -11,7 +11,7 @@ export const Btn = props => {
             name={name}
             className="btn"
             data-text={`${name}_btn_text`}
-            onClick={onclick_f}
+            onClick={on_click}
         />
     );
 };

@@ -19,7 +19,7 @@ browser.runtime.onMessage.addListener(async (message, sender, send_response) => 
 
         } else if (msg === 'change_img') {
             if (await ed('slideshow') && window.location.search.indexOf('preview') === -1) {
-                imgs.display_img(false, true);
+                imgs.display_img(false, true, true);
             }
 
         } else if (msg === 'reload_img') {

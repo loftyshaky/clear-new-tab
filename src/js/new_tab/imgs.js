@@ -4,6 +4,7 @@ import { observable, action, runInAction, configure } from 'mobx';
 import * as r from 'ramda';
 
 import { db } from 'js/init_db';
+import * as analytics from 'js/analytics';
 import * as file_types from 'js/file_types';
 import * as get_ms_left from 'js/get_ms_left';
 import * as last_img_change_time from 'js/last_img_change_time';
@@ -14,8 +15,12 @@ import x from 'x';
 configure({ enforceActions: 'observed' });
 
 //> display image on new tab page load or when image changes
-export const display_img = async (reload_img_even_if_it_didnt_change, transition_img_change) => {
+export const display_img = async (reload_img_even_if_it_didnt_change, transition_img_change, slideshow_change) => {
     try {
+        if (slideshow_change) {
+            analytics.send_new_tab_imgs_event('slideshow_change');
+        }
+
         const ed_all = await eda();
 
         const mode = r.cond([
@@ -23,7 +28,7 @@ export const display_img = async (reload_img_even_if_it_didnt_change, transition
             [r.equals('random_solid_color'), r.always('random_solid_color')],
         ])(ed_all.mode);
 
-        get_img(mode, ed_all, reload_img_even_if_it_didnt_change, transition_img_change);
+        get_img(mode, ed_all, reload_img_even_if_it_didnt_change, transition_img_change, slideshow_change);
 
     } catch (er) {
         err(er, 57);
@@ -198,6 +203,8 @@ const set_img = action(async (reload_img_even_if_it_didnt_change, transition_img
             } else if (mut.mode === 'random_solid_color') {
                 ob.img_divs.background[mut.current_img_div_i] = mut.random_solid_color;
             }
+
+            analytics.send_new_tab_imgs_event(`showed_${mut.mode}`);
 
             mut.first_run = false;
         }
@@ -403,7 +410,7 @@ const transition_imgs = async (i1, i2, transition_img_change) => {
 export const reload_img = () => {
     try {
         reload_img_divs();
-        display_img(true, false);
+        display_img(true, false, false);
 
     } catch (er) {
         err(er, 66);

@@ -5,6 +5,7 @@ import * as r from 'ramda';
 
 import x from 'x';
 import { db } from 'js/init_db';
+import * as analytics from 'js/analytics';
 import { inputs_data } from 'options/inputs_data';
 import * as img_loading from 'options/img_loading';
 import * as img_selection from 'options/img_selection';
@@ -156,11 +157,7 @@ export const show_or_hide_color_pickier_when_clicking_on_color_input_vizualizati
                 const clicked_outside_of_color_pickier = !mut.current_color_pickier.el.contains(e.target);
 
                 if (clicked_outside_of_color_pickier) {
-                    mut.current_color_pickier.el = null;
-
-                    show_or_hide_color_pickier(mut.current_color_pickier.family, mut.current_color_pickier.name, false);
-
-                    set_color_input_vizualization_color(mut.current_color_pickier.family, mut.current_color_pickier.name, mut.current_color_pickier.color);
+                    cancel_color_picking();
                 }
             }
             //<1 try to hide color pickier when clicking outside of color pickier
@@ -175,6 +172,8 @@ export const show_or_hide_color_pickier_when_clicking_on_color_input_vizualizati
                 const clicked_on_same_color_input_vizualization_second_time = previously_opened_color_pickier === color_pickier;
 
                 if (color_pickier_hidden && !clicked_on_same_color_input_vizualization_second_time) {
+                    analytics.send_event('color_pickiers', `showed-${family}-${name}`);
+
                     mut.current_color_pickier.el = color_pickier;
                     mut.current_color_pickier.family = family;
                     mut.current_color_pickier.name = name;
@@ -201,6 +200,10 @@ export const show_or_hide_color_pickier_when_clicking_on_color_input_vizualizati
 export const show_or_hide_color_pickier = action((family, name, bool) => {
     try {
         inputs_data.obj[family][name].color_pickier_is_visible = bool;
+
+        if (!bool) {
+            inputs_data.obj[family][name].changed_color_once_after_focus = false;
+        }
 
     } catch (er) {
         err(er, 152);
@@ -245,11 +248,14 @@ export const close_color_pickier_by_keyboard = e => {
 
 export const cancel_color_picking = () => {
     try {
+        const { family, name, color } = mut.current_color_pickier;
+
+        analytics.send_event('color_pickiers', `canceled-${family}-${name}`);
+
         const any_color_pickier_is_opened = mut.current_color_pickier.el;
 
         if (any_color_pickier_is_opened) {
             mut.current_color_pickier.el = null;
-            const { family, name, color } = mut.current_color_pickier;
 
             show_or_hide_color_pickier(family, name, false);
 
@@ -312,6 +318,8 @@ export const change_current_img_by_typing_into_currrent_img_input = async e => {
 
 export const change_current_img_by_clicking_on_select_img_btn = () => {
     try {
+        analytics.send_btns_event('img_settings', 'current_img');
+
         const any_img_selected = s('.selected_img');
 
         if (any_img_selected) {
@@ -321,6 +329,8 @@ export const change_current_img_by_clicking_on_select_img_btn = () => {
             change_current_img_insert_in_db(visible_value, value_to_insert_into_db);
 
         } else {
+            analytics.send_alerts_event('select_img');
+
             window.alert(x.msg('select_img_alert'));
         }
 
@@ -361,9 +371,16 @@ export const correct_current_img_input_val = () => {
 
 export const restore_default_global_settings = async () => {
     try {
+        const family = 'other_settings';
+        const name = 'restore_global_defaults';
+
+        analytics.send_btns_event(family, name);
+
         const confirm = window.confirm(x.msg('restore_global_defaults_confirm'));
 
         if (confirm) {
+            analytics.send_confirms_accepted_event(name);
+
             const background = await x.get_background();
 
             await background.set_default_settings('options');
@@ -373,6 +390,9 @@ export const restore_default_global_settings = async () => {
             await select_theme_img_when_selecting_theme_mode();
             await x.send_message_to_background_c({ message: 'get_theme_img', reinstall_even_if_theme_img_already_exist: false });
             x.send_message_to_background({ message: 'preload_img' });
+
+        } else {
+            analytics.send_confirms_canceled_event(name);
         }
 
     } catch (er) {
@@ -453,6 +473,8 @@ export const switch_to_settings_type = async (name, val, force_inputs_reset) => 
         }
 
         if (name === 'settings_type' && val === 'specific') {
+            analytics.send_alerts_event('change_img_settings');
+
             window.alert(x.msg('change_img_settings_alert'));
         }
 

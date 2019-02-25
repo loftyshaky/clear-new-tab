@@ -5,6 +5,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 
 import x from 'x';
+import * as analytics from 'js/analytics';
 import * as link_to_default_new_tab from 'new_tab/link_to_default_new_tab';
 
 import home from 'svg/home';
@@ -26,6 +27,7 @@ export class Link_to_default_new_tab extends React.Component {
                 data-tooltip="link_to_default_new_tab_tooltip"
                 tabIndex="0"
                 href="https://www.google.com/_/chrome/newtab"
+                onMouseUp={analytics.send_event.bind(null, 'links', 'clicked-link_to_default_new_tab')}
             >
                 <Svg src={home} />
             </a>

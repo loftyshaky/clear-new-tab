@@ -4,6 +4,7 @@ import React from 'react';
 import { SketchPicker } from 'react-color';
 import { observer } from 'mobx-react';
 
+import * as analytics from 'js/analytics';
 import { inputs_data } from 'options/inputs_data';
 import * as settings from 'options/settings';
 import * as enter_click_color_pickier from 'options/enter_click_color_pickier';
@@ -27,6 +28,12 @@ export const Color = observer(props => {
 
     const change_color_input_vizualization_color = color => {
         try {
+            if (!inputs_data.obj[family][name].changed_color_once_after_focus) {
+                inputs_data.obj[family][name].changed_color_once_after_focus = true;
+
+                analytics.send_event('color_pickiers', `changed_color-${family}-${name}`);
+            }
+
             settings.set_color_input_vizualization_color(family, name, color.hex);
 
         } catch (er) {
@@ -37,6 +44,8 @@ export const Color = observer(props => {
     //> accept color when clicking OK
     const accept_color = () => {
         try {
+            analytics.send_event('color_pickiers', `accepted_color-${family}-${name}`);
+
             settings.determine_and_run_accept_color_f(family, name, vizualization_color);
             settings.show_or_hide_color_pickier(family, name, false);
 

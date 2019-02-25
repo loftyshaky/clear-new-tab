@@ -2,3 +2,8 @@ html {
     cursor: wait;
     pointer-events: none;
 }
+
+.analytics_privacy, .analytics_privacy_protecting_screen {
+    cursor: default;
+    pointer-events: all;
+}
