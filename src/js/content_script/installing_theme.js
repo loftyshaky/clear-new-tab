@@ -25,7 +25,7 @@ export const install_theme = async theme_id => {
     try {
         analytics.send_event('cws', 'tried_to_install_theme');
 
-        const is_theme_install_screen = s('.sf-f');
+        const is_theme_install_screen = s('.e-f-n-Va');
 
         if (!is_theme_install_screen) {
             mut.cancel_theme_screen_opening = true;
