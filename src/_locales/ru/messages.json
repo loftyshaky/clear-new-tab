@@ -39,7 +39,7 @@
   "restore_global_defaults_confirm": {
     "message": "Восстановить глобальные настройки по умолчанию?"
   },
-  "delete_all_images_confirm": {
+  "delete_all_imgs_confirm": {
     "message": "Удалить все картинки?"
   },
 

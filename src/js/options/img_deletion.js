@@ -132,7 +132,7 @@ export const delete_all_images = async () => {
 
         analytics.send_btns_event(family, name);
 
-        const confirm = window.confirm(x.msg('delete_all_images_confirm'));
+        const confirm = window.confirm(x.msg('delete_all_imgs_confirm'));
 
         if (confirm) {
             analytics.send_confirms_accepted_event(name);
