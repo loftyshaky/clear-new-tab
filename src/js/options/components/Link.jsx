@@ -32,6 +32,8 @@ export const Link = props => {
                 className={x.cls(['link', 'bottom_link', name])}
                 data-text={`${name}_text`}
                 href={href}
+                target="_blank"
+                rel="noopener noreferrer"
                 {...opts}
                 onMouseUp={analytics.send_links_event.bind(null, 'links', name, is_clear_new_tab_for_link ? browser_final : null)}
                 onFocus={tab_focus.focus_last_el_in_analytics_privacy_dialog_caller}
