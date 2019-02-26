@@ -1,5 +1,3 @@
-'use_strict';
-
 import React from 'react';
 import { observer } from 'mobx-react';
 import ReactSelect, { components } from 'react-select';

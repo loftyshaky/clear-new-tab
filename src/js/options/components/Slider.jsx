@@ -1,5 +1,3 @@
-'use_strict';
-
 import 'rc-slider/assets/index.css';
 
 import React from 'react';

@@ -1,5 +1,3 @@
-'use_strict';
-
 import x from 'x';
 import * as imgs from 'new_tab/imgs';
 import * as link_to_default_new_tab from 'new_tab/link_to_default_new_tab';

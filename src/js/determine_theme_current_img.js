@@ -1,5 +1,3 @@
-'use_strict';
-
 import * as r from 'ramda';
 
 export const determine_theme_current_img = async (theme_id, imgs) => {

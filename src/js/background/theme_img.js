@@ -1,5 +1,3 @@
-'use_strict';
-
 import * as r from 'ramda';
 import jszip from 'jszip';
 import jszip_utils from 'jszip-utils';

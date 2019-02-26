@@ -1,5 +1,3 @@
-'use_strict';
-
 import { observable, runInAction, configure } from 'mobx';
 
 import x from 'x';

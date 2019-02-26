@@ -1,5 +1,3 @@
-'use_strict';
-
 //> on install / on update actions
 browser.runtime.onInstalled.addListener(async obj => {
     try {

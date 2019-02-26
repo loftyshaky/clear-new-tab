@@ -1,5 +1,3 @@
-'use_strict';
-
 import { observable, action, configure } from 'mobx';
 
 import * as prevent_scrolling from 'js/prevent_scrolling';

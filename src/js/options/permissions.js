@@ -1,6 +1,3 @@
-
-'use_strict';
-
 import { toJS } from 'mobx';
 
 import x from 'x';

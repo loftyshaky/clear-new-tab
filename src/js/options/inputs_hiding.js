@@ -1,5 +1,3 @@
-'use_strict';
-
 import { toJS, runInAction, configure } from 'mobx';
 
 import { db } from 'js/init_db';

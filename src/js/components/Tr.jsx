@@ -1,5 +1,3 @@
-'use_strict';
-
 import React from 'react';
 import { toJS, decorate, observable, action, configure } from 'mobx';
 import { observer } from 'mobx-react';

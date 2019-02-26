@@ -1,5 +1,3 @@
-'use_strict';
-
 import React from 'react';
 
 import * as analytics from 'js/analytics';

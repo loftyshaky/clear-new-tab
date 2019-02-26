@@ -1,5 +1,3 @@
-'use_strict';
-
 export const prevent_scrolling = function prevent_scrolling(e) {
     try {
         if (this) {

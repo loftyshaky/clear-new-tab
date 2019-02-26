@@ -1,5 +1,3 @@
-'use_strict';
-
 import 'js/error';
 import * as analytics from 'js/analytics';
 import 'background/onmessage';

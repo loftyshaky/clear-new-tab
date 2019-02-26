@@ -1,5 +1,3 @@
-'use_strict';
-
 import * as r from 'ramda';
 
 import { db } from 'js/init_db';

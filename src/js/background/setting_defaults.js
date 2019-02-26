@@ -1,5 +1,3 @@
-'use_strict';
-
 import { db, init_db } from 'js/init_db';
 import * as generate_random_color from 'js/generate_random_color';
 

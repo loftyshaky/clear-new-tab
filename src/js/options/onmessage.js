@@ -1,5 +1,3 @@
-'use_strict';
-
 import x from 'x';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import * as total_number_of_imgs from 'js/total_number_of_imgs';

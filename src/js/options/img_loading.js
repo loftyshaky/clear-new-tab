@@ -1,5 +1,3 @@
-'use_strict';
-
 import { observable, action, configure } from 'mobx';
 import * as r from 'ramda';
 

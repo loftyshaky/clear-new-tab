@@ -1,5 +1,3 @@
-'use_strict';
-
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import * as pagination from 'options/pagination';
 

@@ -1,5 +1,3 @@
-'use_strict';
-
 export const generate_random_color = () => {
     try {
         const letters = '0123456789ABCDEF';

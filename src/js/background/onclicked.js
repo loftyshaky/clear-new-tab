@@ -1,5 +1,3 @@
-'use_strict';
-
 import * as analytics from 'js/analytics';
 
 //> open options page when clicking on browser action

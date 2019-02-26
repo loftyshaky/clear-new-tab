@@ -1,5 +1,3 @@
-'use_strict';
-
 import { observable, action, configure } from 'mobx';
 
 configure({ enforceActions: 'observed' });

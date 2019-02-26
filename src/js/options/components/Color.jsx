@@ -1,5 +1,3 @@
-'use_strict';
-
 import React from 'react';
 import { SketchPicker } from 'react-color';
 import { observer } from 'mobx-react';

@@ -1,5 +1,3 @@
-'use_strict';
-
 import { observable, action, configure } from 'mobx';
 import resizeImage from 'resize-image';
 import * as r from 'ramda';

@@ -1,5 +1,3 @@
-'use_strict';
-
 import x from 'x';
 
 //> recieve messages
