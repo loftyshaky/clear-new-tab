@@ -7,6 +7,7 @@ import { observer } from 'mobx-react';
 import x from 'x';
 import { db } from 'js/init_db';
 import * as analytics from 'js/analytics';
+import * as tab_focus from 'js/tab_focus';
 
 import { Tr } from 'js/components/Tr';
 
@@ -58,8 +59,11 @@ export class Install_help extends React.Component {
 
     componentDidMount() {
         try {
+            const chrome_web_store_link = sb(this.install_help_w, '.chrome_web_store_link');
+
             x.bind(sb(this.install_help_w, '.hide_install_help_link'), 'click', this.hide_install_help);
-            x.bind(sb(this.install_help_w, '.chrome_web_store_link'), 'mousedown', analytics.send_links_event.bind(null, 'upload', 'chrome_web_store_link', null));
+            x.bind(chrome_web_store_link, 'mousedown', analytics.send_links_event.bind(null, 'upload', 'chrome_web_store_link', null));
+            x.bind(chrome_web_store_link, 'focus', tab_focus.focus_first_el_in_analytics_privacy_dialog_caller);
 
         } catch (er) {
             err(er, 89);

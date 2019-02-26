@@ -7,6 +7,7 @@ import Pagination from 'react-js-pagination';
 
 import x from 'x';
 import * as analytics from 'js/analytics';
+import * as tab_focus from 'js/tab_focus';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
 import * as img_loading from 'options/img_loading';
 import * as img_selection from 'options/img_selection';
@@ -397,6 +398,7 @@ class Img extends React.Component {
                     className="delete_img_btn"
                     onClick={this.delete_img}
                     onKeyUp={e => e.stopPropagation()}
+                    onFocus={tab_focus.focus_last_el_in_analytics_privacy_dialog_caller}
                 >
                     <Svg src={cross_svg} />
                 </button>
@@ -404,6 +406,7 @@ class Img extends React.Component {
         );
     }
 }
+
 const ref = {
     imgs_fieldset: React.createRef(),
 };

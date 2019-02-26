@@ -5,6 +5,7 @@ import { observable, action, runInAction, configure, toJS } from 'mobx';
 import x from 'x';
 import { db } from 'js/init_db';
 import * as analytics from 'js/analytics';
+import * as tab_focus from 'js/tab_focus';
 import * as contains_permission from 'js/contains_permission';
 import { inputs_data } from 'options/inputs_data';
 import * as settings from 'options/settings';
@@ -63,6 +64,8 @@ export const disallow_analytics = action(async () => {
 const hide_analytics_privacy = action(async () => {
     try {
         ob.analytics_privacy_is_visible = false;
+
+        tab_focus.mut.answered_to_analytics_privacy_question = true;
 
         await db.ed.update(1, { answered_to_analytics_privacy_question: true });
 

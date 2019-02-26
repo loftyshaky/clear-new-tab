@@ -4,6 +4,7 @@ import React from 'react';
 
 import x from 'x';
 import * as analytics from 'js/analytics';
+import * as tab_focus from 'js/tab_focus';
 
 export const Link = props => {
     const { name, browser, add_data_bshref_attr, href } = props;
@@ -33,6 +34,7 @@ export const Link = props => {
                 href={href}
                 {...opts}
                 onMouseUp={analytics.send_links_event.bind(null, 'links', name, is_clear_new_tab_for_link ? browser_final : null)}
+                onFocus={tab_focus.focus_last_el_in_analytics_privacy_dialog_caller}
             />
         )
         : null;
