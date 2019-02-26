@@ -8,12 +8,6 @@
     "48": "icon48.png",
     "128": "icon128.png"
   },
-  "applications": {
-    "gecko": {
-      "id": "clear-new-tab@loftyshaky",
-      "strict_min_version": "54.0"
-    }
-  },
   "browser_action": {
     "default_icon": {
       "16": "icon16.png",
@@ -30,7 +24,8 @@
   "optional_permissions": [
     "bookmarks",
     "clipboardRead",
-    "*://*/*"
+    "*://*/*",
+    "https://www.google-analytics.com/*"
   ],
   "background": {
     "scripts": [

@@ -65,7 +65,7 @@ module.exports = {
 
         new Copy_webpack_plugin([{
             //> generates the manifest file using the package.json informations
-            from: 'src/manifest.json',
+            from: process.argv.indexOf('--firefox') > -1 ? 'src/manifest_firefox/manifest.json' : 'src/manifest_chrome/manifest.json',
 
             transform(content) {
                 return Buffer.from(JSON.stringify({
