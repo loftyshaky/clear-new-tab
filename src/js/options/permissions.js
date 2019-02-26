@@ -48,7 +48,7 @@ export const ask_for_permission_or_remove_it = async (checkbox_name, permissions
                 settings.change_input_val('other_settings', checkbox_name, true);
 
                 if (checkbox_name === 'enable_analytics') {
-                    analytics_privacy.allow_analytics(true);
+                    analytics_privacy.allow_analytics();
                 }
 
             } else {

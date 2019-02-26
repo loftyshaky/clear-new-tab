@@ -8,7 +8,7 @@ export const get_img_i_by_id = img_id => populate_storage_with_images_and_displa
         return img.id === img_id;
 
     } catch (er) {
-        err(er, 68);
+        err(er, 268);
     }
 
     return undefined;
@@ -19,7 +19,7 @@ export const get_img_i_by_el = el => {
         return Array.prototype.slice.call(mut.img_w_tr_nodes).indexOf(el);
 
     } catch (er) {
-        err(er, 68);
+        err(er, 269);
     }
 
     return undefined;

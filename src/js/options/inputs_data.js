@@ -8,8 +8,6 @@ import * as settings from 'options/settings';
 
 configure({ enforceActions: 'observed' });
 
-//--
-
 export const inputs_data = observable({
     obj: {
         upload: {
@@ -193,7 +191,7 @@ export const inputs_data = observable({
                 name: 'enable_analytics',
                 type: 'checkbox',
                 checkbox_type: 'permissions',
-                permissions: [{ origins: ['https://www.google-analytics.com/*'] }], // if you change this permissions also change it in background onmessage (check_if_analytics_enabled)
+                permissions: analytics_permissions, // if you change this permissions also change it in background onmessage (check_if_analytics_enabled)
                 val: false,
                 visible: true,
             },

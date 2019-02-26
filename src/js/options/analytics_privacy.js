@@ -5,6 +5,7 @@ import { observable, action, runInAction, configure, toJS } from 'mobx';
 import x from 'x';
 import { db } from 'js/init_db';
 import * as analytics from 'js/analytics';
+import * as contains_permission from 'js/contains_permission';
 import { inputs_data } from 'options/inputs_data';
 import * as settings from 'options/settings';
 import * as permissions from 'options/permissions';
@@ -17,7 +18,7 @@ export const trigger_enable_analytics_checkbox_check_to_allow_analytics = async 
             s('#enable_analytics').click();
 
         } else {
-            allow_analytics(false);
+            allow_analytics();
         }
 
     } catch (er) {
@@ -25,13 +26,14 @@ export const trigger_enable_analytics_checkbox_check_to_allow_analytics = async 
     }
 };
 
-export const allow_analytics = action(async try_to_send_initial_data_to_analytics => {
+export const allow_analytics = action(async () => {
     try {
         const answered_to_analytics_privacy_question = await ed('answered_to_analytics_privacy_question');
 
-        if (try_to_send_initial_data_to_analytics && !answered_to_analytics_privacy_question) {
-            analytics.send_analytics_privacy_btns_event('allow_analytics');
-            analytics.send_permissions_event('requested', 'enable_analytics');
+        analytics.send_analytics_privacy_btns_event('allow_analytics');
+        analytics.send_permissions_event('requested', 'enable_analytics');
+
+        if (!answered_to_analytics_privacy_question) {
             analytics.send_permissions_event('allowed', 'enable_analytics');
             analytics.send_pageview('options');
         }
@@ -85,7 +87,7 @@ const set_analytics_privacy_is_visible_var = async () => {
 const get_analytics_permission_allowed_var = async () => {
     await x.delay(0);
 
-    con.analytics_permission_allowed = await x.send_message_to_background_c({ message: 'check_if_analytics_enabled' });
+    con.analytics_permission_allowed = page !== 'background' ? await x.send_message_to_background_c({ message: 'check_if_analytics_enabled' }) : contains_permission.contains_permission(analytics_permissions);
 };
 
 const con = {

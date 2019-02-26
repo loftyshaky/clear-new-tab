@@ -1,4 +1,5 @@
 import x from 'x';
+import * as contains_permission from 'js/contains_permission';
 
 export const send_pageview = async page => {
     try {
@@ -20,7 +21,7 @@ export const send_event = (category, action) => {
 
 const check_if_analytics_enabled = async callback => {
     try {
-        const analytics_enabled = await x.send_message_to_background_c({ message: 'check_if_analytics_enabled' });
+        const analytics_enabled = page !== 'background' ? await x.send_message_to_background_c({ message: 'check_if_analytics_enabled' }) : await contains_permission.contains_permission(analytics_permissions);
 
         if (analytics_enabled) {
             callback();

@@ -9,8 +9,14 @@ configure({ enforceActions: 'observed' });
 
 const x = {};
 const title = document.querySelector('title');
-window.page = title ? title.dataset.page : 'background';
+window.page = r.ifElse(
+    () => window.location.protocol === 'https:' || window.location.protocol === 'http:',
+    () => 'content_script',
+
+    () => (title ? title.dataset.page : 'background'),
+)();
 window.browser = (() => window.msBrowser || window.browser || window.chrome)();
+window.analytics_permissions = [{ origins: ['https://www.google-analytics.com/*'] }];
 
 //> get extension data
 window.ed = async key => {

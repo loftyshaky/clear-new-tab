@@ -17,6 +17,7 @@ configure({ enforceActions: 'observed' });
 
 const settings = page === 'options' ? require('options/settings') : null; // eslint-disable-line global-require
 const ui_state = page === 'options' ? require('options/ui_state') : null; // eslint-disable-line global-require
+const imgs_module = page === 'background' ? require('background/imgs') : null; // eslint-disable-line global-require
 
 //> pack images and insert them in db
 export const populate_storage_with_images = async (type, status, imgs, theme_img_info, theme_id) => {
@@ -108,12 +109,14 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
         const current_img = await ed('current_img');
 
         await get_new_future_img.get_new_future_img(current_img + 1);
-        await x.send_message_to_background({ message: 'preload_img' });
 
         if (page === 'options') {
             set_last_uploaded_image_as_current();
             ui_state.exit_upload_mode(status);
             await x.send_message_to_background_c({ message: 'preload_img' });
+
+        } else {
+            await imgs_module.preload_current_and_future_img('reload');
         }
 
         x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);

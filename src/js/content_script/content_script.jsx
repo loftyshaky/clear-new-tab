@@ -20,36 +20,42 @@ import 'normalize.css';
             try {
                 for (const mutation of mutations) {
                     for (const added_node of mutation.addedNodes) {
-                        x.remove(sb(added_node, '.h-Yb-wa')); // remove "You will need Google Chrome to install most apps, extensions and themes." message
-                        const added_node_is_theme_install_screen = sb(added_node, '.e-f-b-j'); // e-f-b-j = share button
+                        const not_text_node = added_node.nodeType === 1;
 
-                        if (added_node_is_theme_install_screen && installing_theme.mut.cancel_theme_screen_opening) { //> cancel theme screen opening when clicking on "Install theme" button in search list
-                            installing_theme.mut.cancel_theme_screen_opening = false;
+                        if (not_text_node) {
+                            x.remove(sb(added_node, '.h-Yb-wa')); // remove "You will need Google Chrome to install most apps, extensions and themes." message
 
-                            window.history.back();
+                            const added_node_is_theme_install_screen = sb(added_node, '.e-f-b-j'); // e-f-b-j = share button
 
-                        } else {
-                            const themes = added_node_is_theme_install_screen ? [added_node] : sab(added_node, '.h-Ja-d-Ac'); // sf-f (theme_install_screen_class) = theme install screen, h-Ja-d-Ac = theme in search list
+                            if (added_node_is_theme_install_screen && installing_theme.mut.cancel_theme_screen_opening) { //> cancel theme screen opening when clicking on "Install theme" button in search list
+                                installing_theme.mut.cancel_theme_screen_opening = false;
 
-                            for (const theme of themes) {
-                                const ff_install_btn_already_exist = sb(theme, '.ff_install_btn');
+                                window.history.back();
 
-                                if (!ff_install_btn_already_exist) {
-                                    const theme_url = added_node_is_theme_install_screen ? window.location.href : theme.href;
-                                    const theme_id = theme_url.substring(theme_url.lastIndexOf('/') + 1).split('?')[0];
-                                    const ff_install_btn_w = x.create('div', 'ff_install_btn_w');
+                            } else {
+                                const themes = added_node_is_theme_install_screen ? [added_node] : sab(added_node, '.h-Ja-d-Ac'); // sf-f (theme_install_screen_class) = theme install screen, h-Ja-d-Ac = theme in search list
 
-                                    x.after(sb(theme, '.h-e-f-Ra-c > .dd-Va, .h-d-Ra-c'), ff_install_btn_w); // h-e-f-Ra-c > .dd-Va = available on chrome button in theme install screen, h-d-Ra-c = available on chrome button in search list
+                                for (const theme of themes) {
+                                    const ff_install_btn_already_exist = sb(theme, '.ff_install_btn');
 
-                                    ReactDOM.render(
-                                        <Ff_install_btn theme_id={theme_id} />,
-                                        ff_install_btn_w,
-                                    );
+                                    if (!ff_install_btn_already_exist) {
+                                        const theme_url = added_node_is_theme_install_screen ? window.location.href : theme.href;
+                                        const theme_id = theme_url.substring(theme_url.lastIndexOf('/') + 1).split('?')[0];
+                                        const ff_install_btn_w = x.create('div', 'ff_install_btn_w');
+
+                                        x.after(sb(theme, '.h-e-f-Ra-c > .dd-Va, .h-d-Ra-c'), ff_install_btn_w); // h-e-f-Ra-c > .dd-Va = available on chrome button in theme install screen, h-d-Ra-c = available on chrome button in search list
+
+                                        ReactDOM.render(
+                                            <Ff_install_btn theme_id={theme_id} />,
+                                            ff_install_btn_w,
+                                        );
+                                    }
                                 }
                             }
                         }
                     }
                 }
+
             } catch (er) {
                 err(er, 202);
             }
