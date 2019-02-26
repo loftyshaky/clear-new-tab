@@ -4,8 +4,8 @@ import { toJS, runInAction, configure } from 'mobx';
 
 import { db } from 'js/init_db';
 import * as file_types from 'js/file_types';
+import * as contains_permission from 'js/contains_permission';
 import { inputs_data } from 'options/inputs_data';
-import * as permissions from 'options/permissions';
 import * as img_selection from 'options/img_selection';
 
 configure({ enforceActions: 'observed' });
@@ -28,8 +28,8 @@ export const decide_what_inputs_to_hide = async () => {
             inputs_data.obj.img_settings.video_volume.visible = selected_img === 'none' ? true : file_types.con.types[selected_img.type] === 'video_files';
         });
 
-        const contains_allow_downloading_images_by_link_permission = await permissions.contains_permission(toJS(inputs_data.obj.other_settings.allow_downloading_images_by_link.permissions));
-        const contains_enable_paste_permission = await permissions.contains_permission(toJS(inputs_data.obj.other_settings.enable_paste.permissions));
+        const contains_allow_downloading_images_by_link_permission = await contains_permission.contains_permission(toJS(inputs_data.obj.other_settings.allow_downloading_images_by_link.permissions));
+        const contains_enable_paste_permission = await contains_permission.contains_permission(toJS(inputs_data.obj.other_settings.enable_paste.permissions));
 
         runInAction(() => {
             inputs_data.obj.upload.download_img_when_link_given.visible = !!contains_allow_downloading_images_by_link_permission;

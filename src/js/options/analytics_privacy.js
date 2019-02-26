@@ -1,28 +1,35 @@
 'use_strict';
 
-import { observable, action, runInAction, configure } from 'mobx';
+import { observable, action, runInAction, configure, toJS } from 'mobx';
 
+import x from 'x';
 import { db } from 'js/init_db';
 import * as analytics from 'js/analytics';
+import { inputs_data } from 'options/inputs_data';
+import * as settings from 'options/settings';
+import * as permissions from 'options/permissions';
 
 configure({ enforceActions: 'observed' });
 
-export const trigger_enable_analytics_checkbox_check_to_allow_analytics = () => {
+export const trigger_enable_analytics_checkbox_check_to_allow_analytics = async () => {
     try {
-        s('#enable_analytics').click();
+        if (!con.analytics_permission_allowed) {
+            s('#enable_analytics').click();
+
+        } else {
+            allow_analytics(false);
+        }
 
     } catch (er) {
         err(er, 251);
     }
 };
 
-export const allow_analytics = action(async () => {
+export const allow_analytics = action(async try_to_send_initial_data_to_analytics => {
     try {
         const answered_to_analytics_privacy_question = await ed('answered_to_analytics_privacy_question');
 
-        await db.ed.update(1, { enable_analytics: true });
-
-        if (!answered_to_analytics_privacy_question) {
+        if (try_to_send_initial_data_to_analytics && !answered_to_analytics_privacy_question) {
             analytics.send_analytics_privacy_btns_event('allow_analytics');
             analytics.send_permissions_event('requested', 'enable_analytics');
             analytics.send_permissions_event('allowed', 'enable_analytics');
@@ -42,7 +49,9 @@ export const disallow_analytics = action(async () => {
 
         analytics.send_analytics_privacy_btns_event('disallow_analytics');
 
-        await db.ed.update(1, { enable_analytics: false });
+        settings.change_input_val('other_settings', 'enable_analytics', false);
+
+        permissions.remove_permission(toJS(inputs_data.obj.other_settings.enable_analytics.permissions));
 
     } catch (er) {
         err(er, 248);
@@ -73,8 +82,19 @@ const set_analytics_privacy_is_visible_var = async () => {
     }
 };
 
+const get_analytics_permission_allowed_var = async () => {
+    await x.delay(0);
+
+    con.analytics_permission_allowed = await x.send_message_to_background_c({ message: 'check_if_analytics_enabled' });
+};
+
+const con = {
+    analytics_permission_allowed: false,
+};
+
 export const ob = observable({
     analytics_privacy_is_visible: false,
 });
 
 set_analytics_privacy_is_visible_var();
+get_analytics_permission_allowed_var();

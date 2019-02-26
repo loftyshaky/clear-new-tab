@@ -5,23 +5,11 @@ import { toJS } from 'mobx';
 
 import x from 'x';
 import * as analytics from 'js/analytics';
+import * as contains_permission from 'js/contains_permission';
 import * as analytics_privacy from 'options/analytics_privacy';
 import { inputs_data } from 'options/inputs_data';
 import * as settings from 'options/settings';
 import * as inputs_hiding from 'options/inputs_hiding';
-
-//> check for x permissions
-export const contains_permission = permissions => new Promise((resolve, reject) => { // ex: await contains_permission([{'permissions': ['clipboardRead'] }]);
-    browser.permissions.contains(...permissions, result => {
-        if (browser.runtime.lastError) {
-            reject(browser.runtime.lastError);
-
-        } else {
-            resolve(result);
-        }
-    });
-});
-//< check for x permissions
 
 const request_permission = permissions => new Promise((resolve, reject) => {
     browser.permissions.request(...permissions, result => {
@@ -34,7 +22,7 @@ const request_permission = permissions => new Promise((resolve, reject) => {
     });
 });
 
-const remove_permission = permissions => new Promise((resolve, reject) => {
+export const remove_permission = permissions => new Promise((resolve, reject) => {
     browser.permissions.remove(...permissions, result => {
         if (browser.runtime.lastError) {
             reject(browser.runtime.lastError);
@@ -60,7 +48,7 @@ export const ask_for_permission_or_remove_it = async (checkbox_name, permissions
                 settings.change_input_val('other_settings', checkbox_name, true);
 
                 if (checkbox_name === 'enable_analytics') {
-                    analytics_privacy.allow_analytics();
+                    analytics_privacy.allow_analytics(true);
                 }
 
             } else {
@@ -94,7 +82,7 @@ export const restore_optional_permissions_checkboxes_state = () => {
 
         checkbox_names.forEach(async (checkbox_name, i) => {
             try {
-                const contains = await contains_permission(permissions[i]);
+                const contains = await contains_permission.contains_permission(permissions[i]);
 
                 if (contains) {
                     settings.change_input_val('other_settings', checkbox_name, true);

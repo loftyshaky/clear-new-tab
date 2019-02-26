@@ -193,7 +193,7 @@ export const inputs_data = observable({
                 name: 'enable_analytics',
                 type: 'checkbox',
                 checkbox_type: 'permissions',
-                permissions: [{ origins: ['https://www.google-analytics.com/*'] }],
+                permissions: [{ origins: ['https://www.google-analytics.com/*'] }], // if you change this permissions also change it in background onmessage (check_if_analytics_enabled)
                 val: false,
                 visible: true,
             },

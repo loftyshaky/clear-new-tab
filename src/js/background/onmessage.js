@@ -3,6 +3,7 @@
 import * as r from 'ramda';
 
 import { db } from 'js/init_db';
+import * as contains_permission from 'js/contains_permission';
 import * as get_ms_left from 'js/get_ms_left';
 import * as last_img_change_time from 'js/last_img_change_time';
 import * as determine_theme_current_img from 'js/determine_theme_current_img';
@@ -16,10 +17,10 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
     try {
         const msg = message.message;
 
-        if (msg === 'get_enable_analytics_val') {
-            ed('enable_analytics')
-                .then(enable_analytics => {
-                    send_response(enable_analytics);
+        if (msg === 'check_if_analytics_enabled') {
+            contains_permission.contains_permission([{ origins: ['https://www.google-analytics.com/*'] }])
+                .then(analytics_enabled => {
+                    send_response(analytics_enabled);
 
                 }).catch(er => {
                     err(er, 267, null, true);

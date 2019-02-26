@@ -1,5 +1,3 @@
-import * as r from 'ramda';
-
 import x from 'x';
 
 export const send_pageview = async page => {
@@ -22,14 +20,9 @@ export const send_event = (category, action) => {
 
 const check_if_analytics_enabled = async callback => {
     try {
-        const enable_analytics = await r.ifElse(
-            () => page === 'background',
-            async () => ed('enable_analytics'),
+        const analytics_enabled = await x.send_message_to_background_c({ message: 'check_if_analytics_enabled' });
 
-            async () => x.send_message_to_background_c({ message: 'get_enable_analytics_val' }),
-        )();
-
-        if (enable_analytics) {
+        if (analytics_enabled) {
             callback();
         }
 
