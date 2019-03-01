@@ -2,7 +2,6 @@ import React from 'react';
 import { observer } from 'mobx-react';
 
 import x from 'x';
-
 import * as settings from 'options/settings';
 import * as moving from 'options/moving';
 import * as permissions from 'options/permissions';
@@ -87,6 +86,11 @@ export class All extends React.Component {
                             wrap_inputs
                         />
                         <Left_fieldset family="links">
+                            <Link
+                                name="privacy_policy_link"
+                                href={x.msg('privacy_policy_link_href')}
+                                add_data_bshref_attr={false}
+                            />
                             <Link
                                 name="clear_new_tab_for_link"
                                 href="http"
