@@ -51,6 +51,7 @@ export const init_db = () => {
                 ed.img_change_effect = 'crossfade';
                 ed.slide_direction = 'from_right_to_left';
                 ed.position = con.positions_dict[ed.position];
+                ed.allow_analytics = false;
                 ed.answered_to_analytics_privacy_question = false;
             });
         });

@@ -28,6 +28,7 @@ window.set_default_settings = async page => { // this function also called in op
             color: '#ffffff',
             video_volume: 0,
             show_link_to_default_new_tab: false,
+            allow_analytics: false,
             answered_to_analytics_privacy_question: false,
         };
 

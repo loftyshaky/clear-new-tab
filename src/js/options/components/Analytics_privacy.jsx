@@ -47,7 +47,7 @@ export class Analytics_privacy extends React.Component {
                     <div className="analytics_privacy_btns_and_link">
                         <Btn
                             name="allow_analytics"
-                            on_click={analytics_privacy.trigger_enable_analytics_checkbox_check_to_allow_analytics}
+                            on_click={analytics_privacy.trigger_allow_analytics_checkbox_check_to_allow_analytics}
                             btn_ref={node => { this.first_el_to_focus = node; }}
                         />
                         <Btn

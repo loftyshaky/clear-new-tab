@@ -11,10 +11,10 @@ import * as permissions from 'options/permissions';
 
 configure({ enforceActions: 'observed' });
 
-export const trigger_enable_analytics_checkbox_check_to_allow_analytics = async () => {
+export const trigger_allow_analytics_checkbox_check_to_allow_analytics = async () => {
     try {
         if (!con.analytics_permission_allowed) {
-            s('#enable_analytics').click();
+            s('#allow_analytics').click();
 
         } else {
             allow_analytics();
@@ -30,12 +30,14 @@ export const allow_analytics = action(async () => {
         const answered_to_analytics_privacy_question = await ed('answered_to_analytics_privacy_question');
 
         analytics.send_analytics_privacy_btns_event('allow_analytics');
-        analytics.send_permissions_event('requested', 'enable_analytics');
 
         if (!answered_to_analytics_privacy_question) {
-            analytics.send_permissions_event('allowed', 'enable_analytics');
             analytics.send_pageview('options');
         }
+
+        await db.ed.update(1, { allow_analytics: true });
+
+        settings.change_input_val('other_settings', 'allow_analytics', true);
 
         hide_analytics_privacy();
 
@@ -46,13 +48,15 @@ export const allow_analytics = action(async () => {
 
 export const disallow_analytics = action(async () => {
     try {
-        hide_analytics_privacy();
-
         analytics.send_analytics_privacy_btns_event('disallow_analytics');
 
-        settings.change_input_val('other_settings', 'enable_analytics', false);
+        settings.change_input_val('other_settings', 'allow_analytics', false);
 
-        permissions.remove_permission(toJS(inputs_data.obj.other_settings.enable_analytics.permissions));
+        permissions.remove_permission(toJS(inputs_data.obj.other_settings.allow_analytics.permissions));
+
+        await db.ed.update(1, { allow_analytics: false });
+
+        hide_analytics_privacy();
 
     } catch (er) {
         err(er, 248);

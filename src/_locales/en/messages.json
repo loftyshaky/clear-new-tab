@@ -142,7 +142,7 @@
   "global_label_text": {
     "message": "Global"
   },
-  "enable_analytics_label_text": {
+  "allow_analytics_label_text": {
     "message": "Allow Clear New Tab to send anonymous usage information"
   },
   "show_link_to_default_new_tab_label_text": {

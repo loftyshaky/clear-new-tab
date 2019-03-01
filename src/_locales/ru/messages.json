@@ -142,7 +142,7 @@
   "global_label_text": {
     "message": "Глобальные"
   },
-  "enable_analytics_label_text": {
+  "allow_analytics_label_text": {
     "message": "Разрешить Clear New Tab отправлять анонимную статистику использования"
   },
   "show_link_to_default_new_tab_label_text": {

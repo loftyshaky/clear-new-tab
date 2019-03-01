@@ -32,19 +32,23 @@ export const remove_permission = permissions => new Promise((resolve, reject) =>
 
 export const ask_for_permission_or_remove_it = async (checkbox_name, permissions) => {
     try {
-        const cannot_uncheck_checkboxes = ['allow_downloading_images_by_link', 'enable_analytics'];
+        const cannot_uncheck_checkboxes = ['allow_downloading_images_by_link', 'allow_analytics'];
 
         if (!inputs_data.obj.other_settings[checkbox_name].val) { // if permission is NOT present
             analytics.send_permissions_event('requested', checkbox_name);
 
             const allowed = await request_permission(permissions);
 
+            if (checkbox_name === 'allow_analytics') {
+                analytics.send_permissions_event('requested', checkbox_name);
+            }
+
             if (allowed) {
                 analytics.send_permissions_event('allowed', checkbox_name);
 
                 settings.change_input_val('other_settings', checkbox_name, true);
 
-                if (checkbox_name === 'enable_analytics') {
+                if (checkbox_name === 'allow_analytics') {
                     analytics_privacy.allow_analytics();
                 }
 
@@ -74,14 +78,14 @@ export const ask_for_permission_or_remove_it = async (checkbox_name, permissions
 
 export const restore_optional_permissions_checkboxes_state = () => {
     try {
-        const checkbox_names = ['show_bookmarks_bar', 'enable_paste', 'allow_downloading_images_by_link', 'enable_analytics'];
+        const checkbox_names = ['show_bookmarks_bar', 'enable_paste', 'allow_downloading_images_by_link', 'allow_analytics'];
         const permissions = toJS(checkbox_names.map(checkbox_name => toJS(inputs_data.obj.other_settings[checkbox_name].permissions)));
 
         checkbox_names.forEach(async (checkbox_name, i) => {
             try {
                 const contains = await contains_permission.contains_permission(permissions[i]);
 
-                if (contains) {
+                if ((checkbox_names !== 'allow_analytics' && contains) || (checkbox_names === 'allow_analytics' && contains && await ed('allow_analytics'))) {
                     settings.change_input_val('other_settings', checkbox_name, true);
 
                 } else {

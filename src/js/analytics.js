@@ -21,9 +21,10 @@ export const send_event = (category, action) => {
 
 const check_if_analytics_enabled = async callback => {
     try {
-        const analytics_enabled = page !== 'background' ? await x.send_message_to_background_c({ message: 'check_if_analytics_enabled' }) : await contains_permission.contains_permission(analytics_permissions);
+        const analytics_permission_given = page !== 'background' ? await x.send_message_to_background_c({ message: 'check_if_analytics_enabled' }) : await contains_permission.contains_permission(analytics_permissions);
+        const allow_analytics = await ed('allow_analytics');
 
-        if (analytics_enabled) {
+        if (analytics_permission_given && allow_analytics) {
             callback();
         }
 
