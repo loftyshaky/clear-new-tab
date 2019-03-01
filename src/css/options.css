@@ -121,7 +121,7 @@ p {
 }
 
 .main {
-    width: __MSG_body_width__;
+    width: __MSG_main_width__;
     flex-shrink: 0;
 }
 
@@ -587,7 +587,7 @@ svg {
 
 /*> images */
 .imgs_w {
-    max-width: calc(__MSG_imgs_w_width__ - __MSG_body_width__);
+    max-width: calc(__MSG_imgs_w_width__ - __MSG_main_width__);
     margin-left: 16px;
     margin-top: 11px;
     position: relative;
@@ -806,7 +806,7 @@ svg {
 .pagination_w {
     position: fixed;
     width: 100%;
-    max-width: calc(__MSG_imgs_w_width__ - __MSG_body_width__);
+    max-width: calc(__MSG_imgs_w_width__ - __MSG_main_width__);
     bottom: 0;
     padding: 0;
     margin: 0;
