@@ -183,6 +183,8 @@ export const load_page = async (mode, page, null_scroll_to) => { // g
     try {
         ui_state.disable_ui();
 
+        settings.switch_to_settings_type(null, null, true);
+
         const offset = page * populate_storage_with_images_and_display_them.con.imgs_per_page - populate_storage_with_images_and_display_them.con.imgs_per_page;
 
         if (mode === 'load_page') {
