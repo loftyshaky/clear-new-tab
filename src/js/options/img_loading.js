@@ -27,7 +27,7 @@ export const get_pasted_image_or_image_url = async e => {
         const pasted_img_file_object = pasted_img_clipboard_item ? pasted_img_clipboard_item.getAsFile() : null; // not link, copied image
         const clipboard_text = e.clipboardData.getData('text');
         const input_given_text = clipboard_text !== '';
-        const contains_allow_downloading_images_by_link_permission = inputs_data.obj.upload.download_img_when_link_given.val;
+        const contains_allow_downloading_images_by_link_permission = inputs_data.obj.other_settings.allow_downloading_images_by_link.val;
         const download_img_when_link_given = await ed('download_img_when_link_given');
 
         const img = await r.ifElse(

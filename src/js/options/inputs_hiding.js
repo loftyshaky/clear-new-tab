@@ -26,12 +26,12 @@ export const decide_what_inputs_to_hide = async () => {
             inputs_data.obj.img_settings.video_volume.visible = selected_img === 'none' ? true : file_types.con.types[selected_img.type] === 'video_files';
         });
 
-        const contains_allow_downloading_images_by_link_permission = await contains_permission.contains_permission(toJS(inputs_data.obj.other_settings.allow_downloading_images_by_link.permissions));
-        const contains_enable_paste_permission = await contains_permission.contains_permission(toJS(inputs_data.obj.other_settings.enable_paste.permissions));
+        const allow_downloading_images_by_link_enabled = ed_all.allow_downloading_images_by_link && await contains_permission.contains_permission(toJS(inputs_data.obj.other_settings.allow_downloading_images_by_link.permissions));
+        const enable_paste_enabled = ed_all.enable_paste && await contains_permission.contains_permission(toJS(inputs_data.obj.other_settings.enable_paste.permissions));
 
         runInAction(() => {
-            inputs_data.obj.upload.download_img_when_link_given.visible = !!contains_allow_downloading_images_by_link_permission;
-            inputs_data.obj.upload.paste.adjacent_btn_is_visible = !!contains_enable_paste_permission;
+            inputs_data.obj.upload.download_img_when_link_given.visible = !!allow_downloading_images_by_link_enabled;
+            inputs_data.obj.upload.paste.adjacent_btn_is_visible = !!enable_paste_enabled;
         });
 
     } catch (er) {

@@ -32,9 +32,6 @@
   "select_img_alert": {
     "message": "Select an image."
   },
-  "cannot_disable_permission_alert": {
-    "message": "This option cannot be disabled. If you want to disable this option reinstall the extension."
-  },
 
   "restore_global_defaults_confirm": {
     "message": "Restore global defaults?"

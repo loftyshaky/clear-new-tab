@@ -29,9 +29,9 @@ export const allow_analytics = action(async () => {
     try {
         const answered_to_analytics_privacy_question = await ed('answered_to_analytics_privacy_question');
 
-        analytics.send_analytics_privacy_btns_event('allow_analytics');
-
         if (!answered_to_analytics_privacy_question) {
+            analytics.send_analytics_privacy_btns_event('allow_analytics');
+            analytics.send_permissions_event('requested', 'allow_analytics');
             analytics.send_pageview('options');
         }
 

@@ -32,9 +32,6 @@
   "select_img_alert": {
     "message": "Выберите картинку."
   },
-  "cannot_disable_permission_alert": {
-    "message": "Эта опция не может быть отключена. Если вы хотите отключить эту опцию переустановите расширение."
-  },
 
   "restore_global_defaults_confirm": {
     "message": "Восстановить глобальные настройки по умолчанию?"

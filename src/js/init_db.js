@@ -44,6 +44,9 @@ export const init_db = () => {
             });
 
             tx.ed.toCollection().modify(ed => {
+                ed.show_bookmarks_bar = false;
+                ed.enable_paste = false;
+                ed.allow_downloading_images_by_link = false;
                 ed.set_last_uploaded = false;
                 ed.img_already_changed = true;
                 ed.video_volume = 0;

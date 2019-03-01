@@ -1,6 +1,6 @@
 import { toJS } from 'mobx';
 
-import x from 'x';
+import { db } from 'js/init_db';
 import * as analytics from 'js/analytics';
 import * as contains_permission from 'js/contains_permission';
 import * as analytics_privacy from 'options/analytics_privacy';
@@ -32,19 +32,17 @@ export const remove_permission = permissions => new Promise((resolve, reject) =>
 
 export const ask_for_permission_or_remove_it = async (checkbox_name, permissions) => {
     try {
-        const cannot_uncheck_checkboxes = ['allow_downloading_images_by_link', 'allow_analytics'];
+        const cannot_remove_permissions = ['allow_downloading_images_by_link', 'allow_analytics'];
 
         if (!inputs_data.obj.other_settings[checkbox_name].val) { // if permission is NOT present
             analytics.send_permissions_event('requested', checkbox_name);
 
             const allowed = await request_permission(permissions);
 
-            if (checkbox_name === 'allow_analytics') {
-                analytics.send_permissions_event('requested', checkbox_name);
-            }
-
             if (allowed) {
                 analytics.send_permissions_event('allowed', checkbox_name);
+
+                db.ed.update(1, { [checkbox_name]: true });
 
                 settings.change_input_val('other_settings', checkbox_name, true);
 
@@ -56,17 +54,16 @@ export const ask_for_permission_or_remove_it = async (checkbox_name, permissions
                 analytics.send_permissions_event('denied', checkbox_name);
             }
 
-        } else if (cannot_uncheck_checkboxes.indexOf(checkbox_name) === -1 || what_browser === 'firefox') { // if permission is present
-            analytics.send_permissions_event('removed', checkbox_name);
+        } else { // if permission is present
+            if (cannot_remove_permissions.indexOf(checkbox_name) === -1 || what_browser === 'firefox') {
+                analytics.send_permissions_event('removed', checkbox_name);
 
-            await remove_permission(permissions);
+                await remove_permission(permissions);
+            }
+
+            db.ed.update(1, { [checkbox_name]: false });
 
             settings.change_input_val('other_settings', checkbox_name, false);
-
-        } else {
-            analytics.send_alerts_event(`cannot_disable_permission-${checkbox_name}`);
-
-            window.alert(x.msg('cannot_disable_permission_alert'));
         }
 
         inputs_hiding.decide_what_inputs_to_hide();
@@ -84,8 +81,9 @@ export const restore_optional_permissions_checkboxes_state = () => {
         checkbox_names.forEach(async (checkbox_name, i) => {
             try {
                 const contains = await contains_permission.contains_permission(permissions[i]);
+                const ed_val_is_true = await ed(checkbox_name);
 
-                if ((checkbox_names !== 'allow_analytics' && contains) || (checkbox_names === 'allow_analytics' && contains && await ed('allow_analytics'))) {
+                if (contains && ed_val_is_true) {
                     settings.change_input_val('other_settings', checkbox_name, true);
 
                 } else {
