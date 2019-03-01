@@ -134,6 +134,7 @@ export class All extends React.Component {
                                 href="https://bit.ly/donate-loftyshaky"
                                 add_data_bshref_attr={false}
                             />
+                            <div className="app_version">{`v${browser.runtime.getManifest().version}`}</div>
                         </Left_fieldset>
                     </div>
                     <Imgs_fieldset />

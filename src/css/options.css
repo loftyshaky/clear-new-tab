@@ -131,7 +131,7 @@ p {
     width: 100%;
 }
 
-.input:not(:first-child), hr {
+.input:not(:first-child), hr, .app_version {
     margin-top: 10px;
 }
 
@@ -178,7 +178,7 @@ fieldset, .normal_input, .checkbox_checkmark_w, .btn, .img_w, .pagination, .usin
     background-color: transparent;
 }
 
-.help_link, .help_message {
+.help_link, .help_message, .app_version {
     font-size: 14px;
 }
 
@@ -238,6 +238,10 @@ svg {
 
 .upload_w .input{
     order: 1;
+}
+
+.app_version {
+    text-align: right;
 }
 
 /*>1 buttons */
