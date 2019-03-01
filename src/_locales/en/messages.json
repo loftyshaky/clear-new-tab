@@ -33,8 +33,8 @@
     "message": "Select an image."
   },
 
-  "restore_global_defaults_confirm": {
-    "message": "Restore global defaults?"
+  "restore_defaults_confirm": {
+    "message": "Restore default settings?"
   },
   "delete_all_imgs_confirm": {
     "message": "Delete all images?"
@@ -166,8 +166,8 @@
   "current_img_btn_text": {
     "message": "Set selected"
   },
-  "restore_global_defaults_btn_text": {
-    "message": "Restore global defaults"
+  "restore_defaults_btn_text": {
+    "message": "Restore defaults"
   },
   "delete_all_imgs_btn_text": {
     "message": "Delete all images"

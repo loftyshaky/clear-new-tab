@@ -367,14 +367,14 @@ export const correct_current_img_input_val = () => {
 //<1 correct current image input value when defocusing correct image input
 //< current_img input
 
-export const restore_default_global_settings = async () => {
+export const restore_defaults = async () => {
     try {
         const family = 'other_settings';
-        const name = 'restore_global_defaults';
+        const name = 'restore_defaults';
 
         analytics.send_btns_event(family, name);
 
-        const confirm = window.confirm(x.msg('restore_global_defaults_confirm'));
+        const confirm = window.confirm(x.msg('restore_defaults_confirm'));
 
         if (confirm) {
             analytics.send_confirms_accepted_event(name);

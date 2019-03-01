@@ -191,12 +191,12 @@ export const inputs_data = observable({
             },
         },
         other_settings: {
-            restore_global_defaults: {
+            restore_defaults: {
                 key: x.unique_id(),
                 family: 'other_settings',
-                name: 'restore_global_defaults',
+                name: 'restore_defaults',
                 type: 'btn',
-                on_click: settings.restore_default_global_settings,
+                on_click: settings.restore_defaults,
                 visible: true,
             },
             delete_all_imgs: {
