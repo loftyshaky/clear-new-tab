@@ -481,6 +481,11 @@
   },
 
 
+  "failed_to_load_image_er": {
+    "message": "Не удалось загрузить картинку/картинки"
+  },
+
+
 
   "new_tab_title_text": {
     "message": "Новая вкладка"
@@ -510,6 +515,7 @@
   },
   
 
+
   "an_error_occured_msg": {
     "message": "Произошла ошибка."
   },
@@ -526,7 +532,7 @@
   "cant_render_ui_er": {
     "message": "Не удалось отобразить пользовательский интерфейс"
   },
-  
+
   "reload_ui_btn_text": {
     "message": "Перезагрузить"
   }

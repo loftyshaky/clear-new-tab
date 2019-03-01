@@ -242,6 +242,10 @@ export const show_checkerboard = async img_w => {
 };
 //< show transparency background checkerboard
 
+export const change_img_to_img_error = action(img_obj => {
+    img_obj.img = 'img_error.png'; // eslint-disable-line no-param-reassign
+});
+
 export const hide_loading_screen = action(() => {
     try {
         ob.show_loading_screen = false;

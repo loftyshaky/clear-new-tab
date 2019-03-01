@@ -481,6 +481,11 @@
     "message": "1347px"
   },
 
+  
+  "failed_to_load_image_er": {
+    "message": "Failed to load image/images"
+  },
+
 
   
   "new_tab_title_text": {
@@ -509,6 +514,7 @@
   "undo_btn_text": {
     "message": "Undo"
   },
+
 
 
   "an_error_occured_msg": {

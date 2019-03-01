@@ -178,9 +178,9 @@ class Imgs extends React.Component {
     delete_broken_imgs = async () => {
         try {
             if (this.mut.broken_imgs_ids.length > 0) {
-                await img_deletion.delete_img(this.mut.broken_imgs_ids[0]);
+                img_deletion.delete_broken_imgs(this.mut.broken_imgs_ids);
 
-                this.mut.broken_imgs_ids.shift();
+                this.mut.broken_imgs_ids = [];
             }
 
         } catch (er) {
@@ -202,6 +202,8 @@ class Imgs extends React.Component {
 
                     if (e_type === 'error') { // when broken image loaded
                         this.mut.broken_imgs_ids.push(id);
+
+                        img_loading.change_img_to_img_error(populate_storage_with_images_and_display_them.ob.imgs.find(img => img.id === id));
                     }
 
                     if ((populate_storage_with_images_and_display_them.mut.previous_number_of_imgs === populate_storage_with_images_and_display_them.con.imgs_per_page && img_loading.mut.imgs_loaded === populate_storage_with_images_and_display_them.con.imgs_per_page) || (populate_storage_with_images_and_display_them.mut.previous_number_of_imgs !== populate_storage_with_images_and_display_them.con.imgs_per_page && img_loading.mut.imgs_loaded >= number_of_imgs_to_load)) {
@@ -252,7 +254,7 @@ class Imgs extends React.Component {
                             tag="span"
                             name="img"
                             state={img.show_delete}
-                            tr_end_callbacks={[img_deletion.delete_img_tr_end_callback, this.delete_broken_imgs]}
+                            tr_end_callbacks={[img_deletion.delete_img_tr_end_callback]}
                             key={img.key}
                             tr_ref={node => { this.img_w_trs[i] = node; }}
                         >
@@ -317,25 +319,6 @@ class Img extends React.Component {
         } = this.props);
 
         this.is_img = file_types.con.files[this.img.type] || file_types.con.types[this.img.type] === 'links';
-
-        this.img_el = this.is_img
-            ? (
-                <img
-                    className="img"
-                    draggable="false"
-                    src={this.img.img}
-                    alt="Background"
-                    onLoad={this.img_load_callback.bind(null, this.img.id)}
-                    onError={this.img_load_callback.bind(null, this.img.id)}
-                />
-            )
-            : (
-                <div
-                    className="solid_color_img"
-                    style={{ backgroundColor: this.img.img }}
-                    ref={this.img_load_callback.bind(null, this.img.id)}
-                />
-            );
     }
 
     //> open image in new tab when clicking on preview button
@@ -365,6 +348,26 @@ class Img extends React.Component {
     render() {
         const { i, img_w_trs } = this.props;
 
+        const img_el = this.is_img
+            ? (
+                <img
+                    className="img"
+                    draggable="false"
+                    src={this.img.img}
+                    alt=""
+                    onLoad={this.img_load_callback.bind(null, this.img.id)}
+                    onError={this.img_load_callback.bind(null, this.img.id)}
+                    ref={this.img_el}
+                />
+            )
+            : (
+                <div
+                    className="solid_color_img"
+                    style={{ backgroundColor: this.img.img }}
+                    ref={this.img_load_callback.bind(null, this.img.id)}
+                />
+            );
+
         return (
             <React.Fragment>
                 <div className="img_cover" />
@@ -390,7 +393,7 @@ class Img extends React.Component {
                         {x.msg('img_preview_text')}
                     </div>
                 </div>
-                {this.img_el}
+                {img_el}
                 <button
                     type="button"
                     className="delete_img_btn"

@@ -1,9 +1,10 @@
-import { observable, action, runInAction, configure } from 'mobx';
+import { observable, action, configure } from 'mobx';
 
 import x from 'x';
 import { db } from 'js/init_db';
 import * as analytics from 'js/analytics';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
+import * as img_loading from 'options/img_loading';
 import * as settings from 'options/settings';
 import * as img_selection from 'options/img_selection';
 import * as pagination from 'options/pagination';
@@ -113,7 +114,9 @@ export const delete_img_tr_end_callback = e => {
 
 const hide_img_before_deletion = action(deleted_img_i => {
     try {
-        populate_storage_with_images_and_display_them.ob.imgs[deleted_img_i].show_delete = false;
+        if (populate_storage_with_images_and_display_them.ob.imgs[deleted_img_i]) {
+            populate_storage_with_images_and_display_them.ob.imgs[deleted_img_i].show_delete = false;
+        }
 
     } catch (er) {
         err(er, 101);
@@ -143,14 +146,7 @@ export const delete_all_images = async () => {
 
             x.send_message_to_background({ message: 'empty_imgs_a' });
 
-            runInAction(() => {
-                try {
-                    ob.show_imgs_w_2 = false;
-
-                } catch (er) {
-                    err(er, 103);
-                }
-            });
+            hide_imgs_w_2();
 
             settings.change_current_img_input_val(1);
             settings.switch_to_settings_type(null, null, true);
@@ -188,6 +184,48 @@ export const delete_all_images_tr_end = action(() => {
     }
 });
 //< delete all image
+
+export const delete_broken_imgs = async broken_imgs_ids => {
+    try {
+        await db.transaction('rw', db.ed, db.imgs, db.imgsd, async () => {
+            await db.imgs.bulkDelete(broken_imgs_ids);
+            await db.imgsd.bulkDelete(broken_imgs_ids);
+        });
+
+        await total_number_of_imgs.set_total_number_of_imgs();
+
+        if (total_number_of_imgs.ob.number_of_imgs === 0) {
+            hide_imgs_w_2();
+
+        } else {
+            const last_page = Math.ceil(total_number_of_imgs.ob.number_of_imgs / populate_storage_with_images_and_display_them.con.imgs_per_page);
+
+            img_loading.load_page('load_page', last_page);
+        }
+
+        settings.switch_to_settings_type(null, null, true);
+
+        await x.send_message_to_background_c({ message: 'retrieve_imgs' });
+        await x.send_message_to_background_c({ message: 'preload_img' });
+        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
+
+        inputs_hiding.decide_what_inputs_to_hide();
+
+        err(er_obj('Failed to load image'), 272, 'failed_to_load_image');
+
+    } catch (er) {
+        err(er, 271);
+    }
+};
+
+const hide_imgs_w_2 = action(() => {
+    try {
+        ob.show_imgs_w_2 = false;
+
+    } catch (er) {
+        err(er, 103);
+    }
+});
 
 export const mut = {
     next_imgs_after_last_visible_img: 'img_not_existing',
