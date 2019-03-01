@@ -421,6 +421,9 @@ svg {
     width: 100%;
     user-select: none;
     -moz-user-select: none;
+    padding-right: 10px;
+    padding-left: 10px;
+    box-sizing: border-box;
 }
 
 .upload_box_message {
