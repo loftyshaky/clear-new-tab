@@ -1051,7 +1051,7 @@ body:not(.using_mouse) .select__control, body:not(.using_mouse) .select__menu {
     display: none;
 }
 
-.other_settings_w > div > div:nth-child(3) {
+.other_settings_w > div > div:nth-child(5) {
     display: none;
 }
 /*< delete later */
