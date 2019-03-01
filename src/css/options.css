@@ -127,7 +127,7 @@ p {
 
 .input {
 	position: relative;
-    display: table;
+    display: block;
     width: 100%;
 }
 
