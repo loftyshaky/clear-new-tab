@@ -49,6 +49,10 @@
     "message": "Link to theme image"
   },
 
+  "load_theme_img_btn_text": {
+    "message": "Load theme image"
+  },
+
 
   "upload_box_browse_label_text": {
     "message": "Browse"

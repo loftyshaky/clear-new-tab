@@ -14,6 +14,7 @@ export const decide_what_inputs_to_hide = async () => {
         const selected_img = await db.imgsd.get(img_selection.mut.selected_img_id || 1) || 'none';
 
         runInAction(() => {
+            inputs_data.obj.upload.load_theme_img.visible = what_browser === 'chrome' && ed_all.mode === 'theme';
             inputs_data.obj.img_settings.keep_old_themes_imgs.visible = ed_all.mode === 'theme';
             inputs_data.obj.img_settings.slideshow.visible = !!(ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color');
             inputs_data.obj.img_settings.shuffle.visible = ed_all.mode === 'multiple';

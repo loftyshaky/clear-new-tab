@@ -49,6 +49,10 @@
     "message": "Ссылка на картинку темы"
   },
 
+  "load_theme_img_btn_text": {
+    "message": "Загрузить картинку темы"
+  },
+
 
   "upload_box_browse_label_text": {
     "message": "Выберите"

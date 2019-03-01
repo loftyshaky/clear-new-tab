@@ -481,7 +481,7 @@ export const switch_to_settings_type = async (name, val, force_inputs_reset) => 
     }
 };
 
-const select_theme_img_when_selecting_theme_mode = async () => {
+export const select_theme_img_when_selecting_theme_mode = async () => {
     try {
         const new_current_img = await x.send_message_to_background_c({ message: 'get_new_current_img_when_choosing_theme_mode' });
 

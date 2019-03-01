@@ -2,6 +2,7 @@ import React from 'react';
 
 import { inputs_data } from 'options/inputs_data';
 
+import { Btn } from 'options/components/Btn';
 import { Input } from 'options/components/Input';
 import { Select } from 'options/components/Select';
 import { Checkbox } from 'options/components/Checkbox';
@@ -40,6 +41,7 @@ export const Left_fieldset = props => {
 
 const con = {
     components: {
+        btn: Btn,
         input: Input,
         select: Select,
         checkbox: Checkbox,

@@ -4,7 +4,6 @@ import { observer } from 'mobx-react';
 import x from 'x';
 
 import * as settings from 'options/settings';
-import * as img_deletion from 'options/img_deletion';
 import * as moving from 'options/moving';
 import * as permissions from 'options/permissions';
 import * as inputs_hiding from 'options/inputs_hiding';
@@ -18,7 +17,6 @@ import { Left_fieldset } from 'options/components/Left_fieldset';
 import { Install_help } from 'options/components/Install_help';
 import { Theme_img_link } from 'options/components/Theme_img_link';
 import { Upload_box } from 'options/components/Upload_box';
-import { Btn } from 'options/components/Btn';
 import { Link } from 'options/components/Link';
 import { Imgs_fieldset } from 'options/components/Imgs_fieldset';
 
@@ -87,16 +85,7 @@ export class All extends React.Component {
                         <Left_fieldset
                             family="other_settings"
                             wrap_inputs
-                        >
-                            <Btn
-                                name="restore_global_defaults"
-                                on_click={settings.restore_default_global_settings}
-                            />
-                            <Btn
-                                name="delete_all_imgs"
-                                on_click={img_deletion.delete_all_images}
-                            />
-                        </Left_fieldset>
+                        />
                         <Left_fieldset family="links">
                             <Link
                                 name="clear_new_tab_for_link"

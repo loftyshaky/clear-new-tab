@@ -155,10 +155,6 @@ p {
     height: 28px;
 }
 
-.btn:not(:last-child), .color_input_vizualization {
-    margin-right: 10px;
-}
-
 fieldset, .normal_input, .checkbox_checkmark_w, .btn, .img_w, .pagination, .using_mouse .btn:focus, .using_mouse .checkbox_checkmark_w:focus, .using_mouse .color_input_vizualization:focus, .checkbox_checkmark_w {
     border: 1px solid white;
 }
@@ -235,11 +231,19 @@ svg {
     background-color: #fbff75!important;
 }
 
+.upload_w {
+    display:flex;
+    flex-flow: column;
+}
+
+.upload_w .input{
+    order: 1;
+}
+
 /*>1 buttons */
 .btn {
     padding: 3px 6px 3px 6px;
     cursor: pointer;
-    margin-bottom: 10px;
     white-space: nowrap;
     background-color: #212121;
 }
@@ -261,6 +265,10 @@ svg {
 
 .btn:active {
     background-color: #f493ff;
+}
+
+.upload_w .load_theme_img_btn_w {
+    order: 0;
 }
 /*<1 buttons */
 
@@ -315,6 +323,7 @@ svg {
     margin-left: 12px;
     cursor: pointer;
     position: relative;
+    margin-right: 10px;
 }
 
 .color_input {
@@ -367,6 +376,7 @@ svg {
 
 .theme_img_link {
     display: block;
+    text-align: left;
 }
 
 .upload_btn {
@@ -914,12 +924,14 @@ svg {
     margin-bottom: 11px;
 }
 
-.analytics_privacy .btn {
-    margin-bottom: 0
+.analytics_privacy .btn_w {
+    margin: 0;
+    width: auto;
+    display: inline-block;
 }
 
-.analytics_privacy .btn:not(:last-child) {
-    margin-right: 10px
+.analytics_privacy .btn_w:not(:last-child) {
+    margin-right: 10px;
 }
 /*< analytics_privacy */
 

@@ -258,6 +258,17 @@ export const hide_loading_screen = action(() => {
     }
 }); //> hide loading_screen when images loaded on options page load
 
+export const load_theme_img_when_clicking_on_load_theme_img_btn = () => {
+    try {
+        analytics.send_btns_event('upload', 'load_theme_img');
+
+        x.send_message_to_background_c({ message: 'get_theme_img', reinstall_even_if_theme_img_already_exist: true });
+
+    } catch (er) {
+        err(er, 273);
+    }
+};
+
 export const mut = {
     imgs_loaded: 0,
     img_inner_w_2_mounts_transparent: false,

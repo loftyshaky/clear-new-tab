@@ -3,6 +3,7 @@ import { observable, configure } from 'mobx';
 import x from 'x';
 import * as img_loading from 'options/img_loading';
 import * as settings from 'options/settings';
+import * as img_deletion from 'options/img_deletion';
 
 configure({ enforceActions: 'observed' });
 
@@ -40,6 +41,13 @@ export const inputs_data = observable({
                 color_pickier_is_visible: false,
                 color_pickier_position: 'top',
                 changed_color_once_after_focus: false,
+            },
+            load_theme_img: {
+                key: x.unique_id(),
+                family: 'upload',
+                name: 'load_theme_img',
+                type: 'btn',
+                on_click: img_loading.load_theme_img_when_clicking_on_load_theme_img_btn,
             },
         },
         img_settings: {
@@ -183,6 +191,22 @@ export const inputs_data = observable({
             },
         },
         other_settings: {
+            restore_global_defaults: {
+                key: x.unique_id(),
+                family: 'other_settings',
+                name: 'restore_global_defaults',
+                type: 'btn',
+                on_click: settings.restore_default_global_settings,
+                visible: true,
+            },
+            delete_all_imgs: {
+                key: x.unique_id(),
+                family: 'other_settings',
+                name: 'delete_all_imgs',
+                type: 'btn',
+                on_click: img_deletion.delete_all_images,
+                visible: true,
+            },
             allow_analytics: {
                 key: x.unique_id(),
                 family: 'other_settings',
