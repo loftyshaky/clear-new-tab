@@ -153,11 +153,13 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
 
                     if (!is_img) {
                         img.addEventListener('loadedmetadata', () => {
-                            img.currentTime = img.duration / 3;
+                            if (img.readyState === 1) {
+                                img.currentTime = img.duration / 3;
+                            }
                         });
                     }
 
-                    img.addEventListener(is_img ? 'load' : 'loadeddata', async () => {
+                    img.addEventListener(is_img ? 'load' : 'canplaythrough', async () => {
                         try {
                             const natural_width = img.naturalWidth || img.videoWidth;
                             const natural_height = img.naturalHeight || img.videoHeight;
@@ -178,7 +180,7 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
 
                                     resolve();
 
-                                } else {
+                                } else if (img.readyState === 4) {
                                     const canvas = document.createElement('canvas');
                                     canvas.width = natural_width;
                                     canvas.height = natural_height;
