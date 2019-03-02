@@ -1050,8 +1050,4 @@ body:not(.using_mouse) .select__control, body:not(.using_mouse) .select__menu {
 [data-bstext='clear_new_tab_for_link_text_opera'] {
     display: none;
 }
-
-.other_settings_w > div > div:nth-child(5) {
-    display: none;
-}
 /*< delete later */

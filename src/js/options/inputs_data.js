@@ -224,7 +224,7 @@ export const inputs_data = observable({
                 type: 'checkbox',
                 checkbox_type: 'ed',
                 val: false,
-                visible: true,
+                visible: what_browser === 'chrome',
             },
             show_bookmarks_bar: {
                 key: x.unique_id(),
@@ -234,7 +234,7 @@ export const inputs_data = observable({
                 checkbox_type: 'permissions',
                 permissions: [{ permissions: ['bookmarks'] }],
                 val: false,
-                visible: true,
+                visible: false,
             },
             enable_paste: {
                 key: x.unique_id(),
