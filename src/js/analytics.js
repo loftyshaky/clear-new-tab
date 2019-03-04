@@ -151,9 +151,9 @@ export const send_text_inputs_event = (action, family, name) => {
     }
 };
 
-export const send_upload_box_upload_event = action => {
+export const send_upload_box_event = action => {
     try {
-        send_event('upload_box_upload', action);
+        send_event('upload_box', action);
 
     } catch (er) {
         err(er, 262);

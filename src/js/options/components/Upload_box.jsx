@@ -24,7 +24,7 @@ export class Upload_box extends React.Component {
 
     browse_handle_files = e => {
         try {
-            analytics.send_upload_box_upload_event('uploaded_by_browse_btn');
+            analytics.send_upload_box_event('uploaded_by_browse_btn');
             img_loading.handle_files(e.target.files);
             managing_upload_box.reset_upload_btn_val();
 
@@ -35,7 +35,7 @@ export class Upload_box extends React.Component {
 
     drop_handle_files = e => {
         try {
-            analytics.send_upload_box_upload_event('uploaded_by_dragging_and_dropping');
+            analytics.send_upload_box_event('uploaded_by_dragging_and_dropping');
             managing_upload_box.dehighlight_upload_box_ondrop();
             img_loading.handle_files(e.dataTransfer.files);
 
@@ -85,7 +85,7 @@ export class Upload_box extends React.Component {
                             data-text="upload_box_browse_label_text"
                             tabIndex="0"
                             onKeyUp={enter_click.simulate_click_on_enter}
-                            onClick={analytics.send_event.bind(null, 'browse_btn', 'clicked')}
+                            onClick={analytics.send_upload_box_event.bind(null, 'browse_btn_clicked')}
                         />
                         {' '}
                         <label data-text="upload_box_drag_label_text" />
