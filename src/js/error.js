@@ -46,7 +46,7 @@ window.t = msg => {
     throw new Error(msg);
 };
 
-window.er_obj = msg => new Error(msg);
+window.er_obj = msg => new Error(`${msg}.`);
 
 const run_timeout = (name, delay) => {
     mut[`${name}_timeout`] = window.setTimeout(() => {

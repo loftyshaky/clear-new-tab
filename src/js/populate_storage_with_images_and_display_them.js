@@ -95,7 +95,7 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
                 ui_state.exit_upload_mode('resolved_with_errors');
             }
 
-            err(er_obj('Quota exceeded.'), 275, 'quota_exceeded', false, false, true);
+            err(er_obj('Quota exceeded'), 275, 'quota_exceeded', false, false, true);
         }
         //<1 insert image packs in db
 
@@ -216,7 +216,7 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
 
                                     not_resized_thumbnail.onerror = () => {
                                         try {
-                                            reject(er_obj('Failed to load img.'));
+                                            reject(er_obj('Failed to load img'));
 
                                         } catch (er) {
                                             ui_state.exit_upload_mode('rejected');
@@ -238,7 +238,7 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
 
                     img.onerror = () => {
                         try {
-                            reject(er_obj('Failed to load img.'));
+                            reject(er_obj('Failed to load img'));
 
                         } catch (er) {
                             ui_state.exit_upload_mode('rejected');

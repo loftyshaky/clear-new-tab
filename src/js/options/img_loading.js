@@ -89,7 +89,7 @@ export const get_pasted_image_or_image_url = async e => {
                     test_img.onerror = () => {
                         analytics.send_text_inputs_event('tried_to_paste_img_but_its_not_img', family, name);
 
-                        reject(er_obj('Not a link.'));
+                        reject(er_obj('Not a link'));
                     };
 
                     test_img.src = clipboard_text;
