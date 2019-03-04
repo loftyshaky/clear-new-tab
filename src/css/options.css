@@ -244,6 +244,10 @@ svg {
     text-align: right;
 }
 
+input {
+    min-width: 0; /* fix text input + button overflowing flex container in firefox */
+}
+
 /*>1 buttons */
 .btn {
     padding: 3px 6px 3px 6px;
