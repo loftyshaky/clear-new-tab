@@ -489,6 +489,9 @@
   "failed_to_load_image_er": {
     "message": "Failed to load image/images"
   },
+  "quota_exceeded_er": {
+    "message": "Database size limit exceeded"
+  },
 
 
   

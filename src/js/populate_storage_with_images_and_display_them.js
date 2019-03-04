@@ -82,10 +82,21 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
         //<1 pack images
 
         //>1 insert image packs in db
-        const last_img_id = await db.transaction('rw', db.imgs, db.imgsd, () => {
-            db.imgs.bulkAdd(packed_imgs);
-            db.imgsd.bulkAdd(packed_imgsd);
-        });
+        let last_img_id;
+
+        try {
+            last_img_id = await db.transaction('rw', db.imgs, db.imgsd, () => {
+                db.imgs.bulkAdd(packed_imgs);
+                db.imgsd.bulkAdd(packed_imgsd);
+            });
+
+        } catch (er) {
+            if (page === 'options') {
+                ui_state.exit_upload_mode('resolved_with_errors');
+            }
+
+            err(er_obj('Quota exceeded.'), 275, 'quota_exceeded', false, false, true);
+        }
         //<1 insert image packs in db
 
         if (page === 'options') {
