@@ -216,12 +216,12 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
 
                                     not_resized_thumbnail.onerror = () => {
                                         try {
-                                            reject(er_obj('Failed to load img'));
+                                            reject(er_obj('Failed to create thumbnail'));
 
                                         } catch (er) {
                                             ui_state.exit_upload_mode('rejected');
 
-                                            err(er, 222);
+                                            err(er, 222, 'failed_to_create_thumbnail', false, false, true);
                                         }
                                     };
 
@@ -232,18 +232,18 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                         } catch (er) {
                             ui_state.exit_upload_mode('rejected');
 
-                            err(er, 174);
+                            err(er, 174, 'failed_to_create_thumbnail', false, false, true);
                         }
                     });
 
                     img.onerror = () => {
                         try {
-                            reject(er_obj('Failed to load img'));
+                            reject(er_obj('Failed to create thumbnail'));
 
                         } catch (er) {
                             ui_state.exit_upload_mode('rejected');
 
-                            err(er, 175);
+                            err(er, 175, 'failed_to_create_thumbnail', false, false, true);
                         }
                     };
 
@@ -257,7 +257,7 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
             } catch (er) {
                 ui_state.exit_upload_mode('rejected');
 
-                err(er, 173, null, false, false, true);
+                err(er, 173, 'failed_to_create_thumbnail', false, false, true);
             }
         }));
     }

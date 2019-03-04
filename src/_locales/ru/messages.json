@@ -488,7 +488,9 @@
   "quota_exceeded_er": {
     "message": "Превышен допустимый размер базы данных"
   },
-
+  "failed_to_create_thumbnail_er": {
+    "message": "Не удалось создать миниатюру загружаемого изображения/видео"
+  },
 
 
   "new_tab_title_text": {
