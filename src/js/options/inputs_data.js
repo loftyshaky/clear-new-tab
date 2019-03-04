@@ -213,7 +213,7 @@ export const inputs_data = observable({
                 name: 'allow_analytics',
                 type: 'checkbox',
                 checkbox_type: 'permissions',
-                permissions: analytics_permissions, // if you change this permissions also change it in background onmessage (check_if_analytics_enabled)
+                permissions: xcon.analytics_permissions, // if you change this permissions also change it in background onmessage (check_if_analytics_enabled)
                 val: false,
                 visible: true,
             },

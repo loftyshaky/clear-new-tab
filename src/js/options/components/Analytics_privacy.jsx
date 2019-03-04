@@ -58,7 +58,7 @@ export class Analytics_privacy extends React.Component {
                         />
                         <a
                             className="link privacy_policy_link"
-                            href={x.msg('privacy_policy_link_href')}
+                            href={xcon.privacy_policy_link}
                             target="_blank"
                             rel="noopener noreferrer"
                             data-text="privacy_policy_link_text"

@@ -444,9 +444,6 @@
     "message": "📜 Privacy policy"
   },
 
-  "privacy_policy_link_href": {
-    "message": "https://put_link_here"
-  },
   "clear_new_tab_for_link_href_chrome": {
     "message": "https://bit.ly/clear-new-tab"
   },

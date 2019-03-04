@@ -92,7 +92,7 @@ const set_analytics_privacy_is_visible_var = async () => {
 const get_analytics_permission_allowed_var = async () => {
     await x.delay(0);
 
-    con.analytics_permission_allowed = page !== 'background' ? await x.send_message_to_background_c({ message: 'check_if_analytics_enabled' }) : contains_permission.contains_permission(analytics_permissions);
+    con.analytics_permission_allowed = page !== 'background' ? await x.send_message_to_background_c({ message: 'check_if_analytics_enabled' }) : contains_permission.contains_permission(xcon.analytics_permissions);
 };
 
 const con = {

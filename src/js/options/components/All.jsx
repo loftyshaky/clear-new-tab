@@ -88,7 +88,7 @@ export class All extends React.Component {
                         <Left_fieldset family="links">
                             <Link
                                 name="privacy_policy_link"
-                                href={x.msg('privacy_policy_link_href')}
+                                href={xcon.privacy_policy_link}
                                 add_data_bshref_attr={false}
                             />
                             <Link

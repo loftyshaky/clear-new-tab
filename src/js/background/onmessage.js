@@ -16,7 +16,7 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
         const msg = message.message;
 
         if (msg === 'check_if_analytics_enabled') {
-            contains_permission.contains_permission(analytics_permissions)
+            contains_permission.contains_permission(xcon.analytics_permissions)
                 .then(analytics_enabled => {
                     send_response(analytics_enabled);
 

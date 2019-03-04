@@ -14,7 +14,6 @@ window.page = r.ifElse(
     () => (title ? title.dataset.page : 'background'),
 )();
 window.browser = (() => window.msBrowser || window.browser || window.chrome)();
-window.analytics_permissions = [{ origins: ['https://www.google-analytics.com/*'] }];
 
 //> get extension data
 window.ed = async key => {
@@ -326,5 +325,10 @@ x.get_background = () => new Promise((resolve, reject) => {
 decorate(window, {
     ed: observable,
 });
+
+window.xcon = {
+    analytics_permissions: [{ origins: ['https://www.google-analytics.com/*'] }],
+    privacy_policy_link: 'https://bit.ly/cws-privacy-policy',
+};
 
 export default x;
