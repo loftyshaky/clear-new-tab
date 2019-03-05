@@ -54,6 +54,17 @@ export class Upload_box extends React.Component {
         }
     }
 
+    upload_box_browse_label_on_click = () => {
+        try {
+            document.activeElement.blur();
+
+            analytics.send_upload_box_event('browse_btn_clicked');
+
+        } catch (er) {
+            err(er, 277);
+        }
+    };
+
     render() {
         return (
             <div className="input upload_box_input">
@@ -85,7 +96,7 @@ export class Upload_box extends React.Component {
                             data-text="upload_box_browse_label_text"
                             tabIndex="0"
                             onKeyUp={enter_click.simulate_click_on_enter}
-                            onClick={analytics.send_upload_box_event.bind(null, 'browse_btn_clicked')}
+                            onClick={this.upload_box_browse_label_on_click}
                         />
                         {' '}
                         <label data-text="upload_box_drag_label_text" />
