@@ -24,6 +24,8 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
             mut.uploading_imgs = true;
         }
 
+        let some_thumbnails_not_loaded = false;
+
         //>1 pack images
         const number_of_imgs = await db.imgsd.count();
         const position_id = await r.ifElse(() => number_of_imgs > 0,
@@ -38,64 +40,85 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
 
         const thumbnails = await create_thumbnails_and_get_natural_width_and_height(imgs, type);
 
-        const packed_imgs = imgs.map(item => {
-            const img = {
-                id: x.unique_id(),
-                img: item,
-            };
+        const packed_imgs = imgs.map((item, i) => {
+            if (thumbnails[i].thumbnail !== 'error') {
+                const img = {
+                    id: x.unique_id(),
+                    img: item,
+                };
 
-            return img;
+                return img;
+
+            }
+
+            some_thumbnails_not_loaded = true;
+
+            return null;
         });
 
         const packed_imgsd = imgs.map((item, i) => {
-            if (type !== 'color') {
-                const img = {
-                    id: packed_imgs[i].id,
-                    position_id: position_id + i,
-                    theme_id,
-                    thumbnail: thumbnails[i].thumbnail,
-                    width: thumbnails[i].width,
-                    height: thumbnails[i].height,
-                    type: generate_type(item.type || 'img_link', theme_img_info),
-                    size: theme_img_info.size || 'global',
-                    position: theme_img_info.position || 'global',
-                    repeat: theme_img_info.repeat || 'global',
-                    color: theme_img_info.color || 'global',
-                    video_volume: typeof theme_img_info.video_volume !== 'undefined' ? theme_img_info.video_volume : 'global',
-                };
+            if (thumbnails[i].thumbnail !== 'error') {
+                if (type !== 'color') {
+                    const img = {
+                        id: packed_imgs[i].id,
+                        position_id: position_id + i,
+                        theme_id,
+                        thumbnail: thumbnails[i].thumbnail,
+                        width: thumbnails[i].width,
+                        height: thumbnails[i].height,
+                        type: generate_type(item.type || 'img_link', theme_img_info),
+                        size: theme_img_info.size || 'global',
+                        position: theme_img_info.position || 'global',
+                        repeat: theme_img_info.repeat || 'global',
+                        color: theme_img_info.color || 'global',
+                        video_volume: typeof theme_img_info.video_volume !== 'undefined' ? theme_img_info.video_volume : 'global',
+                    };
 
-                return img;
+                    return img;
 
-            } if (type === 'color') {
-                const img = {
-                    id: packed_imgs[i].id,
-                    position_id: position_id + i,
-                    theme_id,
-                    type: generate_type('color', theme_img_info),
-                };
+                } if (type === 'color') {
+                    const img = {
+                        id: packed_imgs[i].id,
+                        position_id: position_id + i,
+                        theme_id,
+                        type: generate_type('color', theme_img_info),
+                    };
 
-                return img;
+                    return img;
+                }
             }
 
-            return undefined;
+            return null;
         });
+
+        const packed_imgs_filtered = packed_imgs.filter(item => item);
+        const packed_imgsd_filtered = packed_imgsd.filter(item => item);
         //<1 pack images
 
         //>1 insert image packs in db
         let last_img_id;
 
-        try {
-            last_img_id = await db.transaction('rw', db.imgs, db.imgsd, () => {
-                db.imgs.bulkAdd(packed_imgs);
-                db.imgsd.bulkAdd(packed_imgsd);
-            });
+        if (packed_imgs_filtered.length > 0) {
+            try {
+                last_img_id = await db.transaction('rw', db.imgs, db.imgsd, () => {
+                    db.imgs.bulkAdd(packed_imgs_filtered);
+                    db.imgsd.bulkAdd(packed_imgsd_filtered);
+                });
 
-        } catch (er) {
+            } catch (er) {
+                if (page === 'options') {
+                    ui_state.exit_upload_mode('resolved_with_errors');
+                }
+
+                err(er_obj('Quota exceeded'), 275, 'quota_exceeded', false, false, true);
+            }
+
+        } else {
             if (page === 'options') {
                 ui_state.exit_upload_mode('resolved_with_errors');
             }
 
-            err(er_obj('Quota exceeded'), 275, 'quota_exceeded', false, false, true);
+            err(er_obj('Unable to create thumbnails of all uploaded images'), 276, null, true, false, true);
         }
         //<1 insert image packs in db
 
@@ -103,7 +126,7 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
             const number_of_img_w = sa('.img_w').length || 0;
             if (number_of_img_w < con.imgs_per_page) {
                 const mode = 'upload_imgs';
-                const imgs_to_load = packed_imgsd.slice(0, con.imgs_per_page - number_of_img_w); // get first 50 of uploaded images
+                const imgs_to_load = packed_imgsd_filtered.slice(0, con.imgs_per_page - number_of_img_w); // get first 50 of uploaded images
 
                 unpack_and_load_imgs(mode, imgs_to_load);
 
@@ -121,7 +144,7 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
 
         if (page === 'options') {
             set_last_uploaded_image_as_current();
-            ui_state.exit_upload_mode(status);
+            ui_state.exit_upload_mode(some_thumbnails_not_loaded ? 'resolved_with_errors' : status);
             await x.send_message_to_background_c({ message: 'preload_img' });
 
         } else {
@@ -158,7 +181,7 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
     if (type !== 'color') {
         await Promise.all(imgs.map(async (item, i) => {
             try {
-                await new Promise(async (resolve, reject) => {
+                await new Promise(async resolve => {
                     const is_img = type === 'link' ? true : file_types.con.exts[item.type] === 'img_file';
                     const img = is_img ? new Image() : Video();
 
@@ -192,58 +215,69 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                                     resolve();
 
                                 } else if (img.readyState === 4) {
-                                    const canvas = document.createElement('canvas');
-                                    canvas.width = natural_width;
-                                    canvas.height = natural_height;
+                                    if (natural_width > 0) { // for firefox. When image is broken in firefox it returns natural_width 0
+                                        const canvas = document.createElement('canvas');
+                                        canvas.width = natural_width;
+                                        canvas.height = natural_height;
 
-                                    canvas.getContext('2d').drawImage(img, 0, 0, natural_width, natural_height);
-                                    const base64_thumbnail = canvas.toDataURL();
+                                        canvas.getContext('2d').drawImage(img, 0, 0, natural_width, natural_height);
+                                        const base64_thumbnail = canvas.toDataURL();
 
-                                    const not_resized_thumbnail = new Image();
+                                        const not_resized_thumbnail = new Image();
 
-                                    not_resized_thumbnail.onload = () => {
-                                        try {
-                                            thumbnails[i].thumbnail = resizeImage.resize(not_resized_thumbnail, thumbnail_dimensions.width, thumbnail_dimensions.height, resizeImage.PNG);
+                                        not_resized_thumbnail.onload = () => {
+                                            try {
+                                                thumbnails[i].thumbnail = resizeImage.resize(not_resized_thumbnail, thumbnail_dimensions.width, thumbnail_dimensions.height, resizeImage.PNG);
 
-                                            resolve();
+                                                resolve();
 
-                                        } catch (er) {
-                                            ui_state.exit_upload_mode('rejected');
+                                            } catch (er) {
+                                                ui_state.exit_upload_mode('rejected');
 
-                                            err(er, 223);
-                                        }
-                                    };
+                                                err(er, 223);
+                                            }
+                                        };
 
-                                    not_resized_thumbnail.onerror = () => {
-                                        try {
-                                            reject(er_obj('Failed to create thumbnail'));
+                                        not_resized_thumbnail.onerror = () => {
+                                            try {
+                                                thumbnails[i].thumbnail = 'error';
 
-                                        } catch (er) {
-                                            ui_state.exit_upload_mode('rejected');
+                                                resolve();
 
-                                            err(er, 222, 'failed_to_create_thumbnail', false, false, true);
-                                        }
-                                    };
+                                            } catch (er) {
+                                                ui_state.exit_upload_mode('rejected');
 
-                                    not_resized_thumbnail.src = base64_thumbnail;
+                                                err(er, 222, null, true);
+                                            }
+                                        };
+
+                                        not_resized_thumbnail.src = base64_thumbnail;
+
+                                    } else {
+                                        thumbnails[i].thumbnail = 'error';
+
+                                        resolve();
+                                    }
                                 }
                             }
 
                         } catch (er) {
                             ui_state.exit_upload_mode('rejected');
 
-                            err(er, 174, 'failed_to_create_thumbnail', false, false, true);
+                            err(er, 174, null, true);
                         }
                     });
 
                     img.onerror = () => {
                         try {
-                            reject(er_obj('Failed to create thumbnail'));
+                            thumbnails[i].thumbnail = 'error';
+
+                            resolve();
 
                         } catch (er) {
                             ui_state.exit_upload_mode('rejected');
 
-                            err(er, 175, 'failed_to_create_thumbnail', false, false, true);
+                            err(er, 175, null, true);
                         }
                     };
 
@@ -257,7 +291,7 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
             } catch (er) {
                 ui_state.exit_upload_mode('rejected');
 
-                err(er, 173, 'failed_to_create_thumbnail', false, false, true);
+                err(er, 173, null, true);
             }
         }));
     }
