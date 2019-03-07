@@ -43,12 +43,11 @@ const get_img = async (mode, ed_all, reload_img_even_if_it_didnt_change, transit
             if (mode === 'random_solid_color') {
                 mut.previous_img = {
                     id: mut.random_solid_color,
-
                 };
+
             } else {
                 mut.previous_img = mut.loaded_img;
             }
-
 
             mut.loaded_img = await r.ifElse(
                 () => query_string.indexOf('preview') === -1,
@@ -67,6 +66,7 @@ const get_img = async (mode, ed_all, reload_img_even_if_it_didnt_change, transit
                     return undefined;
                 },
             )();
+
             const no_images_uploaded = !mut.loaded_img;
 
             if (no_images_uploaded) {

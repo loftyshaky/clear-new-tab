@@ -13,7 +13,9 @@ export const start_timer = x.debounce(async update_last_img_change_time => {
     try {
         const ed_all = await eda();
 
-        if (!ed_all.img_already_changed && (ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color')) {
+        if ((!mut.run_start_timer_f_once && !ed_all.img_already_changed) || (!ed_all.img_already_changed && (ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color'))) {
+            mut.run_start_timer_f_once = true;
+
             const ms_left = await get_ms_left.get_ms_left();
 
             start_timer_inner(ms_left, update_last_img_change_time);
@@ -95,10 +97,11 @@ export const clear_timer = () => {
 };
 
 //> decide what image to show next
-export const get_next_img = async () => {
+export const get_next_img = async run_even_if_get_next_img_f_is_running_var_is_true => {
     try {
-        if (!mut.get_next_img_f_is_running) {
+        if (!mut.get_next_img_f_is_running || run_even_if_get_next_img_f_is_running_var_is_true) {
             mut.get_next_img_f_is_running = true;
+
             const ed_all = await eda();
 
             if (ed_all.mode === 'multiple') {
@@ -107,16 +110,16 @@ export const get_next_img = async () => {
 
                 await db.ed.update(1, { current_img: new_current_img });
                 await get_new_future_img.get_new_future_img(new_future_img);
+                await imgs.preload_current_and_future_img('new_current_img');
 
                 x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'change_current_img_input_val' }]);
-
-                imgs.preload_current_and_future_img('new_current_img');
 
             } else if (ed_all.mode === 'random_solid_color') {
                 await db.ed.update(1, { current_random_color: generate_random_color.generate_random_color() });
             }
         }
 
+        mut.finished_running_get_next_img_once = true;
         mut.get_next_img_f_is_running = false;
 
     } catch (er) {
@@ -125,7 +128,9 @@ export const get_next_img = async () => {
 };
 //< decide what image to show next
 
-const mut = {
+export const mut = {
     timers: [],
     get_next_img_f_is_running: false,
+    run_start_timer_f_once: false,
+    finished_running_get_next_img_once: false,
 };

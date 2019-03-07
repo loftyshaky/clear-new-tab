@@ -2,9 +2,9 @@ import * as r from 'ramda';
 
 import x from 'x';
 import { db } from 'js/init_db';
+import * as file_types from 'js/file_types';
 import * as theme_img from 'background/theme_img';
 import * as tabs from 'background/tabs';
-import * as file_types from 'js/file_types';
 
 //> load_imgs (runs on extension enable)
 export const load_imgs = async () => {
@@ -29,7 +29,7 @@ export const load_imgs = async () => {
             }
         }
 
-        if (mut.imgs.length > 0) {
+        if (!mut.preload_current_and_future_img_f_is_running) {
             await preload_current_and_future_img('reload');
         }
 
@@ -112,6 +112,7 @@ const remove_img_from_memory = async img => {
 
 export const preload_current_and_future_img = async mode => {
     try {
+        mut.preload_current_and_future_img_f_is_running = true;
         remove_img_from_memory(mut.current_img);
 
         const ed_all = await eda();
@@ -127,6 +128,8 @@ export const preload_current_and_future_img = async mode => {
 
         mut.future_img = mut.imgs[ed_all.future_img] ? await preload_img(ed_all.future_img) : null;
 
+        mut.preload_current_and_future_img_f_is_running = false;
+
     } catch (er) {
         err(er, 5, null, true);
     }
@@ -135,7 +138,7 @@ export const preload_current_and_future_img = async mode => {
 
 export const mut = {
     imgs: [],
+    preload_current_and_future_img_f_is_running: false,
     current_img: null,
     future_img: null,
-    got_img_once: false,
 };

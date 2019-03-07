@@ -25,28 +25,23 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
                 });
 
         } else if (msg === 'get_img') { // set, preload images and get current image from new tab
-            if (!imgs.mut.got_img_once) {
-                imgs.mut.got_img_once = true;
-                let ms_left;
+            if (!multiple.mut.finished_running_get_next_img_once) {
+                const f = imgs.mut.future_img ? () => Promise.resolve() : async () => imgs.preload_current_and_future_img('reload');
 
-                get_ms_left.get_ms_left()
-                    .then(ms_left_then => {
-                        ms_left = ms_left_then;
-                        return eda();
+                f().then(async () => {
+                    const ms_left = await get_ms_left.get_ms_left();
+                    const ed_all = await eda();
 
-                    }).then(ed_all => {
-                        if (ms_left < 0 && ed_all.change_interval != 1 && !ed_all.img_already_changed && ed_all.mode === 'multiple') { // eslint-disable-line eqeqeq
-                            return imgs.preload_current_and_future_img('new_current_img');
-                        }
+                    if (ms_left < 0 && ed_all.change_interval != 1 && !ed_all.img_already_changed && ed_all.mode === 'multiple') { // eslint-disable-line eqeqeq
+                        send_response(imgs.mut.future_img);
 
-                        return null;
-
-                    }).then(() => {
+                    } else {
                         send_response(imgs.mut.current_img);
-                    })
-                    .catch(er => {
-                        err(er, 226, null, true);
-                    });
+                    }
+
+                }).catch(er => {
+                    err(er, 226, null, true);
+                });
 
             } else {
                 send_response(imgs.mut.current_img);
