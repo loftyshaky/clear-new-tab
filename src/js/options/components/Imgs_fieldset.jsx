@@ -156,9 +156,9 @@ class Imgs extends React.Component {
     constructor(props) {
         super(props);
 
-        this.set_img_w_refs = this.set_img_w_refs.bind(this);
+        this.set_img_placeholder_refs = this.set_img_placeholder_refs.bind(this);
 
-        this.img_w_refs = {};
+        this.img_placeholder_refs = {};
         this.img_w_trs = [];
 
         this.mut = {
@@ -166,9 +166,9 @@ class Imgs extends React.Component {
         };
     }
 
-    set_img_w_refs(id, img) {
+    set_img_placeholder_refs(id, img_placeholder) {
         try {
-            this.img_w_refs[id] = img;
+            this.img_placeholder_refs[id] = img_placeholder;
 
         } catch (er) {
             err(er, 80);
@@ -222,7 +222,7 @@ class Imgs extends React.Component {
                         this.delete_broken_imgs();
                     }
 
-                    img_loading.show_loaded_img(this.img_w_refs[id]);
+                    img_loading.show_loaded_img(this.img_placeholder_refs[id]);
                 }
             }
 
@@ -232,9 +232,9 @@ class Imgs extends React.Component {
     }
 
     //> show transparency background checkerboard
-    show_checkerboard = id => {
+    hide_img_placeholder = id => {
         try {
-            img_loading.show_checkerboard(this.img_w_refs[id]);
+            img_loading.hide_img_placeholder(this.img_placeholder_refs[id]);
 
         } catch (er) {
             err(er, 83);
@@ -259,20 +259,24 @@ class Imgs extends React.Component {
                             tr_ref={node => { this.img_w_trs[i] = node; }}
                         >
                             <span
-                                className={x.cls(['img_w', img.selected ? 'selected_img' : null])}
-                                role="button"
-                                tabIndex="0"
+                                className="img_placeholder opacity_1"
                                 style={{
                                     backgroundColor: img.placeholder_color,
                                     backgroundRepeat: '14px 14px',
                                     backgroundSize: '14px 14px',
+                                    opacity: img_loading.mut.img_inner_w_2_mounts_with_img_placeholder_hidden ? '0.001' : null,
                                 }}
+                                onTransitionEnd={this.hide_img_placeholder.bind(null, img.id)}
+                                ref={img_placeholder => this.set_img_placeholder_refs(img.id, img_placeholder)}
+                            />
+                            <span
+                                className={x.cls(['img_w', img.selected ? 'selected_img' : null])}
+                                role="button"
+                                tabIndex="0"
                                 onClick={img_selection.select_img.bind(null, img.id)}
                                 onMouseDown={e => moving.start_drag(this.img_w_trs[i], e)}
                                 onMouseMove={e => moving.create_drop_area(this.img_w_trs[i], 'options', e)}
                                 onKeyUp={enter_click.simulate_click_on_enter}
-                                onTransitionEnd={this.show_checkerboard.bind(null, img.id)}
-                                ref={img_ref => this.set_img_w_refs(img.id, img_ref)}
                             >
                                 <Img_inner_w
                                     i={i}
@@ -295,7 +299,7 @@ const Img_inner_w = observer(props => {
 
     return (
         <div className="img_inner_w">
-            <div className="img_inner_w_2 opacity_0" style={{ opacity: img_loading.mut.img_inner_w_2_mounts_transparent ? null : 1 }}>
+            <div className="img_inner_w_2">
                 <Img
                     i={i}
                     img={img}

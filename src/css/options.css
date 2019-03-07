@@ -680,6 +680,23 @@ input {
     min-width: 80px;
 }
 
+.img_w_tr {
+    position: relative;
+    display: inline-block;
+}
+
+.img_placeholder {
+    width: calc(100% - 12px);
+    height: 100px;
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+}
+
+.img_w {
+    background-image: url("checkerboard.png");
+}
+
 .img_w, .drop_area {
     display: inline-flex;
 }
@@ -707,7 +724,7 @@ input {
     height: 100%;
 }
 
-.img_cover, .solid_color_img, .img_info, .img_info_and_btns {
+.img_cover, .img_placeholder, .solid_color_img, .img_info, .img_info_and_btns {
     cursor: move;
 }
 
@@ -947,7 +964,7 @@ input {
 /*< analytics_privacy */
 
 /*> transition */
-.link, .upload_box_browse_label, svg, .theme_img_link, .using_mouse .delete_img_btn, .color_input_vizualization, .using_mouse .normal_input, .using_mouse .btn, .global_el, .input, .image_settings_wrapper, .dragged_item, .img_inner_w, .using_mouse .img_w, .selected_img, .using_mouse .img_btn, .imgs_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu, .analytics_privacy, .analytics_privacy_protecting_screen {
+.link, .upload_box_browse_label, svg, .theme_img_link, .using_mouse .delete_img_btn, .color_input_vizualization, .using_mouse .normal_input, .using_mouse .btn, .global_el, .input, .image_settings_wrapper, .dragged_item, .img_inner_w, .using_mouse .img_w, .selected_img, .using_mouse .img_btn, .imgs_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu, .analytics_privacy, .analytics_privacy_protecting_screen, .img_placeholder {
     transition: all 0.2s ease-out;
 }
 
@@ -983,7 +1000,7 @@ svg {
     transition-property: color, background-color, border-color, box-shadow;
 }
 
-.global_el, .input, .image_settings_wrapper, .dragged_item, .loading_screen, .imgs_w_2, .img_inner_w_2, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w, .analytics_privacy, .analytics_privacy_protecting_screen {
+.global_el, .input, .image_settings_wrapper, .dragged_item, .loading_screen, .imgs_w_2, .img_inner_w_2, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w, .analytics_privacy, .analytics_privacy_protecting_screen, .img_placeholder {
     transition-property: opacity;
 }
 
@@ -1043,10 +1060,6 @@ body:not(.using_mouse) .select__control, body:not(.using_mouse) .select__menu {
 
 .upload_box_hover {
     background-color: #3b6ab5;
-}
-
-.checkerboard {
-    background-image: url("checkerboard.png");
 }
 /*< mods */
 

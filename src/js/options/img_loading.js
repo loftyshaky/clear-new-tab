@@ -219,11 +219,11 @@ const change_css_counter_offset = action(offset => {
 });
 
 //> show one image after it fully loaded
-export const show_loaded_img = async img_w => {
+export const show_loaded_img = async img_placeholder => {
     try {
         await x.delay(100);
 
-        x.remove_cls(sb(img_w, '.img_inner_w_2'), 'opacity_0');
+        img_placeholder.style.opacity = 0; // eslint-disable-line no-param-reassign
 
     } catch (er) {
         err(er, 114);
@@ -231,12 +231,11 @@ export const show_loaded_img = async img_w => {
 };
 //< show one image after it fully loaded
 
-//> show transparency background checkerboard
-export const show_checkerboard = async img_w => {
-    try {
-        await x.delay(100);
 
-        x.add_cls(img_w, 'checkerboard');
+//> show transparency background checkerboard
+export const hide_img_placeholder = img_placeholder => {
+    try {
+        x.add_cls(img_placeholder, 'none');
 
     } catch (er) {
         err(er, 115);
@@ -251,7 +250,7 @@ export const change_img_to_img_error = action(img_obj => {
 export const hide_loading_screen = action(() => {
     try {
         ob.show_loading_screen = false;
-        mut.img_inner_w_2_mounts_transparent = true;
+        mut.img_inner_w_2_mounts_with_img_placeholder_hidden = false;
 
     } catch (er) {
         err(er, 116);
@@ -271,7 +270,7 @@ export const load_theme_img_when_clicking_on_load_theme_img_btn = () => {
 
 export const mut = {
     imgs_loaded: 0,
-    img_inner_w_2_mounts_transparent: false,
+    img_inner_w_2_mounts_with_img_placeholder_hidden: true,
 };
 
 export const ob = observable({
