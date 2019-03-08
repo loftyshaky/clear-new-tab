@@ -232,7 +232,9 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                                                 resolve();
 
                                             } catch (er) {
-                                                ui_state.exit_upload_mode('rejected');
+                                                if (page === 'options') {
+                                                    ui_state.exit_upload_mode('rejected');
+                                                }
 
                                                 err(er, 223);
                                             }
@@ -245,7 +247,9 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                                                 resolve();
 
                                             } catch (er) {
-                                                ui_state.exit_upload_mode('rejected');
+                                                if (page === 'options') {
+                                                    ui_state.exit_upload_mode('rejected');
+                                                }
 
                                                 err(er, 222, null, true);
                                             }
@@ -262,7 +266,9 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                             }
 
                         } catch (er) {
-                            ui_state.exit_upload_mode('rejected');
+                            if (page === 'options') {
+                                ui_state.exit_upload_mode('rejected');
+                            }
 
                             err(er, 174, null, true);
                         }
@@ -275,7 +281,9 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                             resolve();
 
                         } catch (er) {
-                            ui_state.exit_upload_mode('rejected');
+                            if (page === 'options') {
+                                ui_state.exit_upload_mode('rejected');
+                            }
 
                             err(er, 175, null, true);
                         }
@@ -289,7 +297,9 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                 });
 
             } catch (er) {
-                ui_state.exit_upload_mode('rejected');
+                if (page === 'options') {
+                    ui_state.exit_upload_mode('rejected');
+                }
 
                 err(er, 173, null, true);
             }
