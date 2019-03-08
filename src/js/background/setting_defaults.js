@@ -41,6 +41,8 @@ window.set_default_settings = async page => { // this function also called in op
                 try {
                     db.ed.add(ext_data_o);
 
+                    browser.runtime.openOptionsPage();
+
                 } catch (er) {
                     err(er, 37, null, true);
                 }

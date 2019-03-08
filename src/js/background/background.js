@@ -1,9 +1,13 @@
+/* eslint-disable import/first */
+
 import 'js/error';
+import 'background/setting_defaults';
+
+set_default_settings('background');
+
 import * as analytics from 'js/analytics';
 import 'background/onmessage';
 import 'background/onclicked';
-import 'background/oninstalled';
-import 'background/setting_defaults';
 import 'background/open_theme_img';
 import 'background/theme_img';
 import * as imgs from 'background/imgs';
