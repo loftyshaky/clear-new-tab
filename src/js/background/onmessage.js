@@ -130,8 +130,9 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
 
         } else if (msg === 'get_new_current_img_when_choosing_theme_mode') {
             ed('last_installed_theme_theme_id')
-                .then(last_installed_theme_theme_id => determine_theme_current_img.determine_theme_current_img(last_installed_theme_theme_id, imgs.mut.imgs))
-                .then(new_current_img => {
+                .then(async last_installed_theme_theme_id => {
+                    const new_current_img = await determine_theme_current_img.determine_theme_current_img(last_installed_theme_theme_id, imgs.mut.imgs);
+
                     send_response(new_current_img);
 
                 }).catch(er => {

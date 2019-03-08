@@ -16,9 +16,15 @@ browser.runtime.onMessage.addListener(async (message, sender, send_response) => 
             }
 
         } else if (msg === 'change_img') {
-            if (await ed('slideshow') && window.location.search.indexOf('preview') === -1) {
-                imgs.display_img(false, true, true);
-            }
+            ed('slideshow')
+                .then(slideshow => {
+                    if (slideshow && window.location.search.indexOf('preview') === -1) {
+                        imgs.display_img(false, true, true);
+                    }
+
+                }).catch(er => {
+                    err(er, 279);
+                });
 
         } else if (msg === 'reload_img') {
             link_to_default_new_tab.set_show_link_to_default_new_tab_observable();

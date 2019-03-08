@@ -24,9 +24,13 @@ browser.runtime.onMessage.addListener(async message => {
                 });
 
         } else if (msg === 'change_current_img_input_val') {
-            const current_img = await ed('current_img');
+            ed('current_img')
+                .then(current_img => {
+                    settings.change_current_img_input_val(current_img + 1);
 
-            settings.change_current_img_input_val(current_img + 1);
+                }).catch(er => {
+                    err(er, 280);
+                });
 
         } else if (msg === 'enter_upload_mode') { // when uploading theme image
             ui_state.enter_upload_mode();
