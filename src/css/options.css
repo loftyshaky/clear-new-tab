@@ -383,8 +383,7 @@ input {
 }
 
 .theme_img_link {
-    display: block;
-    text-align: left;
+    width: fit-content;
 }
 
 .upload_btn {
