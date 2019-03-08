@@ -33,6 +33,7 @@ export const allow_analytics = action(async () => {
             analytics.send_analytics_privacy_btns_event('allow_analytics');
             analytics.send_permissions_event('requested', 'allow_analytics');
             analytics.send_pageview('options');
+            analytics.send_pageview('background');
             analytics.send_app_version_event();
         }
 
