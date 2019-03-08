@@ -9,5 +9,6 @@ import 'background/theme_img';
 import * as imgs from 'background/imgs';
 
 analytics.send_pageview('background');
+analytics.send_app_version_event();
 
 imgs.load_imgs();

@@ -70,6 +70,16 @@ const get_client_id = () => {
     return undefined;
 };
 
+
+export const send_app_version_event = () => {
+    try {
+        send_event('app_version', x.get_app_version());
+
+    } catch (er) {
+        err(er, 278);
+    }
+};
+
 export const send_alerts_event = alert_name => {
     try {
         send_event('alerts', alert_name);

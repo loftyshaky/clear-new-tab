@@ -320,6 +320,8 @@ x.get_background = () => new Promise((resolve, reject) => {
         }
     });
 });
+
+x.get_app_version = () => browser.runtime.getManifest().version;
 //< chrome
 
 decorate(window, {
