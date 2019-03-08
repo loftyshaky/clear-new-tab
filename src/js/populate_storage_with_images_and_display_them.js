@@ -41,7 +41,7 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
         const thumbnails = await create_thumbnails_and_get_natural_width_and_height(imgs, type);
 
         const packed_imgs = imgs.map((item, i) => {
-            if (thumbnails[i].thumbnail !== 'error') {
+            if (!thumbnails[i] || thumbnails[i].thumbnail !== 'error') {
                 const img = {
                     id: x.unique_id(),
                     img: item,
@@ -57,15 +57,15 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
         });
 
         const packed_imgsd = imgs.map((item, i) => {
-            if (thumbnails[i].thumbnail !== 'error') {
+            if (!thumbnails[i] || thumbnails[i].thumbnail !== 'error') {
                 if (type !== 'color') {
                     const img = {
                         id: packed_imgs[i].id,
                         position_id: position_id + i,
                         theme_id,
-                        thumbnail: thumbnails[i].thumbnail,
-                        width: thumbnails[i].width,
-                        height: thumbnails[i].height,
+                        thumbnail: thumbnails[i] ? thumbnails[i].thumbnail : null,
+                        width: thumbnails[i] ? thumbnails[i].width : null,
+                        height: thumbnails[i] ? thumbnails[i].height : null,
                         type: generate_type(item.type || 'img_link', theme_img_info),
                         size: theme_img_info.size || 'global',
                         position: theme_img_info.position || 'global',
