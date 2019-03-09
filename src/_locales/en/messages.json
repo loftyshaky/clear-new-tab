@@ -410,7 +410,12 @@
     "message": "Move"
   },
 
-
+  "privacy_policy_link_text": {
+    "message": "📜 Privacy policy"
+  },
+  "help_translating_link_text": {
+    "message": "🈯 Help translating Clear New Tab into the language you know"
+  },
   "clear_new_tab_for_link_text_chrome": {
     "message": "⚗️ Clear New Tab for Chrome"
   },
@@ -434,9 +439,6 @@
   },
   "donate_link_text": {
     "message": "💖 Support the development of this extension by donating any amount via PayPal"
-  },
-  "privacy_policy_link_text": {
-    "message": "📜 Privacy policy"
   },
 
   "clear_new_tab_for_link_href_chrome": {

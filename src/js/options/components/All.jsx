@@ -92,6 +92,11 @@ export class All extends React.Component {
                                 add_data_bshref_attr={false}
                             />
                             <Link
+                                name="help_translating_link"
+                                href="https://bit.ly/help-translating"
+                                add_data_bshref_attr={false}
+                            />
+                            <Link
                                 name="clear_new_tab_for_link"
                                 href="http"
                                 add_data_bshref_attr

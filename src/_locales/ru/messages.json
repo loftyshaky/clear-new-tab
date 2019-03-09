@@ -409,7 +409,12 @@
     "message": "Переместить"
   },
 
-
+  "privacy_policy_link_text": {
+    "message": "📜 Политика конфиденциальности"
+  },
+  "help_translating_link_text": {
+    "message": "🈯 Помогите перевести Clear New Tab на язык, который вы знаете"
+  },
   "clear_new_tab_for_link_text_chrome": {
     "message": "⚗️ Clear New Tab для Chrome"
   },
