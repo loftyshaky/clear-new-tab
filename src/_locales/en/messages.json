@@ -4,11 +4,6 @@
   },
 
 
-  "loc": {
-    "message": "en"
-  },
-
-
   "error_alert": {
     "message": "An error occured. Error code: "
   },
