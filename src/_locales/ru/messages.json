@@ -345,10 +345,10 @@
 
 
   "install_help_text_chrome": {
-    "message": "Спасибо за установку Clear New Tab! Если в вашем Chrome установлена тема из <a class='link install_help_link chrome_web_store_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/cws-themes-ru'>интернет-магазина Chrome</a>, подождите пока её фоновая картинка появится в секции \"Картинки\", и затем откройте новую вкладку, чтобы увидеть ее. В противном случае вы можете загрузить свое изображение с помощью формы ниже. Нажмите <a class='link install_help_link hide_install_help_link' href='#'>сюда</a> чтобы скрыть это сообщение."
+    "message": "Спасибо за установку Clear New Tab! Если в вашем Chrome установлена тема из <a class='link install_help_link chrome_web_store_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/cws-themes-ru'>интернет-магазина Chrome</a>, подождите пока её фоновая картинка появится в секции \"Картинки\", и затем откройте новую вкладку, чтобы увидеть ее. В противном случае вы можете загрузить свое изображение с помощью формы ниже. Нажмите <button type='button' class='link install_help_link hide_install_help_link'>сюда</button> чтобы скрыть это сообщение."
   },
   "install_help_text_firefox": {
-    "message": "Спасибо за установку Clear New Tab! Вы можете установить тему из <a class='link install_help_link chrome_web_store_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/cws-themes-ru'>интернет-магазина Chrome</a> или загрузить свое изображение с помощью формы ниже. Нажмите <a class='link install_help_link hide_install_help_link' href='#'>сюда</a> чтобы скрыть это сообщение."
+    "message": "Спасибо за установку Clear New Tab! Вы можете установить тему из <a class='link install_help_link chrome_web_store_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/cws-themes-ru'>интернет-магазина Chrome</a> или загрузить свое изображение с помощью формы ниже. Нажмите <button type='button' class='link install_help_link hide_install_help_link'>сюда</button> чтобы скрыть это сообщение."
   },
   "upload_box_help_message_text": {
     "message": "Вы можете загрузить несколько картинок/видео сразу. Просто выберите несколько картинок/видео перед нажатием \"Открыть\"/перетаскиванием.<br><br>Поддерживаемы форматы: png, jpg, gif, mp4, webm, ogg."

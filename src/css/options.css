@@ -81,20 +81,20 @@ option {
     cursor: pointer;
 }
 
-.link:not(.theme_img_link):not(.install_help_link):not(.help_link):visited {
+.link:visited {
 	color: #ff9090;
 }
 
 .link, .upload_box_browse_label {
-    color: #fbff75!important;
+    color: #fbff75;
 }
 
 .link:hover, .upload_box_browse_label:hover {
-    color: #77ff6f!important;
+    color: #77ff6f;
 }
 
 .link:active, .upload_box_browse_label:active {
-    color: #f493ff!important;
+    color: #f493ff;
 }
 
 .option:hover, .btn:hover, .btn:active, .pagination li:hover a, .pagination li:active a, .img_btn:active {

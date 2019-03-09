@@ -23,7 +23,6 @@ export const Theme_img_link = () => {
             type="button"
             className="link theme_img_link"
             data-text="theme_img_link_text"
-            href="#"
             onClick={open_theme_img}
         />
     );
