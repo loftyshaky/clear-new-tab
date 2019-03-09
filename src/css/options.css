@@ -43,7 +43,6 @@ body, .option, .imgs_legend_line, .imgs_fieldset_filler, .rc-slider-handle, .ana
     background-color: #212121;
 } 
 
-
 fieldset {
     padding: 0 12px 12px 12px;
     margin: 0;
@@ -542,9 +541,16 @@ input {
     align-items: center;
 }
 
-
 .slider_w .checkbox_w {
     margin-left: 10px;
+}
+
+.slider_input:not(.global_options_is_visible) .slider_input_label {
+    margin-bottom: 6px;
+}
+
+.slider_input:not(.global_options_is_visible) .slider_w {
+    margin-bottom: 2px;
 }
 
 .rc-slider {

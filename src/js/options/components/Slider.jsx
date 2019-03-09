@@ -68,7 +68,7 @@ export class Slider extends React.Component {
         return (
             <Tr
                 attr={{
-                    className: 'input slider_input',
+                    className: x.cls(['input', 'slider_input', settings.ob.global_options_is_visible ? 'global_options_is_visible' : null]),
                 }}
                 tag="div"
                 name="gen"
