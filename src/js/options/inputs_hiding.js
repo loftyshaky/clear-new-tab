@@ -19,7 +19,7 @@ export const decide_what_inputs_to_hide = async () => {
             inputs_data.obj.img_settings.slideshow.visible = !!(ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color');
             inputs_data.obj.img_settings.shuffle.visible = ed_all.mode === 'multiple';
             inputs_data.obj.img_settings.change_interval.visible = !!(ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color');
-            inputs_data.obj.img_settings.img_change_effect.visible = !!((ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color') && ed_all.slideshow);
+            inputs_data.obj.img_settings.img_change_effect.visible = false; // !!((ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color') && ed_all.slideshow);
             inputs_data.obj.img_settings.slide_direction.visible = !!((ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color') && ed_all.slideshow && ed_all.img_change_effect === 'slide');
             inputs_data.obj.img_settings.current_img.visible = !!(ed_all.mode === 'one' || ed_all.mode === 'multiple');
             inputs_data.obj.img_settings.set_last_uploaded.visible = !!(ed_all.mode === 'one' || ed_all.mode === 'multiple');
