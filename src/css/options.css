@@ -539,18 +539,11 @@ input {
 .slider_w {
     display: flex;
     align-items: center;
+    height: 20px;
 }
 
 .slider_w .checkbox_w {
     margin-left: 10px;
-}
-
-.slider_input:not(.global_options_is_visible) .slider_input_label {
-    margin-bottom: 6px;
-}
-
-.slider_input:not(.global_options_is_visible) .slider_w {
-    margin-bottom: 2px;
 }
 
 .rc-slider {
@@ -572,9 +565,9 @@ input {
 
 .rc-slider-handle {
     width: 10px;
-    margin-top: -7px;
-    margin-left: -5px;;
-    height: 18px;
+    margin-top: -8px;
+    margin-left: -5px;
+    height: 20px;
     border: unset;
     border-radius: unset;
 }
