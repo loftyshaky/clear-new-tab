@@ -639,7 +639,7 @@ input {
     height: 16px;
     width: calc(100% - 25px);
     right: 22px;
-    z-index: 1;
+    z-index: 2;
 }
 
 .imgs_fieldset_filler_top {
@@ -657,7 +657,7 @@ input {
 
 .imgs_legend {
     position: absolute;
-    z-index: 2;
+    z-index: 3;
     margin-left: 15px;
 }
 
