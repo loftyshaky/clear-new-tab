@@ -6,19 +6,18 @@ window.set_default_settings = async page => { // this function also called in op
         const ext_data_o = {
             id: 1,
             download_img_when_link_given: false,
-            current_img: 0,
-            future_img: 1,
-            last_img_change_time: 0,
-            use_theme_img: true,
-            keep_old_themes_imgs: false,
+            current_background: 0,
+            future_background: 1,
+            last_background_change_time: 0,
+            keep_old_themes_backgrounds: false,
             set_last_uploaded: false,
             change_interval: '3600000',
-            img_already_changed: true,
+            background_already_changed: true,
             mode: 'theme',
             current_random_color: generate_random_color.generate_random_color(),
             shuffle: true,
             slideshow: false,
-            img_change_effect: 'crossfade',
+            background_change_effect: 'crossfade',
             slide_direction: 'from_right_to_left',
             size: 'dont_resize',
             position: '50% 50%',
@@ -31,7 +30,7 @@ window.set_default_settings = async page => { // this function also called in op
             ext_data_o.show_install_help = true;
             ext_data_o.show_bookmarks_bar = false;
             ext_data_o.enable_paste = false;
-            ext_data_o.allow_downloading_images_by_link = false;
+            ext_data_o.allow_downloading_imgs_by_link = false;
             ext_data_o.last_installed_theme_theme_id = '';
             ext_data_o.show_link_to_default_new_tab = false;
             ext_data_o.allow_analytics = false;

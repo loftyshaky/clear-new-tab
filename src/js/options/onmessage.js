@@ -1,8 +1,8 @@
 import x from 'x';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
-import * as total_number_of_imgs from 'js/total_number_of_imgs';
+import * as total_number_of_backgrounds from 'js/total_number_of_backgrounds';
 import * as settings from 'options/settings';
-import * as img_loading from 'options/img_loading';
+import * as background_loading from 'options/background_loading';
 import * as ui_state from 'options/ui_state';
 
 //> recieve messages
@@ -11,22 +11,22 @@ browser.runtime.onMessage.addListener(async message => {
         const msg = message.message;
 
         if (msg === 'load_last_page') { // remove old theme images and then load new
-            populate_storage_with_images_and_display_them.mut.uploading_imgs = true;
+            populate_storage_with_images_and_display_them.mut.uploading_backgrounds = true;
 
-            total_number_of_imgs.set_total_number_of_imgs()
+            total_number_of_backgrounds.set_total_number_of_backgrounds()
                 .then(() => {
-                    const last_page = Math.ceil(total_number_of_imgs.ob.number_of_imgs / populate_storage_with_images_and_display_them.con.imgs_per_page);
+                    const last_page = Math.ceil(total_number_of_backgrounds.ob.number_of_backgrounds / populate_storage_with_images_and_display_them.con.backgrounds_per_page);
 
-                    img_loading.load_page('load_page', last_page);
+                    background_loading.load_page('load_page', last_page);
 
                 }).catch(er => {
                     err(er, 135);
                 });
 
-        } else if (msg === 'change_current_img_input_val') {
-            ed('current_img')
-                .then(current_img => {
-                    settings.change_current_img_input_val(current_img + 1);
+        } else if (msg === 'change_current_background_input_val') {
+            ed('current_background')
+                .then(current_background => {
+                    settings.change_current_background_input_val(current_background + 1);
 
                 }).catch(er => {
                     err(er, 280);
@@ -35,7 +35,7 @@ browser.runtime.onMessage.addListener(async message => {
         } else if (msg === 'enter_upload_mode') { // when uploading theme image
             ui_state.enter_upload_mode();
 
-        } else if (msg === 'exit_upload_mode_and_deselect_img') { // when uploading theme image
+        } else if (msg === 'exit_upload_mode_and_deselect_background') { // when uploading theme image
             settings.switch_to_settings_type(null, null, true);
             ui_state.exit_upload_mode(message.status);
 

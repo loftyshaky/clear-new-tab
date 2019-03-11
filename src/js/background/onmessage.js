@@ -3,10 +3,10 @@ import * as r from 'ramda';
 import { db } from 'js/init_db';
 import * as contains_permission from 'js/contains_permission';
 import * as get_ms_left from 'js/get_ms_left';
-import * as last_img_change_time from 'js/last_img_change_time';
-import * as determine_theme_current_img from 'js/determine_theme_current_img';
-import * as imgs from 'background/imgs';
-import * as theme_img from 'background/theme_img';
+import * as last_background_change_time from 'js/last_background_change_time';
+import * as determine_theme_current_background from 'js/determine_theme_current_background';
+import * as backgrounds from 'background/backgrounds';
+import * as theme_background from 'background/theme_background';
 import * as multiple from 'background/multiple';
 import * as tabs from 'background/tabs';
 import * as file_types from 'js/file_types';
@@ -24,19 +24,19 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
                     err(er, 267, null, true);
                 });
 
-        } else if (msg === 'get_img') { // set, preload images and get current image from new tab
-            if (!multiple.mut.finished_running_get_next_img_once) {
-                const f = imgs.mut.future_img ? () => Promise.resolve() : async () => imgs.preload_current_and_future_img('reload');
+        } else if (msg === 'get_background') { // set, preload images and get current image from new tab
+            if (!multiple.mut.finished_running_get_next_background_once) {
+                const f = backgrounds.mut.future_background ? () => Promise.resolve() : async () => backgrounds.preload_current_and_future_background('reload');
 
                 f().then(async () => {
                     const ms_left = await get_ms_left.get_ms_left();
                     const ed_all = await eda();
 
-                    if (ms_left < 0 && ed_all.change_interval != 1 && !ed_all.img_already_changed && ed_all.mode === 'multiple') { // eslint-disable-line eqeqeq
-                        send_response(imgs.mut.future_img);
+                    if (ms_left < 0 && ed_all.change_interval != 1 && !ed_all.background_already_changed && ed_all.mode === 'multiple') { // eslint-disable-line eqeqeq
+                        send_response(backgrounds.mut.future_background);
 
                     } else {
-                        send_response(imgs.mut.current_img);
+                        send_response(backgrounds.mut.current_background);
                     }
 
                 }).catch(er => {
@@ -44,16 +44,16 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
                 });
 
             } else {
-                send_response(imgs.mut.current_img);
+                send_response(backgrounds.mut.current_background);
             }
 
-        } else if (msg === 'get_future_img') {
-            send_response(imgs.mut.future_img);
+        } else if (msg === 'get_future_background') {
+            send_response(backgrounds.mut.future_background);
 
-            multiple.get_next_img();
+            multiple.get_next_background();
 
-        } else if (msg === 'preload_img') { // set, preload images and get current image from new tab
-            imgs.preload_current_and_future_img('reload')
+        } else if (msg === 'preload_background') { // set, preload images and get current image from new tab
+            backgrounds.preload_current_and_future_background('reload')
                 .then(() => {
                     send_response();
 
@@ -61,17 +61,17 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
                     err(er, 226, null, true);
                 });
 
-        } else if (msg === 'retrieve_imgs') { // get ready imgs.mut.imgs for use in new tab
-            imgs.retrieve_imgs(send_response);
+        } else if (msg === 'retrieve_backgrounds') { // get ready backgrounds.mut.backgrounds for use in new tab
+            backgrounds.retrieve_backgrounds(send_response);
 
-        } else if (msg === 'update_imgs_obj') { //< update imgs object when changing image specefic values
-            const i = get_img_i_by_id(message.id);
+        } else if (msg === 'update_backgrounds_obj') { //< update backgrounds object when changing image specefic values
+            const i = get_background_i_by_id(message.id);
 
-            if (imgs.mut.imgs[i] && typeof imgs.mut.imgs[i][message.storage] !== 'undefined') {
-                imgs.mut.imgs[i][message.storage] = message.val;
+            if (backgrounds.mut.backgrounds[i] && typeof backgrounds.mut.backgrounds[i][message.storage] !== 'undefined') {
+                backgrounds.mut.backgrounds[i][message.storage] = message.val;
             }
 
-            imgs.preload_current_and_future_img('reload')
+            backgrounds.preload_current_and_future_background('reload')
                 .then(() => {
                     send_response();
 
@@ -79,14 +79,14 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
                     err(er, 225, null, true);
                 });
 
-        } else if (msg === 'get_img_obj_when_selecting_on_it') { // get image object by index when selecting it (= clicking on it)
-            send_response(imgs.mut.imgs[message.i]);
+        } else if (msg === 'get_background_obj_when_selecting_on_it') { // get image object by index when selecting it (= clicking on it)
+            send_response(backgrounds.mut.backgrounds[message.i]);
 
-        } else if (msg === 'get_id_of_img_to_add') { // get id of image to add on place of deleted image and remove image from imgs array
-            const next_img_after_last_visible_img_id = r.ifElse(
+        } else if (msg === 'get_id_of_background_to_add') { // get id of background to add on place of deleted background and remove background from backgrounds array
+            const next_background_after_last_visible_background_id = r.ifElse(
                 () => {
                     try {
-                        return imgs.mut.imgs[message.next_img_after_last_visible_img_i];
+                        return backgrounds.mut.backgrounds[message.next_background_after_last_visible_background_i];
 
                     } catch (er) {
                         err(er, 29, null, true);
@@ -97,7 +97,7 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
                 }, // if image exist
                 () => {
                     try {
-                        return imgs.mut.imgs[message.next_img_after_last_visible_img_i].id;
+                        return backgrounds.mut.backgrounds[message.next_background_after_last_visible_background_i].id;
 
                     } catch (er) {
                         err(er, 30, null, true);
@@ -106,55 +106,55 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
                     return undefined;
                 },
 
-                () => 'img_not_existing',
+                () => 'background_is_not_existing',
             )();
 
-            imgs.mut.imgs.splice(message.img_to_delete_i, 1); // remove img from imgs array
+            backgrounds.mut.backgrounds.splice(message.background_to_delete_i, 1); // remove background from backgrounds array
 
-            send_response({ next_img_after_last_visible_img_id });
+            send_response({ next_background_after_last_visible_background_id });
 
-        } else if (msg === 'get_theme_img') {
-            theme_img.get_installed_theme_id()
-                .then(theme_id => theme_img.get_theme_img(theme_id, message.reinstall_even_if_theme_img_already_exist)).then(() => {
+        } else if (msg === 'get_theme_background') {
+            theme_background.get_installed_theme_id()
+                .then(theme_id => theme_background.get_theme_background(theme_id, message.reinstall_even_if_theme_background_already_exist)).then(() => {
                     send_response();
 
                 }).catch(er => {
                     err(er, 21, null, true);
                 });
 
-        } else if (msg === 'get_imgs_arr') {
-            send_response(imgs.mut.imgs);
+        } else if (msg === 'get_backgrounds_arr') {
+            send_response(backgrounds.mut.backgrounds);
 
-        } else if (msg === 'empty_imgs_a') { // empty imgs.mut.imgs when deleting all images
-            imgs.mut.imgs = [];
+        } else if (msg === 'empty_backgrounds_a') { // empty backgrounds.mut.backgrounds when deleting all images
+            backgrounds.mut.backgrounds = [];
 
-        } else if (msg === 'get_new_current_img_when_choosing_theme_mode') {
+        } else if (msg === 'get_new_current_background_when_choosing_theme_mode') {
             ed('last_installed_theme_theme_id')
                 .then(async last_installed_theme_theme_id => {
-                    const new_current_img = await determine_theme_current_img.determine_theme_current_img(last_installed_theme_theme_id, imgs.mut.imgs);
+                    const new_current_background = await determine_theme_current_background.determine_theme_current_background(last_installed_theme_theme_id, backgrounds.mut.backgrounds);
 
-                    send_response(new_current_img);
+                    send_response(new_current_background);
 
                 }).catch(er => {
                     err(er, 22, null, true);
                 });
 
-        } else if (msg === 'get_ids_of_imgs_to_shift') { // send img_id_before_move, ids_of_imgs_to_move
-            const img_id_before_move = get_img_id_by_i(message.all_imgs_img_i_before_move);
-            const ids_of_imgs_to_move = [];
+        } else if (msg === 'get_ids_of_backgrounds_to_shift') { // send background_id_before_move, ids_of_backgrounds_to_move
+            const background_id_before_move = get_background_id_by_i(message.all_backgrounds_background_i_before_move);
+            const ids_of_backgrounds_to_move = [];
 
-            loop_through_imgs_a_elms_that_need_to_be_moved(message.move_type, message.start_i, message.end_i, i => {
-                ids_of_imgs_to_move.push(imgs.mut.imgs[i].id);
+            loop_through_backgrounds_a_elms_that_need_to_be_moved(message.move_type, message.start_i, message.end_i, i => {
+                ids_of_backgrounds_to_move.push(backgrounds.mut.backgrounds[i].id);
             });
 
-            send_response({ img_id_before_move, ids_of_imgs_to_move });
+            send_response({ background_id_before_move, ids_of_backgrounds_to_move });
 
         } else if (msg === 'start_timer') {
             multiple.start_timer(true);
 
         } else if (msg === 'reset_timer') { // when changing change_interval or selecting image
             multiple.clear_timer();
-            last_img_change_time.update_last_img_change_time();
+            last_background_change_time.update_last_background_change_time();
 
             const at_least_one_new_tab_tab_opened = tabs.mut.new_tabs_ids.length > 0;
 
@@ -162,11 +162,11 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
                 multiple.start_timer();
 
             } else {
-                db.ed.update(1, { img_already_changed: true });
+                db.ed.update(1, { background_already_changed: true });
             }
 
-        } else if (msg === 'load_imgs') { // when repairing extension from database wipe
-            imgs.load_imgs()
+        } else if (msg === 'load_backgrounds') { // when repairing extension from database wipe
+            backgrounds.load_backgrounds()
                 .then(() => {
                     send_response();
 
@@ -174,11 +174,11 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
                     err(er, 23, null, true);
                 });
 
-        } else if (msg === 'check_if_uploading_theme_img') { // install theme when clicking on "Install theme" button in chrome web store (firefox only)
-            send_response(theme_img.mut.uploading_theme_img);
+        } else if (msg === 'check_if_uploading_theme_background') { // install theme when clicking on "Install theme" button in chrome web store (firefox only)
+            send_response(theme_background.mut.uploading_theme_background);
 
         } else if (msg === 'install_theme') { // install theme when clicking on "Install theme" button in chrome web store (firefox only)
-            theme_img.get_theme_img(message.theme_id, true, message.tab_id)
+            theme_background.get_theme_background(message.theme_id, true, message.tab_id)
                 .then(response => {
                     send_response(response);
 
@@ -204,35 +204,35 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
                 err(er, 26, null, true);
             });
 
-        } else if (msg === 'open_preview_img_tab') { // open image (new tab) by click on "Preview" button
+        } else if (msg === 'open_preview_background_tab') { // open image (new tab) by click on "Preview" button
             let new_tab_url;
 
             if (what_browser === 'chrome') {
-                new_tab_url = `chrome://newtab?preview_img_id=${message.img_id}`;
+                new_tab_url = `chrome://newtab?preview_background_id=${message.background_id}`;
 
             } else if (what_browser === 'firefox') {
-                new_tab_url = browser.runtime.getURL(`/new_tab.html?preview_img_id=${message.img_id}`);
+                new_tab_url = browser.runtime.getURL(`/new_tab.html?preview_background_id=${message.background_id}`);
             }
 
             browser.tabs.create({
                 url: new_tab_url,
             });
 
-        } else if (msg === 'get_preview_img') { // send img_id_before_move, ids_of_imgs_to_move
-            const img_i = get_img_i_by_id(message.img_id);
-            const preview_img = r.clone(imgs.mut.imgs[img_i]);
+        } else if (msg === 'get_preview_background') { // send background_id_before_move, ids_of_backgrounds_to_move
+            const background_i = get_background_i_by_id(message.background_id);
+            const preview_background = r.clone(backgrounds.mut.backgrounds[background_i]);
 
-            db.imgs.get(message.img_id)
-                .then(img => {
-                    if (file_types.con.files[preview_img.type]) {
-                        preview_img.img = URL.createObjectURL(img.img);
+            db.backgrounds.get(message.background_id)
+                .then(background => {
+                    if (file_types.con.files[preview_background.type]) {
+                        preview_background.background = URL.createObjectURL(background.background);
 
-                        send_response(preview_img);
+                        send_response(preview_background);
 
-                        setTimeout(revoke_preview_img.bind(null, preview_img.img), 10000);
+                        setTimeout(revoke_preview_background.bind(null, preview_background.background), 10000);
 
                     } else {
-                        send_response(preview_img);
+                        send_response(preview_background);
                     }
 
                 }).catch(er => {
@@ -248,9 +248,9 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
 });
 
 //> functions used in onMessage above
-const get_img_i_by_id = id => {
+const get_background_i_by_id = id => {
     try {
-        return imgs.mut.imgs.findIndex(img => img.id === id);
+        return backgrounds.mut.backgrounds.findIndex(background => background.id === id);
 
     } catch (er) {
         err(er, 27, null, true);
@@ -259,9 +259,9 @@ const get_img_i_by_id = id => {
     return undefined;
 };
 
-const get_img_id_by_i = i => {
+const get_background_id_by_i = i => {
     try {
-        return imgs.mut.imgs[i].id;
+        return backgrounds.mut.backgrounds[i].id;
 
     } catch (er) {
         err(er, 28, null, true);
@@ -270,7 +270,7 @@ const get_img_id_by_i = i => {
     return undefined;
 };
 
-const loop_through_imgs_a_elms_that_need_to_be_moved = (move_type, start_i, end_i, callback) => {
+const loop_through_backgrounds_a_elms_that_need_to_be_moved = (move_type, start_i, end_i, callback) => {
     try {
         if (move_type === 'forward') {
             for (let i = start_i; i <= end_i; i++) {
@@ -288,9 +288,9 @@ const loop_through_imgs_a_elms_that_need_to_be_moved = (move_type, start_i, end_
     }
 };
 
-const revoke_preview_img = preview_img_url => {
+const revoke_preview_background = preview_background_url => {
     try {
-        URL.revokeObjectURL(preview_img_url);
+        URL.revokeObjectURL(preview_background_url);
 
     } catch (er) {
         err(er, 32, null, true);

@@ -179,18 +179,18 @@ export const send_help_event = (action, family, name) => {
     }
 };
 
-export const send_options_imgs_event = action => {
+export const send_options_backgrounds_event = action => {
     try {
-        send_event('options_imgs', action);
+        send_event('options_backgrounds', action);
 
     } catch (er) {
         err(er, 264);
     }
 };
 
-export const send_new_tab_imgs_event = action => {
+export const send_new_tab_backgrounds_event = action => {
     try {
-        send_event('new_tab_imgs', action);
+        send_event('new_tab_backgrounds', action);
 
     } catch (er) {
         err(er, 265);

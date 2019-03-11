@@ -119,7 +119,7 @@ export const selects_options = {
             value: '2419200000',
         },
     ],
-    img_change_effect: [
+    background_change_effect: [
         {
             label: create_option_data_text_val('crossfade'),
             value: 'crossfade',

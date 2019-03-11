@@ -3,7 +3,7 @@ export const get_ms_left = async () => {
     try {
         const ed_all = await eda();
         const time = new Date().getTime();
-        const ms_left = ed_all.change_interval - (time - ed_all.last_img_change_time);
+        const ms_left = ed_all.change_interval - (time - ed_all.last_background_change_time);
 
         return ms_left;
 

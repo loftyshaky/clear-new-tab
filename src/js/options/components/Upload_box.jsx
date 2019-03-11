@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import x from 'x';
 import * as analytics from 'js/analytics';
 import * as ui_state from 'options/ui_state';
-import * as img_loading from 'options/img_loading';
+import * as background_loading from 'options/background_loading';
 import * as managing_upload_box from 'options/managing_upload_box';
 import * as enter_click from 'js/enter_click';
 
@@ -25,7 +25,7 @@ export class Upload_box extends React.Component {
     browse_handle_files = e => {
         try {
             analytics.send_upload_box_event('uploaded_by_browse_btn');
-            img_loading.handle_files(e.target.files);
+            background_loading.handle_files(e.target.files);
             managing_upload_box.reset_upload_btn_val();
 
         } catch (er) {
@@ -37,7 +37,7 @@ export class Upload_box extends React.Component {
         try {
             analytics.send_upload_box_event('uploaded_by_dragging_and_dropping');
             managing_upload_box.dehighlight_upload_box_ondrop();
-            img_loading.handle_files(e.dataTransfer.files);
+            background_loading.handle_files(e.dataTransfer.files);
 
         } catch (er) {
             err(er, 96);

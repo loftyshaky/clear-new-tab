@@ -1,6 +1,6 @@
 {
   "desc": {
-    "message": "Remove the most visited and other Google stuff from new tab without removing theme image."
+    "message": "Remove the most visited and other Google stuff from new tab without removing theme background."
   },
 
 
@@ -18,25 +18,22 @@
   },
 
 
-  "change_img_settings_alert": {
-    "message": "To change an image's settings select it by left-clicking on it."
+  "change_background_settings_alert": {
+    "message": "To change a background's settings select it by left-clicking on it."
   },
-  "img_with_this_no_doesnt_exist_alert": {
-    "message": "Image with this number doesn't exist."
-  },
-  "select_img_alert": {
-    "message": "Select an image."
+  "select_background_alert": {
+    "message": "Select a background."
   },
 
   "restore_defaults_confirm": {
     "message": "Restore default settings?"
   },
-  "delete_all_imgs_confirm": {
-    "message": "Delete all images?"
+  "delete_all_backgrounds_confirm": {
+    "message": "Delete all backgrounds?"
   },
 
-  "enter_new_img_no": {
-    "message": "Enter the new image №:"
+  "enter_new_background_no": {
+    "message": "Enter the new background №:"
   },
 
 
@@ -44,8 +41,8 @@
     "message": "Link to theme image"
   },
 
-  "load_theme_img_btn_text": {
-    "message": "Load theme image"
+  "load_theme_background_btn_text": {
+    "message": "Load theme background"
   },
 
 
@@ -65,10 +62,10 @@
 
 
   "upload_legend_text": {
-    "message": "Image upload"
+    "message": "Background upload"
   },
-  "img_settings_legend_text": {
-    "message": "Image settings"
+  "background_settings_legend_text": {
+    "message": "Background settings"
   },
   "other_settings_legend_text": {
     "message": "Other settings"
@@ -76,8 +73,8 @@
   "links_legend_text": {
     "message": "Links"
   },
-  "imgs_legend_text": {
-    "message": "Images"
+  "backgrounds_legend_text": {
+    "message": "Backgrounds"
   },
 
 
@@ -94,43 +91,43 @@
     "message": "Mode"
   },
   "change_interval_label_text": {
-    "message": "Change image every"
+    "message": "Change background every"
   },
-  "img_change_effect_label_text": {
-    "message": "Image change effect"
+  "background_change_effect_label_text": {
+    "message": "Background change effect"
   },
   "slide_direction_label_text": {
     "message": "Slide direction"
   },
-  "keep_old_themes_imgs_label_text": {
-    "message": "Keep old themes' images"
+  "keep_old_themes_backgrounds_label_text": {
+    "message": "Keep old themes' backgrounds"
   },
   "slideshow_label_text": {
     "message": "Slideshow"
   },
   "shuffle_label_text": {
-    "message": "Shuffle images"
+    "message": "Shuffle backgrounds"
   },
-  "current_img_label_text": {
-    "message": "Current image №"
+  "current_background_label_text": {
+    "message": "Current background №"
   },
   "set_last_uploaded_label_text": {
-    "message": "Automatically set the last uploaded image as current"
+    "message": "Automatically set the last uploaded background as current"
   },
   "settings_type_label_text": {
     "message": "Settings type"
   },
   "size_label_text": {
-    "message": "Image size"
+    "message": "Background size"
   },
   "position_label_text": {
-    "message": "Image position"
+    "message": "Background position"
   },
   "repeat_label_text": {
-    "message": "Image repeat"
+    "message": "Background repeat"
   }, 
   "color_label_text": {
-    "message": "Background color"
+    "message": "Color of area around background"
   },
   "video_volume_label_text": {
     "message": "Video volume"
@@ -150,7 +147,7 @@
   "enable_paste_label_text": {
     "message": "Add \"Paste\" button to paste input"
   },
-  "allow_downloading_images_by_link_label_text": {
+  "allow_downloading_imgs_by_link_label_text": {
     "message": "Allow downloading images by a link"
   },
 
@@ -158,25 +155,25 @@
   "paste_btn_text": {
     "message": "Paste"
   },
-  "current_img_btn_text": {
+  "current_background_btn_text": {
     "message": "Set selected"
   },
   "restore_defaults_btn_text": {
     "message": "Restore defaults"
   },
-  "delete_all_imgs_btn_text": {
-    "message": "Delete all images"
+  "delete_all_backgrounds_btn_text": {
+    "message": "Delete all backgrounds"
   },
 
 
   "option_theme_text": {
-    "message": "Theme image"
+    "message": "Theme background"
   },
   "option_one_text": {
-    "message": "One image"
+    "message": "One background"
   },
   "option_multiple_text": {
-    "message": "Multiple images"
+    "message": "Multiple backgrounds"
   },
   "option_random_solid_color_text": {
     "message": "Random solid color"
@@ -274,7 +271,7 @@
     "message": "Global"
   },
   "option_specific_text": {
-    "message": "Only selected image"
+    "message": "Only selected background"
   },
 
   "option_dont_resize_text": {
@@ -347,10 +344,10 @@
 
 
   "install_help_text_chrome": {
-    "message": "Thanks for installing Clear New Tab! If your Chrome have theme from <a class='link install_help_link chrome_web_store_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/cws-themes'>Chrome Web Store</a> installed, wait till its background image appear in an \"Images\" section, and then open new tab to see it. Otherwise, you can upload your own image with a form below. Click <button type='button' class='link install_help_link hide_install_help_link'>here</button> to hide this message."
+    "message": "Thanks for installing Clear New Tab! If your Chrome have theme from <a class='link install_help_link chrome_web_store_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/cws-themes'>Chrome Web Store</a> installed, wait till its background appear in an \"Backgrounds\" section, and then open new tab to see it. Otherwise, you can upload your own background with a form below. Click <button type='button' class='link install_help_link hide_install_help_link'>here</button> to hide this message."
   },
   "install_help_text_firefox": {
-    "message": "Thanks for installing Clear New Tab! You can install theme from <a class='link install_help_link chrome_web_store_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/cws-themes'>Chrome Web Store</a> or upload your own image with a form below. Click <button type='button' class='link install_help_link hide_install_help_link'>here</button> to hide this message."
+    "message": "Thanks for installing Clear New Tab! You can install theme from <a class='link install_help_link chrome_web_store_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/cws-themes'>Chrome Web Store</a> or upload your own background with a form below. Click <button type='button' class='link install_help_link hide_install_help_link'>here</button> to hide this message."
   },
   "upload_box_help_message_text": {
     "message": "You can upload multiple images/videos at once. Just select multiple images/videos before clicking \"Open\"/dragging.<br><br>Supported formats: png, jpg, gif, mp4, webm, ogg."
@@ -359,54 +356,54 @@
     "message": "In this input you can paste direct link to an image or an image from clipboard. To get direct link to an image right-click on it, select \"Open image in new tab\" from the context menu, go to opened tab and then copy link from address bar. To copy an image to clipboard right-click on an it and then select \"Copy image\" from the context menu. Gif animation will not be preserved when you past an image from clipboard.<br><br>Supported formats: png, jpg, gif."
   },
   "mode_help_message_text": {
-    "message": "Theme image: when this mode is selected, images of themes that you install in the Chrome Web Store will be automatically downloaded and appear in a new tab. In this mode, you do not need to upload your own images. If you uploaded your own images, use the \"One image\" or \"Multiple images\" mode.<br><br>One image: when this mode is selected, a new tab will show you an image you selected using the \"Set selected\" button. Use this mode if you have uploaded your own images and want to see one of them in a new tab.<br><br>Multiple images: when this mode is selected, a new tab will show one of the images you uploaded, changing it at a given interval. Use this mode if you want to see all images you uploaded.<br><br>Random solid color: when this mode is selected, a new tab will show a randomly chosen color, changing it at a given interval."
+    "message": "Theme background: when this mode is selected, backgrounds of themes that you install in the Chrome Web Store will be automatically downloaded and appear in a new tab. In this mode, you do not need to upload your own backgrounds. If you uploaded your own backgrounds, use the \"One background\" or \"Multiple backgrounds\" mode.<br><br>One background: when this mode is selected, a new tab will show you a background you selected using the \"Set selected\" button. Use this mode if you have uploaded your own backgrounds and want to see one of them in a new tab.<br><br>Multiple backgrounds: when this mode is selected, a new tab will show one of the backgrounds you uploaded, changing it at a given interval. Use this mode if you want to see all backgrounds you uploaded.<br><br>Random solid color: when this mode is selected, a new tab will show a randomly chosen color, changing it at a given interval."
   },
   "settings_type_help_message_text": {
-    "message": "Select \"Global\" to set the default settings for all images. Select \"Only selected image\" to set the settings for the selected image only (to select an image, left-click on it). When \"Only selected image\" is selected, each setting below (\"Background color\", \"Image size\" etc.) will have its own \"Global\" value. If this value is selected, the image will use the default value for this setting, if any other value is selected, this setting will use this value instead of the default value. All uploaded images use global settings by default."
+    "message": "Select \"Global\" to set the default settings for all backgrounds. Select \"Only selected background\" to set the settings for the selected background only (to select a background, left-click on it). When \"Only selected background\" is selected, each setting below (\"Background color\", \"Background size\" etc.) will have its own \"Global\" value. If this value is selected, the background will use the default value for this setting, if any other value is selected, this setting will use this value instead of the default value. All uploaded backgrounds use global settings by default."
   },
   "size_help_message_text": {
-    "message": "Fit to the screen/browser window:<br>Resize the image to make sure the image is fully visible on screen/browser window.<br><br>Cover the screen/browser window:<br>Resize the image to cover the entire screen/browser window, even if it has to cut a part of it from the edges.<br><br>Stretch to fit the screen/browser window:<br>Resize the image to maximum screen/browser window width and height not preserving its aspect ratio."
+    "message": "Fit to the screen/browser window:<br>Resize the background to make sure the background is fully visible on screen/browser window.<br><br>Cover the screen/browser window:<br>Resize the background to cover the entire screen/browser window, even if it has to cut a part of it from the edges.<br><br>Stretch to fit the screen/browser window:<br>Resize the background to maximum screen/browser window width and height not preserving its aspect ratio."
   },
 
-  "img_type_file_text": {
+  "background_type_file_text": {
     "message": "File"
   },
-  "img_type_link_text": {
+  "background_type_link_text": {
     "message": "Link"
   },
-  "img_type_theme_file_text": {
+  "background_type_theme_file_text": {
     "message": "File (theme)"
   },
-  "img_type_theme_color_text": {
+  "background_type_theme_color_text": {
     "message": "Color (theme)"
   },
 
-  "img_type_color_text": {
+  "background_type_color_text": {
     "message": "Color"
   },
-  "img_type_color_theme_text": {
+  "background_type_color_theme_text": {
     "message": "Color (theme)"
   },
-  "img_type_img_link_text": {
+  "background_type_img_link_text": {
     "message": "Image link"
   },
-  "img_type_img_file_text": {
+  "background_type_img_file_text": {
     "message": "Image file"
   },
-  "img_type_img_file_theme_text": {
+  "background_type_img_file_theme_text": {
     "message": "Image file (theme)"
   },
-  "img_type_video_file_text": {
+  "background_type_video_file_text": {
     "message": "Video file"
   },
-  "img_type_video_file_theme_text": {
+  "background_type_video_file_theme_text": {
     "message": "Video file (theme)"
   },
   
-  "img_preview_text": {
+  "background_preview_text": {
     "message": "Preview"
   },
-  "move_img_text": {
+  "move_background_text": {
     "message": "Move"
   },
 
@@ -475,13 +472,13 @@
   "main_width": {
     "message": "376px"
   },
-  "imgs_w_width": {
+  "backgrounds_w_width": {
     "message": "1347px"
   },
 
   
-  "failed_to_load_image_er": {
-    "message": "Failed to load image/images"
+  "failed_to_load_background_er": {
+    "message": "Failed to load background/backgrounds"
   },
   "quota_exceeded_er": {
     "message": "Database size limit exceeded"
@@ -502,7 +499,7 @@
     "message": "An error occurred when installing a theme. Most likely because this theme is paid."
   },
   "wrong_mode_alert": {
-    "message": "An error occured. Before installing themes from Chrome Web Store you need to select \"Theme image\" mode in options page."
+    "message": "An error occured. Before installing themes from Chrome Web Store you need to select \"Theme background\" mode in options page."
   },
 
   "ff_install_btn_text": {

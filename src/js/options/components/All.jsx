@@ -17,7 +17,7 @@ import { Install_help } from 'options/components/Install_help';
 import { Theme_img_link } from 'options/components/Theme_img_link';
 import { Upload_box } from 'options/components/Upload_box';
 import { Link } from 'options/components/Link';
-import { Imgs_fieldset } from 'options/components/Imgs_fieldset';
+import { Backgrounds_fieldset } from 'options/components/Backgrounds_fieldset';
 
 export class All extends React.Component {
     constructor(props) {
@@ -33,7 +33,7 @@ export class All extends React.Component {
         try {
             permissions.restore_optional_permissions_checkboxes_state();
             inputs_hiding.decide_what_inputs_to_hide();
-            settings.set_color_input_vizualization_color('img_settings', 'color', await ed('color'));
+            settings.set_color_input_vizualization_color('background_settings', 'color', await ed('color'));
 
         } catch (er) {
             err(er, 71);
@@ -49,9 +49,9 @@ export class All extends React.Component {
             x.bind(document, 'mousemove', this.evl.set_dragged_item_position);
             x.bind(document.body, 'keydown', settings.close_color_pickier_by_keyboard);
 
-            const uploading_theme_img = await x.send_message_to_background_c({ message: 'check_if_uploading_theme_img' });
+            const uploading_theme_background = await x.send_message_to_background_c({ message: 'check_if_uploading_theme_background' });
 
-            if (uploading_theme_img) {
+            if (uploading_theme_background) {
                 ui_state.enter_upload_mode();
             }
 
@@ -69,7 +69,7 @@ export class All extends React.Component {
                             className: 'dragged_item',
                         }}
                         tag="div"
-                        name="dragged_img"
+                        name="dragged_background"
                         state={moving.ob.show_dragged_item}
                         tr_ref={node => { this.dragged_item = node; }}
                     />
@@ -80,7 +80,7 @@ export class All extends React.Component {
                             {what_browser === 'chrome' ? <Theme_img_link /> : null}
                             <Upload_box />
                         </Left_fieldset>
-                        <Left_fieldset family="img_settings" />
+                        <Left_fieldset family="background_settings" />
                         <Left_fieldset
                             family="other_settings"
                             wrap_inputs
@@ -142,7 +142,7 @@ export class All extends React.Component {
                             <div className="app_version">{`v${x.get_app_version()}`}</div>
                         </Left_fieldset>
                     </div>
-                    <Imgs_fieldset />
+                    <Backgrounds_fieldset />
                     <Analytics_privacy />
                 </div>
             </Error_boundary>

@@ -42,8 +42,8 @@ export class Tr extends React.Component {
         try {
             this.transitions = {
                 gen: this.create_tran('opacity_0', 'opacity_1'), // general
-                img: this.create_tran('opacity_0', 'opacity_1'),
-                dragged_img: this.create_tran('opacity_0', 'opacity_08'),
+                background: this.create_tran('opacity_0', 'opacity_1'),
+                dragged_background: this.create_tran('opacity_0', 'opacity_08'),
                 upload_box: this.create_tran('upload_box_unhover', 'upload_box_hover'),
             };
 

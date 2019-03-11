@@ -1,21 +1,21 @@
 /*> general */
-.select__menu-list::-webkit-scrollbar, .imgs_fieldset::-webkit-scrollbar {
+.select__menu-list::-webkit-scrollbar, .backgrounds_fieldset::-webkit-scrollbar {
     width: 17px;
     background-color: #3c3c3c;
 }
 
-.select__menu-list::-webkit-scrollbar-thumb, .imgs_fieldset::-webkit-scrollbar-thumb {
+.select__menu-list::-webkit-scrollbar-thumb, .backgrounds_fieldset::-webkit-scrollbar-thumb {
     background-color: #fbff75;
     background-clip: content-box;
     border-left: 5px solid #3c3c3c;
 	border-right: 5px solid #3c3c3c;
 }
 
-.select__menu-list::-webkit-scrollbar-thumb:hover, .imgs_fieldset::-webkit-scrollbar-thumb:hover {
+.select__menu-list::-webkit-scrollbar-thumb:hover, .backgrounds_fieldset::-webkit-scrollbar-thumb:hover {
     background-color: #77ff6f;
 }
 
-.select__menu-list::-webkit-scrollbar-thumb:active, .imgs_fieldset::-webkit-scrollbar-thumb:active {
+.select__menu-list::-webkit-scrollbar-thumb:active, .backgrounds_fieldset::-webkit-scrollbar-thumb:active {
     background-color: #f493ff;
 }
 
@@ -39,7 +39,7 @@ body, .pagination {
     margin-bottom: 16px!important;
 }
 
-body, .option, .imgs_legend_line, .imgs_fieldset_filler, .rc-slider-handle, .analytics_privacy {
+body, .option, .backgrounds_legend_line, .backgrounds_fieldset_filler, .rc-slider-handle, .analytics_privacy {
     background-color: #212121;
 } 
 
@@ -56,7 +56,7 @@ legend {
     margin-bottom: 5px;
 }
 
-legend, .imgs_legend {
+legend, .backgrounds_legend {
     font-size: 20px;
     padding-left: 4px;
     padding-right: 4px;
@@ -96,7 +96,7 @@ option {
     color: #f493ff;
 }
 
-.option:hover, .btn:hover, .btn:active, .pagination li:hover a, .pagination li:active a, .img_btn:active {
+.option:hover, .btn:hover, .btn:active, .pagination li:hover a, .pagination li:active a, .background_btn:active {
     color: #212121;
 }
 
@@ -139,7 +139,7 @@ p {
     display: block;
 }
 
-.paste_input_w, .current_img_input_w {
+.paste_input_w, .current_background_input_w {
     display: flex;
 }
 
@@ -150,21 +150,21 @@ p {
     padding-right: 5px;
 }
 
-.normal_input, .paste_input_w, .btn, .current_img_input_w {
+.normal_input, .paste_input_w, .btn, .current_background_input_w {
     height: 28px;
 }
 
-fieldset, .normal_input, .checkbox_checkmark_w, .btn, .img_w, .pagination, .using_mouse .btn:focus, .using_mouse .checkbox_checkmark_w:focus, .using_mouse .color_input_vizualization:focus, .checkbox_checkmark_w {
+fieldset, .normal_input, .checkbox_checkmark_w, .btn, .background_w, .pagination, .using_mouse .btn:focus, .using_mouse .checkbox_checkmark_w:focus, .using_mouse .color_input_vizualization:focus, .checkbox_checkmark_w {
     border: 1px solid white;
 }
 
-.normal_input:focus, .btn:focus, .checkbox_checkmark_w:focus, .color_input_vizualization:focus, .selected_img, .img_w:focus {
+.normal_input:focus, .btn:focus, .checkbox_checkmark_w:focus, .color_input_vizualization:focus, .selected_background, .background_w:focus {
     outline: none;
     box-shadow: 0 0 5px #fbff75;
     border: 1px solid #fbff75;
 }
 
-.using_mouse .img_w {
+.using_mouse .background_w {
     box-shadow: none;
     border: 1px solid white;
 }
@@ -193,7 +193,7 @@ fieldset, .normal_input, .checkbox_checkmark_w, .btn, .img_w, .pagination, .usin
     outline: 1px solid #fbff75;
 }
 
-.using_mouse .link, .using_mouse .help_link, .using_mouse .upload_box_browse_label, .using_mouse .img_w {
+.using_mouse .link, .using_mouse .help_link, .using_mouse .upload_box_browse_label, .using_mouse .background_w {
     outline: none;
 }
 
@@ -213,7 +213,7 @@ svg {
     display: block;
 }
 
-.delete_img_btn svg, .checkbox_checkmark_w svg, .pagination svg {
+.delete_background_btn svg, .checkbox_checkmark_w svg, .pagination svg {
     fill: white;
 }
 
@@ -222,11 +222,11 @@ svg {
     height: 16px;
 }
 
-.delete_img_btn:focus, .img_btn:focus, .color_ok_btn:focus, body.using_mouse .color_ok_btn:hover:focus, .color_ok_btn:hover, .rc-slider-handle:focus {
+.delete_background_btn:focus, .background_btn:focus, .color_ok_btn:focus, body.using_mouse .color_ok_btn:hover:focus, .color_ok_btn:hover, .rc-slider-handle:focus {
     background-color: #3892ff;
 }
 
-.img_btn:active {
+.background_btn:active {
     background-color: #fbff75!important;
 }
 
@@ -274,7 +274,7 @@ input {
     background-color: #f493ff;
 }
 
-.upload_w .load_theme_img_btn_w {
+.upload_w .load_theme_background_btn_w {
     order: 0;
 }
 /*<1 buttons */
@@ -592,8 +592,8 @@ input {
 /*< links */
 
 /*> images */
-.imgs_w {
-    max-width: calc(__MSG_imgs_w_width__ - __MSG_main_width__);
+.backgrounds_w {
+    max-width: calc(__MSG_backgrounds_w_width__ - __MSG_main_width__);
     margin-left: 16px;
     margin-top: 11px;
     position: relative;
@@ -601,21 +601,21 @@ input {
     outline: none;
 }
 
-.imgs {
+.backgrounds {
     position: fixed;
 }
 
-.imgs_w, .imgs {
+.backgrounds_w, .backgrounds {
     width: 100%;
     height: calc(100vh - 89px);
 }
 
-.imgs_legend {
+.backgrounds_legend {
     margin-top: -11px;
     background-color: transparent;
 }
 
-.imgs_legend_line {
+.backgrounds_legend_line {
     width: 100%;
     height: 1px;
     position: absolute;
@@ -624,7 +624,7 @@ input {
     z-index: -1;
 } 
 
-.imgs_fieldset {
+.backgrounds_fieldset {
     padding-right: 0;
     padding-bottom: 0;
     overflow-y: auto;
@@ -634,7 +634,7 @@ input {
     box-sizing: border-box;
 }
 
-.imgs_fieldset_filler {
+.backgrounds_fieldset_filler {
     position: absolute;
     height: 16px;
     width: calc(100% - 25px);
@@ -642,30 +642,30 @@ input {
     z-index: 2;
 }
 
-.imgs_fieldset_filler_top {
+.backgrounds_fieldset_filler_top {
     top: 1px;
 }
 
-.imgs_fieldset_filler_bottom {
+.backgrounds_fieldset_filler_bottom {
     bottom: 1px;
 }
 
-.imgs_w_2 {
+.backgrounds_w_2 {
     margin-top: 16px;
     margin-bottom: 4px;
 }
 
-.imgs_legend {
+.backgrounds_legend {
     position: absolute;
     z-index: 3;
     margin-left: 15px;
 }
 
-.imgs_w_3 {
+.backgrounds_w_3 {
     counter-reset: counter;
 }
 
-.img_inner_w_2 {
+.background_inner_w_2 {
     position: relative;
     outline: none;
     vertical-align: top;
@@ -674,16 +674,16 @@ input {
     -moz-user-select: none;
 }
 
-.img_inner_w_2, .img {
+.background_inner_w_2, .background {
     min-width: 80px;
 }
 
-.img_w_tr {
+.background_w_tr {
     position: relative;
     display: inline-block;
 }
 
-.img_placeholder {
+.background_placeholder {
     width: calc(100% - 12px);
     height: 100px;
     position: absolute;
@@ -691,38 +691,38 @@ input {
     opacity: 0;
 }
 
-.img_w {
+.background_w {
     background-image: url("checkerboard.png");
 }
 
-.img_w, .drop_area {
+.background_w, .drop_area {
     display: inline-flex;
 }
 
-.img_w, .load_btn, .drop_area {
+.background_w, .load_btn, .drop_area {
     margin-bottom: 12px;
 }
 
-.img_w, .drop_area {
+.background_w, .drop_area {
     margin-right: 12px;
 }
 
-.img, .solid_color_img {
+.background, .solid_color_img {
     height: 98px;
 }
 
-.img {
+.background {
     display: block;
     max-width: inherit;
 }
 
-.img_cover {
+.background_cover {
     position: absolute;
     width: 100%;
     height: 100%;
 }
 
-.img_cover, .img_placeholder, .solid_color_img, .img_info, .img_info_and_btns {
+.background_cover, .background_placeholder, .solid_color_img, .background_info, .background_info_and_btns {
     cursor: move;
 }
 
@@ -746,31 +746,31 @@ input {
     margin-bottom: 0;
 }
 
-.selected_img {
+.selected_background {
     box-shadow: 0 0 15px #fbff75!important;
     border-color: #fbff75!important;
 }
 
-.img_info_and_btns {
+.background_info_and_btns {
     bottom: 4px;
     width: 100%;
 }
 
-.img_info_and_btns, .img_inner_w_2:before {
+.background_info_and_btns, .background_inner_w_2:before {
     position: absolute;
     left: 4px;
 }
 
-.img_info, .img_inner_w_2:before {
+.background_info, .background_inner_w_2:before {
     font-size: 10px;
     padding: 2px;
 }
 
-.img_info, .using_mouse .img_info, .img_inner_w_2:before {
+.background_info, .using_mouse .background_info, .background_inner_w_2:before {
     background-color: rgba(33, 33, 33, 0.8);
 }
 
-.img_info {
+.background_info {
     text-overflow: ellipsis;
     white-space: nowrap;
     display: block;
@@ -779,24 +779,24 @@ input {
     margin-right: 8px;
 }
 
-.img_info:not(:last-child) {
+.background_info:not(:last-child) {
     margin-bottom: 2px;
 }
 
-.img_inner_w_2:before {
+.background_inner_w_2:before {
     counter-increment: counter;            
     content: counter(counter);
     top: 4px;
 }
 
-.img_btn {
+.background_btn {
     cursor: pointer;
     border: none;
     outline: none;
 }
 
 /*>1 delete image buttons */
-.delete_img_btn {
+.delete_background_btn {
     position: absolute;
     top: 5px;
     right: 5px;
@@ -808,11 +808,11 @@ input {
     cursor: pointer;
 }
 
-.using_mouse .delete_img_btn, .delete_img_btn {
+.using_mouse .delete_background_btn, .delete_background_btn {
     background-color: #de5454;
 }
 
-.delete_img_btn svg {
+.delete_background_btn svg {
     width: 12px;
     height: 12px;
     position: absolute;
@@ -820,7 +820,7 @@ input {
     right: 5px;
 }
 
-.delete_img_btn:hover {
+.delete_background_btn:hover {
     background-color: #ff6565;
 }
 /*<1 delete image buttons */
@@ -829,7 +829,7 @@ input {
 .pagination_w {
     position: fixed;
     width: 100%;
-    max-width: calc(__MSG_imgs_w_width__ - __MSG_main_width__);
+    max-width: calc(__MSG_backgrounds_w_width__ - __MSG_main_width__);
     bottom: 0;
     padding: 0;
     margin: 0;
@@ -962,7 +962,7 @@ input {
 /*< analytics_privacy */
 
 /*> transition */
-.link, .upload_box_browse_label, svg, .theme_img_link, .using_mouse .delete_img_btn, .color_input_vizualization, .using_mouse .normal_input, .using_mouse .btn, .global_el, .input, .image_settings_wrapper, .dragged_item, .img_inner_w, .using_mouse .img_w, .selected_img, .using_mouse .img_btn, .imgs_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu, .analytics_privacy, .analytics_privacy_protecting_screen, .img_placeholder {
+.link, .upload_box_browse_label, svg, .theme_img_link, .using_mouse .delete_background_btn, .color_input_vizualization, .using_mouse .normal_input, .using_mouse .btn, .global_el, .input, .image_settings_wrapper, .dragged_item, .background_inner_w, .using_mouse .background_w, .selected_background, .using_mouse .background_btn, .backgrounds_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .background_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu, .analytics_privacy, .analytics_privacy_protecting_screen, .background_placeholder {
     transition: all 0.2s ease-out;
 }
 
@@ -970,7 +970,7 @@ input {
     transition: all 0.2s ease-out!important;
 }
 
-.loading_screen, .img_inner_w_2 {
+.loading_screen, .background_inner_w_2 {
     transition: all 0.4s ease-out;
 }
 
@@ -986,7 +986,7 @@ svg {
     transition-property: color, opacity;
 }
 
-.using_mouse .delete_img_btn, .color_input_vizualization, .upload_box {
+.using_mouse .delete_background_btn, .color_input_vizualization, .upload_box {
     transition-property: background-color;
 }
 
@@ -998,23 +998,23 @@ svg {
     transition-property: color, background-color, border-color, box-shadow;
 }
 
-.global_el, .input, .image_settings_wrapper, .dragged_item, .loading_screen, .imgs_w_2, .img_inner_w_2, .help_message, .install_help_w, .color_pickier, .img_w_tr, .adjacent_btn_w, .checkbox_w, .analytics_privacy, .analytics_privacy_protecting_screen, .img_placeholder {
+.global_el, .input, .image_settings_wrapper, .dragged_item, .loading_screen, .backgrounds_w_2, .background_inner_w_2, .help_message, .install_help_w, .color_pickier, .background_w_tr, .adjacent_btn_w, .checkbox_w, .analytics_privacy, .analytics_privacy_protecting_screen, .background_placeholder {
     transition-property: opacity;
 }
 
-.img_inner_w {
+.background_inner_w {
     transition-property: border-color, box-shadow;
 }
 
-.using_mouse .img_w, .selected_img {
+.using_mouse .background_w, .selected_background {
     transition-property: border-color, box-shadow;
 }
 
-.using_mouse .img_btn {
+.using_mouse .background_btn {
     transition-property: color, background-color;
 }
 
-.link:active, .upload_box_browse_label:active, .btn:active, .img_btn:active {
+.link:active, .upload_box_browse_label:active, .btn:active, .background_btn:active {
     transition: none;
 }
 

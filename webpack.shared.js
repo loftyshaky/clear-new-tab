@@ -100,7 +100,7 @@ module.exports = {
             x$: join(__dirname, 'src', 'js', 'x.js'),
             vue$: join(__dirname, 'node_modules', 'vue', 'dist', 'vue.esm.js'),
             svg: join(__dirname, 'src', 'svg'),
-            imgs: join(__dirname, 'src', 'imgs'),
+            backgrounds: join(__dirname, 'src', 'backgrounds'),
         },
         extensions: ['.js', '.jsx', '.css', '.svg', '.png', '.gif'],
     },

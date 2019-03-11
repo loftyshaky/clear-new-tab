@@ -4,12 +4,12 @@ import x from 'x';
 import { db } from 'js/init_db';
 import * as analytics from 'js/analytics';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
-import * as img_loading from 'options/img_loading';
+import * as background_loading from 'options/background_loading';
 import * as settings from 'options/settings';
 import * as pagination from 'options/pagination';
-import * as get_new_future_img from 'js/get_new_future_img';
+import * as get_new_future_background from 'js/get_new_future_background';
 import * as ui_state from 'options/ui_state';
-import * as img_i from 'options/img_i';
+import * as background_i from 'options/background_i';
 
 configure({ enforceActions: 'observed' });
 
@@ -24,10 +24,10 @@ const dragged_item_position_modifiers = {
     },
 };
 
-export const start_drag = (img_w_tr, e) => {
+export const start_drag = (background_w_tr, e) => {
     try {
         mut.mouse_is_down = true;
-        mut.item_to_move = img_w_tr;
+        mut.item_to_move = background_w_tr;
         mut.start_y = e.clientY;
         mut.start_x = e.clientX;
 
@@ -36,32 +36,32 @@ export const start_drag = (img_w_tr, e) => {
     }
 };
 
-export const prompt_to_move = async img_w_tr => {
+export const prompt_to_move = async background_w_tr => {
     try {
-        mut.item_to_move = img_w_tr;
+        mut.item_to_move = background_w_tr;
 
-        analytics.send_options_imgs_event('opened_enter_new_img_no_prompt');
+        analytics.send_options_backgrounds_event('opened_enter_new_background_no_prompt');
 
-        const new_position_i = window.prompt(x.msg('enter_new_img_no'));
+        const new_position_i = window.prompt(x.msg('enter_new_background_no'));
 
         if (new_position_i) {
-            analytics.send_prompts_accepted_event('enter_new_img_no');
+            analytics.send_prompts_accepted_event('enter_new_background_no');
 
         } else {
-            analytics.send_prompts_canceled_event('enter_new_img_no');
+            analytics.send_prompts_canceled_event('enter_new_background_no');
         }
 
         const given_value_is_integer = Number.isInteger(+new_position_i);
-        const number_of_imgs = await db.imgsd.count();
+        const number_of_backgrounds = await db.backgroundsd.count();
 
-        if (new_position_i && given_value_is_integer && number_of_imgs > 1) {
+        if (new_position_i && given_value_is_integer && number_of_backgrounds > 1) {
             let new_position_i_final;
 
             if (new_position_i < 1) {
                 new_position_i_final = 1;
 
-            } else if (new_position_i > number_of_imgs) {
-                new_position_i_final = number_of_imgs;
+            } else if (new_position_i > number_of_backgrounds) {
+                new_position_i_final = number_of_backgrounds;
 
             } else {
                 new_position_i_final = new_position_i;
@@ -70,7 +70,7 @@ export const prompt_to_move = async img_w_tr => {
             move('prompt', new_position_i_final);
 
         } else if (new_position_i) {
-            analytics.send_options_imgs_event('unable_to_move_by_prompt');
+            analytics.send_options_backgrounds_event('unable_to_move_by_prompt');
         }
 
     } catch (er) {
@@ -115,7 +115,7 @@ export const set_dragged_item_position = (mode, e) => {
 
                     x.append(mut.dragged_item, item_to_move_clone);
 
-                    mut.dragged_item_width = parseFloat(window.getComputedStyle(sb(mut.dragged_item, '.img_w')).width);
+                    mut.dragged_item_width = parseFloat(window.getComputedStyle(sb(mut.dragged_item, '.background_w')).width);
 
                     set_dragged_item_position(mode, e);
                 }
@@ -133,7 +133,7 @@ export const set_dragged_item_position = (mode, e) => {
 //< show dragged_item and insert dragged element into it / update dragged_item position
 
 //> drop area
-export const create_drop_area = (img_w_tr, mode, e) => {
+export const create_drop_area = (background_w_tr, mode, e) => {
     try {
         const not_hovering_over_drop_area = (mode === 'options' || mode === 'new_tab') && !x.matches(e.target, '.drop_area');
 
@@ -153,7 +153,7 @@ export const create_drop_area = (img_w_tr, mode, e) => {
 
             if (mode === 'options') {
                 ({ item_to_move } = mut);
-                hovered_item = img_w_tr;
+                hovered_item = background_w_tr;
                 coords = mut.current_x;
                 client_key = 'clientX';
             }
@@ -202,7 +202,7 @@ const remove_drop_area = () => {
 const get_first_or_last_visible_item = (mode, hovered_tree) => {
     try {
         if (mode === 'options') {
-            return s('.img_w_tr:first-child');
+            return s('.background_w_tr:first-child');
 
         } if (mode === 'new_tab' || mode === 'new_tab_bookmarks_bar') {
             return sb(hovered_tree, ':scope > .entries_w > .entry:first-child');
@@ -272,45 +272,45 @@ const move = async (mode, new_position_no) => {
     try {
         ui_state.disable_ui();
 
-        const img_i_modificator = img_i.determine_img_i_modificator();
-        let img_i_after_move = new_position_no - 1 - img_i_modificator;
-        let el_to_move_img_before_or_after;
+        const background_i_modificator = background_i.determine_background_i_modificator();
+        let background_i_after_move = new_position_no - 1 - background_i_modificator;
+        let el_to_move_background_before_or_after;
 
         if (mode === 'drop') {
-            analytics.send_options_imgs_event('moved_by_dragging_and_dropping');
+            analytics.send_options_backgrounds_event('moved_by_dragging_and_dropping');
 
-            el_to_move_img_before_or_after = s('.drop_area');
+            el_to_move_background_before_or_after = s('.drop_area');
 
         } else if (mode === 'prompt') {
-            analytics.send_options_imgs_event('moved_by_prompt');
+            analytics.send_options_backgrounds_event('moved_by_prompt');
 
-            if (new_position_no <= img_i_modificator || new_position_no > img_i_modificator + populate_storage_with_images_and_display_them.con.imgs_per_page) {
-                el_to_move_img_before_or_after = 'img_is_out_of_page';
+            if (new_position_no <= background_i_modificator || new_position_no > background_i_modificator + populate_storage_with_images_and_display_them.con.backgrounds_per_page) {
+                el_to_move_background_before_or_after = 'background_is_out_of_page';
 
             } else {
-                el_to_move_img_before_or_after = s(`.img_w_tr:nth-child(${new_position_no - img_i_modificator})`);
+                el_to_move_background_before_or_after = s(`.background_w_tr:nth-child(${new_position_no - background_i_modificator})`);
             }
         }
 
-        if (el_to_move_img_before_or_after !== mut.item_to_move) {
-            const img_i_before_move = img_i.get_img_i_by_el(mut.item_to_move);
+        if (el_to_move_background_before_or_after !== mut.item_to_move) {
+            const background_i_before_move = background_i.get_background_i_by_el(mut.item_to_move);
 
-            if (mode === 'drop' || (mode === 'prompt' && el_to_move_img_before_or_after !== 'img_is_out_of_page' && img_i_before_move < img_i_after_move)) {
-                x.after(el_to_move_img_before_or_after, mut.item_to_move);
+            if (mode === 'drop' || (mode === 'prompt' && el_to_move_background_before_or_after !== 'background_is_out_of_page' && background_i_before_move < background_i_after_move)) {
+                x.after(el_to_move_background_before_or_after, mut.item_to_move);
 
-            } if (mode === 'prompt' && el_to_move_img_before_or_after !== 'img_is_out_of_page' && img_i_before_move > img_i_after_move) {
-                x.before(el_to_move_img_before_or_after, mut.item_to_move);
+            } if (mode === 'prompt' && el_to_move_background_before_or_after !== 'background_is_out_of_page' && background_i_before_move > background_i_after_move) {
+                x.before(el_to_move_background_before_or_after, mut.item_to_move);
             }
 
-            const all_imgs_img_i_before_move = img_i_before_move + img_i_modificator;
-            let all_imgs_img_i_after_move;
+            const all_backgrounds_background_i_before_move = background_i_before_move + background_i_modificator;
+            let all_backgrounds_background_i_after_move;
 
             if (mode === 'drop') {
-                img_i_after_move = img_i.get_img_i_by_el(mut.item_to_move);
-                all_imgs_img_i_after_move = img_i_after_move + img_i_modificator;
+                background_i_after_move = background_i.get_background_i_by_el(mut.item_to_move);
+                all_backgrounds_background_i_after_move = background_i_after_move + background_i_modificator;
 
             } else if (mode === 'prompt') {
-                all_imgs_img_i_after_move = new_position_no - 1;
+                all_backgrounds_background_i_after_move = new_position_no - 1;
             }
 
             x.remove(s('.drop_area'));
@@ -319,56 +319,56 @@ const move = async (mode, new_position_no) => {
             let start_i;
             let end_i;
 
-            if (all_imgs_img_i_before_move < all_imgs_img_i_after_move) {
+            if (all_backgrounds_background_i_before_move < all_backgrounds_background_i_after_move) {
                 move_type = 'forward';
-                start_i = all_imgs_img_i_before_move + 1;
-                end_i = all_imgs_img_i_after_move;
+                start_i = all_backgrounds_background_i_before_move + 1;
+                end_i = all_backgrounds_background_i_after_move;
 
-            } else if (all_imgs_img_i_before_move > all_imgs_img_i_after_move) {
+            } else if (all_backgrounds_background_i_before_move > all_backgrounds_background_i_after_move) {
                 move_type = 'backward';
-                start_i = all_imgs_img_i_before_move - 1;
-                end_i = all_imgs_img_i_after_move;
+                start_i = all_backgrounds_background_i_before_move - 1;
+                end_i = all_backgrounds_background_i_after_move;
             }
 
-            const response = await x.send_message_to_background_c({ message: 'get_ids_of_imgs_to_shift', move_type, all_imgs_img_i_before_move, start_i, end_i });
+            const response = await x.send_message_to_background_c({ message: 'get_ids_of_backgrounds_to_shift', move_type, all_backgrounds_background_i_before_move, start_i, end_i });
 
-            await db.transaction('rw', db.ed, db.imgsd, async () => {
+            await db.transaction('rw', db.ed, db.backgroundsd, async () => {
                 const modifier_1 = move_type === 'forward' ? -1 : 1; // if forwsard - 1 if backward 1
                 const modifier_2 = move_type === 'forward' ? 1 : -1; // if forwsard 1 if backward - 1
 
-                const imgs_to_move = await Promise.all(response.ids_of_imgs_to_move.map(async id => {
-                    const img = await db.imgsd.get(id);
+                const backgrounds_to_move = await Promise.all(response.ids_of_backgrounds_to_move.map(async id => {
+                    const background = await db.backgroundsd.get(id);
 
-                    return img;
+                    return background;
                 }));
 
-                await Promise.all(imgs_to_move.map(async img => {
-                    await db.imgsd.update(img.id, { position_id: img.position_id + modifier_1 });
+                await Promise.all(backgrounds_to_move.map(async background => {
+                    await db.backgroundsd.update(background.id, { position_id: background.position_id + modifier_1 });
                 }));
 
-                const img = await db.imgsd.get(response.ids_of_imgs_to_move[response.ids_of_imgs_to_move.length - 1]);
+                const background = await db.backgroundsd.get(response.ids_of_backgrounds_to_move[response.ids_of_backgrounds_to_move.length - 1]);
 
-                await db.imgsd.update(response.img_id_before_move, { position_id: img.position_id + modifier_2 });
+                await db.backgroundsd.update(response.background_id_before_move, { position_id: background.position_id + modifier_2 });
 
-                await set_new_current_or_future_img_value_after_move('current_img', move_type, all_imgs_img_i_before_move, all_imgs_img_i_after_move);
-                await set_new_current_or_future_img_value_after_move('future_img', move_type, all_imgs_img_i_before_move, all_imgs_img_i_after_move);
+                await set_new_current_or_future_background_value_after_move('current_background', move_type, all_backgrounds_background_i_before_move, all_backgrounds_background_i_after_move);
+                await set_new_current_or_future_background_value_after_move('future_background', move_type, all_backgrounds_background_i_before_move, all_backgrounds_background_i_after_move);
 
-                const current_img = await ed('current_img');
+                const current_background = await ed('current_background');
 
-                await get_new_future_img.get_new_future_img(current_img + 1);
+                await get_new_future_background.get_new_future_background(current_background + 1);
             });
 
-            const current_img = await ed('current_img');
+            const current_background = await ed('current_background');
 
-            settings.change_current_img_input_val(current_img + 1);
+            settings.change_current_background_input_val(current_background + 1);
 
-            await x.send_message_to_background_c({ message: 'retrieve_imgs' });
+            await x.send_message_to_background_c({ message: 'retrieve_backgrounds' });
 
-            if (el_to_move_img_before_or_after !== 'img_is_out_of_page') {
-                move_imgs_arr_item(img_i_before_move, img_i_after_move);
+            if (el_to_move_background_before_or_after !== 'background_is_out_of_page') {
+                move_backgrounds_arr_item(background_i_before_move, background_i_after_move);
 
             } else {
-                img_loading.load_page('load_page', pagination.ob.active_page, true);
+                background_loading.load_page('load_page', pagination.ob.active_page, true);
             }
         }
 
@@ -381,23 +381,23 @@ const move = async (mode, new_position_no) => {
     }
 };
 
-const set_new_current_or_future_img_value_after_move = async (type, move_type, img_i_before_move, img_i_after_move) => { // type: current_img, future_img
+const set_new_current_or_future_background_value_after_move = async (type, move_type, background_i_before_move, background_i_after_move) => { // type: current_background, future_background
     try {
         const ed_all = await eda();
 
-        if (type === 'current_img' || ed_all.shuffle) {
-            if (ed_all[type] === img_i_before_move) {
-                ed_all[type] = img_i_after_move;
+        if (type === 'current_background' || ed_all.shuffle) {
+            if (ed_all[type] === background_i_before_move) {
+                ed_all[type] = background_i_after_move;
 
-            } else if (move_type === 'forward' && ed_all[type] <= img_i_after_move && ed_all[type] >= img_i_before_move) {
+            } else if (move_type === 'forward' && ed_all[type] <= background_i_after_move && ed_all[type] >= background_i_before_move) {
                 ed_all[type] -= ed_all[type];
 
-            } else if (move_type === 'backward' && ed_all[type] >= img_i_after_move && ed_all[type] <= img_i_before_move) {
+            } else if (move_type === 'backward' && ed_all[type] >= background_i_after_move && ed_all[type] <= background_i_before_move) {
                 ed_all[type] += ed_all[type];
             }
 
         } else {
-            ed_all[type] = ed_all.current_img + 1;
+            ed_all[type] = ed_all.current_background + 1;
         }
 
         await db.ed.update(1, { [type]: ed_all[type] });
@@ -407,9 +407,9 @@ const set_new_current_or_future_img_value_after_move = async (type, move_type, i
     }
 };
 
-const move_imgs_arr_item = action((from, to) => {
+const move_backgrounds_arr_item = action((from, to) => {
     try {
-        x.move_a_item(populate_storage_with_images_and_display_them.ob.imgs, from, to);
+        x.move_a_item(populate_storage_with_images_and_display_them.ob.backgrounds, from, to);
 
     } catch (er) {
         err(er, 133);

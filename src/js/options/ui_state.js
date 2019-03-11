@@ -6,7 +6,7 @@ configure({ enforceActions: 'observed' });
 
 export const enter_upload_mode = () => {
     try {
-        mut.uploading_theme_img = true;
+        mut.uploading_theme_background = true;
 
         disable_ui();
         change_paste_input_placeholder_val(null);
@@ -21,7 +21,7 @@ export const enter_upload_mode = () => {
 export const exit_upload_mode = status => {
     try {
         if (page === 'options') {
-            mut.uploading_theme_img = false;
+            mut.uploading_theme_background = false;
 
             enable_ui();
 
@@ -47,7 +47,7 @@ export const exit_upload_mode = status => {
 
 export const enable_ui = () => {
     try {
-        if (!mut.uploading_theme_img) {
+        if (!mut.uploading_theme_background) {
             x.remove(s('.ui_disabled'));
         }
 
@@ -104,7 +104,7 @@ export const change_paste_input_placeholder_val = action(val => {
 });
 
 const mut = {
-    uploading_theme_img: false,
+    uploading_theme_background: false,
 };
 
 export const ob = observable({

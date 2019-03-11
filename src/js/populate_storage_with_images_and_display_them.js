@@ -6,8 +6,8 @@ import x from 'x';
 
 import { db } from 'js/init_db';
 import { Video } from 'js/new_video';
-import * as get_new_future_img from 'js/get_new_future_img';
-import * as total_number_of_imgs from 'js/total_number_of_imgs';
+import * as get_new_future_background from 'js/get_new_future_background';
+import * as total_number_of_backgrounds from 'js/total_number_of_backgrounds';
 import * as generate_random_color from 'js/generate_random_color';
 import * as file_types from 'js/file_types';
 
@@ -15,39 +15,39 @@ configure({ enforceActions: 'observed' });
 
 const settings = page === 'options' ? require('options/settings') : null; // eslint-disable-line global-require
 const ui_state = page === 'options' ? require('options/ui_state') : null; // eslint-disable-line global-require
-const imgs_module = page === 'background' ? require('background/imgs') : null; // eslint-disable-line global-require
+const backgrounds_module = page === 'background' ? require('background/backgrounds') : null; // eslint-disable-line global-require
 
 //> pack images and insert them in db
-export const populate_storage_with_images = async (type, status, imgs, theme_img_info, theme_id) => {
+export const populate_storage_with_images = async (type, status, backgrounds, theme_background_info, theme_id) => {
     try {
         if (page === 'options') {
-            mut.uploading_imgs = true;
+            mut.uploading_backgrounds = true;
         }
 
         let some_thumbnails_not_loaded = false;
 
         //>1 pack images
-        const number_of_imgs = await db.imgsd.count();
-        const position_id = await r.ifElse(() => number_of_imgs > 0,
+        const number_of_backgrounds = await db.backgroundsd.count();
+        const position_id = await r.ifElse(() => number_of_backgrounds > 0,
             async () => {
-                const ordered_imgs = db.imgsd.orderBy('position_id');
-                const img_with_highest_id = await ordered_imgs.last();
+                const ordered_backgrounds = db.backgroundsd.orderBy('position_id');
+                const background_with_highest_id = await ordered_backgrounds.last();
 
-                return img_with_highest_id.position_id + 1;
+                return background_with_highest_id.position_id + 1;
             },
 
             () => 0)();
 
-        const thumbnails = await create_thumbnails_and_get_natural_width_and_height(imgs, type);
+        const thumbnails = await create_thumbnails_and_get_natural_width_and_height(backgrounds, type);
 
-        const packed_imgs = imgs.map((item, i) => {
+        const packed_backgrounds = backgrounds.map((item, i) => {
             if (!thumbnails[i] || thumbnails[i].thumbnail !== 'error') {
-                const img = {
+                const background = {
                     id: x.unique_id(),
-                    img: item,
+                    background: item,
                 };
 
-                return img;
+                return background;
 
             }
 
@@ -56,53 +56,53 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
             return null;
         });
 
-        const packed_imgsd = imgs.map((item, i) => {
+        const packed_backgroundsd = backgrounds.map((item, i) => {
             if (!thumbnails[i] || thumbnails[i].thumbnail !== 'error') {
                 if (type !== 'color') {
-                    const img = {
-                        id: packed_imgs[i].id,
+                    const background = {
+                        id: packed_backgrounds[i].id,
                         position_id: position_id + i,
                         theme_id,
                         thumbnail: thumbnails[i] ? thumbnails[i].thumbnail : null,
                         width: thumbnails[i] ? thumbnails[i].width : null,
                         height: thumbnails[i] ? thumbnails[i].height : null,
-                        type: generate_type(item.type || 'img_link', theme_img_info),
-                        size: theme_img_info.size || 'global',
-                        position: theme_img_info.position || 'global',
-                        repeat: theme_img_info.repeat || 'global',
-                        color: theme_img_info.color || 'global',
-                        video_volume: typeof theme_img_info.video_volume !== 'undefined' ? theme_img_info.video_volume : 'global',
+                        type: generate_type(item.type || 'img_link', theme_background_info),
+                        size: theme_background_info.size || 'global',
+                        position: theme_background_info.position || 'global',
+                        repeat: theme_background_info.repeat || 'global',
+                        color: theme_background_info.color || 'global',
+                        video_volume: typeof theme_background_info.video_volume !== 'undefined' ? theme_background_info.video_volume : 'global',
                     };
 
-                    return img;
+                    return background;
 
                 } if (type === 'color') {
-                    const img = {
-                        id: packed_imgs[i].id,
+                    const background = {
+                        id: packed_backgrounds[i].id,
                         position_id: position_id + i,
                         theme_id,
-                        type: generate_type('color', theme_img_info),
+                        type: generate_type('color', theme_background_info),
                     };
 
-                    return img;
+                    return background;
                 }
             }
 
             return null;
         });
 
-        const packed_imgs_filtered = packed_imgs.filter(item => item);
-        const packed_imgsd_filtered = packed_imgsd.filter(item => item);
+        const packed_backgrounds_filtered = packed_backgrounds.filter(item => item);
+        const packed_backgroundsd_filtered = packed_backgroundsd.filter(item => item);
         //<1 pack images
 
         //>1 insert image packs in db
-        let last_img_id;
+        let last_background_id;
 
-        if (packed_imgs_filtered.length > 0) {
+        if (packed_backgrounds_filtered.length > 0) {
             try {
-                last_img_id = await db.transaction('rw', db.imgs, db.imgsd, () => {
-                    db.imgs.bulkAdd(packed_imgs_filtered);
-                    db.imgsd.bulkAdd(packed_imgsd_filtered);
+                last_background_id = await db.transaction('rw', db.backgrounds, db.backgroundsd, () => {
+                    db.backgrounds.bulkAdd(packed_backgrounds_filtered);
+                    db.backgroundsd.bulkAdd(packed_backgroundsd_filtered);
                 });
 
             } catch (er) {
@@ -123,37 +123,37 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
         //<1 insert image packs in db
 
         if (page === 'options') {
-            const number_of_img_w = sa('.img_w').length || 0;
-            if (number_of_img_w < con.imgs_per_page) {
-                const mode = 'upload_imgs';
-                const imgs_to_load = packed_imgsd_filtered.slice(0, con.imgs_per_page - number_of_img_w); // get first 50 of uploaded images
+            const number_of_background_w = sa('.background_w').length || 0;
+            if (number_of_background_w < con.backgrounds_per_page) {
+                const mode = 'upload_backgrounds';
+                const backgrounds_to_load = packed_backgroundsd_filtered.slice(0, con.backgrounds_per_page - number_of_background_w); // get first 50 of uploaded images
 
-                unpack_and_load_imgs(mode, imgs_to_load);
+                unpack_and_load_backgrounds(mode, backgrounds_to_load);
 
             } else {
-                total_number_of_imgs.set_total_number_of_imgs_and_switch_to_last_or_previous_page();
+                total_number_of_backgrounds.set_total_number_of_backgrounds_and_switch_to_last_or_previous_page();
             }
 
 
-            await x.send_message_to_background_c({ message: 'retrieve_imgs' }); //> reload img_a in background.js
+            await x.send_message_to_background_c({ message: 'retrieve_backgrounds' });
         }
 
-        const current_img = await ed('current_img');
+        const current_background = await ed('current_background');
 
-        await get_new_future_img.get_new_future_img(current_img + 1);
+        await get_new_future_background.get_new_future_background(current_background + 1);
 
         if (page === 'options') {
             set_last_uploaded_image_as_current();
             ui_state.exit_upload_mode(some_thumbnails_not_loaded ? 'resolved_with_errors' : status);
-            await x.send_message_to_background_c({ message: 'preload_img' });
+            await x.send_message_to_background_c({ message: 'preload_background' });
 
         } else {
-            await imgs_module.preload_current_and_future_img('reload');
+            await backgrounds_module.preload_current_and_future_background('reload');
         }
 
-        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
+        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_background' }]);
 
-        return last_img_id;
+        return last_background_id;
 
     } catch (er) {
         err(er, 172);
@@ -167,36 +167,36 @@ export const populate_storage_with_images = async (type, status, imgs, theme_img
 };
 //< pack images and insert them in db
 
-const generate_type = (ext_or_type, theme_img_info) => {
+const generate_type = (ext_or_type, theme_background_info) => {
     const type = file_types.con.exts[ext_or_type] || ext_or_type;
-    const is_theme_file = !r.isEmpty(theme_img_info);
+    const is_theme_file = !r.isEmpty(theme_background_info);
     const type_final = is_theme_file ? `${type}_theme` : type;
 
     return type_final;
 };
 
-const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) => {
+const create_thumbnails_and_get_natural_width_and_height = async (backgrounds, type) => {
     const thumbnails = {};
 
     if (type !== 'color') {
-        await Promise.all(imgs.map(async (item, i) => {
+        await Promise.all(backgrounds.map(async (item, i) => {
             try {
                 await new Promise(async resolve => {
                     const is_img = type === 'link' ? true : file_types.con.exts[item.type] === 'img_file';
-                    const img = is_img ? new Image() : Video();
+                    const background = is_img ? new Image() : Video();
 
                     if (!is_img) {
-                        img.addEventListener('loadedmetadata', () => {
-                            if (img.readyState === 1) {
-                                img.currentTime = img.duration / 3;
+                        background.addEventListener('loadedmetadata', () => {
+                            if (background.readyState === 1) {
+                                background.currentTime = background.duration / 3;
                             }
                         });
                     }
 
-                    img.addEventListener(is_img ? 'load' : 'canplaythrough', async () => {
+                    background.addEventListener(is_img ? 'load' : 'canplaythrough', async () => {
                         try {
-                            const natural_width = img.naturalWidth || img.videoWidth;
-                            const natural_height = img.naturalHeight || img.videoHeight;
+                            const natural_width = background.naturalWidth || background.videoWidth;
+                            const natural_height = background.naturalHeight || background.videoHeight;
 
                             thumbnails[i] = {
                                 width: natural_width,
@@ -207,20 +207,20 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                                 resolve();
 
                             } else {
-                                const thumbnail_dimensions = calculate_img_aspect_ratio_fit(natural_width, natural_height);
+                                const thumbnail_dimensions = calculate_background_aspect_ratio_fit(natural_width, natural_height);
 
                                 if (is_img) {
-                                    thumbnails[i].thumbnail = resizeImage.resize(img, thumbnail_dimensions.width, thumbnail_dimensions.height);
+                                    thumbnails[i].thumbnail = resizeImage.resize(background, thumbnail_dimensions.width, thumbnail_dimensions.height);
 
                                     resolve();
 
-                                } else if (img.readyState === 4) {
+                                } else if (background.readyState === 4) {
                                     if (natural_width > 0) { // for firefox. When image is broken in firefox it returns natural_width 0
                                         const canvas = document.createElement('canvas');
                                         canvas.width = natural_width;
                                         canvas.height = natural_height;
 
-                                        canvas.getContext('2d').drawImage(img, 0, 0, natural_width, natural_height);
+                                        canvas.getContext('2d').drawImage(background, 0, 0, natural_width, natural_height);
                                         const base64_thumbnail = canvas.toDataURL();
 
                                         const not_resized_thumbnail = new Image();
@@ -274,7 +274,7 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                         }
                     });
 
-                    img.onerror = () => {
+                    background.onerror = () => {
                         try {
                             thumbnails[i].thumbnail = 'error';
 
@@ -289,10 +289,10 @@ const create_thumbnails_and_get_natural_width_and_height = async (imgs, type) =>
                         }
                     };
 
-                    img.src = typeof item === 'string' ? item : URL.createObjectURL(item);
+                    background.src = typeof item === 'string' ? item : URL.createObjectURL(item);
 
                     if (!is_img) {
-                        img.load();
+                        background.load();
                     }
                 });
 
@@ -314,11 +314,11 @@ const set_last_uploaded_image_as_current = async () => {
         const ed_all = await eda();
 
         if (ed_all.set_last_uploaded && (ed_all.mode === 'one' || ed_all.mode === 'multiple')) {
-            const number_of_imgs = await db.imgsd.count();
-            const visible_value = number_of_imgs;
-            const value_to_insert_into_db = number_of_imgs - 1;
+            const number_of_backgrounds = await db.backgroundsd.count();
+            const visible_value = number_of_backgrounds;
+            const value_to_insert_into_db = number_of_backgrounds - 1;
 
-            settings.change_current_img_insert_in_db(visible_value, value_to_insert_into_db);
+            settings.change_current_background_insert_in_db(visible_value, value_to_insert_into_db);
         }
     } catch (er) {
         err(er, 176);
@@ -326,31 +326,31 @@ const set_last_uploaded_image_as_current = async () => {
 };
 
 //> prepare images for loading in images fieldset and then load them into it
-export const unpack_and_load_imgs = async (mode, imgs_to_load, null_scroll_to) => {
+export const unpack_and_load_backgrounds = async (mode, backgrounds_to_load, null_scroll_to) => {
     try {
-        const unpacked_imgs = await Promise.all(imgs_to_load.map(async img_data => {
-            const img = await db.imgs.get(img_data.id); // get full image for backwards compability. Replace with this later: !file_types.con.files[img_data.type] ? await db.imgs.get(img_data.id) : null;
+        const unpacked_backgrounds = await Promise.all(backgrounds_to_load.map(async background_data => {
+            const background = await db.backgrounds.get(background_data.id); // get full image for backwards compability. Replace with this later: !file_types.con.files[background_data.type] ? await db.backgrounds.get(background_data.id) : null;
 
             return {
                 key: x.unique_id(),
-                id: img_data.id,
+                id: background_data.id,
                 placeholder_color: generate_random_color.generate_random_pastel_color(),
-                img: file_types.con.files[img_data.type] ? img_data.thumbnail || URL.createObjectURL(img.img) : img.img,
-                type: img_data.type,
-                img_size: img_data.width ? (`${img_data.width}x${img_data.height}`) : '?',
+                background: file_types.con.files[background_data.type] ? background_data.thumbnail || URL.createObjectURL(background.background) : background.background,
+                type: background_data.type,
+                background_size: background_data.width ? (`${background_data.width}x${background_data.height}`) : '?',
                 show_delete: true,
                 selected: false,
             };
         }));
 
         if (mode === 'load_page') {
-            create_loaded_imgs_on_page_change(unpacked_imgs, null_scroll_to);
+            create_loaded_backgrounds_on_page_change(unpacked_backgrounds, null_scroll_to);
 
-        } else if (mode === 'img_delete') {
-            create_loaded_imgs_on_img_load(unpacked_imgs, true);
+        } else if (mode === 'background_delete') {
+            create_loaded_backgrounds_on_background_load(unpacked_backgrounds, true);
 
         } else {
-            total_number_of_imgs.set_total_number_of_imgs_and_switch_to_last_or_previous_page(unpacked_imgs);
+            total_number_of_backgrounds.set_total_number_of_backgrounds_and_switch_to_last_or_previous_page(unpacked_backgrounds);
         }
 
     } catch (er) {
@@ -360,46 +360,46 @@ export const unpack_and_load_imgs = async (mode, imgs_to_load, null_scroll_to) =
 //< prepare images for loading in images fieldset and then load them into it
 
 //> insert images in images fieldset (set state)
-export const create_loaded_imgs_on_page_change = action((imgs, null_scroll_to) => {
+export const create_loaded_backgrounds_on_page_change = action((backgrounds, null_scroll_to) => {
     try {
         if (!null_scroll_to) {
-            mut.scroll_to = mut.uploading_imgs ? 'bottom' : 'top';
+            mut.scroll_to = mut.uploading_backgrounds ? 'bottom' : 'top';
 
         } else {
             mut.scroll_to = null;
         }
 
-        set_previous_number_of_imgs(0);
+        set_previous_number_of_backgrounds(0);
 
-        ob.imgs.replace(imgs);
+        ob.backgrounds.replace(backgrounds);
 
-        mut.uploading_imgs = false;
+        mut.uploading_backgrounds = false;
 
     } catch (er) {
         err(er, 178);
     }
 });
 
-export const create_loaded_imgs_on_img_load = action((imgs, null_scroll_to) => {
+export const create_loaded_backgrounds_on_background_load = action((backgrounds, null_scroll_to) => {
     try {
         mut.scroll_to = null_scroll_to ? null : 'bottom';
 
-        set_previous_number_of_imgs(ob.imgs.length);
+        set_previous_number_of_backgrounds(ob.backgrounds.length);
 
-        const all_imgs = ob.imgs.concat(imgs); // visible + uploaded now images
+        const all_backgrounds = ob.backgrounds.concat(backgrounds); // visible + uploaded now images
 
-        ob.imgs.replace(all_imgs);
+        ob.backgrounds.replace(all_backgrounds);
 
-        mut.uploading_imgs = false;
+        mut.uploading_backgrounds = false;
 
     } catch (er) {
         err(er, 179);
     }
 });
 
-const set_previous_number_of_imgs = number_of_imgs => {
+const set_previous_number_of_backgrounds = number_of_backgrounds => {
     try {
-        mut.previous_number_of_imgs = number_of_imgs;
+        mut.previous_number_of_backgrounds = number_of_backgrounds;
 
     } catch (er) {
         err(er, 180);
@@ -407,7 +407,7 @@ const set_previous_number_of_imgs = number_of_imgs => {
 };
 //< insert images in images fieldset (set state)
 
-const calculate_img_aspect_ratio_fit = (src_width, src_height) => {
+const calculate_background_aspect_ratio_fit = (src_width, src_height) => {
     try {
         const ratio = Math.min(Infinity / src_width, 98 / src_height);
 
@@ -421,15 +421,15 @@ const calculate_img_aspect_ratio_fit = (src_width, src_height) => {
 };
 
 export const mut = {
-    previous_number_of_imgs: 0,
+    previous_number_of_backgrounds: 0,
     scroll_to: null,
-    uploading_imgs: true,
+    uploading_backgrounds: true,
 };
 
 export const con = {
-    imgs_per_page: 200,
+    backgrounds_per_page: 200,
 };
 
 export const ob = observable({
-    imgs: [],
+    backgrounds: [],
 });

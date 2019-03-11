@@ -115,7 +115,7 @@ export class Input extends React.Component {
                             type="button"
                             className="btn adjacent_btn"
                             data-text={`${this.name}_btn_text`}
-                            onClick={this.name === 'paste' ? this.paste_image_by_paste_btn : settings.change_current_img_by_clicking_on_select_img_btn}
+                            onClick={this.name === 'paste' ? this.paste_image_by_paste_btn : settings.change_current_background_by_clicking_on_select_background_btn}
                             ref={this.btn}
                         />
                     </Tr>

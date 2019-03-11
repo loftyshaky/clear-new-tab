@@ -10,48 +10,48 @@ export const init_db = () => {
 
         db.version(1).stores({
             ed: 'id',
-            imgs: 'id, position_id',
+            backgrounds: 'id, position_id',
         });
 
         db.version(2).stores({
             ed: 'id',
-            imgs: 'id',
-            imgsd: 'id, position_id',
+            backgrounds: 'id',
+            backgroundsd: 'id, position_id',
         }).upgrade(async tx => {
-            const imgs = await tx.imgs.toArray();
-            await db.imgsd.bulkAdd(imgs);
+            const backgrounds = await tx.backgrounds.toArray();
+            await db.backgroundsd.bulkAdd(backgrounds);
 
-            tx.imgs.toCollection().modify(img => {
-                delete img.color;
-                delete img.position;
-                delete img.position_id;
-                delete img.repeat;
-                delete img.size;
-                delete img.theme_id;
-                delete img.type;
+            tx.backgrounds.toCollection().modify(background => {
+                delete background.color;
+                delete background.position;
+                delete background.position_id;
+                delete background.repeat;
+                delete background.size;
+                delete background.theme_id;
+                delete background.type;
             });
 
-            tx.imgsd.toCollection().modify(img => {
-                const img_is_color = img.type === 'color' || img.type === 'theme_color';
+            tx.backgroundsd.toCollection().modify(background => {
+                const background_is_color = background.type === 'color' || background.type === 'theme_color';
 
-                if (!img_is_color) {
-                    img.position = con.positions_dict[img.position];
-                    img.video_volume = 'global';
+                if (!background_is_color) {
+                    background.position = con.positions_dict[background.position];
+                    background.video_volume = 'global';
                 }
 
-                img.type = con.types[img.type];
-                delete img.img;
+                background.type = con.types[background.type];
+                delete background.background;
             });
 
             tx.ed.toCollection().modify(ed => {
                 ed.show_bookmarks_bar = false;
                 ed.enable_paste = false;
-                ed.allow_downloading_images_by_link = false;
+                ed.allow_downloading_imgs_by_link = false;
                 ed.set_last_uploaded = false;
-                ed.img_already_changed = true;
+                ed.background_already_changed = true;
                 ed.video_volume = 0;
                 ed.show_link_to_default_new_tab = false;
-                ed.img_change_effect = 'crossfade';
+                ed.background_change_effect = 'crossfade';
                 ed.slide_direction = 'from_right_to_left';
                 ed.position = con.positions_dict[ed.position];
                 ed.allow_analytics = false;

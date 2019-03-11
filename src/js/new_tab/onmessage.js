@@ -1,5 +1,5 @@
 import x from 'x';
-import * as imgs from 'new_tab/imgs';
+import * as backgrounds from 'new_tab/backgrounds';
 import * as link_to_default_new_tab from 'new_tab/link_to_default_new_tab';
 
 //> recieve messages
@@ -15,20 +15,20 @@ browser.runtime.onMessage.addListener(async (message, sender, send_response) => 
                 send_response(false);
             }
 
-        } else if (msg === 'change_img') {
+        } else if (msg === 'change_background') {
             ed('slideshow')
                 .then(slideshow => {
                     if (slideshow && window.location.search.indexOf('preview') === -1) {
-                        imgs.display_img(false, true, true);
+                        backgrounds.display_background(false, true, true);
                     }
 
                 }).catch(er => {
                     err(er, 279);
                 });
 
-        } else if (msg === 'reload_img') {
+        } else if (msg === 'reload_background') {
             link_to_default_new_tab.set_show_link_to_default_new_tab_observable();
-            imgs.reload_img();
+            backgrounds.reload_background();
             x.send_message_to_background({ message: 'start_timer' });
 
         } else if (msg !== 'confirm_that_opened_tab_is_new_tab_page_and_that_it_is_not_in_preview_mode') {

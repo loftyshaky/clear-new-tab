@@ -6,7 +6,7 @@ const create_pair = (arr, key, val) => {
     }
 };
 
-const imgs = ['image/png', 'image/jpeg', 'image/gif'];
+const backgrounds = ['image/png', 'image/jpeg', 'image/gif'];
 const videos = ['video/mp4', 'video/webm', 'video/ogg'];
 
 const colors = ['color', 'color_theme'];
@@ -22,7 +22,7 @@ export const con = {
     files: {},
 };
 
-create_pair(imgs, 'exts', 'img_file');
+create_pair(backgrounds, 'exts', 'img_file');
 create_pair(videos, 'exts', 'video_file');
 
 create_pair(colors, 'types', 'colors');

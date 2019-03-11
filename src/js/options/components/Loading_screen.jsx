@@ -2,7 +2,7 @@ import Svg from 'svg-inline-react';
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import * as img_loading from 'options/img_loading';
+import * as background_loading from 'options/background_loading';
 
 import { Tr } from 'js/components/Tr';
 
@@ -15,7 +15,7 @@ export const Loading_screen = observer(() => (
         }}
         tag="div"
         name="gen"
-        state={img_loading.ob.show_loading_screen}
+        state={background_loading.ob.show_loading_screen}
     >
 
         <Svg src={hourglass_svg} />

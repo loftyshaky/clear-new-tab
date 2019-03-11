@@ -2,9 +2,9 @@ import React from 'react';
 import { observer } from 'mobx-react';
 
 import x from 'x';
-import * as imgs from 'new_tab/imgs';
+import * as backgrounds from 'new_tab/backgrounds';
 
-import { Img_div } from 'new_tab/components/Img_div';
+import { Background_div } from 'new_tab/components/Background_div';
 import { Link_to_default_new_tab } from 'new_tab/components/Link_to_default_new_tab';
 
 import { Error_boundary } from 'js/components/Error_boundary';
@@ -12,10 +12,10 @@ import { Error_boundary } from 'js/components/Error_boundary';
 export class All extends React.Component {
     async componentDidMount() {
         try {
-            imgs.display_img(false, false, false);
+            backgrounds.display_background(false, false, false);
 
-            x.bind(window, 'resize', imgs.resize_img);
-            x.bind(document, 'visibilitychange', imgs.resize_img);
+            x.bind(window, 'resize', backgrounds.resize_background);
+            x.bind(document, 'visibilitychange', backgrounds.resize_background);
 
         } catch (er) {
             err(er, 56);
@@ -27,10 +27,10 @@ export class All extends React.Component {
             <Error_boundary>
                 <div className="all">
                     {
-                        imgs.ob.img_divs.no_tr_cls.map((not_used, i) => (
-                            <Img_div
-                                img_div_i={i}
-                                key={imgs.ob.img_divs.keys[i]}
+                        backgrounds.ob.background_divs.no_tr_cls.map((not_used, i) => (
+                            <Background_div
+                                background_div_i={i}
+                                key={backgrounds.ob.background_divs.keys[i]}
                             />
                         ))
                     }

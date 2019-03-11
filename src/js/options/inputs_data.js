@@ -1,9 +1,9 @@
 import { observable, configure } from 'mobx';
 
 import x from 'x';
-import * as img_loading from 'options/img_loading';
+import * as background_loading from 'options/background_loading';
 import * as settings from 'options/settings';
-import * as img_deletion from 'options/img_deletion';
+import * as background_deletion from 'options/background_deletion';
 
 configure({ enforceActions: 'observed' });
 
@@ -18,7 +18,7 @@ export const inputs_data = observable({
                 val: '',
                 visible: true,
                 add_help: true,
-                on_paste: img_loading.get_pasted_image_or_image_url,
+                on_paste: background_loading.get_pasted_image_or_image_url,
                 entered_one_char_in_text_input_after_focus: false,
             },
             download_img_when_link_given: {
@@ -42,18 +42,18 @@ export const inputs_data = observable({
                 color_pickier_position: 'top',
                 changed_color_once_after_focus: false,
             },
-            load_theme_img: {
+            load_theme_background: {
                 key: x.unique_id(),
                 family: 'upload',
-                name: 'load_theme_img',
+                name: 'load_theme_background',
                 type: 'btn',
-                on_click: img_loading.load_theme_img_when_clicking_on_load_theme_img_btn,
+                on_click: background_loading.load_theme_background_when_clicking_on_load_theme_background_btn,
             },
         },
-        img_settings: {
+        background_settings: {
             mode: {
                 key: x.unique_id(),
-                family: 'img_settings',
+                family: 'background_settings',
                 name: 'mode',
                 type: 'select',
                 val: '',
@@ -62,65 +62,65 @@ export const inputs_data = observable({
             },
             change_interval: {
                 key: x.unique_id(),
-                family: 'img_settings',
+                family: 'background_settings',
                 name: 'change_interval',
                 type: 'select',
                 val: '',
             },
-            keep_old_themes_imgs: {
+            keep_old_themes_backgrounds: {
                 key: x.unique_id(),
-                family: 'img_settings',
-                name: 'keep_old_themes_imgs',
+                family: 'background_settings',
+                name: 'keep_old_themes_backgrounds',
                 type: 'checkbox',
                 checkbox_type: 'ed',
                 val: false,
             },
             slideshow: {
                 key: x.unique_id(),
-                family: 'img_settings',
+                family: 'background_settings',
                 name: 'slideshow',
                 type: 'checkbox',
                 checkbox_type: 'ed',
                 val: false,
             },
-            img_change_effect: {
+            background_change_effect: {
                 key: x.unique_id(),
-                family: 'img_settings',
-                name: 'img_change_effect',
+                family: 'background_settings',
+                name: 'background_change_effect',
                 type: 'select',
                 val: '',
             },
             slide_direction: {
                 key: x.unique_id(),
-                family: 'img_settings',
+                family: 'background_settings',
                 name: 'slide_direction',
                 type: 'select',
                 val: '',
             },
             shuffle: {
                 key: x.unique_id(),
-                family: 'img_settings',
+                family: 'background_settings',
                 name: 'shuffle',
                 type: 'checkbox',
                 checkbox_type: 'ed',
                 val: false,
             },
-            current_img: {
+            current_background: {
                 key: x.unique_id(),
-                family: 'img_settings',
-                name: 'current_img',
+                family: 'background_settings',
+                name: 'current_background',
                 type: 'input',
                 val: '',
                 visible: false,
                 adjacent_btn_is_visible: true,
                 add_help: false,
-                on_input: settings.change_current_img_by_typing_into_currrent_img_input,
-                on_blur: settings.correct_current_img_input_val,
+                on_input: settings.change_current_background_by_typing_into_currrent_background_input,
+                on_blur: settings.correct_current_background_input_val,
                 entered_one_char_in_text_input_after_focus: false,
             },
             set_last_uploaded: {
                 key: x.unique_id(),
-                family: 'img_settings',
+                family: 'background_settings',
                 name: 'set_last_uploaded',
                 type: 'checkbox',
                 checkbox_type: 'ed',
@@ -132,7 +132,7 @@ export const inputs_data = observable({
             },
             settings_type: {
                 key: x.unique_id(),
-                family: 'img_settings',
+                family: 'background_settings',
                 name: 'settings_type',
                 type: 'select',
                 val: 'global',
@@ -141,7 +141,7 @@ export const inputs_data = observable({
             },
             size: {
                 key: x.unique_id(),
-                family: 'img_settings',
+                family: 'background_settings',
                 name: 'size',
                 type: 'select',
                 val: '',
@@ -150,7 +150,7 @@ export const inputs_data = observable({
             },
             position: {
                 key: x.unique_id(),
-                family: 'img_settings',
+                family: 'background_settings',
                 name: 'position',
                 type: 'select',
                 val: '',
@@ -158,7 +158,7 @@ export const inputs_data = observable({
             },
             repeat: {
                 key: x.unique_id(),
-                family: 'img_settings',
+                family: 'background_settings',
                 name: 'repeat',
                 type: 'select',
                 val: '',
@@ -166,7 +166,7 @@ export const inputs_data = observable({
             },
             color: {
                 key: x.unique_id(),
-                family: 'img_settings',
+                family: 'background_settings',
                 name: 'color',
                 type: 'color',
                 val: '',
@@ -180,7 +180,7 @@ export const inputs_data = observable({
             },
             video_volume: {
                 key: x.unique_id(),
-                family: 'img_settings',
+                family: 'background_settings',
                 name: 'video_volume',
                 type: 'slider',
                 val: 0,
@@ -199,12 +199,12 @@ export const inputs_data = observable({
                 on_click: settings.restore_defaults,
                 visible: true,
             },
-            delete_all_imgs: {
+            delete_all_backgrounds: {
                 key: x.unique_id(),
                 family: 'other_settings',
-                name: 'delete_all_imgs',
+                name: 'delete_all_backgrounds',
                 type: 'btn',
-                on_click: img_deletion.delete_all_images,
+                on_click: background_deletion.delete_all_images,
                 visible: true,
             },
             allow_analytics: {
@@ -246,10 +246,10 @@ export const inputs_data = observable({
                 val: false,
                 visible: true,
             },
-            allow_downloading_images_by_link: {
+            allow_downloading_imgs_by_link: {
                 key: x.unique_id(),
                 family: 'other_settings',
-                name: 'allow_downloading_images_by_link',
+                name: 'allow_downloading_imgs_by_link',
                 type: 'checkbox',
                 checkbox_type: 'permissions',
                 permissions: [{ origins: ['*://*/*'] }],

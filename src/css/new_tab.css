@@ -8,17 +8,17 @@ html, body {
 }
 /*< general */
 
-/*> images */
-.img_div {
+/*> backgrounds */
+.background_div {
     width: 100%;
     height: 100%;
     position: absolute;
 }
 
-.video_img_div {
+.video_background_div {
     display: flex;
 }
-/*< images */
+/*< backgrounds */
 
 /*> default new tab page link */
 .link_to_default_new_tab {
@@ -47,11 +47,11 @@ html, body {
 /*< default new tab page link */
 
 /*> transition */
-.img_div {
+.background_div {
     transition: all 1s ease-in-out;
 }
 
-.img_div {
+.background_div {
     transition-property: opacity, left, right, top, bottom;
 }
 /*< transition */

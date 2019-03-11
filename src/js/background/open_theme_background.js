@@ -1,4 +1,4 @@
-window.open_theme_img = () => {
+window.open_theme_background = () => {
     try {
         browser.tabs.create({ url: 'chrome://theme/IDR_THEME_NTP_BACKGROUND' });
 

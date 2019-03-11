@@ -27,11 +27,11 @@ export const get_pasted_image_or_image_url = async e => {
         const pasted_img_file_object = pasted_img_clipboard_item ? pasted_img_clipboard_item.getAsFile() : null; // not link, copied image
         const clipboard_text = e.clipboardData.getData('text');
         const input_given_text = clipboard_text !== '';
-        const contains_allow_downloading_images_by_link_permission = inputs_data.obj.other_settings.allow_downloading_images_by_link.val;
+        const contains_allow_downloading_imgs_by_link_permission = inputs_data.obj.other_settings.allow_downloading_imgs_by_link.val;
         const download_img_when_link_given = await ed('download_img_when_link_given');
 
         const img = await r.ifElse(
-            () => contains_allow_downloading_images_by_link_permission && download_img_when_link_given && input_given_text,
+            () => contains_allow_downloading_imgs_by_link_permission && download_img_when_link_given && input_given_text,
             async () => {
                 try {
                     const response = await window.fetch(clipboard_text);
@@ -120,9 +120,9 @@ export const handle_files = async files => {
     try {
         ui_state.enter_upload_mode();
 
-        const filter_out_non_media = r.filter(img => {
+        const filter_out_non_media = r.filter(background => {
             try {
-                const is_allowed_media = file_types.con.exts[img.type];
+                const is_allowed_media = file_types.con.exts[background.type];
 
                 return is_allowed_media;
 
@@ -133,16 +133,16 @@ export const handle_files = async files => {
             return undefined;
         });
 
-        const get_put_in_db_f = imgs => {
+        const get_put_in_db_f = backgrounds => {
             try {
                 const files_len = files.length;
                 const get_f = r.cond([
                     [r.equals(0), () => r.partial(ui_state.exit_upload_mode, ['rejected'])], // all files are not images
-                    [r.equals(files_len), () => r.partial(populate_storage_with_images_and_display_them.populate_storage_with_images, ['file', 'resolved', imgs, {}, null])], // all files are images
-                    [r.compose(r.not, r.equals(files_len)), () => r.partial(populate_storage_with_images_and_display_them.populate_storage_with_images, ['file', 'resolved_with_errors', imgs, {}, null])], // some files are not images
+                    [r.equals(files_len), () => r.partial(populate_storage_with_images_and_display_them.populate_storage_with_images, ['file', 'resolved', backgrounds, {}, null])], // all files are images
+                    [r.compose(r.not, r.equals(files_len)), () => r.partial(populate_storage_with_images_and_display_them.populate_storage_with_images, ['file', 'resolved_with_errors', backgrounds, {}, null])], // some files are not images
                 ]);
 
-                return get_f(imgs.length);
+                return get_f(backgrounds.length);
 
             } catch (er) {
                 err(er, 111);
@@ -185,20 +185,20 @@ export const load_page = async (mode, page, null_scroll_to) => { // g
 
         settings.switch_to_settings_type(null, null, true);
 
-        const offset = page * populate_storage_with_images_and_display_them.con.imgs_per_page - populate_storage_with_images_and_display_them.con.imgs_per_page;
+        const offset = page * populate_storage_with_images_and_display_them.con.backgrounds_per_page - populate_storage_with_images_and_display_them.con.backgrounds_per_page;
 
         if (mode === 'load_page') {
             pagination.change_page(page);
         }
 
-        const imgs = await db.imgsd.orderBy('position_id').offset(offset).limit(populate_storage_with_images_and_display_them.con.imgs_per_page).toArray();
-        const number_of_imgs = imgs.length;
+        const backgrounds = await db.backgroundsd.orderBy('position_id').offset(offset).limit(populate_storage_with_images_and_display_them.con.backgrounds_per_page).toArray();
+        const number_of_backgrounds = backgrounds.length;
 
-        if (number_of_imgs > 0) {
-            populate_storage_with_images_and_display_them.unpack_and_load_imgs(mode, imgs, null_scroll_to);
+        if (number_of_backgrounds > 0) {
+            populate_storage_with_images_and_display_them.unpack_and_load_backgrounds(mode, backgrounds, null_scroll_to);
         }
 
-        if (number_of_imgs === 0) {
+        if (number_of_backgrounds === 0) {
             hide_loading_screen();
 
             ui_state.enable_ui();
@@ -219,11 +219,11 @@ const change_css_counter_offset = action(offset => {
 });
 
 //> show one image after it fully loaded
-export const show_loaded_img = async img_placeholder => {
+export const show_loaded_background = async background_placeholder => {
     try {
         await x.delay(100);
 
-        img_placeholder.style.opacity = 0; // eslint-disable-line no-param-reassign
+        background_placeholder.style.opacity = 0; // eslint-disable-line no-param-reassign
 
     } catch (er) {
         err(er, 114);
@@ -233,9 +233,9 @@ export const show_loaded_img = async img_placeholder => {
 
 
 //> show transparency background checkerboard
-export const hide_img_placeholder = img_placeholder => {
+export const hide_background_placeholder = background_placeholder => {
     try {
-        x.add_cls(img_placeholder, 'none');
+        x.add_cls(background_placeholder, 'none');
 
     } catch (er) {
         err(er, 115);
@@ -243,25 +243,25 @@ export const hide_img_placeholder = img_placeholder => {
 };
 //< show transparency background checkerboard
 
-export const change_img_to_img_error = action(img_obj => {
-    img_obj.img = 'img_error.png'; // eslint-disable-line no-param-reassign
+export const change_background_to_background_error = action(background_obj => {
+    background_obj.background = 'background_error.png'; // eslint-disable-line no-param-reassign
 });
 
 export const hide_loading_screen = action(() => {
     try {
         ob.show_loading_screen = false;
-        mut.img_inner_w_2_mounts_with_img_placeholder_hidden = false;
+        mut.background_inner_w_2_mounts_with_background_placeholder_hidden = false;
 
     } catch (er) {
         err(er, 116);
     }
 }); //> hide loading_screen when images loaded on options page load
 
-export const load_theme_img_when_clicking_on_load_theme_img_btn = () => {
+export const load_theme_background_when_clicking_on_load_theme_background_btn = () => {
     try {
-        analytics.send_btns_event('upload', 'load_theme_img');
+        analytics.send_btns_event('upload', 'load_theme_background');
 
-        x.send_message_to_background_c({ message: 'get_theme_img', reinstall_even_if_theme_img_already_exist: true });
+        x.send_message_to_background_c({ message: 'get_theme_background', reinstall_even_if_theme_background_already_exist: true });
 
     } catch (er) {
         err(er, 273);
@@ -269,8 +269,8 @@ export const load_theme_img_when_clicking_on_load_theme_img_btn = () => {
 };
 
 export const mut = {
-    imgs_loaded: 0,
-    img_inner_w_2_mounts_with_img_placeholder_hidden: true,
+    backgrounds_loaded: 0,
+    background_inner_w_2_mounts_with_background_placeholder_hidden: true,
 };
 
 export const ob = observable({

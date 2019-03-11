@@ -5,11 +5,11 @@ import x from 'x';
 import { db } from 'js/init_db';
 import * as analytics from 'js/analytics';
 import { inputs_data } from 'options/inputs_data';
-import * as img_loading from 'options/img_loading';
-import * as img_selection from 'options/img_selection';
+import * as background_loading from 'options/background_loading';
+import * as background_selection from 'options/background_selection';
 import * as inputs_hiding from 'options/inputs_hiding';
-import * as get_new_future_img from 'js/get_new_future_img';
-import * as img_i from 'options/img_i';
+import * as get_new_future_background from 'js/get_new_future_background';
+import * as background_i from 'options/background_i';
 
 configure({ enforceActions: 'observed' });
 
@@ -18,7 +18,7 @@ export const load_settings = async callback => {
         const ed_all = await eda();
 
         load_settings_inner('upload', ed_all);
-        load_settings_inner('img_settings', ed_all);
+        load_settings_inner('background_settings', ed_all);
         load_settings_inner('other_settings', ed_all);
 
         if (callback) {
@@ -40,7 +40,7 @@ export const load_settings_inner = (family, settings) => {
                 if (key_exist) {
                     const val_final = await r.cond([
                         [r.equals('video_volume'), async () => (val === 'global' ? ed('video_volume') : val)],
-                        [r.equals('current_img'), () => val + 1],
+                        [r.equals('current_background'), () => val + 1],
                         [r.T, () => val],
                     ])(name);
 
@@ -63,7 +63,7 @@ export const change_settings = async (input_type, family, name, val) => {
     try {
         const global_and_specefic_storages = ['size', 'position', 'repeat', 'color', 'video_volume'];
         const storage_type = global_and_specefic_storages.indexOf(name) > -1 ? mut.storage_type : 'ed';
-        const storage_id = storage_type === 'ed' ? 1 : img_selection.mut.selected_img_id;
+        const storage_id = storage_type === 'ed' ? 1 : background_selection.mut.selected_background_id;
         const settings_obj = await db[storage_type].get(storage_id);
         const old_val = settings_obj[name];
         let new_val;
@@ -76,7 +76,7 @@ export const change_settings = async (input_type, family, name, val) => {
         }
 
         if (input_type === 'select' && val === 'theme') {
-            select_theme_img_when_selecting_theme_mode();
+            select_theme_background_when_selecting_theme_mode();
         }
 
         await db[storage_type].update(storage_id, { [name]: new_val });
@@ -87,29 +87,29 @@ export const change_settings = async (input_type, family, name, val) => {
 
         inputs_hiding.decide_what_inputs_to_hide();
 
-        await x.send_message_to_background_c({ message: 'update_imgs_obj', id: storage_id, storage: name, val: new_val });
+        await x.send_message_to_background_c({ message: 'update_backgrounds_obj', id: storage_id, storage: name, val: new_val });
 
         if (name === 'mode' || name === 'change_interval') {
             await x.send_message_to_background({ message: 'reset_timer' });
         }
 
         if (input_type === 'select' && val === 'theme' && what_browser === 'chrome') {
-            await x.send_message_to_background_c({ message: 'get_theme_img', reinstall_even_if_theme_img_already_exist: false });
+            await x.send_message_to_background_c({ message: 'get_theme_background', reinstall_even_if_theme_background_already_exist: false });
         }
 
-        x.send_message_to_background({ message: 'preload_img' });
+        x.send_message_to_background({ message: 'preload_background' });
 
         if (input_type === 'color') {
             mut.current_color_pickier.el = null;
 
-            set_color_input_vizualization_color('img_settings', 'color', new_val);
+            set_color_input_vizualization_color('background_settings', 'color', new_val);
         }
 
-        if (storage_type === 'imgsd') {
+        if (storage_type === 'backgroundsd') {
             set_global_checkbox_val(name);
         }
 
-        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
+        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_background' }]);
 
     } catch (er) {
         err(er, 149);
@@ -119,24 +119,24 @@ export const change_settings = async (input_type, family, name, val) => {
 export const change_settings_slider = x.debounce(change_settings, 200);
 
 //> color input
-export const change_settings_color = r.curry(change_settings)('color', 'img_settings');
+export const change_settings_color = r.curry(change_settings)('color', 'background_settings');
 
 export const change_global_checkbox_setting = async name => {
     try {
         const ed_all = await eda();
-        const new_val = inputs_data.obj.img_settings[name].global_checkbox_val ? ed_all[name] : 'global';
+        const new_val = inputs_data.obj.background_settings[name].global_checkbox_val ? ed_all[name] : 'global';
 
-        await db.imgsd.update(img_selection.mut.selected_img_id, { [name]: new_val });
-        await x.send_message_to_background_c({ message: 'update_imgs_obj', id: img_selection.mut.selected_img_id, storage: name, val: new_val });
-        await x.send_message_to_background_c({ message: 'preload_img' });
+        await db.backgroundsd.update(background_selection.mut.selected_background_id, { [name]: new_val });
+        await x.send_message_to_background_c({ message: 'update_backgrounds_obj', id: background_selection.mut.selected_background_id, storage: name, val: new_val });
+        await x.send_message_to_background_c({ message: 'preload_background' });
         set_global_checkbox_val(name);
 
         if (new_val === 'global') {
-            set_color_input_vizualization_color('img_settings', [name], ed_all[name]);
-            change_input_val('img_settings', name, ed_all[name]);
+            set_color_input_vizualization_color('background_settings', [name], ed_all[name]);
+            change_input_val('background_settings', name, ed_all[name]);
         }
 
-        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
+        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_background' }]);
 
     } catch (er) {
         err(er, 150);
@@ -266,8 +266,8 @@ export const cancel_color_picking = () => {
 
 export const determine_and_run_accept_color_f = (family, name, vizualization_color) => {
     try {
-        if (family !== 'img_settings') {
-            img_loading.create_solid_color_img(vizualization_color);
+        if (family !== 'background_settings') {
+            background_loading.create_solid_color_img(vizualization_color);
 
         } else {
             change_settings_color(name, vizualization_color);
@@ -281,32 +281,32 @@ export const determine_and_run_accept_color_f = (family, name, vizualization_col
 };
 //< color input
 
-//> current_img input
-export const change_current_img_by_typing_into_currrent_img_input = async e => {
+//> current_background input
+export const change_current_background_by_typing_into_currrent_background_input = async e => {
     try {
         const actual_value = +e.target.value;
 
         if (!Number.isNaN(actual_value)) {
-            const number_of_imgs = await db.imgsd.count();
-            mut.corrected_current_img_input_val = actual_value;
-            let value_to_insert_into_db = mut.corrected_current_img_input_val - 1;
+            const number_of_backgrounds = await db.backgroundsd.count();
+            mut.corrected_current_background_input_val = actual_value;
+            let value_to_insert_into_db = mut.corrected_current_background_input_val - 1;
 
-            if (mut.corrected_current_img_input_val <= 0) {
-                mut.corrected_current_img_input_val = 1;
+            if (mut.corrected_current_background_input_val <= 0) {
+                mut.corrected_current_background_input_val = 1;
                 value_to_insert_into_db = 0;
 
-            } else if (mut.corrected_current_img_input_val > number_of_imgs) {
-                if (number_of_imgs !== 0) {
-                    mut.corrected_current_img_input_val = number_of_imgs;
+            } else if (mut.corrected_current_background_input_val > number_of_backgrounds) {
+                if (number_of_backgrounds !== 0) {
+                    mut.corrected_current_background_input_val = number_of_backgrounds;
 
                 } else {
-                    mut.corrected_current_img_input_val = 1;
+                    mut.corrected_current_background_input_val = 1;
                 }
 
-                value_to_insert_into_db = mut.corrected_current_img_input_val - 1;
+                value_to_insert_into_db = mut.corrected_current_background_input_val - 1;
             }
 
-            change_current_img_insert_in_db(actual_value, value_to_insert_into_db);
+            change_current_background_insert_in_db(actual_value, value_to_insert_into_db);
         }
 
     } catch (er) {
@@ -314,22 +314,22 @@ export const change_current_img_by_typing_into_currrent_img_input = async e => {
     }
 };
 
-export const change_current_img_by_clicking_on_select_img_btn = () => {
+export const change_current_background_by_clicking_on_select_background_btn = () => {
     try {
-        analytics.send_btns_event('img_settings', 'current_img');
+        analytics.send_btns_event('background_settings', 'current_background');
 
-        const any_img_selected = s('.selected_img');
+        const any_background_selected = s('.selected_background');
 
-        if (any_img_selected) {
-            const selected_img_i = img_i.get_img_i_by_id(img_selection.mut.selected_img_id) + img_i.determine_img_i_modificator();
-            const visible_value = selected_img_i + 1;
-            const value_to_insert_into_db = selected_img_i;
-            change_current_img_insert_in_db(visible_value, value_to_insert_into_db);
+        if (any_background_selected) {
+            const selected_background_i = background_i.get_background_i_by_id(background_selection.mut.selected_background_id) + background_i.determine_background_i_modificator();
+            const visible_value = selected_background_i + 1;
+            const value_to_insert_into_db = selected_background_i;
+            change_current_background_insert_in_db(visible_value, value_to_insert_into_db);
 
         } else {
-            analytics.send_alerts_event('select_img');
+            analytics.send_alerts_event('select_background');
 
-            window.alert(x.msg('select_img_alert'));
+            window.alert(x.msg('select_background_alert'));
         }
 
     } catch (er) {
@@ -337,14 +337,14 @@ export const change_current_img_by_clicking_on_select_img_btn = () => {
     }
 };
 
-export const change_current_img_insert_in_db = async (visible_value, value_to_insert_into_db) => {
+export const change_current_background_insert_in_db = async (visible_value, value_to_insert_into_db) => {
     try {
         x.send_message_to_background({ message: 'reset_timer' });
-        change_current_img_input_val(visible_value);
-        await db.ed.update(1, { current_img: value_to_insert_into_db, future_img: value_to_insert_into_db + 1 });
-        await get_new_future_img.get_new_future_img(value_to_insert_into_db + 1);
-        await x.send_message_to_background_c({ message: 'preload_img' });
-        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_img' }]);
+        change_current_background_input_val(visible_value);
+        await db.ed.update(1, { current_background: value_to_insert_into_db, future_background: value_to_insert_into_db + 1 });
+        await get_new_future_background.get_new_future_background(value_to_insert_into_db + 1);
+        await x.send_message_to_background_c({ message: 'preload_background' });
+        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_background' }]);
 
     } catch (er) {
         err(er, 156);
@@ -352,12 +352,12 @@ export const change_current_img_insert_in_db = async (visible_value, value_to_in
 };
 
 //>1 correct current image input value when defocusing correct image input
-export const correct_current_img_input_val = () => {
+export const correct_current_background_input_val = () => {
     try {
-        if (mut.corrected_current_img_input_val) {
-            change_current_img_input_val(mut.corrected_current_img_input_val);
+        if (mut.corrected_current_background_input_val) {
+            change_current_background_input_val(mut.corrected_current_background_input_val);
 
-            mut.corrected_current_img_input_val = null;
+            mut.corrected_current_background_input_val = null;
         }
 
     } catch (er) {
@@ -365,7 +365,7 @@ export const correct_current_img_input_val = () => {
     }
 };
 //<1 correct current image input value when defocusing correct image input
-//< current_img input
+//< current_background input
 
 export const restore_defaults = async () => {
     try {
@@ -382,12 +382,12 @@ export const restore_defaults = async () => {
             const background = await x.get_background();
 
             await background.set_default_settings('options');
-            img_selection.deselect_selected_img(true);
+            background_selection.deselect_selected_background(true);
             switch_to_settings_type(null, null, true);
             inputs_hiding.decide_what_inputs_to_hide();
-            await select_theme_img_when_selecting_theme_mode();
-            await x.send_message_to_background_c({ message: 'get_theme_img', reinstall_even_if_theme_img_already_exist: false });
-            x.send_message_to_background({ message: 'preload_img' });
+            await select_theme_background_when_selecting_theme_mode();
+            await x.send_message_to_background_c({ message: 'get_theme_background', reinstall_even_if_theme_background_already_exist: false });
+            x.send_message_to_background({ message: 'preload_background' });
 
         } else {
             analytics.send_confirms_canceled_event(name);
@@ -407,9 +407,9 @@ export const change_input_val = action((family, name, val) => {
     }
 });
 
-export const change_current_img_input_val = action(val => {
+export const change_current_background_input_val = action(val => {
     try {
-        inputs_data.obj.img_settings.current_img.val = val;
+        inputs_data.obj.background_settings.current_background.val = val;
 
     } catch (er) {
         err(er, 160);
@@ -436,15 +436,15 @@ export const show_or_hide_global_options = action(bool => {
 
 export const set_global_checkbox_val = async name => {
     try {
-        const settings_obj = await db.imgsd.get(img_selection.mut.selected_img_id);
+        const settings_obj = await db.backgroundsd.get(background_selection.mut.selected_background_id);
 
         runInAction(() => {
             try {
                 if (settings_obj[name] === 'global') {
-                    inputs_data.obj.img_settings[name].global_checkbox_val = true;
+                    inputs_data.obj.background_settings[name].global_checkbox_val = true;
 
                 } else {
-                    inputs_data.obj.img_settings[name].global_checkbox_val = false;
+                    inputs_data.obj.background_settings[name].global_checkbox_val = false;
                 }
 
             } catch (er) {
@@ -464,16 +464,16 @@ export const switch_to_settings_type = async (name, val, force_inputs_reset) => 
             mut.storage_type = 'ed';
 
             load_settings();
-            set_color_input_vizualization_color('img_settings', 'color', ed_all.color);
-            img_selection.deselect_selected_img(true);
+            set_color_input_vizualization_color('background_settings', 'color', ed_all.color);
+            background_selection.deselect_selected_background(true);
             show_or_hide_global_options(false);
             inputs_hiding.decide_what_inputs_to_hide();
         }
 
         if (name === 'settings_type' && val === 'specific') {
-            analytics.send_alerts_event('change_img_settings');
+            analytics.send_alerts_event('change_background_settings');
 
-            window.alert(x.msg('change_img_settings_alert'));
+            window.alert(x.msg('change_background_settings_alert'));
         }
 
     } catch (er) {
@@ -481,13 +481,13 @@ export const switch_to_settings_type = async (name, val, force_inputs_reset) => 
     }
 };
 
-export const select_theme_img_when_selecting_theme_mode = async () => {
+export const select_theme_background_when_selecting_theme_mode = async () => {
     try {
-        const new_current_img = await x.send_message_to_background_c({ message: 'get_new_current_img_when_choosing_theme_mode' });
+        const new_current_background = await x.send_message_to_background_c({ message: 'get_new_current_background_when_choosing_theme_mode' });
 
-        await db.ed.update(1, { current_img: new_current_img });
-        change_current_img_input_val(new_current_img + 1);
-        await get_new_future_img.get_new_future_img(new_current_img + 1);
+        await db.ed.update(1, { current_background: new_current_background });
+        change_current_background_input_val(new_current_background + 1);
+        await get_new_future_background.get_new_future_background(new_current_background + 1);
 
     } catch (er) {
         err(er, 209);
@@ -496,7 +496,7 @@ export const select_theme_img_when_selecting_theme_mode = async () => {
 
 export const mut = {
     storage_type: 'ed',
-    corrected_current_img_input_val: null,
+    corrected_current_background_input_val: null,
     current_color_pickier: {
         el: null,
         name: '',
