@@ -10,40 +10,19 @@ export const init_db = () => {
 
         db.version(1).stores({
             ed: 'id',
-            backgrounds: 'id, position_id',
+            imgs: 'id, position_id',
         });
 
-        db.version(2).stores({
+        db.version(2).stores({ // old users still keep empty imgs table, need to delete it later
             ed: 'id',
             backgrounds: 'id',
             backgroundsd: 'id, position_id',
         }).upgrade(async tx => {
-            const backgrounds = await tx.backgrounds.toArray();
-            await db.backgroundsd.bulkAdd(backgrounds);
-
-            tx.backgrounds.toCollection().modify(background => {
-                delete background.color;
-                delete background.position;
-                delete background.position_id;
-                delete background.repeat;
-                delete background.size;
-                delete background.theme_id;
-                delete background.type;
-            });
-
-            tx.backgroundsd.toCollection().modify(background => {
-                const background_is_color = background.type === 'color' || background.type === 'theme_color';
-
-                if (!background_is_color) {
-                    background.position = con.positions_dict[background.position];
-                    background.video_volume = 'global';
-                }
-
-                background.type = con.types[background.type];
-                delete background.background;
-            });
-
             tx.ed.toCollection().modify(ed => {
+                ed.current_background = ed.current_img;
+                ed.future_background = ed.future_img;
+                ed.keep_old_themes_backgrounds = ed.keep_old_themes_imgs;
+                ed.last_background_change_time = ed.last_img_change_time;
                 ed.show_bookmarks_bar = false;
                 ed.enable_paste = false;
                 ed.allow_downloading_imgs_by_link = false;
@@ -56,7 +35,44 @@ export const init_db = () => {
                 ed.position = con.positions_dict[ed.position];
                 ed.allow_analytics = false;
                 ed.answered_to_analytics_privacy_question = false;
+                delete ed.current_img;
+                delete ed.future_img;
+                delete ed.keep_old_themes_imgs;
+                delete ed.last_img_change_time;
+                delete ed.use_theme_img;
             });
+
+            const imgs = await tx.imgs.toArray();
+            await db.backgroundsd.bulkAdd(imgs);
+
+            await tx.imgs.toCollection().modify(img => {
+                img.background = img.img;
+                delete img.img;
+                delete img.color;
+                delete img.position;
+                delete img.position_id;
+                delete img.repeat;
+                delete img.size;
+                delete img.theme_id;
+                delete img.type;
+            });
+
+            const imgs_updated = await tx.imgs.toArray();
+            await db.backgrounds.bulkAdd(imgs_updated);
+
+            tx.backgroundsd.toCollection().modify(background => {
+                const background_is_color = background.type === 'color' || background.type === 'theme_color';
+
+                if (!background_is_color) {
+                    background.position = con.positions_dict[background.position];
+                    background.video_volume = 'global';
+                }
+
+                background.type = con.types[background.type];
+                delete background.img;
+            });
+
+            db.imgs.clear();
         });
 
     } catch (er) {
