@@ -11,7 +11,7 @@ window.set_default_settings = async page => { // this function also called in op
             last_background_change_time: 0,
             keep_old_themes_backgrounds: false,
             set_last_uploaded: false,
-            change_interval: '3600000',
+            change_interval: '1',
             background_already_changed: true,
             mode: 'theme',
             current_random_color: generate_random_color.generate_random_color(),
