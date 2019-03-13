@@ -5,7 +5,6 @@ import x from 'x';
 import { db } from 'js/init_db';
 import * as analytics from 'js/analytics';
 import * as populate_storage_with_images_and_display_them from 'js/populate_storage_with_images_and_display_them';
-import * as convert_to_file_object from 'js/convert_to_file_object';
 import { inputs_data } from 'options/inputs_data';
 import * as settings from 'options/settings';
 import * as pagination from 'options/pagination';
@@ -39,8 +38,7 @@ export const get_pasted_image_or_image_url = async e => {
                     if (blob.type.indexOf('image') > -1) {
                         analytics.send_text_inputs_event(`pasted_link_to_img_and_downloaded_it_${blob.type}`, family, name);
 
-                        const file_object = convert_to_file_object.convert_to_file_object(blob);
-                        return file_object;
+                        return blob;
                     }
 
                     t('File given is not image.');

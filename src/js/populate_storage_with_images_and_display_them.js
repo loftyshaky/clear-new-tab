@@ -10,6 +10,7 @@ import * as get_new_future_background from 'js/get_new_future_background';
 import * as total_number_of_backgrounds from 'js/total_number_of_backgrounds';
 import * as generate_random_color from 'js/generate_random_color';
 import * as file_types from 'js/file_types';
+import * as convert_to_file_object from 'js/convert_to_file_object';
 
 configure({ enforceActions: 'observed' });
 
@@ -44,7 +45,7 @@ export const populate_storage_with_images = async (type, status, backgrounds, th
             if (!thumbnails[i] || thumbnails[i].thumbnail !== 'error') {
                 const background = {
                     id: x.unique_id(),
-                    background: item,
+                    background: typeof item === 'string' ? item : convert_to_file_object.convert_to_file_object(item),
                 };
 
                 return background;
