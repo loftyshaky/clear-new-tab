@@ -111,7 +111,12 @@ export const populate_storage_with_images = async (type, status, backgrounds, th
                     ui_state.exit_upload_mode('resolved_with_errors');
                 }
 
-                err(er_obj('Quota exceeded'), 275, 'quota_exceeded', false, false, true);
+                if (er.message.indexOf('QuotaExceededError') > -1) {
+                    err(er_obj('Quota exceeded'), 275, 'quota_exceeded', false, false, true);
+
+                } else {
+                    err(er, 281, null, false, false, true);
+                }
             }
 
         } else {
