@@ -35,7 +35,8 @@ const check_if_analytics_enabled = async callback => {
 
 const send_request = async (mode, page, category, action) => {
     try {
-        const message = `v=1&tid=UA-129081690-1&cid=${con.client_id}&aip=1&ds=extension&t=${mode === 'pageview' ? `pageview&dp=${page}` : `event&ec=${category}&ea=${action}`}`;
+        const tracking_id = 'UA-135029272-1';
+        const message = `v=1&tid=${tracking_id}&cid=${con.client_id}&aip=1&ds=extension&t=${mode === 'pageview' ? `pageview&dp=${page}` : `event&ec=${category}&ea=${action}`}`;
 
         await window.fetch('https://www.google-analytics.com/collect', {
             method: 'POST',
