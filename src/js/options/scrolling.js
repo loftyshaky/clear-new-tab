@@ -9,14 +9,14 @@ export const show_or_hide_backgrounds_fieldset_fillers = action(() => {
     try {
         const scroll_top = mut.backgrounds_fieldset.scrollTop;
         const scroll_height = mut.backgrounds_fieldset.scrollHeight - mut.backgrounds_fieldset.clientHeight;
-        const at_the_top_of_backgrounds_fieldset_scrolling_down = scroll_top !== 0 && prevent_scrolling.mut.delta_y > 0 && scroll_top <= 14;
+        const at_the_top_of_backgrounds_fieldset = scroll_top !== 0;
         const at_the_top_of_backgrounds_fieldset_scrolling_up = scroll_top <= 15 && prevent_scrolling.mut.delta_y < 0;
         const at_the_bottom_of_backgrounds_fieldset_scrolling_down = scroll_top >= scroll_height - 15 && prevent_scrolling.mut.delta_y > 0;
         const not_at_the_top_of_backgrounds_fieldset_scrolling_up = scroll_top <= scroll_height - 15 && prevent_scrolling.mut.delta_y < 0;
         const not_at_the_bottom = scroll_top <= scroll_height - 15;
         const no_scrollbar = scroll_top === 0;
 
-        if (at_the_top_of_backgrounds_fieldset_scrolling_down) {
+        if (at_the_top_of_backgrounds_fieldset) {
             ob.backgrounds_fieldset_filler_top_none_cls = '';
 
         } else if (at_the_top_of_backgrounds_fieldset_scrolling_up || no_scrollbar) {
