@@ -122,6 +122,10 @@ export const handle_files = async files => {
             try {
                 const is_allowed_media = file_types.con.exts[background.type];
 
+                if (!is_allowed_media) {
+                    err(er_obj('File given is not image or video'), 282, null, true);
+                }
+
                 return is_allowed_media;
 
             } catch (er) {
