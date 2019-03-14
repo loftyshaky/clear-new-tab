@@ -39,7 +39,7 @@ export const confirm_that_opened_tab_is_new_tab_page_and_that_it_is_not_in_previ
         }
 
     } catch (er) {
-        err(er, 40, null, true);
+        err(er, 40, null, true, false, false, true);
     }
 };
 

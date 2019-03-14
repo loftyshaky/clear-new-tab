@@ -5,7 +5,7 @@ import * as analytics from 'js/analytics';
 
 configure({ enforceActions: 'observed' });
 
-window.err = action((er_obj, er_code, er_msg_param, silent, persistent, exit) => {
+window.err = action((er_obj, er_code, er_msg_param, silent, persistent, exit, dont_send_error_event) => {
     if (!er_obj.silent && !silent) {
         const er_msg = x.msg(`${er_obj.msg || er_msg_param}_er`);
         const er_msg_final = er_msg ? ` ${er_msg}.` : '';
@@ -39,7 +39,9 @@ window.err = action((er_obj, er_code, er_msg_param, silent, persistent, exit) =>
         console.error(er_obj.stack || er_obj.message); // eslint-disable-line no-console
     }
 
-    analytics.send_event('error', er_code);
+    if (!dont_send_error_event) {
+        analytics.send_event('error', er_code);
+    }
 });
 
 window.t = msg => {
