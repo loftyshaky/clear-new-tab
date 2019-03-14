@@ -4,14 +4,14 @@ import { db } from 'js/init_db';
 import * as file_types from 'js/file_types';
 import * as contains_permission from 'js/contains_permission';
 import { inputs_data } from 'options/inputs_data';
-import * as background_loading from 'options/background_loading';
+import * as background_selection from 'options/background_selection';
 
 configure({ enforceActions: 'observed' });
 
 export const decide_what_inputs_to_hide = async () => {
     try {
         const ed_all = await eda();
-        const selected_background = await db.backgroundsd.get(background_loading.mut.selected_background_id || 1) || 'none';
+        const selected_background = await db.backgroundsd.get(background_selection.mut.selected_background_id || 1) || 'none';
 
         runInAction(() => {
             inputs_data.obj.upload.load_theme_background.visible = what_browser === 'chrome' && ed_all.mode === 'theme';
