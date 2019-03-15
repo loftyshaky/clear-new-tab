@@ -1,4 +1,5 @@
 import x from 'x';
+import 'js/ga';
 import * as contains_permission from 'js/contains_permission';
 
 export const send_pageview = async page => {
@@ -35,7 +36,7 @@ const check_if_analytics_enabled = async callback => {
 
 const send_request = async (mode, page, category, action) => {
     try {
-        const tracking_id = 'UA-135029272-1';
+        const tracking_id = 'UA-136297646-1';
         const message = `v=1&tid=${tracking_id}&cid=${con.client_id}&aip=1&ds=extension&t=${mode === 'pageview' ? `pageview&dp=${page}` : `event&ec=${category}&ea=${action}`}`;
 
         await window.fetch('https://www.google-analytics.com/collect', {
@@ -47,30 +48,6 @@ const send_request = async (mode, page, category, action) => {
         err(er, 243);
     }
 };
-
-const get_client_id = () => {
-    try {
-        let match = document.cookie.match('(?:^|;)\\s*_ga=([^;]*)');
-        const raw = (match) ? decodeURIComponent(match[1]) : null;
-
-        if (raw) {
-            match = raw.match(/(\d+\.\d+)$/);
-        }
-
-        const gacid = (match) ? match[1] : null;
-
-        if (gacid) {
-            return gacid;
-        }
-
-
-    } catch (er) {
-        err(er, 244);
-    }
-
-    return undefined;
-};
-
 
 export const send_app_version_event = () => {
     try {
@@ -208,5 +185,9 @@ export const send_permissions_event = (action, name) => {
 };
 
 const con = {
-    client_id: get_client_id(),
+    client_id: null,
 };
+
+ga(tracker => {
+    con.client_id = tracker.get('clientId');
+});

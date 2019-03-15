@@ -40,7 +40,7 @@
     "chrome_style": false,
     "open_in_tab": true
   },
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com; object-src 'self'",
   "applications": {
     "gecko": {
       "id": "clear-new-tab@loftyshaky",
