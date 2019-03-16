@@ -1,16 +1,19 @@
 import React from 'react';
 
+import x from 'x';
 import * as analytics from 'js/analytics';
 
 export const Theme_img_link = () => {
     //> open theme image when clicking on 'this'(install_help_theme_img_link) in install_help or theme_img_link
-    const open_theme_background = e => {
+    const open_theme_background = async e => {
         try {
             e.preventDefault();
 
             analytics.send_btns_event('upload', 'theme_img_link');
 
-            browser.runtime.getBackgroundPage(background => background.open_theme_background());
+            const background = await x.get_background();
+
+            background.open_theme_background();
 
         } catch (er) {
             err(er, 93);
