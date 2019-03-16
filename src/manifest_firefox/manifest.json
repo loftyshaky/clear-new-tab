@@ -17,6 +17,7 @@
     }
   },
   "permissions": [
+    "storage",
     "https://chrome.google.com/webstore/*",
     "https://clients2.google.com/*",
     "https://clients2.googleusercontent.com/*"
@@ -40,7 +41,7 @@
     "chrome_style": false,
     "open_in_tab": true
   },
-  "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "applications": {
     "gecko": {
       "id": "clear-new-tab@loftyshaky",

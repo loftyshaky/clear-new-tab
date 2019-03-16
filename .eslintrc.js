@@ -70,7 +70,6 @@ module.exports = {
     },
 
     globals: {
-        'ga': false,
         'window': false,
         'document': false,
         'Image': false,

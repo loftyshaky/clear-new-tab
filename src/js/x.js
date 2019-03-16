@@ -262,6 +262,28 @@ x.localize = base_element => {
 };
 //<1 localization
 
+x.set = obj => new Promise((resolve, reject) => {
+    browser.storage.sync.set(obj, () => {
+        if (browser.runtime.lastError) {
+            reject(browser.runtime.lastError);
+
+        } else {
+            resolve();
+        }
+    });
+});
+
+x.get = arr => new Promise((resolve, reject) => {
+    browser.storage.sync.get(arr, result_obj => {
+        if (browser.runtime.lastError) {
+            reject(browser.runtime.lastError);
+
+        } else {
+            resolve(result_obj);
+        }
+    });
+});
+
 x.send_message_to_background = message => { // to background.js ex: '{"message": "create_search_engine_form"}'
     browser.runtime.sendMessage(message, () => {
         if (browser.runtime.lastError) {

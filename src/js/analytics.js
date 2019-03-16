@@ -1,5 +1,4 @@
 import x from 'x';
-import 'js/ga';
 import * as contains_permission from 'js/contains_permission';
 
 export const send_pageview = async page => {
@@ -36,8 +35,15 @@ const check_if_analytics_enabled = async callback => {
 
 const send_request = async (mode, page, category, action) => {
     try {
-        const tracking_id = 'UA-136297646-1';
-        const message = `v=1&tid=${tracking_id}&cid=${con.client_id}&aip=1&ds=extension&t=${mode === 'pageview' ? `pageview&dp=${page}` : `event&ec=${category}&ea=${action}`}`;
+        const tracking_id = 'UA-136382243-1';
+        const client_id_try = await x.get(['client_id']);
+
+        if (!client_id_try.client_id) {
+            await x.set({ client_id: con.generated_client_id });
+        }
+
+        const client_id_obj = client_id_try && client_id_try.client_id ? client_id_try : { client_id: con.generated_client_id };
+        const message = `v=1&tid=${tracking_id}&cid=${client_id_obj.client_id}&aip=1&ds=extension&t=${mode === 'pageview' ? `pageview&dp=${page}` : `event&ec=${category}&ea=${action}`}`;
 
         await window.fetch('https://www.google-analytics.com/collect', {
             method: 'POST',
@@ -185,9 +191,5 @@ export const send_permissions_event = (action, name) => {
 };
 
 const con = {
-    client_id: null,
+    generated_client_id: `${Math.floor(Math.random() * (2147483647 - 1000000000 + 1)) + 1000000000}.${Math.floor(new Date().getTime() / 1000)}`, // eqwuavelent of php rand(1000000000, 2147483647) . '.' . time();
 };
-
-ga(tracker => {
-    con.client_id = tracker.get('clientId');
-});
