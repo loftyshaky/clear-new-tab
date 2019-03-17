@@ -777,6 +777,7 @@ input {
     overflow: hidden;
     margin-right: 8px;
     max-width: fit-content;
+    max-width: -moz-fit-content;
 }
 
 .background_info:not(:last-child) {
