@@ -25,7 +25,7 @@ export const load_backgrounds = async () => {
             const theme_id = installed_theme_id || get_first_encountered_theme_background_theme_id();
 
             if (theme_id) {
-                await theme_background.get_theme_background(theme_id, false);
+                await theme_background.get_theme_background(theme_id, false, null, true);
             }
         }
 

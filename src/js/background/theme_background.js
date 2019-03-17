@@ -12,7 +12,7 @@ import * as convert_to_file_object from 'js/convert_to_file_object';
 import * as backgrounds from 'background/backgrounds';
 
 //> download theme crx, unpack it, access theme data from theme crx manifest, download theme image
-export const get_theme_background = async (theme_id, reinstall_even_if_theme_background_already_exist, tab_id) => {
+export const get_theme_background = async (theme_id, reinstall_even_if_theme_background_already_exist, tab_id, first_call) => {
     const ed_all = await eda();
 
     if (ed_all.mode === 'theme') {
@@ -127,15 +127,17 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
                 new_current_background = await determine_theme_current_background.determine_theme_current_background(last_installed_theme_theme_id, backgrounds.mut.backgrounds);
             }
 
-            await db.ed.update(1, { current_background: new_current_background });
-            await get_new_future_background.get_new_future_background(new_current_background + 1);
-            await backgrounds.preload_current_and_future_background('reload');
+            if (!first_call || mut.uploading_theme_background) {
+                await db.ed.update(1, { current_background: new_current_background });
+                await get_new_future_background.get_new_future_background(new_current_background + 1);
+                await backgrounds.preload_current_and_future_background('reload');
 
-            x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'change_current_background_input_val' }]);
-            x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_background' }]);
-            x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'exit_upload_mode_and_deselect_background', status: 'resolved' }]);
+                x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'change_current_background_input_val' }]);
+                x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_background' }]);
+                x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'exit_upload_mode_and_deselect_background', status: 'resolved' }]);
 
-            mut.uploading_theme_background = false;
+                mut.uploading_theme_background = false;
+            }
 
             return 'success';
 
