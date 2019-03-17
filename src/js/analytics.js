@@ -35,7 +35,7 @@ const check_if_analytics_enabled = async callback => {
 
 const send_request = async (mode, page, category, action) => {
     try {
-        const tracking_id = 'UA-129081690-1';
+        const tracking_id = 'UA-136382243-1';
         const client_id_try = await x.get(['client_id']);
 
         if (!client_id_try.client_id) {
