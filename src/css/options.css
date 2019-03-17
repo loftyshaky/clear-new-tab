@@ -775,8 +775,8 @@ input {
     white-space: nowrap;
     display: block;
     overflow: hidden;
-    display: table;
     margin-right: 8px;
+    max-width: fit-content;
 }
 
 .background_info:not(:last-child) {
