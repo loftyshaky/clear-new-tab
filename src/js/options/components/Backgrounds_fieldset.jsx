@@ -65,6 +65,7 @@ export class Backgrounds_fieldset extends React.Component {
             x.bind(window, 'resize', this.resize_backgrounds_binded);
             x.bind(pagination_el, 'mousedown', pagination.send_click_to_pagination_btn);
             x.bind(pagination_el, 'keyup', enter_click.simulate_click_on_enter);
+            ref.backgrounds_fieldset.current.addEventListener('wheel', prevent_scrolling.prevent_scrolling, { passive: false });
 
         } catch (er) {
             err(er, 77);
@@ -110,7 +111,6 @@ export class Backgrounds_fieldset extends React.Component {
                     <div className={x.cls(['backgrounds_fieldset_filler', 'backgrounds_fieldset_filler_top', scrolling.ob.backgrounds_fieldset_filler_top_none_cls])} />
                     <fieldset
                         className="backgrounds_fieldset"
-                        onWheel={prevent_scrolling.prevent_scrolling.bind(ref.backgrounds_fieldset.current)}
                         onScroll={scrolling.show_or_hide_backgrounds_fieldset_fillers}
                         ref={ref.backgrounds_fieldset}
                     >
