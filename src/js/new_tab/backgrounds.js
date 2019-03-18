@@ -7,6 +7,7 @@ import * as file_types from 'js/file_types';
 import * as get_ms_left from 'js/get_ms_left';
 import * as last_background_change_time from 'js/last_background_change_time';
 import * as generate_random_color from 'js/generate_random_color';
+import * as keep_sending_message_before_response from 'js/keep_sending_message_before_response';
 
 import x from 'x';
 
@@ -51,7 +52,7 @@ const get_background = async (mode, ed_all, reload_background_even_if_it_didnt_c
 
             mut.loaded_background = await r.ifElse(
                 () => query_string.indexOf('preview') === -1,
-                async () => x.send_message_to_background_c({ message: 'get_background' }),
+                async () => keep_sending_message_before_response.keep_sending_message_before_response('get_background'),
 
                 async () => {
                     try {

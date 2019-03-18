@@ -1,5 +1,6 @@
 import x from 'x';
 import * as contains_permission from 'js/contains_permission';
+import * as keep_sending_message_before_response from 'js/keep_sending_message_before_response';
 
 export const send_pageview = async page => {
     try {
@@ -21,7 +22,9 @@ export const send_event = (category, action) => {
 
 const check_if_analytics_enabled = async callback => {
     try {
-        const analytics_permission_given = page !== 'background' ? await x.send_message_to_background_c({ message: 'check_if_analytics_enabled' }) : await contains_permission.contains_permission(xcon.analytics_permissions);
+        const analytics_permission_given = page !== 'background'
+            ? await keep_sending_message_before_response.keep_sending_message_before_response('check_if_analytics_enabled')
+            : await contains_permission.contains_permission(xcon.analytics_permissions);
         const allow_analytics = await ed('allow_analytics');
 
         if (analytics_permission_given && allow_analytics) {

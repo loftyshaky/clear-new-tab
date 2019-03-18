@@ -303,6 +303,17 @@ x.send_message_to_background_c = message => new Promise((resolve, reject) => { /
     });
 });
 
+x.send_message_to_background_c_no_reject = message => new Promise(resolve => { // c = callback
+    browser.runtime.sendMessage(message, response => {
+        if (browser.runtime.lastError) {
+            resolve(browser.runtime.lastError);
+
+        } else {
+            resolve(response);
+        }
+    });
+});
+
 x.send_message_to_tab = (id, message) => {
     browser.tabs.sendMessage(id, message, () => {
         if (browser.runtime.lastError) {
