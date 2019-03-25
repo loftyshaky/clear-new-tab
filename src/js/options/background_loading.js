@@ -79,7 +79,10 @@ export const get_pasted_image_or_image_url = async e => {
                     const test_img = new Image();
 
                     test_img.onload = () => {
-                        analytics.send_text_inputs_event(`pasted_link_to_img_${clipboard_text.split('.').pop()}`, family, name);
+                        const ext_match = clipboard_text.match(/\.([0-9a-z]+)(?:[?#]|$)/i);
+                        const ext = ext_match ? ext_match[1] : 'unknown_ext';
+
+                        analytics.send_text_inputs_event(`pasted_link_to_img_${ext}`, family, name);
 
                         resolve();
                     };
