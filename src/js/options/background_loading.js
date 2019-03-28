@@ -76,7 +76,7 @@ export const get_pasted_image_or_image_url = async e => {
         } else if (input_given_text) { // if link
             try {
                 await new Promise((resolve, reject) => {
-                    const test_img = new Image();
+                    const test_img = new window.Image();
 
                     test_img.onload = () => {
                         const ext_match = clipboard_text.match(/\.([0-9a-z]+)(?:[?#]|$)/i);

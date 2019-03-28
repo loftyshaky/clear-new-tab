@@ -74,7 +74,7 @@ const preload_background = async background_i => {
                     background_obj.background = URL.createObjectURL(background.background);
 
                 } else if (file_types.con.types[background_obj.type] === 'links') {
-                    new Image().src = background.background;
+                    new window.Image().src = background.background;
 
                     background_obj.background = background.background;
 

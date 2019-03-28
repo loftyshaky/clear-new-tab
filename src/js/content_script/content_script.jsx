@@ -14,7 +14,7 @@ import 'normalize.css';
 //> insert "Install theme" buttons
 (() => {
     try {
-        const observer = new MutationObserver((mutations => {
+        const observer = new window.MutationObserver((mutations => {
             try {
                 for (const mutation of mutations) {
                     for (const added_node of mutation.addedNodes) {

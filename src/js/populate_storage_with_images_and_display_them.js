@@ -189,7 +189,7 @@ const create_thumbnails_and_get_natural_width_and_height = async (backgrounds, t
             try {
                 await new Promise(async resolve => {
                     const is_img = type === 'link' ? true : file_types.con.exts[item.type] === 'img_file';
-                    const background = is_img ? new Image() : Video();
+                    const background = is_img ? new window.Image() : Video();
 
                     if (!is_img) {
                         background.addEventListener('loadedmetadata', () => {
@@ -229,7 +229,7 @@ const create_thumbnails_and_get_natural_width_and_height = async (backgrounds, t
                                         canvas.getContext('2d').drawImage(background, 0, 0, natural_width, natural_height);
                                         const base64_thumbnail = canvas.toDataURL();
 
-                                        const not_resized_thumbnail = new Image();
+                                        const not_resized_thumbnail = new window.Image();
 
                                         not_resized_thumbnail.onload = () => {
                                             try {
