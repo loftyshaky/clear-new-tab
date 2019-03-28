@@ -9,7 +9,7 @@ import { Tr } from 'js/components/Tr';
 export const Undo_btn = observer(() => {
     const undo_theme = () => {
         try {
-            installing_theme.undo_theme(installing_theme.mut.previous_installed_theme_theme_id);
+            installing_theme.undo_theme(installing_theme.mut.previously_installed_theme_theme_id);
 
         } catch (er) {
             err(er, 200);
@@ -27,7 +27,7 @@ export const Undo_btn = observer(() => {
         >
             <button
                 type="button"
-                className="btn undo_btn"
+                className="cntfelph btn undo_btn"
                 onClick={undo_theme}
             >
                 {x.msg('undo_btn_text')}

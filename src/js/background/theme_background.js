@@ -12,7 +12,7 @@ import * as convert_to_file_object from 'js/convert_to_file_object';
 import * as backgrounds from 'background/backgrounds';
 
 //> download theme crx, unpack it, access theme data from theme crx manifest, download theme image
-export const get_theme_background = async (theme_id, reinstall_even_if_theme_background_already_exist, tab_id, first_call) => {
+export const get_theme_background = async (theme_id, reinstall_even_if_theme_background_already_exist, tab_id, first_call, reload_call) => {
     const ed_all = await eda();
 
     if (ed_all.mode === 'theme') {
@@ -21,122 +21,95 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
             let new_current_background;
 
             if ((!ed_all.keep_old_themes_backgrounds && reinstall_even_if_theme_background_already_exist) || !installing_theme_background_already_exist) {
+                const { theme_beta_theme_id } = mut;
                 mut.uploading_theme_background = true;
 
                 analytics.send_event('theme_background', 'loaded');
 
                 x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'enter_upload_mode' }]);
 
-                const theme_package = await new jszip.external.Promise((resolve, reject) => {
-                    jszip_utils.getBinaryContent(`https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D${theme_id}%26uc&prodversion=32`, (er, theme_package_) => {
-                        if (er) {
-                            reject(er);
-                            err(er, 47, null, true);
+                const theme_package = await download_theme_crx(theme_id, ed_all, theme_beta_theme_id, reload_call, first_call);
 
-                        } else {
-                            resolve(theme_package_);
-                        }
-                    });
-                });
+                if (theme_package !== 'cancel_background_load') {
+                    set_get_theme_background_f_run_once_var_to_true();
 
-                const theme_package_data = await jszip.loadAsync(theme_package);
-                const manifest = await theme_package_data.file('manifest.json').async('string');
-                const manifest_obj = JSON.parse(manifest.trim()); // trim fixes bug with some themes. ex: https://chrome.google.com/webstore/detail/sexy-girl-chrome-theme-ar/pkibpgkliocdchedibhioiibdiddomac
-                const theme_obj = manifest_obj.theme;
-                const img_name = r.path(['images', 'theme_ntp_background'], theme_obj);
-                const position_prop = r.path(['properties', 'ntp_background_alignment'], theme_obj);
-                const repeat_prop = r.path(['properties', 'ntp_background_repeat'], theme_obj);
-                const size_prop = r.path(['clear_new_tab', 'size'], theme_obj);
-                const video_volume_prop = r.path(['clear_new_tab', 'video_volume'], theme_obj);
-                const position = con.positions.indexOf(position_prop) > -1 ? con.positions_dict[position_prop] : con.positions_dict.center;
-                const repeat = con.repeats.indexOf(repeat_prop) > -1 ? repeat_prop : 'no-repeat';
-                const size = con.sizes.indexOf(size_prop) > -1 ? size_prop : 'global';
-                const video_volume = video_volume_prop >= 0 && video_volume_prop <= 100 ? +video_volume_prop : 'global';
-                const color_rgb = r.path(['colors', 'ntp_background'], theme_obj);
-                const color = color_rgb ? `#${rgb_to_hex(color_rgb)}` : '#ffffff';
-                const theme_background_info = {
-                    position,
-                    repeat,
-                    color,
-                    size,
-                    video_volume,
-                };
+                    await record_theme_id(theme_id, theme_beta_theme_id, ed_all, reload_call, first_call);
 
-                const is_valid_img = img_name ? img_name_ => con.valid_file_types.some(ext => img_name_.includes(ext)) : null;
+                    mut.theme_beta_theme_id = null;
 
-                if (is_valid_img && !is_valid_img(img_name) && what_browser !== 'chrome') {
-                    throw 'Image is not valid image'; // eslint-disable-line no-throw-literal
+                    const theme_package_data = await jszip.loadAsync(theme_package);
+                    const manifest = await theme_package_data.file('manifest.json').async('string');
+                    const manifest_obj = JSON.parse(manifest.trim()); // trim fixes bug with some themes. ex: https://chrome.google.com/webstore/detail/sexy-girl-chrome-theme-ar/pkibpgkliocdchedibhioiibdiddomac
+                    const theme_obj = manifest_obj.theme;
+                    const img_name = r.path(['images', 'theme_ntp_background'], theme_obj);
+                    const position_prop = r.path(['properties', 'ntp_background_alignment'], theme_obj);
+                    const repeat_prop = r.path(['properties', 'ntp_background_repeat'], theme_obj);
+                    const size_prop = r.path(['clear_new_tab', 'size'], theme_obj);
+                    const video_volume_prop = r.path(['clear_new_tab', 'video_volume'], theme_obj);
+                    const position = con.positions.indexOf(position_prop) > -1 ? con.positions_dict[position_prop] : con.positions_dict.center;
+                    const repeat = con.repeats.indexOf(repeat_prop) > -1 ? repeat_prop : 'no-repeat';
+                    const size = con.sizes.indexOf(size_prop) > -1 ? size_prop : 'global';
+                    const video_volume = video_volume_prop >= 0 && video_volume_prop <= 100 ? +video_volume_prop : 'global';
+                    const color_rgb = r.path(['colors', 'ntp_background'], theme_obj);
+                    const color = color_rgb ? `#${rgb_to_hex(color_rgb)}` : '#ffffff';
+                    const theme_background_info = {
+                        position,
+                        repeat,
+                        color,
+                        size,
+                        video_volume,
+                    };
+
+                    const is_valid_img = img_name ? img_name_ => con.valid_file_types.some(ext => img_name_.includes(ext)) : null;
+
+                    if (is_valid_img && !is_valid_img(img_name) && what_browser !== 'chrome') {
+                        throw 'Image is not valid image'; // eslint-disable-line no-throw-literal
+                    }
+
+                    await delete_previous_themes_backgrounds();
+
+                    await r.ifElse(
+                        () => img_name,
+                        async () => extract_video(theme_id, theme_package_data, theme_background_info, img_name),
+
+                        async () => {
+                            try {
+                                await populate_storage_with_images_and_display_them.populate_storage_with_images('color', 'resolved', [color], theme_background_info, theme_id, true);
+
+                            } catch (er) {
+                                err(er, 46, null, true);
+                            }
+                        },
+                    )();
+
+                    await db.ed.update(1, { last_installed_theme_theme_id: theme_id });
+                    await backgrounds.retrieve_backgrounds();
+
+                    new_current_background = await determine_theme_current_background.determine_theme_current_background(theme_id, backgrounds.mut.backgrounds);
+
+                    x.iterate_all_tabs(x.send_message_to_tab, [{
+                        message: 'load_last_page',
+                    }]);
+
+                } else { // when undoing theme
+                    const last_installed_theme_theme_id = what_browser === 'chrome' ? await get_installed_theme_id() : theme_id;
+
+                    await db.ed.update(1, { last_installed_theme_theme_id });
+
+                    new_current_background = await determine_theme_current_background.determine_theme_current_background(last_installed_theme_theme_id, backgrounds.mut.backgrounds);
                 }
 
-                await delete_previous_themes_backgrounds();
+                if (!first_call || mut.uploading_theme_background) {
+                    await db.ed.update(1, { current_background: new_current_background });
+                    await get_new_future_background.get_new_future_background(new_current_background + 1);
+                    await backgrounds.preload_current_and_future_background('reload');
 
-                await r.ifElse(
-                    () => img_name,
+                    x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'change_current_background_input_val' }]);
+                    x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_background' }]);
+                    x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'exit_upload_mode_and_deselect_background', status: 'resolved' }]);
 
-                    async () => {
-                        try {
-                            let clear_new_tab_video = await theme_package_data.file('clear_new_tab_video.mp4');
-
-                            if (!clear_new_tab_video) {
-                                clear_new_tab_video = await theme_package_data.file('clear_new_tab_video.webm');
-                            }
-
-                            if (!clear_new_tab_video) {
-                                clear_new_tab_video = await theme_package_data.file('clear_new_tab_video.ogv');
-                            }
-
-                            const theme_background = await theme_package_data.file(img_name); // download theme image
-                            const theme_img_or_video = clear_new_tab_video || theme_background || await theme_package_data.file(img_name.charAt(0).toUpperCase() + img_name.slice(1)); // download theme image (convert first letter of image name to uppercase)
-                            const type = clear_new_tab_video ? `video/${get_file_extension(clear_new_tab_video.name)}` : `image/${get_file_extension(img_name)}`;
-                            const blob = await theme_img_or_video.async('blob');
-                            const file_object = convert_to_file_object.convert_to_file_object(blob, type);
-
-                            return await populate_storage_with_images_and_display_them.populate_storage_with_images('file', 'resolved', [file_object], theme_background_info, theme_id);
-
-                        } catch (er) {
-                            err(er, 45, null, true);
-                        }
-
-                        return undefined;
-                    },
-
-                    async () => {
-                        try {
-                            await populate_storage_with_images_and_display_them.populate_storage_with_images('color', 'resolved', [color], null, theme_id);
-
-                        } catch (er) {
-                            err(er, 46, null, true);
-                        }
-                    },
-                )();
-
-                await db.ed.update(1, { last_installed_theme_theme_id: theme_id });
-                await backgrounds.retrieve_backgrounds();
-
-                new_current_background = await determine_theme_current_background.determine_theme_current_background(theme_id, backgrounds.mut.backgrounds);
-
-                x.iterate_all_tabs(x.send_message_to_tab, [{
-                    message: 'load_last_page',
-                }]);
-
-            } else { // when undoing theme
-                const last_installed_theme_theme_id = what_browser === 'chrome' ? await get_installed_theme_id() : theme_id;
-
-                await db.ed.update(1, { last_installed_theme_theme_id });
-
-                new_current_background = await determine_theme_current_background.determine_theme_current_background(last_installed_theme_theme_id, backgrounds.mut.backgrounds);
-            }
-
-            if (!first_call || mut.uploading_theme_background) {
-                await db.ed.update(1, { current_background: new_current_background });
-                await get_new_future_background.get_new_future_background(new_current_background + 1);
-                await backgrounds.preload_current_and_future_background('reload');
-
-                x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'change_current_background_input_val' }]);
-                x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_background' }]);
-                x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'exit_upload_mode_and_deselect_background', status: 'resolved' }]);
-
-                mut.uploading_theme_background = false;
+                    mut.uploading_theme_background = false;
+                }
             }
 
             return 'success';
@@ -170,6 +143,106 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
     }
 
     return undefined;
+};
+
+const download_theme_crx = async (theme_id, ed_all, theme_beta_theme_id, reload_call, first_call) => {
+    let theme_package;
+    mut.call_type = 'cws';
+
+    try {
+        theme_package = await get_crx(`https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D${theme_id}%26uc&prodversion=32`, 'cws');
+
+    } catch (er) {
+        if (ed_all.get_theme_background_f_run_once || what_browser === 'firefox') {
+            err(er, 285, null, true);
+
+            try {
+                const call_type = 'theme_beta';
+                const past_theme_beta_theme_id = reload_call || first_call ? ed_all.last_installed_theme_beta_theme_id : ed_all.previously_installed_theme_beta_theme_id;
+                const theme_beta_theme_id_final = theme_beta_theme_id || past_theme_beta_theme_id;
+                const response = await window.fetch(`https://www.themebeta.com/chrome/theme/${theme_beta_theme_id_final}`);
+                const theme_page_text = await response.text();
+                const theme_page_doc = new window.DOMParser().parseFromString(theme_page_text, 'text/html');
+                const tmp_a = document.createElement('a');
+                tmp_a.href = sb(theme_page_doc, '.apply-theme').href;
+                const theme_beta_o_url = `https://www.themebeta.com${tmp_a.pathname}`;
+
+                theme_package = await get_crx(theme_beta_o_url, call_type);
+
+            } catch (er2) {
+                err(er2, 286, null, true);
+            }
+
+        } else {
+            set_get_theme_background_f_run_once_var_to_true();
+
+            return 'cancel_background_load';
+        }
+    }
+
+    return theme_package;
+};
+
+
+const get_crx = async (crx_url, call_type) => new jszip.external.Promise(async (resolve, reject) => {
+    jszip_utils.getBinaryContent(crx_url, (er, theme_package) => {
+        if (er) {
+            reject(er);
+            err(er, 47, null, true);
+
+        } else {
+            mut.call_type = call_type;
+
+            resolve(theme_package);
+        }
+    });
+});
+
+const record_theme_id = async (theme_id, theme_beta_theme_id, ed_all, reload_call, first_call) => {
+    if (mut.call_type === 'first') {
+        await db.ed.update(1, { last_installed_theme_beta_theme_id: theme_beta_theme_id });
+
+    } else if (mut.call_type === 'cws') {
+        await db.ed.update(1, { previously_installed_theme_beta_theme_id: ed_all.last_installed_theme_beta_theme_id });
+        await db.ed.update(1, { last_installed_theme_beta_theme_id: theme_id });
+
+    } else if (mut.call_type === 'theme_beta') {
+        if (!reload_call && !first_call) {
+            await db.ed.update(1, { previously_installed_theme_beta_theme_id: ed_all.last_installed_theme_beta_theme_id });
+            await db.ed.update(1, { last_installed_theme_beta_theme_id: theme_beta_theme_id || ed_all.previously_installed_theme_beta_theme_id });
+        }
+    }
+};
+
+const extract_video = async (theme_id, theme_package_data, theme_background_info, img_name) => {
+    try {
+        let clear_new_tab_video = await theme_package_data.file('clear_new_tab_video.mp4');
+
+        if (!clear_new_tab_video) {
+            clear_new_tab_video = await theme_package_data.file('clear_new_tab_video.webm');
+        }
+
+        if (!clear_new_tab_video) {
+            clear_new_tab_video = await theme_package_data.file('clear_new_tab_video.ogv');
+        }
+
+        const theme_background = await theme_package_data.file(img_name); // download theme image
+        const theme_img_or_video = clear_new_tab_video || theme_background || await theme_package_data.file(img_name.charAt(0).toUpperCase() + img_name.slice(1)); // download theme image (convert first letter of image name to uppercase)
+        const type = clear_new_tab_video ? `video/${get_file_extension(clear_new_tab_video.name)}` : `image/${get_file_extension(img_name)}`;
+        const blob = await theme_img_or_video.async('blob');
+        const file_object = convert_to_file_object.convert_to_file_object(blob, type);
+
+        return await populate_storage_with_images_and_display_them.populate_storage_with_images('file', 'resolved', [file_object], theme_background_info, theme_id, true);
+
+    } catch (er) {
+        err(er, 45, null, true);
+    }
+
+    return undefined;
+};
+
+const set_get_theme_background_f_run_once_var_to_true = () => {
+    db.ed.update(1, { get_theme_background_f_run_once: true });
 };
 //< download theme crx, unpack it, access theme data from theme crx manifest, download theme image
 
@@ -320,4 +393,6 @@ const con = {
 
 export const mut = {
     uploading_theme_background: false,
+    theme_beta_theme_id: null,
+    call_type: 'first',
 };

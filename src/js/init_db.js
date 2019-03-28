@@ -75,6 +75,16 @@ export const init_db = () => {
             db.imgs.clear();
         });
 
+        db.version(3).stores({ // old users still keep empty imgs table, need to delete it later
+            ed: 'id',
+        }).upgrade(async tx => {
+            tx.ed.toCollection().modify(ed => {
+                ed.get_theme_background_f_run_once = true;
+                ed.last_installed_theme_beta_theme_id = '';
+                ed.previously_installed_theme_beta_theme_id = '';
+            });
+        });
+
     } catch (er) {
         err(er, 171);
     }

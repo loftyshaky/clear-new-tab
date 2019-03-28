@@ -19,6 +19,7 @@
   "permissions": [
     "https://clients2.google.com/*",
     "https://clients2.googleusercontent.com/*",
+    "https://www.themebeta.com/*",
     "storage",
     "management"
   ],
@@ -41,5 +42,18 @@
     "chrome_style": false,
     "open_in_tab": true
   },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.themebeta.com/*"
+      ],
+      "js": [
+        "content_script.js"
+      ],
+      "css": [
+        "content_script.css"
+      ]
+    }
+  ],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

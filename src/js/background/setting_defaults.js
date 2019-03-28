@@ -27,11 +27,14 @@ window.set_default_settings = async page => { // this function also called in op
         };
 
         if (page === 'background') {
+            ext_data_o.get_theme_background_f_run_once = false;
             ext_data_o.show_install_help = true;
             ext_data_o.show_bookmarks_bar = false;
             ext_data_o.enable_paste = false;
             ext_data_o.allow_downloading_imgs_by_link = false;
             ext_data_o.last_installed_theme_theme_id = '';
+            ext_data_o.last_installed_theme_beta_theme_id = '';
+            ext_data_o.previously_installed_theme_beta_theme_id = '';
             ext_data_o.show_link_to_default_new_tab = false;
             ext_data_o.allow_analytics = false;
             ext_data_o.answered_to_analytics_privacy_question = false;

@@ -333,15 +333,17 @@ x.send_message_to_tab_c = (id, message) => new Promise((resolve, reject) => {
     });
 });
 
-x.iterate_all_tabs = (callback, callback_args) => {
+x.iterate_all_tabs = (callback, callback_args) => new Promise(resolve => {
     browser.windows.getAll({ populate: true, windowTypes: ['normal'] }, windows => {
         windows.forEach(window => {
             window.tabs.forEach(tab => {
                 callback(tab.id, ...callback_args);
             });
         });
+
+        resolve();
     });
-};
+});
 
 x.get_background = () => new Promise((resolve, reject) => {
     browser.runtime.getBackgroundPage(async background => {

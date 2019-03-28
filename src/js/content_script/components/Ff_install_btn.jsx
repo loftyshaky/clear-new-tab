@@ -19,9 +19,11 @@ export class Ff_install_btn extends React.Component {
         });
     }
 
-    install_theme = async () => {
+    install_theme = async e => {
         try {
-            const { theme_id } = this.props;
+            e.stopPropagation(e);
+
+            const { theme_id, theme_beta_theme_id } = this.props;
 
             runInAction(() => {
                 try {
@@ -32,7 +34,7 @@ export class Ff_install_btn extends React.Component {
                 }
             });
 
-            await installing_theme.install_theme(theme_id);
+            await installing_theme.install_theme(theme_id || theme_beta_theme_id);
 
             runInAction(() => {
                 try {
@@ -52,8 +54,9 @@ export class Ff_install_btn extends React.Component {
         return (
             <button
                 type="button"
-                className="btn ff_install_btn"
+                className="cntfelph btn ff_install_btn"
                 onMouseUp={this.install_theme}
+                onClick={e => e.stopPropagation(e)}
             >
                 {this.ob.ff_install_btn_text}
             </button>
