@@ -451,7 +451,7 @@
     "message": "https://bit.ly/rate-clear-new-tab"
   },
   "rate_link_href_firefox": {
-    "message": "https://bit.ly/rate-clear-new-tab-firefox"
+    "message": "https://bit.ly/clear-new-tab-firefox"
   },
   "rate_link_href_opera": {
     "message": ""

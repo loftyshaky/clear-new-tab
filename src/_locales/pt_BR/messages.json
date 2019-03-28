@@ -439,19 +439,19 @@
   },
 
   "clear_new_tab_for_link_href_chrome": {
-    "message": "https://bit.ly/clear-new-tab"
+    "message": "https://bit.ly/clear-new-tab-pt_BR"
   },
   "clear_new_tab_for_link_href_firefox": {
-    "message": "https://bit.ly/clear-new-tab-firefox"
+    "message": "http://bit.ly/clear-new-tab-firefox-pt_BR"
   },
   "clear_new_tab_for_link_href_opera": {
     "message": ""
   },
   "rate_link_href_chrome": {
-    "message": "https://bit.ly/rate-clear-new-tab"
+    "message": "https://bit.ly/rate-clear-new-tab-pt_BR"
   },
   "rate_link_href_firefox": {
-    "message": "https://bit.ly/rate-clear-new-tab-firefox"
+    "message": "https://bit.ly/clear-new-tab-firefox-pt_BR"
   },
   "rate_link_href_opera": {
     "message": ""
