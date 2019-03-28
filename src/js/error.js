@@ -36,7 +36,10 @@ window.err = action((er_obj, er_code, er_msg_param, silent, persistent, exit, do
         throw updated_er_obj;
 
     } else {
-        console.error(er_obj.stack || er_obj.message); // eslint-disable-line no-console
+        const er_code_and_msg = `Error code: ${er_code}\nMessage: ${er_obj.message}`;
+        const console_output = er_obj.stack ? `${er_obj.stack}\n${er_code_and_msg}` : er_code_and_msg;
+
+        console.error(console_output); // eslint-disable-line no-console
     }
 
     if (!dont_send_error_event) {
