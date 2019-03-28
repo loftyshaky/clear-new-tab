@@ -15,7 +15,7 @@ const download_theme = async (theme_id, show_undo_btn) => {
         show_or_hide_undo_btn(show_undo_btn ? install_succeed : false);
 
     } catch (er) {
-        err(er, 204);
+        err(er, 204, null, true);
     }
 };
 
@@ -34,7 +34,7 @@ export const install_theme = async theme_id => {
         await download_theme(theme_id, true);
 
     } catch (er) {
-        err(er, 205);
+        err(er, 205, null, true);
     }
 };
 
@@ -45,7 +45,7 @@ export const undo_theme = async theme_id => {
         await download_theme(theme_id, false);
 
     } catch (er) {
-        err(er, 206);
+        err(er, 206, null, true);
     }
 };
 
@@ -54,7 +54,7 @@ export const show_or_hide_undo_btn = action(bool => {
         ob.show_undo_btn = bool;
 
     } catch (er) {
-        err(er, 207);
+        err(er, 207, null, true);
     }
 });
 
