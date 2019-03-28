@@ -18,9 +18,10 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
     if (ed_all.mode === 'theme') {
         try {
             const installing_theme_background_already_exist = r.find(r.propEq('theme_id', theme_id), backgrounds.mut.backgrounds);
+            const any_theme_installed = what_browser === 'chrome' ? await get_installed_theme_id() : theme_id;
             let new_current_background;
 
-            if ((!ed_all.keep_old_themes_backgrounds && reinstall_even_if_theme_background_already_exist) || !installing_theme_background_already_exist) {
+            if ((any_theme_installed || !reload_call) && ((!ed_all.keep_old_themes_backgrounds && reinstall_even_if_theme_background_already_exist) || !installing_theme_background_already_exist)) {
                 const { theme_beta_theme_id } = mut;
                 mut.uploading_theme_background = true;
 
@@ -202,12 +203,12 @@ const record_theme_id = async (theme_id, theme_beta_theme_id, ed_all, reload_cal
     if (mut.call_type === 'first') {
         await db.ed.update(1, { last_installed_theme_beta_theme_id: theme_beta_theme_id });
 
-    } else if (mut.call_type === 'cws') {
-        await db.ed.update(1, { previously_installed_theme_beta_theme_id: ed_all.last_installed_theme_beta_theme_id });
-        await db.ed.update(1, { last_installed_theme_beta_theme_id: theme_id });
+    } else if (!reload_call && !first_call) {
+        if (mut.call_type === 'cws') {
+            await db.ed.update(1, { previously_installed_theme_beta_theme_id: ed_all.last_installed_theme_beta_theme_id });
+            await db.ed.update(1, { last_installed_theme_beta_theme_id: theme_id });
 
-    } else if (mut.call_type === 'theme_beta') {
-        if (!reload_call && !first_call) {
+        } else if (mut.call_type === 'theme_beta') {
             await db.ed.update(1, { previously_installed_theme_beta_theme_id: ed_all.last_installed_theme_beta_theme_id });
             await db.ed.update(1, { last_installed_theme_beta_theme_id: theme_beta_theme_id || ed_all.previously_installed_theme_beta_theme_id });
         }
