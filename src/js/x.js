@@ -148,7 +148,7 @@ x.move_a_item = (a, from, to) => {
 //> add event listener to one or multiple elements t
 x.bind = (els, event, f) => {
     if (els) {
-        if (Object.prototype.isPrototypeOf.call(NodeList.prototype, els)) { // NodeList.prototype.isPrototypeOf(els) * returns true if els is node list (querySelectorAll) not (querySelector)
+        if (Object.prototype.isPrototypeOf.call(window.NodeList.prototype, els)) { // window.NodeList.prototype.isPrototypeOf(els) * returns true if els is node list (querySelectorAll) not (querySelector)
             for (const el of els) {
                 el.addEventListener(event, f);
             }
@@ -163,7 +163,7 @@ x.bind = (els, event, f) => {
 //> add event listener with arguments to one or multiple elements t
 x.bind_a = (els, event, f, args) => {
     if (els) {
-        if (Object.prototype.isPrototypeOf.call(NodeList.prototype, els)) { // NodeList.prototype.isPrototypeOf(els) * returns true if els is node list (querySelectorAll) not (querySelector)
+        if (Object.prototype.isPrototypeOf.call(window.NodeList.prototype, els)) { // window.NodeList.prototype.isPrototypeOf(els) * returns true if els is node list (querySelectorAll) not (querySelector)
             for (const el of els) {
                 el.addEventListener(event, f.bind(...[el].concat(args)));
             }
