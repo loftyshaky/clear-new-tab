@@ -94,7 +94,7 @@ export const change_settings = async (input_type, family, name, val) => {
         }
 
         if (input_type === 'select' && val === 'theme' && what_browser === 'chrome') {
-            await x.send_message_to_background_c({ message: 'get_theme_background', reinstall_even_if_theme_background_already_exist: false });
+            await x.send_message_to_background_c({ message: 'get_theme_background', reinstall_even_if_theme_background_already_exist: false, reload_call: true });
         }
 
         x.send_message_to_background({ message: 'preload_background' });
@@ -386,7 +386,7 @@ export const restore_defaults = async () => {
             switch_to_settings_type(null, null, true);
             inputs_hiding.decide_what_inputs_to_hide();
             await select_theme_background_when_selecting_theme_mode();
-            await x.send_message_to_background_c({ message: 'get_theme_background', reinstall_even_if_theme_background_already_exist: false });
+            await x.send_message_to_background_c({ message: 'get_theme_background', reinstall_even_if_theme_background_already_exist: false, reload_call: true });
             x.send_message_to_background({ message: 'preload_background' });
 
         } else {

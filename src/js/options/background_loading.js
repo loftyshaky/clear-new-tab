@@ -266,7 +266,7 @@ export const load_theme_background_when_clicking_on_load_theme_background_btn = 
     try {
         analytics.send_btns_event('upload', 'load_theme_background');
 
-        x.send_message_to_background_c({ message: 'get_theme_background', reinstall_even_if_theme_background_already_exist: true });
+        x.send_message_to_background_c({ message: 'get_theme_background', reinstall_even_if_theme_background_already_exist: true, reload_call: true });
 
     } catch (er) {
         err(er, 273);

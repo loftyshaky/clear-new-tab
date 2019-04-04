@@ -20,7 +20,8 @@
     "storage",
     "https://chrome.google.com/webstore/*",
     "https://clients2.google.com/*",
-    "https://clients2.googleusercontent.com/*"
+    "https://clients2.googleusercontent.com/*",
+    "https://www.themebeta.com/*"
   ],
   "optional_permissions": [
     "bookmarks",
@@ -41,17 +42,11 @@
     "chrome_style": false,
     "open_in_tab": true
   },
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-  "applications": {
-    "gecko": {
-      "id": "clear-new-tab@loftyshaky",
-      "strict_min_version": "54.0"
-    }
-  },
   "content_scripts": [
     {
       "matches": [
-        "https://chrome.google.com/webstore/*"
+        "https://chrome.google.com/webstore/*",
+        "https://www.themebeta.com/*"
       ],
       "js": [
         "content_script.js"
@@ -60,5 +55,12 @@
         "content_script.css"
       ]
     }
-  ]
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "applications": {
+    "gecko": {
+      "id": "clear-new-tab@loftyshaky",
+      "strict_min_version": "54.0"
+    }
+  }
 }
