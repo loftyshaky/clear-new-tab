@@ -60,7 +60,7 @@ export class Install_help extends React.Component {
             const chrome_web_store_link = sb(this.install_help_w, '.chrome_web_store_link');
 
             x.bind(sb(this.install_help_w, '.hide_install_help_link'), 'click', this.hide_install_help);
-            x.bind(chrome_web_store_link, 'mousedown', analytics.send_links_event.bind(null, 'upload', 'chrome_web_store_link', null));
+            x.bind(chrome_web_store_link, 'mouseup', analytics.send_links_event.bind(null, 'upload', 'chrome_web_store_link', null));
             x.bind(chrome_web_store_link, 'focus', tab_focus.focus_first_el_in_analytics_privacy_dialog_caller);
 
         } catch (er) {
