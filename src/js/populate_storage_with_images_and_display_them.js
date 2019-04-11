@@ -19,7 +19,7 @@ const ui_state = page === 'options' ? require('options/ui_state') : null; // esl
 const backgrounds_module = page === 'background' ? require('background/backgrounds') : null; // eslint-disable-line global-require
 
 //> pack images and insert them in db
-export const populate_storage_with_images = async (type, status, backgrounds, theme_background_info, theme_id) => {
+export const populate_storage_with_images = async (type, status, backgrounds, theme_background_info, theme_id, is_theme) => {
     try {
         if (page === 'options') {
             mut.uploading_backgrounds = true;
@@ -67,7 +67,7 @@ export const populate_storage_with_images = async (type, status, backgrounds, th
                         thumbnail: thumbnails[i] ? thumbnails[i].thumbnail : null,
                         width: thumbnails[i] ? thumbnails[i].width : null,
                         height: thumbnails[i] ? thumbnails[i].height : null,
-                        type: generate_type(item.type || 'img_link', theme_background_info),
+                        type: generate_type(item.type || 'img_link', is_theme),
                         size: theme_background_info.size || 'global',
                         position: theme_background_info.position || 'global',
                         repeat: theme_background_info.repeat || 'global',
@@ -82,7 +82,7 @@ export const populate_storage_with_images = async (type, status, backgrounds, th
                         id: packed_backgrounds[i].id,
                         position_id: position_id + i,
                         theme_id,
-                        type: generate_type('color', theme_background_info),
+                        type: generate_type('color', is_theme),
                     };
 
                     return background;
@@ -173,10 +173,9 @@ export const populate_storage_with_images = async (type, status, backgrounds, th
 };
 //< pack images and insert them in db
 
-const generate_type = (ext_or_type, theme_background_info) => {
+const generate_type = (ext_or_type, is_theme) => {
     const type = file_types.con.exts[ext_or_type] || ext_or_type;
-    const is_theme_file = !r.isEmpty(theme_background_info);
-    const type_final = is_theme_file ? `${type}_theme` : type;
+    const type_final = is_theme ? `${type}_theme` : type;
 
     return type_final;
 };

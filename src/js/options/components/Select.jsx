@@ -7,6 +7,7 @@ import * as analytics from 'js/analytics';
 import { inputs_data } from 'options/inputs_data';
 import { selects_options } from 'options/selects_options';
 import * as settings from 'options/settings';
+import * as inapp from 'options/inapp';
 
 import { Tr } from 'js/components/Tr';
 import { Help } from 'options/components/Help';
@@ -29,18 +30,23 @@ export class Select extends React.Component {
     change_select_val = selected_option => {
         try {
             const { value } = selected_option;
+            const select_is_locked = 'default' in inputs_data.obj[this.family][this.name] && inapp.check_if_product_is_locked(value);
 
-            analytics.send_event('selects', `selected_option-${this.family}-${this.name}-${value}`);
+            if (!select_is_locked) {
+                analytics.send_event('selects', `selected_option-${this.family}-${this.name}-${value}`);
 
-            if (!selected_option.is_settings_type_select) {
-                settings.change_settings('select', this.family, this.name, value);
+                if (!selected_option.is_settings_type_select) {
+                    settings.change_settings('select', this.family, this.name, value);
 
-            } else if (selected_option.is_settings_type_select && value === 'global') {
-                settings.change_input_val(this.family, this.name, value);
+                } else if (selected_option.is_settings_type_select && value === 'global') {
+                    settings.change_input_val(this.family, this.name, value);
+                }
+
+                settings.switch_to_settings_type(this.name, value);
+
+            } else {
+                inapp.show_inapp_notice(value);
             }
-
-            settings.switch_to_settings_type(this.name, value);
-
 
         } catch (er) {
             err(er, 90);
@@ -89,6 +95,8 @@ export class Select extends React.Component {
                     />
                     <ReactSelect
                         value={selected_option}
+                        family={this.family}
+                        name={this.name}
                         options={options}
                         components={{ Option }}
                         classNamePrefix="select"
@@ -104,12 +112,14 @@ export class Select extends React.Component {
 }
 
 const Option = props => {
-    const { data: { global } } = props;
+    const { value } = props;
+    const { data: { global, license_key } } = props;
+    const select_is_locked = license_key && inapp.check_if_product_is_locked(value);
 
     return (
         <components.Option
             {...props}
-            className={global ? 'global_option' : null}
+            className={x.cls([global ? 'global_option' : null, select_is_locked ? 'locked_input' : null])}
         />
     );
 };

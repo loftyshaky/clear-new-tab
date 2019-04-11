@@ -5,6 +5,7 @@ import * as file_types from 'js/file_types';
 import * as contains_permission from 'js/contains_permission';
 import { inputs_data } from 'options/inputs_data';
 import * as background_selection from 'options/background_selection';
+import * as inapp from 'options/inapp';
 
 configure({ enforceActions: 'observed' });
 
@@ -19,7 +20,7 @@ export const decide_what_inputs_to_hide = async () => {
             inputs_data.obj.background_settings.slideshow.visible = !!(ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color');
             inputs_data.obj.background_settings.shuffle.visible = ed_all.mode === 'multiple';
             inputs_data.obj.background_settings.change_interval.visible = !!(ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color');
-            inputs_data.obj.background_settings.background_change_effect.visible = false; // !!((ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color') && ed_all.slideshow);
+            inputs_data.obj.background_settings.background_change_effect.visible = !!((ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color') && ed_all.slideshow);
             inputs_data.obj.background_settings.slide_direction.visible = !!((ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color') && ed_all.slideshow && ed_all.background_change_effect === 'slide');
             inputs_data.obj.background_settings.current_background.visible = !!(ed_all.mode === 'one' || ed_all.mode === 'multiple');
             inputs_data.obj.background_settings.set_last_uploaded.visible = !!(ed_all.mode === 'one' || ed_all.mode === 'multiple');
@@ -35,7 +36,20 @@ export const decide_what_inputs_to_hide = async () => {
             inputs_data.obj.upload.paste.adjacent_btn_is_visible = !!enable_paste_enabled;
         });
 
+        if (!mut.run_decide_what_inputs_to_hide_once) {
+            mut.run_decide_what_inputs_to_hide_once = true;
+
+            if (what_browser !== 'firefox') {
+                await inapp.update_products_ob();
+                inapp.refresh_purchases_state();
+            }
+        }
+
     } catch (er) {
         err(er, 270);
     }
+};
+
+const mut = {
+    run_decide_what_inputs_to_hide_once: false,
 };

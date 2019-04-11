@@ -13,6 +13,8 @@ import { Error_boundary } from 'js/components/Error_boundary';
 import { Analytics_privacy } from 'options/components/Analytics_privacy';
 import { Loading_screen } from 'options/components/Loading_screen';
 import { Left_fieldset } from 'options/components/Left_fieldset';
+import { Inapp_fieldset } from 'options/components/Inapp_fieldset';
+import { Inapp_notice } from 'options/components/Inapp_notice';
 import { Install_help } from 'options/components/Install_help';
 import { Theme_img_link } from 'options/components/Theme_img_link';
 import { Upload_box } from 'options/components/Upload_box';
@@ -85,6 +87,7 @@ export class All extends React.Component {
                             family="other_settings"
                             wrap_inputs
                         />
+                        {what_browser !== 'firefox' ? <Inapp_fieldset /> : null}
                         <Left_fieldset family="links">
                             <Link
                                 name="privacy_policy_link"
@@ -134,16 +137,21 @@ export class All extends React.Component {
                                 href="http"
                                 add_data_bshref_attr
                             />
-                            <Link
-                                name="donate_link"
-                                href="https://bit.ly/donate-loftyshaky"
-                                add_data_bshref_attr={false}
-                            />
+                            {what_browser === 'firefox'
+                                ? (
+                                    <Link
+                                        name="donate_link"
+                                        href="https://bit.ly/donate-loftyshaky"
+                                        add_data_bshref_attr={false}
+                                    />
+                                )
+                                : null}
                             <div className="app_version">{`v${x.get_app_version()}`}</div>
                         </Left_fieldset>
                     </div>
                     <Backgrounds_fieldset />
                     <Analytics_privacy />
+                    <Inapp_notice />
                 </div>
             </Error_boundary>
         );

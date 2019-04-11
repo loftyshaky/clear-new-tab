@@ -9,7 +9,7 @@ const Clean_webpack_plugin = require('clean-webpack-plugin');
 module.exports = {
     entry: {
         background: join(__dirname, 'src', 'js', 'background', 'background.js'),
-        content_script: join(__dirname, 'src', 'js', 'content_script', 'content_script.jsx'),
+        content_script: join(__dirname, 'src', 'js', 'content_script', 'content_script.js'),
         options: join(__dirname, 'src', 'js', 'options', 'options.js'),
         new_tab: join(__dirname, 'src', 'js', 'new_tab', 'new_tab.js'),
     },
@@ -97,6 +97,7 @@ module.exports = {
             new_tab: join(__dirname, 'src', 'js', 'new_tab'),
             content_script: join(__dirname, 'src', 'js', 'content_script'),
             background: join(__dirname, 'src', 'js', 'background'),
+            lib: join(__dirname, 'src', 'js', 'lib'),
             x$: join(__dirname, 'src', 'js', 'x.js'),
             vue$: join(__dirname, 'node_modules', 'vue', 'dist', 'vue.esm.js'),
             svg: join(__dirname, 'src', 'svg'),

@@ -1,7 +1,6 @@
 import { observable, action, configure } from 'mobx';
 
 import x from 'x';
-import * as analytics from 'js/analytics';
 
 configure({ enforceActions: 'observed' });
 
@@ -12,6 +11,8 @@ const download_theme = async (theme_id, show_undo_btn) => {
 
         const install_succeed = status === 'success';
 
+        await x.send_message_to_background_c({ message: 'hide_undo_btn' });
+
         show_or_hide_undo_btn(show_undo_btn ? install_succeed : false);
 
     } catch (er) {
@@ -21,17 +22,27 @@ const download_theme = async (theme_id, show_undo_btn) => {
 
 export const install_theme = async theme_id => {
     try {
-        analytics.send_event('cws', 'tried_to_install_theme');
+        x.send_message_to_background({ message: 'send_install_theme_event', install_src: con.install_src, action: 'tried_to_install_theme' });
 
-        const is_theme_install_screen = s('.e-f-n-Va');
+        if (con.install_src === 'cws') {
+            const is_theme_install_screen = s('.e-f-n-Va');
 
-        if (!is_theme_install_screen) {
-            mut.cancel_theme_screen_opening = true;
+            if (!is_theme_install_screen) {
+                mut.cancel_theme_screen_opening = true;
+            }
+
         }
 
-        mut.previous_installed_theme_theme_id = await x.send_message_to_background_c({ message: 'get_last_installed_theme_theme_id' });
+        mut.previously_installed_theme_theme_id = await x.send_message_to_background_c({ message: 'get_last_installed_theme_theme_id' });
 
-        await download_theme(theme_id, true);
+        if (con.install_src === 'cws') {
+            await download_theme(theme_id, true);
+
+        } else if (con.install_src === 'theme_beta') {
+            await x.send_message_to_background_c({ message: 'record_theme_beta_theme_id', theme_beta_theme_id: theme_id });
+
+            await download_theme(theme_id, true);
+        }
 
     } catch (er) {
         err(er, 205, null, true);
@@ -40,7 +51,13 @@ export const install_theme = async theme_id => {
 
 export const undo_theme = async theme_id => {
     try {
-        analytics.send_event('cws', 'tried_to_undo_theme');
+        x.send_message_to_background({ message: 'send_install_theme_event', install_src: con.install_src, action: 'tried_to_undo_theme' });
+
+        show_or_hide_undo_btn(false);
+
+        if (con.install_src === 'theme_beta') {
+            await x.send_message_to_background_c({ message: 'record_theme_beta_theme_id', theme_beta_theme_id: theme_id });
+        }
 
         await download_theme(theme_id, false);
 
@@ -58,9 +75,13 @@ export const show_or_hide_undo_btn = action(bool => {
     }
 });
 
+export const con = {
+    install_src: window.location.hostname === 'chrome.google.com' ? 'cws' : 'theme_beta',
+};
+
 export const mut = {
     cancel_theme_screen_opening: false,
-    previous_installed_theme_theme_id: null,
+    previously_installed_theme_theme_id: null,
 };
 
 export const ob = observable({

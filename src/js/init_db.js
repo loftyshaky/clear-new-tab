@@ -4,6 +4,16 @@ import Dexie from 'dexie';
 
 export let db; // eslint-disable-line import/no-mutable-exports
 
+export const products = { // when adding product in this array you need to also add: license_key to inputs_data.js or for selects select_options.js; default to inputs_data.js;
+    all: false,
+    theme_beta: false,
+    bookmarks_bar: false,
+    random_solid_color: false,
+    slideshow: false,
+    slide: false,
+    paste_btn: false,
+};
+
 export const init_db = () => {
     try {
         db = new Dexie('Clear New Tab');
@@ -73,6 +83,24 @@ export const init_db = () => {
             });
 
             db.imgs.clear();
+        });
+
+        db.version(3).stores({ // old users still keep empty imgs table, need to delete it later
+            ed: 'id',
+        }).upgrade(async tx => {
+            tx.ed.toCollection().modify(ed => {
+                ed.get_theme_background_f_run_once = true;
+                ed.last_installed_theme_beta_theme_id = '';
+                ed.previously_installed_theme_beta_theme_id = '';
+            });
+        });
+
+        db.version(4).stores({
+            ed: 'id',
+        }).upgrade(async tx => {
+            tx.ed.toCollection().modify(ed => {
+                ed.products = products;
+            });
         });
 
     } catch (er) {

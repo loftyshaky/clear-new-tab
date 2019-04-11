@@ -1,5 +1,6 @@
 import * as r from 'ramda';
 
+import x from 'x';
 import { db } from 'js/init_db';
 import * as contains_permission from 'js/contains_permission';
 import * as get_ms_left from 'js/get_ms_left';
@@ -10,6 +11,7 @@ import * as theme_background from 'background/theme_background';
 import * as multiple from 'background/multiple';
 import * as tabs from 'background/tabs';
 import * as file_types from 'js/file_types';
+import * as analytics from 'js/analytics';
 
 browser.runtime.onMessage.addListener((message, sender, send_response) => {
     try {
@@ -115,12 +117,17 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
 
         } else if (msg === 'get_theme_background') {
             theme_background.get_installed_theme_id()
-                .then(theme_id => theme_background.get_theme_background(theme_id, message.reinstall_even_if_theme_background_already_exist)).then(() => {
+                .then(theme_id => theme_background.get_theme_background(theme_id, message.reinstall_even_if_theme_background_already_exist, null, null, message.reload_call)).then(() => {
                     send_response();
 
                 }).catch(er => {
                     err(er, 21, null, true);
                 });
+
+        } else if (msg === 'record_theme_beta_theme_id') {
+            theme_background.mut.theme_beta_theme_id = message.theme_beta_theme_id;
+
+            send_response();
 
         } else if (msg === 'get_backgrounds_arr') {
             send_response(backgrounds.mut.backgrounds);
@@ -197,11 +204,22 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
             });
 
         } else if (msg === 'get_last_installed_theme_theme_id') { // when installing theme (firefox only)
-            ed('last_installed_theme_theme_id').then(last_installed_theme_theme_id => {
-                send_response(last_installed_theme_theme_id);
+            ed('last_installed_theme_beta_theme_id').then(last_installed_theme_beta_theme_id => {
+                send_response(last_installed_theme_beta_theme_id);
 
             }).catch(er => {
                 err(er, 26, null, true);
+            });
+
+        } else if (msg === 'send_install_theme_event') { // when installing theme (firefox only)
+            analytics.send_event(message.install_src, message.action);
+
+        } else if (msg === 'hide_undo_btn') { // hide undo button in all tabs
+            x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'hide_undo_btn' }]).then(() => {
+                send_response();
+
+            }).catch(er => {
+                err(er, 289, null, true);
             });
 
         } else if (msg === 'open_preview_background_tab') { // open image (new tab) by click on "Preview" button

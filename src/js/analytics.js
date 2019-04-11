@@ -193,6 +193,15 @@ export const send_permissions_event = (action, name) => {
     }
 };
 
+export const send_inapp_event = (action, product_id) => {
+    try {
+        send_event('inapp', `${action}-${product_id}`);
+
+    } catch (er) {
+        err(er, 303);
+    }
+};
+
 const con = {
     generated_client_id: `${Math.floor(Math.random() * (2147483647 - 1000000000 + 1)) + 1000000000}.${Math.floor(new Date().getTime() / 1000)}`, // eqwuavelent of php rand(1000000000, 2147483647) . '.' . time();
 };

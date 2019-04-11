@@ -1,3 +1,5 @@
+import 'lib/buy';
+
 import x from 'x';
 import 'js/error_init';
 import * as analytics from 'js/analytics';

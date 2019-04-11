@@ -6,7 +6,7 @@
 }
 /*< mature */
 
-.btn {
+.cntfelph.btn {
     border-radius: 2px;
     border: 1px solid #212121;
     background-color: #fbff75;
@@ -14,11 +14,11 @@
     cursor: pointer;
 }
 
-.btn:hover {
+.cntfelph.btn:hover {
     background-color: #77ff6f;
 }
 
-.btn:active {
+.cntfelph.btn:active {
     background-color: #f493ff;
 }
 
@@ -26,13 +26,17 @@
     margin-right: 56px;
 }
 
-.ff_install_btn {
+.cntfelph.ff_install_btn {
     float: right;
     margin-top: 7px;
     padding: 2px 8px 2px 8px;
 }
 
-.undo_btn_w_2, .undo_btn {
+.btn-apply + .cntfelph.ff_install_btn_w, .btn-apply + .ff_install_btn_w .cntfelph.ff_install_btn {
+    float: left;
+}
+
+.undo_btn_w_2, .cntfelph.undo_btn {
     position: fixed;
     top: 78px;
     right: 29px;
@@ -41,11 +45,11 @@
     font-size: 18px;
 }
 
-.btn, .undo_btn_w_2 {
+.cntfelph.btn, .undo_btn_w_2 {
     transition: all 0.2s ease-out!important;
 }
 
-.btn {
+.cntfelph.btn {
     transition-property: background-color, opacity!important;
 }
 
@@ -53,8 +57,8 @@
     transition-property: opacity!important;
 }
 
-.btn:active {
-    transition: none;
+.cntfelph.btn:active {
+    transition: none!important;
 }
 
 /*> mods */
