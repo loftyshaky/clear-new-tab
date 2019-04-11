@@ -25,13 +25,13 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
                 const { theme_beta_theme_id } = mut;
                 mut.uploading_theme_background = true;
 
-                analytics.send_event('theme_background', 'loaded');
-
                 x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'enter_upload_mode' }]);
 
                 const theme_package = await download_theme_crx(theme_id, ed_all, theme_beta_theme_id, reload_call, first_call);
 
-                if (theme_package !== 'cancel_background_load') {
+                if (theme_package !== 'cancel_background_load' && theme_package !== 'theme_beta_product_not_purcased') {
+                    analytics.send_event('theme_background', 'loaded');
+
                     set_get_theme_background_f_run_once_var_to_true();
 
                     await record_theme_id(theme_id, theme_beta_theme_id, ed_all, reload_call, first_call);
@@ -92,7 +92,9 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
                         message: 'load_last_page',
                     }]);
 
-                } else { // when undoing theme
+                } else if (theme_package === 'cancel_background_load') { // when undoing theme
+                    analytics.send_event('theme_background', 'loaded');
+
                     const last_installed_theme_theme_id = what_browser === 'chrome' ? await get_installed_theme_id() : theme_id;
 
                     await db.ed.update(1, { last_installed_theme_theme_id });
@@ -101,12 +103,15 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
                 }
 
                 if (!first_call || mut.uploading_theme_background) {
-                    await db.ed.update(1, { current_background: new_current_background });
-                    await get_new_future_background.get_new_future_background(new_current_background + 1);
-                    await backgrounds.preload_current_and_future_background('reload');
+                    if (ed_all.products.theme_beta || ed_all.products.all || what_browser === 'firefox') {
+                        await db.ed.update(1, { current_background: new_current_background });
+                        await get_new_future_background.get_new_future_background(new_current_background + 1);
+                        await backgrounds.preload_current_and_future_background('reload');
 
-                    x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'change_current_background_input_val' }]);
-                    x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_background' }]);
+                        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'change_current_background_input_val' }]);
+                        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_background' }]);
+                    }
+
                     x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'exit_upload_mode_and_deselect_background', status: 'resolved' }]);
 
                     mut.uploading_theme_background = false;
@@ -154,7 +159,9 @@ const download_theme_crx = async (theme_id, ed_all, theme_beta_theme_id, reload_
         theme_package = await get_crx(`https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D${theme_id}%26uc&prodversion=32`, 'cws');
 
     } catch (er) {
-        if (ed_all.get_theme_background_f_run_once || what_browser === 'firefox') {
+        const products = await ed('products');
+
+        if ((ed_all.get_theme_background_f_run_once && (products.theme_beta || products.all)) || what_browser === 'firefox') {
             err(er, 285, null, true);
 
             try {
@@ -177,7 +184,7 @@ const download_theme_crx = async (theme_id, ed_all, theme_beta_theme_id, reload_
         } else {
             set_get_theme_background_f_run_once_var_to_true();
 
-            return 'cancel_background_load';
+            return products.theme_beta || products.all ? 'cancel_background_load' : 'theme_beta_product_not_purcased';
         }
     }
 

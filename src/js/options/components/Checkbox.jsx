@@ -4,11 +4,13 @@ import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as r from 'ramda';
 
+import x from 'x';
 import * as enter_click from 'js/enter_click';
 import * as analytics from 'js/analytics';
 import { inputs_data } from 'options/inputs_data';
 import * as settings from 'options/settings';
 import * as permissions_file from 'options/permissions';
+import * as inapp from 'options/inapp';
 
 import { Tr } from 'js/components/Tr';
 
@@ -35,6 +37,7 @@ export const Checkbox = observer(props => {
 export const Global_checkbox = observer(props => {
     const { key, checkbox_type, is_global_checkbox, family, name, permissions } = props;
     const checkbox_id = is_global_checkbox ? `${name}_global` : name;
+    const checkbox_is_locked = inputs_data.obj[family][name].license_key && inapp.check_if_product_is_locked(inputs_data.obj[family][name].license_key);
 
     const on_change_f = r.cond([
         [r.equals('ed'), () => settings.change_settings.bind(null, 'checkbox', family, name, null)],
@@ -64,10 +67,10 @@ export const Global_checkbox = observer(props => {
                     checked={'global_checkbox_val' in inputs_data.obj[family][name] ? inputs_data.obj[family][name].global_checkbox_val : inputs_data.obj[family][name].val}
                     type="checkbox"
                     id={checkbox_id}
-                    onChange={on_change}
+                    onChange={checkbox_is_locked ? inapp.show_inapp_notice.bind(null, inputs_data.obj[family][name].license_key) : on_change}
                 />
                 <span
-                    className="checkbox_checkmark_w"
+                    className={x.cls(['checkbox_checkmark_w', checkbox_is_locked ? 'locked_input' : null])}
                     role="button"
                     tabIndex="0"
                     onKeyUp={enter_click.simulate_click_on_enter}

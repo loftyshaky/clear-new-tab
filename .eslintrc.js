@@ -72,6 +72,7 @@ module.exports = {
     globals: {
         window: false,
         document: false,
+        google: false,
         MutationObserver: false,
         xcon: false,
         ed: false,

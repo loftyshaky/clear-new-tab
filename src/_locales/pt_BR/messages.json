@@ -70,6 +70,9 @@
   "other_settings_legend_text": {
     "message": "Outras configurações"
   },
+  "inapp_legend_text": {
+    "message": "Paid features"
+  },
   "links_legend_text": {
     "message": "Links"
   },
@@ -406,6 +409,41 @@
   "move_background_text": {
     "message": "Mover"
   },
+
+  "products_purchasing_overview_fetching_products_text": {
+    "message": "Fetching paid features info..."
+  },
+  "products_purchasing_overview_can_buy_text": {
+    "message": "Here you can purchase Clear New Tab's paid features. Click on a row in the table below to buy one of them. Each feature's license is tied to your Google account (so make sure you are logged in in the account you usually use), lasts forever and will not be lost after Clear New Tab reinstallation. You can try out all the paid features for free in the <a class='link inapp_clear_new_tab_for_firefox_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/clear-new-tab-firefox'>Clear New Tab</a> for Firefox."
+  },
+  "products_purchasing_overview_everything_is_purchased_text": {
+    "message": "You purchased all the paid features."
+  },
+  "products_purchasing_overview_error_text": {
+    "message": "Unable to connet to the Chrome Web Store. Check your internet connection."
+  },
+
+  "products_table_feature_header_text": {
+    "message": "Feature"
+  },
+  "products_table_price_header_text": {
+    "message": "Price"
+  },
+  "products_table_purchased_text": {
+    "message": "Purchased"
+  },
+
+  "inapp_notice_text_text": {
+    "message": "This feature is paid."
+  },
+  "inapp_notice_learn_more_btn_text": {
+    "message": "Learn more"
+  },
+
+  "purchase_error_alert": {
+    "message": "An error occurred while processing your purchase."
+  },
+    
 
   "privacy_policy_link_text": {
     "message": "📜 Política de privacidade"

@@ -84,11 +84,11 @@ option {
 	color: #ff9090;
 }
 
-.link, .upload_box_browse_label {
+.link, .upload_box_browse_label, .inapp_notice_learn_more_btn {
     color: #fbff75;
 }
 
-.link:hover, .upload_box_browse_label:hover {
+.link:hover, .upload_box_browse_label:hover, .inapp_notice_learn_more_btn:hover {
     color: #77ff6f;
 }
 
@@ -102,6 +102,10 @@ option {
 
 .option:hover, .btn:hover, .loading_screen, .rc-slider-track, .rc-slider-handle {
     background-color: #fbff75;
+}
+
+.btn:active {
+    background-color: #f493ff;
 }
 
 input {
@@ -130,7 +134,7 @@ p {
     width: 100%;
 }
 
-.input:not(:first-child), hr, .app_version {
+.input:not(:first-child), hr, .app_version, .products_table {
     margin-top: 10px;
 }
 
@@ -154,7 +158,7 @@ p {
     height: 28px;
 }
 
-fieldset, .normal_input, .checkbox_checkmark_w, .btn, .background_w, .pagination, .using_mouse .btn:focus, .using_mouse .checkbox_checkmark_w:focus, .using_mouse .color_input_vizualization:focus, .checkbox_checkmark_w {
+fieldset, .normal_input, .checkbox_checkmark_w, .btn, .background_w, .pagination, .using_mouse .btn:focus, .using_mouse .checkbox_checkmark_w:focus, .using_mouse .color_input_vizualization:focus, .checkbox_checkmark_w, .products_table, .products_table_cell {
     border: 1px solid white;
 }
 
@@ -169,7 +173,7 @@ fieldset, .normal_input, .checkbox_checkmark_w, .btn, .background_w, .pagination
     border: 1px solid white;
 }
 
-.using_mouse .btn:focus, .using_mouse .checkbox_checkmark_w:focus, .using_mouse .color_input_vizualization:focus {
+.using_mouse .btn:focus, .using_mouse .checkbox_checkmark_w:focus, .using_mouse .color_input_vizualization:focus, .using_mouse {
     box-shadow: none;
 }
 
@@ -177,7 +181,7 @@ fieldset, .normal_input, .checkbox_checkmark_w, .btn, .background_w, .pagination
     background-color: transparent;
 }
 
-.help_link, .help_message, .app_version {
+.help_link, .help_message, .app_version, .products_table_row_description, .inapp_notice_learn_more_btn {
     font-size: 14px;
 }
 
@@ -189,7 +193,7 @@ fieldset, .normal_input, .checkbox_checkmark_w, .btn, .background_w, .pagination
     margin-top: 6px;
 }
 
-.help_link:focus, .link:focus, .upload_box_browse_label:focus {
+.help_link:focus, .link:focus, .upload_box_browse_label:focus, .inapp_notice_close_btn:focus, .inapp_notice_learn_more_btn:focus {
     outline: 1px solid #fbff75;
 }
 
@@ -201,7 +205,7 @@ fieldset, .normal_input, .checkbox_checkmark_w, .btn, .background_w, .pagination
     margin-left: 1px;
 }
 
-.help_message {
+.help_message, .products_table_row_description {
     margin-top: 4px;
 }
 
@@ -213,7 +217,7 @@ svg {
     display: block;
 }
 
-.delete_background_btn svg, .checkbox_checkmark_w svg, .pagination svg {
+.delete_background_btn svg, .checkbox_checkmark_w svg, .pagination svg, .inapp_notice_close_btn svg {
     fill: white;
 }
 
@@ -222,7 +226,7 @@ svg {
     height: 16px;
 }
 
-.delete_background_btn:focus, .background_btn:focus, .color_ok_btn:focus, body.using_mouse .color_ok_btn:hover:focus, .color_ok_btn:hover, .rc-slider-handle:focus {
+.delete_background_btn:focus, .background_btn:focus, .color_ok_btn:focus, body.using_mouse .color_ok_btn:hover:focus, .color_ok_btn:hover, .rc-slider-handle:focus, .products_table_row:focus, .products_table_row:not(.products_table_row_purchased):hover {
     background-color: #3892ff;
 }
 
@@ -247,6 +251,10 @@ input {
     min-width: 0; /* fix text input + button overflowing flex container in firefox */
 }
 
+.locked_input, .select__option.locked_input {
+    background-color: #c54242!important;
+}
+
 /*>1 buttons */
 .btn {
     padding: 3px 6px 3px 6px;
@@ -268,10 +276,6 @@ input {
 
 .adjacent_input:focus {
     z-index: 1;
-}
-
-.btn:active {
-    background-color: #f493ff;
 }
 
 .upload_w .load_theme_background_btn_w {
@@ -377,7 +381,7 @@ input {
     margin-bottom: 10px;
 }
 
-.install_help_theme_img_link, .install_help_link {
+.install_help_theme_img_link, .install_help_link, .inapp_clear_new_tab_for_firefox_link {
     display: inline;
 }
 
@@ -881,7 +885,7 @@ input {
     outline: none;
 }
 
-.pagination_btn.active a {
+.pagination_btn.active a, .select__option.locked_input {
     color: white!important;
 }
 
@@ -894,6 +898,99 @@ input {
 }
 /*<1 pagination */
 /*< images */
+
+/*> in-app purchases table */
+table {
+  border-collapse: collapse;
+      width: 100%;
+}
+
+.products_table_cell {
+  text-align: left;
+  padding: 8px;
+}
+
+th.products_table_cell {
+    background-color: #479a48;
+}
+
+.products_table_price_cell {
+    text-align: center;
+}
+
+.products_table_row {
+    outline: none;
+}
+
+.using_mouse .products_table_row {
+    background-color: transparent;
+}
+
+.products_table_row.products_table_row_purchased {
+    background-color: #616161;
+}
+
+.products_table_row_purchased td, .products_table_row_purchased td div {
+    color: #adadad;
+}
+
+.products_table_row:not(.products_table_row_purchased) {
+    cursor: pointer;
+}
+
+.products_table_row_purchased {
+    cursor: not-allowed;
+}
+/*< in-app purchases table */
+
+/*> in-app notice */
+.inapp_notice {
+    display: table;
+    position: fixed;
+    background-color: #cb87d4;
+    width: max-content;
+    max-width: 300px;
+    white-space: normal;
+    padding: 12px;
+    padding-top:28px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.inapp_notice_close_btn {
+    outline: none;
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    top: 8px;
+    right: 8px;
+    padding: 0;
+    outline-offset: 2px;
+    cursor: pointer;
+}
+
+.inapp_notice_close_btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.inapp_notice_learn_more_btn {
+    display: block;
+    margin-left: auto;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+}
+
+.inapp_notice_learn_more_btn, .inapp_notice_text {
+    margin-top: 7px;
+}
+
+.using_mouse .inapp_notice_learn_more_btn:focus, .using_mouse .inapp_notice_close_btn:focus {
+    outline: none;
+}
+/*< in-app notice */
 
 /*> loading screen */
 .loading_screen, .analytics_privacy_protecting_screen {
@@ -963,7 +1060,7 @@ input {
 /*< analytics_privacy */
 
 /*> transition */
-.link, .upload_box_browse_label, svg, .theme_img_link, .using_mouse .delete_background_btn, .color_input_vizualization, .using_mouse .normal_input, .using_mouse .btn, .global_el, .input, .image_settings_wrapper, .dragged_item, .background_inner_w, .using_mouse .background_w, .selected_background, .using_mouse .background_btn, .backgrounds_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .background_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu, .analytics_privacy, .analytics_privacy_protecting_screen, .background_placeholder {
+.link, .upload_box_browse_label, svg, .theme_img_link, .using_mouse .delete_background_btn, .color_input_vizualization, .using_mouse .normal_input, .using_mouse .btn, .global_el, .input, .image_settings_wrapper, .dragged_item, .background_inner_w, .using_mouse .background_w, .selected_background, .using_mouse .background_btn, .backgrounds_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .background_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu, .analytics_privacy, .analytics_privacy_protecting_screen, .background_placeholder, .products_table_row, .inapp_notice, .inapp_notice_learn_more_btn, .checkbox_checkmark_w {
     transition: all 0.2s ease-out;
 }
 
@@ -975,7 +1072,7 @@ input {
     transition: all 0.4s ease-out;
 }
 
-.link, .upload_box_browse_label {
+.link, .upload_box_browse_label, .inapp_notice_learn_more_btn {
     transition-property: color;
 }
 
@@ -987,7 +1084,7 @@ svg {
     transition-property: color, opacity;
 }
 
-.using_mouse .delete_background_btn, .color_input_vizualization, .upload_box {
+.using_mouse .delete_background_btn, .color_input_vizualization, .upload_box, .products_table_row, .checkbox_checkmark_w {
     transition-property: background-color;
 }
 
@@ -999,7 +1096,7 @@ svg {
     transition-property: color, background-color, border-color, box-shadow;
 }
 
-.global_el, .input, .image_settings_wrapper, .dragged_item, .loading_screen, .backgrounds_w_2, .background_inner_w_2, .help_message, .install_help_w, .color_pickier, .background_w_tr, .adjacent_btn_w, .checkbox_w, .analytics_privacy, .analytics_privacy_protecting_screen, .background_placeholder {
+.global_el, .input, .image_settings_wrapper, .dragged_item, .loading_screen, .backgrounds_w_2, .background_inner_w_2, .help_message, .install_help_w, .color_pickier, .background_w_tr, .adjacent_btn_w, .checkbox_w, .analytics_privacy, .analytics_privacy_protecting_screen, .background_placeholder, .inapp_notice {
     transition-property: opacity;
 }
 
@@ -1015,11 +1112,11 @@ svg {
     transition-property: color, background-color;
 }
 
-.link:active, .upload_box_browse_label:active, .btn:active, .background_btn:active {
+.link:active, .upload_box_browse_label:active, .btn:active, .background_btn:active, .products_table_row:not(.products_table_row_purchased):active {
     transition: none;
 }
 
-body:not(.using_mouse) .select__control, body:not(.using_mouse) .select__menu {
+body:not(.using_mouse) .select__control, body:not(.using_mouse) .select__menu, body:not(.using_mouse) .products_table_row {
     transition: none!important;
 }
 /*< transition */
