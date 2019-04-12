@@ -29,7 +29,7 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
 
                 const theme_package = await download_theme_crx(theme_id, ed_all, theme_beta_theme_id, reload_call, first_call);
 
-                if (theme_package !== 'cancel_background_load' && theme_package !== 'theme_beta_product_not_purcased') {
+                if (theme_package !== 'cancel_background_load') {
                     analytics.send_event('theme_background', 'loaded');
 
                     set_get_theme_background_f_run_once_var_to_true();
@@ -92,7 +92,7 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
                         message: 'load_last_page',
                     }]);
 
-                } else if (theme_package === 'cancel_background_load') { // when undoing theme
+                } else { // when undoing theme
                     analytics.send_event('theme_background', 'loaded');
 
                     const last_installed_theme_theme_id = what_browser === 'chrome' ? await get_installed_theme_id() : theme_id;
@@ -103,7 +103,7 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
                 }
 
                 if (!first_call || mut.uploading_theme_background) {
-                    if (ed_all.products.theme_beta || ed_all.products.all || what_browser === 'firefox') {
+                    if (mut.call_type === 'cws' || (mut.call_type === 'theme_beta' && (ed_all.products.theme_beta || ed_all.products.all)) || what_browser === 'firefox') {
                         await db.ed.update(1, { current_background: new_current_background });
                         await get_new_future_background.get_new_future_background(new_current_background + 1);
                         await backgrounds.preload_current_and_future_background('reload');
@@ -184,7 +184,7 @@ const download_theme_crx = async (theme_id, ed_all, theme_beta_theme_id, reload_
         } else {
             set_get_theme_background_f_run_once_var_to_true();
 
-            return products.theme_beta || products.all ? 'cancel_background_load' : 'theme_beta_product_not_purcased';
+            return 'cancel_background_load';
         }
     }
 
