@@ -81,7 +81,7 @@ export class Inapp_fieldset extends React.Component {
                                                     key={product.key}
                                                     className={x.cls(['products_table_row', product_is_not_purchasable ? 'products_table_row_purchased' : null])}
                                                     tabIndex={product_is_not_purchasable ? null : '0'}
-                                                    onClick={this.try_to_buy.bind(null, product.sku)}
+                                                    onClick={product_is_not_purchasable ? null : this.try_to_buy.bind(null, product.sku)}
                                                 >
                                                     <td className="products_table_cell">
                                                         <div className="products_table_row_title">{product.localeData[0].title}</div>
