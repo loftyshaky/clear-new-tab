@@ -215,7 +215,9 @@ const create_thumbnails_and_get_natural_width_and_height = async (backgrounds, t
                                 const thumbnail_dimensions = calculate_background_aspect_ratio_fit(natural_width, natural_height);
 
                                 if (is_img) {
-                                    thumbnails[i].thumbnail = resizeImage.resize(background, thumbnail_dimensions.width, thumbnail_dimensions.height);
+                                    const thumbnail = resizeImage.resize(background, thumbnail_dimensions.width, thumbnail_dimensions.height);
+
+                                    thumbnails[i].thumbnail = thumbnail === 'data:,' ? null : thumbnail;
 
                                     resolve();
 
