@@ -4,7 +4,7 @@ import Dexie from 'dexie';
 
 export let db; // eslint-disable-line import/no-mutable-exports
 
-export const products = { // when adding product in this array you need to also add: license_key to inputs_data.js or for selects select_options.js; default to inputs_data.js;
+export const products = { // when adding product in this array you need to also add: premium: true to inputs_data.js or for selects select_options.js
     all: false,
     theme_beta: false,
     bookmarks_bar: false,
@@ -99,7 +99,15 @@ export const init_db = () => {
             ed: 'id',
         }).upgrade(async tx => {
             tx.ed.toCollection().modify(ed => {
-                ed.products = products;
+                ed.premium = false;
+            });
+        });
+
+        db.version(5).stores({
+            ed: 'id',
+        }).upgrade(async tx => {
+            tx.ed.toCollection().modify(ed => {
+                ed.premium = false;
             });
         });
 

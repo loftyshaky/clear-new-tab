@@ -21,6 +21,11 @@ export const run_everything = async All_type => {
 
                 break;
 
+            case 'inapp':
+                ({ All } = require('inapp/components/All')); // eslint-disable-line global-require
+
+                break;
+
             // no default
         }
 

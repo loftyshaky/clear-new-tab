@@ -37,7 +37,7 @@ export const Checkbox = observer(props => {
 export const Global_checkbox = observer(props => {
     const { key, checkbox_type, is_global_checkbox, family, name, permissions } = props;
     const checkbox_id = is_global_checkbox ? `${name}_global` : name;
-    const checkbox_is_locked = inputs_data.obj[family][name].license_key && inapp.check_if_product_is_locked(inputs_data.obj[family][name].license_key);
+    const checkbox_is_locked = inputs_data.obj[family][name].premium && inapp.check_if_clear_new_tab_is_activated();
 
     const on_change_f = r.cond([
         [r.equals('ed'), () => settings.change_settings.bind(null, 'checkbox', family, name, null)],
@@ -67,7 +67,7 @@ export const Global_checkbox = observer(props => {
                     checked={'global_checkbox_val' in inputs_data.obj[family][name] ? inputs_data.obj[family][name].global_checkbox_val : inputs_data.obj[family][name].val}
                     type="checkbox"
                     id={checkbox_id}
-                    onChange={checkbox_is_locked ? inapp.show_inapp_notice.bind(null, inputs_data.obj[family][name].license_key) : on_change}
+                    onChange={checkbox_is_locked ? inapp.show_inapp_notice.bind(null, inputs_data.obj[family][name].premium) : on_change}
                 />
                 <span
                     className={x.cls(['checkbox_checkmark_w', checkbox_is_locked ? 'locked_input' : null])}

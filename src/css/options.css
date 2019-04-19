@@ -158,7 +158,7 @@ p {
     height: 28px;
 }
 
-fieldset, .normal_input, .checkbox_checkmark_w, .btn, .background_w, .pagination, .using_mouse .btn:focus, .using_mouse .checkbox_checkmark_w:focus, .using_mouse .color_input_vizualization:focus, .checkbox_checkmark_w, .products_table, .products_table_cell {
+fieldset, .normal_input, .checkbox_checkmark_w, .btn, .background_w, .pagination, .using_mouse .btn:focus, .using_mouse .checkbox_checkmark_w:focus, .using_mouse .color_input_vizualization:focus, .checkbox_checkmark_w, .products_table {
     border: 1px solid white;
 }
 
@@ -226,7 +226,7 @@ svg {
     height: 16px;
 }
 
-.delete_background_btn:focus, .background_btn:focus, .color_ok_btn:focus, body.using_mouse .color_ok_btn:hover:focus, .color_ok_btn:hover, .rc-slider-handle:focus, .products_table_row:focus, .products_table_row:not(.products_table_row_purchased):hover {
+.delete_background_btn:focus, .background_btn:focus, .color_ok_btn:focus, body.using_mouse .color_ok_btn:hover:focus, .color_ok_btn:hover, .rc-slider-handle:focus {
     background-color: #3892ff;
 }
 
@@ -899,50 +899,6 @@ input {
 /*<1 pagination */
 /*< images */
 
-/*> in-app purchases table */
-table {
-  border-collapse: collapse;
-      width: 100%;
-}
-
-.products_table_cell {
-  text-align: left;
-  padding: 8px;
-}
-
-th.products_table_cell {
-    background-color: #479a48;
-}
-
-.products_table_price_cell {
-    text-align: center;
-}
-
-.products_table_row {
-    outline: none;
-}
-
-.using_mouse .products_table_row {
-    background-color: transparent;
-}
-
-.products_table_row.products_table_row_purchased {
-    background-color: #616161;
-}
-
-.products_table_row_purchased td, .products_table_row_purchased td div {
-    color: #adadad;
-}
-
-.products_table_row:not(.products_table_row_purchased) {
-    cursor: pointer;
-}
-
-.products_table_row_purchased {
-    cursor: not-allowed;
-}
-/*< in-app purchases table */
-
 /*> in-app notice */
 .inapp_notice {
     display: table;
@@ -1060,7 +1016,7 @@ th.products_table_cell {
 /*< analytics_privacy */
 
 /*> transition */
-.link, .upload_box_browse_label, svg, .theme_img_link, .using_mouse .delete_background_btn, .color_input_vizualization, .using_mouse .normal_input, .using_mouse .btn, .global_el, .input, .image_settings_wrapper, .dragged_item, .background_inner_w, .using_mouse .background_w, .selected_background, .using_mouse .background_btn, .backgrounds_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .background_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu, .analytics_privacy, .analytics_privacy_protecting_screen, .background_placeholder, .products_table_row, .inapp_notice, .inapp_notice_learn_more_btn, .checkbox_checkmark_w {
+.link, .upload_box_browse_label, svg, .theme_img_link, .using_mouse .delete_background_btn, .color_input_vizualization, .using_mouse .normal_input, .using_mouse .btn, .global_el, .input, .image_settings_wrapper, .dragged_item, .background_inner_w, .using_mouse .background_w, .selected_background, .using_mouse .background_btn, .backgrounds_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .background_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu, .analytics_privacy, .analytics_privacy_protecting_screen, .background_placeholder, .inapp_notice, .inapp_notice_learn_more_btn, .checkbox_checkmark_w {
     transition: all 0.2s ease-out;
 }
 
@@ -1084,7 +1040,7 @@ svg {
     transition-property: color, opacity;
 }
 
-.using_mouse .delete_background_btn, .color_input_vizualization, .upload_box, .products_table_row, .checkbox_checkmark_w {
+.using_mouse .delete_background_btn, .color_input_vizualization, .upload_box, .checkbox_checkmark_w {
     transition-property: background-color;
 }
 
@@ -1112,11 +1068,11 @@ svg {
     transition-property: color, background-color;
 }
 
-.link:active, .upload_box_browse_label:active, .btn:active, .background_btn:active, .products_table_row:not(.products_table_row_purchased):active {
+.link:active, .upload_box_browse_label:active, .btn:active, .background_btn:active {
     transition: none;
 }
 
-body:not(.using_mouse) .select__control, body:not(.using_mouse) .select__menu, body:not(.using_mouse) .products_table_row {
+body:not(.using_mouse) .select__control, body:not(.using_mouse) .select__menu {
     transition: none!important;
 }
 /*< transition */

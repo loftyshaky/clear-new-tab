@@ -193,9 +193,9 @@ export const send_permissions_event = (action, name) => {
     }
 };
 
-export const send_inapp_event = (action, product_id) => {
+export const send_inapp_event = action => {
     try {
-        send_event('inapp', `${action}-${product_id}`);
+        send_event('inapp', action);
 
     } catch (er) {
         err(er, 303);

@@ -11,6 +11,7 @@ module.exports = {
         background: join(__dirname, 'src', 'js', 'background', 'background.js'),
         content_script: join(__dirname, 'src', 'js', 'content_script', 'content_script.js'),
         options: join(__dirname, 'src', 'js', 'options', 'options.js'),
+        inapp: join(__dirname, 'src', 'js', 'inapp', 'inapp.js'),
         new_tab: join(__dirname, 'src', 'js', 'new_tab', 'new_tab.js'),
     },
 
@@ -58,6 +59,12 @@ module.exports = {
         }),
 
         new Html_webpack_plugin({
+            template: join(__dirname, 'src', 'html', 'inapp.html'),
+            filename: 'inapp.html',
+            chunks: ['inapp'],
+        }),
+
+        new Html_webpack_plugin({
             template: join(__dirname, 'src', 'html', 'new_tab.html'),
             filename: 'new_tab.html',
             chunks: ['new_tab'],
@@ -94,6 +101,7 @@ module.exports = {
         alias: {
             js: join(__dirname, 'src', 'js'),
             options: join(__dirname, 'src', 'js', 'options'),
+            inapp: join(__dirname, 'src', 'js', 'inapp'),
             new_tab: join(__dirname, 'src', 'js', 'new_tab'),
             content_script: join(__dirname, 'src', 'js', 'content_script'),
             background: join(__dirname, 'src', 'js', 'background'),

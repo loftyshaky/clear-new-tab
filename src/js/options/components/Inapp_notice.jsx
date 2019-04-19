@@ -32,7 +32,6 @@ export const Inapp_notice = observer(() => (
             type="button"
             className="inapp_notice_learn_more_btn"
             data-text="inapp_notice_learn_more_btn_text"
-            onClick={inapp.scroll_to_inapp_fieldset}
         />
     </Tr>
 ));

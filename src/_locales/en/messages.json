@@ -71,7 +71,7 @@
     "message": "Other settings"
   },
   "inapp_legend_text": {
-    "message": "Paid features"
+    "message": "Clear New Tab Premium"
   },
   "links_legend_text": {
     "message": "Links"
@@ -412,30 +412,20 @@
 
 
   "products_purchasing_overview_fetching_products_text": {
-    "message": "Fetching paid features info..."
+    "message": "Fetching your premium license info..."
   },
-  "products_purchasing_overview_can_buy_text": {
-    "message": "Here you can purchase Clear New Tab's paid features. Click on a row in the table below to buy one of them. Each feature's license is tied to your Google account (so make sure you are logged in in the account you usually use), lasts forever and will not be lost after Clear New Tab reinstallation. You can try out all the paid features for free in the <a class='link inapp_clear_new_tab_for_firefox_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/clear-new-tab-firefox'>Clear New Tab</a> for Firefox."
+  "products_purchasing_overview_not_licensed_text": {
+    "message": "You are not a premium user."
   },
-  "products_purchasing_overview_everything_is_purchased_text": {
-    "message": "You purchased all the paid features."
+  "products_purchasing_overview_licensed_text": {
+    "message": "You are a premium user."
   },
   "products_purchasing_overview_error_text": {
-    "message": "Unable to connet to the Chrome Web Store. Check your internet connection."
-  },
-
-  "products_table_feature_header_text": {
-    "message": "Feature"
-  },
-  "products_table_price_header_text": {
-    "message": "Price"
-  },
-  "products_table_purchased_text": {
-    "message": "Purchased"
+    "message": "An error occured while Fetching your premium license info. Check your internet connection and log in in your Google account."
   },
 
   "inapp_notice_text_text": {
-    "message": "This feature is paid."
+    "message": "This is a premium feature."
   },
   "inapp_notice_learn_more_btn_text": {
     "message": "Learn more"
@@ -521,6 +511,11 @@
   },
   "quota_exceeded_er": {
     "message": "Database size limit exceeded"
+  },
+
+
+  "buy_premium_btn_text": {
+    "message": "Buy Clear New Tab Premium"
   },
   
   

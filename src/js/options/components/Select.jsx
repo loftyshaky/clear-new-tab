@@ -29,8 +29,8 @@ export class Select extends React.Component {
     //> change option val when selecting option
     change_select_val = selected_option => {
         try {
-            const { value } = selected_option;
-            const select_is_locked = 'default' in inputs_data.obj[this.family][this.name] && inapp.check_if_product_is_locked(value);
+            const { value, premium } = selected_option;
+            const select_is_locked = premium && inapp.check_if_clear_new_tab_is_activated();
 
             if (!select_is_locked) {
                 analytics.send_event('selects', `selected_option-${this.family}-${this.name}-${value}`);
@@ -112,9 +112,8 @@ export class Select extends React.Component {
 }
 
 const Option = props => {
-    const { value } = props;
-    const { data: { global, license_key } } = props;
-    const select_is_locked = license_key && inapp.check_if_product_is_locked(value);
+    const { data: { global, premium } } = props;
+    const select_is_locked = premium && inapp.check_if_clear_new_tab_is_activated();
 
     return (
         <components.Option

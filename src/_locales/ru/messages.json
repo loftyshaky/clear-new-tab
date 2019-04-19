@@ -71,7 +71,7 @@
     "message": "Другие настройки"
   },
   "inapp_legend_text": {
-    "message": "Платные функции"
+    "message": "Clear New Tab Премиум"
   },
   "links_legend_text": {
     "message": "Ссылки"
@@ -410,30 +410,20 @@
   },
 
   "products_purchasing_overview_fetching_products_text": {
-    "message": "Идёт загрузка информации о платных функциях..."
+    "message": "Идёт загрузка информации о вашей премиум лицензии..."
   },
-  "products_purchasing_overview_can_buy_text": {
-    "message": "Здесь вы можете купить платные функции Clear New Tab. Кликните на ряд в таблице ниже чтобы купить одну из них. Лицензия на каждую функцию привязана к вашей учетной записи Google (поэтому убедитесь, что вы вошли в учетную запись, которую вы обычно используете), действует вечно и не будет потеряна после переустановки Clear New Tab. Вы можете попробовать все платные функции бесплатно в <a class='link inapp_clear_new_tab_for_firefox_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/clear-new-tab-firefox-ru'>Clear New Tab</a> для Firefox."
+  "products_purchasing_overview_not_licensed_text": {
+    "message": "Вы не премиум пользователь."
   },
-  "products_purchasing_overview_everything_is_purchased_text": {
-    "message": "Все платные функции куплены."
+  "products_purchasing_overview_licensed_text": {
+    "message": "Вы премиум пользователь."
   },
   "products_purchasing_overview_error_text": {
-    "message": "Не удалось подключиться к Интернет-магазину Chrome. Проверьте ваше интернет соединение."
-  },
-
-  "products_table_feature_header_text": {
-    "message": "Функция"
-  },
-  "products_table_price_header_text": {
-    "message": "Цена"
-  },
-  "products_table_purchased_text": {
-    "message": "Куплено"
+    "message": "Произошла ошибка во время загрузки информации о вашей премиум лицензии. Проверьте ваше интернет соединение и войдите в ваш аккаунт Google."
   },
 
   "inapp_notice_text_text": {
-    "message": "Эта функция платная."
+    "message": "Это премиум функция."
   },
   "inapp_notice_learn_more_btn_text": {
     "message": "Узнать больше"
@@ -519,6 +509,11 @@
   },
   "quota_exceeded_er": {
     "message": "Превышен допустимый размер базы данных"
+  },
+
+
+  "buy_premium_btn_text": {
+    "message": "Купить Clear New Tab премиум"
   },
 
 
