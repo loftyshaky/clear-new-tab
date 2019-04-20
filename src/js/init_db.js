@@ -4,16 +4,6 @@ import Dexie from 'dexie';
 
 export let db; // eslint-disable-line import/no-mutable-exports
 
-export const products = { // when adding product in this array you need to also add: premium: true to inputs_data.js or for selects select_options.js
-    all: false,
-    theme_beta: false,
-    bookmarks_bar: false,
-    random_solid_color: false,
-    slideshow: false,
-    slide: false,
-    paste_btn: false,
-};
-
 export const init_db = () => {
     try {
         db = new Dexie('Clear New Tab');

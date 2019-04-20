@@ -1,4 +1,4 @@
-import { db, init_db, products } from 'js/init_db';
+import { db, init_db } from 'js/init_db';
 import * as generate_random_color from 'js/generate_random_color';
 
 window.set_default_settings = async page => { // this function also called in options.js when clicking on "Restore global defaults" button
@@ -39,7 +39,6 @@ window.set_default_settings = async page => { // this function also called in op
             ext_data_o.show_link_to_default_new_tab = false;
             ext_data_o.allow_analytics = false;
             ext_data_o.answered_to_analytics_privacy_question = false;
-            ext_data_o.products = products;
 
             db.on('populate', () => {
                 try {
