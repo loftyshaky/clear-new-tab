@@ -4,7 +4,7 @@ import * as total_number_of_backgrounds from 'js/total_number_of_backgrounds';
 import * as settings from 'options/settings';
 import * as background_loading from 'options/background_loading';
 import * as ui_state from 'options/ui_state';
-import * as inapp from 'options/inapp';
+import * as inapp from 'js/inapp';
 
 //> recieve messages
 browser.runtime.onMessage.addListener(async message => {
@@ -40,8 +40,8 @@ browser.runtime.onMessage.addListener(async message => {
             settings.switch_to_settings_type(null, null, true);
             ui_state.exit_upload_mode(message.status);
 
-        } else if (msg === 'refresh_purchases_state') { // when buying premium
-            inapp.refresh_purchases_state();
+        } else if (msg === 'refresh_purchase_state') { // when buying premium
+            inapp.refresh_purchase_state();
 
         } else if (msg !== 'confirm_that_opened_tab_is_new_tab_page_and_that_it_is_not_in_preview_mode') {
             await x.delay(30000); // fixes bug when response is not received from background when sending same message to background while options page is open (firefox only)

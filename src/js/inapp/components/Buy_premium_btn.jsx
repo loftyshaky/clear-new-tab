@@ -2,7 +2,6 @@ import React from 'react';
 import { observer } from 'mobx-react';
 
 import * as analytics from 'js/analytics';
-import * as buy from 'inapp/buy';
 import * as inapp from 'js/inapp';
 
 export class Buy_premium_btn extends React.Component {
@@ -18,7 +17,7 @@ export class Buy_premium_btn extends React.Component {
         try {
             analytics.send_inapp_event('tried_to_buy');
 
-            buy.buy_premium();
+            inapp.buy_premium();
 
         } catch (er) {
             err(er, 305);

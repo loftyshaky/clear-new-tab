@@ -3,10 +3,9 @@ import { toJS, runInAction, configure } from 'mobx';
 import { db } from 'js/init_db';
 import * as file_types from 'js/file_types';
 import * as contains_permission from 'js/contains_permission';
-import * as inapp_shared from 'js/inapp';
+import * as inapp from 'js/inapp';
 import { inputs_data } from 'options/inputs_data';
 import * as background_selection from 'options/background_selection';
-import * as inapp from 'options/inapp';
 
 configure({ enforceActions: 'observed' });
 
@@ -41,8 +40,7 @@ export const decide_what_inputs_to_hide = async () => {
             mut.run_decide_what_inputs_to_hide_once = true;
 
             if (what_browser !== 'firefox') {
-                await inapp_shared.update_premium_ob();
-                inapp.refresh_purchases_state();
+                inapp.refresh_purchase_state();
             }
         }
 

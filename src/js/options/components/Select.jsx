@@ -7,7 +7,7 @@ import * as analytics from 'js/analytics';
 import { inputs_data } from 'options/inputs_data';
 import { selects_options } from 'options/selects_options';
 import * as settings from 'options/settings';
-import * as inapp from 'options/inapp';
+import * as inapp from 'js/inapp';
 
 import { Tr } from 'js/components/Tr';
 import { Help } from 'options/components/Help';

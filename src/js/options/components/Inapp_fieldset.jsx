@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 
 import x from 'x';
-import * as inapp from 'options/inapp';
+import * as inapp from 'js/inapp';
 
 export const Inapp_fieldset = observer(() => (
     <fieldset className="input_fieldset inapp_fieldset">

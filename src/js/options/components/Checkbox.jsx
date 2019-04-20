@@ -7,10 +7,10 @@ import * as r from 'ramda';
 import x from 'x';
 import * as enter_click from 'js/enter_click';
 import * as analytics from 'js/analytics';
+import * as inapp from 'js/inapp';
 import { inputs_data } from 'options/inputs_data';
 import * as settings from 'options/settings';
 import * as permissions_file from 'options/permissions';
-import * as inapp from 'options/inapp';
 
 import { Tr } from 'js/components/Tr';
 
