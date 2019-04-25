@@ -80,7 +80,7 @@ option {
     cursor: pointer;
 }
 
-.link:visited {
+.link:not(.inapp_fieldset_learn_more_link):visited {
 	color: #ff9090;
 }
 
