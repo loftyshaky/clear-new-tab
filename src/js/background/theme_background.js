@@ -32,8 +32,6 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
                 if (theme_package !== 'cancel_background_load') {
                     analytics.send_event('theme_background', 'loaded');
 
-                    set_get_theme_background_f_run_once_var_to_true();
-
                     await record_theme_id(theme_id, theme_beta_theme_id, ed_all, reload_call, first_call);
 
                     mut.theme_beta_theme_id = null;
@@ -159,9 +157,7 @@ const download_theme_crx = async (theme_id, ed_all, theme_beta_theme_id, reload_
         theme_package = await get_crx(`https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D${theme_id}%26uc&prodversion=32`, 'cws');
 
     } catch (er) {
-        const premium = await ed('premium');
-
-        if ((ed_all.get_theme_background_f_run_once && premium) || what_browser === 'firefox') {
+        if (ed_all.premium || what_browser === 'firefox') {
             err(er, 285, null, true);
 
             try {
@@ -182,8 +178,6 @@ const download_theme_crx = async (theme_id, ed_all, theme_beta_theme_id, reload_
             }
 
         } else {
-            set_get_theme_background_f_run_once_var_to_true();
-
             return 'cancel_background_load';
         }
     }
@@ -247,10 +241,6 @@ const extract_video = async (theme_id, theme_package_data, theme_background_info
     }
 
     return undefined;
-};
-
-const set_get_theme_background_f_run_once_var_to_true = () => {
-    db.ed.update(1, { get_theme_background_f_run_once: true });
 };
 //< download theme crx, unpack it, access theme data from theme crx manifest, download theme image
 
