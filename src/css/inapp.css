@@ -1,7 +1,139 @@
-button:disabled {
-    background-color: red;
-}
-
 body {
     background-color: #212121;
 } 
+
+.all {
+    width: 1024px;
+    margin: auto;
+}
+
+.link {
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.link:visited {
+	color: #ff9090;
+}
+
+.link {
+    color: #fbff75;
+}
+
+.link:hover {
+    color: #77ff6f;
+}
+
+.link:active {
+    color: #f493ff;
+}
+
+.link:focus {
+    outline: 1px solid #fbff75;
+}
+
+.using_mouse .link {
+    outline: none;
+}
+
+h1 {
+    display: table;
+    color: #fbff75;
+    font-size: 36px;
+}
+
+h2 {
+    font-size: 28px;
+}
+
+h3 {
+    font-size: 20px;
+}
+
+h2, h3, .feature_desc {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.feature_block, .purchase_zone, h1 {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.purchase_zone {
+    background-color: #5d7daf;
+    padding: 12px;
+}
+
+.purchase_zone_msg {
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.feature_desc {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.buy_premium_btn {
+    padding: 6px 12px 6px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    background-color: #4c9451;
+    border: 1px solid white;
+    height: 34px;
+    display: block;
+}
+
+.buy_premium_btn:disabled {
+    background-color: #757575!important;
+    color: #c5c5c5!important;
+    cursor: not-allowed;
+}
+
+.buy_premium_btn:focus {
+    outline: none;
+    box-shadow: 0 0 5px #fbff75;
+    border: 1px solid #fbff75;
+}
+
+.buy_premium_btn:hover {
+    background-color: #fbff75;
+}
+
+.buy_premium_btn:active {
+    background-color: #f493ff;
+}
+
+.buy_premium_btn:hover, .buy_premium_btn:active {
+    color: #212121;
+}
+
+.buy_premium_btn, .using_mouse .buy_premium_btn:focus {
+    border: 1px solid white;
+}
+
+.using_mouse .buy_premium_btn:focus {
+    box-shadow: none;
+}
+
+/*> transition */
+.buy_premium_btn, .link {
+    transition: all 0.2s ease-out;
+}
+
+.link {
+    transition-property: color;
+}
+
+.buy_premium_btn {
+    transition-property: color, background-color;
+}
+
+.link:active, .buy_premium_btn:active {
+    transition: none;
+}
+/*< transition */

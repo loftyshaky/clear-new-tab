@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import * as inapp from 'js/inapp';
 
 import { Tr } from 'js/components/Tr';
+import { Learn_more } from 'options/components/Learn_more';
 
 import cross_svg from 'svg/cross';
 
@@ -28,10 +29,9 @@ export const Inapp_notice = observer(() => (
             className="inapp_notice_text"
             data-text="inapp_notice_text_text"
         />
-        <button
-            type="button"
-            className="inapp_notice_learn_more_btn"
-            data-text="inapp_notice_learn_more_btn_text"
+        <Learn_more
+            classname="inapp_notice_learn_more_link"
+            family="inapp_notice"
         />
     </Tr>
 ));

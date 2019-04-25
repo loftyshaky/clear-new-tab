@@ -84,11 +84,11 @@ option {
 	color: #ff9090;
 }
 
-.link, .upload_box_browse_label, .inapp_notice_learn_more_btn {
+.link, .upload_box_browse_label, .inapp_notice_learn_more_link {
     color: #fbff75;
 }
 
-.link:hover, .upload_box_browse_label:hover, .inapp_notice_learn_more_btn:hover {
+.link:hover, .upload_box_browse_label:hover, .inapp_notice_learn_more_link:hover {
     color: #77ff6f;
 }
 
@@ -181,7 +181,7 @@ fieldset, .normal_input, .checkbox_checkmark_w, .btn, .background_w, .pagination
     background-color: transparent;
 }
 
-.help_link, .help_message, .app_version, .products_table_row_description, .inapp_notice_learn_more_btn {
+.help_link, .help_message, .app_version, .products_table_row_description, .inapp_notice_learn_more_link {
     font-size: 14px;
 }
 
@@ -193,7 +193,7 @@ fieldset, .normal_input, .checkbox_checkmark_w, .btn, .background_w, .pagination
     margin-top: 6px;
 }
 
-.help_link:focus, .link:focus, .upload_box_browse_label:focus, .inapp_notice_close_btn:focus, .inapp_notice_learn_more_btn:focus {
+.help_link:focus, .link:focus, .upload_box_browse_label:focus, .inapp_notice_close_btn:focus, .inapp_notice_learn_more_link:focus {
     outline: 1px solid #fbff75;
 }
 
@@ -381,7 +381,7 @@ input {
     margin-bottom: 10px;
 }
 
-.install_help_theme_img_link, .install_help_link, .inapp_clear_new_tab_for_firefox_link {
+.install_help_theme_img_link, .install_help_link, .inapp_clear_new_tab_for_firefox_link, .inapp_fieldset_learn_more_link {
     display: inline;
 }
 
@@ -905,13 +905,13 @@ input {
     position: fixed;
     background-color: #cb87d4;
     width: max-content;
-    max-width: 300px;
     white-space: normal;
     padding: 12px;
     padding-top:28px;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(2);
+    zoom: 0.5;
 }
 
 .inapp_notice_close_btn {
@@ -931,19 +931,18 @@ input {
     height: 18px;
 }
 
-.inapp_notice_learn_more_btn {
+.inapp_notice_learn_more_link {
     display: block;
-    margin-left: auto;
+    text-align: right;
     cursor: pointer;
-    background-color: transparent;
-    border: none;
+    text-decoration: none;
 }
 
-.inapp_notice_learn_more_btn, .inapp_notice_text {
+.inapp_notice_learn_more_link, .inapp_notice_text {
     margin-top: 7px;
 }
 
-.using_mouse .inapp_notice_learn_more_btn:focus, .using_mouse .inapp_notice_close_btn:focus {
+.using_mouse .inapp_notice_learn_more_link:focus, .using_mouse .inapp_notice_close_btn:focus {
     outline: none;
 }
 /*< in-app notice */
@@ -1016,7 +1015,7 @@ input {
 /*< analytics_privacy */
 
 /*> transition */
-.link, .upload_box_browse_label, svg, .theme_img_link, .using_mouse .delete_background_btn, .color_input_vizualization, .using_mouse .normal_input, .using_mouse .btn, .global_el, .input, .image_settings_wrapper, .dragged_item, .background_inner_w, .using_mouse .background_w, .selected_background, .using_mouse .background_btn, .backgrounds_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .background_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu, .analytics_privacy, .analytics_privacy_protecting_screen, .background_placeholder, .inapp_notice, .inapp_notice_learn_more_btn, .checkbox_checkmark_w {
+.link, .upload_box_browse_label, svg, .theme_img_link, .using_mouse .delete_background_btn, .color_input_vizualization, .using_mouse .normal_input, .using_mouse .btn, .global_el, .input, .image_settings_wrapper, .dragged_item, .background_inner_w, .using_mouse .background_w, .selected_background, .using_mouse .background_btn, .backgrounds_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .background_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu, .analytics_privacy, .analytics_privacy_protecting_screen, .background_placeholder, .inapp_notice, .inapp_notice_learn_more_link, .checkbox_checkmark_w {
     transition: all 0.2s ease-out;
 }
 
@@ -1028,7 +1027,7 @@ input {
     transition: all 0.4s ease-out;
 }
 
-.link, .upload_box_browse_label, .inapp_notice_learn_more_btn {
+.link, .upload_box_browse_label, .inapp_notice_learn_more_link {
     transition-property: color;
 }
 

@@ -26,7 +26,7 @@ export const buy_premium = () => {
     google.payments.inapp.buy({
         parameters: { env: 'prod' },
         sku: 'premium',
-        success: refresh_purchase_state,
+        success: () => refresh_purchase_state(true),
         failure: response => failure_callback(response, 292),
     });
 };
@@ -43,25 +43,25 @@ const failure_callback = (response, code, callback) => {
     }
 };
 
-export const refresh_purchase_state = () => {
+export const refresh_purchase_state = just_purchased => {
     get_products(
         () => get_purchases(
             purchases => {
-                check_license(purchases);
+                check_license(purchases, just_purchased);
             },
         ),
 
         () => {
-            set_premium_purchasing_overview_state('error');
+            set_premium_purchasing_state('error');
         },
     );
 };
 
-const check_license = async purchases => {
+const check_license = async (purchases, just_purchased) => {
     try {
         const licensed = purchases.response.details.some(product => {
             try {
-                return product.sku === 'premium' && (product.state === 'ACTIVE' || product.state === 'PENDING');
+                return product.sku === 'premium' && product.state === 'ACTIVE';
 
             } catch (er) {
                 err(er, 295);
@@ -70,20 +70,14 @@ const check_license = async purchases => {
             return undefined;
         });
 
-        if (licensed) {
+        if (licensed || just_purchased) {
             await activate_clear_new_tab();
 
             if (page === 'inapp') {
                 analytics.send_inapp_event('purchased');
 
                 x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'refresh_purchase_state' }]);
-
-            } else if (page === 'options') {
-                set_premium_purchasing_overview_state('licensed');
             }
-
-        } else if (page === 'options') {
-            set_premium_purchasing_overview_state('not_licensed');
         }
 
         await update_premium_ob();
@@ -106,6 +100,13 @@ export const update_premium_ob = async () => {
     try {
         const premium = await ed('premium');
 
+        if (premium) {
+            set_premium_purchasing_state('licensed');
+
+        } else {
+            set_premium_purchasing_state('not_licensed');
+        }
+
         runInAction(() => {
             try {
                 ob.premium = premium;
@@ -120,9 +121,9 @@ export const update_premium_ob = async () => {
     }
 };
 
-const set_premium_purchasing_overview_state = action(state => {
+const set_premium_purchasing_state = action(state => {
     try {
-        ob.products_purchasing_overview = state;
+        ob.premium_purchasing_state = state;
 
     } catch (er) {
         err(er, 306);
@@ -140,9 +141,9 @@ export const check_if_clear_new_tab_is_activated = () => {
     return undefined;
 };
 
-export const show_inapp_notice = product_id => {
+export const show_inapp_notice = name => {
     try {
-        analytics.send_inapp_event('tried_to_activate_locked', product_id);
+        analytics.send_inapp_event('tried_to_activate_locked', name);
         show_or_hide_inapp_notice(true);
 
     } catch (er) {
@@ -172,17 +173,52 @@ const show_or_hide_inapp_notice = action(bool => {
     }
 });
 
-export const con = {
-    all_regexp: new RegExp(/all[0-9]+/),
+export const get_premium_price = () => {
+    get_products(
+        action(products => {
+            try {
+                const premium = products.response.details.inAppProducts.find(product => {
+                    try {
+                        return product.sku === 'premium' && product.state === 'ACTIVE';
+
+                    } catch (er) {
+                        err(er, 322);
+                    }
+
+                    return undefined;
+                });
+
+                if (premium) {
+                    ob.premium_price = `${premium.prices[0].valueMicros / 1000000} ${premium.prices[0].currencyCode}`;
+
+                    set_premium_purchasing_state('not_licensed');
+
+                } else {
+                    set_premium_purchasing_state('error');
+                }
+
+            } catch (er) {
+                err(er, 323);
+            }
+        }),
+
+        () => {
+            set_premium_purchasing_state('error');
+        },
+    );
 };
 
-export const mut = {
-    full_license_tier_to_offer: null,
+export const con = {
+    features: ['theme_beta', 'random_solid_color', 'slideshow', 'slide', 'paste_btn'],
+    video_ids: ['YlL8458rimc', 'MhfGZLZvA0Y', 'G2Crq715TyU', 'ZTEmthOSnjQ', 'k1D5KUC0eM0'],
 };
 
 export const ob = observable({
     premium: false,
-    products_purchasing_overview: 'fetching_products',
+    premium_price: null,
+    premium_purchasing_state: 'fetching_products',
     products_to_display: [],
     show_inapp_notice: false,
 });
+
+update_premium_ob();

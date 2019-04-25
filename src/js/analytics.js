@@ -130,9 +130,9 @@ export const send_analytics_privacy_btns_event = name => {
     }
 };
 
-export const send_links_event = (family, name, browser) => {
+export const send_links_event = (family, name, browser_clicked_link_in) => {
     try {
-        send_event('links', `clicked-${family}-${name}${browser ? `-${browser}` : ''}`);
+        send_event('links', `clicked-${family}-${name}${browser_clicked_link_in ? `-${browser_clicked_link_in}` : ''}`);
 
     } catch (er) {
         err(er, 260);
@@ -193,9 +193,9 @@ export const send_permissions_event = (action, name) => {
     }
 };
 
-export const send_inapp_event = action => {
+export const send_inapp_event = (action, name) => {
     try {
-        send_event('inapp', action);
+        send_event('inapp', `${action}${name ? `-${name}` : ''}`);
 
     } catch (er) {
         err(er, 303);

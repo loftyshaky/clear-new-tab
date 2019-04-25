@@ -103,7 +103,7 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
                 }
 
                 if (!first_call || mut.uploading_theme_background) {
-                    if (mut.call_type === 'cws' || (mut.call_type === 'theme_beta' && (ed_all.products.theme_beta || ed_all.products.all)) || what_browser === 'firefox') {
+                    if (mut.call_type === 'cws' || (mut.call_type === 'theme_beta' && ed_all.premium) || what_browser === 'firefox') {
                         await db.ed.update(1, { current_background: new_current_background });
                         await get_new_future_background.get_new_future_background(new_current_background + 1);
                         await backgrounds.preload_current_and_future_background('reload');
@@ -159,9 +159,9 @@ const download_theme_crx = async (theme_id, ed_all, theme_beta_theme_id, reload_
         theme_package = await get_crx(`https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D${theme_id}%26uc&prodversion=32`, 'cws');
 
     } catch (er) {
-        const products = await ed('products');
+        const premium = await ed('premium');
 
-        if ((ed_all.get_theme_background_f_run_once && (products.theme_beta || products.all)) || what_browser === 'firefox') {
+        if ((ed_all.get_theme_background_f_run_once && premium) || what_browser === 'firefox') {
             err(er, 285, null, true);
 
             try {

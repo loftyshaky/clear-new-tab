@@ -67,7 +67,7 @@ export const Global_checkbox = observer(props => {
                     checked={'global_checkbox_val' in inputs_data.obj[family][name] ? inputs_data.obj[family][name].global_checkbox_val : inputs_data.obj[family][name].val}
                     type="checkbox"
                     id={checkbox_id}
-                    onChange={checkbox_is_locked ? inapp.show_inapp_notice.bind(null, inputs_data.obj[family][name].premium) : on_change}
+                    onChange={checkbox_is_locked ? inapp.show_inapp_notice.bind(null, name) : on_change}
                 />
                 <span
                     className={x.cls(['checkbox_checkmark_w', checkbox_is_locked ? 'locked_input' : null])}
