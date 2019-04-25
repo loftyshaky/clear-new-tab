@@ -461,6 +461,15 @@
   "premium_desc_text": {
     "message": "Here you can purchase Clear New Tab Premium. Clear New Tab Premium license is tied to your Google account (so make sure you are logged in in the account you usually use), lasts forever and will not be lost after Clear New Tab reinstallation. You can try out all the Clear New Tab Premium features for free in the <a class='link inapp_clear_new_tab_for_firefox_link' target='_blank' rel='noopener noreferrer' href='https: //bit.ly/clear-new-tab-firefox'>Clear New Tab</a> for Firefox."
   },
+  "buy_premium_btn_buy_text": {
+    "message": "Buy"
+  },
+  "buy_premium_btn_for_text": {
+    "message": "for"
+  },
+  "buy_premium_btn_one_time_payment_text": {
+    "message": "one-time payment"
+  },
   "features_h2_text": {
     "message": "Features"
   },

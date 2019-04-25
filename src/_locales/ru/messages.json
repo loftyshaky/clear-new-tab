@@ -461,6 +461,15 @@
   "premium_desc_text": {
     "message": "Здесь вы можете купить Clear New Tab Premium. Лицензия на Clear New Tab Premium привязана к вашей учетной записи Google (поэтому убедитесь, что вы вошли в учетную запись, которую вы обычно используете), действует вечно и не будет потеряна после переустановки Clear New Tab. Вы можете попробовать все платные функции бесплатно в <a class='link inapp_clear_new_tab_for_firefox_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/clear-new-tab-firefox-ru'>Clear New Tab</a> для Firefox."
   },
+  "buy_premium_btn_buy_text": {
+    "message": "Купить"
+  },
+  "buy_premium_btn_for_text": {
+    "message": "за"
+  },
+  "buy_premium_btn_one_time_payment_text": {
+    "message": "единовременный платёж"
+  },
   "features_h2_text": {
     "message": "Функции"
   },

@@ -38,7 +38,7 @@ export class Purchase_zone extends React.Component {
                     disabled={inapp.ob.premium || inapp.ob.premium_purchasing_state === 'error'}
                     onClick={this.try_to_buy}
                 >
-                    {`${x.msg('buy_premium_btn_text')}${inapp.ob.premium_price ? ` for ${inapp.ob.premium_price}` : ''}`}
+                    {`${x.msg('buy_premium_btn_buy_text')} ${x.msg('inapp_legend_text')}${inapp.ob.premium_price ? ` ${x.msg('buy_premium_btn_for_text')} ${inapp.ob.premium_price} (${x.msg('buy_premium_btn_one_time_payment_text')})` : ''}`}
                 </button>
             </div>
         );
