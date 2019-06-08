@@ -37,6 +37,7 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
                     mut.theme_beta_theme_id = null;
 
                     const theme_package_data = await jszip.loadAsync(theme_package);
+                    const clear_new_tab_video_file_name = con.clear_new_tab_video_file_names.find(file_name => theme_package_data.files[file_name]);
                     const manifest = await theme_package_data.file('manifest.json').async('string');
                     const manifest_obj = JSON.parse(manifest.trim()); // trim fixes bug with some themes. ex: https://chrome.google.com/webstore/detail/sexy-girl-chrome-theme-ar/pkibpgkliocdchedibhioiibdiddomac
                     const theme_obj = manifest_obj.theme;
@@ -67,9 +68,11 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
 
                     await delete_previous_themes_backgrounds();
 
+                    const found_background_img_or_clear_new_tab_video = img_name || clear_new_tab_video_file_name;
+
                     await r.ifElse(
-                        () => img_name,
-                        async () => extract_video(theme_id, theme_package_data, theme_background_info, img_name),
+                        () => found_background_img_or_clear_new_tab_video,
+                        async () => extract_video(theme_id, clear_new_tab_video_file_name, theme_package_data, theme_background_info, img_name),
 
                         async () => {
                             try {
@@ -216,21 +219,14 @@ const record_theme_id = async (theme_id, theme_beta_theme_id, ed_all, reload_cal
     }
 };
 
-const extract_video = async (theme_id, theme_package_data, theme_background_info, img_name) => {
+const extract_video = async (theme_id, clear_new_tab_video_file_name, theme_package_data, theme_background_info, img_name) => {
     try {
-        let clear_new_tab_video = await theme_package_data.file('clear_new_tab_video.mp4');
-
-        if (!clear_new_tab_video) {
-            clear_new_tab_video = await theme_package_data.file('clear_new_tab_video.webm');
-        }
-
-        if (!clear_new_tab_video) {
-            clear_new_tab_video = await theme_package_data.file('clear_new_tab_video.ogv');
-        }
-
+        const clear_new_tab_video = await theme_package_data.file(clear_new_tab_video_file_name);
         const theme_background = await theme_package_data.file(img_name); // download theme image
         const theme_img_or_video = clear_new_tab_video || theme_background || await theme_package_data.file(img_name.charAt(0).toUpperCase() + img_name.slice(1)); // download theme image (convert first letter of image name to uppercase)
-        const type = clear_new_tab_video ? `video/${get_file_extension(clear_new_tab_video.name)}` : `image/${get_file_extension(img_name)}`;
+        const clear_new_tab_video_ext = clear_new_tab_video ? get_file_extension(clear_new_tab_video.name) : null;
+        const clear_new_tab_video_gif_type = clear_new_tab_video_ext === 'gif' ? `image/${clear_new_tab_video_ext}` : null;
+        const type = clear_new_tab_video ? clear_new_tab_video_gif_type || `video/${get_file_extension(clear_new_tab_video.name)}` : `image/${get_file_extension(img_name)}`;
         const blob = await theme_img_or_video.async('blob');
         const file_object = convert_to_file_object.convert_to_file_object(blob, type);
 
@@ -366,6 +362,7 @@ const get_file_extension = filename => {
 };
 
 const con = {
+    clear_new_tab_video_file_names: ['clear_new_tab_video.mp4', 'clear_new_tab_video.webm', 'clear_new_tab_video.ogv', 'clear_new_tab_video.gif'],
     positions_dict: {
         top: '50% 0%',
         center: '50% 50%',
