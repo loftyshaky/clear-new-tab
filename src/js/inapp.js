@@ -209,8 +209,8 @@ export const get_premium_price = () => {
 };
 
 export const con = {
-    features: ['theme_beta', 'random_solid_color', 'slideshow', 'slide', 'paste_btn'],
-    video_ids: ['YlL8458rimc', 'MhfGZLZvA0Y', 'G2Crq715TyU', 'ZTEmthOSnjQ', 'k1D5KUC0eM0'],
+    features: ['random_solid_color', 'slideshow', 'slide', 'paste_btn'], // 'theme_beta' removed
+    video_ids: ['MhfGZLZvA0Y', 'G2Crq715TyU', 'ZTEmthOSnjQ', 'k1D5KUC0eM0'], // 'YlL8458rimc' removed (theme beta video)
 };
 
 export const ob = observable({
