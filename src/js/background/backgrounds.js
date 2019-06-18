@@ -59,6 +59,8 @@ export const retrieve_backgrounds = async send_response => {
             }
         });
 
+        mut.imgs_retrieved = true;
+
         if (send_response) {
             send_response();
         }
@@ -126,6 +128,15 @@ export const preload_current_and_future_background = async mode => {
 
         const ed_all = await eda();
 
+        await preload_current_and_future_background_inner(mode, ed_all);
+
+    } catch (er) {
+        err(er, 5, null, true);
+    }
+};
+
+const preload_current_and_future_background_inner = async (mode, ed_all) => {
+    if (mut.imgs_retrieved) {
         if (mode === 'new_current_background' && mut.future_background) {
             mut.current_background = mut.backgrounds[ed_all.future_background] ? r.clone(mut).future_background : null;
 
@@ -139,8 +150,10 @@ export const preload_current_and_future_background = async mode => {
 
         mut.preload_current_and_future_background_f_is_running = false;
 
-    } catch (er) {
-        err(er, 5, null, true);
+    } else {
+        await x.delay(100);
+
+        await preload_current_and_future_background_inner(mode, ed_all);
     }
 };
 //< preload images
@@ -150,4 +163,5 @@ export const mut = {
     preload_current_and_future_background_f_is_running: false,
     current_background: null,
     future_background: null,
+    imgs_retrieved: false,
 };
