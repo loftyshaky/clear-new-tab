@@ -48,7 +48,16 @@ export const load_backgrounds = async () => {
 //> get ready image object for use in new tab
 export const retrieve_backgrounds = async send_response => {
     try {
-        mut.backgrounds = await db.backgroundsd.orderBy('position_id').toArray();
+        mut.backgrounds = [];
+
+        await db.backgroundsd.orderBy('position_id').each(row => {
+            try {
+                mut.backgrounds.push(row);
+
+            } catch (er) {
+                err(er, 325);
+            }
+        });
 
         if (send_response) {
             send_response();
