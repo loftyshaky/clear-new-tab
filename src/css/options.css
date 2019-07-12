@@ -948,7 +948,7 @@ input {
 /*< in-app notice */
 
 /*> loading screen */
-.loading_screen, .analytics_privacy_protecting_screen {
+.loading_screen {
     height: 100%;
     width: 100%;
     position: fixed;
@@ -977,17 +977,12 @@ input {
 .analytics_privacy {
     position: fixed;
     padding: 12px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    bottom: 50px;
+    right: 50px;
     width: 500px;
     box-shadow: 0 0 15px #fbff75;
     border: 1px solid #fbff75;
     z-index: 1;
-}
-
-.analytics_privacy_protecting_screen {
-    background-color: rgba(0, 0, 0, 0.8);
 }
 
 .analytics_privacy_btns_and_link {
@@ -1015,7 +1010,7 @@ input {
 /*< analytics_privacy */
 
 /*> transition */
-.link, .upload_box_browse_label, svg, .theme_img_link, .using_mouse .delete_background_btn, .color_input_vizualization, .using_mouse .normal_input, .using_mouse .btn, .global_el, .input, .image_settings_wrapper, .dragged_item, .background_inner_w, .using_mouse .background_w, .selected_background, .using_mouse .background_btn, .backgrounds_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .background_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu, .analytics_privacy, .analytics_privacy_protecting_screen, .background_placeholder, .inapp_notice, .inapp_notice_learn_more_link, .checkbox_checkmark_w {
+.link, .upload_box_browse_label, svg, .theme_img_link, .using_mouse .delete_background_btn, .color_input_vizualization, .using_mouse .normal_input, .using_mouse .btn, .global_el, .input, .image_settings_wrapper, .dragged_item, .background_inner_w, .using_mouse .background_w, .selected_background, .using_mouse .background_btn, .backgrounds_w_2, .upload_box, .help_message, .install_help_w, .color_pickier, .background_w_tr, .adjacent_btn_w, .checkbox_w, .select__control--is-focused, .select__menu, .analytics_privacy, .background_placeholder, .inapp_notice, .inapp_notice_learn_more_link, .checkbox_checkmark_w {
     transition: all 0.2s ease-out;
 }
 
@@ -1051,7 +1046,7 @@ svg {
     transition-property: color, background-color, border-color, box-shadow;
 }
 
-.global_el, .input, .image_settings_wrapper, .dragged_item, .loading_screen, .backgrounds_w_2, .background_inner_w_2, .help_message, .install_help_w, .color_pickier, .background_w_tr, .adjacent_btn_w, .checkbox_w, .analytics_privacy, .analytics_privacy_protecting_screen, .background_placeholder, .inapp_notice {
+.global_el, .input, .image_settings_wrapper, .dragged_item, .loading_screen, .backgrounds_w_2, .background_inner_w_2, .help_message, .install_help_w, .color_pickier, .background_w_tr, .adjacent_btn_w, .checkbox_w, .analytics_privacy, .background_placeholder, .inapp_notice {
     transition-property: opacity;
 }
 

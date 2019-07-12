@@ -38,6 +38,7 @@ export const allow_analytics = action(async () => {
         }
 
         await db.ed.update(1, { allow_analytics: true });
+        await db.ed.update(1, { answered_to_analytics_privacy_question: true });
 
         settings.change_input_val('other_settings', 'allow_analytics', true);
 
@@ -80,10 +81,13 @@ const hide_analytics_privacy = action(async () => {
 
 const set_analytics_privacy_is_visible_var = async () => {
     try {
-        const answered_to_analytics_privacy_question = await ed('answered_to_analytics_privacy_question');
+        const date = new Date();
+        const ed_all = await eda();
+        const week_after_installation_time = ed_all.installation_time + (7 * 24 * 60 * 60 * 10000);
+        const week_passed_after_installation = week_after_installation_time < date.getTime();
 
         runInAction(() => {
-            ob.analytics_privacy_is_visible = !answered_to_analytics_privacy_question;
+            ob.analytics_privacy_is_visible = !ed_all.answered_to_analytics_privacy_question && week_passed_after_installation;
         });
 
     } catch (er) {
