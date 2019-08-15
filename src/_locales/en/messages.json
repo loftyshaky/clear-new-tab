@@ -1,6 +1,6 @@
 {
   "desc": {
-    "message": "Remove the most visited and other Google stuff from new tab without removing theme background."
+    "message": "Hide everything from the new tab page without removing theme background."
   },
   "error_alert": {
     "message": "An error occured. Error code: "

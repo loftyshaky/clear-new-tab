@@ -1,6 +1,6 @@
 ﻿{
   "desc": {
-    "message": "Remova os sites mais visitados e outros elementos do Google presentes na nova guia sem remover a imagem de temas."
+    "message": "Hide everything from the new tab page without removing theme background."
   },
   "error_alert": {
     "message": "Um erro ocorreu. Código de erro: "
