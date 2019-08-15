@@ -129,7 +129,7 @@ export class All extends React.Component {
                             />
                             <Link
                                 name="facebook_page_link"
-                                href="https://bit.ly/simpleext"
+                                href="https://bit.ly/browservery"
                                 add_data_bshref_attr={false}
                             />
                             <Link
