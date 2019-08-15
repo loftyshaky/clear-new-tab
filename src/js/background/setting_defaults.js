@@ -27,7 +27,6 @@ window.set_default_settings = async page => { // this function also called in op
         };
 
         if (page === 'background') {
-            ext_data_o.installation_time = new Date().getTime();
             ext_data_o.premium = false;
             ext_data_o.show_install_help = true;
             ext_data_o.show_bookmarks_bar = false;

@@ -26,6 +26,14 @@ export class Analytics_privacy extends React.Component {
             <React.Fragment>
                 <Tr
                     attr={{
+                        className: 'analytics_privacy_protecting_screen',
+                    }}
+                    tag="div"
+                    name="gen"
+                    state={analytics_privacy.ob.analytics_privacy_is_visible}
+                />
+                <Tr
+                    attr={{
                         className: 'analytics_privacy',
                     }}
                     tag="div"
