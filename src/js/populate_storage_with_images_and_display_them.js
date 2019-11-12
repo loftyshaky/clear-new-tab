@@ -192,13 +192,11 @@ const create_thumbnails_and_get_natural_width_and_height = async (backgrounds, t
 
                     if (!is_img) {
                         background.addEventListener('loadedmetadata', () => {
-                            if (background.readyState === 1) {
-                                background.currentTime = background.duration / 3;
-                            }
+                            background.currentTime = background.duration / 3;
                         });
                     }
 
-                    background.addEventListener(is_img ? 'load' : 'canplaythrough', async () => {
+                    background.addEventListener(is_img ? 'load' : 'timeupdate', async () => {
                         try {
                             const natural_width = background.naturalWidth || background.videoWidth;
                             const natural_height = background.naturalHeight || background.videoHeight;
