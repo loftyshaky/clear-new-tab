@@ -19,7 +19,6 @@ if (process.argv.indexOf('--chrome') > -1) {
     browser = 'firefox';
 }
 
-//> manifest
 (() => {
     const manifest = {
         manifest_version: 2,
@@ -98,9 +97,14 @@ if (process.argv.indexOf('--chrome') > -1) {
         };
     }
 
+    const env = {
+        what_browser: browser,
+    };
+
     writeFileSync(join(__dirname, 'dist', 'manifest.json'), JSON.stringify(manifest), 'utf-8');
+    writeFileSync(join(__dirname, 'dist', 'env.json'), JSON.stringify(env), 'utf-8');
 })();
-//< manifest
+
 
 module.exports = {
     entry: {
@@ -179,7 +183,7 @@ module.exports = {
         new CleanWebpackPlugin({
             verbose: true,
             cleanStaleWebpackAssets: false,
-            cleanOnceBeforeBuildPatterns: ['**/*', '!manifest.json'],
+            cleanOnceBeforeBuildPatterns: ['**/*', '!manifest.json', '!env'],
         }),
     ],
 
