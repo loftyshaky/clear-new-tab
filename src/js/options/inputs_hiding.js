@@ -39,7 +39,7 @@ export const decide_what_inputs_to_hide = async () => {
         if (!mut.run_decide_what_inputs_to_hide_once) {
             mut.run_decide_what_inputs_to_hide_once = true;
 
-            if (env.what_browser !== 'firefox') {
+            if (env.what_browser === 'chrome') {
                 inapp.refresh_purchase_state(false);
             }
         }

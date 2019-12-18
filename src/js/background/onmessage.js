@@ -225,7 +225,7 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
         } else if (msg === 'open_preview_background_tab') { // open image (new tab) by click on "Preview" button
             let new_tab_url;
 
-            if (env.what_browser === 'chrome') {
+            if (r.includes(env.what_browser, ['chrome', 'edge'])) {
                 new_tab_url = `chrome://newtab?preview_background_id=${message.background_id}`;
 
             } else if (env.what_browser === 'firefox') {

@@ -87,7 +87,7 @@ export class All extends React.Component {
                             family="other_settings"
                             wrap_inputs
                         />
-                        {env.what_browser !== 'firefox' ? <Inapp_fieldset /> : null}
+                        {env.what_browser === 'chrome' ? <Inapp_fieldset /> : null}
                         <Left_fieldset family="links">
                             <Link
                                 name="privacy_policy_link"
