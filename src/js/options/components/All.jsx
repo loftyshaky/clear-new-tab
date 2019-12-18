@@ -133,6 +133,11 @@ export class All extends React.Component {
                                 add_data_bshref_attr={false}
                             />
                             <Link
+                                name="support_website_link"
+                                href="https://bit.ly/browservery-support"
+                                add_data_bshref_attr={false}
+                            />
+                            <Link
                                 name="rate_link"
                                 href="http"
                                 add_data_bshref_attr

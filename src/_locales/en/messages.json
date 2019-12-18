@@ -422,6 +422,9 @@
   "facebook_page_link_text": {
     "message": "🖼️  Follow my Facebook page"
   },
+  "support_website_link_text": {
+    "message": "📢 Support website"
+  },
   "donate_link_text": {
     "message": "💖 Support the development of this extension by donating any amount via PayPal"
   },
