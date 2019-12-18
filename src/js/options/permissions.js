@@ -55,7 +55,7 @@ export const ask_for_permission_or_remove_it = async (checkbox_name, permissions
             }
 
         } else { // if permission is present
-            if (cannot_remove_permissions.indexOf(checkbox_name) === -1 || what_browser === 'firefox') {
+            if (cannot_remove_permissions.indexOf(checkbox_name) === -1 || env.what_browser === 'firefox') {
                 analytics.send_permissions_event('removed', checkbox_name);
 
                 await remove_permission(permissions);

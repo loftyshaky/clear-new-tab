@@ -225,7 +225,7 @@ export const inputs_data = observable({
                 type: 'checkbox',
                 checkbox_type: 'ed',
                 val: false,
-                visible: what_browser === 'chrome',
+                visible: env.what_browser === 'chrome',
             },
             show_bookmarks_bar: {
                 key: x.unique_id(),

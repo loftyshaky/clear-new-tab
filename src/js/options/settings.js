@@ -76,7 +76,7 @@ export const change_settings = async (input_type, family, name, val) => {
         }
 
         if (input_type === 'select' && val === 'theme') {
-          await  select_theme_background_when_selecting_theme_mode();
+            await select_theme_background_when_selecting_theme_mode();
         }
 
         await db[storage_type].update(storage_id, { [name]: new_val });
@@ -93,11 +93,11 @@ export const change_settings = async (input_type, family, name, val) => {
             await x.send_message_to_background({ message: 'reset_timer' });
         }
 
-        if (input_type === 'select' && val === 'theme' && what_browser === 'chrome') {
+        if (input_type === 'select' && val === 'theme' && env.what_browser === 'chrome') {
             await x.send_message_to_background_c({ message: 'get_theme_background', reinstall_even_if_theme_background_already_exist: false, reload_call: true });
         }
 
-      await  x.send_message_to_background({ message: 'preload_background' });
+        await x.send_message_to_background({ message: 'preload_background' });
 
         if (input_type === 'color') {
             mut.current_color_pickier.el = null;

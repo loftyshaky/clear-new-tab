@@ -10,7 +10,7 @@ import { Ff_install_btn } from 'content_script/components/Ff_install_btn';
 import { Undo_btn } from 'content_script/components/Undo_btn';
 
 //> insert "Install theme" buttons
-if (what_browser === 'firefox') {
+if (env.what_browser === 'firefox') {
     (() => {
         try {
             if (installing_theme.con.install_src === 'cws') {

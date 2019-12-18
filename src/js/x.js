@@ -41,25 +41,6 @@ window.eda = async () => {
 };
 //< get extension data
 
-//> what browser
-(() => {
-    const url = browser.extension.getURL('');
-    const cur_browser = url.substring(0, url.indexOf(':'));
-
-    if (cur_browser === 'chrome-extension') {
-        if (url.indexOf('lgmmcdanmhkefaipfaokekdlanepjnji') !== -1) {
-            window.what_browser = 'opera';
-
-        } else {
-            window.what_browser = 'chrome';
-        }
-
-    } else if (cur_browser === 'moz-extension') {
-        window.what_browser = 'firefox';
-    }
-})();
-//< what browser
-
 window.l = console.log.bind(console); // eslint-disable-line no-console
 
 //> selecting elements
@@ -257,8 +238,8 @@ x.localize = base_element => {
     localize_without_browser('placeholder', 'placeholder');
     localize_without_browser('href', 'href');
     localize_without_browser('title', 'tooltip');
-    localize_inner('innerHTML', 'bstext', `_${what_browser}`); // browser specefic text
-    localize_inner('href', 'bshref', `_${what_browser}`); // browser specefic href
+    localize_inner('innerHTML', 'bstext', `_${env.what_browser}`); // browser specefic text
+    localize_inner('href', 'bshref', `_${env.what_browser}`); // browser specefic href
 };
 //<1 localization
 

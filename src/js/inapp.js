@@ -132,7 +132,7 @@ const set_premium_purchasing_state = action(state => {
 
 export const check_if_clear_new_tab_is_activated = () => {
     try {
-        return !ob.premium && what_browser !== 'firefox';
+        return !ob.premium && env.what_browser !== 'firefox';
 
     } catch (er) {
         err(er, 318);

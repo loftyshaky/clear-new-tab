@@ -79,7 +79,7 @@ export class All extends React.Component {
                     <div className="main">
                         <Left_fieldset family="upload">
                             <Install_help />
-                            {what_browser === 'chrome' ? <Theme_img_link /> : null}
+                            {env.what_browser === 'chrome' ? <Theme_img_link /> : null}
                             <Upload_box />
                         </Left_fieldset>
                         <Left_fieldset family="background_settings" />
@@ -87,7 +87,7 @@ export class All extends React.Component {
                             family="other_settings"
                             wrap_inputs
                         />
-                        {what_browser !== 'firefox' ? <Inapp_fieldset /> : null}
+                        {env.what_browser !== 'firefox' ? <Inapp_fieldset /> : null}
                         <Left_fieldset family="links">
                             <Link
                                 name="privacy_policy_link"
@@ -137,7 +137,7 @@ export class All extends React.Component {
                                 href="http"
                                 add_data_bshref_attr
                             />
-                            {what_browser === 'firefox'
+                            {env.what_browser === 'firefox'
                                 ? (
                                     <Link
                                         name="donate_link"

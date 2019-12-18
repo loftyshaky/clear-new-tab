@@ -9,13 +9,13 @@ export const Link = props => {
 
     //> set create_link variable which decides wheter to create link component
     const is_clear_new_tab_for_link = name === 'clear_new_tab_for_link';
-    const is_link_doesnt_belong_to_user_browser = what_browser !== browser;
+    const is_link_doesnt_belong_to_user_browser = env.what_browser !== browser;
     const create_clear_new_tab_for_link = is_clear_new_tab_for_link && is_link_doesnt_belong_to_user_browser;
     const create_link = !is_clear_new_tab_for_link || create_clear_new_tab_for_link;
     //< set create_link variable which decides wheter to create link component
 
     //> generate bstext and bshref attributes
-    const browser_final = is_clear_new_tab_for_link ? browser : what_browser;
+    const browser_final = is_clear_new_tab_for_link ? browser : env.what_browser;
     const bstext = is_clear_new_tab_for_link ? `${name}_text_${browser_final}` : null;
     const bshref = add_data_bshref_attr ? `${name}_href_${browser_final}` : null;
     const opts = {

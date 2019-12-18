@@ -81,7 +81,7 @@ export class Install_help extends React.Component {
                 tr_ref={node => { this.install_help_w = node; }}
             >
                 {/* eslint-disable-next-line react/no-danger */}
-                <p className="install_help" dangerouslySetInnerHTML={{ __html: x.msg(`install_help_text_${what_browser}`) }} />
+                <p className="install_help" dangerouslySetInnerHTML={{ __html: x.msg(`install_help_text_${env.what_browser}`) }} />
             </Tr>
         );
     }

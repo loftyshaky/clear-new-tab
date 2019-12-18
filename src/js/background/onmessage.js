@@ -225,10 +225,10 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
         } else if (msg === 'open_preview_background_tab') { // open image (new tab) by click on "Preview" button
             let new_tab_url;
 
-            if (what_browser === 'chrome') {
+            if (env.what_browser === 'chrome') {
                 new_tab_url = `chrome://newtab?preview_background_id=${message.background_id}`;
 
-            } else if (what_browser === 'firefox') {
+            } else if (env.what_browser === 'firefox') {
                 new_tab_url = browser.runtime.getURL(`/new_tab.html?preview_background_id=${message.background_id}`);
             }
 

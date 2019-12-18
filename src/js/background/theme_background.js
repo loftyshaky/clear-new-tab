@@ -18,7 +18,7 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
     if (ed_all.mode === 'theme') {
         try {
             const installing_theme_background_already_exist = r.find(r.propEq('theme_id', theme_id), backgrounds.mut.backgrounds);
-            const any_theme_installed = what_browser === 'chrome' ? await get_installed_theme_id() : theme_id;
+            const any_theme_installed = env.what_browser === 'chrome' ? await get_installed_theme_id() : theme_id;
             let new_current_background;
 
             if ((any_theme_installed || !reload_call) && ((!ed_all.keep_old_themes_backgrounds && reinstall_even_if_theme_background_already_exist) || !installing_theme_background_already_exist)) {
@@ -62,7 +62,7 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
 
                     const is_valid_img = img_name ? img_name_ => con.valid_file_types.some(ext => img_name_.includes(ext)) : null;
 
-                    if (is_valid_img && !is_valid_img(img_name) && what_browser !== 'chrome') {
+                    if (is_valid_img && !is_valid_img(img_name) && env.what_browser !== 'chrome') {
                         throw 'Image is not valid image'; // eslint-disable-line no-throw-literal
                     }
 
@@ -96,7 +96,7 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
                 } else { // when undoing theme
                     analytics.send_event('theme_background', 'loaded');
 
-                    const last_installed_theme_theme_id = what_browser === 'chrome' ? await get_installed_theme_id() : theme_id;
+                    const last_installed_theme_theme_id = env.what_browser === 'chrome' ? await get_installed_theme_id() : theme_id;
 
                     await db.ed.update(1, { last_installed_theme_theme_id });
 
@@ -104,7 +104,7 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
                 }
 
                 if (!first_call || mut.uploading_theme_background) {
-                    if (mut.call_type === 'cws' || (mut.call_type === 'theme_beta' && ed_all.premium) || what_browser === 'firefox') {
+                    if (mut.call_type === 'cws' || (mut.call_type === 'theme_beta' && ed_all.premium) || env.what_browser === 'firefox') {
                         await db.ed.update(1, { current_background: new_current_background });
                         await get_new_future_background.get_new_future_background(new_current_background + 1);
                         await backgrounds.preload_current_and_future_background('reload');
@@ -125,7 +125,7 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
             err(er, 42, null, true);
 
             try {
-                if (what_browser !== 'chrome') {
+                if (env.what_browser !== 'chrome') {
                     await x.send_message_to_tab_c(tab_id, { message: 'notify_about_paid_theme_error' });
                 }
 
@@ -140,7 +140,7 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
             return 'error';
         }
 
-    } else if (what_browser !== 'chrome') {
+    } else if (env.what_browser !== 'chrome') {
         try {
             await x.send_message_to_tab_c(tab_id, { message: 'notify_about_wrong_mode' });
 
@@ -160,7 +160,7 @@ const download_theme_crx = async (theme_id, ed_all, theme_beta_theme_id, reload_
         theme_package = await get_crx(`https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D${theme_id}%26uc&prodversion=32`, 'cws');
 
     } catch (er) {
-        if (ed_all.premium || what_browser === 'firefox') {
+        if (ed_all.premium || env.what_browser === 'firefox') {
             err(er, 285, null, true);
 
             try {
@@ -297,7 +297,7 @@ const rgb_to_hex = r.pipe(r.map(val => {
 }), r.join(''));
 
 //> on theme installiation
-if (what_browser === 'chrome') {
+if (env.what_browser === 'chrome') {
     browser.management.onEnabled.addListener(ext_info => {
         try {
             if (ext_info.type === 'theme') {
