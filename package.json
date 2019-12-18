@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "webpack-dev-server --mode development --config webpack.dev.js --chrome",
     "prod": "webpack -p --mode production --config webpack.prod.js --chrome",
+    "deve": "webpack-dev-server --mode development --config webpack.dev.js --edge",
+    "prode": "webpack -p --mode production --config webpack.prod.js --edge",
     "devff": "webpack-dev-server --mode development --config webpack.dev.js --firefox",
     "prodff": "webpack -p --mode production --config webpack.prod.js --firefox"
   },
