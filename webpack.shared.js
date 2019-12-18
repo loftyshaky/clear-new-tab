@@ -53,6 +53,7 @@ if (process.argv.indexOf('--chrome') > -1) {
         ],
         background: {
             scripts: [
+                'env.js',
                 'background.js',
             ],
         },
@@ -97,12 +98,10 @@ if (process.argv.indexOf('--chrome') > -1) {
         };
     }
 
-    const env = {
-        what_browser: browser,
-    };
+    const env = `window.env = { what_browser: '${browser}' }; // eslint-disable-line eol-last`;
 
     writeFileSync(join(__dirname, 'dist', 'manifest.json'), JSON.stringify(manifest), 'utf-8');
-    writeFileSync(join(__dirname, 'dist', 'env.json'), JSON.stringify(env), 'utf-8');
+    writeFileSync(join(__dirname, 'dist', 'env.js'), env, 'utf-8');
 })();
 
 
@@ -183,7 +182,7 @@ module.exports = {
         new CleanWebpackPlugin({
             verbose: true,
             cleanStaleWebpackAssets: false,
-            cleanOnceBeforeBuildPatterns: ['**/*', '!manifest.json', '!env'],
+            cleanOnceBeforeBuildPatterns: ['**/*', '!manifest.json', '!env.js'],
         }),
     ],
 

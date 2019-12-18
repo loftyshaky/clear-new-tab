@@ -82,7 +82,7 @@ module.exports = {
         t: false,
         er_obj: false,
         l: false,
-        what_browser: false,
+        env: false,
         browser: false,
         page: false,
         s: false,
