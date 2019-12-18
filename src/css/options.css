@@ -80,20 +80,20 @@ option {
     cursor: pointer;
 }
 
-.link:not(.inapp_fieldset_learn_more_link):visited {
-	color: #ff9090;
-}
-
 .link, .upload_box_browse_label, .inapp_notice_learn_more_link {
     color: #fbff75;
 }
 
-.link:hover, .upload_box_browse_label:hover, .inapp_notice_learn_more_link:hover {
+.link:hover, .link:hover:visited, .upload_box_browse_label:hover, .inapp_notice_learn_more_link:hover {
     color: #77ff6f;
 }
 
-.link:active, .upload_box_browse_label:active {
+.link:active, .link:active:visited, .upload_box_browse_label:active {
     color: #f493ff;
+}
+
+.link:visited {
+	color: #ff9090;
 }
 
 .option:hover, .btn:hover, .btn:active, .pagination li:hover a, .pagination li:active a, .background_btn:active {
