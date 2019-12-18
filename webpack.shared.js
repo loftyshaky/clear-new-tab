@@ -1,10 +1,106 @@
 // -p in 'scripts': { 'prod': } 'webpack -p in package.json needed to minify css
 
 const { join } = require('path');
+const { writeFileSync } = require('fs');
 
 const Html_webpack_plugin = require('html-webpack-plugin');
 const Copy_webpack_plugin = require('copy-webpack-plugin');
-const Clean_webpack_plugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+let browser;
+
+if (process.argv.indexOf('--chrome') > -1) {
+    browser = 'chrome';
+
+} else if (process.argv.indexOf('--edge') > -1) {
+    browser = 'edge';
+
+} else if (process.argv.indexOf('--firefox') > -1) {
+    browser = 'firefox';
+}
+
+//> manifest
+(() => {
+    const manifest = {
+        manifest_version: 2,
+        version: process.env.npm_package_version,
+        name: 'Clear New Tab',
+        description: '__MSG_desc__',
+        default_locale: 'en',
+        icons: {
+            16: 'icon16.png',
+            48: 'icon48.png',
+            128: 'icon128.png',
+        },
+        browser_action: {
+            default_icon: {
+                16: 'icon16.png',
+                32: 'icon32.png',
+                64: 'icon64.png',
+                19: 'icon19.png',
+            },
+        },
+        permissions: [
+            'storage',
+            'https://clients2.google.com/*',
+            'https://clients2.googleusercontent.com/*',
+            'https://www.themebeta.com/*',
+        ],
+        optional_permissions: [
+            'bookmarks',
+            'clipboardRead',
+            '*://*/*',
+            'https://www.google-analytics.com/*',
+        ],
+        background: {
+            scripts: [
+                'background.js',
+            ],
+        },
+        chrome_url_overrides: {
+            newtab: 'new_tab.html',
+        },
+        options_ui: {
+            page: 'options.html',
+            chrome_style: false,
+            open_in_tab: true,
+        },
+        content_scripts: [
+            {
+                matches: [
+                    'https://www.themebeta.com/*',
+                ],
+                js: [
+                    'content_script.js',
+                ],
+                css: [
+                    'content_script.css',
+                ],
+            },
+        ],
+        content_security_policy: "script-src 'self' 'unsafe-eval'; object-src 'self'",
+    };
+
+    if (browser === 'chrome') {
+        manifest.permissions.push('management');
+    }
+
+    if (browser === 'firefox') {
+        const cws_match = 'https://chrome.google.com/webstore/*';
+
+        manifest.permissions.push(cws_match);
+        manifest.content_scripts[0].matches.push(cws_match);
+        manifest.applications = {
+            gecko: {
+                id: 'clear-new-tab@loftyshaky',
+                strict_min_version: '54.0',
+            },
+        };
+    }
+
+    writeFileSync(join(__dirname, 'dist', 'manifest.json'), JSON.stringify(manifest), 'utf-8');
+})();
+//< manifest
 
 module.exports = {
     entry: {
@@ -70,31 +166,21 @@ module.exports = {
             chunks: ['new_tab'],
         }),
 
-        new Copy_webpack_plugin([{
-            //> generates the manifest file using the package.json informations
-            from: process.argv.indexOf('--firefox') > -1 ? 'src/manifest_firefox/manifest.json' : 'src/manifest_chrome/manifest.json',
-
-            transform(content) {
-                return Buffer.from(JSON.stringify({
-                    description: process.env.npm_package_description,
-                    version: process.env.npm_package_version,
-                    ...JSON.parse(content.toString()),
-                }));
-            },
-
-        },
-        //< generates the manifest file using the package.json informations
-
-        { from: join(__dirname, 'src', 'js', 'x.js'), to: join(__dirname, 'dist') },
-        { from: join(__dirname, 'src', 'css'), to: join(__dirname, 'dist') },
-        { from: join(__dirname, 'src', '_locales'), to: join(__dirname, 'dist', '_locales') },
-        { from: join(__dirname, 'src', 'mods'), to: join(__dirname, 'dist') },
-        { from: join(__dirname, 'src', 'icons'), to: join(__dirname, 'dist') },
-        { from: join(__dirname, 'src', 'images'), to: join(__dirname, 'dist') },
-        { from: join(__dirname, 'src', 'Roboto-Light.ttf'), to: join(__dirname, 'dist') },
+        new Copy_webpack_plugin([
+            { from: join(__dirname, 'src', 'js', 'x.js'), to: join(__dirname, 'dist') },
+            { from: join(__dirname, 'src', 'css'), to: join(__dirname, 'dist') },
+            { from: join(__dirname, 'src', '_locales'), to: join(__dirname, 'dist', '_locales') },
+            { from: join(__dirname, 'src', 'mods'), to: join(__dirname, 'dist') },
+            { from: join(__dirname, 'src', 'icons'), to: join(__dirname, 'dist') },
+            { from: join(__dirname, 'src', 'images'), to: join(__dirname, 'dist') },
+            { from: join(__dirname, 'src', 'Roboto-Light.ttf'), to: join(__dirname, 'dist') },
         ]),
 
-        new Clean_webpack_plugin(['dist']),
+        new CleanWebpackPlugin({
+            verbose: true,
+            cleanStaleWebpackAssets: false,
+            cleanOnceBeforeBuildPatterns: ['**/*', '!manifest.json'],
+        }),
     ],
 
     resolve: {
