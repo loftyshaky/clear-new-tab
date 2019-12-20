@@ -21,102 +21,100 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
             const any_theme_installed = env.what_browser === 'chrome' ? await get_installed_theme_id() : theme_id;
             let new_current_background;
 
-            if ((any_theme_installed || !reload_call) && ((!ed_all.keep_old_themes_backgrounds && reinstall_even_if_theme_background_already_exist) || !installing_theme_background_already_exist)) {
-                const { theme_beta_theme_id } = mut;
-                mut.uploading_theme_background = true;
+            const { theme_beta_theme_id } = mut;
+            mut.uploading_theme_background = true;
 
-                x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'enter_upload_mode' }]);
+            x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'enter_upload_mode' }]);
 
-                const theme_package = await download_theme_crx(theme_id, ed_all, theme_beta_theme_id, reload_call, first_call);
+            const theme_package = await download_theme_crx(theme_id, ed_all, theme_beta_theme_id, reload_call, first_call);
 
-                if (theme_package !== 'cancel_background_load') {
-                    analytics.send_event('theme_background', 'loaded');
+            if ((any_theme_installed || !reload_call) && ((!ed_all.keep_old_themes_backgrounds && reinstall_even_if_theme_background_already_exist) || (!installing_theme_background_already_exist && theme_package !== 'cancel_background_load'))) {
+                analytics.send_event('theme_background', 'loaded');
 
-                    await record_theme_id(theme_id, theme_beta_theme_id, ed_all, reload_call, first_call);
+                await record_theme_id(theme_id, theme_beta_theme_id, ed_all, reload_call, first_call);
 
-                    mut.theme_beta_theme_id = null;
+                mut.theme_beta_theme_id = null;
 
-                    const theme_package_data = await jszip.loadAsync(theme_package);
-                    const clear_new_tab_video_file_name = con.clear_new_tab_video_file_names.find(file_name => theme_package_data.files[file_name]);
-                    const manifest = await theme_package_data.file('manifest.json').async('string');
-                    const manifest_obj = JSON.parse(manifest.trim()); // trim fixes bug with some themes. ex: https://chrome.google.com/webstore/detail/sexy-girl-chrome-theme-ar/pkibpgkliocdchedibhioiibdiddomac
-                    const theme_obj = manifest_obj.theme;
-                    const img_name = r.path(['images', 'theme_ntp_background'], theme_obj);
-                    const position_prop = r.path(['properties', 'ntp_background_alignment'], theme_obj);
-                    const repeat_prop = r.path(['properties', 'ntp_background_repeat'], theme_obj);
-                    const size_prop = r.path(['clear_new_tab', 'size'], theme_obj);
-                    const video_volume_prop = r.path(['clear_new_tab', 'video_volume'], theme_obj);
-                    const position = con.positions.indexOf(position_prop) > -1 ? con.positions_dict[position_prop] : con.positions_dict.center;
-                    const repeat = con.repeats.indexOf(repeat_prop) > -1 ? repeat_prop : 'no-repeat';
-                    const size = con.sizes.indexOf(size_prop) > -1 ? size_prop : 'global';
-                    const video_volume = video_volume_prop >= 0 && video_volume_prop <= 100 ? +video_volume_prop : 'global';
-                    const color_rgb = r.path(['colors', 'ntp_background'], theme_obj);
-                    const color = color_rgb ? `#${rgb_to_hex(color_rgb)}` : '#ffffff';
-                    const theme_background_info = {
-                        position,
-                        repeat,
-                        color,
-                        size,
-                        video_volume,
-                    };
+                const theme_package_data = await jszip.loadAsync(theme_package);
+                const clear_new_tab_video_file_name = con.clear_new_tab_video_file_names.find(file_name => theme_package_data.files[file_name]);
+                const manifest = await theme_package_data.file('manifest.json').async('string');
+                const manifest_obj = JSON.parse(manifest.trim()); // trim fixes bug with some themes. ex: https://chrome.google.com/webstore/detail/sexy-girl-chrome-theme-ar/pkibpgkliocdchedibhioiibdiddomac
+                const theme_obj = manifest_obj.theme;
+                const img_name = r.path(['images', 'theme_ntp_background'], theme_obj);
+                const position_prop = r.path(['properties', 'ntp_background_alignment'], theme_obj);
+                const repeat_prop = r.path(['properties', 'ntp_background_repeat'], theme_obj);
+                const size_prop = r.path(['clear_new_tab', 'size'], theme_obj);
+                const video_volume_prop = r.path(['clear_new_tab', 'video_volume'], theme_obj);
+                const position = con.positions.indexOf(position_prop) > -1 ? con.positions_dict[position_prop] : con.positions_dict.center;
+                const repeat = con.repeats.indexOf(repeat_prop) > -1 ? repeat_prop : 'no-repeat';
+                const size = con.sizes.indexOf(size_prop) > -1 ? size_prop : 'global';
+                const video_volume = video_volume_prop >= 0 && video_volume_prop <= 100 ? +video_volume_prop : 'global';
+                const color_rgb = r.path(['colors', 'ntp_background'], theme_obj);
+                const color = color_rgb ? `#${rgb_to_hex(color_rgb)}` : '#ffffff';
+                const theme_background_info = {
+                    position,
+                    repeat,
+                    color,
+                    size,
+                    video_volume,
+                };
 
-                    const is_valid_img = img_name ? img_name_ => con.valid_file_types.some(ext => img_name_.includes(ext)) : null;
+                const is_valid_img = img_name ? img_name_ => con.valid_file_types.some(ext => img_name_.includes(ext)) : null;
 
-                    if (is_valid_img && !is_valid_img(img_name) && env.what_browser !== 'chrome') {
-                        throw 'Image is not valid image'; // eslint-disable-line no-throw-literal
-                    }
-
-                    await delete_previous_themes_backgrounds();
-
-                    const found_background_img_or_clear_new_tab_video = img_name || clear_new_tab_video_file_name;
-
-                    await r.ifElse(
-                        () => found_background_img_or_clear_new_tab_video,
-                        async () => extract_video(theme_id, clear_new_tab_video_file_name, theme_package_data, theme_background_info, img_name),
-
-                        async () => {
-                            try {
-                                await populate_storage_with_images_and_display_them.populate_storage_with_images('color', 'resolved', [color], theme_background_info, theme_id, true);
-
-                            } catch (er) {
-                                err(er, 46, null, true);
-                            }
-                        },
-                    )();
-
-                    await db.ed.update(1, { last_installed_theme_theme_id: theme_id });
-                    await backgrounds.retrieve_backgrounds();
-
-                    new_current_background = await determine_theme_current_background.determine_theme_current_background(theme_id, backgrounds.mut.backgrounds);
-
-                    x.iterate_all_tabs(x.send_message_to_tab, [{
-                        message: 'load_last_page',
-                    }]);
-
-                } else { // when undoing theme
-                    analytics.send_event('theme_background', 'loaded');
-
-                    const last_installed_theme_theme_id = env.what_browser === 'chrome' ? await get_installed_theme_id() : theme_id;
-
-                    await db.ed.update(1, { last_installed_theme_theme_id });
-
-                    new_current_background = await determine_theme_current_background.determine_theme_current_background(last_installed_theme_theme_id, backgrounds.mut.backgrounds);
+                if (is_valid_img && !is_valid_img(img_name) && env.what_browser !== 'chrome') {
+                    throw 'Image is not valid image'; // eslint-disable-line no-throw-literal
                 }
 
-                if (!first_call || mut.uploading_theme_background) {
-                    if (mut.call_type === 'cws' || (mut.call_type === 'theme_beta' && ed_all.premium) || env.what_browser === 'firefox') {
-                        await db.ed.update(1, { current_background: new_current_background });
-                        await get_new_future_background.get_new_future_background(new_current_background + 1);
-                        await backgrounds.preload_current_and_future_background('reload');
+                await delete_previous_themes_backgrounds();
 
-                        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'change_current_background_input_val' }]);
-                        x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_background' }]);
-                    }
+                const found_background_img_or_clear_new_tab_video = img_name || clear_new_tab_video_file_name;
 
-                    x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'exit_upload_mode_and_deselect_background', status: 'resolved' }]);
+                await r.ifElse(
+                    () => found_background_img_or_clear_new_tab_video,
+                    async () => extract_video(theme_id, clear_new_tab_video_file_name, theme_package_data, theme_background_info, img_name),
 
-                    mut.uploading_theme_background = false;
+                    async () => {
+                        try {
+                            await populate_storage_with_images_and_display_them.populate_storage_with_images('color', 'resolved', [color], theme_background_info, theme_id, true);
+
+                        } catch (er) {
+                            err(er, 46, null, true);
+                        }
+                    },
+                )();
+
+                await db.ed.update(1, { last_installed_theme_theme_id: theme_id });
+                await backgrounds.retrieve_backgrounds();
+
+                new_current_background = await determine_theme_current_background.determine_theme_current_background(theme_id, backgrounds.mut.backgrounds);
+
+                x.iterate_all_tabs(x.send_message_to_tab, [{
+                    message: 'load_last_page',
+                }]);
+
+            } else { // when undoing theme
+                analytics.send_event('theme_background', 'loaded');
+
+                const last_installed_theme_theme_id = env.what_browser === 'chrome' ? await get_installed_theme_id() : theme_id;
+
+                await db.ed.update(1, { last_installed_theme_theme_id });
+
+                new_current_background = await determine_theme_current_background.determine_theme_current_background(last_installed_theme_theme_id, backgrounds.mut.backgrounds);
+            }
+
+            if (!first_call || mut.uploading_theme_background) {
+                if (mut.call_type === 'cws' || (mut.call_type === 'theme_beta' && ed_all.premium) || env.what_browser === 'firefox') {
+                    await db.ed.update(1, { current_background: new_current_background });
+                    await get_new_future_background.get_new_future_background(new_current_background + 1);
+                    await backgrounds.preload_current_and_future_background('reload');
+
+                    x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'change_current_background_input_val' }]);
+                    x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'reload_background' }]);
                 }
+
+                x.iterate_all_tabs(x.send_message_to_tab, [{ message: 'exit_upload_mode_and_deselect_background', status: 'resolved' }]);
+
+                mut.uploading_theme_background = false;
             }
 
             return 'success';
