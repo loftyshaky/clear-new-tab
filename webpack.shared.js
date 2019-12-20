@@ -71,6 +71,7 @@ if (process.argv.indexOf('--chrome') > -1) {
                     'https://www.themebeta.com/*',
                 ],
                 js: [
+                    'env.js',
                     'content_script.js',
                 ],
                 css: [
