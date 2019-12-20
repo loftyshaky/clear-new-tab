@@ -28,6 +28,7 @@ export const get_pasted_image_or_image_url = async e => {
         const input_given_text = clipboard_text !== '';
         const contains_allow_downloading_imgs_by_link_permission = inputs_data.obj.other_settings.allow_downloading_imgs_by_link.val;
         const download_img_when_link_given = await ed('download_img_when_link_given');
+        let blob_is_of_allowed_img_type = true;
 
         const img = await r.ifElse(
             () => contains_allow_downloading_imgs_by_link_permission && download_img_when_link_given && input_given_text,
@@ -35,7 +36,9 @@ export const get_pasted_image_or_image_url = async e => {
                 try {
                     const response = await window.fetch(clipboard_text);
                     const blob = await response.blob();
-                    if (blob.type.indexOf('image') > -1) {
+                    blob_is_of_allowed_img_type = ['image/gif', 'image/jpeg', 'image/jpg', 'image/png'].indexOf(blob.type) > -1;
+
+                    if (blob_is_of_allowed_img_type) {
                         analytics.send_text_inputs_event(`pasted_link_to_img_and_downloaded_it_${blob.type}`, family, name);
 
                         return blob;
@@ -70,15 +73,16 @@ export const get_pasted_image_or_image_url = async e => {
 
         const is_file = img;
 
-        if (is_file) {
+        if (is_file && blob_is_of_allowed_img_type) {
             populate_storage_with_images_and_display_them.populate_storage_with_images('file', 'resolved_paste', [img], {}, null);
 
-        } else if (input_given_text) { // if link
+        } else if (input_given_text && blob_is_of_allowed_img_type) { // if link
             try {
                 await new Promise((resolve, reject) => {
                     const test_img = new window.Image();
 
                     test_img.onload = () => {
+
                         const ext_match = clipboard_text.match(/\.([0-9a-z]+)(?:[?#]|$)/i);
                         const ext = ext_match ? ext_match[1] : 'unknown_ext';
 
