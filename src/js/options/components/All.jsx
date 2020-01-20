@@ -109,6 +109,12 @@ export class All extends React.Component {
                                 name="clear_new_tab_for_link"
                                 href="http"
                                 add_data_bshref_attr
+                                browser="edge"
+                            />
+                            <Link
+                                name="clear_new_tab_for_link"
+                                href="http"
+                                add_data_bshref_attr
                                 browser="firefox"
                             />
                             <Link

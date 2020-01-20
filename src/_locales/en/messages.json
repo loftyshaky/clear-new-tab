@@ -404,6 +404,9 @@
   "clear_new_tab_for_link_text_chrome": {
     "message": "⚗️ Clear New Tab for Chrome"
   },
+  "clear_new_tab_for_link_text_edge": {
+    "message": "⚗️ Clear New Tab for Edge"
+  },
   "clear_new_tab_for_link_text_firefox": {
     "message": "⚗️ Clear New Tab for Firefox"
   },
@@ -430,6 +433,9 @@
   },
   "clear_new_tab_for_link_href_chrome": {
     "message": "https://bit.ly/clear-new-tab"
+  },
+  "clear_new_tab_for_link_href_edge": {
+    "message": "https://bit.ly/clear-new-tab-edge"
   },
   "clear_new_tab_for_link_href_firefox": {
     "message": "https://bit.ly/clear-new-tab-firefox"
