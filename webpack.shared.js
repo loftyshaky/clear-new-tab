@@ -82,7 +82,7 @@ if (process.argv.indexOf('--chrome') > -1) {
         content_security_policy: "script-src 'self' 'unsafe-eval'; object-src 'self'",
     };
 
-    if (browser === 'chrome') {
+    if (['chrome', 'edge'].includes(browser)) {
         manifest.permissions.push('management');
     }
 

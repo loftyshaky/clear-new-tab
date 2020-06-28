@@ -13,7 +13,7 @@ export const load_backgrounds = async () => {
 
         await retrieve_backgrounds();
 
-        if (ed_all.mode === 'theme' && env.what_browser === 'chrome') {
+        if (ed_all.mode === 'theme') {
             const get_first_encountered_theme_background_theme_id = () => {
                 const first_encountered_theme_background = mut.backgrounds.find(background => background.theme_id);
                 const first_encountered_theme_background_theme_id = first_encountered_theme_background ? first_encountered_theme_background.theme_id : null;

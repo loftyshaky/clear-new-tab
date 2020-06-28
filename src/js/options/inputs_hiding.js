@@ -15,7 +15,7 @@ export const decide_what_inputs_to_hide = async () => {
         const selected_background = await db.backgroundsd.get(background_selection.mut.selected_background_id || 1) || 'none';
 
         runInAction(() => {
-            inputs_data.obj.upload.load_theme_background.visible = env.what_browser === 'chrome' && ed_all.mode === 'theme';
+            inputs_data.obj.upload.load_theme_background.visible = ['chrome', 'edge'].includes(env.what_browser) && ed_all.mode === 'theme';
             inputs_data.obj.background_settings.keep_old_themes_backgrounds.visible = ed_all.mode === 'theme';
             inputs_data.obj.background_settings.slideshow.visible = !!(ed_all.mode === 'multiple' || ed_all.mode === 'random_solid_color');
             inputs_data.obj.background_settings.shuffle.visible = ed_all.mode === 'multiple';

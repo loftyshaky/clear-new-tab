@@ -93,7 +93,7 @@ export const change_settings = async (input_type, family, name, val) => {
             await x.send_message_to_background({ message: 'reset_timer' });
         }
 
-        if (input_type === 'select' && val === 'theme' && env.what_browser === 'chrome') {
+        if (input_type === 'select' && val === 'theme' && ['chrome', 'edge'].includes(env.what_browser)) {
             await x.send_message_to_background_c({ message: 'get_theme_background', reinstall_even_if_theme_background_already_exist: false, reload_call: true });
         }
 

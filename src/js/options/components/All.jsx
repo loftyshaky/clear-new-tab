@@ -79,7 +79,7 @@ export class All extends React.Component {
                     <div className="main">
                         <Left_fieldset family="upload">
                             <Install_help />
-                            {env.what_browser === 'chrome' ? <Theme_img_link /> : null}
+                            {['chrome', 'edge'].includes(env.what_browser) ? <Theme_img_link /> : null}
                             <Upload_box />
                         </Left_fieldset>
                         <Left_fieldset family="background_settings" />

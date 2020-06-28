@@ -112,16 +112,14 @@ export class Select extends React.Component {
 }
 
 const Option = props => {
-    const { selectProps: { name }, data: { global, premium, value } } = props;
+    const { data: { global, premium } } = props;
     const select_is_locked = premium && inapp.check_if_clear_new_tab_is_activated();
 
     return (
-        !(env.what_browser === 'edge' && name === 'mode' && value === 'theme') ? (
-            <components.Option
-                {...props}
-                className={x.cls([global ? 'global_option' : null, select_is_locked ? 'locked_input' : null])}
-            />
-        ) : null
+        <components.Option
+            {...props}
+            className={x.cls([global ? 'global_option' : null, select_is_locked ? 'locked_input' : null])}
+        />
     );
 };
 

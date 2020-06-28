@@ -18,7 +18,7 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
     if (ed_all.mode === 'theme') {
         try {
             const installing_theme_background_already_exist = r.find(r.propEq('theme_id', theme_id), backgrounds.mut.backgrounds);
-            const any_theme_installed = env.what_browser === 'chrome' ? await get_installed_theme_id() : theme_id;
+            const any_theme_installed = ['chrome', 'edge'].includes(env.what_browser) ? await get_installed_theme_id() : theme_id;
             let new_current_background;
 
             const { theme_beta_theme_id } = mut;
@@ -61,7 +61,7 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
 
                 const is_valid_img = img_name ? img_name_ => con.valid_file_types.some(ext => img_name_.includes(ext)) : null;
 
-                if (is_valid_img && !is_valid_img(img_name) && env.what_browser !== 'chrome') {
+                if (is_valid_img && !is_valid_img(img_name) && env.what_browser === 'firefox') {
                     throw 'Image is not valid image'; // eslint-disable-line no-throw-literal
                 }
 
@@ -95,7 +95,7 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
             } else { // when undoing theme
                 analytics.send_event('theme_background', 'loaded');
 
-                const last_installed_theme_theme_id = env.what_browser === 'chrome' ? await get_installed_theme_id() : theme_id;
+                const last_installed_theme_theme_id = ['chrome', 'edge'].includes(env.what_browser) ? await get_installed_theme_id() : theme_id;
 
                 await db.ed.update(1, { last_installed_theme_theme_id });
 
@@ -123,7 +123,7 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
             err(er, 42, null, true);
 
             try {
-                if (env.what_browser !== 'chrome') {
+                if (env.what_browser === 'firefox') {
                     await x.send_message_to_tab_c(tab_id, { message: 'notify_about_paid_theme_error' });
                 }
 
@@ -138,7 +138,7 @@ export const get_theme_background = async (theme_id, reinstall_even_if_theme_bac
             return 'error';
         }
 
-    } else if (env.what_browser !== 'chrome') {
+    } else if (env.what_browser === 'firefox') {
         try {
             await x.send_message_to_tab_c(tab_id, { message: 'notify_about_wrong_mode' });
 
@@ -295,7 +295,7 @@ const rgb_to_hex = r.pipe(r.map(val => {
 }), r.join(''));
 
 //> on theme installiation
-if (env.what_browser === 'chrome') {
+if (['chrome', 'edge'].includes(env.what_browser)) {
     browser.management.onEnabled.addListener(ext_info => {
         try {
             if (ext_info.type === 'theme') {
