@@ -250,6 +250,8 @@ browser.runtime.onMessage.addListener((message, sender, send_response) => {
                         setTimeout(revoke_preview_background.bind(null, preview_background.background), 10000);
 
                     } else {
+                        preview_background.background = background.background;
+
                         send_response(preview_background);
                     }
 
