@@ -116,6 +116,7 @@ module.exports = {
     },
 
     output: {
+        path: join(__dirname, 'dist'),
         filename: '[name].js',
     },
 
@@ -123,7 +124,9 @@ module.exports = {
         rules: [
             {
                 test: /\.jsx?$/,
-                loader: 'babel-loader',
+                use: [
+                    'babel-loader',
+                ],
             },
             {
                 test: /\.css$/,
@@ -142,11 +145,18 @@ module.exports = {
             },
             {
                 test: /\.svg$/,
-                loader: 'svg-inline-loader',
+                use: [
+                    'svg-inline-loader',
+                ],
             },
             {
                 test: /\.(png|gif|ttf)$/,
-                loader: 'file-loader?name=[name].[ext]',
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                    },
+                }],
             },
         ],
     },
@@ -170,18 +180,19 @@ module.exports = {
             chunks: ['new_tab'],
         }),
 
-        new Copy_webpack_plugin([
-            { from: join(__dirname, 'src', 'js', 'x.js'), to: join(__dirname, 'dist') },
-            { from: join(__dirname, 'src', 'css'), to: join(__dirname, 'dist') },
-            { from: join(__dirname, 'src', '_locales'), to: join(__dirname, 'dist', '_locales') },
-            { from: join(__dirname, 'src', 'mods'), to: join(__dirname, 'dist') },
-            { from: join(__dirname, 'src', 'icons'), to: join(__dirname, 'dist') },
-            { from: join(__dirname, 'src', 'images'), to: join(__dirname, 'dist') },
-            { from: join(__dirname, 'src', 'Roboto-Light.ttf'), to: join(__dirname, 'dist') },
-        ]),
+        new Copy_webpack_plugin({
+            patterns: [
+                { from: join(__dirname, 'src', 'js', 'x.js'), to: join(__dirname, 'dist') },
+                { from: join(__dirname, 'src', 'css'), to: join(__dirname, 'dist') },
+                { from: join(__dirname, 'src', '_locales'), to: join(__dirname, 'dist', '_locales') },
+                { from: join(__dirname, 'src', 'mods'), to: join(__dirname, 'dist') },
+                { from: join(__dirname, 'src', 'icons'), to: join(__dirname, 'dist') },
+                { from: join(__dirname, 'src', 'images'), to: join(__dirname, 'dist') },
+                { from: join(__dirname, 'src', 'Roboto-Light.ttf'), to: join(__dirname, 'dist') },
+            ],
+        }),
 
         new CleanWebpackPlugin({
-            verbose: true,
             cleanStaleWebpackAssets: false,
             cleanOnceBeforeBuildPatterns: ['**/*', '!manifest.json', '!env.js'],
         }),
@@ -202,6 +213,7 @@ module.exports = {
             backgrounds: join(__dirname, 'src', 'backgrounds'),
         },
         extensions: ['.js', '.jsx', '.css', '.svg', '.png', '.gif'],
+        fallback: { stream: false },
     },
 
     devServer: {
