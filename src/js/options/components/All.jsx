@@ -13,7 +13,6 @@ import { Error_boundary } from 'js/components/Error_boundary';
 import { Analytics_privacy } from 'options/components/Analytics_privacy';
 import { Loading_screen } from 'options/components/Loading_screen';
 import { Left_fieldset } from 'options/components/Left_fieldset';
-import { Inapp_fieldset } from 'options/components/Inapp_fieldset';
 import { Inapp_notice } from 'options/components/Inapp_notice';
 import { Install_help } from 'options/components/Install_help';
 import { Theme_img_link } from 'options/components/Theme_img_link';
