@@ -29,7 +29,7 @@ export const selects_options = {
         },
         {
             label: create_option_data_text_val('random_solid_color'),
-            premium: true,
+            premium: false,
             value: 'random_solid_color',
         },
     ],
@@ -127,7 +127,7 @@ export const selects_options = {
         },
         {
             label: create_option_data_text_val('slide'),
-            premium: true,
+            premium: false,
             value: 'slide',
         },
     ],
