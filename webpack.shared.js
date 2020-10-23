@@ -27,7 +27,7 @@ if (process.argv.indexOf('--chrome') > -1) {
         description: '__MSG_desc__',
         default_locale: 'en',
         icons: {
-            16: 'icon16.png',
+            16: 'icon16_padded.png',
             48: 'icon48.png',
             128: 'icon128.png',
         },
