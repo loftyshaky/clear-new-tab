@@ -155,7 +155,7 @@ const download_theme_crx = async (theme_id, ed_all, theme_beta_theme_id, reload_
     mut.call_type = 'cws';
 
     try {
-        theme_package = await get_crx(`https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D${theme_id}%26uc&prodversion=32`, 'cws');
+        theme_package = await get_crx(`https://clients2.google.com/service/update2/crx?response=redirect&prodversion=9999.0.9999.0&acceptformat=crx2,crx3&x=id%3D${theme_id}%26uc`, 'cws');
 
     } catch (er) {
         if (ed_all.premium || env.what_browser === 'firefox') {
