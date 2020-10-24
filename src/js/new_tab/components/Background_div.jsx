@@ -39,6 +39,15 @@ export class Background_div extends React.Component {
         }
     }
 
+    componentDidUpdate() {
+        try {
+            this.video.current.play();
+
+        } catch (er) {
+            err(er, 326);
+        }
+    }
+
     componentWillUnmount() {
         try {
             document.removeEventListener('visibilitychange', this.set_video_volume);
