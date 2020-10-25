@@ -38,6 +38,8 @@ window.set_default_settings = async page => { // this function also called in op
             ext_data_o.show_link_to_default_new_tab = false;
             ext_data_o.allow_analytics = false;
             ext_data_o.answered_to_analytics_privacy_question = false;
+            ext_data_o.show_msg_to_user = false;
+            ext_data_o.msg_to_user_hidden_once = true;
 
             db.on('populate', () => {
                 try {

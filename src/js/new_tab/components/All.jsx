@@ -6,6 +6,7 @@ import * as backgrounds from 'new_tab/backgrounds';
 
 import { Background_div } from 'new_tab/components/Background_div';
 import { Link_to_default_new_tab } from 'new_tab/components/Link_to_default_new_tab';
+import { Msg_to_user } from 'new_tab/components/Msg_to_user';
 
 import { Error_boundary } from 'js/components/Error_boundary';
 
@@ -35,6 +36,7 @@ export class All extends React.Component {
                         ))
                     }
                     <Link_to_default_new_tab />
+                    <Msg_to_user />
                 </div>
             </Error_boundary>
         );

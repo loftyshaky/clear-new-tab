@@ -101,6 +101,14 @@ export const init_db = () => {
             });
         });
 
+        db.version(6).stores({
+            ed: 'id',
+        }).upgrade(async tx => {
+            tx.ed.toCollection().modify(ed => {
+                ed.msg_to_user_hidden_once = false;
+            });
+        });
+
     } catch (er) {
         err(er, 171);
     }

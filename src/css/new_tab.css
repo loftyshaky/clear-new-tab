@@ -8,6 +8,24 @@ html, body {
 }
 /*< general */
 
+.msg_to_user {
+    position: fixed;
+    width: 800px;
+    padding: 20px;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: fit-content;
+    font-size: 23px;
+    color: #212121;
+    background-color: #fbff75;
+    border: 4px solid #212121;
+    cursor: pointer;
+    white-space: pre-wrap;
+}
+
 /*> backgrounds */
 .background_div {
     width: 100%;

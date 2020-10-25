@@ -2,6 +2,7 @@
 
 import 'js/error';
 import 'background/setting_defaults';
+import 'background/oninstalled';
 
 set_default_settings('background');
 

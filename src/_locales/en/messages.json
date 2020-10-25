@@ -539,6 +539,9 @@
   "undo_btn_text": {
     "message": "Undo"
   },
+  "msg_to_user_text": {
+    "message": "Important message for Clear New Tab users!\r\n\r\nSince Google deprecated Chrome Web Store payments I will not be able to sell premium version of Clear New Tab soon, so I made it free for everyone. In the future I will may monetize it again with other payment processing platform. If possible, I will refund money to everyone who purchased Clear New Tab Premium in the past, so you don't pay twice. Click on this message to hide it."
+  },
   "an_error_occured_msg": {
     "message": "An error occured."
   },
