@@ -318,7 +318,7 @@
     "message": "Thanks for installing Clear New Tab! You can install theme from <a class='link install_help_link chrome_web_store_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/cws-themes'>Chrome Web Store</a> or upload your own background with the form below. Click <button type='button' class='link install_help_link hide_install_help_link'>here</button> to hide this message."
   },
   "install_help_text_edge": {
-    "message": "Thanks for installing Clear New Tab! You can upload your own background with the form below. Click <button type='button' class='link install_help_link hide_install_help_link'>here</button> to hide this message."
+    "message": "Thanks for installing Clear New Tab! If your Edge have theme from <a class='link install_help_link chrome_web_store_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/cws-themes'>Chrome Web Store</a> installed, wait till its background appear in an \"Backgrounds\" section, and then open new tab to see it. Otherwise, you can upload your own background with the form below. Click <button type='button' class='link install_help_link hide_install_help_link'>here</button> to hide this message."
   },
   "upload_box_help_message_text": {
     "message": "You can upload multiple images/videos at once. Just select multiple images/videos before clicking \"Open\"/dragging.<br><br>Supported formats: png, jpg, gif, mp4, webm, ogg."

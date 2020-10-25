@@ -311,6 +311,9 @@
   "install_help_text_firefox": {
     "message": "Obrigado por instalar Clear New Tab! Você pode instalar um tema de <a class='link install_help_link chrome_web_store_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/cws-themes'>Chrome Web Store</a> ou enviar seu próprio plano de fundo da forma abaixo. Clique <button type='button' class='link install_help_link hide_install_help_link'>aqui</button> para esconder essa mensagem."
   },
+  "install_help_text_edge": {
+    "message": "Obrigado por instalar Clear New Tab! Se o seu Edge tem um tema de <a class='link install_help_link chrome_web_store_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/cws-themes'>Chrome Web Store</a> instalado, espere até que seu plano de fundo apareça na seção de \"Planos de fundo\" , e então abra uma nova guia para vê-lo. Caso contrário, você pode enviar seu próprio plano de fundo da forma abaixo. Clique <button type='button' class='link install_help_link hide_install_help_link'>aqui</button> para esconder essa mensagem."
+  },
   "upload_box_help_message_text": {
     "message": "Você pode enviar varias imagens/videos de uma vez. Apenas selecione varias images/videos antes de clicar em \"Abrir\" ou arrastar.<br><br>Formatos suportados: png, jpg, gif, mp4, webm, ogg."
   },
