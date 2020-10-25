@@ -12,6 +12,7 @@
     background-color: #fbff75;
     color: #212121;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .cntfelph.btn:hover {
@@ -30,6 +31,17 @@
     float: right;
     margin-top: 7px;
     padding: 2px 8px 2px 8px;
+}
+
+.a-na-d-B1neQd-cb {
+    position: relative;
+}
+
+.a-na-d-B1neQd-cb .cntfelph.ff_install_btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    margin-top: 0;
 }
 
 .btn-apply + .cntfelph.ff_install_btn_w, .btn-apply + .ff_install_btn_w .cntfelph.ff_install_btn {
