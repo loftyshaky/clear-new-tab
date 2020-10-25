@@ -9,7 +9,7 @@
     "deve": "webpack serve --config webpack.dev.js --env --edge",
     "prode": "webpack --config webpack.prod.js --env --edge",
     "devff": "webpack serve --config webpack.dev.js --env --firefox",
-    "prodff": "webpack -p --config webpack.prod.js --env --firefox"
+    "prodff": "webpack --config webpack.prod.js --env --firefox"
   },
   "keywords": [],
   "author": "",
