@@ -1,6 +1,6 @@
 {
   "desc": {
-    "message": "Hide everything from the new tab page without removing theme background."
+    "message": "Remove everything from the new tab page and display any image, gif or video in it as a wallpaper."
   },
   "error_alert": {
     "message": "An error occured. Error code: "
