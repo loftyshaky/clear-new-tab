@@ -13,7 +13,7 @@ window.set_default_settings = async page => { // this function also called in op
             set_last_uploaded: false,
             change_interval: '1',
             background_already_changed: true,
-            mode: env.what_browser === 'edge' ? 'one' : 'theme',
+            mode: 'theme',
             current_random_color: generate_random_color.generate_random_color(),
             shuffle: true,
             slideshow: false,
