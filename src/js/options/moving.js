@@ -390,10 +390,10 @@ const set_new_current_or_future_background_value_after_move = async (type, move_
                 ed_all[type] = background_i_after_move;
 
             } else if (move_type === 'forward' && ed_all[type] <= background_i_after_move && ed_all[type] >= background_i_before_move) {
-                ed_all[type] -= ed_all[type];
+                ed_all[type] -= 1;
 
             } else if (move_type === 'backward' && ed_all[type] >= background_i_after_move && ed_all[type] <= background_i_before_move) {
-                ed_all[type] += ed_all[type];
+                ed_all[type] += 1;
             }
 
         } else {
