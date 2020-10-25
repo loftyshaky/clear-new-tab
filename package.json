@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "webpack serve --config webpack.dev.js --env --chrome",
     "prod": "webpack --config webpack.prod.js --env --chrome",
-    "deve": "webpack serve --config webpack.dev.js --edge",
+    "deve": "webpack serve --config webpack.dev.js --env --edge",
     "prode": "webpack --config webpack.prod.js --env --edge",
-    "devff": "webpack serve --config webpack.dev.js --firefox",
+    "devff": "webpack serve --config webpack.dev.js --env --firefox",
     "prodff": "webpack -p --config webpack.prod.js --env --firefox"
   },
   "keywords": [],
