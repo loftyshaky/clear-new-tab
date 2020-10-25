@@ -40,13 +40,10 @@ if (process.argv.indexOf('--chrome') > -1) {
             },
         },
         permissions: [
-            'storage',
             'https://clients2.google.com/*',
             'https://clients2.googleusercontent.com/*',
-            'https://www.themebeta.com/*',
         ],
         optional_permissions: [
-            'bookmarks',
             'clipboardRead',
             '*://*/*',
             'https://www.google-analytics.com/*',
@@ -65,20 +62,6 @@ if (process.argv.indexOf('--chrome') > -1) {
             chrome_style: false,
             open_in_tab: true,
         },
-        content_scripts: [
-            {
-                matches: [
-                    'https://www.themebeta.com/*',
-                ],
-                js: [
-                    'env.js',
-                    'content_script.js',
-                ],
-                css: [
-                    'content_script.css',
-                ],
-            },
-        ],
         content_security_policy: "script-src 'self' 'unsafe-eval'; object-src 'self'",
     };
 
@@ -90,13 +73,26 @@ if (process.argv.indexOf('--chrome') > -1) {
         const cws_match = 'https://chrome.google.com/webstore/*';
 
         manifest.permissions.push(cws_match);
-        manifest.content_scripts[0].matches.push(cws_match);
         manifest.applications = {
             gecko: {
                 id: 'clear-new-tab@loftyshaky',
                 strict_min_version: '54.0',
             },
         };
+        manifest.content_scripts = [
+            {
+                matches: [
+                    cws_match,
+                ],
+                js: [
+                    'env.js',
+                    'content_script.js',
+                ],
+                css: [
+                    'content_script.css',
+                ],
+            },
+        ];
     }
 
     const env = `window.env = { what_browser: '${browser}' }; // eslint-disable-line eol-last`;
