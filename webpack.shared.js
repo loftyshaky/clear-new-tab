@@ -27,7 +27,6 @@ if (process.argv.indexOf('--chrome') > -1) {
         description: '__MSG_desc__',
         default_locale: 'en',
         icons: {
-            16: 'icon16_padded.png',
             48: 'icon48.png',
             128: 'icon128.png',
         },
@@ -65,6 +64,10 @@ if (process.argv.indexOf('--chrome') > -1) {
         },
         content_security_policy: "script-src 'self' 'unsafe-eval'; object-src 'self'",
     };
+
+    manifest.icons[16] = browser === 'chrome'
+        ? 'icon16_monchrome_padded.png'
+        : 'icon16_monchrome.png';
 
     if (['chrome', 'edge'].includes(browser)) {
         manifest.permissions.push('management');
