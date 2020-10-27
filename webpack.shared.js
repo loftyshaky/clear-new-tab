@@ -80,7 +80,7 @@ if (process.argv.indexOf('--chrome') > -1) {
         manifest.applications = {
             gecko: {
                 id: 'clear-new-tab@loftyshaky',
-                strict_min_version: '54.0',
+                strict_min_version: '55.0',
             },
         };
         manifest.content_scripts = [
