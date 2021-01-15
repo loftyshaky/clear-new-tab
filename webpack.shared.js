@@ -1,7 +1,7 @@
 // -p in 'scripts': { 'prod': } 'webpack -p in package.json needed to minify css
 
 const { join } = require('path');
-const { writeFileSync } = require('fs');
+const { writeFileSync, ensureDirSync } = require('fs-extra');
 
 const Html_webpack_plugin = require('html-webpack-plugin');
 const Copy_webpack_plugin = require('copy-webpack-plugin');
@@ -101,6 +101,7 @@ if (process.argv.indexOf('--chrome') > -1) {
 
     const env = `window.env = { what_browser: '${browser}' }; // eslint-disable-line eol-last`;
 
+    ensureDirSync(join(__dirname, 'dist'));
     writeFileSync(join(__dirname, 'dist', 'manifest.json'), JSON.stringify(manifest), 'utf-8');
     writeFileSync(join(__dirname, 'dist', 'env.js'), env, 'utf-8');
 })();
