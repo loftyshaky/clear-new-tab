@@ -62,7 +62,6 @@ if (process.argv.indexOf('--chrome') > -1) {
             chrome_style: false,
             open_in_tab: true,
         },
-        content_security_policy: "script-src 'self' 'unsafe-eval'; object-src 'self'",
     };
 
     manifest.icons[16] = browser === 'chrome'

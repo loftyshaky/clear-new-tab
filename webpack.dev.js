@@ -6,7 +6,7 @@ const shared = require(join(__dirname, 'webpack.shared.js')); // eslint-disable-
 
 module.exports = merge(shared, {
     mode: 'development',
-    devtool: 'eval-cheap-module-source-map',
+    devtool: 'cheap-module-source-map',
 
     devServer: {
         contentBase: join(__dirname, 'dist'),
