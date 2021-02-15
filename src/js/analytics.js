@@ -1,10 +1,11 @@
+
 import x from 'x';
 import * as contains_permission from 'js/contains_permission';
 import * as keep_sending_message_before_response from 'js/keep_sending_message_before_response';
 
 export const send_pageview = async page => {
     try {
-        check_if_analytics_enabled(() => send_request('pageview', page, null, null));
+        // check_if_analytics_enabled(() => send_request('pageview', page, null, null));
 
     } catch (er) {
         err(er, 242);
@@ -13,13 +14,14 @@ export const send_pageview = async page => {
 
 export const send_event = (category, action) => {
     try {
-        check_if_analytics_enabled(() => send_request('action', null, category, action));
+        // check_if_analytics_enabled(() => send_request('action', null, category, action));
 
     } catch (er) {
         err(er, 241);
     }
 };
 
+/*
 const check_if_analytics_enabled = async callback => {
     try {
         const analytics_permission_given = page !== 'background'
@@ -37,6 +39,7 @@ const check_if_analytics_enabled = async callback => {
 };
 
 const send_request = async (mode, page, category, action) => {
+
     try {
         const tracking_id = 'UA-136382243-1';
         const client_id_try = await x.get(['client_id']);
@@ -57,6 +60,7 @@ const send_request = async (mode, page, category, action) => {
         err(er, 243);
     }
 };
+*/
 
 export const send_app_version_event = () => {
     try {

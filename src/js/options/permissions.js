@@ -75,7 +75,7 @@ export const ask_for_permission_or_remove_it = async (checkbox_name, permissions
 
 export const restore_optional_permissions_checkboxes_state = () => {
     try {
-        const checkbox_names = ['show_bookmarks_bar', 'enable_paste', 'allow_downloading_imgs_by_link', 'allow_analytics'];
+        const checkbox_names = ['show_bookmarks_bar', 'enable_paste', 'allow_downloading_imgs_by_link'];
         const permissions = toJS(checkbox_names.map(checkbox_name => toJS(inputs_data.obj.other_settings[checkbox_name].permissions)));
 
         checkbox_names.forEach(async (checkbox_name, i) => {

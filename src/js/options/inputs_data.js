@@ -208,6 +208,7 @@ export const inputs_data = observable({
                 on_click: background_deletion.delete_all_images,
                 visible: true,
             },
+            /*
             allow_analytics: {
                 key: x.unique_id(),
                 family: 'other_settings',
@@ -218,6 +219,7 @@ export const inputs_data = observable({
                 val: false,
                 visible: true,
             },
+*/
             show_link_to_default_new_tab: {
                 key: x.unique_id(),
                 family: 'other_settings',

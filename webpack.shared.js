@@ -39,14 +39,12 @@ if (process.argv.indexOf('--chrome') > -1) {
             },
         },
         permissions: [
-            'storage', // used for storing google analytics client id
             'https://clients2.google.com/*',
             'https://clients2.googleusercontent.com/*',
         ],
         optional_permissions: [
             'clipboardRead',
             '*://*/*',
-            'https://www.google-analytics.com/*',
         ],
         background: {
             scripts: [
