@@ -346,7 +346,7 @@ decorate(window, {
 
 window.xcon = {
     analytics_permissions: [{ origins: ['https://www.google-analytics.com/*'] }],
-    privacy_policy_link: 'https://bit.ly/extensions-privacy-policy',
+    privacy_policy_link: 'https://github.com/loftyshaky/extensions-privacy-policy/blob/main/extensions-privacy-policy.md',
 };
 
 export default x;
