@@ -36,7 +36,7 @@
     "message": "Browse"
   },
   "upload_box_drag_label_text": {
-    "message": "or drag images/videos here"
+    "message": "or drag images / videos here"
   },
   "upload_box_uploading_message_text": {
     "message": "Loading..."
@@ -321,7 +321,7 @@
     "message": "Thanks for installing Clear New Tab! If your Edge have a theme installed, wait till its background appears in the \"Backgrounds\" section, and then open new tab to see it. Otherwise, you can upload your own background with the form below. Click <button type='button' class='link install_help_link hide_install_help_link'>here</button> to hide this message."
   },
   "upload_box_help_message_text": {
-    "message": "You can upload multiple images/videos at once. Just select multiple images/videos before clicking \"Open\"/dragging.<br><br>Supported formats: png, jpg, gif, mp4, webm, ogg."
+    "message": "You can upload multiple images / videos at once. Just select multiple images / videos before clicking \"Open\" / dragging.<br><br>Supported formats: png, jpg, gif, mp4, webm, ogg."
   },
   "paste_help_message_text": {
     "message": "In this input you can paste direct link to an image or an image from clipboard. To get direct link to an image right-click on it, select \"Open image in new tab\" from the context menu, go to opened tab and then copy link from address bar. To copy an image to clipboard right-click on an it and then select \"Copy image\" from the context menu. Gif animation will not be preserved when you past an image from clipboard.<br><br>Supported formats: png, jpg, gif."
@@ -333,7 +333,7 @@
     "message": "Select \"Global\" to set the default settings for all backgrounds. Select \"Only selected background\" to set the settings for the selected background only (to select a background, left-click on it). When \"Only selected background\" is selected, each setting below (\"Background color\", \"Background size\" etc.) will have its own \"Global\" value. If this value is selected, the background will use the default value for this setting, if any other value is selected, this setting will use this value instead of the default value. All uploaded backgrounds use global settings by default."
   },
   "size_help_message_text": {
-    "message": "Fit to the screen/browser window:<br>Resize the background to make sure the background is fully visible on screen/browser window.<br><br>Cover the screen/browser window:<br>Resize the background to cover the entire screen/browser window, even if it has to cut a part of it from the edges.<br><br>Stretch to fit the screen/browser window:<br>Resize the background to maximum screen/browser window width and height not preserving its aspect ratio."
+    "message": "Fit to the screen / browser window:<br>Resize the background to make sure the background is fully visible on screen / browser window.<br><br>Cover the screen / browser window:<br>Resize the background to cover the entire screen / browser window, even if it has to cut a part of it from the edges.<br><br>Stretch to fit the screen / browser window:<br>Resize the background to maximum screen / browser window width and height not preserving its aspect ratio."
   },
   "background_type_file_text": {
     "message": "File"
@@ -468,13 +468,13 @@
     "message": "1371px"
   },
   "failed_to_load_background_er": {
-    "message": "Failed to load background/backgrounds"
+    "message": "Failed to load background / backgrounds"
   },
   "quota_exceeded_er": {
     "message": "Database size limit exceeded"
   },
   "premium_desc_text": {
-    "message": "Here you can purchase Clear New Tab Premium. Clear New Tab Premium license is tied to your Google account (so make sure you are logged in in the account you usually use), lasts forever and will not be lost after Clear New Tab reinstallation. You can try out all the Clear New Tab Premium features for free in the <a class='link inapp_clear_new_tab_for_firefox_link' target='_blank' rel='noopener noreferrer' href='https: //bit.ly/clear-new-tab-firefox'>Clear New Tab</a> for Firefox."
+    "message": "Here you can purchase Clear New Tab Premium. Clear New Tab Premium license is tied to your Google account (so make sure you are logged in in the account you usually use), lasts forever and will not be lost after Clear New Tab reinstallation. You can try out all the Clear New Tab Premium features for free in the <a class='link inapp_clear_new_tab_for_firefox_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/clear-new-tab-firefox'>Clear New Tab</a> for Firefox."
   },
   "buy_premium_btn_buy_text": {
     "message": "Buy"

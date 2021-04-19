@@ -33,7 +33,7 @@
     "message": "Procure"
   },
   "upload_box_drag_label_text": {
-    "message": "ou arraste imagens/videos aqui"
+    "message": "ou arraste imagens / videos aqui"
   },
   "upload_box_uploading_message_text": {
     "message": "Carregando..."
@@ -69,7 +69,7 @@
     "message": "Modo"
   },
   "change_interval_label_text": {
-    "message": "Trocar plano de fundo todo(s)/toda(s)"
+    "message": "Trocar plano de fundo todo(s) / toda(s)"
   },
   "background_change_effect_label_text": {
     "message": "Plano de fundo muda de efeito"
@@ -312,7 +312,7 @@
     "message": "Obrigado por instalar Clear New Tab! Você pode instalar um tema de <a class='link install_help_link chrome_web_store_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/cws-themes'>Chrome Web Store</a> ou enviar seu próprio plano de fundo da forma abaixo. Clique <button type='button' class='link install_help_link hide_install_help_link'>aqui</button> para esconder essa mensagem."
   },
   "upload_box_help_message_text": {
-    "message": "Você pode enviar varias imagens/videos de uma vez. Apenas selecione varias images/videos antes de clicar em \"Abrir\" ou arrastar.<br><br>Formatos suportados: png, jpg, gif, mp4, webm, ogg."
+    "message": "Você pode enviar varias imagens / videos de uma vez. Apenas selecione varias images / videos antes de clicar em \"Abrir\" ou arrastar.<br><br>Formatos suportados: png, jpg, gif, mp4, webm, ogg."
   },
   "paste_help_message_text": {
     "message": "Nessa entrada você pode colar um link direto de uma imagem ou colar uma imagem copiada. Para conseguir o link direto de uma imagem clique com o botão direito nela, selecione \"Abrir imagem em uma nova guia\" a partir do menu de contexto, vá para a aba aberta e então copie o link da barra de endereço. Para simplesmente copiar uma imagem clique com o botão direito nela e selecione \"Copiar imagem\" a partir do menu de contexto. Animações gif não serão preservadas se feito da segunda forma.<br><br>Formatos suportados: png, jpg, gif."
@@ -324,7 +324,7 @@
     "message": "Selecione \"Global\" para colocar as configurações padrão para todos os planos de fundo. Selecione \"Apenas plano de fundo selecionado\" para colocar as configurações apenas para o plano de fundo selecionado (para selecionar um plano de fundo, clique com o botão esquerdo). Quando \"Apenas plano de fundo selecionado\" estiver selecionado, cada configuração abaixo (\"Cor do plano de fundo\", \"Tamanho do plano de fundo\" etc.) irá ter seu próprio valor \"Global\" . Se esse valor for selecionado, o plano de fundo irá usar o valor padrão para essa configuração, se qualquer outro valor for selecionado, essa configuração irá usar esse valor ao invés do valor padrão. Todo plano de fundo enviado usa as configurações padrão por padrão."
   },
   "size_help_message_text": {
-    "message": "Ajustar para a tela/janela do navegador:<br>Redimensiona o plano de fundo para ter certeza que o plano de fundo está totalmente visível na tela/janela do navegador.<br><br>Preencher a tela/janela do navegador:<br>Redimensiona o plano de fundo para preencher inteiramente a tela/janela do navegador, mesmo se for preciso cortar partes das bordas.<br><br>Esticar para se encaixar na tela/janela do navegador:<br>Redimensiona o plano de fundo para a largura e altura máxima da tela/janela do navegador não preservando sua proporção de tela."
+    "message": "Ajustar para a tela / janela do navegador:<br>Redimensiona o plano de fundo para ter certeza que o plano de fundo está totalmente visível na tela / janela do navegador.<br><br>Preencher a tela / janela do navegador:<br>Redimensiona o plano de fundo para preencher inteiramente a tela / janela do navegador, mesmo se for preciso cortar partes das bordas.<br><br>Esticar para se encaixar na tela / janela do navegador:<br>Redimensiona o plano de fundo para a largura e altura máxima da tela / janela do navegador não preservando sua proporção de tela."
   },
   "background_type_file_text": {
     "message": "Arquivo"
@@ -462,7 +462,7 @@
     "message": "Limite de tamanho do banco de dados excedido"
   },
   "premium_desc_text": {
-    "message": "Here you can purchase Clear New Tab Premium. Clear New Tab Premium license is tied to your Google account (so make sure you are logged in in the account you usually use), lasts forever and will not be lost after Clear New Tab reinstallation. You can try out all the Clear New Tab Premium features for free in the <a class='link inapp_clear_new_tab_for_firefox_link' target='_blank' rel='noopener noreferrer' href='https: //bit.ly/clear-new-tab-firefox'>Clear New Tab</a> for Firefox."
+    "message": "Here you can purchase Clear New Tab Premium. Clear New Tab Premium license is tied to your Google account (so make sure you are logged in in the account you usually use), lasts forever and will not be lost after Clear New Tab reinstallation. You can try out all the Clear New Tab Premium features for free in the <a class='link inapp_clear_new_tab_for_firefox_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/clear-new-tab-firefox'>Clear New Tab</a> for Firefox."
   },
   "buy_premium_btn_buy_text": {
     "message": "Buy"
