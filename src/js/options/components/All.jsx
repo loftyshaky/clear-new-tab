@@ -98,30 +98,36 @@ export class All extends React.Component {
                                 href="https://bit.ly/help-translating"
                                 add_data_bshref_attr={false}
                             />
-                            <Link
-                                name="clear_new_tab_for_link"
-                                href="http"
-                                add_data_bshref_attr
-                                browser="chrome"
-                            />
-                            <Link
-                                name="clear_new_tab_for_link"
-                                href="http"
-                                add_data_bshref_attr
-                                browser="edge"
-                            />
-                            <Link
-                                name="clear_new_tab_for_link"
-                                href="http"
-                                add_data_bshref_attr
-                                browser="firefox"
-                            />
-                            <Link
-                                name="clear_new_tab_for_link"
-                                href="http"
-                                add_data_bshref_attr
-                                browser="opera"
-                            />
+                            {env.what_browser === 'edge'
+                                ? null
+                                : (
+                                    <>
+                                        <Link
+                                            name="clear_new_tab_for_link"
+                                            href="http"
+                                            add_data_bshref_attr
+                                            browser="chrome"
+                                        />
+                                        <Link
+                                            name="clear_new_tab_for_link"
+                                            href="http"
+                                            add_data_bshref_attr
+                                            browser="edge"
+                                        />
+                                        <Link
+                                            name="clear_new_tab_for_link"
+                                            href="http"
+                                            add_data_bshref_attr
+                                            browser="firefox"
+                                        />
+                                        <Link
+                                            name="clear_new_tab_for_link"
+                                            href="http"
+                                            add_data_bshref_attr
+                                            browser="opera"
+                                        />
+                                    </>
+                                )}
                             <Link
                                 name="chrome_theme_creator_microsoft_store_link"
                                 href="https://bit.ly/ctc-microsoft-store"
