@@ -126,18 +126,19 @@ export class All extends React.Component {
                                             add_data_bshref_attr
                                             browser="opera"
                                         />
+
+                                        <Link
+                                            name="chrome_theme_creator_microsoft_store_link"
+                                            href="https://bit.ly/ctc-microsoft-store"
+                                            add_data_bshref_attr={false}
+                                        />
+                                        <Link
+                                            name="chrome_theme_creator_packages_link"
+                                            href="https://bit.ly/ctc-packages"
+                                            add_data_bshref_attr={false}
+                                        />
                                     </>
                                 )}
-                            <Link
-                                name="chrome_theme_creator_microsoft_store_link"
-                                href="https://bit.ly/ctc-microsoft-store"
-                                add_data_bshref_attr={false}
-                            />
-                            <Link
-                                name="chrome_theme_creator_packages_link"
-                                href="https://bit.ly/ctc-packages"
-                                add_data_bshref_attr={false}
-                            />
                             <Link
                                 name="facebook_page_link"
                                 href="https://bit.ly/browservery"
