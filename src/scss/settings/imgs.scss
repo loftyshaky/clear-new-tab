@@ -1,0 +1,10 @@
+.img {
+    @include border;
+
+    display: inline-block;
+    background-color: grey;
+    width: 169px;
+    height: 94px;
+    margin-right: $section_padding;
+    margin-bottom: $section_padding;
+}

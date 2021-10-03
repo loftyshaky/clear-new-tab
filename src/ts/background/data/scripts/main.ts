@@ -1,0 +1,80 @@
+import _ from 'lodash';
+
+import { t } from '@loftyshaky/shared';
+import { d_color } from '@loftyshaky/shared/inputs';
+import { i_data } from 'shared/internal';
+
+export class Main {
+    private static i0: Main;
+
+    public static i(): Main {
+        // eslint-disable-next-line no-return-assign
+        return this.i0 || (this.i0 = new this());
+    }
+
+    // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
+    private constructor() {}
+
+    public defaults: i_data.Settings | t.EmptyRecord = {};
+
+    public init_defaults = (): void =>
+        err(() => {
+            this.defaults = {
+                options_page_theme: 'dark',
+                transition_duration: 200,
+                color_help_is_visible: true,
+                enable_cut_features: false,
+                colors: d_color.Color.i().default_colors,
+                mode: 'theme_background',
+                keep_old_themes_backgrounds: false,
+                current_background_i: 1,
+                future_background_i: 2,
+                automatically_set_last_uploaded_background_as_current: true,
+                background_change_interval: 1,
+                slideshow: false,
+                background_change_effect: 'crossfade',
+                shuffle_backgrounds: false,
+                slide_direction: 'from_right_to_left',
+                background_size: 'dont_resize',
+                background_position: '50% 50%',
+                background_repeat: 'no-repeat',
+                color_of_area_around_background: 0,
+                video_volume: 0,
+                paste_btn_is_visible: false,
+                allow_downloading_img_by_link: false,
+                download_img_when_link_given: false,
+                install_help_msg_is_visible: true,
+                current_random_solid_color: '#ffffff',
+            };
+        }, 'cnt_1002');
+
+    public update_settings = ({ settings }: { settings?: i_data.Settings } = {}): Promise<void> =>
+        err_async(async () => {
+            const settings_final: i_data.Settings = n(settings)
+                ? settings
+                : (this.defaults as i_data.Settings);
+
+            await ext.storage_set(settings_final);
+        }, 'cnt_1003');
+
+    public update_settings_debounce = _.debounce(
+        (settings: i_data.Settings, rerun_actions: boolean) =>
+            err_async(async () => {
+                await this.update_settings({ settings });
+
+                if (n(rerun_actions)) {
+                    ext.send_msg_to_all_tabs({ msg: 'rerun_actions' });
+                }
+            }, 'cnt_1177'),
+        500,
+    );
+
+    public set_from_storage = (): Promise<void> =>
+        err_async(async () => {
+            const settings: i_data.Settings = await ext.storage_get();
+
+            if (_.isEmpty(settings)) {
+                this.update_settings();
+            }
+        }, 'cnt_1004');
+}

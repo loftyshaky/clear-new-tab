@@ -1,563 +1,302 @@
 {
-  "desc": {
-    "message": "Remove everything from the new tab page and display any image, gif or video in it as a wallpaper."
-  },
-  "error_alert": {
-    "message": "An error occured. Error code: "
-  },
-  "error_alert_2": {
-    "message": "Please try to refresh the page."
-  },
-  "options_title_text": {
-    "message": "Options"
-  },
-  "change_background_settings_alert": {
-    "message": "To change a background's settings select it by left-clicking on it."
-  },
-  "select_background_alert": {
-    "message": "Select a background."
-  },
-  "restore_defaults_confirm": {
-    "message": "Restore default settings?"
-  },
-  "delete_all_backgrounds_confirm": {
-    "message": "Delete all backgrounds?"
-  },
-  "enter_new_background_no": {
-    "message": "Enter the new background №:"
-  },
-  "theme_img_link_text": {
-    "message": "Link to theme image"
-  },
-  "load_theme_background_btn_text": {
-    "message": "Load theme background"
-  },
-  "upload_box_browse_label_text": {
-    "message": "Browse"
-  },
-  "upload_box_drag_label_text": {
-    "message": "or drag images / videos here"
-  },
-  "upload_box_uploading_message_text": {
-    "message": "Loading..."
-  },
-  "upload_box_error_message_text": {
-    "message": "An error occured."
-  },
-  "upload_legend_text": {
-    "message": "Background upload"
-  },
-  "background_settings_legend_text": {
-    "message": "Background settings"
-  },
-  "other_settings_legend_text": {
-    "message": "Other settings"
-  },
-  "inapp_legend_text": {
-    "message": "Clear New Tab Premium"
-  },
-  "links_legend_text": {
-    "message": "Links"
-  },
-  "backgrounds_legend_text": {
-    "message": "Backgrounds"
-  },
-  "paste_label_text": {
-    "message": "Paste image or URL"
-  },
-  "download_img_when_link_given_label_text": {
-    "message": "Download image when link given"
-  },
-  "create_solid_color_img_label_text": {
-    "message": "Create solid color image"
-  },
-  "mode_label_text": {
-    "message": "Mode"
-  },
-  "change_interval_label_text": {
-    "message": "Change background every"
-  },
-  "background_change_effect_label_text": {
-    "message": "Background change effect"
-  },
-  "slide_direction_label_text": {
-    "message": "Slide direction"
-  },
-  "keep_old_themes_backgrounds_label_text": {
-    "message": "Keep old themes' backgrounds"
-  },
-  "slideshow_label_text": {
-    "message": "Slideshow"
-  },
-  "shuffle_label_text": {
-    "message": "Shuffle backgrounds"
-  },
-  "current_background_label_text": {
-    "message": "Current background №"
-  },
-  "set_last_uploaded_label_text": {
-    "message": "Automatically set the last uploaded background as current"
-  },
-  "settings_type_label_text": {
-    "message": "Settings type"
-  },
-  "size_label_text": {
-    "message": "Background size"
-  },
-  "position_label_text": {
-    "message": "Background position"
-  },
-  "repeat_label_text": {
-    "message": "Background repeat"
-  },
-  "color_label_text": {
-    "message": "Color of area around background"
-  },
-  "video_volume_label_text": {
-    "message": "Video volume"
-  },
-  "global_label_text": {
-    "message": "Global"
-  },
-  "allow_analytics_label_text": {
-    "message": "Allow Clear New Tab to send anonymous usage information"
-  },
-  "show_link_to_default_new_tab_label_text": {
-    "message": "Show a link to default new tab page in new tab"
-  },
-  "show_bookmarks_bar_label_text": {
-    "message": "Show bookmarks bar in new tab"
-  },
-  "enable_paste_label_text": {
-    "message": "Add \"Paste\" button to paste input"
-  },
-  "allow_downloading_imgs_by_link_label_text": {
-    "message": "Allow downloading images by a link"
-  },
-  "paste_btn_text": {
-    "message": "Paste"
-  },
-  "current_background_btn_text": {
-    "message": "Set selected"
-  },
-  "restore_defaults_btn_text": {
-    "message": "Restore defaults"
-  },
-  "delete_all_backgrounds_btn_text": {
-    "message": "Delete all backgrounds"
-  },
-  "option_theme_text": {
-    "message": "Theme background"
-  },
-  "option_one_text": {
-    "message": "One background"
-  },
-  "option_multiple_text": {
-    "message": "Multiple backgrounds"
-  },
-  "option_random_solid_color_text": {
-    "message": "Random solid color"
-  },
-  "option_1_millisecond_text": {
-    "message": "1 Millisecond"
-  },
-  "option_3_seconds_text": {
-    "message": "3 Seconds"
-  },
-  "option_5_seconds_text": {
-    "message": "5 Seconds"
-  },
-  "option_10_seconds_text": {
-    "message": "10 Seconds"
-  },
-  "option_15_seconds_text": {
-    "message": "15 Seconds"
-  },
-  "option_30_seconds_text": {
-    "message": "30 Seconds"
-  },
-  "option_1_minute_text": {
-    "message": "1 Minute"
-  },
-  "option_5_minutes_text": {
-    "message": "5 Minutes"
-  },
-  "option_10_minutes_text": {
-    "message": "10 Minutes"
-  },
-  "option_15_minutes_text": {
-    "message": "15 Minutes"
-  },
-  "option_30_minutes_text": {
-    "message": "30 Minutes"
-  },
-  "option_1_hour_text": {
-    "message": "1 Hour"
-  },
-  "option_3_hours_text": {
-    "message": "3 Hours"
-  },
-  "option_6_hours_text": {
-    "message": "6 Hours"
-  },
-  "option_12_hours_text": {
-    "message": "12 Hours"
-  },
-  "option_1_day_text": {
-    "message": "1 Day"
-  },
-  "option_2_days_text": {
-    "message": "2 Days"
-  },
-  "option_4_days_text": {
-    "message": "4 Days"
-  },
-  "option_1_week_text": {
-    "message": "1 Week"
-  },
-  "option_2_weeks_text": {
-    "message": "2 Weeks"
-  },
-  "option_4_weeks_text": {
-    "message": "4 Weeks"
-  },
-  "option_crossfade_text": {
-    "message": "Сrossfade"
-  },
-  "option_slide_text": {
-    "message": "Slide"
-  },
-  "option_random_text": {
-    "message": "Random"
-  },
-  "option_from_right_to_left_text": {
-    "message": "From right to left"
-  },
-  "option_from_left_to_right_text": {
-    "message": "From left to right"
-  },
-  "option_from_top_to_bottom_text": {
-    "message": "From top to bottom"
-  },
-  "option_from_bottom_to_top_text": {
-    "message": "From bottom to top"
-  },
-  "option_global_text": {
-    "message": "Global"
-  },
-  "option_specific_text": {
-    "message": "Only selected background"
-  },
-  "option_dont_resize_text": {
-    "message": "Don't resize"
-  },
-  "option_fit_screen_text": {
-    "message": "Fit to the screen"
-  },
-  "option_fit_browser_text": {
-    "message": "Fit to the browser window"
-  },
-  "option_cover_screen_text": {
-    "message": "Cover the screen"
-  },
-  "option_cover_browser_text": {
-    "message": "Cover the browser window"
-  },
-  "option_stretch_screen_text": {
-    "message": "Stretch to fit the screen"
-  },
-  "option_stretch_browser_text": {
-    "message": "Stretch to fit the browser window"
-  },
-  "option_center_top_text": {
-    "message": "Center top"
-  },
-  "option_center_center_text": {
-    "message": "Center"
-  },
-  "option_center_bottom_text": {
-    "message": "Center bottom"
-  },
-  "option_left_top_text": {
-    "message": "Left top"
-  },
-  "option_left_center_text": {
-    "message": "Left center"
-  },
-  "option_left_bottom_text": {
-    "message": "Left bottom"
-  },
-  "option_right_top_text": {
-    "message": "Right top"
-  },
-  "option_right_center_text": {
-    "message": "Right center"
-  },
-  "option_right_bottom_text": {
-    "message": "Right bottom"
-  },
-  "option_repeat_text": {
-    "message": "Repeat"
-  },
-  "option_repeat_y_text": {
-    "message": "Repeat Y"
-  },
-  "option_repeat_x_text": {
-    "message": "Repeat X"
-  },
-  "option_no_repeat_text": {
-    "message": "No repeat"
-  },
-  "help_link_text": {
-    "message": "Help"
-  },
-  "install_help_text_chrome": {
-    "message": "Thanks for installing Clear New Tab! If your Chrome have theme from <a class='link install_help_link chrome_web_store_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/cws-themes'>Chrome Web Store</a> installed, wait till its background appear in an \"Backgrounds\" section, and then open new tab to see it. Otherwise, you can upload your own background with the form below. Click <button type='button' class='link install_help_link hide_install_help_link'>here</button> to hide this message."
-  },
-  "install_help_text_firefox": {
-    "message": "Thanks for installing Clear New Tab! You can install theme from <a class='link install_help_link chrome_web_store_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/cws-themes'>Chrome Web Store</a> or upload your own background with the form below. Click <button type='button' class='link install_help_link hide_install_help_link'>here</button> to hide this message."
-  },
-  "install_help_text_edge": {
-    "message": "Thanks for installing Clear New Tab! If your Edge have a theme installed, wait till its background appears in the \"Backgrounds\" section, and then open new tab to see it. Otherwise, you can upload your own background with the form below. Click <button type='button' class='link install_help_link hide_install_help_link'>here</button> to hide this message."
-  },
-  "upload_box_help_message_text": {
-    "message": "You can upload multiple images / videos at once. Just select multiple images / videos before clicking \"Open\" / dragging.<br><br>Supported formats: png, jpg, gif, mp4, webm, ogg."
-  },
-  "paste_help_message_text": {
-    "message": "In this input you can paste direct link to an image or an image from clipboard. To get direct link to an image right-click on it, select \"Open image in new tab\" from the context menu, go to opened tab and then copy link from address bar. To copy an image to clipboard right-click on an it and then select \"Copy image\" from the context menu. Gif animation will not be preserved when you past an image from clipboard.<br><br>Supported formats: png, jpg, gif."
-  },
-  "mode_help_message_text": {
-    "message": "Theme background: when this mode is selected, backgrounds of themes that you install in the Chrome Web Store will be automatically downloaded and appear in a new tab. In this mode, you do not need to upload your own backgrounds. If you uploaded your own backgrounds, use the \"One background\" or \"Multiple backgrounds\" mode.<br><br>One background: when this mode is selected, a new tab will show you a background you selected using the \"Set selected\" button. Use this mode if you have uploaded your own backgrounds and want to see one of them in a new tab.<br><br>Multiple backgrounds: when this mode is selected, a new tab will show one of the backgrounds you uploaded, changing it at a given interval. Use this mode if you want to see all backgrounds you uploaded.<br><br>Random solid color: when this mode is selected, a new tab will show a randomly chosen color, changing it at a given interval."
-  },
-  "settings_type_help_message_text": {
-    "message": "Select \"Global\" to set the default settings for all backgrounds. Select \"Only selected background\" to set the settings for the selected background only (to select a background, left-click on it). When \"Only selected background\" is selected, each setting below (\"Background color\", \"Background size\" etc.) will have its own \"Global\" value. If this value is selected, the background will use the default value for this setting, if any other value is selected, this setting will use this value instead of the default value. All uploaded backgrounds use global settings by default."
-  },
-  "size_help_message_text": {
-    "message": "Fit to the screen / browser window:<br>Resize the background to make sure the background is fully visible on screen / browser window.<br><br>Cover the screen / browser window:<br>Resize the background to cover the entire screen / browser window, even if it has to cut a part of it from the edges.<br><br>Stretch to fit the screen / browser window:<br>Resize the background to maximum screen / browser window width and height not preserving its aspect ratio."
-  },
-  "background_type_file_text": {
-    "message": "File"
-  },
-  "background_type_link_text": {
-    "message": "Link"
-  },
-  "background_type_theme_file_text": {
-    "message": "File (theme)"
-  },
-  "background_type_theme_color_text": {
-    "message": "Color (theme)"
-  },
-  "background_type_color_text": {
-    "message": "Color"
-  },
-  "background_type_color_theme_text": {
-    "message": "Color (theme)"
-  },
-  "background_type_img_link_text": {
-    "message": "Image link"
-  },
-  "background_type_img_file_text": {
-    "message": "Image file"
-  },
-  "background_type_img_file_theme_text": {
-    "message": "Image file (theme)"
-  },
-  "background_type_video_file_text": {
-    "message": "Video file"
-  },
-  "background_type_video_file_theme_text": {
-    "message": "Video file (theme)"
-  },
-  "background_preview_text": {
-    "message": "Preview"
-  },
-  "move_background_text": {
-    "message": "Move"
-  },
-  "premium_purchasing_state_fetching_products_text": {
-    "message": "Fetching your premium license info..."
-  },
-  "premium_purchasing_state_not_licensed_text": {
-    "message": "You are not a premium user."
-  },
-  "premium_purchasing_state_licensed_text": {
-    "message": "You are a premium user."
-  },
-  "premium_purchasing_state_error_text": {
-    "message": "An error occured while Fetching your premium license info. Check your internet connection and log in in your Google account."
-  },
-  "inapp_notice_text_text": {
-    "message": "This feature is available in Clear New Tab Premium."
-  },
-  "learn_more_link_text": {
-    "message": "Learn more"
-  },
-  "purchase_error_alert": {
-    "message": "An error occurred while processing your purchase."
-  },
-  "privacy_policy_link_text": {
-    "message": "📜 Privacy policy"
-  },
-  "help_translating_link_text": {
-    "message": "🈯 Help translating Clear New Tab into the language you know"
-  },
-  "clear_new_tab_for_link_text_chrome": {
-    "message": "⚗️ Clear New Tab for Chrome"
-  },
-  "clear_new_tab_for_link_text_edge": {
-    "message": "⚗️ Clear New Tab for Edge"
-  },
-  "clear_new_tab_for_link_text_firefox": {
-    "message": "⚗️ Clear New Tab for Firefox"
-  },
-  "clear_new_tab_for_link_text_opera": {
-    "message": "⚗️ Clear New Tab for Opera"
-  },
-  "chrome_theme_creator_microsoft_store_link_text": {
-    "message": "🛠️ Create your own theme with the Chrome Theme Creator app (Windows 10)"
-  },
-  "chrome_theme_creator_packages_link_text": {
-    "message": "🛠️ Create your own theme with the Chrome Theme Creator app (Windows 7, macOS, Linux)"
-  },
-  "rate_link_text": {
-    "message": "⭐️ Rate this extension if you like it"
-  },
-  "facebook_page_link_text": {
-    "message": "🖼️  Follow my Facebook page"
-  },
-  "support_website_link_text": {
-    "message": "📢 Support website"
-  },
-  "donate_link_text": {
-    "message": "💖 Support the development of this extension by donating any amount via PayPal"
-  },
-  "clear_new_tab_for_link_href_chrome": {
-    "message": "https://bit.ly/clear-new-tab"
-  },
-  "clear_new_tab_for_link_href_edge": {
-    "message": "https://bit.ly/clear-new-tab-edge"
-  },
-  "clear_new_tab_for_link_href_firefox": {
-    "message": "https://bit.ly/clear-new-tab-firefox"
-  },
-  "clear_new_tab_for_link_href_opera": {
-    "message": ""
-  },
-  "rate_link_href_chrome": {
-    "message": "https://bit.ly/rate-clear-new-tab"
-  },
-  "rate_link_href_firefox": {
-    "message": "https://bit.ly/clear-new-tab-firefox"
-  },
-  "rate_link_href_opera": {
-    "message": ""
-  },
-  "analytics_privacy_message_text": {
-    "message": "Do you want to allow Clear New Tab to send anonymous usage information to Google Analytics for product improvement purposes?"
-  },
-  "allow_analytics_btn_text": {
-    "message": "Allow"
-  },
-  "disallow_analytics_btn_text": {
-    "message": "Disallow"
-  },
-  "main_width": {
-    "message": "400px"
-  },
-  "backgrounds_w_width": {
-    "message": "1371px"
-  },
-  "failed_to_load_background_er": {
-    "message": "Failed to load background / backgrounds"
-  },
-  "quota_exceeded_er": {
-    "message": "Database size limit exceeded"
-  },
-  "premium_desc_text": {
-    "message": "Here you can purchase Clear New Tab Premium. Clear New Tab Premium license is tied to your Google account (so make sure you are logged in in the account you usually use), lasts forever and will not be lost after Clear New Tab reinstallation. You can try out all the Clear New Tab Premium features for free in the <a class='link inapp_clear_new_tab_for_firefox_link' target='_blank' rel='noopener noreferrer' href='https://bit.ly/clear-new-tab-firefox'>Clear New Tab</a> for Firefox."
-  },
-  "buy_premium_btn_buy_text": {
-    "message": "Buy"
-  },
-  "buy_premium_btn_for_text": {
-    "message": "for"
-  },
-  "buy_premium_btn_one_time_payment_text": {
-    "message": "one-time payment"
-  },
-  "features_h2_text": {
-    "message": "Features"
-  },
-  "inapp_theme_beta_h3_text": {
-    "message": "ThemeBeta"
-  },
-  "inapp_random_solid_color_h3_text": {
-    "message": "Random solid color mode"
-  },
-  "inapp_slideshow_h3_text": {
-    "message": "Slideshow"
-  },
-  "inapp_slide_h3_text": {
-    "message": "Slide background change effect"
-  },
-  "inapp_paste_btn_h3_text": {
-    "message": "Paste button"
-  },
-  "inapp_theme_beta_feature_desc_text": {
-    "message": "Automatically downloads a theme background when you install a theme from ThemeBeta in \"Theme background\" mode."
-  },
-  "inapp_random_solid_color_feature_desc_text": {
-    "message": "Shows randomly chosen solid colors in new tabs."
-  },
-  "inapp_slideshow_feature_desc_text": {
-    "message": "Changes backgrounds in the same new tab at a given interval."
-  },
-  "inapp_slide_feature_desc_text": {
-    "message": "Changes backgrounds with slide effect when \"Slideshow\" checkbox is checked."
-  },
-  "inapp_paste_btn_feature_desc_text": {
-    "message": "Adds a paste button to the \"Paste image or URL\" input."
-  },
-  "new_tab_title_text": {
-    "message": "New Tab"
-  },
-  "link_to_default_new_tab_tooltip": {
-    "message": "Go to default new tab page"
-  },
-  "theme_installiation_error_alert": {
-    "message": "An error occurred when installing a theme. Most likely because this theme is paid."
-  },
-  "wrong_mode_alert": {
-    "message": "An error occured. Before installing themes from Chrome Web Store you need to select \"Theme background\" mode in options page."
-  },
-  "ff_install_btn_text": {
-    "message": "Install theme"
-  },
-  "ff_install_btn_installing_text": {
-    "message": "Installing..."
-  },
-  "undo_btn_text": {
-    "message": "Undo"
-  },
-  "msg_to_user_text": {
-    "message": "Important message for Clear New Tab users!\r\n\r\nSince Google deprecated Chrome Web Store payments I will not be able to sell premium version of Clear New Tab soon, so I made it free for everyone. In the future I will may monetize it again with other payment processing platform. If possible, I will refund money to everyone who purchased Clear New Tab Premium in the past, so you don't pay twice. Click on this message to hide it."
-  },
-  "an_error_occured_msg": {
-    "message": "An error occured."
-  },
-  "error_code_label": {
-    "message": "Error code: "
-  },
-  "error_type_label": {
-    "message": "Type: "
-  },
-  "error_msg_label": {
-    "message": "Message: "
-  },
-  "cant_render_ui_er": {
-    "message": "Can't render user interface"
-  },
-  "reload_ui_btn_text": {
-    "message": "Reload"
-  }
+    "description": {
+        "message": ""
+    },
+    "background_upload_section_text": {
+        "message": "Background upload"
+    },
+    "background_settings_section_text": {
+        "message": "Background settings"
+    },
+    "other_settings_section_text": {
+        "message": "Other settings"
+    },
+    "imgs_section_text": {
+        "message": "Images"
+    },
+    "drag_files_msg_text": {
+        "message": "or drag images/videos here"
+    },
+    "link_to_theme_img_link_btn_text": {
+        "message": "Link to theme image"
+    },
+    "load_theme_background_btn_text": {
+        "message": "Load theme background"
+    },
+    "paste_background_label_text": {
+        "message": "Paste image or URL"
+    },
+    "download_img_when_link_given_label_text": {
+        "message": "Download image when link given"
+    },
+    "create_solid_color_background_label_text": {
+        "message": "Create solid color background"
+    },
+    "mode_label_text": {
+        "message": "Mode"
+    },
+    "keep_old_themes_backgrounds_label_text": {
+        "message": "Keep old themes' backgrounds"
+    },
+    "current_background_i_label_text": {
+        "message": "Current background №"
+    },
+    "automatically_set_last_uploaded_background_as_current_label_text": {
+        "message": "Automatically set the last uploaded background as current"
+    },
+    "background_change_interval_label_text": {
+        "message": "Change background every"
+    },
+    "slideshow_label_text": {
+        "message": "Slideshow"
+    },
+    "background_change_effect_label_text": {
+        "message": "Background change effect"
+    },
+    "slide_direction_label_text": {
+        "message": "Slide direction"
+    },
+    "shuffle_backgrounds_label_text": {
+        "message": "Shuffle backgrounds"
+    },
+    "settings_type_label_text": {
+        "message": "Settings type"
+    },
+    "background_size_label_text": {
+        "message": "Background size"
+    },
+    "background_position_label_text": {
+        "message": "Background position"
+    },
+    "background_repeat_label_text": {
+        "message": "Background repeat"
+    },
+    "color_of_area_around_background_label_text": {
+        "message": "Color of area around background"
+    },
+    "video_volume_label_text": {
+        "message": "Video volume"
+    },
+    "delete_all_backgrounds_btn_text": {
+        "message": "Delete all backgrounds"
+    },
+    "paste_btn_is_visible_label_text": {
+        "message": "Add \"Paste\" button to \"Paste image or URL\" input"
+    },
+    "allow_downloading_img_by_link_label_text": {
+        "message": "Allow downloading an image when a link to an image pasted in \"Paste image or URL\" input"
+    },
+    "paste_background_text_btn_title": {
+        "message": "Paste image or URL from clipboard"
+    },
+    "set_img_as_current_text_btn_title": {
+        "message": "Set selected image as current"
+    },
+    "theme_background_option_text": {
+        "message": "Theme background"
+    },
+    "one_background_option_text": {
+        "message": "One background"
+    },
+    "multiple_backgrounds_option_text": {
+        "message": "Multiple backgrounds"
+    },
+    "random_solid_color_option_text": {
+        "message": "Random solid color"
+    },
+    "1_millisecond_option_text": {
+        "message": "1 Millisecond"
+    },
+    "3_seconds_option_text": {
+        "message": "3 Seconds"
+    },
+    "5_seconds_option_text": {
+        "message": "5 Seconds"
+    },
+    "10_seconds_option_text": {
+        "message": "10 Seconds"
+    },
+    "15_seconds_option_text": {
+        "message": "15 Seconds"
+    },
+    "30_seconds_option_text": {
+        "message": "30 Seconds"
+    },
+    "1_minute_option_text": {
+        "message": "1 Minute"
+    },
+    "5_minutes_option_text": {
+        "message": "5 Minutes"
+    },
+    "10_minutes_option_text": {
+        "message": "10 Minutes"
+    },
+    "15_minutes_option_text": {
+        "message": "15 Minutes"
+    },
+    "30_minutes_option_text": {
+        "message": "30 Minutes"
+    },
+    "1_hour_option_text": {
+        "message": "1 Hour"
+    },
+    "3_hours_option_text": {
+        "message": "3 Hours"
+    },
+    "6_hours_option_text": {
+        "message": "6 Hours"
+    },
+    "12_hours_option_text": {
+        "message": "12 Hours"
+    },
+    "1_day_option_text": {
+        "message": "1 Day"
+    },
+    "2_days_option_text": {
+        "message": "2 Days"
+    },
+    "4_days_option_text": {
+        "message": "4 Days"
+    },
+    "1_week_option_text": {
+        "message": "1 Week"
+    },
+    "2_weeks_option_text": {
+        "message": "2 Weeks"
+    },
+    "4_weeks_option_text": {
+        "message": "4 Weeks"
+    },
+    "crossfade_option_text": {
+        "message": "Сrossfade"
+    },
+    "slide_option_text": {
+        "message": "Slide"
+    },
+    "random_option_text": {
+        "message": "Random"
+    },
+    "from_right_to_left_option_text": {
+        "message": "From right to left"
+    },
+    "from_left_to_right_option_text": {
+        "message": "From left to right"
+    },
+    "from_top_to_bottom_option_text": {
+        "message": "From top to bottom"
+    },
+    "from_bottom_to_top_option_text": {
+        "message": "From bottom to top"
+    },
+    "all_backgrounds_option_text": {
+        "message": "All backgrounds"
+    },
+    "selected_background_option_text": {
+        "message": "Selected background"
+    },
+    "dont_resize_option_text": {
+        "message": "Don't resize"
+    },
+    "cover_screen_option_text": {
+        "message": "Cover the screen"
+    },
+    "cover_browser_option_text": {
+        "message": "Cover the browser window"
+    },
+    "fit_screen_option_text": {
+        "message": "Fit to the screen"
+    },
+    "fit_browser_option_text": {
+        "message": "Fit to the browser window"
+    },
+    "stretch_screen_option_text": {
+        "message": "Stretch to fit the screen"
+    },
+    "stretch_browser_option_text": {
+        "message": "Stretch to fit the browser window"
+    },
+    "center_top_option_text": {
+        "message": "Center top"
+    },
+    "center_center_option_text": {
+        "message": "Center"
+    },
+    "center_bottom_option_text": {
+        "message": "Center bottom"
+    },
+    "left_top_option_text": {
+        "message": "Left top"
+    },
+    "left_center_option_text": {
+        "message": "Left center"
+    },
+    "left_bottom_option_text": {
+        "message": "Left bottom"
+    },
+    "right_top_option_text": {
+        "message": "Right top"
+    },
+    "right_center_option_text": {
+        "message": "Right center"
+    },
+    "right_bottom_option_text": {
+        "message": "Right bottom"
+    },
+    "no_repeat_option_text": {
+        "message": "No repeat"
+    },
+    "repeat_option_text": {
+        "message": "Repeat"
+    },
+    "repeat_y_option_text": {
+        "message": "Repeat Y"
+    },
+    "repeat_x_option_text": {
+        "message": "Repeat X"
+    },
+    "upload_background_help_text": {
+        "message": "You can upload multiple images/videos at once. Just select multiple images/videos before clicking \"Open\" / dragging.\n\nSupported formats: png, jpg, gif, mp4, webm, ogg."
+    },
+    "paste_background_help_text": {
+        "message": "In this input you can paste direct link to an image or an image from clipboard. To get direct link to an image right-click on it, select \"Open image in new tab\" from the context menu, go to opened tab and then copy link from address bar. To copy an image to clipboard right-click on an it and then select \"Copy image\" from the context menu. Gif animation will not be preserved when you past an image from clipboard.\n\nSupported formats: png, jpg, gif."
+    },
+    "mode_help_text": {
+        "message": "Theme background: when this mode is selected, backgrounds of themes that you install in the Chrome Web Store will be automatically downloaded and appear in a new tab. In this mode, you do not need to upload your own backgrounds. If you uploaded your own backgrounds, use the \"One background\" or \"Multiple backgrounds\" mode.\n\nOne background: when this mode is selected, a new tab will show you a background you selected using the \"Set selected\" button. Use this mode if you have uploaded your own backgrounds and want to see one of them in a new tab.\n\nMultiple backgrounds: when this mode is selected, a new tab will show one of the backgrounds you uploaded, changing it at a given interval. Use this mode if you want to see all backgrounds you uploaded.\n\nRandom solid color: when this mode is selected, a new tab will show a randomly chosen color, changing it at a given interval."
+    },
+    "settings_type_help_text": {
+        "message": "Select \"Global\" to set the default settings for all backgrounds. Select \"Only selected background\" to set the settings for the selected background only (to select a background, left-click on it). When \"Only selected background\" is selected, each setting below (\"Background color\", \"Background size\" etc.) will have its own \"Global\" value. If this value is selected, the background will use the default value for this setting, if any other value is selected, this setting will use this value instead of the default value. All uploaded backgrounds use global settings by default."
+    },
+    "background_size_help_text": {
+        "message": "Cover the screen/browser window:\nResize the background to cover the entire screen/browser window, even if it has to cut a part of it from the edges.\n\nFit to the screen/browser window:\nResize the background to make sure the background is fully visible on screen/browser window.\n\nStretch to fit the screen/browser window:\nResize the background to maximum screen/browser window width and height not preserving its aspect ratio."
+    },
+    "clear_new_tab_for_chrome_link_text": {
+        "message": "⚗️ Clear New Tab for Chrome"
+    },
+    "clear_new_tab_for_edge_link_text": {
+        "message": "⚗️ Clear New Tab for Edge"
+    },
+    "clear_new_tab_for_firefox_link_text": {
+        "message": "⚗️ Clear New Tab for Firefox"
+    },
+    "rate_chrome_link_href": {
+        "message": "https://bit.ly/clear-new-tab-rate-ru"
+    },
+    "rate_edge_link_href": {
+        "message": "https://bit.ly/clear-new-tab-edge"
+    },
+    "rate_firefox_link_href": {
+        "message": "https://bit.ly/clear-new-tab-firefox"
+    },
+    "clear_new_tab_for_chrome_link_href": {
+        "message": "https://bit.ly/clear-new-tab-ru"
+    },
+    "clear_new_tab_for_edge_link_href": {
+        "message": "https://bit.ly/clear-new-tab-edge"
+    },
+    "clear_new_tab_for_firefox_link_href": {
+        "message": "https://bit.ly/clear-new-tab-firefox"
+    },
+    "new_tab_title_text": {
+        "message": "New Tab"
+    }
 }

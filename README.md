@@ -1,12 +1,15 @@
-# Clear New Tab
+A browser extension that removes everything from the new tab page and displays any image, gif or video in it as a wallpaper.
 
-[Chrome Web Store](https://bit.ly/clear-new-tab)  
-[Firefox Add-ons](http://bit.ly/clear-new-tab-firefox)  
+The extension was built on Windows. It uses webpack.
 
-## How to build
+## Links
 
-`cd` into the project directory; `npm install`; then one of the following:  
-`npm run dev` - chrome development build  
-`npm run prod` - chrome production build  
-`npm run devff` - firefox development build  
-`npm run prodff` - firefox production build  
+[Chrome Web Store](https://bit.ly/clear-new-tab)<br>
+[Edge Add-ons](https://bit.ly/clear-new-tab-edge)
+
+## Build steps
+
+1. git clone https://github.com/loftyshaky/clear-new-tab
+2. cd into the cloned repository
+3. npm install
+4. npm run prod (Chrome) / npm run prode (Edge)
