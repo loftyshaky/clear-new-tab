@@ -2,7 +2,7 @@ import { s_utils } from '@loftyshaky/shared';
 import { o_inputs, o_color, i_inputs } from '@loftyshaky/shared/inputs';
 import { d_settings } from '@loftyshaky/shared/settings';
 import { svg } from 'shared/svg';
-import { d_sections } from 'settings/internal';
+import { d_backgrounds, d_sections } from 'settings/internal';
 
 export class Main {
     private static i0: Main;
@@ -111,11 +111,7 @@ export class Main {
                                 include_help: true,
                                 accept: '.png,.jpg,.jpeg,.gif,.mp4,.webm,.ogv',
                                 multiple: true,
-                                event_callback: async ({ files }) => {
-                                    await x.delay(2000);
-                                    // eslint-disable-next-line no-unused-expressions
-                                    files;
-                                },
+                                event_callback: d_backgrounds.Upload.i().upload_with_browse_btn,
                             }),
                             new o_inputs.Text({
                                 name: 'paste_background',
