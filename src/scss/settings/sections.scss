@@ -1,52 +1,63 @@
-$imgs_section_max_width: 932px;
+$backgrounds_section_max_width: 922px;
 
 .sections {
     overflow: hidden;
     flex-grow: unset;
-}
 
-.sections.settings {
-    min-width: max-content;
-}
+    &.settings {
+        min-width: max-content;
+    }
 
-.sections.imgs {
-    position: relative;
-    max-width: $imgs_section_max_width + 16px + 2px;
-    width: 100%;
-}
+    &.backgrounds {
+        position: relative;
+        max-width: $backgrounds_section_max_width + 16px + 2px;
+        width: 100%;
+    }
 
-.section {
-    @include border;
+    .section {
+        @include border;
 
-    width: min-content;
-}
+        width: min-content;
 
-.section.imgs {
-    position: fixed;
-    max-width: $imgs_section_max_width;
-    width: 100%;
-    height: calc(100vh - 34px);
-    margin-left: 0;
-}
+        .row {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
 
-.section_content {
-    padding: $section_padding;
-}
+        &.backgrounds {
+            position: fixed;
+            max-width: $backgrounds_section_max_width;
+            width: 100%;
+            height: calc(100vh - 34px);
+            margin-left: 0;
+        }
 
-.section.imgs .section_content {
-    overflow: auto;
-    height: calc(100% - 42px);
-    box-sizing: border-box;
-    padding-right: 0;
-    padding-bottom: 0;
-}
+        .section_content {
+            padding: $section_padding;
+            overflow: hidden !important;
+        }
 
-.section_name {
-    @include border_bottom;
+        &.backgrounds .section_content {
+            overflow: auto;
+            height: calc(100% - 42px);
+            box-sizing: border-box;
+            padding: 0;
 
-    margin: 0;
-    width: 100%;
-    padding: 5px $section_padding;
-    font-size: 24px;
-    box-sizing: border-box;
+            /* stylelint-disable-next-line selector-class-pattern */
+            .ReactVirtualized__Collection {
+                padding-bottom: $section_padding + 2px;
+            }
+        }
+
+        .section_name {
+            @include border_bottom;
+
+            margin: 0;
+            width: 100%;
+            padding: 5px $section_padding;
+            font-size: 24px;
+            box-sizing: border-box;
+        }
+    }
 }

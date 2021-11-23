@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 
 import { c_inputs, o_inputs, d_inputs, i_inputs } from '@loftyshaky/shared/inputs';
-import { c_settings, d_sections } from 'settings/internal';
+import { c_settings, c_backgrounds, d_sections } from 'settings/internal';
 
 export const Body: React.FunctionComponent = observer(() => {
     useEffect(
@@ -32,17 +32,7 @@ export const Body: React.FunctionComponent = observer(() => {
                     ),
                 )}
             </div>
-            <div className='sections custom imgs'>
-                <c_settings.Section section_name='imgs'>
-                    {Array(100)
-                        .fill(undefined)
-                        .map((item, i) => (
-                            <span key={i} className='img'>
-                                Image
-                            </span>
-                        ))}
-                </c_settings.Section>
-            </div>
+            <c_backgrounds.Backgrounds />
         </div>
     );
 });

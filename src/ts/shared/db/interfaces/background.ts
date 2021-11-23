@@ -1,4 +1,4 @@
-export interface Backgrounds {
+export interface Background {
     background: File | undefined;
     id: string;
     theme_id: string | undefined;
@@ -7,6 +7,8 @@ export interface Backgrounds {
     thumbnail: string | undefined;
     width: number;
     height: number;
+    thumbnail_width: number;
+    thumbnail_height: number;
     background_size: string;
     background_positon: string;
     background_repeat: string;

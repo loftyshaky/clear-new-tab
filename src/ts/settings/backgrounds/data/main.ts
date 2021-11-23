@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { makeObservable, observable, action } from 'mobx';
 
 import { i_db } from 'shared/internal';
@@ -14,45 +15,20 @@ export class Main {
     private constructor() {
         makeObservable(this, {
             backgrounds: observable,
+            merge_backgrounds_data: action,
             update_backgrounds_data: action,
         });
     }
 
-    public backgrounds: i_db.Backgrounds[] = [
-        {
-            id: x.id(),
-            background: undefined,
-            theme_id: undefined,
-            i: 0,
-            type: 'img',
-            thumbnail: '',
-            width: 1920,
-            height: 1080,
-            background_size: 'global',
-            background_positon: 'global',
-            background_repeat: 'global',
-            color_of_area_around_background: 'global',
-            video_volume: 'global',
-        },
-        {
-            id: x.id(),
-            background: undefined,
-            theme_id: undefined,
-            i: 1,
-            type: 'img',
-            thumbnail: '',
-            width: 1920,
-            height: 1080,
-            background_size: 'global',
-            background_positon: 'global',
-            background_repeat: 'global',
-            color_of_area_around_background: 'global',
-            video_volume: 'global',
-        },
-    ];
+    public backgrounds: i_db.Background[] = [];
 
-    public update_backgrounds_data = ({ backgrounds }: { backgrounds: i_db.Backgrounds[] }): void =>
+    public merge_backgrounds_data = ({ backgrounds }: { backgrounds: i_db.Background[] }): void =>
         err(() => {
-            this.backgrounds = backgrounds;
+            this.backgrounds = _.union(this.backgrounds, backgrounds);
+        }, 'cnt_49273');
+
+    public update_backgrounds_data = ({ backgrounds }: { backgrounds: i_db.Background[] }): void =>
+        err(() => {
+            this.backgrounds = _.union(this.backgrounds, backgrounds);
         }, 'cnt_49273');
 }

@@ -1,7 +1,7 @@
 import { s_utils } from '@loftyshaky/shared';
 import { o_inputs, o_color, i_inputs } from '@loftyshaky/shared/inputs';
 import { d_settings } from '@loftyshaky/shared/settings';
-import { svg } from 'shared/svg';
+import { svg } from 'shared/internal';
 import { d_backgrounds, d_sections } from 'settings/internal';
 
 export class Main {
@@ -175,11 +175,11 @@ export class Main {
                                 ],
                                 text_btns: [
                                     {
-                                        name: 'set_img_as_current',
+                                        name: 'set_background_as_current',
                                         Svg: svg.AssistantPhoto,
                                         visibility_cond:
                                             d_sections.TextBtns.i()
-                                                .decide_set_img_as_current_btn_visibility,
+                                                .decide_set_background_as_current_btn_visibility,
                                         event_callback: () => undefined,
                                     },
                                 ],

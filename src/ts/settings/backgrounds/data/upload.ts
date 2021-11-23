@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import Pica from 'pica';
 
 import { i_db } from 'shared/internal';
 import { d_backgrounds, s_backgrounds, i_backgrounds } from 'settings/internal';
@@ -15,23 +14,23 @@ export class Upload {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
-    private added_imgs_count: number = 0;
+    private added_backgrounds_count: number = -1;
     private canvas: HTMLCanvasElement = document.createElement('canvas');
 
     public upload_with_browse_btn = async ({ files }: { files: File[] }): Promise<void> => {
         try {
-            this.added_imgs_count = 0;
+            this.added_backgrounds_count = -1;
 
-            const new_backgrounds: i_db.Backgrounds[] = [];
-
-            await Promise.all(
-                [...files].map(async (file: File): Promise<void> => {
+            const new_backgrounds: i_db.Background[] = await Promise.all(
+                [...files].map(async (file: File): Promise<i_db.Background> => {
                     const background_props: i_backgrounds.BackgroundProps =
                         await this.get_background_width_height_and_thumbnail({
                             file,
                         });
 
-                    new_backgrounds.push({
+                    this.added_backgrounds_count += 1;
+
+                    return {
                         id: x.id(),
                         background: file,
                         theme_id: undefined,
@@ -42,18 +41,18 @@ export class Upload {
                         thumbnail: background_props.thumbnail,
                         width: background_props.width,
                         height: background_props.height,
+                        thumbnail_width: background_props.thumbnail_width,
+                        thumbnail_height: background_props.thumbnail_height,
                         background_size: 'global',
                         background_positon: 'global',
                         background_repeat: 'global',
                         color_of_area_around_background: 'global',
                         video_volume: 'global',
-                    });
-
-                    this.added_imgs_count += 1;
+                    };
                 }),
             );
 
-            l(new_backgrounds);
+            d_backgrounds.Main.i().merge_backgrounds_data({ backgrounds: new_backgrounds });
         } catch (error_obj: any) {
             show_err_ribbon(error_obj, 'cnt_63793', { silent: true });
             throw_err_obj(error_obj);
@@ -66,10 +65,10 @@ export class Upload {
                 const background_with_highest_i = _.maxBy(d_backgrounds.Main.i().backgrounds, 'i');
 
                 if (n(background_with_highest_i)) {
-                    return background_with_highest_i.i + this.added_imgs_count + 1;
+                    return background_with_highest_i.i + this.added_backgrounds_count + 1;
                 }
 
-                return this.added_imgs_count;
+                return this.added_backgrounds_count;
             },
             'cnt_43795',
             { silent: true },
@@ -138,6 +137,8 @@ export class Upload {
                                                     thumbnail,
                                                     width: natural_width,
                                                     height: natural_height,
+                                                    thumbnail_width: thumbnail_dims.width,
+                                                    thumbnail_height: thumbnail_dims.height,
                                                 });
                                             } else {
                                                 reject(err_obj('Upload error'));
@@ -174,8 +175,21 @@ export class Upload {
         err(
             () => {
                 const ratio = Math.min(Infinity / natural_width, 94 / natural_height);
+                const width: number = Math.floor(natural_width * ratio);
+                let width_final: number = 0;
 
-                return { width: natural_width * ratio, height: natural_height * ratio };
+                if (width < 80) {
+                    width_final = 80;
+                } else if (width > 400) {
+                    width_final = 400;
+                } else {
+                    width_final = width;
+                }
+
+                return {
+                    width: width_final,
+                    height: Math.floor(natural_height * ratio),
+                };
             },
             'cnt_63745',
             { silent: true },
@@ -187,15 +201,19 @@ export class Upload {
     }: {
         img: HTMLImageElement;
         thumbnail_dims: i_backgrounds.BackgroundDims;
-    }): Promise<string> =>
-        err_async(
-            async () => {
-                this.canvas.width = thumbnail_dims.width;
-                this.canvas.height = thumbnail_dims.height;
+    }): string | undefined =>
+        err(
+            () => {
+                const thumbnail: string | undefined = this.resize_canvas({
+                    background: img,
+                    thumbnail_dims,
+                });
 
-                const thumbnail: string = await this.resize_canvas({ img });
+                if (n(thumbnail)) {
+                    return thumbnail;
+                }
 
-                return thumbnail;
+                return undefined;
             },
             'cnt_53709',
             { silent: true },
@@ -213,22 +231,12 @@ export class Upload {
                 if (video.readyState === 4) {
                     // for firefox. When image is broken in firefox it returns naturalWidth 0
                     if (thumbnail_dims.width > 0) {
-                        this.canvas.width = thumbnail_dims.width;
-                        this.canvas.height = thumbnail_dims.height;
+                        const thumbnail: string | undefined = this.resize_canvas({
+                            background: video,
+                            thumbnail_dims,
+                        });
 
-                        const context: CanvasRenderingContext2D | null =
-                            this.canvas.getContext('2d');
-
-                        if (n(context)) {
-                            context.drawImage(
-                                video,
-                                0,
-                                0,
-                                thumbnail_dims.width,
-                                thumbnail_dims.height,
-                            );
-                            const thumbnail = this.canvas.toDataURL();
-
+                        if (n(thumbnail)) {
                             return thumbnail;
                         }
                     }
@@ -240,19 +248,34 @@ export class Upload {
             { silent: true },
         );
 
-    public resize_canvas = ({ img }: { img: HTMLImageElement }): Promise<string> =>
-        err_async(
-            async () => {
-                await new Pica({ features: ['js', 'wasm'] }).resize(img, this.canvas, {
-                    alpha: true,
-                    unsharpAmount: 30,
-                    unsharpRadius: 0.75,
-                    unsharpThreshold: 1,
-                });
+    public resize_canvas = ({
+        background,
+        thumbnail_dims,
+    }: {
+        background: HTMLImageElement | HTMLVideoElement;
+        thumbnail_dims: i_backgrounds.BackgroundDims;
+    }): string | undefined =>
+        err(
+            () => {
+                this.canvas.width = thumbnail_dims.width;
+                this.canvas.height = thumbnail_dims.height;
 
-                const resized_bese64_img: string = this.canvas.toDataURL();
+                const context: CanvasRenderingContext2D | null = this.canvas.getContext('2d');
 
-                return resized_bese64_img;
+                if (n(context)) {
+                    context.drawImage(
+                        background,
+                        0,
+                        0,
+                        thumbnail_dims.width,
+                        thumbnail_dims.height,
+                    );
+                    const thumbnail = this.canvas.toDataURL();
+
+                    return thumbnail;
+                }
+
+                return undefined;
             },
             'cnt_65638',
             { silent: true },

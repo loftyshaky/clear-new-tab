@@ -11,8 +11,8 @@
     "other_settings_section_text": {
         "message": "Other settings"
     },
-    "imgs_section_text": {
-        "message": "Images"
+    "backgrounds_section_text": {
+        "message": "Backgrounds"
     },
     "drag_files_msg_text": {
         "message": "or drag images/videos here"
@@ -89,8 +89,8 @@
     "paste_background_text_btn_title": {
         "message": "Paste image or URL from clipboard"
     },
-    "set_img_as_current_text_btn_title": {
-        "message": "Set selected image as current"
+    "set_background_as_current_text_btn_title": {
+        "message": "Set selected background as current"
     },
     "theme_background_option_text": {
         "message": "Theme background"

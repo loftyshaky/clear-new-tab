@@ -1,6 +1,9 @@
 import _ from 'lodash';
+import { makeObservable, action } from 'mobx';
 
 import { s_viewport } from '@loftyshaky/shared';
+import { d_backgrounds } from 'settings/internal';
+import { vars } from 'shared/internal';
 
 export class Width {
     private static i0: Width;
@@ -11,7 +14,11 @@ export class Width {
     }
 
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
-    private constructor() {}
+    private constructor() {
+        makeObservable(this, {
+            set_backgrounds_section_width: action,
+        });
+    }
 
     private set_settings_section_width = (): void =>
         err(() => {
@@ -35,36 +42,50 @@ export class Width {
             }
         }, 'cnt_99999');
 
-    public set_imgs_section_width = (): void =>
+    public set_backgrounds_section_width = (): void =>
         err(() => {
             const viewport_width = s_viewport.Main.i().get_dim({ dim: 'width' });
             const settings_sections_el = s<HTMLDivElement>('.sections.settings');
-            const imgs_sections_el = s<HTMLDivElement>('.sections.imgs');
-            const imgs_section_el = s<HTMLDivElement>('.section.imgs');
+            const backgrounds_sections_el = s<HTMLDivElement>('.sections.backgrounds');
+            const backgrounds_section_el = s<HTMLDivElement>('.section.backgrounds');
 
-            if (n(settings_sections_el) && n(imgs_sections_el) && n(imgs_section_el)) {
-                const outer_margin = x.get_numeric_css_val(imgs_section_el, 'margin-top');
-                const imgs_sections_el_max_width = x.get_numeric_css_val(
-                    imgs_sections_el,
+            if (
+                n(settings_sections_el) &&
+                n(backgrounds_sections_el) &&
+                n(backgrounds_section_el)
+            ) {
+                const outer_margin = x.get_numeric_css_val(backgrounds_section_el, 'margin-top');
+                const backgrounds_sections_el_max_width = x.get_numeric_css_val(
+                    backgrounds_sections_el,
                     'max-width',
                 );
                 const settings_sections_el_width = settings_sections_el.offsetWidth;
                 const new_width: number =
                     viewport_width - settings_sections_el_width - outer_margin;
 
-                if (new_width <= imgs_sections_el_max_width) {
-                    imgs_sections_el.style.width = `${new_width + outer_margin + 2}px`;
-                    imgs_section_el.style.width = `${new_width - 2}px`;
+                if (new_width <= backgrounds_sections_el_max_width) {
+                    const backgrounds_section_el_width = new_width - 2;
+                    backgrounds_sections_el.style.width = `${new_width + outer_margin + 2}px`;
+                    backgrounds_section_el.style.width = `${backgrounds_section_el_width}px`;
+
+                    d_backgrounds.VirtualizedList.i().width = backgrounds_section_el_width;
                 } else {
-                    imgs_sections_el.style.width = '';
-                    imgs_section_el.style.width = '';
+                    backgrounds_sections_el.style.width = '';
+                    backgrounds_section_el.style.width = '';
+
+                    d_backgrounds.VirtualizedList.i().width =
+                        backgrounds_sections_el_max_width -
+                        vars.scrollbar_width -
+                        vars.border_width;
                 }
+
+                d_backgrounds.VirtualizedList.i().calculate_height();
             }
         }, 'cnt_99999');
 
     public set = (): void =>
         err(() => {
             this.set_settings_section_width();
-            this.set_imgs_section_width();
+            this.set_backgrounds_section_width();
         }, 'cnt_99999');
 }

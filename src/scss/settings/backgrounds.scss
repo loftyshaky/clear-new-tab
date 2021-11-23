@@ -1,0 +1,9 @@
+.backgrounds .background {
+    @include border;
+
+    background-color: red;
+
+    img {
+        display: block;
+    }
+}

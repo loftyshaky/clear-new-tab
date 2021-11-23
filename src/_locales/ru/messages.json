@@ -11,8 +11,8 @@
     "other_settings_section_text": {
         "message": "Другие настройки"
     },
-    "imgs_section_text": {
-        "message": "Изображения"
+    "backgrounds_section_text": {
+        "message": "Фоны"
     },
     "drag_files_msg_text": {
         "message": "изображения/видео или перетащите их сюда"
@@ -89,8 +89,8 @@
     "paste_background_text_btn_title": {
         "message": "Вставьте изображение или ссылку на него из буфера обмена"
     },
-    "set_img_as_current_text_btn_title": {
-        "message": "Сделать выбранное изображение текущим"
+    "set_background_as_current_text_btn_title": {
+        "message": "Сделать выбранный фон текущим"
     },
     "theme_background_option_text": {
         "message": "Фон темы"

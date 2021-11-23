@@ -3,7 +3,7 @@ import Dexie from 'dexie';
 import { i_db } from 'shared/internal';
 
 export class Main extends Dexie {
-    public backgrounds: Dexie.Table<i_db.Backgrounds, number>;
+    public backgrounds: Dexie.Table<i_db.Background, number>;
 
     public constructor() {
         super('clear-new-tab');

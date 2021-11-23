@@ -13,7 +13,7 @@ export class TextBtns {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
-    public decide_set_img_as_current_btn_visibility = ({
+    public decide_set_background_as_current_btn_visibility = ({
         input,
     }: {
         input: i_inputs.Input;

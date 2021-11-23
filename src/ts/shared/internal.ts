@@ -1,5 +1,8 @@
 export * from 'shared/init_all';
 
+export { svg } from 'shared/svg';
+export * as vars from 'shared/vars';
+
 export { db } from 'shared/db/scripts';
 
 export * as d_settings from 'shared/settings/data';

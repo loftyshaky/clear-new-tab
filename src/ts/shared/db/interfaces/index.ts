@@ -1,1 +1,1 @@
-export * from 'shared/db/interfaces/backgrounds';
+export * from 'shared/db/interfaces/background';
