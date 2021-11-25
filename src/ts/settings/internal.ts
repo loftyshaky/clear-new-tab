@@ -14,4 +14,6 @@ export * as s_backgrounds from 'settings/backgrounds/scripts';
 
 export * as p_settings from 'settings/components/prop_types';
 
+export * as p_backgrounds from 'settings/backgrounds/components/prop_types';
+
 export * as i_backgrounds from 'settings/backgrounds/interfaces';

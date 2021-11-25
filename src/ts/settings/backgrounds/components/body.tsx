@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { observer } from 'mobx-react';
 import { Collection } from 'react-virtualized';
 
-import { c_settings, d_backgrounds } from 'settings/internal';
+import { c_settings, c_backgrounds, d_backgrounds } from 'settings/internal';
 
 export const Backgrounds: React.FunctionComponent = observer(() => {
     const collection_ref = useRef<any>(null);
@@ -18,12 +18,11 @@ export const Backgrounds: React.FunctionComponent = observer(() => {
                 <Collection
                     cellCount={d_backgrounds.Main.i().backgrounds.length}
                     cellRenderer={({ index, key, style }) => (
-                        <span key={key} className='background' style={style}>
-                            <img
-                                src={d_backgrounds.Main.i().backgrounds[index].thumbnail}
-                                alt='Background'
-                            />
-                        </span>
+                        <c_backgrounds.Background
+                            key={key}
+                            style={style}
+                            background={d_backgrounds.Main.i().backgrounds[index]}
+                        />
                     )}
                     cellSizeAndPositionGetter={
                         d_backgrounds.VirtualizedList.i().cell_size_and_position_getter
