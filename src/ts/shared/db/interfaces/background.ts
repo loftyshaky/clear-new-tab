@@ -1,5 +1,5 @@
 export interface Background {
-    background: File | undefined;
+    background: File | string | undefined;
     id: string;
     theme_id: string | undefined;
     i: number;

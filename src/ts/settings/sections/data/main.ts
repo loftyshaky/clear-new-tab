@@ -124,10 +124,12 @@ export class Main {
                                         visibility_cond:
                                             d_sections.TextBtns.i()
                                                 .decide_paste_background_btn_visibility,
-                                        event_callback: () => undefined,
+                                        event_callback:
+                                            d_backgrounds.Upload.i().upload_with_paste_btn,
                                     },
                                 ],
                                 event_callback: d_sections.Val.i().change,
+                                paste_callback: d_backgrounds.Upload.i().upload_with_paste_input,
                                 warn_state_checker: d_sections.Val.i().validate_input,
                             }),
                             new o_inputs.Checkbox({

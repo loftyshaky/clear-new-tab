@@ -73,6 +73,13 @@ export class Val {
 
                             await set_val();
                         }
+
+                        if (input.name === 'paste_background') {
+                            d_inputs.Val.i().set({
+                                val: '',
+                                input,
+                            });
+                        }
                     }
                 } else if (input.type !== 'color' || i === 'main') {
                     await set_val();

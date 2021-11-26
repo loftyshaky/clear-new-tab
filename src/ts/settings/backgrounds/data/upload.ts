@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { o_inputs, d_inputs } from '@loftyshaky/shared/inputs';
 import { i_db } from 'shared/internal';
 import { d_backgrounds, s_backgrounds, i_backgrounds } from 'settings/internal';
 
@@ -17,12 +18,16 @@ export class Upload {
     private added_backgrounds_count: number = -1;
     private canvas: HTMLCanvasElement = document.createElement('canvas');
 
-    public upload_with_browse_btn = async ({ files }: { files: File[] }): Promise<void> => {
+    public upload_with_browse_btn = async ({
+        files,
+    }: {
+        files: File[] | string[];
+    }): Promise<void> => {
         try {
             this.added_backgrounds_count = -1;
 
             const new_backgrounds: i_db.Background[] = await Promise.all(
-                [...files].map(async (file: File): Promise<i_db.Background> => {
+                [...files].map(async (file: File | string): Promise<i_db.Background> => {
                     const background_props: i_backgrounds.BackgroundProps =
                         await this.get_background_width_height_and_thumbnail({
                             file,
@@ -59,6 +64,76 @@ export class Upload {
         }
     };
 
+    public upload_with_paste_input = (
+        { input }: { input: o_inputs.Text },
+        e: ClipboardEvent,
+    ): Promise<void> =>
+        err_async(async () => {
+            d_inputs.Text.i().set_loading_placeholder_text({ input });
+
+            try {
+                d_inputs.Val.i().set({
+                    val: '',
+                    input,
+                });
+
+                if (n(e.clipboardData)) {
+                    const pasted_img_clipboard_item: DataTransferItem | undefined = [
+                        ...e.clipboardData.items,
+                    ].find((clipboard_item: DataTransferItem): boolean =>
+                        err(() => clipboard_item.type.includes('image'), 'cnt_65210'),
+                    );
+                    const pasted_img_file_object: File | null = n(pasted_img_clipboard_item)
+                        ? pasted_img_clipboard_item.getAsFile()
+                        : null;
+                    const clipboard_text: string = e.clipboardData.getData('text');
+                    const input_given_text: boolean = clipboard_text !== '';
+
+                    let img_file: File | undefined;
+                    let blob_is_of_allowed_img_type: boolean = true;
+
+                    if (
+                        data.settings.allow_downloading_img_by_link &&
+                        data.settings.download_img_when_link_given &&
+                        input_given_text
+                    ) {
+                        const response: Response = await window.fetch(clipboard_text);
+                        const blob: Blob = await response.blob();
+                        blob_is_of_allowed_img_type = [
+                            'image/gif',
+                            'image/jpeg',
+                            'image/jpg',
+                            'image/png',
+                        ].includes(blob.type);
+
+                        if (blob_is_of_allowed_img_type) {
+                            img_file = this.convert_blob_to_file_object({ blob });
+                        }
+                    } else {
+                        img_file = n(pasted_img_file_object) ? pasted_img_file_object : undefined;
+                    }
+
+                    if (blob_is_of_allowed_img_type) {
+                        await this.upload_with_browse_btn({
+                            files: n(img_file) ? [img_file] : [clipboard_text],
+                        });
+                    }
+
+                    d_inputs.Text.i().clear_placeholder_text({ input });
+                }
+            } catch (error_obj: any) {
+                show_err_ribbon(error_obj, 'cnt_64379', { silent: true });
+
+                d_inputs.Text.i().set_error_placeholder_text({ input });
+            }
+        }, 'cnt_56893');
+
+    public upload_with_paste_btn = (): void =>
+        err(() => {
+            l(5555);
+            document.execCommand('paste');
+        }, 'cnt_65286');
+
     private get_highest_background_i = (): number =>
         err(
             () => {
@@ -88,10 +163,12 @@ export class Upload {
                                 file,
                             });
 
-                        const background: HTMLImageElement | HTMLVideoElement =
-                            file_type === 'img_file'
-                                ? new window.Image()
-                                : document.createElement('video');
+                        const background: HTMLImageElement | HTMLVideoElement = [
+                            'img_file',
+                            'img_link',
+                        ].includes(file_type)
+                            ? new window.Image()
+                            : document.createElement('video');
 
                         if (file_type === 'video_file') {
                             background.addEventListener('loadedmetadata', () => {
@@ -130,6 +207,8 @@ export class Upload {
                                                     video: background as HTMLVideoElement,
                                                     thumbnail_dims,
                                                 });
+                                            } else if (file_type === 'img_link') {
+                                                thumbnail = file as string;
                                             }
 
                                             if (n(thumbnail)) {
@@ -156,6 +235,8 @@ export class Upload {
                             file_type === 'img_link'
                                 ? (file as string)
                                 : URL.createObjectURL(file as File);
+
+                        l(background.src);
                     } catch (error_obj: any) {
                         reject(error_obj);
                     }
@@ -279,5 +360,11 @@ export class Upload {
             },
             'cnt_65638',
             { silent: true },
+        );
+
+    private convert_blob_to_file_object = ({ blob }: { blob: Blob }): File =>
+        err(
+            () => new File([blob], '', { type: blob.type }), // '' is file name, it means that file object was created from blob object
+            'cnt_53794',
         );
 }

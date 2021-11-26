@@ -27,8 +27,9 @@ class Manifest {
             chrome_url_overrides: {
                 newtab: 'new_tab.html',
             },
-            permissions: ['storage'],
+            permissions: ['storage', 'clipboardRead'],
             host_permissions: [
+                '<all_urls>',
                 'https://clients2.google.com/*',
                 'https://clients2.googleusercontent.com/*',
             ],

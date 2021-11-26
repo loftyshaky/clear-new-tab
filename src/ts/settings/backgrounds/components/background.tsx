@@ -8,7 +8,11 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
 
     return (
         <span key={key} className='background' style={style}>
-            <img src={background.thumbnail} alt='Background' />
+            <img
+                src={background.thumbnail}
+                alt='Background'
+                style={{ width: style.width, height: style.height }}
+            />
             <c_backgrounds.OverlayItemInfo name='background_index' text={index + 1} />
             <div className='bottom_overlay_items'>
                 <c_backgrounds.OverlayItemInfo
