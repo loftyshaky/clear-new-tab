@@ -254,6 +254,33 @@
     "selected_background_option_text": {
         "message": "Выбранный фон"
     },
+    "background_type_color_text": {
+        "message": "Цвет"
+    },
+    "background_type_theme_color_text": {
+        "message": "Цвет (тема)"
+    },
+    "background_type_img_link_text": {
+        "message": "Ссылка на изображение"
+    },
+    "background_type_img_file_text": {
+        "message": "Файл изображения"
+    },
+    "background_type_theme_img_file_text": {
+        "message": "Файл изображения (тема)"
+    },
+    "background_type_video_file_text": {
+        "message": "Видео файл"
+    },
+    "background_type_theme_video_file_text": {
+        "message": "Видео файл (тема)"
+    },
+    "preview_background_btn_text": {
+        "message": "Открыть"
+    },
+    "move_background_btn_text": {
+        "message": "Переместить"
+    },
     "upload_background_help_text": {
         "message": "Вы можете загрузить несколько картинок / видео сразу. Просто выберите несколько картинок / видео перед нажатием \"Открыть\" / перетаскиванием.\n\nПоддерживаемы форматы: png, jpg, gif, mp4, webm, ogg."
     },

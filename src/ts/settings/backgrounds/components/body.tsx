@@ -20,6 +20,7 @@ export const Backgrounds: React.FunctionComponent = observer(() => {
                     cellRenderer={({ index, key, style }) => (
                         <c_backgrounds.Background
                             key={key}
+                            index={index}
                             style={style}
                             background={d_backgrounds.Main.i().backgrounds[index]}
                         />

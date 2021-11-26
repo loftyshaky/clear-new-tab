@@ -254,6 +254,33 @@
     "repeat_x_option_text": {
         "message": "Repeat X"
     },
+    "background_type_color_text": {
+        "message": "Color"
+    },
+    "background_type_theme_color_text": {
+        "message": "Color (theme)"
+    },
+    "background_type_img_link_text": {
+        "message": "Image link"
+    },
+    "background_type_img_file_text": {
+        "message": "Image file"
+    },
+    "background_type_theme_img_file_text": {
+        "message": "Image file (theme)"
+    },
+    "background_type_video_file_text": {
+        "message": "Video file"
+    },
+    "background_type_theme_video_file_text": {
+        "message": "Video file (theme)"
+    },
+    "preview_background_btn_text": {
+        "message": "Preview"
+    },
+    "move_background_btn_text": {
+        "message": "Move"
+    },
     "upload_background_help_text": {
         "message": "You can upload multiple images/videos at once. Just select multiple images/videos before clicking \"Open\" / dragging.\n\nSupported formats: png, jpg, gif, mp4, webm, ogg."
     },

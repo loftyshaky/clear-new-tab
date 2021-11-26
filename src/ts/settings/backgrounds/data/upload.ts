@@ -89,11 +89,11 @@ export class Upload {
                             });
 
                         const background: HTMLImageElement | HTMLVideoElement =
-                            file_type === 'img'
+                            file_type === 'img_file'
                                 ? new window.Image()
                                 : document.createElement('video');
 
-                        if (file_type === 'video') {
+                        if (file_type === 'video_file') {
                             background.addEventListener('loadedmetadata', () => {
                                 (background as HTMLVideoElement).currentTime =
                                     (background as HTMLVideoElement).duration / 3;
@@ -101,7 +101,7 @@ export class Upload {
                         }
 
                         background.addEventListener(
-                            file_type === 'video' ? 'timeupdate' : 'load',
+                            file_type === 'video_file' ? 'timeupdate' : 'load',
                             () =>
                                 err_async(
                                     async () => {
@@ -120,12 +120,12 @@ export class Upload {
                                                     natural_height,
                                                 });
 
-                                            if (file_type === 'img') {
+                                            if (file_type === 'img_file') {
                                                 thumbnail = await this.create_img_thumbnail({
                                                     img: background as HTMLImageElement,
                                                     thumbnail_dims,
                                                 });
-                                            } else if (file_type === 'video') {
+                                            } else if (file_type === 'video_file') {
                                                 thumbnail = this.create_video_thumbnail({
                                                     video: background as HTMLVideoElement,
                                                     thumbnail_dims,
@@ -153,7 +153,7 @@ export class Upload {
                         );
 
                         background.src =
-                            file_type === 'link'
+                            file_type === 'img_link'
                                 ? (file as string)
                                 : URL.createObjectURL(file as File);
                     } catch (error_obj: any) {

@@ -3,7 +3,7 @@ export interface Background {
     id: string;
     theme_id: string | undefined;
     i: number;
-    type: 'img' | 'video' | 'link';
+    type: 'img_file' | 'video_file' | 'img_link';
     thumbnail: string | undefined;
     width: number;
     height: number;

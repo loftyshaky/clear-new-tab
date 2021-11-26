@@ -28,14 +28,14 @@ export class FileType {
                 );
 
                 if (is_img) {
-                    return 'img';
+                    return 'img_file';
                 }
 
                 if (is_video) {
-                    return 'video';
+                    return 'video_file';
                 }
             }
 
-            return 'link';
+            return 'img_link';
         }, 'cnt_19345');
 }

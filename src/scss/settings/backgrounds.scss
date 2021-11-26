@@ -1,3 +1,6 @@
+$overlay_item_side_padding: 2px;
+$overlay_item_block_offset: 4px;
+
 .backgrounds .background {
     @include border;
 
@@ -5,5 +8,40 @@
 
     img {
         display: block;
+    }
+
+    .bottom_overlay_items {
+        position: absolute;
+        bottom: $overlay_item_block_offset;
+        left: $overlay_item_block_offset;
+    }
+
+    .overlay_item.background_index {
+        position: absolute;
+        top: $overlay_item_block_offset;
+        left: $overlay_item_block_offset;
+    }
+
+    .overlay_item {
+        display: block;
+        max-width: fit-content;
+        margin-right: 8px;
+        padding: 1px;
+        padding-left: $overlay_item_side_padding;
+        padding-right: $overlay_item_side_padding;
+        font-size: 10px;
+        background-color: $black;
+        opacity: 0.85;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .overlay_item.info {
+        cursor: move;
+    }
+
+    .overlay_item:not(:last-child) {
+        margin-bottom: 2px;
     }
 }
