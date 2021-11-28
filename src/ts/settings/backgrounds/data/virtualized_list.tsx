@@ -85,8 +85,8 @@ export class VirtualizedList {
             return {
                 width: d_backgrounds.Main.i().backgrounds[index].thumbnail_width,
                 height: d_backgrounds.Main.i().backgrounds[index].thumbnail_height,
-                x: this.position_map[index].x,
-                y: this.position_map[index].y,
+                x: n(this.position_map[index]) ? this.position_map[index].x : 0,
+                y: n(this.position_map[index]) ? this.position_map[index].y : 0,
             };
         }, 'cnt_73925');
 

@@ -1,7 +1,8 @@
 import _ from 'lodash';
-import { makeObservable, observable, action } from 'mobx';
+import { makeObservable, observable, action, runInAction } from 'mobx';
 
 import { i_db } from 'shared/internal';
+import { s_backgrounds } from 'settings/internal';
 
 export class Main {
     private static i0: Main;
@@ -15,19 +16,30 @@ export class Main {
     private constructor() {
         makeObservable(this, {
             backgrounds: observable,
-            merge_backgrounds_data: action,
-            update_backgrounds_data: action,
+            merge_backgrounds: action,
+            update_backgrounds: action,
         });
     }
 
     public backgrounds: i_db.Background[] = [];
 
-    public merge_backgrounds_data = ({ backgrounds }: { backgrounds: i_db.Background[] }): void =>
+    public set_backgrounds = (): Promise<void> =>
+        err(async () => {
+            const backgrounds: i_db.Background[] = await s_backgrounds.Db.i().get_backgrounds();
+
+            runInAction(() =>
+                err(() => {
+                    this.backgrounds = backgrounds;
+                }, 'cnt_64357'),
+            );
+        }, 'cnt_49273');
+
+    public merge_backgrounds = ({ backgrounds }: { backgrounds: i_db.Background[] }): void =>
         err(() => {
             this.backgrounds = _.union(this.backgrounds, backgrounds);
         }, 'cnt_49273');
 
-    public update_backgrounds_data = ({ backgrounds }: { backgrounds: i_db.Background[] }): void =>
+    public update_backgrounds = ({ backgrounds }: { backgrounds: i_db.Background[] }): void =>
         err(() => {
             this.backgrounds = _.union(this.backgrounds, backgrounds);
         }, 'cnt_49273');

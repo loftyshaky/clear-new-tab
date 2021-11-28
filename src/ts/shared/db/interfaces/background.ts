@@ -1,6 +1,4 @@
 export interface Background {
-    background: File | string | undefined;
-    id: string;
     theme_id: string | undefined;
     i: number;
     type: 'img_file' | 'video_file' | 'img_link';

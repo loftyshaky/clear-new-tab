@@ -7,6 +7,6 @@ import { InitAll } from 'shared/init_all';
     await d_settings.Main.i().set_from_storage();
 
     init_shared();
-    init();
+    await init();
     InitAll.i().init();
 })();

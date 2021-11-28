@@ -36,8 +36,6 @@ export class Upload {
                     this.added_backgrounds_count += 1;
 
                     return {
-                        id: x.id(),
-                        background: file,
                         theme_id: undefined,
                         i: this.get_highest_background_i(),
                         type: `${s_backgrounds.FileType.i().get_file_type({
@@ -57,7 +55,22 @@ export class Upload {
                 }),
             );
 
-            d_backgrounds.Main.i().merge_backgrounds_data({ backgrounds: new_backgrounds });
+            const new_background_files: i_db.BackgroundFile[] = [...files].map(
+                (file: File | string): i_db.BackgroundFile =>
+                    err(
+                        () => ({
+                            background: file,
+                        }),
+                        'cnt_64285',
+                    ),
+            );
+
+            d_backgrounds.Main.i().merge_backgrounds({ backgrounds: new_backgrounds });
+
+            await s_backgrounds.Db.i().save_backgrounds({
+                backgrounds: new_backgrounds,
+                background_files: new_background_files,
+            });
         } catch (error_obj: any) {
             show_err_ribbon(error_obj, 'cnt_63793', { silent: true });
             throw_err_obj(error_obj);
