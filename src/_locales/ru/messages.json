@@ -248,8 +248,8 @@
     "repeat_x_option_text": {
         "message": "Повторять X"
     },
-    "all_backgrounds_option_text": {
-        "message": "Все фоны"
+    "global_option_text": {
+        "message": "Глобальные"
     },
     "selected_background_option_text": {
         "message": "Выбранный фон"

@@ -59,7 +59,7 @@ export class Main {
                     new o_inputs.Option({ name: 'from_bottom_to_top' }),
                 ],
                 settings_type: [
-                    new o_inputs.Option({ name: 'all_backgrounds' }),
+                    new o_inputs.Option({ name: 'global' }),
                     new o_inputs.Option({ name: 'selected_background' }),
                 ],
                 background_size: [

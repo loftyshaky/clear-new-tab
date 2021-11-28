@@ -188,8 +188,8 @@
     "from_bottom_to_top_option_text": {
         "message": "From bottom to top"
     },
-    "all_backgrounds_option_text": {
-        "message": "All backgrounds"
+    "global_option_text": {
+        "message": "Global"
     },
     "selected_background_option_text": {
         "message": "Selected background"
