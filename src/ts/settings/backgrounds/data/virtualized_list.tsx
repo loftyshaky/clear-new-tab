@@ -1,8 +1,8 @@
 import { makeObservable, observable, action } from 'mobx';
 
 import { s_viewport } from '@loftyshaky/shared';
-import { vars } from 'shared/internal';
-import { d_backgrounds } from 'settings/internal';
+import { vars, i_db } from 'shared/internal';
+import { d_backgrounds, s_backgrounds } from 'settings/internal';
 
 export class VirtualizedList {
     private static i0: VirtualizedList;
@@ -32,14 +32,43 @@ export class VirtualizedList {
     }): { height: number; width: number; x: number; y: number } =>
         err(() => {
             const section_content = s<HTMLDivElement>('.section_content');
+            let thumbnail_width: number = 0;
+            let thumbnail_height: number = 0;
+            let previous_thumbnail_width: number = 0;
+            let previous_thumbnail_height: number = 0;
 
             if (n(section_content)) {
                 const gap: number = x.get_numeric_css_val(section_content, 'padding');
                 const gap_and_borders_width: number = gap + vars.border_width * 2;
-
                 const backgrounds_section_content = s<HTMLDivElement>(
                     '.backgrounds .section_content',
                 );
+
+                if (d_backgrounds.Main.i().backgrounds[index].type.includes('color')) {
+                    thumbnail_width = s_backgrounds.Thumbnail.i().height;
+                    thumbnail_height = s_backgrounds.Thumbnail.i().height;
+                } else {
+                    thumbnail_width = (
+                        d_backgrounds.Main.i().backgrounds[index] as i_db.FileBackground
+                    ).thumbnail_width;
+                    thumbnail_height = (
+                        d_backgrounds.Main.i().backgrounds[index] as i_db.FileBackground
+                    ).thumbnail_height;
+                }
+
+                if (n(d_backgrounds.Main.i().backgrounds[index - 1])) {
+                    if (d_backgrounds.Main.i().backgrounds[index - 1].type.includes('color')) {
+                        previous_thumbnail_width = s_backgrounds.Thumbnail.i().height;
+                        previous_thumbnail_height = s_backgrounds.Thumbnail.i().height;
+                    } else {
+                        previous_thumbnail_width = (
+                            d_backgrounds.Main.i().backgrounds[index - 1] as i_db.FileBackground
+                        ).thumbnail_width;
+                        previous_thumbnail_height = (
+                            d_backgrounds.Main.i().backgrounds[index - 1] as i_db.FileBackground
+                        ).thumbnail_height;
+                    }
+                }
 
                 if (!n(this.position_map[index])) {
                     this.position_map[index] = {};
@@ -51,12 +80,12 @@ export class VirtualizedList {
 
                     this.position_map[index].x =
                         this.position_map[index - 1].x +
-                        d_backgrounds.Main.i().backgrounds[index - 1].thumbnail_width +
+                        previous_thumbnail_width +
                         gap_and_borders_width;
 
                     if (
                         this.position_map[index].x +
-                            d_backgrounds.Main.i().backgrounds[index].thumbnail_width +
+                            thumbnail_width +
                             vars.scrollbar_width +
                             gap +
                             vars.border_width +
@@ -67,7 +96,7 @@ export class VirtualizedList {
 
                         this.position_map[index].y =
                             this.position_map[index - 1].y +
-                            d_backgrounds.Main.i().backgrounds[index - 1].thumbnail_height +
+                            previous_thumbnail_height +
                             gap_and_borders_width;
 
                         if (!n(this.position_map[index].y)) {
@@ -83,8 +112,8 @@ export class VirtualizedList {
             }
 
             return {
-                width: d_backgrounds.Main.i().backgrounds[index].thumbnail_width,
-                height: d_backgrounds.Main.i().backgrounds[index].thumbnail_height,
+                width: thumbnail_width,
+                height: thumbnail_height,
                 x: n(this.position_map[index]) ? this.position_map[index].x : 0,
                 y: n(this.position_map[index]) ? this.position_map[index].y : 0,
             };

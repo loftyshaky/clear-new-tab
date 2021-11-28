@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import { o_inputs, d_inputs } from '@loftyshaky/shared/inputs';
 import { i_db } from 'shared/internal';
 import { d_backgrounds, s_backgrounds, i_backgrounds } from 'settings/internal';
@@ -15,15 +13,13 @@ export class Upload {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
-    private added_backgrounds_count: number = -1;
-
     public upload_with_browse_btn = async ({
         files,
     }: {
         files: File[] | string[];
     }): Promise<void> => {
         try {
-            this.added_backgrounds_count = -1;
+            s_backgrounds.I.i().added_backgrounds_count = -1;
 
             const new_backgrounds: i_db.Background[] = await Promise.all(
                 [...files].map(
@@ -37,11 +33,11 @@ export class Upload {
                                     },
                                 );
 
-                            this.added_backgrounds_count += 1;
+                            s_backgrounds.I.i().added_backgrounds_count += 1;
 
                             return {
                                 theme_id: undefined,
-                                i: this.get_highest_background_i(),
+                                i: s_backgrounds.I.i().get_highest_background_i(),
                                 type: `${s_backgrounds.FileType.i().get_file_type({
                                     file,
                                 })}`,
@@ -150,21 +146,6 @@ export class Upload {
         err(() => {
             document.execCommand('paste');
         }, 'cnt_65286');
-
-    private get_highest_background_i = (): number =>
-        err(
-            () => {
-                const background_with_highest_i = _.maxBy(d_backgrounds.Main.i().backgrounds, 'i');
-
-                if (n(background_with_highest_i)) {
-                    return background_with_highest_i.i + this.added_backgrounds_count + 1;
-                }
-
-                return this.added_backgrounds_count;
-            },
-            'cnt_43795',
-            { silent: true },
-        );
 
     private convert_blob_to_file_object = ({ blob }: { blob: Blob }): File =>
         err(

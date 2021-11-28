@@ -4,7 +4,7 @@ import { i_data } from '@loftyshaky/shared';
 import { o_color, d_inputs, d_color, i_inputs, i_color } from '@loftyshaky/shared/inputs';
 import { s_settings } from '@loftyshaky/shared/settings';
 import { s_css_vars, s_theme } from 'shared/internal';
-import { d_sections } from 'settings/internal';
+import { d_backgrounds, d_sections } from 'settings/internal';
 
 export class Val {
     private static i0: Val;
@@ -32,7 +32,6 @@ export class Val {
         ({ input, i }: { input: i_inputs.Input; i?: i_color.I }): Promise<void> =>
             err_async(async () => {
                 let val: i_data.Val;
-
                 const set_val = (): Promise<void> =>
                     err_async(async () => {
                         d_inputs.Val.i().set({
@@ -89,6 +88,12 @@ export class Val {
                         name: val as string,
                         additional_theme_callback: s_theme.Main.i().set,
                     });
+
+                    if (input.name === 'create_solid_color_background') {
+                        d_backgrounds.Color.i().create_solid_color_background({
+                            color: val as string,
+                        });
+                    }
                 } else if (n(i)) {
                     const { colors } = data.settings;
 

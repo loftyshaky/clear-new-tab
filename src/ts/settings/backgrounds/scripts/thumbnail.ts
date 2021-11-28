@@ -12,6 +12,9 @@ export class Thumbnail {
     private constructor() {}
 
     private canvas: HTMLCanvasElement = document.createElement('canvas');
+    public min_width: number = 80;
+    public max_width: number = 400;
+    public height: number = 94;
 
     public get_background_width_height_and_thumbnail = ({
         file,
@@ -121,10 +124,10 @@ export class Thumbnail {
                 const width: number = Math.floor(natural_width * ratio);
                 let width_final: number = 0;
 
-                if (width < 80) {
-                    width_final = 80;
-                } else if (width > 400) {
-                    width_final = 400;
+                if (width < this.min_width) {
+                    width_final = this.min_width;
+                } else if (width > this.max_width) {
+                    width_final = this.max_width;
                 } else {
                     width_final = width;
                 }

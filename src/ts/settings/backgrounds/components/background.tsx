@@ -1,24 +1,35 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
+import { i_db } from 'shared/internal';
 import { c_backgrounds, p_backgrounds } from 'settings/internal';
 
 export const Background: React.FunctionComponent<p_backgrounds.Background> = observer((props) => {
     const { key, index, style, background } = props;
 
     return (
-        <span key={key} className='background' style={style}>
-            <img
-                src={background.thumbnail}
-                alt='Background'
-                style={{ width: style.width, height: style.height }}
-            />
+        <span
+            key={key}
+            className='background'
+            style={{ ...style, backgroundColor: background.thumbnail }}
+        >
+            {background.type.includes('color') ? undefined : (
+                <img
+                    src={background.thumbnail}
+                    alt='Background'
+                    style={{ width: style.width, height: style.height }}
+                />
+            )}
             <c_backgrounds.OverlayItemInfo name='background_index' text={index + 1} />
             <div className='bottom_overlay_items'>
-                <c_backgrounds.OverlayItemInfo
-                    name='background_dims'
-                    text={`${background.width}x${background.height}`}
-                />
+                {background.type.includes('color') ? undefined : (
+                    <c_backgrounds.OverlayItemInfo
+                        name='background_dims'
+                        text={`${(background as i_db.FileBackground).width}x${
+                            (background as i_db.FileBackground).height
+                        }`}
+                    />
+                )}
                 <c_backgrounds.OverlayItemInfo
                     name='background_type'
                     text={ext.msg(`background_type_${background.type}_text`)}
