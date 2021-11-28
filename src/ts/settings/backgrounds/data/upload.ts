@@ -143,7 +143,6 @@ export class Upload {
 
     public upload_with_paste_btn = (): void =>
         err(() => {
-            l(5555);
             document.execCommand('paste');
         }, 'cnt_65286');
 
@@ -248,8 +247,6 @@ export class Upload {
                             file_type === 'img_link'
                                 ? (file as string)
                                 : URL.createObjectURL(file as File);
-
-                        l(background.src);
                     } catch (error_obj: any) {
                         reject(error_obj);
                     }
