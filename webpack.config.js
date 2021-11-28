@@ -84,6 +84,14 @@ module.exports = (env, argv) => {
             settings_light_theme: path.join(paths.themes, 'light_theme.scss'),
             settings_dark_theme: path.join(paths.themes, 'dark_theme.scss'),
             settings_very_dark_theme: path.join(paths.themes, 'very_dark_theme.scss'),
+            global_hidden: path.join(
+                app_root,
+                'src',
+                'scss',
+                'settings',
+                'embed',
+                'global_hidden.scss',
+            ),
         },
     };
 

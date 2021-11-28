@@ -10,6 +10,7 @@ export * as c_backgrounds from 'settings/backgrounds/components';
 export * as d_backgrounds from 'settings/backgrounds/data';
 export * as d_sections from 'settings/sections/data';
 
+export * as s_background_settings from 'settings/background_settings/scripts';
 export * as s_backgrounds from 'settings/backgrounds/scripts';
 
 export * as p_settings from 'settings/components/prop_types';

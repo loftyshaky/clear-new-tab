@@ -63,6 +63,7 @@ export class Main {
                     new o_inputs.Option({ name: 'selected_background' }),
                 ],
                 background_size: [
+                    new o_inputs.Option({ name: 'global' }),
                     new o_inputs.Option({ name: 'dont_resize' }),
                     new o_inputs.Option({ name: 'cover_screen' }),
                     new o_inputs.Option({ name: 'cover_browser' }),
@@ -72,6 +73,7 @@ export class Main {
                     new o_inputs.Option({ name: 'stretch_browser' }),
                 ],
                 background_position: [
+                    new o_inputs.Option({ name: 'global' }),
                     new o_inputs.Option({ name: 'center_top' }),
                     new o_inputs.Option({ name: 'center_center' }),
                     new o_inputs.Option({ name: 'center_bottom' }),
@@ -83,6 +85,7 @@ export class Main {
                     new o_inputs.Option({ name: 'right_bottom' }),
                 ],
                 background_repeat: [
+                    new o_inputs.Option({ name: 'global' }),
                     new o_inputs.Option({ name: 'no_repeat' }),
                     new o_inputs.Option({ name: 'repeat' }),
                     new o_inputs.Option({ name: 'repeat_y' }),
