@@ -27,32 +27,35 @@ export class Upload {
             this.added_backgrounds_count = -1;
 
             const new_backgrounds: i_db.Background[] = await Promise.all(
-                [...files].map(async (file: File | string): Promise<i_db.Background> => {
-                    const background_props: i_backgrounds.BackgroundProps =
-                        await this.get_background_width_height_and_thumbnail({
-                            file,
-                        });
+                [...files].map(
+                    async (file: File | string): Promise<i_db.Background> =>
+                        err_async(async () => {
+                            const background_props: i_backgrounds.BackgroundProps =
+                                await this.get_background_width_height_and_thumbnail({
+                                    file,
+                                });
 
-                    this.added_backgrounds_count += 1;
+                            this.added_backgrounds_count += 1;
 
-                    return {
-                        theme_id: undefined,
-                        i: this.get_highest_background_i(),
-                        type: `${s_backgrounds.FileType.i().get_file_type({
-                            file,
-                        })}`,
-                        thumbnail: background_props.thumbnail,
-                        width: background_props.width,
-                        height: background_props.height,
-                        thumbnail_width: background_props.thumbnail_width,
-                        thumbnail_height: background_props.thumbnail_height,
-                        background_size: 'global',
-                        background_positon: 'global',
-                        background_repeat: 'global',
-                        color_of_area_around_background: 'global',
-                        video_volume: 'global',
-                    };
-                }),
+                            return {
+                                theme_id: undefined,
+                                i: this.get_highest_background_i(),
+                                type: `${s_backgrounds.FileType.i().get_file_type({
+                                    file,
+                                })}`,
+                                thumbnail: background_props.thumbnail,
+                                width: background_props.width,
+                                height: background_props.height,
+                                thumbnail_width: background_props.thumbnail_width,
+                                thumbnail_height: background_props.thumbnail_height,
+                                background_size: 'global',
+                                background_positon: 'global',
+                                background_repeat: 'global',
+                                color_of_area_around_background: 'global',
+                                video_volume: 'global',
+                            };
+                        }, 'cnt_63689'),
+                ),
             );
 
             const new_background_files: i_db.BackgroundFile[] = [...files].map(
