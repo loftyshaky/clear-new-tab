@@ -5,6 +5,9 @@
     "select_background_alert": {
         "message": "Select a background from the \"Backgrounds\" section first."
     },
+    "delete_all_backgrounds_confirm": {
+        "message": "Delete all backgrounds?"
+    },
     "background_upload_section_text": {
         "message": "Background upload"
     },

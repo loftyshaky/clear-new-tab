@@ -5,6 +5,9 @@
     "select_background_alert": {
         "message": "Сначала выберите фон из секции \"Фоны\"."
     },
+    "delete_all_backgrounds_confirm": {
+        "message": "Удалить все фоны?"
+    },
     "background_upload_section_text": {
         "message": "Загрузка фонов"
     },

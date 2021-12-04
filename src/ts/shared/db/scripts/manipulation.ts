@@ -31,4 +31,10 @@ export class Manipulation {
 
             return backgrounds;
         }, 'cnt_94527');
+
+    public clear_all_tables = (): Promise<void> =>
+        err_async(async () => {
+            await db.backgrounds.clear();
+            await db.background_files.clear();
+        }, 'cnt_74365');
 }

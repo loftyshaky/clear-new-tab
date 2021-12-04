@@ -1,5 +1,6 @@
 export * from 'shared/init_all';
 
+export { Tr } from 'shared/tr';
 export { svg } from 'shared/svg';
 export * as vars from 'shared/vars';
 
