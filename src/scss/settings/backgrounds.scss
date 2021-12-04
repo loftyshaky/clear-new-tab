@@ -5,6 +5,7 @@ $overlay_item_block_offset: 4px;
     @include border;
 
     background-color: red;
+    cursor: move;
 
     &.selected {
         @include outline_solid_thick;
@@ -41,10 +42,6 @@ $overlay_item_block_offset: 4px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-    }
-
-    .overlay_item.info {
-        cursor: move;
     }
 
     .overlay_item:not(:last-child) {
