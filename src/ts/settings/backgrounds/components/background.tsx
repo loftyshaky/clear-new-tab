@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 
 import { i_db } from 'shared/internal';
-import { c_backgrounds, p_backgrounds } from 'settings/internal';
+import { c_backgrounds, d_backgrounds, p_backgrounds } from 'settings/internal';
 
 export const Background: React.FunctionComponent<p_backgrounds.Background> = observer((props) => {
     const { key, index, style, background } = props;
@@ -10,8 +10,17 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
     return (
         <span
             key={key}
-            className='background'
+            className={x.cls([
+                'background',
+                d_backgrounds.Main.i().selected_cls({ i: background.i }),
+            ])}
             style={{ ...style, backgroundColor: background.thumbnail }}
+            role='button'
+            tabIndex={-1}
+            onClick={(): void => {
+                d_backgrounds.Main.i().select({ background });
+            }}
+            onKeyDown={() => undefined}
         >
             {background.type.includes('color') ? undefined : (
                 <img

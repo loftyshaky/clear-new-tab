@@ -6,6 +6,12 @@ $overlay_item_block_offset: 4px;
 
     background-color: red;
 
+    &.selected {
+        @include outline_solid_thick;
+
+        outline-offset: 2px;
+    }
+
     img {
         display: block;
     }

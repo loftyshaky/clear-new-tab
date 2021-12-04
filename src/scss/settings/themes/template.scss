@@ -13,4 +13,8 @@ body {
 
 .background {
     border-color: $lpe;
+
+    &.selected {
+        outline-color: $ycp;
+    }
 }
