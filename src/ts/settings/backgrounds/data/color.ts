@@ -1,4 +1,4 @@
-import { i_db } from 'shared/internal';
+import { s_db, i_db } from 'shared/internal';
 import { d_backgrounds, s_backgrounds } from 'settings/internal';
 
 export class Color {
@@ -33,7 +33,7 @@ export class Color {
 
             d_backgrounds.Main.i().merge_backgrounds({ backgrounds: new_backgrounds });
 
-            await s_backgrounds.Db.i().save_backgrounds({
+            await s_db.Manipulation.i().save_backgrounds({
                 backgrounds: new_backgrounds,
                 background_files: new_background_files,
             });

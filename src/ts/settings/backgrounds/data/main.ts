@@ -2,8 +2,7 @@ import _ from 'lodash';
 import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
-import { i_db } from 'shared/internal';
-import { s_backgrounds } from 'settings/internal';
+import { s_db, i_db } from 'shared/internal';
 
 export class Main {
     private static i0: Main;
@@ -39,7 +38,7 @@ export class Main {
 
     public set_backgrounds = (): Promise<void> =>
         err(async () => {
-            const backgrounds: i_db.Background[] = await s_backgrounds.Db.i().get_backgrounds();
+            const backgrounds: i_db.Background[] = await s_db.Manipulation.i().get_backgrounds();
 
             runInAction(() =>
                 err(() => {

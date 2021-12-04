@@ -1,5 +1,5 @@
 import { o_inputs, d_inputs } from '@loftyshaky/shared/inputs';
-import { i_db } from 'shared/internal';
+import { s_db, i_db } from 'shared/internal';
 import { d_backgrounds, s_backgrounds, i_backgrounds } from 'settings/internal';
 
 export class Upload {
@@ -68,7 +68,7 @@ export class Upload {
 
             d_backgrounds.Main.i().merge_backgrounds({ backgrounds: new_backgrounds });
 
-            await s_backgrounds.Db.i().save_backgrounds({
+            await s_db.Manipulation.i().save_backgrounds({
                 backgrounds: new_backgrounds,
                 background_files: new_background_files,
             });

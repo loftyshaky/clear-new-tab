@@ -1,9 +1,9 @@
 import { db, i_db } from 'shared/internal';
 
-export class Db {
-    private static i0: Db;
+export class Manipulation {
+    private static i0: Manipulation;
 
-    public static i(): Db {
+    public static i(): Manipulation {
         // eslint-disable-next-line no-return-assign
         return this.i0 || (this.i0 = new this());
     }
