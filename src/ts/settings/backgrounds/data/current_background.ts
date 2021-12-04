@@ -86,11 +86,14 @@ export class CurrentBackground {
 
     public set_last_uploaded_background_as_current = ({ id }: { id: string | undefined }): void =>
         err(() => {
-            if (
-                ['one_background', 'multiple_backgrounds'].includes(data.settings.mode) &&
-                data.settings.automatically_set_last_uploaded_background_as_current
-            ) {
-                this.set_background_as_current({ id });
+            if (['one_background', 'multiple_backgrounds'].includes(data.settings.mode)) {
+                if (data.settings.automatically_set_last_uploaded_background_as_current) {
+                    this.set_background_as_current({ id });
+                } else if (data.settings.current_background_id === 1) {
+                    this.set_background_as_current({
+                        id: d_backgrounds.Main.i().backgrounds[0].id,
+                    });
+                }
             }
         }, 'cnt_63785');
 
