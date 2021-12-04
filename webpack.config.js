@@ -61,7 +61,7 @@ module.exports = (env, argv) => {
                 ext_id: 'nnmhbhoglljdlhbllfgkemgenlplalie',
                 hard: false,
                 play_sound: true,
-                hard_paths: ['_locales', 'shared', 'background'],
+                hard_paths: ['_locales\\', 'shared\\', 'background\\'],
             });
         },
     });
