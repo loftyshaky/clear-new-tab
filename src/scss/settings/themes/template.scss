@@ -1,9 +1,11 @@
-body {
-    background-color: $htc;
+.main,
+.sections {
+    background-color: $gaq;
 }
 
 .section {
     border-color: $lpe;
+    background-color: $htc;
 }
 
 .section_name {
