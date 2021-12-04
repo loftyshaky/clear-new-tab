@@ -16,7 +16,6 @@ export class GlobalOptions {
 
     public show = (): void =>
         err(() => {
-            l(s('.global_hidden_link'));
             x.remove(s('.global_hidden_link'));
         }, 'cnt_46367');
 }
