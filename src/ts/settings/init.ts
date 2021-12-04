@@ -6,6 +6,7 @@ export const init = (): Promise<void> =>
         d_sections.Main.i().init_options();
         d_sections.Main.i().init_sections();
         await d_backgrounds.Main.i().set_backgrounds();
+        d_backgrounds.CurrentBackground.i().set_current_background_id_input_val();
 
         x.bind(window, 'resize', d_sections.Width.i().set_backgrounds_section_width);
         x.bind(window, 'scroll', s_color.Position.i().set);

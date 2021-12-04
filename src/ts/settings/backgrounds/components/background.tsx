@@ -12,13 +12,13 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
             key={key}
             className={x.cls([
                 'background',
-                d_backgrounds.Main.i().selected_cls({ i: background.i }),
+                d_backgrounds.CurrentBackground.i().selected_cls({ id: background.id }),
             ])}
             style={{ ...style, backgroundColor: background.thumbnail }}
             role='button'
             tabIndex={-1}
             onClick={(): void => {
-                d_backgrounds.Main.i().select({ background });
+                d_backgrounds.CurrentBackground.i().select({ background });
             }}
             onKeyDown={() => undefined}
         >

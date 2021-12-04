@@ -19,12 +19,16 @@ export class Upload {
         files: File[] | string[];
     }): Promise<void> => {
         try {
-            s_backgrounds.I.i().added_backgrounds_count = -1;
+            const next_i: number = s_backgrounds.I.i().get_next_background_i();
+            const ids: string[] = [];
 
             const new_backgrounds: i_db.Background[] = await Promise.all(
                 [...files].map(
-                    async (file: File | string): Promise<i_db.Background> =>
+                    async (file: File | string, i_2: number): Promise<i_db.Background> =>
                         err_async(async () => {
+                            const id = x.unique_id();
+                            const i = next_i + i_2;
+
                             const background_props: i_backgrounds.BackgroundProps =
                                 // eslint-disable-next-line max-len
                                 await s_backgrounds.Thumbnail.i().get_background_width_height_and_thumbnail(
@@ -33,11 +37,12 @@ export class Upload {
                                     },
                                 );
 
-                            s_backgrounds.I.i().added_backgrounds_count += 1;
+                            ids.push(id);
 
                             return {
+                                id,
                                 theme_id: undefined,
-                                i: s_backgrounds.I.i().get_highest_background_i(),
+                                i,
                                 type: `${s_backgrounds.FileType.i().get_file_type({
                                     file,
                                 })}`,
@@ -57,9 +62,10 @@ export class Upload {
             );
 
             const new_background_files: i_db.BackgroundFile[] = [...files].map(
-                (file: File | string): i_db.BackgroundFile =>
+                (file: File | string, i: number): i_db.BackgroundFile =>
                     err(
                         () => ({
+                            id: ids[i],
                             background: file,
                         }),
                         'cnt_64285',
@@ -67,6 +73,9 @@ export class Upload {
             );
 
             d_backgrounds.Main.i().merge_backgrounds({ backgrounds: new_backgrounds });
+            d_backgrounds.CurrentBackground.i().set_last_uploaded_background_as_current({
+                id: new_backgrounds[new_backgrounds.length - 1].id,
+            });
 
             await s_db.Manipulation.i().save_backgrounds({
                 backgrounds: new_backgrounds,

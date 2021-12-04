@@ -170,7 +170,7 @@ export class Main {
                                 event_callback: d_sections.Val.i().change,
                             }),
                             new o_inputs.Text({
-                                name: 'current_background_i',
+                                name: 'current_background_id',
                                 text_type: 'number',
                                 visiblity_conds: [
                                     {
@@ -185,7 +185,9 @@ export class Main {
                                         visibility_cond:
                                             d_sections.TextBtns.i()
                                                 .decide_set_background_as_current_btn_visibility,
-                                        event_callback: () => undefined,
+                                        event_callback:
+                                            d_backgrounds.CurrentBackground.i()
+                                                .set_selected_background_as_current,
                                     },
                                 ],
                                 event_callback: d_sections.Val.i().change,

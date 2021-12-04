@@ -13,27 +13,35 @@ export class I {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
-    public added_backgrounds_count: number = -1;
-
-    public get_highest_background_i = ({
-        creating_solid_color_background = false,
-    }: {
-        creating_solid_color_background?: boolean;
-    } = {}): number =>
+    public get_highest_background_i = (): number =>
         err(
             () => {
-                if (creating_solid_color_background) {
-                    this.added_backgrounds_count = 0;
-                }
+                let added_backgrounds_count: number = 0;
+
                 const background_with_highest_i = _.maxBy(d_backgrounds.Main.i().backgrounds, 'i');
 
                 if (n(background_with_highest_i)) {
-                    return background_with_highest_i.i + this.added_backgrounds_count + 1;
+                    added_backgrounds_count += background_with_highest_i.i;
                 }
 
-                return this.added_backgrounds_count;
+                return added_backgrounds_count;
             },
             'cnt_43795',
+            { silent: true },
+        );
+
+    public get_next_background_i = (): number =>
+        err(
+            () => {
+                const highest_background_i: number = this.get_highest_background_i();
+
+                if (highest_background_i === 0) {
+                    return highest_background_i;
+                }
+
+                return highest_background_i + 1;
+            },
+            'cnt_43794',
             { silent: true },
         );
 }

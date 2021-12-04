@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import { makeObservable, observable, action, runInAction } from 'mobx';
-import { computedFn } from 'mobx-utils';
 
 import { s_db, i_db } from 'shared/internal';
 
@@ -16,25 +15,12 @@ export class Main {
     private constructor() {
         makeObservable(this, {
             backgrounds: observable,
-            selected_background_i: observable,
             merge_backgrounds: action,
             update_backgrounds: action,
-            select: action,
         });
     }
 
     public backgrounds: i_db.Background[] = [];
-    public selected_background_i: number | undefined = undefined;
-
-    selected_cls = computedFn(function (this: Main, { i }: { i: number }): string {
-        if (n(this.selected_background_i)) {
-            if (i === this.selected_background_i) {
-                return 'selected';
-            }
-        }
-
-        return '';
-    });
 
     public set_backgrounds = (): Promise<void> =>
         err(async () => {
@@ -43,6 +29,10 @@ export class Main {
             runInAction(() =>
                 err(() => {
                     this.backgrounds = backgrounds;
+
+                    this.backgrounds.sort((a: i_db.Background, b: i_db.Background): number =>
+                        err(() => a.i - b.i, 'cnt_64367'),
+                    );
                 }, 'cnt_64357'),
             );
         }, 'cnt_49273');
@@ -56,9 +46,4 @@ export class Main {
         err(() => {
             this.backgrounds = _.union(this.backgrounds, backgrounds);
         }, 'cnt_49273');
-
-    public select = ({ background }: { background: i_db.Background }): void =>
-        err(() => {
-            this.selected_background_i = background.i;
-        }, 'cnt_96436');
 }

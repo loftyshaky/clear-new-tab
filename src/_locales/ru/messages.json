@@ -2,6 +2,9 @@
     "description": {
         "message": ""
     },
+    "select_background_alert": {
+        "message": "Сначала выберите фон из секции \"Фоны\"."
+    },
     "background_upload_section_text": {
         "message": "Загрузка фонов"
     },
@@ -38,7 +41,7 @@
     "keep_old_themes_backgrounds_label_text": {
         "message": "Не удалять фоны старых тем"
     },
-    "current_background_i_label_text": {
+    "current_background_id_label_text": {
         "message": "№ Текущего фона"
     },
     "automatically_set_last_uploaded_background_as_current_label_text": {

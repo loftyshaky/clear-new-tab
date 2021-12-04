@@ -4,7 +4,7 @@ import { i_data } from '@loftyshaky/shared';
 import { o_color, d_inputs, d_color, i_inputs, i_color } from '@loftyshaky/shared/inputs';
 import { s_settings } from '@loftyshaky/shared/settings';
 import { s_css_vars, s_theme } from 'shared/internal';
-import { d_backgrounds, d_sections } from 'settings/internal';
+import { d_backgrounds, d_sections, s_backgrounds } from 'settings/internal';
 
 export class Val {
     private static i0: Val;
@@ -67,10 +67,10 @@ export class Val {
 
                 if (input.type === 'text') {
                     if (!this.validate_input({ input })) {
-                        if (n(val) && input.name === 'current_background_i') {
+                        if (n(val) && input.name === 'current_background_id') {
                             val = +val;
 
-                            await set_val();
+                            d_backgrounds.CurrentBackground.i().save_current_background_id_from_i();
                         }
 
                         if (input.name === 'paste_background') {
@@ -119,7 +119,7 @@ export class Val {
                     return false;
                 }
 
-                if (input.name === 'current_background_i') {
+                if (input.name === 'current_background_id') {
                     return !this.validate_current_background_i({ val });
                 }
 
@@ -178,5 +178,12 @@ export class Val {
         }, 'cnt_1145');
 
     validate_current_background_i = ({ val }: { val: i_data.Val }): boolean =>
-        err(() => /^(?!0)\d+$/.test(val as string), 'cnt_99999');
+        err(() => {
+            const i: number = (val as number) - 1;
+
+            return (
+                /^(?!0)\d+$/.test(val as string) &&
+                (i === 0 || i <= s_backgrounds.I.i().get_highest_background_i())
+            );
+        }, 'cnt_99999');
 }

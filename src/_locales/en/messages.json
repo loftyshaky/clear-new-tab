@@ -2,6 +2,9 @@
     "description": {
         "message": ""
     },
+    "select_background_alert": {
+        "message": "Select a background from the \"Backgrounds\" section first."
+    },
     "background_upload_section_text": {
         "message": "Background upload"
     },
@@ -38,7 +41,7 @@
     "keep_old_themes_backgrounds_label_text": {
         "message": "Keep old themes' backgrounds"
     },
-    "current_background_i_label_text": {
+    "current_background_id_label_text": {
         "message": "Current background №"
     },
     "automatically_set_last_uploaded_background_as_current_label_text": {

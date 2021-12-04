@@ -14,12 +14,12 @@ export class Color {
 
     public create_solid_color_background = ({ color }: { color: string }): Promise<void> =>
         err_async(async () => {
+            const id: string = x.unique_id();
             const new_backgrounds: i_db.Background[] = [
                 {
+                    id,
                     theme_id: undefined,
-                    i: s_backgrounds.I.i().get_highest_background_i({
-                        creating_solid_color_background: true,
-                    }),
+                    i: s_backgrounds.I.i().get_next_background_i(),
                     type: 'color',
                     thumbnail: color,
                 },
@@ -27,11 +27,15 @@ export class Color {
 
             const new_background_files: i_db.BackgroundFile[] = [
                 {
+                    id,
                     background: color,
                 },
             ];
 
             d_backgrounds.Main.i().merge_backgrounds({ backgrounds: new_backgrounds });
+            d_backgrounds.CurrentBackground.i().set_last_uploaded_background_as_current({
+                id,
+            });
 
             await s_db.Manipulation.i().save_backgrounds({
                 backgrounds: new_backgrounds,
