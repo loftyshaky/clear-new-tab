@@ -16,6 +16,7 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
             key={key}
             className={x.cls([
                 'background',
+                background.type,
                 d_backgrounds.CurrentBackground.i().selected_cls({ id: background.id }),
                 d_backgrounds.BackgroundAnimation.i().animated_cls({ id: background.id }),
             ])}

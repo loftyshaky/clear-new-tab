@@ -14,6 +14,10 @@ $checkerboard_position: 8px;
     background-position: 0 0, 0 $checkerboard_position, $checkerboard_position (-$checkerboard_position), (-$checkerboard_position) 0;
     cursor: move;
 
+    &.color {
+        background-image: unset;
+    }
+
     &.selected {
         @include outline_solid_thick;
 
