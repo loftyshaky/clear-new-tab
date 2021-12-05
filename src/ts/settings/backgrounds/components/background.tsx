@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 
 import { i_db } from 'shared/internal';
@@ -7,12 +7,17 @@ import { c_backgrounds, d_backgrounds, p_backgrounds } from 'settings/internal';
 export const Background: React.FunctionComponent<p_backgrounds.Background> = observer((props) => {
     const { key, index, style, background } = props;
 
+    useEffect(() => {
+        d_backgrounds.BackgroundAnimation.i().push_already_animated_id({ id: background.id });
+    }, [background]);
+
     return (
         <span
             key={key}
             className={x.cls([
                 'background',
                 d_backgrounds.CurrentBackground.i().selected_cls({ id: background.id }),
+                d_backgrounds.BackgroundAnimation.i().animated_cls({ id: background.id }),
             ])}
             style={{ ...style, backgroundColor: background.thumbnail }}
             role='button'

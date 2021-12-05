@@ -19,5 +19,11 @@ export class Main {
                 roots,
                 transition_duration: data.settings.transition_duration,
             });
+
+            s_css_vars.Main.i().set_var({
+                roots,
+                name: 'fade_in',
+                val: `fade_in ${data.settings.transition_duration}ms ease-out`,
+            });
         }, 'cnt_1147');
 }

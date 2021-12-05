@@ -72,15 +72,16 @@ export class Upload {
                     ),
             );
 
-            d_backgrounds.Main.i().merge_backgrounds({ backgrounds: new_backgrounds });
-            d_backgrounds.CurrentBackground.i().set_last_uploaded_background_as_current({
-                id: new_backgrounds[new_backgrounds.length - 1].id,
-            });
-
             await s_db.Manipulation.i().save_backgrounds({
                 backgrounds: new_backgrounds,
                 background_files: new_background_files,
             });
+            d_backgrounds.BackgroundAnimation.i().allow_animation();
+            d_backgrounds.Main.i().merge_backgrounds({ backgrounds: new_backgrounds });
+            d_backgrounds.CurrentBackground.i().set_last_uploaded_background_as_current({
+                id: new_backgrounds[new_backgrounds.length - 1].id,
+            });
+            await d_backgrounds.BackgroundAnimation.i().forbid_animation();
         } catch (error_obj: any) {
             show_err_ribbon(error_obj, 'cnt_63793', { silent: true });
             throw_err_obj(error_obj);

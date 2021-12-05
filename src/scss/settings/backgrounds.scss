@@ -20,6 +20,10 @@ $checkerboard_position: 8px;
         outline-offset: 2px;
     }
 
+    &.animated {
+        animation: var(--fade_in);
+    }
+
     img {
         display: block;
     }
