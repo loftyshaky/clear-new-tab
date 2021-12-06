@@ -4,7 +4,7 @@ import { i_data } from '@loftyshaky/shared';
 import { o_color, d_inputs, d_color, i_inputs, i_color } from '@loftyshaky/shared/inputs';
 import { s_settings } from '@loftyshaky/shared/settings';
 import { s_css_vars, s_theme } from 'shared/internal';
-import { d_backgrounds, d_sections, s_backgrounds } from 'settings/internal';
+import { d_backgrounds, d_sections } from 'settings/internal';
 
 export class Val {
     private static i0: Val;
