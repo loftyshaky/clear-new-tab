@@ -32,6 +32,12 @@ export class Manipulation {
             return backgrounds;
         }, 'cnt_94527');
 
+    public delete_background = ({ id }: { id: string }): Promise<void> =>
+        err_async(async () => {
+            await db.backgrounds.delete(id as any);
+            await db.background_files.delete(id as any);
+        }, 'cnt_94527');
+
     public clear_all_tables = (): Promise<void> =>
         err_async(async () => {
             await db.backgrounds.clear();

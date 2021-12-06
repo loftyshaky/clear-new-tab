@@ -1,4 +1,5 @@
-import { makeObservable, observable, action } from 'mobx';
+import _ from 'lodash';
+import { makeObservable, observable, action, toJS } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
 import { i_db } from 'shared/internal';
@@ -14,10 +15,10 @@ export class CurrentBackground {
 
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {
-        makeObservable<CurrentBackground, 'set_current_background_id_input_val'>(this, {
+        makeObservable<CurrentBackground, 'set_current_background_i'>(this, {
             selected_background_id: observable,
             select: action,
-            set_current_background_id_input_val: action,
+            set_current_background_i: action,
             set_background_as_current: action,
         });
     }
@@ -39,26 +40,27 @@ export class CurrentBackground {
         return '';
     });
 
-    public set_current_background_id_input_val = (): void =>
+    public find_i_of_background_with_id = ({ id }: { id: string }): number =>
+        err(
+            () =>
+                d_backgrounds.Main.i().backgrounds.findIndex(
+                    (background: i_db.Background): boolean =>
+                        err(() => background.id === id, 'cnt_56538'),
+                ),
+            'cnt_54723',
+        );
+
+    public set_current_background_i = (): void =>
         err(() => {
             const no_backgrounds_exist: boolean = d_backgrounds.Main.i().backgrounds.length === 0;
 
             if (no_backgrounds_exist) {
-                data.settings.current_background_id = 1;
+                data.ui.current_background_i = 1;
             } else {
-                const background_with_current_id: i_db.Background | undefined =
-                    d_backgrounds.Main.i().backgrounds.find(
-                        (background: i_db.Background): boolean =>
-                            err(
-                                () => background.id === data.settings.current_background_id,
-
-                                'cnt_56846',
-                            ),
-                    );
-
-                if (n(background_with_current_id)) {
-                    data.settings.current_background_id = background_with_current_id.i + 1;
-                }
+                const i_of_background_with_current_id: number = this.find_i_of_background_with_id({
+                    id: data.settings.current_background_id,
+                });
+                data.ui.current_background_i = i_of_background_with_current_id + 1;
             }
         }, 'cnt_56743');
 
@@ -66,7 +68,7 @@ export class CurrentBackground {
         err(() => {
             data.settings.current_background_id = id;
 
-            this.set_current_background_id_input_val();
+            this.set_current_background_i();
 
             ext.send_msg_resp({
                 msg: 'update_settings',
@@ -99,19 +101,70 @@ export class CurrentBackground {
 
     public save_current_background_id_from_i = (): void =>
         err(() => {
-            const background_with_current_i: i_db.Background | undefined =
-                d_backgrounds.Main.i().backgrounds.find((background: i_db.Background): boolean =>
-                    err(
-                        () => background.i === data.settings.current_background_id - 1,
-                        'cnt_56538',
-                    ),
-                );
+            const background_with_current_i: i_db.Background =
+                d_backgrounds.Main.i().backgrounds[data.ui.current_background_i - 1];
 
-            if (n(background_with_current_i)) {
-                ext.send_msg_resp({
+            ext.send_msg_resp({
+                msg: 'update_settings',
+                settings: { current_background_id: background_with_current_i.id },
+            });
+        }, 'cnt_64789');
+
+    public decrement_current_background = ({
+        deleted_background_id,
+        deleted_background_i,
+    }: {
+        deleted_background_id: string;
+        deleted_background_i: number;
+    }): void =>
+        err(() => {
+            const no_backgrounds_exist: boolean = d_backgrounds.Main.i().backgrounds.length === 0;
+
+            if (no_backgrounds_exist) {
+                data.settings.current_background_id = 1;
+
+                ext.send_msg({
                     msg: 'update_settings',
-                    settings: { current_background_id: background_with_current_i.id },
+                    settings: { current_background_id: 1 },
+                });
+            } else if (data.settings.current_background_id === deleted_background_id) {
+                let new_current_background_id: string | undefined;
+
+                if (
+                    data.settings.mode === 'multiple_backgrounds' &&
+                    data.settings.shuffle_backgrounds
+                ) {
+                    new_current_background_id = this.get_id_of_random_background();
+                } else {
+                    const next_background: i_db.Background | undefined = toJS(
+                        d_backgrounds.Main.i().backgrounds,
+                    )[deleted_background_i];
+                    const previous_background: i_db.Background | undefined = toJS(
+                        d_backgrounds.Main.i().backgrounds,
+                    )[deleted_background_i - 1];
+
+                    if (n(next_background)) {
+                        new_current_background_id = next_background.id;
+                    } else if (n(previous_background)) {
+                        new_current_background_id = previous_background.id;
+                    }
+                }
+
+                data.settings.current_background_id = new_current_background_id;
+
+                ext.send_msg({
+                    msg: 'update_settings',
+                    settings: { current_background_id: new_current_background_id },
                 });
             }
-        }, 'cnt_64789');
+        }, 'cnt_53246');
+
+    private get_id_of_random_background = (): string =>
+        err(
+            () =>
+                d_backgrounds.Main.i().backgrounds[
+                    _.random(0, d_backgrounds.Main.i().backgrounds.length - 1)
+                ].id,
+            'cnt_64356',
+        );
 }

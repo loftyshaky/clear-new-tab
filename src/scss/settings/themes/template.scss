@@ -16,7 +16,7 @@
 .background {
     border-color: $lpe;
 
-    &.selected {
+    .screen.selected {
         outline-color: $ycp;
     }
 }

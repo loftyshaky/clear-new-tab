@@ -23,7 +23,13 @@ export class Main {
             s_css_vars.Main.i().set_var({
                 roots,
                 name: 'fade_in',
-                val: `fade_in ${data.settings.transition_duration}ms ease-out`,
+                val: `fade_in ${data.settings.transition_duration}ms ease-out forwards`,
+            });
+
+            s_css_vars.Main.i().set_var({
+                roots,
+                name: 'fade_out',
+                val: `fade_out ${data.settings.transition_duration}ms ease-out forwards`,
             });
         }, 'cnt_1147');
 }

@@ -1,4 +1,7 @@
-.backgrounds .section_content {
-    transition: var(--transition);
-    transition-property: opacity;
+.backgrounds {
+    .section_content,
+    .background {
+        transition: var(--transition);
+        transition-property: opacity;
+    }
 }

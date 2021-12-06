@@ -2,6 +2,7 @@
 
 import Archive from '../../svg/archive.svg';
 import Article from '../../svg/article.svg';
+import Close from '../../svg/close.svg';
 import Collections from '../../svg/collections.svg';
 import ContentCopy from '../../svg/content_copy.svg';
 import Download from '../../svg/download.svg';
@@ -17,6 +18,7 @@ import AssistantPhoto from '../../svg/assistant_photo.svg';
 export type SvgType = {
     Archive: string;
     Article: string;
+    Close: string;
     Collections: string;
     ContentCopy: string;
     Download: string;
@@ -33,6 +35,7 @@ export type SvgType = {
 export const svg: SvgType = {
     Archive,
     Article,
+    Close,
     Collections,
     ContentCopy,
     Download,

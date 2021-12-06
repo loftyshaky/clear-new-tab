@@ -8,13 +8,15 @@ export const OverlayItemBtn: React.FunctionComponent<p_backgrounds.OverlayItemBt
         const { name, text, on_click } = props;
 
         return (
-            <button
+            <div
                 className={x.cls(['overlay_item', 'btn', name])}
-                type='button'
+                role='button'
+                tabIndex={-1}
                 onClick={on_click}
+                onKeyDown={() => undefined}
             >
                 {text}
-            </button>
+            </div>
         );
     },
 );

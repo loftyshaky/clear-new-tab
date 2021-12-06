@@ -7,6 +7,6 @@ export const OverlayItemInfo: React.FunctionComponent<p_backgrounds.OverlayItemI
     (props) => {
         const { name, text } = props;
 
-        return <div className={x.cls(['overlay_item', 'info', name])}>{text}</div>;
+        return <span className={x.cls(['overlay_item', 'info', name])}>{text}</span>;
     },
 );

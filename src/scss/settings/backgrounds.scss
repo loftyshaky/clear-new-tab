@@ -6,6 +6,10 @@ $checkerboard_color_2: #ccc;
 $checkerboard_size: 16px;
 $checkerboard_position: 8px;
 
+$delete_background_btn_offset: 5px;
+$delete_background_btn_size: 22px;
+$delete_background_btn_svg_size: 12px;
+
 .backgrounds .background {
     @include border;
 
@@ -18,24 +22,62 @@ $checkerboard_position: 8px;
         background-image: unset;
     }
 
-    &.selected {
-        @include outline_solid_thick;
-
-        outline-offset: 2px;
-    }
-
     &.animated {
         animation: var(--fade_in);
+    }
+
+    &.deleted {
+        animation: var(--fade_out);
+    }
+
+    .screen {
+        @include full_spread;
+
+        position: absolute;
+
+        &.selected {
+            @include outline_solid_thick;
+
+            outline-offset: 3px;
+        }
     }
 
     img {
         display: block;
     }
 
+    .delete_background_btn {
+        position: absolute;
+        top: $delete_background_btn_offset;
+        right: $delete_background_btn_offset;
+        width: $delete_background_btn_size;
+        height: $delete_background_btn_size;
+        border-radius: 50%;
+        background-color: #d53a3a;
+    }
+
+    .delete_background_btn:hover {
+        background-color: #d60000;
+    }
+
+    .delete_background_btn svg {
+        position: absolute;
+        width: $delete_background_btn_svg_size;
+        height: $delete_background_btn_svg_size;
+        top: $delete_background_btn_offset;
+        right: $delete_background_btn_offset;
+        fill: white;
+    }
+
     .bottom_overlay_items {
         position: absolute;
         bottom: $overlay_item_block_offset;
         left: $overlay_item_block_offset;
+
+        &.info {
+            bottom: 36px;
+            pointer-events: none;
+        }
     }
 
     .overlay_item.background_index {
@@ -45,10 +87,11 @@ $checkerboard_position: 8px;
     }
 
     .overlay_item {
-        display: block;
+        display: flex;
+        align-items: center;
         max-width: fit-content;
+        height: 14px;
         margin-right: 8px;
-        padding: 1px;
         padding-left: $overlay_item_side_padding;
         padding-right: $overlay_item_side_padding;
         font-size: 10px;
@@ -57,6 +100,10 @@ $checkerboard_position: 8px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+
+        &.info {
+            pointer-events: none;
+        }
     }
 
     .overlay_item:not(:last-child) {

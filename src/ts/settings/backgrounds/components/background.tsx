@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 
-import { i_db } from 'shared/internal';
+import { svg, i_db } from 'shared/internal';
 import { c_backgrounds, d_backgrounds, p_backgrounds } from 'settings/internal';
 
 export const Background: React.FunctionComponent<p_backgrounds.Background> = observer((props) => {
@@ -17,17 +17,24 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
             className={x.cls([
                 'background',
                 background.type,
-                d_backgrounds.CurrentBackground.i().selected_cls({ id: background.id }),
                 d_backgrounds.BackgroundAnimation.i().animated_cls({ id: background.id }),
+                d_backgrounds.BackgroundDeletion.i().deleted_cls({
+                    id: background.id,
+                }),
             ])}
             style={{ ...style, backgroundColor: background.thumbnail }}
-            role='button'
-            tabIndex={-1}
-            onClick={(): void => {
-                d_backgrounds.CurrentBackground.i().select({ background });
-            }}
-            onKeyDown={() => undefined}
         >
+            <div
+                className={x.cls([
+                    'screen',
+                    d_backgrounds.CurrentBackground.i().selected_cls({ id: background.id }),
+                ])}
+                onClick={(): void => {
+                    d_backgrounds.CurrentBackground.i().select({ background });
+                }}
+                role='none'
+                tabIndex={-1}
+            />
             {background.type.includes('color') ? undefined : (
                 <img
                     src={background.thumbnail}
@@ -36,7 +43,7 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                 />
             )}
             <c_backgrounds.OverlayItemInfo name='background_index' text={index + 1} />
-            <div className='bottom_overlay_items'>
+            <div className={x.cls(['bottom_overlay_items', 'info'])}>
                 {background.type.includes('color') ? undefined : (
                     <c_backgrounds.OverlayItemInfo
                         name='background_dims'
@@ -49,6 +56,8 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                     name='background_type'
                     text={ext.msg(`background_type_${background.type}_text`)}
                 />
+            </div>
+            <div className={x.cls(['bottom_overlay_items', 'btn'])}>
                 <c_backgrounds.OverlayItemBtn
                     name='preview_background'
                     text={ext.msg('preview_background_btn_text')}
@@ -60,6 +69,15 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                     on_click={(): undefined => undefined}
                 />
             </div>
+            <button
+                className={x.cls(['btn', 'delete_background_btn'])}
+                onClick={(): void => {
+                    d_backgrounds.BackgroundDeletion.i().trigger_delete({ id: background.id });
+                }}
+                type='button'
+            >
+                <svg.Close />
+            </button>
         </span>
     );
 });

@@ -183,7 +183,7 @@ export class Val {
 
             return (
                 /^(?!0)\d+$/.test(val as string) &&
-                (i === 0 || i <= s_backgrounds.I.i().get_highest_background_i())
+                (i === 0 || i <= d_backgrounds.Main.i().backgrounds.length - 1)
             );
         }, 'cnt_99999');
 }

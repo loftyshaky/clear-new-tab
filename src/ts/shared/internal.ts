@@ -6,6 +6,7 @@ export * as vars from 'shared/vars';
 
 export { db } from 'shared/db/scripts';
 
+export * as d_data from 'shared/data/data';
 export * as d_settings from 'shared/settings/data';
 
 export * as s_css_vars from 'shared/css_vars/scripts';

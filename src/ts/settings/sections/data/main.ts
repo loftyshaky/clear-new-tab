@@ -172,6 +172,7 @@ export class Main {
                             new o_inputs.Text({
                                 name: 'current_background_id',
                                 text_type: 'number',
+                                val_accessor: 'ui.current_background_i',
                                 visiblity_conds: [
                                     {
                                         input_name: 'mode',
