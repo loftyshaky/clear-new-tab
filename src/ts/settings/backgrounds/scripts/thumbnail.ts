@@ -38,64 +38,62 @@ export class Thumbnail {
                             : document.createElement('video');
 
                         if (file_type === 'video_file') {
-                            background.addEventListener('loadedmetadata', () => {
+                            x.bind(background, 'loadedmetadata', () => {
                                 (background as HTMLVideoElement).currentTime =
                                     (background as HTMLVideoElement).duration / 3;
                             });
                         }
 
-                        background.addEventListener(
-                            file_type === 'video_file' ? 'timeupdate' : 'load',
-                            () =>
-                                err_async(
-                                    async () => {
-                                        try {
-                                            let thumbnail: string | undefined;
-                                            const natural_width: number =
-                                                (background as HTMLImageElement).naturalWidth ||
-                                                (background as HTMLVideoElement).videoWidth;
-                                            const natural_height: number =
-                                                (background as HTMLImageElement).naturalHeight ||
-                                                (background as HTMLVideoElement).videoHeight;
+                        x.bind(background, file_type === 'video_file' ? 'timeupdate' : 'load', () =>
+                            err_async(
+                                async () => {
+                                    try {
+                                        let thumbnail: string | undefined;
+                                        const natural_width: number =
+                                            (background as HTMLImageElement).naturalWidth ||
+                                            (background as HTMLVideoElement).videoWidth;
+                                        const natural_height: number =
+                                            (background as HTMLImageElement).naturalHeight ||
+                                            (background as HTMLVideoElement).videoHeight;
 
-                                            const thumbnail_dims: i_backgrounds.BackgroundDims =
-                                                this.calculate_thumbnails_dims({
-                                                    natural_width,
-                                                    natural_height,
-                                                });
+                                        const thumbnail_dims: i_backgrounds.BackgroundDims =
+                                            this.calculate_thumbnails_dims({
+                                                natural_width,
+                                                natural_height,
+                                            });
 
-                                            if (file_type === 'img_file') {
-                                                thumbnail = await this.create_img_thumbnail({
-                                                    img: background as HTMLImageElement,
-                                                    thumbnail_dims,
-                                                });
-                                            } else if (file_type === 'video_file') {
-                                                thumbnail = this.create_video_thumbnail({
-                                                    video: background as HTMLVideoElement,
-                                                    thumbnail_dims,
-                                                });
-                                            } else if (file_type === 'img_link') {
-                                                thumbnail = file as string;
-                                            }
-
-                                            if (n(thumbnail)) {
-                                                resolve({
-                                                    thumbnail,
-                                                    width: natural_width,
-                                                    height: natural_height,
-                                                    thumbnail_width: thumbnail_dims.width,
-                                                    thumbnail_height: thumbnail_dims.height,
-                                                });
-                                            } else {
-                                                reject(err_obj('Upload error'));
-                                            }
-                                        } catch (error_obj: any) {
-                                            reject(error_obj);
+                                        if (file_type === 'img_file') {
+                                            thumbnail = await this.create_img_thumbnail({
+                                                img: background as HTMLImageElement,
+                                                thumbnail_dims,
+                                            });
+                                        } else if (file_type === 'video_file') {
+                                            thumbnail = this.create_video_thumbnail({
+                                                video: background as HTMLVideoElement,
+                                                thumbnail_dims,
+                                            });
+                                        } else if (file_type === 'img_link') {
+                                            thumbnail = file as string;
                                         }
-                                    },
-                                    'cnt_64783',
-                                    { silent: true },
-                                ),
+
+                                        if (n(thumbnail)) {
+                                            resolve({
+                                                thumbnail,
+                                                width: natural_width,
+                                                height: natural_height,
+                                                thumbnail_width: thumbnail_dims.width,
+                                                thumbnail_height: thumbnail_dims.height,
+                                            });
+                                        } else {
+                                            reject(err_obj('Upload error'));
+                                        }
+                                    } catch (error_obj: any) {
+                                        reject(error_obj);
+                                    }
+                                },
+                                'cnt_64783',
+                                { silent: true },
+                            ),
                         );
 
                         background.src =
