@@ -70,7 +70,7 @@ export class CurrentBackground {
 
             this.set_current_background_i();
 
-            ext.send_msg_resp({
+            ext.send_msg({
                 msg: 'update_settings',
                 settings: { current_background_id: id },
             });
@@ -104,7 +104,7 @@ export class CurrentBackground {
             const background_with_current_i: i_db.Background =
                 d_backgrounds.Main.i().backgrounds[data.ui.current_background_i - 1];
 
-            ext.send_msg_resp({
+            ext.send_msg({
                 msg: 'update_settings',
                 settings: { current_background_id: background_with_current_i.id },
             });

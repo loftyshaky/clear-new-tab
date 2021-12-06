@@ -11,7 +11,7 @@ export class Visibility {
 
     public hide_color_help = (): void =>
         err(() => {
-            ext.send_msg_resp({
+            ext.send_msg({
                 msg: 'update_settings',
                 settings: { color_help_is_visible: false },
             });
