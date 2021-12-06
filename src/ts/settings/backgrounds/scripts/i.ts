@@ -35,6 +35,10 @@ export class I {
             () => {
                 const highest_background_i: number = this.get_highest_background_i();
 
+                if (d_backgrounds.Main.i().backgrounds.length === 0) {
+                    return 0;
+                }
+
                 return highest_background_i + 1;
             },
             'cnt_43794',
