@@ -20,6 +20,7 @@ export class CurrentBackground {
             select: action,
             set_current_background_i: action,
             set_background_as_current: action,
+            reset_current_background_id: action,
         });
     }
 
@@ -121,12 +122,7 @@ export class CurrentBackground {
             const no_backgrounds_exist: boolean = d_backgrounds.Main.i().backgrounds.length === 0;
 
             if (no_backgrounds_exist) {
-                data.settings.current_background_id = 1;
-
-                ext.send_msg({
-                    msg: 'update_settings',
-                    settings: { current_background_id: 1 },
-                });
+                this.reset_current_background_id();
             } else if (data.settings.current_background_id === deleted_background_id) {
                 let new_current_background_id: string | undefined;
 
@@ -158,6 +154,19 @@ export class CurrentBackground {
                 });
             }
         }, 'cnt_53246');
+
+    public reset_current_background_id = (): void =>
+        err(() => {
+            const reset_val: number = 1;
+
+            data.settings.current_background_id = reset_val;
+            data.ui.current_background_i = reset_val;
+
+            ext.send_msg({
+                msg: 'update_settings',
+                settings: { current_background_id: reset_val },
+            });
+        }, 'cnt_64684');
 
     private get_id_of_random_background = (): string =>
         err(

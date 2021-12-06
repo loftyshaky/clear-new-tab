@@ -88,6 +88,8 @@ export class BackgroundDeletion {
             d_backgrounds.Main.i().backgrounds = [];
             d_sections.SectionContent.i().backgrounds_section_content_is_visible = true;
 
+            d_backgrounds.CurrentBackground.i().reset_current_background_id();
+
             await s_db.Manipulation.i().clear_all_tables();
         }, 'cnt_45345');
 }
