@@ -315,7 +315,8 @@ export class Main {
                     restore_inputs: [
                         new o_inputs.Btn({
                             name: 'delete_all_backgrounds',
-                            event_callback: d_backgrounds.Main.i().delete_all_backgrounds,
+                            event_callback:
+                                d_backgrounds.BackgroundDeletion.i().delete_all_backgrounds,
                         }),
                     ],
                 }),

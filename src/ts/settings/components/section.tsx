@@ -29,7 +29,8 @@ export const Section: React.FunctionComponent<p_settings.Section> = observer((pr
                     { section_name },
                 )}
                 tr_end_unactive={[
-                    d_backgrounds.Main.i().delete_all_backgrounds_transition_end_callback,
+                    d_backgrounds.BackgroundDeletion.i()
+                        .delete_all_backgrounds_transition_end_callback,
                 ]}
             >
                 {children}

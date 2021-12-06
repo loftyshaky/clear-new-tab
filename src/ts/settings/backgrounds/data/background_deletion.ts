@@ -3,7 +3,7 @@ import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
 import { s_db, i_db } from 'shared/internal';
-import { d_backgrounds } from 'settings/internal';
+import { d_backgrounds, d_sections } from 'settings/internal';
 
 export class BackgroundDeletion {
     private static i0: BackgroundDeletion;
@@ -19,6 +19,7 @@ export class BackgroundDeletion {
             deleting_background: observable,
             trigger_delete: action,
             delete: action,
+            delete_all_backgrounds: action,
         });
     }
 
@@ -73,4 +74,20 @@ export class BackgroundDeletion {
                 }, 'cnt_65653'),
             );
         }, 'cnt_64356');
+
+    public delete_all_backgrounds = (): Promise<void> =>
+        err_async(async () => {
+            // eslint-disable-next-line no-alert
+            if (window.confirm(ext.msg('delete_all_backgrounds_confirm'))) {
+                d_sections.SectionContent.i().backgrounds_section_content_is_visible = false;
+            }
+        }, 'cnt_65656');
+
+    public delete_all_backgrounds_transition_end_callback = (): Promise<void> =>
+        err_async(async () => {
+            d_backgrounds.Main.i().backgrounds = [];
+            d_sections.SectionContent.i().backgrounds_section_content_is_visible = true;
+
+            await s_db.Manipulation.i().clear_all_tables();
+        }, 'cnt_45345');
 }

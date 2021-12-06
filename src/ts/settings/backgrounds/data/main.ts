@@ -2,7 +2,6 @@ import _ from 'lodash';
 import { makeObservable, observable, action, runInAction } from 'mobx';
 
 import { s_db, i_db } from 'shared/internal';
-import { d_sections } from 'settings/internal';
 
 export class Main {
     private static i0: Main;
@@ -18,7 +17,6 @@ export class Main {
             backgrounds: observable,
             merge_backgrounds: action,
             update_backgrounds: action,
-            delete_all_backgrounds: action,
         });
     }
 
@@ -48,20 +46,4 @@ export class Main {
         err(() => {
             this.backgrounds = _.union(this.backgrounds, backgrounds);
         }, 'cnt_49273');
-
-    public delete_all_backgrounds = (): Promise<void> =>
-        err_async(async () => {
-            // eslint-disable-next-line no-alert
-            if (window.confirm(ext.msg('delete_all_backgrounds_confirm'))) {
-                d_sections.SectionContent.i().backgrounds_section_content_is_visible = false;
-            }
-        }, 'cnt_65656');
-
-    public delete_all_backgrounds_transition_end_callback = (): Promise<void> =>
-        err_async(async () => {
-            this.backgrounds = [];
-            d_sections.SectionContent.i().backgrounds_section_content_is_visible = true;
-
-            await s_db.Manipulation.i().clear_all_tables();
-        }, 'cnt_45345');
 }
