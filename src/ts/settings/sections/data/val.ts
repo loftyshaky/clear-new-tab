@@ -67,17 +67,22 @@ export class Val {
 
                 if (input.type === 'text') {
                     if (!this.validate_input({ input })) {
-                        if (n(val) && input.name === 'current_background_id') {
+                        if (
+                            n(val) &&
+                            ['transition_duration', 'current_background_id'].includes(input.name)
+                        ) {
                             val = +val;
-
-                            d_backgrounds.CurrentBackground.i().save_current_background_id_from_i();
                         }
 
-                        if (input.name === 'paste_background') {
+                        if (input.name === 'current_background_id') {
+                            d_backgrounds.CurrentBackground.i().save_current_background_id_from_i();
+                        } else if (input.name === 'paste_background') {
                             d_inputs.Val.i().set({
                                 val: '',
                                 input,
                             });
+                        } else {
+                            await set_val();
                         }
                     }
                 } else if (input.type !== 'color' || i === 'main') {
