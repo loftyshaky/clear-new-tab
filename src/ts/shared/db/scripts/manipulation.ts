@@ -19,10 +19,15 @@ export class Manipulation {
         background_files: i_db.BackgroundFile[];
     }): Promise<void> =>
         err_async(async () => {
-            await db.transaction('rw', db.backgrounds, db.background_files, () => {
-                db.backgrounds.bulkAdd(backgrounds);
-                db.background_files.bulkAdd(background_files);
-            });
+            await db.transaction(
+                'rw',
+                db.backgrounds,
+                db.background_files,
+                async (): Promise<void> => {
+                    await db.backgrounds.bulkAdd(backgrounds);
+                    await db.background_files.bulkAdd(background_files);
+                },
+            );
         }, 'cnt_64358');
 
     public get_backgrounds = (): Promise<i_db.Background[]> =>
