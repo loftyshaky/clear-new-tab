@@ -35,7 +35,7 @@ export class Width {
 
                     [...section_els].forEach((section_el: HTMLDivElement): void =>
                         err(() => {
-                            section_el.style.width = `${max_width_section_val}px`;
+                            section_el.style.width = x.px(max_width_section_val);
                         }, 'cnt_99999'),
                     );
                 }
@@ -65,8 +65,8 @@ export class Width {
 
                 if (new_width <= backgrounds_sections_el_max_width) {
                     const backgrounds_section_el_width = new_width - 2;
-                    backgrounds_sections_el.style.width = `${new_width + outer_margin + 2}px`;
-                    backgrounds_section_el.style.width = `${backgrounds_section_el_width}px`;
+                    backgrounds_sections_el.style.width = x.px(new_width + outer_margin + 2);
+                    backgrounds_section_el.style.width = x.px(backgrounds_section_el_width);
 
                     d_backgrounds.VirtualizedList.i().width = backgrounds_section_el_width;
                 } else {
