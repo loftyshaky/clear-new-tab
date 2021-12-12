@@ -82,14 +82,14 @@ export class Dnd {
             ) {
                 this.remove_drop_zone();
 
-                const i_of_drop_zone_background: number =
+                const drop_zone_background_i: number =
                     d_backgrounds.CurrentBackground.i().find_i_of_background_with_id({
                         id: this.drop_zone_background.id,
                     });
                 const insertion_i =
                     this.drop_zone_insert_direction === 'right'
-                        ? i_of_drop_zone_background + 1
-                        : i_of_drop_zone_background;
+                        ? drop_zone_background_i + 1
+                        : drop_zone_background_i;
                 const drop_zone: i_db.DropZone = {
                     type: 'drop_zone',
                     width: s_backgrounds.Thumbnail.i().get_background_thumbnail_width({
@@ -280,16 +280,16 @@ export class Dnd {
                             if (this.background_to_move.id === this.hovering_over_background.id) {
                                 this.drop_zone_insert_direction = this.drag_direction;
                                 this.drop_zone_background =
-                                    backgrounds[i_of_background_to_move + i_modifier_1];
+                                    backgrounds[background_to_move_i + i_modifier_1];
                             } else if (
-                                n(backgrounds[i_of_background_to_move + i_modifier_2]) &&
+                                n(backgrounds[background_to_move_i + i_modifier_2]) &&
                                 this.hovering_over_background.id ===
-                                    backgrounds[i_of_background_to_move + i_modifier_2].id
+                                    backgrounds[background_to_move_i + i_modifier_2].id
                             ) {
-                                if (n(backgrounds[i_of_background_to_move + i_modifier_1])) {
+                                if (n(backgrounds[background_to_move_i + i_modifier_1])) {
                                     this.drop_zone_insert_direction = this.drag_direction;
                                     this.drop_zone_background =
-                                        backgrounds[i_of_background_to_move + i_modifier_1];
+                                        backgrounds[background_to_move_i + i_modifier_1];
                                 } else {
                                     this.drop_zone_insert_direction = drop_zone_insert_direction;
                                     this.drop_zone_background = this.hovering_over_background;
@@ -301,7 +301,7 @@ export class Dnd {
                         }
                     }, 'cnt_64684');
 
-                const i_of_background_to_move: number =
+                const background_to_move_i: number =
                     d_backgrounds.CurrentBackground.i().find_i_of_background_with_id({
                         id: this.background_to_move.id,
                     });
