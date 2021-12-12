@@ -10,103 +10,127 @@ $delete_background_btn_offset: 5px;
 $delete_background_btn_size: 22px;
 $delete_background_btn_svg_size: 12px;
 
-.backgrounds .background {
-    @include border;
+$drop_zone_size: 3px;
 
-    background-image: linear-gradient(45deg, $checkerboard_color_2 25%, transparent 25%), linear-gradient(-45deg, $checkerboard_color_2 25%, transparent 25%), linear-gradient(45deg, transparent 75%, $checkerboard_color_2 75%), linear-gradient(-45deg, $checkerboard_color_1 75%, $checkerboard_color_2 75%);
-    background-size: $checkerboard_size $checkerboard_size;
-    background-position: 0 0, 0 $checkerboard_position, $checkerboard_position (-$checkerboard_position), (-$checkerboard_position) 0;
-    cursor: move;
-
-    &.color {
-        background-image: unset;
-    }
-
-    &.animated {
-        animation: var(--fade_in);
-    }
-
-    &.deleted {
-        animation: var(--fade_out);
-    }
-
-    .screen {
-        @include full_spread;
+.backgrounds {
+    .drop_zone {
+        @include border;
 
         position: absolute;
+        border-color: transparent;
+        outline: $drop_zone_size dashed;
+        outline-offset: (-$drop_zone_size);
+        cursor: alias;
+    }
 
-        &.selected {
-            @include outline_solid_thick;
+    .background {
+        @include border;
 
-            outline-offset: 3px;
+        background-image: linear-gradient(45deg, $checkerboard_color_2 25%, transparent 25%), linear-gradient(-45deg, $checkerboard_color_2 25%, transparent 25%), linear-gradient(45deg, transparent 75%, $checkerboard_color_2 75%), linear-gradient(-45deg, $checkerboard_color_1 75%, $checkerboard_color_2 75%);
+        background-size: $checkerboard_size $checkerboard_size;
+        background-position: 0 0, 0 $checkerboard_position, $checkerboard_position (-$checkerboard_position), (-$checkerboard_position) 0;
+        user-select: none;
+        cursor: move;
+
+        &.color {
+            background-image: unset;
         }
-    }
 
-    img {
-        display: block;
-    }
+        &.animated {
+            animation: var(--fade_in);
+        }
 
-    .delete_background_btn {
-        position: absolute;
-        top: $delete_background_btn_offset;
-        right: $delete_background_btn_offset;
-        width: $delete_background_btn_size;
-        height: $delete_background_btn_size;
-        border-radius: 50%;
-        background-color: #d53a3a;
-    }
+        &.deleted {
+            animation: var(--fade_out);
+        }
 
-    .delete_background_btn:hover {
-        background-color: #d60000;
-    }
+        .ui {
+            @include full_spread;
 
-    .delete_background_btn svg {
-        position: absolute;
-        width: $delete_background_btn_svg_size;
-        height: $delete_background_btn_svg_size;
-        top: $delete_background_btn_offset;
-        right: $delete_background_btn_offset;
-        fill: white;
-    }
+            position: absolute;
 
-    .bottom_overlay_items {
-        position: absolute;
-        bottom: $overlay_item_block_offset;
-        left: $overlay_item_block_offset;
+            &.selected {
+                @include outline_solid_thick;
 
-        &.info {
-            bottom: 36px;
+                outline-offset: 3px;
+            }
+        }
+
+        &.dragged {
+            position: fixed;
+            opacity: 0.7;
             pointer-events: none;
+
+            .ui {
+                &.selected {
+                    outline: none;
+                }
+            }
         }
-    }
 
-    .overlay_item.background_index {
-        position: absolute;
-        top: $overlay_item_block_offset;
-        left: $overlay_item_block_offset;
-    }
-
-    .overlay_item {
-        display: flex;
-        align-items: center;
-        max-width: fit-content;
-        height: 14px;
-        margin-right: 8px;
-        padding-left: $overlay_item_side_padding;
-        padding-right: $overlay_item_side_padding;
-        font-size: 10px;
-        background-color: $black;
-        opacity: 0.85;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-
-        &.info {
-            pointer-events: none;
+        img {
+            display: block;
         }
-    }
 
-    .overlay_item:not(:last-child) {
-        margin-bottom: 2px;
+        .delete_background_btn {
+            position: absolute;
+            top: $delete_background_btn_offset;
+            right: $delete_background_btn_offset;
+            width: $delete_background_btn_size;
+            height: $delete_background_btn_size;
+            border-radius: 50%;
+            background-color: #d53a3a;
+        }
+
+        .delete_background_btn:hover {
+            background-color: #d60000;
+        }
+
+        .delete_background_btn svg {
+            position: absolute;
+            width: $delete_background_btn_svg_size;
+            height: $delete_background_btn_svg_size;
+            top: $delete_background_btn_offset;
+            right: $delete_background_btn_offset;
+            fill: white;
+        }
+
+        .overlay_item.background_index {
+            position: absolute;
+            top: $overlay_item_block_offset;
+            left: $overlay_item_block_offset;
+        }
+
+        .overlay_item {
+            position: absolute;
+            max-width: fit-content;
+            height: 14px;
+            bottom: $overlay_item_block_offset;
+            left: $overlay_item_block_offset;
+            padding-left: $overlay_item_side_padding;
+            padding-right: $overlay_item_side_padding;
+            font-size: 10px;
+            background-color: $black;
+            opacity: 0.85;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            &.info {
+                pointer-events: none;
+            }
+
+            &.preview_background {
+                bottom: 20px;
+            }
+
+            &.background_type {
+                bottom: 36px;
+            }
+
+            &.background_dims {
+                bottom: 52px;
+            }
+        }
     }
 }

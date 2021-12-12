@@ -28,7 +28,9 @@ export class CurrentBackground {
 
     public select = ({ background }: { background: i_db.Background }): void =>
         err(() => {
-            this.selected_background_id = background.id;
+            if (!d_backgrounds.Dnd.i().lock_background_selection) {
+                this.selected_background_id = background.id;
+            }
         }, 'cnt_96436');
 
     selected_cls = computedFn(function (this: CurrentBackground, { id }: { id: string }): string {

@@ -13,10 +13,16 @@
     border-color: $lpe;
 }
 
+.backgrounds {
+    .drop_zone {
+        outline-color: $ycp;
+    }
+}
+
 .background {
     border-color: $lpe;
 
-    .screen.selected {
+    .ui.selected {
         outline-color: $ycp;
     }
 }

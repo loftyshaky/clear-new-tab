@@ -7,10 +7,11 @@ import { c_settings, c_backgrounds, d_backgrounds } from 'settings/internal';
 export const Backgrounds: React.FunctionComponent = observer(() => {
     const collection_ref = useRef<any>(null);
     const { width, height } = d_backgrounds.VirtualizedList.i();
+    const { drop_zone_background, drop_zone_insert_direction } = d_backgrounds.Dnd.i(); // drop_zone_background and drop_zone_insert_direction need to be here and in useEffect, otherwise drop zone and backgrounds render with incorrect width
 
     useEffect(() => {
         collection_ref.current.recomputeCellSizesAndPositions();
-    }, [width, height]);
+    }, [width, height, drop_zone_background, drop_zone_insert_direction]);
 
     return (
         <div className='sections custom backgrounds'>
@@ -23,6 +24,7 @@ export const Backgrounds: React.FunctionComponent = observer(() => {
                             index={index}
                             style={style}
                             background={d_backgrounds.Main.i().backgrounds[index]}
+                            dragged={false}
                         />
                     )}
                     cellSizeAndPositionGetter={
@@ -32,6 +34,7 @@ export const Backgrounds: React.FunctionComponent = observer(() => {
                     height={d_backgrounds.VirtualizedList.i().height}
                     ref={collection_ref}
                 />
+                <c_backgrounds.DraaggedBackgrounds />
             </c_settings.Section>
         </div>
     );

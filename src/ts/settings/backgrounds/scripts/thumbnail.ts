@@ -1,3 +1,4 @@
+import { i_db } from 'shared/internal';
 import { s_backgrounds, i_backgrounds } from 'settings/internal';
 
 export class Thumbnail {
@@ -223,5 +224,18 @@ export class Thumbnail {
             },
             'cnt_65638',
             { silent: true },
+        );
+
+    public get_background_thumbnail_width = ({
+        background,
+    }: {
+        background: i_db.Background;
+    }): number =>
+        err(
+            () =>
+                background.type.includes('color')
+                    ? s_backgrounds.Thumbnail.i().height
+                    : (background as i_db.FileBackground).thumbnail_width,
+            'cnt_64378',
         );
 }

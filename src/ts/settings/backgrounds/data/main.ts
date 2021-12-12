@@ -30,9 +30,7 @@ export class Main {
                 err(() => {
                     this.backgrounds = backgrounds;
 
-                    this.backgrounds.sort((a: i_db.Background, b: i_db.Background): number =>
-                        err(() => a.i - b.i, 'cnt_64367'),
-                    );
+                    this.sort_backgrounds();
                 }, 'cnt_64357'),
             );
         }, 'cnt_49273');
@@ -46,4 +44,11 @@ export class Main {
         err(() => {
             this.backgrounds = _.union(this.backgrounds, backgrounds);
         }, 'cnt_49273');
+
+    public sort_backgrounds = (): void =>
+        err(() => {
+            this.backgrounds.sort((a: i_db.Background, b: i_db.Background): number =>
+                err(() => a.i - b.i, 'cnt_64367'),
+            );
+        }, 'cnt_64436');
 }

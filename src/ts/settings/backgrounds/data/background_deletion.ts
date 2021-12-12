@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { MouseEvent } from 'react';
 import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
@@ -33,8 +34,10 @@ export class BackgroundDeletion {
         return this.deleting_background && id === this.background_to_delete_id ? 'deleted' : '';
     });
 
-    public trigger_delete = ({ id }: { id: string }): Promise<void> =>
+    public trigger_delete = ({ id }: { id: string }, e: MouseEvent): Promise<void> =>
         err_async(async () => {
+            e.stopPropagation();
+
             this.background_to_delete_id = id;
             this.deleting_background = true;
 

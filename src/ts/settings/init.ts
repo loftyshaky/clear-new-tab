@@ -13,4 +13,6 @@ export const init = (): Promise<void> =>
         x.bind(window, 'resize', d_sections.Width.i().set_backgrounds_section_width);
         x.bind(window, 'scroll', s_color.Position.i().set);
         x.bind(document, 'mousedown', d_color.Visibility.i().hide_all);
+        x.bind(document, 'mousemove', d_backgrounds.Dnd.i().set_dragged_background_position);
+        x.bind(document, 'mouseup', d_backgrounds.Dnd.i().stop_drag);
     }, 'cnt_1125');
