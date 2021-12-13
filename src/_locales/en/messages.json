@@ -8,6 +8,9 @@
     "delete_all_backgrounds_confirm": {
         "message": "Delete all backgrounds?"
     },
+    "enter_new_background_no_prompt": {
+        "message": "Enter the new background №:"
+    },
     "background_upload_section_text": {
         "message": "Background upload"
     },

@@ -16,7 +16,6 @@ export class Dnd {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {
         makeObservable<Dnd, 'dragging_background' | 'insert_drop_zone' | 'remove_drop_zone'>(this, {
-            drop_zone_insert_direction: observable,
             dragging_background: observable,
             show_dragged_background: observable,
             dragged_background_left: observable,
@@ -31,12 +30,14 @@ export class Dnd {
             stop_drag: action,
             drop: action,
             set_dragged_background_position: action,
+            move_by_move_btn: action,
         });
     }
 
+    public collection_ref: any;
     private drag_direction: string = 'right';
-    public drop_zone_insert_direction: string = 'right';
-    private mouse_is_down: boolean = false;
+    private drop_zone_insert_direction: string = 'right';
+    public mouse_is_down: boolean = false;
     private dragging_background: boolean = false;
     public show_dragged_background: boolean = false;
     public lock_background_selection: boolean = false;
@@ -223,6 +224,8 @@ export class Dnd {
 
                 d_backgrounds.CurrentBackground.i().set_current_background_i();
 
+                this.collection_ref.current.recomputeCellSizesAndPositions();
+
                 await s_db.Manipulation.i().update_backgrounds({
                     backgrounds: updated_backgrounds,
                 });
@@ -355,4 +358,51 @@ export class Dnd {
                     this.dragged_background_offset;
             }
         }, 'cnt_54674');
+
+    public move_by_move_btn = (
+        { background }: { background: i_db.Background },
+        e: MouseEvent,
+    ): void =>
+        err(() => {
+            e.stopPropagation();
+
+            this.background_to_move = background;
+
+            // eslint-disable-next-line no-alert
+            const val: string | null = window.prompt(ext.msg('enter_new_background_no_prompt'));
+
+            if (n(val)) {
+                const val_2: number = +val;
+                const val_is_integer: boolean = _.isInteger(val_2);
+
+                if (val_is_integer) {
+                    const background_to_move_i: number =
+                        d_backgrounds.CurrentBackground.i().find_i_of_background_with_id({
+                            id: this.background_to_move.id,
+                        });
+                    const last_background_i: number = d_backgrounds.Main.i().backgrounds.length - 1;
+                    let drop_i: number = 0;
+                    this.drop_zone_insert_direction = 'left';
+
+                    if (val_2 > 0 && val_2 <= last_background_i) {
+                        drop_i = val_2 - 1;
+                        if (val_2 < background_to_move_i) {
+                            this.drop_zone_insert_direction = 'left';
+                        } else if (val_2 > background_to_move_i) {
+                            this.drop_zone_insert_direction = 'right';
+                        }
+                    } else if (val_2 > last_background_i) {
+                        this.drop_zone_insert_direction = 'right';
+
+                        drop_i = last_background_i;
+                    }
+
+                    this.drop_zone_background = d_backgrounds.Main.i().backgrounds[drop_i];
+
+                    if (val_2 - 1 !== background_to_move_i) {
+                        this.drop();
+                    }
+                }
+            }
+        }, 'cnt_64356');
 }

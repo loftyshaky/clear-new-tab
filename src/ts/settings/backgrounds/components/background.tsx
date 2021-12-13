@@ -86,7 +86,9 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                 <c_backgrounds.OverlayItemBtn
                     name='move_background'
                     text={ext.msg('move_background_btn_text')}
-                    on_click={stop_propagation}
+                    on_click={(e: MouseEvent): void => {
+                        d_backgrounds.Dnd.i().move_by_move_btn({ background }, e);
+                    }}
                 />
                 <button
                     className={x.cls([

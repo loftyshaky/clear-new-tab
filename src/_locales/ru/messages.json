@@ -8,6 +8,9 @@
     "delete_all_backgrounds_confirm": {
         "message": "Удалить все фоны?"
     },
+    "enter_new_background_no_prompt": {
+        "message": "Введите новый № фона:"
+    },
     "background_upload_section_text": {
         "message": "Загрузка фонов"
     },
