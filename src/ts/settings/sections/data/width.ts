@@ -31,7 +31,8 @@ export class Width {
                 );
 
                 if (n(max_width_section_el)) {
-                    const max_width_section_val: number = max_width_section_el.offsetWidth;
+                    const max_width_section_val: number =
+                        max_width_section_el.offsetWidth - vars.border_width * 2;
 
                     [...section_els].forEach((section_el: HTMLDivElement): void =>
                         err(() => {
