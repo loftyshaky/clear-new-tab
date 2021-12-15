@@ -9,7 +9,7 @@ export interface FileBackground {
     thumbnail_width: number;
     thumbnail_height: number;
     background_size: string;
-    background_positon: string;
+    background_position: string;
     background_repeat: string;
     color_of_area_around_background: string;
     video_volume: string;

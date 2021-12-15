@@ -52,7 +52,7 @@ export class Upload {
                                 thumbnail_width: background_props.thumbnail_width,
                                 thumbnail_height: background_props.thumbnail_height,
                                 background_size: 'global',
-                                background_positon: 'global',
+                                background_position: 'global',
                                 background_repeat: 'global',
                                 color_of_area_around_background: 'global',
                                 video_volume: 'global',
