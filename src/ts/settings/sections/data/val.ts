@@ -4,7 +4,7 @@ import { i_data } from '@loftyshaky/shared';
 import { o_color, d_inputs, d_color, i_inputs, i_color } from '@loftyshaky/shared/inputs';
 import { s_settings } from '@loftyshaky/shared/settings';
 import { s_css_vars, s_theme } from 'shared/internal';
-import { d_backgrounds, d_sections } from 'settings/internal';
+import { d_background_settings, d_backgrounds, d_sections } from 'settings/internal';
 
 export class Val {
     private static i0: Val;
@@ -47,10 +47,15 @@ export class Val {
 
                         s_css_vars.Main.i().set();
 
-                        if (input.name !== 'create_solid_color_background') {
+                        if (d_background_settings.Val.i().allowed_keys.includes(input.name)) {
+                            await d_background_settings.Val.i().change({
+                                name: input.name,
+                                new_val: val,
+                            });
+                        } else if (input.name !== 'create_solid_color_background') {
                             await ext.send_msg_resp({
                                 msg: 'update_settings',
-                                settings: data.settings,
+                                settings: { [input.name]: val },
                                 rerun_actions: true,
                             });
                         }
@@ -98,6 +103,10 @@ export class Val {
                         d_backgrounds.Color.i().create_solid_color_background({
                             color: val as string,
                         });
+                    } else if (input.name === 'settings_type') {
+                        if (val === 'global') {
+                            d_background_settings.SettingsType.i().react_to_global_selection();
+                        }
                     }
                 } else if (n(i)) {
                     const { colors } = data.settings;
@@ -152,11 +161,7 @@ export class Val {
     }): Promise<void> =>
         err_async(async () => {
             if (input.name !== 'create_solid_color_background') {
-                await ext.send_msg_resp({
-                    msg: 'update_settings',
-                    settings: { [input.name]: i },
-                    rerun_actions: true,
-                });
+                await d_background_settings.Val.i().change({ name: input.name, new_val: i });
             }
         }, 'cnt_1143');
 

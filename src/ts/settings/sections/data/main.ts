@@ -258,26 +258,31 @@ export class Main {
                                 name: 'settings_type',
                                 options: this.options,
                                 include_help: true,
+                                val_accessor: 'ui.settings_type',
                                 event_callback: d_sections.Val.i().change,
                             }),
                             new o_inputs.Select({
                                 name: 'background_size',
                                 options: this.options,
                                 include_help: true,
+                                val_accessor: 'ui.background_size',
                                 event_callback: d_sections.Val.i().change,
                             }),
                             new o_inputs.Select({
                                 name: 'background_position',
                                 options: this.options,
+                                val_accessor: 'ui.background_position',
                                 event_callback: d_sections.Val.i().change,
                             }),
                             new o_inputs.Select({
                                 name: 'background_repeat',
                                 options: this.options,
+                                val_accessor: 'ui.background_repeat',
                                 event_callback: d_sections.Val.i().change,
                             }),
                             new o_color.Color({
                                 name: 'color_of_area_around_background',
+                                val_accessor: 'ui.color_of_area_around_background',
                                 event_callback: d_sections.Val.i().change,
                                 select_palette_color_callback:
                                     d_sections.Val.i().save_selected_palette_color,
@@ -294,6 +299,7 @@ export class Main {
                             }),
                             new o_inputs.Range({
                                 name: 'video_volume',
+                                val_accessor: 'ui.video_volume',
                                 max: 1,
                                 step: 0.01,
                                 event_callback: d_sections.Val.i().change,

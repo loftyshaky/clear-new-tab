@@ -3,7 +3,7 @@ import { makeObservable, observable, action, toJS } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
 import { i_db } from 'shared/internal';
-import { d_backgrounds } from 'settings/internal';
+import { d_background_settings, d_backgrounds } from 'settings/internal';
 
 export class CurrentBackground {
     private static i0: CurrentBackground;
@@ -18,6 +18,7 @@ export class CurrentBackground {
         makeObservable<CurrentBackground, 'set_current_background_i'>(this, {
             selected_background_id: observable,
             select: action,
+            deselect: action,
             set_current_background_i: action,
             set_background_as_current: action,
             reset_current_background_id: action,
@@ -30,8 +31,19 @@ export class CurrentBackground {
         err(() => {
             if (!d_backgrounds.Dnd.i().lock_background_selection) {
                 this.selected_background_id = background.id;
+
+                d_background_settings.SettingsType.i().react_to_background_selection({
+                    background,
+                });
             }
         }, 'cnt_96436');
+
+    public deselect = (): void =>
+        err(() => {
+            if (!d_backgrounds.Dnd.i().lock_background_selection) {
+                this.selected_background_id = undefined;
+            }
+        }, 'cnt_53645');
 
     selected_cls = computedFn(function (this: CurrentBackground, { id }: { id: string }): string {
         if (n(this.selected_background_id)) {
