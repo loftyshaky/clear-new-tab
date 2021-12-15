@@ -164,7 +164,7 @@ export class Main {
                             }),
                             new o_inputs.Checkbox({
                                 name: 'keep_old_themes_backgrounds',
-                                visiblity_conds: [
+                                is_enabled_conds: [
                                     { input_name: 'mode', pass_values: ['theme_background'] },
                                 ],
                                 event_callback: d_sections.Val.i().change,
@@ -173,7 +173,7 @@ export class Main {
                                 name: 'current_background_id',
                                 text_type: 'number',
                                 val_accessor: 'ui.current_background_i',
-                                visiblity_conds: [
+                                is_enabled_conds: [
                                     {
                                         input_name: 'mode',
                                         pass_values: ['one_background', 'multiple_backgrounds'],
@@ -196,7 +196,7 @@ export class Main {
                             }),
                             new o_inputs.Checkbox({
                                 name: 'automatically_set_last_uploaded_background_as_current',
-                                visiblity_conds: [
+                                is_enabled_conds: [
                                     {
                                         input_name: 'mode',
                                         pass_values: ['one_background', 'multiple_backgrounds'],
@@ -207,7 +207,7 @@ export class Main {
                             new o_inputs.Select({
                                 name: 'background_change_interval',
                                 options: this.options,
-                                visiblity_conds: [
+                                is_enabled_conds: [
                                     {
                                         input_name: 'mode',
                                         pass_values: ['multiple_backgrounds', 'random_solid_color'],
@@ -217,7 +217,7 @@ export class Main {
                             }),
                             new o_inputs.Checkbox({
                                 name: 'slideshow',
-                                visiblity_conds: [
+                                is_enabled_conds: [
                                     {
                                         input_name: 'mode',
                                         pass_values: ['multiple_backgrounds', 'random_solid_color'],
@@ -229,14 +229,14 @@ export class Main {
                                 name: 'background_change_effect',
                                 options: this.options,
                                 parent: 'slideshow',
-                                visiblity_conds: [
+                                is_enabled_conds: [
                                     { input_name: 'mode', pass_values: ['multiple_backgrounds'] },
                                 ],
                                 event_callback: d_sections.Val.i().change,
                             }),
                             new o_inputs.Select({
                                 name: 'slide_direction',
-                                visiblity_conds: [
+                                is_enabled_conds: [
                                     { input_name: 'mode', pass_values: ['multiple_backgrounds'] },
                                     {
                                         input_name: 'background_change_effect',
@@ -244,11 +244,12 @@ export class Main {
                                     },
                                 ],
                                 options: this.options,
+                                parent: 'slideshow',
                                 event_callback: d_sections.Val.i().change,
                             }),
                             new o_inputs.Checkbox({
                                 name: 'shuffle_backgrounds',
-                                visiblity_conds: [
+                                is_enabled_conds: [
                                     { input_name: 'mode', pass_values: ['multiple_backgrounds'] },
                                 ],
                                 event_callback: d_sections.Val.i().change,
@@ -285,10 +286,22 @@ export class Main {
                                 restore_default_palette_callback:
                                     d_sections.Val.i().restore_default_palette_callback,
                             }),
+                            new o_inputs.Checkbox({
+                                name: 'color_of_area_around_background_global',
+                                alt_msg: ext.msg('global_option_text'),
+                                val_accessor: 'ui.color_of_area_around_background_global',
+                                event_callback: d_sections.Val.i().change,
+                            }),
                             new o_inputs.Range({
                                 name: 'video_volume',
                                 max: 1,
                                 step: 0.01,
+                                event_callback: d_sections.Val.i().change,
+                            }),
+                            new o_inputs.Checkbox({
+                                name: 'video_volume_global',
+                                alt_msg: ext.msg('global_option_text'),
+                                val_accessor: 'ui.video_volume_global',
                                 event_callback: d_sections.Val.i().change,
                             }),
                         ],

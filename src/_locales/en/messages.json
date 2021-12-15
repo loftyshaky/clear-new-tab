@@ -2,6 +2,9 @@
     "description": {
         "message": ""
     },
+    "input_with_global_checkbox_width": {
+        "message": "231px"
+    },
     "select_background_alert": {
         "message": "Select a background from the \"Backgrounds\" section first."
     },

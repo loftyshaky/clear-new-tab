@@ -2,6 +2,9 @@
     "description": {
         "message": ""
     },
+    "input_with_global_checkbox_width": {
+        "message": "221px"
+    },
     "select_background_alert": {
         "message": "Сначала выберите фон из секции \"Фоны\"."
     },
