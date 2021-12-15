@@ -36,7 +36,13 @@ export class SettingsType {
             data.ui.color_of_area_around_background = data.settings.color_of_area_around_background;
             data.ui.video_volume = data.settings.video_volume;
 
+            const sections = d_sections.Main.i().sections as any;
+
             this.reset_is_enabled_state({ val: true });
+
+            sections.background_settings.inputs.color_of_area_around_background_global.is_enabled =
+                false;
+            sections.background_settings.inputs.video_volume_global.is_enabled = false;
 
             d_background_settings.GlobalCheckboxes.i().set_ui_values();
 
