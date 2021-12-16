@@ -254,6 +254,9 @@ export class Main {
                                 ],
                                 event_callback: d_sections.Val.i().change,
                             }),
+                            new o_inputs.Hr({
+                                name: 'hr_1',
+                            }),
                             new o_inputs.Select({
                                 name: 'settings_type',
                                 options: this.options,
