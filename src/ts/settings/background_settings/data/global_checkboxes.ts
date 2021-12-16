@@ -18,6 +18,11 @@ export class GlobalCheckboxes {
         });
     }
 
+    public global_checkboxes: string[] = [
+        'color_of_area_around_background_global',
+        'video_volume_global',
+    ];
+
     public set_ui_values = (): void =>
         err(() => {
             const settings_type_is_global: boolean = data.ui.settings_type === 'global';
@@ -46,4 +51,12 @@ export class GlobalCheckboxes {
 
             data.ui.video_volume_global = settings_type_is_global || video_volume_is_global;
         }, 'cnt_64294');
+
+    public restore_global_val = ({ name }: { name: string }): Promise<void> =>
+        err_async(async () => {
+            await d_background_settings.Val.i().change_background_val({
+                name,
+                new_val: 'global',
+            });
+        }, 'cnt_64356');
 }

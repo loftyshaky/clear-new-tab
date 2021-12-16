@@ -52,6 +52,14 @@ export class Val {
                                 name: input.name,
                                 new_val: val,
                             });
+                        } else if (
+                            d_background_settings.GlobalCheckboxes.i().global_checkboxes.includes(
+                                input.name,
+                            )
+                        ) {
+                            d_background_settings.GlobalCheckboxes.i().restore_global_val({
+                                name: input.name.replace('_global', ''),
+                            });
                         } else if (input.name !== 'create_solid_color_background') {
                             await ext.send_msg_resp({
                                 msg: 'update_settings',

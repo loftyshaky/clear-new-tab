@@ -16,6 +16,7 @@ export class Val {
     private constructor() {
         makeObservable(this, {
             change: action,
+            change_background_val: action,
         });
     }
 
@@ -41,17 +42,27 @@ export class Val {
                         rerun_actions: true,
                     });
                 } else if (data.ui.settings_type === 'selected_background') {
-                    (d_background_settings.SettingsType.i().selected_background as any)[name] =
-                        new_val;
-
-                    d_background_settings.SettingsType.i().react_to_background_selection({
-                        background: d_background_settings.SettingsType.i().selected_background!,
-                    });
-
-                    await s_db.Manipulation.i().update_background({
-                        background: d_background_settings.SettingsType.i().selected_background!,
-                    });
+                    await this.change_background_val({ name, new_val });
                 }
             }
         }, 'cnt_53674');
+
+    public change_background_val = ({
+        name,
+        new_val,
+    }: {
+        name: string;
+        new_val: i_data.Val;
+    }): Promise<void> =>
+        err_async(async () => {
+            (d_background_settings.SettingsType.i().selected_background as any)[name] = new_val;
+
+            d_background_settings.SettingsType.i().react_to_background_selection({
+                background: d_background_settings.SettingsType.i().selected_background!,
+            });
+
+            await s_db.Manipulation.i().update_background({
+                background: d_background_settings.SettingsType.i().selected_background!,
+            });
+        }, 'cnt_64566');
 }
