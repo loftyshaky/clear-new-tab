@@ -21,6 +21,7 @@ export class SettingsType {
         makeObservable(this, {
             react_to_global_selection: action,
             react_to_background_selection: action,
+            show_selected_background_alert: action,
         });
     }
 
@@ -118,4 +119,12 @@ export class SettingsType {
                 val;
             sections.background_settings.inputs.video_volume_global.is_enabled = val;
         }, 'cnt_56357');
+
+    public show_selected_background_alert = (): void =>
+        err(() => {
+            data.ui.settings_type = 'global';
+
+            // eslint-disable-next-line no-alert
+            alert(ext.msg('select_background_alert'));
+        }, 'cnt_65436');
 }

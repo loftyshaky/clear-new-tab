@@ -6,7 +6,7 @@
         "message": "231px"
     },
     "select_background_alert": {
-        "message": "Select a background from the \"Backgrounds\" section first."
+        "message": "To change settings of a particular background, select it from the \"Backgrounds\" section first."
     },
     "delete_all_backgrounds_confirm": {
         "message": "Delete all backgrounds?"

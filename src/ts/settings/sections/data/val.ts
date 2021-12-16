@@ -114,6 +114,8 @@ export class Val {
                     } else if (input.name === 'settings_type') {
                         if (val === 'global') {
                             d_background_settings.SettingsType.i().react_to_global_selection();
+                        } else if (val === 'selected_background') {
+                            d_background_settings.SettingsType.i().show_selected_background_alert();
                         }
                     }
                 } else if (n(i)) {

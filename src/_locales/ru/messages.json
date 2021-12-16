@@ -6,7 +6,7 @@
         "message": "221px"
     },
     "select_background_alert": {
-        "message": "Сначала выберите фон из секции \"Фоны\"."
+        "message": "Чтобы изменить настройки определённого фона, сначала выберите его из секции \"Фоны\"."
     },
     "delete_all_backgrounds_confirm": {
         "message": "Удалить все фоны?"
