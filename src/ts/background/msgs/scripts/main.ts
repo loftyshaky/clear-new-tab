@@ -10,6 +10,8 @@ we.runtime.onMessage.addListener(
                 await s_data.Main.i().update_settings_debounce(msg.settings, msg.rerun_actions);
             } else if (msg_str === 'get_defaults') {
                 return s_data.Main.i().defaults;
+            } else if (msg_str === 'reload_ext') {
+                we.runtime.reload();
             }
 
             return true;
