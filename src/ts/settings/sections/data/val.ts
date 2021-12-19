@@ -4,7 +4,12 @@ import { i_data } from '@loftyshaky/shared';
 import { o_color, d_inputs, d_color, i_inputs, i_color } from '@loftyshaky/shared/inputs';
 import { s_settings } from '@loftyshaky/shared/settings';
 import { s_css_vars, s_theme } from 'shared/internal';
-import { d_background_settings, d_backgrounds, d_sections } from 'settings/internal';
+import {
+    d_background_settings,
+    d_backgrounds,
+    d_optional_permission_settings,
+    d_sections,
+} from 'settings/internal';
 
 export class Val {
     private static i0: Val;
@@ -99,7 +104,22 @@ export class Val {
                         }
                     }
                 } else if (input.type !== 'color' || i === 'main') {
-                    await set_val();
+                    const is_optional_permission_checkbox: boolean = Object.keys(
+                        d_optional_permission_settings.Main.i().optional_permission_checkbox_dict,
+                    ).includes(input.name);
+
+                    if (is_optional_permission_checkbox) {
+                        d_inputs.Val.i().set({
+                            val: !val,
+                            input,
+                        });
+
+                        await d_optional_permission_settings.Main.i().set_permission({
+                            name: input.name,
+                        });
+                    } else {
+                        await set_val();
+                    }
 
                     s_settings.Theme.i().change({
                         input,

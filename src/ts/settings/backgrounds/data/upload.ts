@@ -117,7 +117,7 @@ export class Upload {
                     let blob_is_of_allowed_img_type: boolean = true;
 
                     if (
-                        data.settings.allow_downloading_img_by_link &&
+                        data.ui.allow_downloading_img_by_link &&
                         data.settings.download_img_when_link_given &&
                         input_given_text
                     ) {

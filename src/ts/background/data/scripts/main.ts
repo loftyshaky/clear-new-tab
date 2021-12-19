@@ -40,8 +40,6 @@ export class Main {
                 background_repeat: 'no-repeat',
                 color_of_area_around_background: 0,
                 video_volume: 0,
-                paste_btn_is_visible: false,
-                allow_downloading_img_by_link: false,
                 download_img_when_link_given: false,
                 install_help_msg_is_visible: true,
                 current_random_solid_color: '#ffffff',

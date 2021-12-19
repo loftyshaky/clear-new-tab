@@ -137,6 +137,7 @@ export class Main {
                             }),
                             new o_inputs.Checkbox({
                                 name: 'download_img_when_link_given',
+                                is_cut: true,
                                 event_callback: d_sections.Val.i().change,
                             }),
                             new o_color.Color({
@@ -320,10 +321,13 @@ export class Main {
                         inputs: [
                             new o_inputs.Checkbox({
                                 name: 'paste_btn_is_visible',
+                                val_accessor: 'ui.paste_btn_is_visible',
                                 event_callback: d_sections.Val.i().change,
                             }),
                             new o_inputs.Checkbox({
                                 name: 'allow_downloading_img_by_link',
+                                val_accessor: 'ui.allow_downloading_img_by_link',
+                                is_cut: true,
                                 event_callback: d_sections.Val.i().change,
                             }),
                         ],

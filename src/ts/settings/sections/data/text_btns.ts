@@ -13,5 +13,5 @@ export class TextBtns {
         err(() => true, 'cnt_1141');
 
     public decide_paste_background_btn_visibility = (): boolean =>
-        err(() => data.settings.paste_btn_is_visible, 'cnt_1141');
+        err(() => data.ui.paste_btn_is_visible, 'cnt_1141');
 }

@@ -21,8 +21,6 @@ export interface Settings {
     background_repeat: string;
     color_of_area_around_background: number;
     video_volume: number;
-    paste_btn_is_visible: boolean;
-    allow_downloading_img_by_link: boolean;
     download_img_when_link_given: boolean;
     install_help_msg_is_visible: boolean;
     current_random_solid_color: string;

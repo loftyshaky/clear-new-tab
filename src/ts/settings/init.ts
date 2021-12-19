@@ -1,6 +1,11 @@
 import { d_color, s_color } from '@loftyshaky/shared/inputs';
 import { d_data } from 'shared/internal';
-import { d_background_settings, d_backgrounds, d_sections } from 'settings/internal';
+import {
+    d_background_settings,
+    d_backgrounds,
+    d_optional_permission_settings,
+    d_sections,
+} from 'settings/internal';
 
 export const init = (): Promise<void> =>
     err_async(async () => {
@@ -11,6 +16,7 @@ export const init = (): Promise<void> =>
         d_backgrounds.CurrentBackground.i().set_current_background_i();
         d_background_settings.GlobalCheckboxes.i().set_ui_values();
         d_background_settings.SettingsType.i().react_to_global_selection();
+        d_optional_permission_settings.Main.i().set_ui_values();
 
         x.bind(window, 'resize', d_sections.Width.i().set_backgrounds_section_width);
         x.bind(window, 'scroll', s_color.Position.i().set);
