@@ -2,7 +2,7 @@
     "compilerOptions": {
         "outDir": "dist",
         "baseUrl": "src",
-        "target": "es6",
+        "target": "es2019",
         "module": "esnext",
         "moduleResolution": "node",
         "jsx": "react",
