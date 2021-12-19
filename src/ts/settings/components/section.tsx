@@ -10,7 +10,7 @@ export const Section: React.FunctionComponent<p_settings.Section> = observer((pr
 
     return (
         <div className={x.cls(['section', section_name])}>
-            <h1 className='section_name'> {ext.msg(`${section_name}_section_text`)}</h1>
+            <h1 className='section_name'>{ext.msg(`${section_name}_section_text`)}</h1>
             <div className='section_help'>
                 {n(section) && section.include_help ? (
                     <c_inputs.HelpBtn section_or_input={section} />
