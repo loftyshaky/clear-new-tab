@@ -1,0 +1,1 @@
+export * from 'settings/theme/scripts/link_to_image';

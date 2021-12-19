@@ -30,7 +30,7 @@
         "message": "изображения/видео или перетащите их сюда"
     },
     "link_to_theme_img_link_btn_text": {
-        "message": "Ссылка на изображение темы"
+        "message": "Ссылка на фон темы"
     },
     "load_theme_background_btn_text": {
         "message": "Загрузить фон темы"

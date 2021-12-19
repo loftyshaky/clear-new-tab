@@ -1,5 +1,5 @@
 import { t } from '@loftyshaky/shared';
-import { s_data } from 'background/internal';
+import { s_data, s_theme } from 'background/internal';
 
 we.runtime.onMessage.addListener(
     (msg: t.Msg): Promise<any> =>
@@ -12,6 +12,8 @@ we.runtime.onMessage.addListener(
                 return s_data.Main.i().defaults;
             } else if (msg_str === 'reload_ext') {
                 we.runtime.reload();
+            } else if (msg_str === 'open_theme_background') {
+                s_theme.LinkToImage.i().open();
             }
 
             return true;

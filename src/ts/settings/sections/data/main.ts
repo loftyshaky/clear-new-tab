@@ -2,7 +2,7 @@ import { s_utils } from '@loftyshaky/shared';
 import { o_inputs, o_color, i_inputs } from '@loftyshaky/shared/inputs';
 import { d_settings } from '@loftyshaky/shared/settings';
 import { svg } from 'shared/internal';
-import { d_backgrounds, d_sections } from 'settings/internal';
+import { d_backgrounds, d_sections, s_theme } from 'settings/internal';
 
 export class Main {
     private static i0: Main;
@@ -103,7 +103,7 @@ export class Main {
                         inputs: [
                             new o_inputs.LinkBtn({
                                 name: 'link_to_theme_img',
-                                event_callback: () => undefined,
+                                event_callback: s_theme.LinkToImage.i().open,
                             }),
                             new o_inputs.Btn({
                                 name: 'load_theme_background',
