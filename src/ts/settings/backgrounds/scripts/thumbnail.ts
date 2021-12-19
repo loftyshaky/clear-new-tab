@@ -97,6 +97,16 @@ export class Thumbnail {
                             ),
                         );
 
+                        x.bind(background, 'error', () =>
+                            err(
+                                () => {
+                                    reject(err_obj('Upload error'));
+                                },
+                                'cnt_53645',
+                                { silent: true },
+                            ),
+                        );
+
                         background.src =
                             file_type === 'img_link'
                                 ? (file as string)

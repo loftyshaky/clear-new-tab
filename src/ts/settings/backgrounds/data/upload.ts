@@ -22,66 +22,94 @@ export class Upload {
             const next_i: number = s_backgrounds.I.i().get_next_background_i();
             const ids: string[] = [];
 
-            const new_backgrounds: i_db.Background[] = await Promise.all(
+            const new_backgrounds: (i_db.Background | undefined)[] = await Promise.all(
                 [...files].map(
-                    async (file: File | string, i_2: number): Promise<i_db.Background> =>
+                    async (
+                        file: File | string,
+                        i_2: number,
+                    ): Promise<i_db.Background | undefined> =>
                         err_async(async () => {
-                            const id = x.unique_id();
-                            const i = next_i + i_2;
+                            try {
+                                const id = x.unique_id();
+                                const i = next_i + i_2;
 
-                            const background_props: i_backgrounds.BackgroundProps =
-                                // eslint-disable-next-line max-len
-                                await s_backgrounds.Thumbnail.i().get_background_width_height_and_thumbnail(
-                                    {
+                                const background_props: i_backgrounds.BackgroundProps =
+                                    // eslint-disable-next-line max-len
+                                    await s_backgrounds.Thumbnail.i().get_background_width_height_and_thumbnail(
+                                        {
+                                            file,
+                                        },
+                                    );
+
+                                ids.push(id);
+
+                                return {
+                                    id,
+                                    theme_id: undefined,
+                                    i,
+                                    type: `${s_backgrounds.FileType.i().get_file_type({
                                         file,
-                                    },
-                                );
+                                    })}`,
+                                    thumbnail: background_props.thumbnail,
+                                    width: background_props.width,
+                                    height: background_props.height,
+                                    thumbnail_width: background_props.thumbnail_width,
+                                    thumbnail_height: background_props.thumbnail_height,
+                                    background_size: 'global',
+                                    background_position: 'global',
+                                    background_repeat: 'global',
+                                    color_of_area_around_background: 'global',
+                                    video_volume: 'global',
+                                };
+                            } catch (error_obj: any) {
+                                show_err_ribbon(error_obj, 'cnt_63636', { silent: true });
 
-                            ids.push(id);
-
-                            return {
-                                id,
-                                theme_id: undefined,
-                                i,
-                                type: `${s_backgrounds.FileType.i().get_file_type({
-                                    file,
-                                })}`,
-                                thumbnail: background_props.thumbnail,
-                                width: background_props.width,
-                                height: background_props.height,
-                                thumbnail_width: background_props.thumbnail_width,
-                                thumbnail_height: background_props.thumbnail_height,
-                                background_size: 'global',
-                                background_position: 'global',
-                                background_repeat: 'global',
-                                color_of_area_around_background: 'global',
-                                video_volume: 'global',
-                            };
+                                return undefined;
+                            }
                         }, 'cnt_63689'),
                 ),
             );
 
-            const new_background_files: i_db.BackgroundFile[] = [...files].map(
-                (file: File | string, i: number): i_db.BackgroundFile =>
+            const at_least_one_background_is_broken: boolean = new_backgrounds.some(
+                (background: i_db.Background | undefined): boolean =>
+                    err(() => !n(background), 'cnt_54346'),
+            );
+
+            const new_backgrounds_final: i_db.Background[] = new_backgrounds.flatMap(
+                (background: i_db.Background | undefined): i_db.Background[] =>
+                    err(() => (n(background) ? [background] : []), 'cnt_54346'),
+            );
+
+            const new_background_files: i_db.BackgroundFile[] = [...files].flatMap(
+                (file: File | string, i: number): i_db.BackgroundFile[] =>
                     err(
-                        () => ({
-                            id: ids[i],
-                            background: file,
-                        }),
+                        () =>
+                            n(ids[i])
+                                ? [
+                                      {
+                                          id: ids[i],
+                                          background: file,
+                                      },
+                                  ]
+                                : [],
                         'cnt_64285',
                     ),
             );
 
             await s_db.Manipulation.i().save_backgrounds({
-                backgrounds: new_backgrounds,
+                backgrounds: new_backgrounds_final,
                 background_files: new_background_files,
             });
             d_backgrounds.BackgroundAnimation.i().allow_animation();
-            d_backgrounds.Main.i().merge_backgrounds({ backgrounds: new_backgrounds });
+            d_backgrounds.Main.i().merge_backgrounds({ backgrounds: new_backgrounds_final });
             d_backgrounds.CurrentBackground.i().set_last_uploaded_background_as_current({
-                id: new_backgrounds[new_backgrounds.length - 1].id,
+                id: new_backgrounds_final[new_backgrounds_final.length - 1].id,
             });
             await d_backgrounds.BackgroundAnimation.i().forbid_animation();
+
+            if (at_least_one_background_is_broken) {
+                throw_err('Upload error');
+            }
         } catch (error_obj: any) {
             show_err_ribbon(error_obj, 'cnt_63793', { silent: true });
             throw_err_obj(error_obj);
