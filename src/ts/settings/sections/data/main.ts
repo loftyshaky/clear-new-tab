@@ -319,6 +319,9 @@ export class Main {
                     new o_inputs.Section({
                         name: 'other_settings',
                         inputs: [
+                            d_settings.Sections.i().get_shared_input({
+                                input_change_val_callback: d_sections.Val.i().change,
+                            }).options_page_theme,
                             new o_inputs.Checkbox({
                                 name: 'paste_btn_is_visible',
                                 val_accessor: 'ui.paste_btn_is_visible',

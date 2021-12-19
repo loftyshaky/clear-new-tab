@@ -19,6 +19,12 @@ $backgrounds_section_max_width: 922px;
 
         width: min-content;
 
+        &.admin {
+            .input_item.options_page_theme {
+                display: none;
+            }
+        }
+
         .input_item {
             &.color_of_area_around_background {
                 display: inline-block;
