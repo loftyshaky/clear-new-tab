@@ -1,8 +1,9 @@
 import _ from 'lodash';
 import { runInAction } from 'mobx';
 
-import { t } from '@loftyshaky/shared';
-import { i_data } from 'shared/internal';
+import { t, s_theme as s_theme_shared } from '@loftyshaky/shared';
+import { s_theme, i_data } from 'shared/internal';
+import { d_background_settings } from 'settings/internal';
 
 export class Restore {
     private static i0: Restore;
@@ -63,6 +64,13 @@ export class Restore {
                 runInAction(() =>
                     err(() => {
                         data.settings = settings_final;
+
+                        d_background_settings.SettingsType.i().react_to_global_selection();
+
+                        s_theme_shared.Main.i().set({
+                            name: data.settings.options_page_theme,
+                            additional_theme_callback: s_theme.Main.i().set,
+                        });
                     }, 'cnt_1132'),
                 );
 
@@ -75,8 +83,9 @@ export class Restore {
     public get_unchanged_settings = (): t.AnyRecord =>
         err(
             () => ({
+                current_background_id: data.settings.current_background_id,
+                fuuture_background_id: data.settings.fuuture_background_id,
                 color_help_is_visible: data.settings.color_help_is_visible,
-                last_ip_to_country_csv_char_count: data.settings.last_ip_to_country_csv_char_count,
             }),
             'cnt_1135',
         );
