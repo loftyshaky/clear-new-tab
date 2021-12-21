@@ -14,7 +14,7 @@ export class GlobalCheckboxes {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {
         makeObservable(this, {
-            set_ui_values: action,
+            set_ui_vals: action,
         });
     }
 
@@ -23,7 +23,7 @@ export class GlobalCheckboxes {
         'video_volume_global',
     ];
 
-    public set_ui_values = (): void =>
+    public set_ui_vals = (): void =>
         err(() => {
             const settings_type_is_global: boolean = data.ui.settings_type === 'global';
             let video_volume_is_global = false;

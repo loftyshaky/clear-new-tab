@@ -13,7 +13,7 @@ export class Main {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {
         makeObservable(this, {
-            set_ui_values: action,
+            set_ui_vals: action,
         });
     }
 
@@ -24,7 +24,7 @@ export class Main {
             allow_downloading_img_by_link: { permissions: [], origins: ['<all_urls>'] },
         };
 
-    public set_ui_values = (): Promise<void> =>
+    public set_ui_vals = (): Promise<void> =>
         err_async(async () => {
             data.ui.paste_btn_is_visible = await we.permissions.contains(
                 this.optional_permission_checkbox_dict.paste_btn_is_visible,

@@ -45,7 +45,7 @@ export class SettingsType {
                 false;
             sections.background_settings.inputs.video_volume_global.is_enabled = false;
 
-            d_background_settings.GlobalCheckboxes.i().set_ui_values();
+            d_background_settings.GlobalCheckboxes.i().set_ui_vals();
 
             s_background_settings.GlobalOptions.i().hide();
 
@@ -101,7 +101,7 @@ export class SettingsType {
                 this.reset_is_enabled_state({ val: false });
             }
 
-            d_background_settings.GlobalCheckboxes.i().set_ui_values();
+            d_background_settings.GlobalCheckboxes.i().set_ui_vals();
             s_background_settings.GlobalOptions.i().show();
         }, 'cnt_75467');
 

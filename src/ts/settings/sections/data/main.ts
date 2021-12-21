@@ -166,7 +166,7 @@ export class Main {
                             new o_inputs.Checkbox({
                                 name: 'keep_old_themes_backgrounds',
                                 is_enabled_conds: [
-                                    { input_name: 'mode', pass_values: ['theme_background'] },
+                                    { input_name: 'mode', pass_vals: ['theme_background'] },
                                 ],
                                 event_callback: d_sections.Val.i().change,
                             }),
@@ -177,7 +177,7 @@ export class Main {
                                 is_enabled_conds: [
                                     {
                                         input_name: 'mode',
-                                        pass_values: ['one_background', 'multiple_backgrounds'],
+                                        pass_vals: ['one_background', 'multiple_backgrounds'],
                                     },
                                 ],
                                 text_btns: [
@@ -200,7 +200,7 @@ export class Main {
                                 is_enabled_conds: [
                                     {
                                         input_name: 'mode',
-                                        pass_values: ['one_background', 'multiple_backgrounds'],
+                                        pass_vals: ['one_background', 'multiple_backgrounds'],
                                     },
                                 ],
                                 event_callback: d_sections.Val.i().change,
@@ -211,7 +211,7 @@ export class Main {
                                 is_enabled_conds: [
                                     {
                                         input_name: 'mode',
-                                        pass_values: ['multiple_backgrounds', 'random_solid_color'],
+                                        pass_vals: ['multiple_backgrounds', 'random_solid_color'],
                                     },
                                 ],
                                 event_callback: d_sections.Val.i().change,
@@ -221,7 +221,7 @@ export class Main {
                                 is_enabled_conds: [
                                     {
                                         input_name: 'mode',
-                                        pass_values: ['multiple_backgrounds', 'random_solid_color'],
+                                        pass_vals: ['multiple_backgrounds', 'random_solid_color'],
                                     },
                                 ],
                                 event_callback: d_sections.Val.i().change,
@@ -231,17 +231,17 @@ export class Main {
                                 options: this.options,
                                 parent: 'slideshow',
                                 is_enabled_conds: [
-                                    { input_name: 'mode', pass_values: ['multiple_backgrounds'] },
+                                    { input_name: 'mode', pass_vals: ['multiple_backgrounds'] },
                                 ],
                                 event_callback: d_sections.Val.i().change,
                             }),
                             new o_inputs.Select({
                                 name: 'slide_direction',
                                 is_enabled_conds: [
-                                    { input_name: 'mode', pass_values: ['multiple_backgrounds'] },
+                                    { input_name: 'mode', pass_vals: ['multiple_backgrounds'] },
                                     {
                                         input_name: 'background_change_effect',
-                                        pass_values: ['slide'],
+                                        pass_vals: ['slide'],
                                     },
                                 ],
                                 options: this.options,
@@ -251,7 +251,7 @@ export class Main {
                             new o_inputs.Checkbox({
                                 name: 'shuffle_backgrounds',
                                 is_enabled_conds: [
-                                    { input_name: 'mode', pass_values: ['multiple_backgrounds'] },
+                                    { input_name: 'mode', pass_vals: ['multiple_backgrounds'] },
                                 ],
                                 event_callback: d_sections.Val.i().change,
                             }),
