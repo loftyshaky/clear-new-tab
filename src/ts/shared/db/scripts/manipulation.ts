@@ -37,6 +37,13 @@ export class Manipulation {
             return backgrounds;
         }, 'cnt_94527');
 
+    public get_background_files = (): Promise<i_db.BackgroundFile[]> =>
+        err_async(async () => {
+            const backgrounds: i_db.BackgroundFile[] = await db.background_files.toArray();
+
+            return backgrounds;
+        }, 'cnt_54256');
+
     public update_background = ({ background }: { background: i_db.Background }): Promise<void> =>
         err_async(async () => {
             await db.backgrounds.update(background.id as any, background);

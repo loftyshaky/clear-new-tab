@@ -2,8 +2,8 @@ import _ from 'lodash';
 import { runInAction } from 'mobx';
 
 import { t, s_theme as s_theme_shared } from '@loftyshaky/shared';
-import { s_theme, i_data } from 'shared/internal';
-import { d_background_settings } from 'settings/internal';
+import { s_db, s_theme, i_data, i_db } from 'shared/internal';
+import { d_background_settings, d_backgrounds, d_sections, i_sections } from 'settings/internal';
 
 export class Restore {
     private static i0: Restore;
@@ -15,6 +15,8 @@ export class Restore {
 
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
+
+    public restored_backgrounds: i_db.Background[] = [];
 
     public restore_confirm = ({ settings }: { settings?: i_data.Settings } = {}): Promise<void> =>
         err_async(async () => {
@@ -32,10 +34,78 @@ export class Restore {
             }
         }, 'cnt_1130');
 
+    public download_back_up = (): Promise<string> =>
+        err_async(async () => {
+            const background_files: i_db.BackgroundFile[] =
+                await s_db.Manipulation.i().get_background_files();
+
+            let backgrounds: string = '';
+            let is_first_background: boolean = true;
+            const backup_data_leading: string = `{"settings":${JSON.stringify(
+                data.settings,
+            )},"backgrounds":[`;
+            const backup_data_trailing: string = ']}';
+            const backup_data_leading_size = new TextEncoder().encode(backup_data_leading).length;
+            const backup_data_trailing_size = new TextEncoder().encode(backup_data_trailing).length;
+            let backgrounds_size: number = 0;
+
+            // eslint-disable-next-line no-restricted-syntax
+            for await (const background of d_backgrounds.Main.i().backgrounds) {
+                const background_file: i_db.BackgroundFile | undefined = background_files.find(
+                    (background_file_2: i_db.BackgroundFile): boolean =>
+                        err(() => background_file_2.id === background.id, 'cnt_64675'),
+                );
+
+                if (n(background_file) && n(background_file.background)) {
+                    const is_color = background.type.includes('color');
+
+                    const file: i_sections.BackUpBackgroundFile = is_color
+                        ? {
+                              background: background_file.background as string,
+                          }
+                        : {
+                              name: (background_file.background as File).name,
+                              type: (background_file.background as File).type,
+                              last_modified: (background_file.background as File).lastModified,
+                              background:
+                                  background.type === 'img_link'
+                                      ? (background_file.background as string)
+                                      : await x.convert_blob_to_base64(
+                                            background_file.background as File,
+                                        ),
+                          };
+
+                    const new_chunk: string = `${
+                        is_first_background ? '' : ','
+                    }{"data":${JSON.stringify(background)},"file":${JSON.stringify(file)}}`;
+
+                    const new_chunk_size = new TextEncoder().encode(new_chunk).length;
+                    backgrounds_size += new_chunk_size;
+
+                    const v8_limit_reached =
+                        backgrounds_size +
+                            new_chunk_size +
+                            backup_data_leading_size +
+                            backup_data_trailing_size >=
+                        536870888;
+
+                    if (v8_limit_reached) {
+                        break;
+                    } else {
+                        backgrounds += new_chunk;
+
+                        is_first_background = false;
+                    }
+                }
+            }
+
+            return backup_data_leading + backgrounds + backup_data_trailing;
+        }, 'cnt_63634');
+
     public restore_back_up = ({ data_obj }: { data_obj: t.AnyRecord }): Promise<void> =>
         err_async(async () => {
             const settings: i_data.Settings = {
-                ...data_obj,
+                ...data_obj.settings,
                 ...this.get_unchanged_settings(),
             } as i_data.Settings;
 
@@ -46,6 +116,57 @@ export class Restore {
                 settings,
                 rerun_actions: true,
             });
+
+            await s_db.Manipulation.i().clear_all_tables();
+
+            this.restored_backgrounds = [];
+            const restored_background_files: i_db.BackgroundFile[] = [];
+
+            await Promise.all(
+                data_obj.backgrounds.map(
+                    (back_up_background: i_sections.BackUpBackground): Promise<void> =>
+                        err_async(async () => {
+                            this.restored_backgrounds.push(back_up_background.data);
+
+                            if (
+                                back_up_background.data.type.includes('color') ||
+                                back_up_background.data.type === 'img_link'
+                            ) {
+                                restored_background_files.push({
+                                    id: back_up_background.data.id,
+                                    background: back_up_background.file.background,
+                                });
+                            } else if (n(back_up_background.file.name)) {
+                                const blob = await x.convert_base64_to_blob(
+                                    back_up_background.file.background,
+                                );
+
+                                const file: File = new File([blob], back_up_background.file.name, {
+                                    type: back_up_background.file.type,
+                                    lastModified: back_up_background.file.last_modified,
+                                });
+
+                                restored_background_files.push({
+                                    id: back_up_background.data.id,
+                                    background: file,
+                                });
+                            }
+                        }, 'cnt_64356'),
+                ),
+            );
+
+            await s_db.Manipulation.i().save_backgrounds({
+                backgrounds: this.restored_backgrounds,
+                background_files: restored_background_files,
+            });
+
+            d_backgrounds.BackgroundDeletion.i().deletion_reason = 'restore_back_up';
+
+            runInAction(() =>
+                err(() => {
+                    d_sections.SectionContent.i().backgrounds_section_content_is_visible = false;
+                }, 'cnt_94257'),
+            );
         }, 'cnt_1131');
 
     private set = ({ settings }: { settings?: i_data.Settings } = {}): Promise<i_data.Settings> =>

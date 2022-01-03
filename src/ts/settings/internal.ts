@@ -22,3 +22,4 @@ export * as p_backgrounds from 'settings/backgrounds/components/prop_types';
 
 export * as i_backgrounds from 'settings/backgrounds/interfaces';
 export * as i_optional_permission_settings from 'settings/optional_permission_settings/interfaces';
+export * as i_sections from 'settings/sections/interfaces';

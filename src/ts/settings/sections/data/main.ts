@@ -337,7 +337,7 @@ export class Main {
                     }),
                 ],
                 ...d_settings.Sections.i().make_shared_sections({
-                    download_back_up_callback: ext.storage_get,
+                    download_back_up_callback: d_sections.Restore.i().download_back_up,
                     upload_back_up_callback: d_sections.Restore.i().restore_back_up,
                     restore_defaults_callback: () => d_sections.Restore.i().restore_confirm(),
                     input_change_val_callback: d_sections.Val.i().change,

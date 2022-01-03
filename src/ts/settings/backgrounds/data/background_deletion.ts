@@ -24,6 +24,7 @@ export class BackgroundDeletion {
         });
     }
 
+    public deletion_reason: 'delete_all_backgrounds' | 'restore_back_up' = 'delete_all_backgrounds';
     private deleting_background: boolean = false;
     private background_to_delete_id: string = '';
 
@@ -82,17 +83,26 @@ export class BackgroundDeletion {
         err_async(async () => {
             // eslint-disable-next-line no-alert
             if (window.confirm(ext.msg('delete_all_backgrounds_confirm'))) {
+                this.deletion_reason = 'delete_all_backgrounds';
+
                 d_sections.SectionContent.i().backgrounds_section_content_is_visible = false;
             }
         }, 'cnt_65656');
 
     public delete_all_backgrounds_transition_end_callback = (): Promise<void> =>
         err_async(async () => {
-            d_backgrounds.Main.i().backgrounds = [];
             d_sections.SectionContent.i().backgrounds_section_content_is_visible = true;
 
-            d_backgrounds.CurrentBackground.i().reset_current_background_id();
+            if (this.deletion_reason === 'delete_all_backgrounds') {
+                d_backgrounds.Main.i().backgrounds = [];
 
-            await s_db.Manipulation.i().clear_all_tables();
+                await s_db.Manipulation.i().clear_all_tables();
+            } else if (this.deletion_reason === 'restore_back_up') {
+                await d_backgrounds.Main.i().set_backgrounds({
+                    backgrounds: d_sections.Restore.i().restored_backgrounds,
+                });
+            }
+
+            d_backgrounds.CurrentBackground.i().reset_current_background_id();
         }, 'cnt_45345');
 }

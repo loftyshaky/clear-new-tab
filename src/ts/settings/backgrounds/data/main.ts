@@ -22,13 +22,19 @@ export class Main {
 
     public backgrounds: i_db.Background[] = [];
 
-    public set_backgrounds = (): Promise<void> =>
+    public set_backgrounds = ({
+        backgrounds,
+    }: {
+        backgrounds?: i_db.Background[];
+    } = {}): Promise<void> =>
         err(async () => {
-            const backgrounds: i_db.Background[] = await s_db.Manipulation.i().get_backgrounds();
+            const backgrounds_2: i_db.Background[] = n(backgrounds)
+                ? backgrounds
+                : await s_db.Manipulation.i().get_backgrounds();
 
             runInAction(() =>
                 err(() => {
-                    this.backgrounds = backgrounds;
+                    this.backgrounds = backgrounds_2;
 
                     this.sort_backgrounds();
                 }, 'cnt_64357'),
