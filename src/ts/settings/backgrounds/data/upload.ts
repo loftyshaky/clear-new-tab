@@ -20,7 +20,7 @@ export class Upload {
     }): Promise<void> => {
         try {
             const next_i: number = s_backgrounds.I.i().get_next_background_i();
-            const ids: string[] = [];
+            const ordered_files: i_backgrounds.OrderedFiles[] = [];
 
             const new_backgrounds: (i_db.Background | undefined)[] = await Promise.all(
                 [...files].map(
@@ -33,6 +33,8 @@ export class Upload {
                                 const id = x.unique_id();
                                 const i = next_i + i_2;
 
+                                ordered_files.push({ id, file });
+
                                 const background_props: i_backgrounds.BackgroundProps =
                                     // eslint-disable-next-line max-len
                                     await s_backgrounds.Thumbnail.i().get_background_width_height_and_thumbnail(
@@ -40,8 +42,6 @@ export class Upload {
                                             file,
                                         },
                                     );
-
-                                ids.push(id);
 
                                 return {
                                     id,
@@ -80,18 +80,13 @@ export class Upload {
                     err(() => (n(background) ? [background] : []), 'cnt_54346'),
             );
 
-            const new_background_files: i_db.BackgroundFile[] = [...files].flatMap(
-                (file: File | string, i: number): i_db.BackgroundFile[] =>
+            const new_background_files: i_db.BackgroundFile[] = ordered_files.map(
+                (ordered_file: i_backgrounds.OrderedFiles): i_db.BackgroundFile =>
                     err(
-                        () =>
-                            n(ids[i])
-                                ? [
-                                      {
-                                          id: ids[i],
-                                          background: file,
-                                      },
-                                  ]
-                                : [],
+                        () => ({
+                            id: ordered_file.id,
+                            background: ordered_file.file,
+                        }),
                         'cnt_64285',
                     ),
             );
