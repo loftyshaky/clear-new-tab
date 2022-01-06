@@ -1,0 +1,44 @@
+.top {
+    align-items: start;
+    justify-content: center;
+}
+
+.center {
+    align-items: center;
+    justify-content: center;
+}
+
+.bottom {
+    align-items: end;
+    justify-content: center;
+}
+
+.left_top {
+    align-items: start;
+    justify-content: start;
+}
+
+.left_center {
+    align-items: center;
+    justify-content: start;
+}
+
+.left_bottom {
+    align-items: end;
+    justify-content: start;
+}
+
+.right_top {
+    align-items: start;
+    justify-content: end;
+}
+
+.right_center {
+    align-items: center;
+    justify-content: end;
+}
+
+.right_bottom {
+    align-items: end;
+    justify-content: end;
+}

@@ -1,3 +1,5 @@
-body {
-    background-color: red !important;
-}
+@import '../../../node_modules/@loftyshaky/shared/scss/shared/index';
+@import 'background_container';
+@import 'loading_screen';
+@import 'main';
+@import 'mods';

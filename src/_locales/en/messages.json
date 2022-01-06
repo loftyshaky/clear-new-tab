@@ -227,13 +227,13 @@
     "stretch_browser_option_text": {
         "message": "Stretch to fit the browser window"
     },
-    "center_top_option_text": {
+    "top_option_text": {
         "message": "Center top"
     },
-    "center_center_option_text": {
+    "center_option_text": {
         "message": "Center"
     },
-    "center_bottom_option_text": {
+    "bottom_option_text": {
         "message": "Center bottom"
     },
     "left_top_option_text": {

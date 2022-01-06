@@ -74,9 +74,9 @@ export class Main {
                 ],
                 background_position: [
                     new o_inputs.Option({ name: 'global' }),
-                    new o_inputs.Option({ name: 'center_top' }),
-                    new o_inputs.Option({ name: 'center_center' }),
-                    new o_inputs.Option({ name: 'center_bottom' }),
+                    new o_inputs.Option({ name: 'top' }),
+                    new o_inputs.Option({ name: 'center' }),
+                    new o_inputs.Option({ name: 'bottom' }),
                     new o_inputs.Option({ name: 'left_top' }),
                     new o_inputs.Option({ name: 'left_center' }),
                     new o_inputs.Option({ name: 'left_bottom' }),

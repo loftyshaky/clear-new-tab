@@ -99,11 +99,14 @@ export class InitAll {
                     const { Body } = await import('new_tab/components/body');
                     const on_render = (): Promise<void> =>
                         err_async(async () => {
+                            const { d_background } = await import('new_tab/internal');
                             d_inputs.InputWidth.i().set_max_width();
 
                             d_loading_screen.Main.i().hide();
 
                             s_tab_index.Main.i().bind_set_input_type_f();
+
+                            d_background.Main.i().change_background();
                         }, 'cnt_1148');
 
                     render(

@@ -221,13 +221,13 @@
     "stretch_browser_option_text": {
         "message": "Растянуть по размеру окна браузера"
     },
-    "center_top_option_text": {
+    "top_option_text": {
         "message": "Вверху в центре"
     },
-    "center_center_option_text": {
+    "center_option_text": {
         "message": "В центре"
     },
-    "center_bottom_option_text": {
+    "bottom_option_text": {
         "message": "Внизу в центре"
     },
     "left_top_option_text": {
