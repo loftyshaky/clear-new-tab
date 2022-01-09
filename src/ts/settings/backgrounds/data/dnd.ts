@@ -36,7 +36,7 @@ export class Dnd {
 
     public collection_ref: any;
     private drag_direction: string = 'right';
-    private drop_zone_insert_direction: string = 'right';
+    public drop_zone_insert_direction: string = 'right';
     public mouse_is_down: boolean = false;
     private dragging_background: boolean = false;
     public show_dragged_background: boolean = false;
