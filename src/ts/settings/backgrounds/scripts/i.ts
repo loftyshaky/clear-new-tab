@@ -1,5 +1,6 @@
-import _ from 'lodash';
+import { BigNumber } from 'bignumber.js';
 
+import { i_db } from 'shared/internal';
 import { d_backgrounds } from 'settings/internal';
 
 export class I {
@@ -13,15 +14,20 @@ export class I {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
-    public get_highest_background_i = (): number =>
+    public get_last_background_i = (): string =>
         err(
             () => {
-                let added_backgrounds_count: number = 0;
+                let added_backgrounds_count: string = '0';
 
-                const background_with_highest_i = _.maxBy(d_backgrounds.Main.i().backgrounds, 'i');
+                const last_background_i: string =
+                    d_backgrounds.Main.i().backgrounds[
+                        d_backgrounds.Main.i().backgrounds.length - 1
+                    ].i;
 
-                if (n(background_with_highest_i)) {
-                    added_backgrounds_count += background_with_highest_i.i;
+                if (n(last_background_i)) {
+                    added_backgrounds_count = BigNumber(last_background_i)
+                        .plus(added_backgrounds_count)
+                        .toString();
                 }
 
                 return added_backgrounds_count;
@@ -30,16 +36,16 @@ export class I {
             { silent: true },
         );
 
-    public get_next_background_i = (): number =>
+    public get_next_background_i = (): string =>
         err(
             () => {
-                const highest_background_i: number = this.get_highest_background_i();
+                const highest_background_i: string = this.get_last_background_i();
 
                 if (d_backgrounds.Main.i().backgrounds.length === 0) {
-                    return 0;
+                    return '0';
                 }
 
-                return highest_background_i + 1;
+                return new BigNumber(highest_background_i).plus(1).toString();
             },
             'cnt_43794',
             { silent: true },

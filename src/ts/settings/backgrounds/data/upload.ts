@@ -1,3 +1,5 @@
+import { BigNumber } from 'bignumber.js';
+
 import { o_inputs, d_inputs } from '@loftyshaky/shared/inputs';
 import { s_db, i_db } from 'shared/internal';
 import { d_backgrounds, s_backgrounds, i_backgrounds } from 'settings/internal';
@@ -19,7 +21,7 @@ export class Upload {
         files: File[] | string[];
     }): Promise<void> => {
         try {
-            const next_i: number = s_backgrounds.I.i().get_next_background_i();
+            const next_i: string = s_backgrounds.I.i().get_next_background_i();
             const ordered_files: i_backgrounds.OrderedFiles[] = [];
 
             const new_backgrounds: (i_db.Background | undefined)[] = await Promise.all(
@@ -30,8 +32,8 @@ export class Upload {
                     ): Promise<i_db.Background | undefined> =>
                         err_async(async () => {
                             try {
-                                const id = x.unique_id();
-                                const i = next_i + i_2;
+                                const id: string = x.unique_id();
+                                const i: string = new BigNumber(next_i).plus(i_2).toString();
 
                                 ordered_files.push({ id, file });
 

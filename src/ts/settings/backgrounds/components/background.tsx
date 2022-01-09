@@ -36,6 +36,7 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                 d_backgrounds.Dnd.i().cursor_default_cls,
             ])}
             style={{ ...style, backgroundColor: background.thumbnail }}
+            title={d_backgrounds.Main.i().developer_info({ background })}
         >
             {background.type.includes('color') ? undefined : (
                 <img

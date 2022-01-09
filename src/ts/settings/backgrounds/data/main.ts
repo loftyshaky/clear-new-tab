@@ -1,5 +1,7 @@
 import _ from 'lodash';
 import { makeObservable, observable, action, runInAction } from 'mobx';
+import { computedFn } from 'mobx-utils';
+import { BigNumber } from 'bignumber.js';
 
 import { s_db, i_db } from 'shared/internal';
 
@@ -21,6 +23,17 @@ export class Main {
     }
 
     public backgrounds: i_db.Background[] = [];
+
+    public developer_info = computedFn(function (
+        this: Main,
+        { background }: { background: i_db.Background },
+    ): string | undefined {
+        if (data.settings.show_background_id_and_i_in_tooltip) {
+            return `id: ${background.id}\nindex: ${background.i}`;
+        }
+
+        return undefined;
+    });
 
     public set_backgrounds = ({
         backgrounds,
@@ -54,7 +67,7 @@ export class Main {
     public sort_backgrounds = (): void =>
         err(() => {
             this.backgrounds.sort((a: i_db.Background, b: i_db.Background): number =>
-                err(() => a.i - b.i, 'cnt_64367'),
+                err(() => new BigNumber(a.i).minus(b.i).toString(), 'cnt_64367'),
             );
         }, 'cnt_64436');
 }

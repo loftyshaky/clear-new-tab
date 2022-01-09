@@ -5,3 +5,4 @@ declare module '*.svg' {
 
 declare module 'tinycolor2';
 declare module 'pica';
+declare module 'bignumber.js';

@@ -98,6 +98,12 @@
     "allow_downloading_img_by_link_label_text": {
         "message": "Разрешить скачивать изображение когда вы вставляете ссылку на изображение в текстовое полю \"Вставьте изображение или ссылку на него\""
     },
+    "show_background_id_and_i_in_tooltip_label_text": {
+        "message": "Показывать id и index фона во всплывающей подсказке"
+    },
+    "update_database_when_dnd_background_label_text": {
+        "message": "Обновлять базу данных при перемещении фона"
+    },
     "paste_background_text_btn_title": {
         "message": "Вставьте изображение или ссылку на него из буфера обмена"
     },

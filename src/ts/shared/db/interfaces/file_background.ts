@@ -1,7 +1,7 @@
 export interface FileBackground {
     id: string;
     theme_id: string | undefined;
-    i: number;
+    i: string;
     type: 'img_file' | 'video_file' | 'img_link';
     thumbnail: string | undefined;
     width: number;

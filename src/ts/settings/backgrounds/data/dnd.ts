@@ -1,9 +1,10 @@
 import _ from 'lodash';
 import { MouseEvent } from 'react';
 import { makeObservable, observable, computed, action, toJS } from 'mobx';
+import { BigNumber } from 'bignumber.js';
 
 import { s_db, i_db } from 'shared/internal';
-import { d_backgrounds, s_backgrounds } from 'settings/internal';
+import { d_backgrounds, s_backgrounds, i_backgrounds } from 'settings/internal';
 
 export class Dnd {
     private static i0: Dnd;
@@ -28,7 +29,6 @@ export class Dnd {
             create_drop_zone: action,
             start_drag: action,
             stop_drag: action,
-            drop: action,
             set_dragged_background_position: action,
             move_by_move_btn: action,
         });
@@ -151,84 +151,139 @@ export class Dnd {
                     d_backgrounds.CurrentBackground.i().find_i_of_background_with_id({
                         id: this.drop_zone_background.id,
                     });
-                let updated_backgrounds: i_db.Background[] = [];
 
                 const move_dragged_background = ({
                     drop_zone_insert_direction,
-                    modifier,
                 }: {
-                    drop_zone_insert_direction: 'left' | 'right';
-                    modifier: number;
+                    drop_zone_insert_direction: i_backgrounds.DropZoneInsertDirection;
                 }): void =>
-                    err(() => {
-                        if (this.drop_zone_insert_direction === drop_zone_insert_direction) {
+                    err(
+                        action(() => {
+                            if (this.drop_zone_insert_direction === drop_zone_insert_direction) {
+                                set_intermediate_i({
+                                    drop_zone_insert_direction,
+                                    modifier_1: -1,
+                                    modifier_2: 0,
+                                    modifier_3: 0,
+                                    modifier_4: 1,
+                                });
+                            } else {
+                                const dropped_at_trailing_left_position =
+                                    drop_zone_background_i === 0;
+                                const dropped_at_trailing_right_position =
+                                    drop_zone_background_i ===
+                                    d_backgrounds.Main.i().backgrounds.length - 1;
+
+                                if (
+                                    dropped_at_trailing_left_position ||
+                                    dropped_at_trailing_right_position
+                                ) {
+                                    const trailing_drop_zone_background_i: number =
+                                        // eslint-disable-next-line max-len
+                                        d_backgrounds.CurrentBackground.i().find_i_of_background_with_id(
+                                            {
+                                                id: d_backgrounds.Main.i().backgrounds[
+                                                    drop_zone_background_i
+                                                ].id,
+                                            },
+                                        );
+
+                                    const new_i: string = new BigNumber(
+                                        d_backgrounds.Main.i().backgrounds[
+                                            trailing_drop_zone_background_i
+                                        ].i,
+                                    )
+                                        [dropped_at_trailing_left_position ? 'minus' : 'plus'](1)
+                                        .toString();
+
+                                    d_backgrounds.Main.i().backgrounds[background_to_move_i].i =
+                                        new_i;
+                                } else {
+                                    set_intermediate_i({
+                                        drop_zone_insert_direction,
+                                        modifier_1: 0,
+                                        modifier_2: -1,
+                                        modifier_3: 1,
+                                        modifier_4: 0,
+                                    });
+                                }
+                            }
+                        }),
+                        'cnt_54680',
+                    );
+
+                const set_intermediate_i = ({
+                    drop_zone_insert_direction,
+                    modifier_1,
+                    modifier_2,
+                    modifier_3,
+                    modifier_4,
+                }: {
+                    drop_zone_insert_direction: i_backgrounds.DropZoneInsertDirection;
+                    modifier_1: number;
+                    modifier_2: number;
+                    modifier_3: number;
+                    modifier_4: number;
+                }): void =>
+                    err(
+                        action(() => {
                             const drop_zone_background_left_i: number =
                                 d_backgrounds.CurrentBackground.i().find_i_of_background_with_id({
                                     id: d_backgrounds.Main.i().backgrounds[
-                                        drop_zone_background_i + modifier
+                                        drop_zone_background_i +
+                                            (drop_zone_insert_direction === 'left'
+                                                ? modifier_1
+                                                : modifier_2)
+                                    ].id,
+                                });
+                            const drop_zone_background_right_i: number =
+                                d_backgrounds.CurrentBackground.i().find_i_of_background_with_id({
+                                    id: d_backgrounds.Main.i().backgrounds[
+                                        drop_zone_background_i +
+                                            (drop_zone_insert_direction === 'left'
+                                                ? modifier_3
+                                                : modifier_4)
                                     ].id,
                                 });
 
-                            d_backgrounds.Main.i().backgrounds[background_to_move_i].i =
+                            const i_of_background_to_the_left_of_drop_zone: string =
                                 d_backgrounds.Main.i().backgrounds[drop_zone_background_left_i].i;
-                        } else if (n(this.drop_zone_background)) {
+                            const i_of_background_to_the_right_of_drop_zone: string =
+                                d_backgrounds.Main.i().backgrounds[drop_zone_background_right_i].i;
+                            const intermediate_i: string = new BigNumber(
+                                i_of_background_to_the_left_of_drop_zone,
+                            )
+                                .plus(i_of_background_to_the_right_of_drop_zone)
+                                .div(2)
+                                .toString();
+
                             d_backgrounds.Main.i().backgrounds[background_to_move_i].i =
-                                this.drop_zone_background.i;
-                        }
-                    }, 'cnt_54680');
-
-                const shift_adjacent_backgrounds = ({
-                    backgrounds_to_update_is,
-                    modifier,
-                }: {
-                    backgrounds_to_update_is: number[];
-                    modifier: number;
-                }): void =>
-                    err(() => {
-                        updated_backgrounds = backgrounds_to_update_is.map(
-                            (i: number): i_db.Background =>
-                                err(() => {
-                                    d_backgrounds.Main.i().backgrounds[i].i =
-                                        d_backgrounds.Main.i().backgrounds[i].i + modifier;
-
-                                    return d_backgrounds.Main.i().backgrounds[i];
-                                }, 'cnt_64324'),
-                        );
-                    }, 'cnt_54329');
+                                intermediate_i;
+                        }),
+                        'cnt_53673',
+                    );
 
                 if (background_to_move_i < drop_zone_background_i) {
-                    move_dragged_background({ drop_zone_insert_direction: 'left', modifier: -1 });
-
-                    const backgrounds_to_update_is = x.range_arr(
-                        background_to_move_i + 1,
-                        drop_zone_background_i +
-                            (this.drop_zone_insert_direction === 'left' ? -1 : 0),
-                    );
-
-                    shift_adjacent_backgrounds({ backgrounds_to_update_is, modifier: -1 });
+                    move_dragged_background({
+                        drop_zone_insert_direction: 'left',
+                    });
                 } else if (background_to_move_i > drop_zone_background_i) {
-                    move_dragged_background({ drop_zone_insert_direction: 'right', modifier: 1 });
-
-                    const backgrounds_to_update_is = x.range_arr(
-                        drop_zone_background_i +
-                            (this.drop_zone_insert_direction === 'right' ? 1 : 0),
-                        background_to_move_i - 1,
-                    );
-
-                    shift_adjacent_backgrounds({ backgrounds_to_update_is, modifier: 1 });
+                    move_dragged_background({
+                        drop_zone_insert_direction: 'right',
+                    });
                 }
 
-                updated_backgrounds.push(d_backgrounds.Main.i().backgrounds[background_to_move_i]);
+                if (data.settings.update_database_when_dnd_background) {
+                    await s_db.Manipulation.i().update_backgrounds({
+                        backgrounds: [d_backgrounds.Main.i().backgrounds[background_to_move_i]],
+                    });
+                }
 
                 d_backgrounds.Main.i().sort_backgrounds();
 
                 d_backgrounds.CurrentBackground.i().set_current_background_i();
 
                 this.collection_ref.current.recomputeCellSizesAndPositions();
-
-                await s_db.Manipulation.i().update_backgrounds({
-                    backgrounds: updated_backgrounds,
-                });
             }
         }, 'cnt_64325');
 

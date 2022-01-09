@@ -43,6 +43,8 @@ export class Main {
                 download_img_when_link_given: false,
                 install_help_msg_is_visible: true,
                 current_random_solid_color: '#ffffff',
+                show_background_id_and_i_in_tooltip: false,
+                update_database_when_dnd_background: true,
             };
         }, 'cnt_1002');
 

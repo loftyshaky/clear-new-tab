@@ -348,6 +348,16 @@ export class Main {
                                 d_backgrounds.BackgroundDeletion.i().delete_all_backgrounds,
                         }),
                     ],
+                    admin_inputs: [
+                        new o_inputs.Checkbox({
+                            name: 'show_background_id_and_i_in_tooltip',
+                            event_callback: d_sections.Val.i().change,
+                        }),
+                        new o_inputs.Checkbox({
+                            name: 'update_database_when_dnd_background',
+                            event_callback: d_sections.Val.i().change,
+                        }),
+                    ],
                 }),
                 ...[
                     new o_inputs.Section({
