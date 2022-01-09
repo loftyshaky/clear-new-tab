@@ -1,6 +1,5 @@
 import { BigNumber } from 'bignumber.js';
 
-import { i_db } from 'shared/internal';
 import { d_backgrounds } from 'settings/internal';
 
 export class I {
