@@ -66,7 +66,7 @@ export class Main {
     public get background() {
         if (n(this.current_background_file)) {
             if (s_background.Type.i().is_img_file() || s_background.Type.i().is_video()) {
-                return URL.createObjectURL(this.current_background_file.background);
+                return URL.createObjectURL(this.current_background_file.background as File);
             }
 
             if (s_background.Type.i().is_color()) {
