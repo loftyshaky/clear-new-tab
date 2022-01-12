@@ -47,7 +47,6 @@ export class Main {
             ext.send_msg_resp({
                 msg: 'update_settings',
                 settings: { [key]: val },
-                rerun_actions: true,
             });
         }, 'cnt_1165');
 

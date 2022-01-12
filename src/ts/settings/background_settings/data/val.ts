@@ -39,7 +39,6 @@ export class Val {
                     await ext.send_msg_resp({
                         msg: 'update_settings',
                         settings: { [name]: new_val },
-                        rerun_actions: true,
                     });
                 } else if (data.ui.settings_type === 'selected_background') {
                     await this.change_background_val({ name, new_val });

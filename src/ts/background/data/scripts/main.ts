@@ -60,13 +60,9 @@ export class Main {
         }, 'cnt_1003');
 
     public update_settings_debounce = _.debounce(
-        (settings: i_data.Settings, rerun_actions: boolean) =>
+        (settings: i_data.Settings) =>
             err_async(async () => {
                 await this.update_settings({ settings });
-
-                if (n(rerun_actions)) {
-                    ext.send_msg_to_all_tabs({ msg: 'rerun_actions' });
-                }
             }, 'cnt_1177'),
         500,
     );

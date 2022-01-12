@@ -69,7 +69,6 @@ export class Val {
                             await ext.send_msg_resp({
                                 msg: 'update_settings',
                                 settings: { [input.name]: val },
-                                rerun_actions: true,
                             });
                         }
                     }, 'cnt_1137');
@@ -148,7 +147,6 @@ export class Val {
                     await ext.send_msg_resp({
                         msg: 'update_settings',
                         settings: { colors },
-                        rerun_actions: true,
                     });
                 }
             }, 'cnt_1138'),
@@ -200,7 +198,6 @@ export class Val {
             await ext.send_msg_resp({
                 msg: 'update_settings',
                 settings: { [input.name]: '' },
-                rerun_actions: true,
             });
         }, 'cnt_1144');
 
@@ -213,7 +210,6 @@ export class Val {
             await ext.send_msg_resp({
                 msg: 'update_settings',
                 settings: { colors: default_colors },
-                rerun_actions: true,
             });
         }, 'cnt_1145');
 

@@ -10,7 +10,7 @@ we.runtime.onMessage.addListener(
                 if (n(msg.update_instantly) && msg.update_instantly) {
                     s_data.Main.i().update_settings({ settings: msg.settings });
                 } else {
-                    s_data.Main.i().update_settings_debounce(msg.settings, msg.rerun_actions);
+                    s_data.Main.i().update_settings_debounce(msg.settings);
                 }
             } else if (msg_str === 'get_defaults') {
                 return s_data.Main.i().defaults;
