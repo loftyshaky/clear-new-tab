@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { makeObservable, observable, action, toJS } from 'mobx';
+import { makeObservable, observable, action, autorun, toJS } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
 import { i_db } from 'shared/internal';
@@ -15,17 +15,22 @@ export class CurrentBackground {
 
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {
-        makeObservable<CurrentBackground, 'set_current_background_i'>(this, {
-            selected_background_id: observable,
-            select: action,
-            deselect: action,
-            set_current_background_i: action,
-            set_background_as_current: action,
-            reset_current_background_id: action,
-        });
+        makeObservable<CurrentBackground, 'set_current_background_i' | 'set_future_background_id'>(
+            this,
+            {
+                selected_background_id: observable,
+                select: action,
+                deselect: action,
+                set_current_background_i: action,
+                set_background_as_current: action,
+                reset_current_background_id: action,
+                set_future_background_id: action,
+            },
+        );
     }
 
     public selected_background_id: string | undefined = undefined;
+    private set_future_background_id_run_once: boolean = false;
 
     public select = ({ background }: { background: i_db.Background }): void =>
         err(() => {
@@ -138,7 +143,7 @@ export class CurrentBackground {
             if (no_backgrounds_exist) {
                 this.reset_current_background_id();
             } else if (data.settings.current_background_id === deleted_background_id) {
-                let new_current_background_id: string | undefined;
+                let new_current_background_id: string | number | undefined;
 
                 if (
                     data.settings.mode === 'multiple_backgrounds' &&
@@ -182,12 +187,74 @@ export class CurrentBackground {
             });
         }, 'cnt_64684');
 
-    private get_id_of_random_background = (): string =>
-        err(
-            () =>
-                d_backgrounds.Main.i().backgrounds[
-                    _.random(0, d_backgrounds.Main.i().backgrounds.length - 1)
-                ].id,
-            'cnt_64356',
-        );
+    public set_future_background_id = (): void =>
+        err(() => {
+            if (this.set_future_background_id_run_once) {
+                const current_background_is_the_only_background: boolean =
+                    d_backgrounds.Main.i().backgrounds.length === 1;
+
+                if (
+                    !current_background_is_the_only_background &&
+                    data.settings.shuffle_backgrounds
+                ) {
+                    data.settings.future_background_id = this.get_id_of_random_background();
+                } else {
+                    const i_of_background_with_current_id: number =
+                        this.find_i_of_background_with_id({
+                            id: data.settings.current_background_id,
+                        });
+
+                    const current_background_is_last_background: boolean =
+                        d_backgrounds.Main.i().backgrounds.length - 1 ===
+                        i_of_background_with_current_id;
+
+                    if (current_background_is_last_background) {
+                        data.settings.future_background_id =
+                            d_backgrounds.Main.i().backgrounds[0].id;
+                    } else {
+                        data.settings.future_background_id =
+                            d_backgrounds.Main.i().backgrounds[
+                                i_of_background_with_current_id + 1
+                            ].id;
+                    }
+                }
+
+                ext.send_msg({
+                    msg: 'update_settings',
+                    settings: {
+                        current_background_id: data.settings.current_background_id,
+                        future_background_id: data.settings.future_background_id,
+                    },
+                });
+            }
+
+            this.set_future_background_id_run_once = true;
+        }, 'cnt_43673');
+
+    public set_future_background_id_autorun = (): void =>
+        err(() => {
+            autorun(() => {
+                // eslint-disable-next-line no-unused-expressions
+                data.settings.current_background_id;
+
+                this.set_future_background_id();
+            });
+        }, 'cnt_43673');
+
+    private get_id_of_random_background = (): string | number =>
+        err(() => {
+            let future_background_id: string | number = 0;
+
+            while (
+                future_background_id === 0 ||
+                future_background_id === data.settings.current_background_id
+            ) {
+                future_background_id =
+                    d_backgrounds.Main.i().backgrounds[
+                        _.random(0, d_backgrounds.Main.i().backgrounds.length - 1)
+                    ].id;
+            }
+
+            return future_background_id;
+        }, 'cnt_64356');
 }

@@ -99,9 +99,11 @@ export class Upload {
             });
             d_backgrounds.BackgroundAnimation.i().allow_animation();
             d_backgrounds.Main.i().merge_backgrounds({ backgrounds: new_backgrounds_final });
-            d_backgrounds.CurrentBackground.i().set_last_uploaded_background_as_current({
+            await d_backgrounds.CurrentBackground.i().set_last_uploaded_background_as_current({
                 id: new_backgrounds_final[new_backgrounds_final.length - 1].id,
             });
+
+            d_backgrounds.CurrentBackground.i().set_future_background_id();
             await d_backgrounds.BackgroundAnimation.i().forbid_animation();
 
             if (at_least_one_background_is_broken) {
