@@ -55,6 +55,8 @@ export class Main {
                 : (this.defaults as i_data.Settings);
 
             await ext.storage_set(settings_final);
+
+            ext.send_msg({ msg: 'update_new_tab_page_settings_obj' });
         }, 'cnt_1003');
 
     public update_settings_debounce = _.debounce(

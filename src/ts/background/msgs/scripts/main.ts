@@ -7,7 +7,11 @@ we.runtime.onMessage.addListener(
             const msg_str: string = msg.msg;
 
             if (msg_str === 'update_settings') {
-                await s_data.Main.i().update_settings_debounce(msg.settings, msg.rerun_actions);
+                if (n(msg.update_instantly) && msg.update_instantly) {
+                    s_data.Main.i().update_settings({ settings: msg.settings });
+                } else {
+                    s_data.Main.i().update_settings_debounce(msg.settings, msg.rerun_actions);
+                }
             } else if (msg_str === 'get_defaults') {
                 return s_data.Main.i().defaults;
             } else if (msg_str === 'reload_ext') {

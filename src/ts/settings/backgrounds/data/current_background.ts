@@ -93,6 +93,7 @@ export class CurrentBackground {
             ext.send_msg({
                 msg: 'update_settings',
                 settings: { current_background_id: id },
+                update_instantly: true,
             });
         }, 'cnt_64357');
 
@@ -170,6 +171,7 @@ export class CurrentBackground {
                 ext.send_msg({
                     msg: 'update_settings',
                     settings: { current_background_id: new_current_background_id },
+                    update_instantly: true,
                 });
             }
         }, 'cnt_53246');
@@ -184,6 +186,7 @@ export class CurrentBackground {
             ext.send_msg({
                 msg: 'update_settings',
                 settings: { current_background_id: reset_val },
+                update_instantly: true,
             });
         }, 'cnt_64684');
 
@@ -225,6 +228,7 @@ export class CurrentBackground {
                         current_background_id: data.settings.current_background_id,
                         future_background_id: data.settings.future_background_id,
                     },
+                    update_instantly: true,
                 });
             }
 

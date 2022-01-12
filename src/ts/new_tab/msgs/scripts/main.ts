@@ -6,7 +6,7 @@ we.runtime.onMessage.addListener(
         err_async(async () => {
             const msg_str: string = msg.msg;
 
-            if (msg_str === 'update_settings_page_settings_obj') {
+            if (msg_str === 'update_new_tab_page_settings_obj') {
                 await d_settings.Main.i().set_from_storage();
             }
 
