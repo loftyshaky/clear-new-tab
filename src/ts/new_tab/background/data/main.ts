@@ -29,19 +29,6 @@ export class Main {
 
     public current_background_data: i_db.Background | undefined = undefined;
     public current_background_file: i_db.BackgroundFile | undefined = undefined;
-    /*
-    private background_position_dict: { [index: string]: string } = {
-        '50% 0%': 'top',
-        '50% 50%': 'center',
-        '50% 100%': 'bottom',
-        '0% 0%': 'left_top',
-        '0% 50%': 'left_center',
-        '0% 100%': 'left_bottom',
-        '100% 0%': 'right_top',
-        '100% 50%': 'right_center',
-        '100% 100%': 'right_bottom',
-    };
-*/
 
     private background_position_dict: { [index: string]: string } = {
         top: '50% 0%',
