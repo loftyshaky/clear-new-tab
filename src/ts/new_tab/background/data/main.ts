@@ -167,31 +167,34 @@ export class Main {
         return {};
     }
 
-    public change_background = (): void =>
+    public update_background = (): Promise<void> =>
+        err_async(async () => {
+            const current_background_data: i_db.Background =
+                await s_db.Manipulation.i().get_background({
+                    id: data.settings.current_background_id,
+                });
+
+            const current_background_file: i_db.BackgroundFile =
+                await s_db.Manipulation.i().get_background_file({
+                    id: data.settings.current_background_id,
+                });
+
+            if (!_.isEqual(this.current_background_data, current_background_data)) {
+                URL.revokeObjectURL(this.background);
+            }
+
+            runInAction(() =>
+                err(() => {
+                    this.current_background_data = current_background_data;
+                    this.current_background_file = current_background_file;
+                }, 'cnt_84755'),
+            );
+
+            d_background.BackgroundSize.i().determine_background_size();
+        }, 'cnt_75465');
+
+    public change_background_autorun = (): void =>
         err(() => {
-            autorun(async () => {
-                const current_background_data: i_db.Background =
-                    await s_db.Manipulation.i().get_background({
-                        id: data.settings.current_background_id,
-                    });
-
-                const current_background_file: i_db.BackgroundFile =
-                    await s_db.Manipulation.i().get_background_file({
-                        id: data.settings.current_background_id,
-                    });
-
-                if (!_.isEqual(this.current_background_data, current_background_data)) {
-                    URL.revokeObjectURL(this.background);
-                }
-
-                runInAction(() =>
-                    err(() => {
-                        this.current_background_data = current_background_data;
-                        this.current_background_file = current_background_file;
-                    }, 'cnt_84755'),
-                );
-
-                d_background.BackgroundSize.i().determine_background_size();
-            });
+            autorun(this.update_background);
         }, 'cnt_75465');
 }

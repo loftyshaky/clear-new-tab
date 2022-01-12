@@ -43,6 +43,8 @@ export class Val {
                 } else if (data.ui.settings_type === 'selected_background') {
                     await this.change_background_val({ name, new_val });
                 }
+
+                ext.send_msg({ msg: 'update_background_data' });
             }
         }, 'cnt_53674');
 

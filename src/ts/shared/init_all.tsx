@@ -106,7 +106,7 @@ export class InitAll {
 
                             s_tab_index.Main.i().bind_set_input_type_f();
 
-                            d_background.Main.i().change_background();
+                            d_background.Main.i().change_background_autorun();
                         }, 'cnt_1148');
 
                     render(
