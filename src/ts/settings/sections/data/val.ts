@@ -80,6 +80,10 @@ export class Val {
                     });
                 } else {
                     val = d_inputs.Val.i().access({ input });
+
+                    if (input.name === 'background_change_interval' && n(val)) {
+                        val = +val;
+                    }
                 }
 
                 if (input.type === 'text') {
