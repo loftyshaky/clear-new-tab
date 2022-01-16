@@ -7,11 +7,13 @@ we.runtime.onMessage.addListener(
         err_async(async () => {
             const msg_str: string = msg.msg;
 
-            if (msg_str === 'update_new_tab_page_settings_obj') {
+            if (msg_str === 'update_background') {
                 await d_settings.Main.i().set_from_storage();
-            } else if (msg_str === 'update_background_data') {
-                await d_settings.Main.i().set_from_storage();
-                await d_background.Main.i().update_background();
+                await d_background.BackgroundChange.i().update_background({
+                    no_tr: true,
+                });
+            } else {
+                await x.delay(10000);
             }
 
             return true;

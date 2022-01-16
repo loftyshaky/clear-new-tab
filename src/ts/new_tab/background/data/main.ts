@@ -1,8 +1,9 @@
 import _ from 'lodash';
-import { makeObservable, observable, computed, runInAction, autorun } from 'mobx';
+import { makeObservable, observable, computed } from 'mobx';
 
+import { t } from '@loftyshaky/shared';
 import { d_color, i_color } from '@loftyshaky/shared/inputs';
-import { s_db, i_db } from 'shared/internal';
+import { i_db } from 'shared/internal';
 import { d_background, s_background } from 'new_tab/internal';
 
 export class Main {
@@ -15,20 +16,19 @@ export class Main {
 
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {
-        makeObservable<this, 'background'>(this, {
-            current_background_data: observable,
-            current_background_file: observable,
-            background: computed,
-            background_position: computed,
-            background_repeat: computed,
-            color_of_area_around_background: computed,
-            video_volume: computed,
-            background_css: computed,
+        makeObservable(this, {
+            background_container_i: observable,
+            background_data: observable,
+            background_file: observable,
+            background: observable,
+            background_position: observable,
+            background_repeat: observable,
+            color_of_area_around_background: observable,
+            video_volume: observable,
+            background_css: observable,
+            opposite_background_container_i: computed,
         });
     }
-
-    public current_background_data: i_db.Background | undefined = undefined;
-    public current_background_file: i_db.BackgroundFile | undefined = undefined;
 
     private background_position_dict: { [index: string]: string } = {
         top: '50% 0%',
@@ -50,151 +50,232 @@ export class Main {
         repeat_x: 'repeat-x',
     };
 
-    public get background() {
-        if (n(this.current_background_file)) {
-            if (s_background.Type.i().is_img_file() || s_background.Type.i().is_video()) {
-                return URL.createObjectURL(this.current_background_file.background as File);
-            }
+    private default_val_1: (i_db.Background | undefined)[] = [undefined, undefined];
+    private default_val_2: (i_db.BackgroundFile | undefined)[] = [undefined, undefined];
+    public default_val_3: string[] = ['', ''];
+    private default_val_4: t.AnyRecord[] = [{}, {}];
+    public background_container_i: number = 1;
+    public background_data: (i_db.Background | undefined)[] = this.default_val_1;
+    public background_file: (i_db.BackgroundFile | undefined)[] = this.default_val_2;
+    public background: string[] = this.default_val_3;
+    public background_position: string[] = this.default_val_3;
+    public background_repeat: string[] = this.default_val_3;
+    public color_of_area_around_background: string[] = this.default_val_3;
+    public video_volume: string[] = this.default_val_3;
+    public background_css: t.AnyRecord[] = this.default_val_4;
 
-            if (s_background.Type.i().is_color()) {
-                return d_color.Color.i().access_from_val({
-                    val: this.current_background_file.background as i_color.Color,
-                });
-            }
-
-            if (s_background.Type.i().is_img_link()) {
-                return this.current_background_file.background as string;
-            }
-        }
-
-        return '';
+    public get opposite_background_container_i() {
+        return _.clone(this).background_container_i === 0 ? 1 : 0;
     }
 
-    public get background_position() {
-        if (n(this.current_background_data)) {
+    public get_background = (): string =>
+        err(() => {
+            const background_file = this.background_file[this.background_container_i];
+
+            if (n(background_file)) {
+                if (
+                    s_background.Type.i().is_img_file({
+                        background_container_i: this.background_container_i,
+                    }) ||
+                    s_background.Type.i().is_video({
+                        background_container_i: this.background_container_i,
+                    })
+                ) {
+                    return URL.createObjectURL(background_file.background as File);
+                }
+
+                if (
+                    s_background.Type.i().is_color({
+                        background_container_i: this.background_container_i,
+                    })
+                ) {
+                    return d_color.Color.i().access_from_val({
+                        val: background_file.background as i_color.Color,
+                    });
+                }
+
+                if (
+                    s_background.Type.i().is_img_link({
+                        background_container_i: this.background_container_i,
+                    })
+                ) {
+                    return background_file.background as string;
+                }
+            }
+
+            return '';
+        }, 'cnt_75354');
+
+    public get_background_position = (): string =>
+        err(() => {
+            const background_data = this.background_data[this.background_container_i];
+
+            if (n(background_data)) {
+                if (
+                    s_background.Type.i().is_img({
+                        background_container_i: this.background_container_i,
+                    }) ||
+                    (s_background.Type.i().is_video({
+                        background_container_i: this.background_container_i,
+                    }) &&
+                        (d_background.BackgroundSize.i().background_size_setting[
+                            this.background_container_i
+                        ].includes('browser') ||
+                            d_background.BackgroundSize.i().background_size_setting[
+                                this.background_container_i
+                            ] === 'dont_resize'))
+                ) {
+                    return (background_data as i_db.FileBackground).background_position === 'global'
+                        ? this.background_position_dict[data.settings.background_position]
+                        : this.background_position_dict[
+                              (background_data as i_db.FileBackground).background_position
+                          ];
+                }
+
+                if (
+                    s_background.Type.i().is_video({
+                        background_container_i: this.background_container_i,
+                    })
+                ) {
+                    return (background_data as i_db.FileBackground).background_position === 'global'
+                        ? data.settings.background_position
+                        : (background_data as i_db.FileBackground).background_position;
+                }
+            }
+
+            return '';
+        }, 'cnt_75646');
+
+    public get_background_repeat = (): string =>
+        err(() => {
+            const background_data = this.background_data[this.background_container_i];
+
             if (
-                s_background.Type.i().is_img() ||
-                (s_background.Type.i().is_video() &&
-                    d_background.BackgroundSize.i().background_size_setting.includes('browser'))
+                n(background_data) &&
+                s_background.Type.i().is_img({
+                    background_container_i: this.background_container_i,
+                })
             ) {
-                return (this.current_background_data as i_db.FileBackground).background_position ===
-                    'global'
-                    ? this.background_position_dict[data.settings.background_position]
-                    : this.background_position_dict[
-                          (this.current_background_data as i_db.FileBackground).background_position
+                return (background_data as i_db.FileBackground).background_repeat === 'global'
+                    ? this.background_repeat_dict[data.settings.background_repeat]
+                    : this.background_repeat_dict[
+                          (background_data as i_db.FileBackground).background_repeat
                       ];
             }
 
-            if (s_background.Type.i().is_video()) {
-                return (this.current_background_data as i_db.FileBackground).background_position ===
+            return '';
+        }, 'cnt_75384');
+
+    public get_color_of_area_around_background = (): string =>
+        err(() => {
+            const background_data = this.background_data[this.background_container_i];
+
+            if (
+                n(background_data) &&
+                (s_background.Type.i().is_img({
+                    background_container_i: this.background_container_i,
+                }) ||
+                    s_background.Type.i().is_video({
+                        background_container_i: this.background_container_i,
+                    }))
+            ) {
+                return (background_data as i_db.FileBackground).color_of_area_around_background ===
                     'global'
-                    ? data.settings.background_position
-                    : (this.current_background_data as i_db.FileBackground).background_position;
+                    ? d_color.Color.i().access_from_val({
+                          val: data.settings.color_of_area_around_background,
+                      })
+                    : d_color.Color.i().access_from_val({
+                          val: (background_data as i_db.FileBackground)
+                              .color_of_area_around_background,
+                      });
             }
-        }
 
-        return '';
-    }
+            return '';
+        }, 'cnt_84625');
 
-    public get background_repeat() {
-        if (s_background.Type.i().is_img()) {
-            return n(this.current_background_data) &&
-                (this.current_background_data as i_db.FileBackground).background_repeat === 'global'
-                ? this.background_repeat_dict[data.settings.background_repeat]
-                : this.background_repeat_dict[
-                      (this.current_background_data as i_db.FileBackground).background_repeat
-                  ];
-        }
+    public get_video_volume = (): string =>
+        err(() => {
+            if (
+                s_background.Type.i().is_video({
+                    background_container_i: this.background_container_i,
+                })
+            ) {
+                const background_data = this.background_data[this.background_container_i];
 
-        return '';
-    }
+                return n(background_data) &&
+                    (background_data as i_db.FileBackground).video_volume === 'global'
+                    ? data.settings.video_volume
+                    : (background_data as i_db.FileBackground).video_volume;
+            }
 
-    public get color_of_area_around_background() {
-        if (s_background.Type.i().is_img() || s_background.Type.i().is_video()) {
-            return n(this.current_background_data) &&
-                (this.current_background_data as i_db.FileBackground)
-                    .color_of_area_around_background === 'global'
-                ? d_color.Color.i().access_from_val({
-                      val: data.settings.color_of_area_around_background,
-                  })
-                : d_color.Color.i().access_from_val({
-                      val: (this.current_background_data as i_db.FileBackground)
-                          .color_of_area_around_background,
-                  });
-        }
+            return '';
+        }, 'cnt_84625');
 
-        return '';
-    }
-
-    public get video_volume() {
-        if (s_background.Type.i().is_video()) {
-            return n(this.current_background_data) &&
-                (this.current_background_data as i_db.FileBackground).video_volume === 'global'
-                ? data.settings.video_volume
-                : (this.current_background_data as i_db.FileBackground).video_volume;
-        }
-
-        return '';
-    }
-
-    public get background_css() {
-        if (s_background.Type.i().is_img()) {
-            return {
-                background: `url("${this.background}") ${this.background_position} / ${
-                    d_background.BackgroundSize.i().background_size
-                } ${this.background_repeat} ${this.color_of_area_around_background}`,
-            };
-        }
-
-        if (s_background.Type.i().is_video()) {
-            return {
-                backgroundColor: this.color_of_area_around_background,
-                objectFit: d_background.BackgroundSize.i().background_size,
-                objectPosition: this.background_position,
-                width: d_background.BackgroundSize.i().video_width,
-                height: d_background.BackgroundSize.i().video_height,
-            };
-        }
-
-        if (s_background.Type.i().is_color()) {
-            if (n(this.current_background_file) && n(this.current_background_file.background)) {
+    public get_background_css = (): any =>
+        err(() => {
+            if (
+                s_background.Type.i().is_img({
+                    background_container_i: this.background_container_i,
+                })
+            ) {
                 return {
-                    backgroundColor: this.current_background_file.background as string,
+                    background: `url("${this.background[this.background_container_i]}") ${
+                        this.background_position[this.background_container_i]
+                    } / ${
+                        d_background.BackgroundSize.i().background_size[this.background_container_i]
+                    } ${this.background_repeat[this.background_container_i]} ${
+                        this.color_of_area_around_background[this.background_container_i]
+                    }`,
                 };
             }
-        }
 
-        return {};
-    }
-
-    public update_background = (): Promise<void> =>
-        err_async(async () => {
-            const current_background_data: i_db.Background =
-                await s_db.Manipulation.i().get_background({
-                    id: data.settings.current_background_id,
-                });
-
-            const current_background_file: i_db.BackgroundFile =
-                await s_db.Manipulation.i().get_background_file({
-                    id: data.settings.current_background_id,
-                });
-
-            if (!_.isEqual(this.current_background_data, current_background_data)) {
-                URL.revokeObjectURL(this.background);
+            if (
+                s_background.Type.i().is_video({
+                    background_container_i: this.background_container_i,
+                })
+            ) {
+                return {
+                    backgroundColor:
+                        this.color_of_area_around_background[this.background_container_i],
+                    objectFit:
+                        d_background.BackgroundSize.i().background_size[
+                            this.background_container_i
+                        ],
+                    objectPosition: this.background_position[this.background_container_i],
+                    width: d_background.BackgroundSize.i().video_width[this.background_container_i],
+                    height: d_background.BackgroundSize.i().video_height[
+                        this.background_container_i
+                    ],
+                };
             }
 
-            runInAction(() =>
-                err(() => {
-                    this.current_background_data = current_background_data;
-                    this.current_background_file = current_background_file;
-                }, 'cnt_84755'),
-            );
+            if (
+                s_background.Type.i().is_color({
+                    background_container_i: this.background_container_i,
+                })
+            ) {
+                const background_file = this.background_file[this.background_container_i];
 
-            d_background.BackgroundSize.i().determine_background_size();
-        }, 'cnt_75465');
+                if (n(background_file) && n(background_file.background)) {
+                    return {
+                        backgroundColor: background_file.background as string,
+                    };
+                }
+            }
 
-    public change_background_autorun = (): void =>
+            return {};
+        }, 'cnt_84625');
+
+    public get_video_background_css = ({
+        background_container_i,
+    }: {
+        background_container_i: number;
+    }): any =>
         err(() => {
-            autorun(this.update_background);
-        }, 'cnt_75465');
+            if (s_background.Type.i().is_video({ background_container_i })) {
+                return this.background_css[background_container_i];
+            }
+
+            return {};
+        }, 'cnt_65435');
 }

@@ -1,3 +1,4 @@
+import { i_db } from 'shared/internal';
 import { d_background } from 'new_tab/internal';
 
 export class Type {
@@ -11,38 +12,51 @@ export class Type {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
-    public is_img_file = (): boolean =>
+    public is_img_file = ({
+        background_container_i,
+    }: {
+        background_container_i: number;
+    }): boolean =>
+        err(() => {
+            const background_data: i_db.Background | undefined =
+                d_background.Main.i().background_data[background_container_i];
+
+            return n(background_data) && background_data.type.includes('img_file');
+        }, 'cnt_43453');
+
+    public is_img_link = ({
+        background_container_i,
+    }: {
+        background_container_i: number;
+    }): boolean =>
+        err(() => {
+            const background_data: i_db.Background | undefined =
+                d_background.Main.i().background_data[background_container_i];
+
+            return n(background_data) && background_data.type === 'img_link';
+        }, 'cnt_43453');
+
+    public is_img = ({ background_container_i }: { background_container_i: number }): boolean =>
         err(
             () =>
-                n(d_background.Main.i().current_background_data) &&
-                d_background.Main.i().current_background_data!.type.includes('img_file'),
-            'cnt_43453',
+                this.is_img_file({ background_container_i }) ||
+                this.is_img_link({ background_container_i }),
+            'cnt_533535',
         );
 
-    public is_img_link = (): boolean =>
-        err(
-            () =>
-                n(d_background.Main.i().current_background_data) &&
-                d_background.Main.i().current_background_data!.type === 'img_link',
-            'cnt_43453',
-        );
+    public is_color = ({ background_container_i }: { background_container_i: number }): boolean =>
+        err(() => {
+            const background_data: i_db.Background | undefined =
+                d_background.Main.i().background_data[background_container_i];
 
-    public is_img = (): boolean =>
-        err(() => this.is_img_file() || this.is_img_link(), 'cnt_533535');
+            return n(background_data) && background_data.type.includes('color');
+        }, 'cnt_53575');
 
-    public is_color = (): boolean =>
-        err(
-            () =>
-                n(d_background.Main.i().current_background_data) &&
-                d_background.Main.i().current_background_data!.type.includes('color'),
-            'cnt_53575',
-        );
+    public is_video = ({ background_container_i }: { background_container_i: number }): boolean =>
+        err(() => {
+            const background_data: i_db.Background | undefined =
+                d_background.Main.i().background_data[background_container_i];
 
-    public is_video = (): boolean =>
-        err(
-            () =>
-                n(d_background.Main.i().current_background_data) &&
-                d_background.Main.i().current_background_data!.type.includes('video'),
-            'cnt_67543',
-        );
+            return n(background_data) && background_data.type.includes('video');
+        }, 'cnt_67543');
 }

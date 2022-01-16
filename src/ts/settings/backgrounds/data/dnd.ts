@@ -3,7 +3,7 @@ import { MouseEvent } from 'react';
 import { makeObservable, observable, computed, action, toJS } from 'mobx';
 import { BigNumber } from 'bignumber.js';
 
-import { s_db, i_db } from 'shared/internal';
+import { d_backgrounds as d_backgrounds_shared, s_db, i_db } from 'shared/internal';
 import { d_backgrounds, s_backgrounds, i_backgrounds } from 'settings/internal';
 
 export class Dnd {
@@ -84,8 +84,9 @@ export class Dnd {
                 this.remove_drop_zone();
 
                 const drop_zone_background_i: number =
-                    d_backgrounds.CurrentBackground.i().find_i_of_background_with_id({
+                    d_backgrounds_shared.CurrentBackground.i().find_i_of_background_with_id({
                         id: this.drop_zone_background.id,
+                        backgrounds: d_backgrounds.Main.i().backgrounds,
                     });
                 const insertion_i =
                     this.drop_zone_insert_direction === 'right'
@@ -144,12 +145,14 @@ export class Dnd {
 
             if (n(this.background_to_move) && n(this.drop_zone_background)) {
                 const background_to_move_i: number =
-                    d_backgrounds.CurrentBackground.i().find_i_of_background_with_id({
+                    d_backgrounds_shared.CurrentBackground.i().find_i_of_background_with_id({
                         id: this.background_to_move.id,
+                        backgrounds: d_backgrounds.Main.i().backgrounds,
                     });
                 const drop_zone_background_i: number =
-                    d_backgrounds.CurrentBackground.i().find_i_of_background_with_id({
+                    d_backgrounds_shared.CurrentBackground.i().find_i_of_background_with_id({
                         id: this.drop_zone_background.id,
+                        backgrounds: d_backgrounds.Main.i().backgrounds,
                     });
 
                 const move_dragged_background = ({
@@ -180,11 +183,12 @@ export class Dnd {
                                 ) {
                                     const trailing_drop_zone_background_i: number =
                                         // eslint-disable-next-line max-len
-                                        d_backgrounds.CurrentBackground.i().find_i_of_background_with_id(
+                                        d_backgrounds_shared.CurrentBackground.i().find_i_of_background_with_id(
                                             {
                                                 id: d_backgrounds.Main.i().backgrounds[
                                                     drop_zone_background_i
                                                 ].id,
+                                                backgrounds: d_backgrounds.Main.i().backgrounds,
                                             },
                                         );
 
@@ -228,23 +232,31 @@ export class Dnd {
                     err(
                         action(() => {
                             const drop_zone_background_left_i: number =
-                                d_backgrounds.CurrentBackground.i().find_i_of_background_with_id({
-                                    id: d_backgrounds.Main.i().backgrounds[
-                                        drop_zone_background_i +
-                                            (drop_zone_insert_direction === 'left'
-                                                ? modifier_1
-                                                : modifier_2)
-                                    ].id,
-                                });
+                                // eslint-disable-next-line max-len
+                                d_backgrounds_shared.CurrentBackground.i().find_i_of_background_with_id(
+                                    {
+                                        id: d_backgrounds.Main.i().backgrounds[
+                                            drop_zone_background_i +
+                                                (drop_zone_insert_direction === 'left'
+                                                    ? modifier_1
+                                                    : modifier_2)
+                                        ].id,
+                                        backgrounds: d_backgrounds.Main.i().backgrounds,
+                                    },
+                                );
                             const drop_zone_background_right_i: number =
-                                d_backgrounds.CurrentBackground.i().find_i_of_background_with_id({
-                                    id: d_backgrounds.Main.i().backgrounds[
-                                        drop_zone_background_i +
-                                            (drop_zone_insert_direction === 'left'
-                                                ? modifier_3
-                                                : modifier_4)
-                                    ].id,
-                                });
+                                // eslint-disable-next-line max-len
+                                d_backgrounds_shared.CurrentBackground.i().find_i_of_background_with_id(
+                                    {
+                                        id: d_backgrounds.Main.i().backgrounds[
+                                            drop_zone_background_i +
+                                                (drop_zone_insert_direction === 'left'
+                                                    ? modifier_3
+                                                    : modifier_4)
+                                        ].id,
+                                        backgrounds: d_backgrounds.Main.i().backgrounds,
+                                    },
+                                );
 
                             const i_of_background_to_the_left_of_drop_zone: string =
                                 d_backgrounds.Main.i().backgrounds[drop_zone_background_left_i].i;
@@ -279,7 +291,9 @@ export class Dnd {
                     });
                 }
 
-                d_backgrounds.Main.i().sort_backgrounds();
+                d_backgrounds_shared.Main.i().sort_backgrounds({
+                    backgrounds: d_backgrounds.Main.i().backgrounds,
+                });
 
                 d_backgrounds.CurrentBackground.i().set_current_background_i();
 
@@ -360,8 +374,9 @@ export class Dnd {
                     }, 'cnt_64684');
 
                 const background_to_move_i: number =
-                    d_backgrounds.CurrentBackground.i().find_i_of_background_with_id({
+                    d_backgrounds_shared.CurrentBackground.i().find_i_of_background_with_id({
                         id: this.background_to_move.id,
+                        backgrounds: d_backgrounds.Main.i().backgrounds,
                     });
                 const backgrounds: i_db.Background[] = toJS(d_backgrounds.Main.i().backgrounds);
 
@@ -432,8 +447,9 @@ export class Dnd {
 
                 if (val_is_integer) {
                     const background_to_move_i: number =
-                        d_backgrounds.CurrentBackground.i().find_i_of_background_with_id({
+                        d_backgrounds_shared.CurrentBackground.i().find_i_of_background_with_id({
                             id: this.background_to_move.id,
+                            backgrounds: d_backgrounds.Main.i().backgrounds,
                         });
                     const last_background_i: number = d_backgrounds.Main.i().backgrounds.length - 1;
                     let drop_i: number = 0;

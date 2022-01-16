@@ -29,6 +29,7 @@ export class Restore {
                 await ext.send_msg_resp({
                     msg: 'update_settings',
                     settings: settings_final,
+                    update_background: true,
                 });
             }
         }, 'cnt_1130');
@@ -113,6 +114,7 @@ export class Restore {
             await ext.send_msg_resp({
                 msg: 'update_settings',
                 settings,
+                update_background: true,
             });
 
             await s_db.Manipulation.i().clear_all_tables();

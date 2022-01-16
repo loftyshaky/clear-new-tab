@@ -22,6 +22,7 @@ export interface Settings {
     color_of_area_around_background: number;
     video_volume: number;
     download_img_when_link_given: boolean;
+    background_change_time: number;
     install_help_msg_is_visible: boolean;
     current_random_solid_color: string;
     show_background_id_and_i_in_tooltip: boolean;

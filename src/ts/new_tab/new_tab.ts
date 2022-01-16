@@ -1,11 +1,12 @@
 import { init_shared } from '@loftyshaky/shared';
-import { InitAll } from 'shared/init_all';
 import { d_settings } from 'shared/internal';
-import 'new_tab/internal';
+import { init } from 'new_tab/internal';
+import { InitAll } from 'shared/init_all';
 
 (async () => {
     await d_settings.Main.i().set_from_storage();
 
     init_shared();
+    init();
     InitAll.i().init();
 })();

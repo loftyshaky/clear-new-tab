@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
-import { BigNumber } from 'bignumber.js';
 
-import { s_db, i_db } from 'shared/internal';
+import { d_backgrounds as d_backgrounds_shared, s_db, i_db } from 'shared/internal';
+import { d_backgrounds } from 'settings/internal';
 
 export class Main {
     private static i0: Main;
@@ -49,7 +49,9 @@ export class Main {
                 err(() => {
                     this.backgrounds = backgrounds_2;
 
-                    this.sort_backgrounds();
+                    d_backgrounds_shared.Main.i().sort_backgrounds({
+                        backgrounds: d_backgrounds.Main.i().backgrounds,
+                    });
                 }, 'cnt_64357'),
             );
         }, 'cnt_49273');
@@ -63,11 +65,4 @@ export class Main {
         err(() => {
             this.backgrounds = _.union(this.backgrounds, backgrounds);
         }, 'cnt_49273');
-
-    public sort_backgrounds = (): void =>
-        err(() => {
-            this.backgrounds.sort((a: i_db.Background, b: i_db.Background): number =>
-                err(() => new BigNumber(a.i).minus(b.i).toString(), 'cnt_64367'),
-            );
-        }, 'cnt_64436');
 }

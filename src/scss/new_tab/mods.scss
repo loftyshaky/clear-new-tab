@@ -1,3 +1,11 @@
+.no_tr {
+    transition: none !important;
+}
+
+.z_index_plus_1 {
+    z-index: 1;
+}
+
 .top {
     align-items: start;
     justify-content: center;
@@ -41,4 +49,20 @@
 .right_bottom {
     align-items: end;
     justify-content: end;
+}
+
+.from_right_to_left {
+    left: -100%;
+}
+
+.from_left_to_right {
+    left: 100%;
+}
+
+.from_top_to_bottom {
+    top: 100%;
+}
+
+.from_bottom_to_top {
+    top: -100%;
 }

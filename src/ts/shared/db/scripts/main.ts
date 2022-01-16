@@ -10,7 +10,7 @@ export class Main extends Dexie {
         super('clear-new-tab');
 
         this.version(1).stores({
-            backgrounds: 'id, position',
+            backgrounds: 'id, i',
             background_files: 'id',
         });
 

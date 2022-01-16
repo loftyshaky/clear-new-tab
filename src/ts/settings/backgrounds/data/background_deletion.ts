@@ -3,7 +3,7 @@ import { MouseEvent } from 'react';
 import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
-import { s_db, i_db } from 'shared/internal';
+import { d_backgrounds as d_backgrounds_shared, s_db, i_db } from 'shared/internal';
 import { d_backgrounds, d_sections } from 'settings/internal';
 
 export class BackgroundDeletion {
@@ -50,8 +50,9 @@ export class BackgroundDeletion {
     public delete = ({ id }: { id: string }): Promise<void> =>
         err_async(async () => {
             const deleted_background_i: number =
-                d_backgrounds.CurrentBackground.i().find_i_of_background_with_id({
+                d_backgrounds_shared.CurrentBackground.i().find_i_of_background_with_id({
                     id,
+                    backgrounds: d_backgrounds.Main.i().backgrounds,
                 });
 
             runInAction(() =>
@@ -69,6 +70,7 @@ export class BackgroundDeletion {
             });
 
             await d_backgrounds.CurrentBackground.i().set_current_background_i();
+            d_backgrounds_shared.CurrentBackground.i().set_future_background_id();
 
             await s_db.Manipulation.i().delete_background({ id });
 

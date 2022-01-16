@@ -13,20 +13,24 @@ export class I {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
-    public get_last_background_i = (): string =>
+    private get_last_background_i = (): string =>
         err(
             () => {
                 let added_backgrounds_count: string = '0';
+                const at_least_one_background_exists: boolean =
+                    d_backgrounds.Main.i().backgrounds.length !== 0;
 
-                const last_background_i: string =
-                    d_backgrounds.Main.i().backgrounds[
-                        d_backgrounds.Main.i().backgrounds.length - 1
-                    ].i;
+                if (at_least_one_background_exists) {
+                    const last_background_i: string =
+                        d_backgrounds.Main.i().backgrounds[
+                            d_backgrounds.Main.i().backgrounds.length - 1
+                        ].i;
 
-                if (n(last_background_i)) {
-                    added_backgrounds_count = BigNumber(last_background_i)
-                        .plus(added_backgrounds_count)
-                        .toString();
+                    if (n(last_background_i)) {
+                        added_backgrounds_count = BigNumber(last_background_i)
+                            .plus(added_backgrounds_count)
+                            .toString();
+                    }
                 }
 
                 return added_backgrounds_count;

@@ -1,6 +1,6 @@
 .background_container {
     @include full_spread;
 
-    position: absolute;
+    position: fixed;
     display: flex;
 }

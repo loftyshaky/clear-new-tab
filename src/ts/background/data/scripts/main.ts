@@ -41,6 +41,7 @@ export class Main {
                 color_of_area_around_background: 0,
                 video_volume: 0,
                 download_img_when_link_given: false,
+                background_change_time: 0,
                 install_help_msg_is_visible: true,
                 current_random_solid_color: '#ffffff',
                 show_background_id_and_i_in_tooltip: false,
@@ -48,7 +49,13 @@ export class Main {
             };
         }, 'cnt_1002');
 
-    public update_settings = ({ settings }: { settings?: i_data.Settings } = {}): Promise<void> =>
+    public update_settings = ({
+        settings,
+        update_background,
+    }: {
+        settings?: i_data.Settings;
+        update_background?: boolean;
+    } = {}): Promise<void> =>
         err_async(async () => {
             const settings_final: i_data.Settings = n(settings)
                 ? settings
@@ -56,13 +63,15 @@ export class Main {
 
             await ext.storage_set(settings_final);
 
-            ext.send_msg({ msg: 'update_new_tab_page_settings_obj' });
+            if (n(update_background) && update_background) {
+                ext.send_msg({ msg: 'update_background' });
+            }
         }, 'cnt_1003');
 
     public update_settings_debounce = _.debounce(
-        (settings: i_data.Settings) =>
+        (settings: i_data.Settings, update_background?: boolean) =>
             err_async(async () => {
-                await this.update_settings({ settings });
+                await this.update_settings({ settings, update_background });
             }, 'cnt_1177'),
         500,
     );

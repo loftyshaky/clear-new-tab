@@ -8,9 +8,12 @@ we.runtime.onMessage.addListener(
 
             if (msg_str === 'update_settings') {
                 if (n(msg.update_instantly) && msg.update_instantly) {
-                    s_data.Main.i().update_settings({ settings: msg.settings });
+                    await s_data.Main.i().update_settings({
+                        settings: msg.settings,
+                        update_background: msg.update_background,
+                    });
                 } else {
-                    s_data.Main.i().update_settings_debounce(msg.settings);
+                    s_data.Main.i().update_settings_debounce(msg.settings, msg.update_background);
                 }
             } else if (msg_str === 'get_defaults') {
                 return s_data.Main.i().defaults;
@@ -18,6 +21,8 @@ we.runtime.onMessage.addListener(
                 we.runtime.reload();
             } else if (msg_str === 'open_theme_background') {
                 s_theme.LinkToImage.i().open();
+            } else {
+                await x.delay(10000);
             }
 
             return true;

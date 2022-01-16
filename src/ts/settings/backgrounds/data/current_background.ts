@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import { makeObservable, observable, action, autorun, toJS } from 'mobx';
+import { makeObservable, observable, action, toJS } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
-import { i_db } from 'shared/internal';
+import { d_backgrounds as d_backgrounds_shared, d_settings, i_db } from 'shared/internal';
 import { d_background_settings, d_backgrounds } from 'settings/internal';
 
 export class CurrentBackground {
@@ -15,22 +15,17 @@ export class CurrentBackground {
 
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {
-        makeObservable<CurrentBackground, 'set_current_background_i' | 'set_future_background_id'>(
-            this,
-            {
-                selected_background_id: observable,
-                select: action,
-                deselect: action,
-                set_current_background_i: action,
-                set_background_as_current: action,
-                reset_current_background_id: action,
-                set_future_background_id: action,
-            },
-        );
+        makeObservable<CurrentBackground, 'set_current_background_i'>(this, {
+            selected_background_id: observable,
+            select: action,
+            deselect: action,
+            set_current_background_i: action,
+            set_background_as_current: action,
+            reset_current_background_id: action,
+        });
     }
 
     public selected_background_id: string | undefined = undefined;
-    private set_future_background_id_run_once: boolean = false;
 
     public select = ({ background }: { background: i_db.Background }): void =>
         err(() => {
@@ -60,16 +55,6 @@ export class CurrentBackground {
         return '';
     });
 
-    public find_i_of_background_with_id = ({ id }: { id: string }): number =>
-        err(
-            () =>
-                d_backgrounds.Main.i().backgrounds.findIndex(
-                    (background: i_db.Background): boolean =>
-                        err(() => background.id === id, 'cnt_56538'),
-                ),
-            'cnt_54723',
-        );
-
     public set_current_background_i = (): void =>
         err(() => {
             const no_backgrounds_exist: boolean = d_backgrounds.Main.i().backgrounds.length === 0;
@@ -77,23 +62,33 @@ export class CurrentBackground {
             if (no_backgrounds_exist) {
                 data.ui.current_background_i = 1;
             } else {
-                const i_of_background_with_current_id: number = this.find_i_of_background_with_id({
-                    id: data.settings.current_background_id,
-                });
+                const i_of_background_with_current_id: number =
+                    d_backgrounds_shared.CurrentBackground.i().find_i_of_background_with_id({
+                        id: data.settings.current_background_id,
+                        backgrounds: d_backgrounds.Main.i().backgrounds,
+                    });
                 data.ui.current_background_i = i_of_background_with_current_id + 1;
             }
         }, 'cnt_56743');
 
-    public set_background_as_current = ({ id }: { id: string | undefined }): void =>
-        err(() => {
+    public set_background_as_current = ({ id }: { id: string | undefined }): Promise<void> =>
+        err_async(async () => {
             data.settings.current_background_id = id;
 
             this.set_current_background_i();
 
-            ext.send_msg({
+            d_settings.Main.i().change({
+                key: 'background_change_time',
+                val: new Date().getTime(),
+            });
+
+            await ext.send_msg_resp({
                 msg: 'update_settings',
                 settings: { current_background_id: id },
                 update_instantly: true,
+            });
+            ext.send_msg({
+                msg: 'update_background',
             });
         }, 'cnt_64357');
 
@@ -128,6 +123,7 @@ export class CurrentBackground {
             ext.send_msg({
                 msg: 'update_settings',
                 settings: { current_background_id: background_with_current_i.id },
+                update_background: true,
             });
         }, 'cnt_64789');
 
@@ -172,6 +168,7 @@ export class CurrentBackground {
                     msg: 'update_settings',
                     settings: { current_background_id: new_current_background_id },
                     update_instantly: true,
+                    update_background: true,
                 });
             }
         }, 'cnt_53246');
@@ -187,63 +184,9 @@ export class CurrentBackground {
                 msg: 'update_settings',
                 settings: { current_background_id: reset_val },
                 update_instantly: true,
+                update_background: true,
             });
         }, 'cnt_64684');
-
-    public set_future_background_id = (): void =>
-        err(() => {
-            if (this.set_future_background_id_run_once) {
-                const current_background_is_the_only_background: boolean =
-                    d_backgrounds.Main.i().backgrounds.length === 1;
-
-                if (
-                    !current_background_is_the_only_background &&
-                    data.settings.shuffle_backgrounds
-                ) {
-                    data.settings.future_background_id = this.get_id_of_random_background();
-                } else {
-                    const i_of_background_with_current_id: number =
-                        this.find_i_of_background_with_id({
-                            id: data.settings.current_background_id,
-                        });
-
-                    const current_background_is_last_background: boolean =
-                        d_backgrounds.Main.i().backgrounds.length - 1 ===
-                        i_of_background_with_current_id;
-
-                    if (current_background_is_last_background) {
-                        data.settings.future_background_id =
-                            d_backgrounds.Main.i().backgrounds[0].id;
-                    } else {
-                        data.settings.future_background_id =
-                            d_backgrounds.Main.i().backgrounds[
-                                i_of_background_with_current_id + 1
-                            ].id;
-                    }
-                }
-
-                ext.send_msg({
-                    msg: 'update_settings',
-                    settings: {
-                        current_background_id: data.settings.current_background_id,
-                        future_background_id: data.settings.future_background_id,
-                    },
-                    update_instantly: true,
-                });
-            }
-
-            this.set_future_background_id_run_once = true;
-        }, 'cnt_43673');
-
-    public set_future_background_id_autorun = (): void =>
-        err(() => {
-            autorun(() => {
-                // eslint-disable-next-line no-unused-expressions
-                data.settings.current_background_id;
-
-                this.set_future_background_id();
-            });
-        }, 'cnt_43673');
 
     private get_id_of_random_background = (): string | number =>
         err(() => {

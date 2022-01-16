@@ -1,5 +1,5 @@
 import { d_color, s_color } from '@loftyshaky/shared/inputs';
-import { d_data } from 'shared/internal';
+import { d_backgrounds as d_backgrounds_shared, d_data } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
@@ -14,7 +14,7 @@ export const init = (): Promise<void> =>
         d_sections.Main.i().init_sections();
         await d_backgrounds.Main.i().set_backgrounds();
         d_backgrounds.CurrentBackground.i().set_current_background_i();
-        d_backgrounds.CurrentBackground.i().set_future_background_id_autorun();
+        d_backgrounds_shared.CurrentBackground.i().set_future_background_id_autorun();
         d_background_settings.GlobalCheckboxes.i().set_ui_vals();
         d_background_settings.SettingsType.i().react_to_global_selection();
         d_optional_permission_settings.Main.i().set_ui_vals();

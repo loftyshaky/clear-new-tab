@@ -1,7 +1,7 @@
 import { BigNumber } from 'bignumber.js';
 
 import { o_inputs, d_inputs } from '@loftyshaky/shared/inputs';
-import { s_db, i_db } from 'shared/internal';
+import { d_backgrounds as d_backgrounds_shared, s_db, i_db } from 'shared/internal';
 import { d_backgrounds, s_backgrounds, i_backgrounds } from 'settings/internal';
 
 export class Upload {
@@ -103,7 +103,7 @@ export class Upload {
                 id: new_backgrounds_final[new_backgrounds_final.length - 1].id,
             });
 
-            d_backgrounds.CurrentBackground.i().set_future_background_id();
+            d_backgrounds_shared.CurrentBackground.i().set_future_background_id();
             await d_backgrounds.BackgroundAnimation.i().forbid_animation();
 
             if (at_least_one_background_is_broken) {
