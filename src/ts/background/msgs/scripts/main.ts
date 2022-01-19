@@ -17,8 +17,6 @@ we.runtime.onMessage.addListener(
                 }
             } else if (msg_str === 'get_defaults') {
                 return s_data.Main.i().defaults;
-            } else if (msg_str === 'reload_ext') {
-                we.runtime.reload();
             } else if (msg_str === 'open_theme_background') {
                 s_theme.LinkToImage.i().open();
             } else {
