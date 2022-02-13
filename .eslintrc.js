@@ -43,7 +43,7 @@ const rules = {
         'max-depth': ['error', 4],
         'max-nested-callbacks': ['error', 8],
         'no-negated-condition': 'error',
-        'linebreak-style': ['error', 'windows'],
+        'linebreak-style': ['error', 'unix'],
         'object-curly-newline': ['error', { consistent: true }],
         'padding-line-between-statements': [
             'error',
@@ -135,7 +135,21 @@ module.exports = {
     extends: ['airbnb', 'airbnb/hooks', 'prettier'],
     plugins: ['react', 'prettier'],
     parser: 'babel-eslint',
-    rules: { ...rules.js, 'prettier/prettier': 'error' },
+    rules: {
+        ...rules.js,
+        'prettier/prettier': [
+            'error',
+            {
+                singleQuote: true,
+                jsxSingleQuote: true,
+                tabWidth: 4,
+                printWidth: 100,
+                semi: true,
+                trailingComma: 'all',
+                endOfLine: 'lf',
+            },
+        ],
+    },
     overrides: [
         {
             extends: ['airbnb', 'plugin:@typescript-eslint/recommended', 'prettier'],
