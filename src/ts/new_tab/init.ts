@@ -10,4 +10,7 @@ export const init = (): Promise<void> =>
             'visibilitychange',
             d_background.BackgroundChange.i().react_to_visibility_change,
         );
+        x.bind(window, 'beforeunload', () => {
+            ext.send_msg({ msg: 'clear_slideshow_timer' });
+        });
     }, 'cnt_61125');
