@@ -65,8 +65,23 @@ export class Val {
                             d_background_settings.GlobalCheckboxes.i().restore_global_val({
                                 name: input.name.replace('_global', ''),
                             });
-                        } else if (input.name !== 'create_solid_color_background') {
+                        } else if (
+                            ['mode', 'slideshow', 'background_change_interval'].includes(input.name)
+                        ) {
                             await ext.send_msg_resp({
+                                msg: 'update_settings',
+                                settings: {
+                                    [input.name]: val,
+                                    background_change_time: new Date().getTime(),
+                                },
+                                update_instantly: true,
+                            });
+
+                            ext.send_msg({
+                                msg: 'get_background',
+                            });
+                        } else if (input.name !== 'create_solid_color_background') {
+                            ext.send_msg({
                                 msg: 'update_settings',
                                 settings: { [input.name]: val },
                             });

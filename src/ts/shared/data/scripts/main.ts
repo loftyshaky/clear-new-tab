@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { t } from '@loftyshaky/shared';
 import { d_color } from '@loftyshaky/shared/inputs';
-import { i_data } from 'shared/internal';
+import { s_background, i_data } from 'shared/internal';
 
 export class Main {
     private static i0: Main;
@@ -55,6 +55,7 @@ export class Main {
     }: {
         settings?: i_data.Settings;
         update_background?: boolean;
+        update_settings_obj?: boolean;
     } = {}): Promise<void> =>
         err_async(async () => {
             const settings_final: i_data.Settings = n(settings)
@@ -64,7 +65,7 @@ export class Main {
             await ext.storage_set(settings_final);
 
             if (n(update_background) && update_background) {
-                ext.send_msg({ msg: 'update_background' });
+                s_background.BackgroundChange.i().try_to_change_background();
             }
         }, 'cnt_1003');
 

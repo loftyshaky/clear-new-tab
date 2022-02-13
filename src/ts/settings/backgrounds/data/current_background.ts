@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { makeObservable, observable, action, toJS } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
-import { d_backgrounds as d_backgrounds_shared, d_settings, i_db } from 'shared/internal';
+import { d_backgrounds as d_backgrounds_shared, i_db } from 'shared/internal';
 import { d_background_settings, d_backgrounds } from 'settings/internal';
 
 export class CurrentBackground {
@@ -77,18 +77,19 @@ export class CurrentBackground {
 
             this.set_current_background_i();
 
-            d_settings.Main.i().change({
-                key: 'background_change_time',
-                val: new Date().getTime(),
-            });
-
             await ext.send_msg_resp({
                 msg: 'update_settings',
-                settings: { current_background_id: id },
+                settings: {
+                    current_background_id: id,
+                    background_change_time: new Date().getTime(),
+                },
                 update_instantly: true,
             });
+
+            d_backgrounds_shared.CurrentBackground.i().set_future_background_id();
+
             ext.send_msg({
-                msg: 'update_background',
+                msg: 'get_background',
             });
         }, 'cnt_64357');
 

@@ -64,5 +64,9 @@ export class Val {
             await s_db.Manipulation.i().update_background({
                 background: d_background_settings.SettingsType.i().selected_background!,
             });
+
+            ext.send_msg({
+                msg: 'get_background',
+            });
         }, 'cnt_64566');
 }

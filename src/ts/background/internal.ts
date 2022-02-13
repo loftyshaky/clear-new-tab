@@ -5,5 +5,6 @@ misplaced_dependency('background');
 
 export * from 'background/init';
 
-export * as s_data from 'background/data/scripts';
+export * as s_service_worker from 'background/service_worker/scripts';
+export * as s_tabs from 'background/tabs/scripts';
 export * as s_theme from 'background/theme/scripts';

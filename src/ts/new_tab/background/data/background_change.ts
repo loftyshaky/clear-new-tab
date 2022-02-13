@@ -1,5 +1,5 @@
 import { runInAction } from 'mobx';
-import { d_backgrounds, s_db, d_settings } from 'shared/internal';
+import { s_db } from 'shared/internal';
 import { d_background, s_background } from 'new_tab/internal';
 
 export class BackgroundChange {
@@ -13,43 +13,6 @@ export class BackgroundChange {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
-    public try_to_change_background = (): Promise<void> =>
-        err_async(async () => {
-            if (data.settings.mode === 'multiple_backgrounds') {
-                const current_time: number = new Date().getTime();
-                const time_to_change_background: boolean =
-                    current_time >
-                    data.settings.background_change_time + data.settings.background_change_interval;
-
-                if (time_to_change_background) {
-                    d_settings.Main.i().change({
-                        key: 'background_change_time',
-                        val: current_time,
-                    });
-
-                    data.settings.current_background_id = data.settings.future_background_id;
-
-                    await d_backgrounds.CurrentBackground.i().set_future_background_id();
-
-                    if (data.settings.slideshow) {
-                    } else {
-                        await this.update_background();
-                    }
-                } else {
-                    await this.update_background();
-                }
-            } else {
-                await this.update_background();
-            }
-
-            ext.send_msg({
-                msg: 'update_background',
-            });
-            ext.send_msg({
-                msg: 'set_current_background_i',
-            });
-        }, 'cnt_65432');
-
     public update_background = ({
         no_tr = false,
     }: {
@@ -59,6 +22,7 @@ export class BackgroundChange {
             d_background.Classes.i().no_tr = no_tr;
 
             const {
+                background_container_i,
                 opposite_background_container_i,
                 background,
                 get_background,
@@ -69,13 +33,14 @@ export class BackgroundChange {
                 get_background_css,
             } = d_background.Main.i();
 
-            if (typeof background === 'string') {
-                URL.revokeObjectURL(background);
+            if (typeof background[background_container_i] === 'string') {
+                URL.revokeObjectURL(background[background_container_i]);
             }
 
             const new_background_data = await s_db.Manipulation.i().get_background({
                 id: data.settings.current_background_id,
             });
+
             const new_background_file = await s_db.Manipulation.i().get_background_file({
                 id: data.settings.current_background_id,
             });
@@ -112,4 +77,13 @@ export class BackgroundChange {
 
             await s_background.Load.i().wait_to_visibility();
         }, 'cnt_75465');
+
+    public react_to_visibility_change = (): void =>
+        err(() => {
+            if (document.visibilityState === 'visible') {
+                ext.send_msg({ msg: 'get_background' });
+            } else if (document.visibilityState === 'hidden') {
+                ext.send_msg({ msg: 'clear_slideshow_timer' });
+            }
+        }, 'cnt_76545');
 }
