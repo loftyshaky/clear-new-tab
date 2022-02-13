@@ -66,7 +66,11 @@ module.exports = (env, argv) => {
                     ext_id,
                     hard: false,
                     play_sound: true,
-                    hard_paths: ['_locales\\', 'shared\\', 'background\\'],
+                    hard_paths: [
+                        `_locales${path.sep}`,
+                        `shared${path.sep}`,
+                        `background${path.sep}`,
+                    ],
                 });
             } else {
                 reloader.reload({
