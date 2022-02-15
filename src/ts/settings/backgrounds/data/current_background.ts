@@ -71,7 +71,11 @@ export class CurrentBackground {
             }
         }, 'cnt_56743');
 
-    public set_background_as_current = ({ id }: { id: string | undefined }): Promise<void> =>
+    public set_background_as_current = ({
+        id,
+    }: {
+        id: string | number | undefined;
+    }): Promise<void> =>
         err_async(async () => {
             data.settings.current_background_id = id;
 
@@ -81,6 +85,7 @@ export class CurrentBackground {
                 msg: 'update_settings',
                 settings: {
                     current_background_id: id,
+                    ...(id === 1 && { future_background_id: id }),
                     background_change_time: new Date().getTime(),
                 },
                 update_instantly: true,
@@ -121,10 +126,12 @@ export class CurrentBackground {
 
     public save_current_background_id_from_i = (): void =>
         err(() => {
-            const background_with_current_i: i_db.Background =
+            const background_with_current_i: i_db.Background | undefined =
                 d_backgrounds.Main.i().backgrounds[data.ui.current_background_i - 1];
 
-            this.set_background_as_current({ id: background_with_current_i.id });
+            this.set_background_as_current({
+                id: n(background_with_current_i) ? background_with_current_i.id : 1,
+            });
         }, 'cnt_64789');
 
     public decrement_current_background = ({
