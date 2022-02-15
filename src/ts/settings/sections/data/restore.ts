@@ -51,7 +51,6 @@ export class Restore {
             const backup_data_leading_size = new TextEncoder().encode(backup_data_leading).length;
             const backup_data_trailing_size = new TextEncoder().encode(backup_data_trailing).length;
             let backgrounds_size: number = 0;
-            let background_i: number = 0;
 
             // eslint-disable-next-line no-restricted-syntax
             for await (const background of d_backgrounds.Main.i().backgrounds) {
@@ -59,8 +58,13 @@ export class Restore {
                     (background_file_2: i_db.BackgroundFile): boolean =>
                         err(() => background_file_2.id === background.id, 'cnt_64675'),
                 );
+                const background_thumbnail: i_db.BackgroundThumbnail | undefined =
+                    background_thumbnails.find(
+                        (background_thumbnail_2: i_db.BackgroundFile): boolean =>
+                            err(() => background_thumbnail_2.id === background.id, 'cnt_64675'),
+                    );
 
-                if (n(background_file) && n(background_file.background)) {
+                if (n(background_file) && n(background_thumbnail)) {
                     const is_color = background.type.includes('color');
 
                     const file: i_sections.BackUpBackgroundFile = is_color
@@ -80,7 +84,7 @@ export class Restore {
                           };
 
                     const thumbnail: i_sections.BackUpBackgroundThumbnail = {
-                        background: background_thumbnails[background_i].background,
+                        background: background_thumbnail.background,
                     };
 
                     const new_chunk: string = `${
@@ -107,8 +111,6 @@ export class Restore {
                         is_first_background = false;
                     }
                 }
-
-                background_i += 1;
             }
 
             return backup_data_leading + backgrounds + backup_data_trailing;
