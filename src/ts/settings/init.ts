@@ -1,5 +1,5 @@
 import { d_color, s_color } from '@loftyshaky/shared/inputs';
-import { d_data } from 'shared/internal';
+import { InitAll, d_data } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
@@ -9,6 +9,7 @@ import {
 
 export const init = (): Promise<void> =>
     err_async(async () => {
+        InitAll.i().init();
         d_data.Main.i().create_objs();
         d_sections.Main.i().init_options();
         d_sections.Main.i().init_sections();
@@ -24,4 +25,6 @@ export const init = (): Promise<void> =>
         x.bind(document, 'mousedown', d_color.Visibility.i().hide_all);
         x.bind(document, 'mousemove', d_backgrounds.Dnd.i().set_dragged_background_position);
         x.bind(document, 'mouseup', d_backgrounds.Dnd.i().stop_drag);
+
+        InitAll.i().render_settings();
     }, 'cnt_1125');

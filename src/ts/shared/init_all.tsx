@@ -27,6 +27,9 @@ export class InitAll {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
+    private settings_root: HTMLDivElement | undefined = undefined;
+    private new_tab_root: HTMLDivElement | undefined = undefined;
+
     public init = (): Promise<void> =>
         err_async(async () => {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -40,91 +43,18 @@ export class InitAll {
             const loading_screen_root: ShadowRoot = this.create_root({
                 prefix: 'loading_screen',
             }) as ShadowRoot;
-            let settings_root: HTMLDivElement;
-            let new_tab_root: HTMLDivElement;
 
             if (page === 'settings') {
-                settings_root = this.create_root({
+                this.settings_root = this.create_root({
                     prefix: 'settings',
                     shadow_root: false,
                 }) as HTMLDivElement;
             } else if (page === 'new_tab') {
-                new_tab_root = this.create_root({
+                this.new_tab_root = this.create_root({
                     prefix: 'new_tab',
                     shadow_root: false,
                 }) as HTMLDivElement;
             }
-
-            const render_settings = (): Promise<void> =>
-                err_async(async () => {
-                    const { Body } = await import('settings/components/body');
-                    const on_render = (): Promise<void> =>
-                        err_async(async () => {
-                            const { d_sections } = await import('settings/internal');
-
-                            await d_inputs.InputWidth.i().calculate_for_all_sections({
-                                sections: d_sections.Main.i().sections as i_inputs.Sections,
-                                all_sections_inputs_equal_width: true,
-                            });
-                            d_sections.Width.i().set();
-
-                            d_loading_screen.Main.i().hide();
-
-                            s_tab_index.Main.i().bind_set_input_type_f();
-                        }, 'cnt_1148');
-
-                    render(
-                        <c_crash_handler.Body>
-                            <Body />
-                        </c_crash_handler.Body>,
-                        settings_root,
-                        (): void =>
-                            err(() => {
-                                const settings_css = x.css('settings_css', document.head);
-
-                                s_theme_shared.Main.i().set({
-                                    name: data.settings.options_page_theme,
-                                    additional_theme_callback: s_theme.Main.i().set,
-                                });
-
-                                if (n(settings_css)) {
-                                    x.bind(settings_css, 'load', on_render);
-                                }
-                            }, 'cnt_1149'),
-                    );
-                }, 'cnt_1150');
-
-            const render_new_tab = (): Promise<void> =>
-                err_async(async () => {
-                    const { Body } = await import('new_tab/components/body');
-                    const on_render = (): Promise<void> =>
-                        err_async(async () => {
-                            d_inputs.InputWidth.i().set_max_width();
-
-                            d_loading_screen.Main.i().hide();
-
-                            s_tab_index.Main.i().bind_set_input_type_f();
-                        }, 'cnt_1148');
-
-                    render(
-                        <c_crash_handler.Body>
-                            <Body />
-                        </c_crash_handler.Body>,
-                        new_tab_root,
-                        (): void =>
-                            err(() => {
-                                const new_tab_css = x.css('new_tab_css', document.head);
-
-                                s_theme.Main.i().set({
-                                    name: data.settings.options_page_theme,
-                                });
-
-                                if (n(new_tab_css)) {
-                                    x.bind(new_tab_css, 'load', on_render);
-                                }
-                            }, 'cnt_1149'),
-                    );
-                }, 'cnt_1150');
 
             render(<c_error.Body app_id={s_suffix.app_id} />, error_root, (): void => {
                 render(
@@ -147,13 +77,14 @@ export class InitAll {
                                 if (n(loading_screen_css)) {
                                     x.bind(loading_screen_css, 'load', (): void =>
                                         err(() => {
-                                            d_loading_screen.Main.i().show();
-
                                             if (page === 'settings') {
-                                                render_settings();
-                                            } else if (page === 'new_tab') {
-                                                render_new_tab();
+                                                s_theme_shared.Main.i().set({
+                                                    name: data.settings.options_page_theme,
+                                                    additional_theme_callback: s_theme.Main.i().set,
+                                                });
                                             }
+
+                                            d_loading_screen.Main.i().show();
                                         }, 'cnt_1158'),
                                     );
                                 }
@@ -193,4 +124,75 @@ export class InitAll {
                 title_el.textContent = ext.msg(`${page}_title_text`);
             }
         }, 'cnt_1162');
+
+    public render_settings = (): Promise<void> =>
+        err_async(async () => {
+            const { Body } = await import('settings/components/body');
+            const on_render = (): Promise<void> =>
+                err_async(async () => {
+                    const { d_sections } = await import('settings/internal');
+
+                    await d_inputs.InputWidth.i().calculate_for_all_sections({
+                        sections: d_sections.Main.i().sections as i_inputs.Sections,
+                        all_sections_inputs_equal_width: true,
+                    });
+                    d_sections.Width.i().set();
+
+                    d_loading_screen.Main.i().hide();
+
+                    s_tab_index.Main.i().bind_set_input_type_f();
+                }, 'cnt_1148');
+
+            if (n(this.settings_root)) {
+                render(
+                    <c_crash_handler.Body>
+                        <Body />
+                    </c_crash_handler.Body>,
+                    this.settings_root,
+                    (): void =>
+                        err(() => {
+                            const settings_css = x.css('settings_css', document.head);
+
+                            s_theme_shared.Main.i().set({
+                                name: data.settings.options_page_theme,
+                                additional_theme_callback: s_theme.Main.i().set,
+                            });
+
+                            if (n(settings_css)) {
+                                x.bind(settings_css, 'load', on_render);
+                            }
+                        }, 'cnt_1149'),
+                );
+            }
+        }, 'cnt_1150');
+
+    public render_new_tab = (): Promise<void> =>
+        err_async(async () => {
+            const { Body } = await import('new_tab/components/body');
+            const on_render = (): Promise<void> =>
+                err_async(async () => {
+                    d_inputs.InputWidth.i().set_max_width();
+
+                    d_loading_screen.Main.i().hide();
+
+                    s_tab_index.Main.i().bind_set_input_type_f();
+                }, 'cnt_1148');
+
+            if (n(this.new_tab_root)) {
+                render(
+                    <c_crash_handler.Body>
+                        <Body />
+                    </c_crash_handler.Body>,
+                    this.new_tab_root,
+                    (): void =>
+                        err(() => {
+                            const new_tab_css = x.css('new_tab_css', document.head);
+
+                            if (n(new_tab_css)) {
+                                x.bind(new_tab_css, 'load', on_render);
+                            }
+                        }, 'cnt_1149'),
+                );
+            }
+        }, 'cnt_1150');
 }
