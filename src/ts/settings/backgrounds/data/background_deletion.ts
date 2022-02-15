@@ -97,11 +97,13 @@ export class BackgroundDeletion {
 
             if (this.deletion_reason === 'delete_all_backgrounds') {
                 d_backgrounds.Main.i().backgrounds = [];
+                d_backgrounds.Main.i().background_thumbnails = [];
 
                 await s_db.Manipulation.i().clear_all_tables();
             } else if (this.deletion_reason === 'restore_back_up') {
                 await d_backgrounds.Main.i().set_backgrounds({
                     backgrounds: d_sections.Restore.i().restored_backgrounds,
+                    background_thumbnails: d_sections.Restore.i().restored_background_thumbnails,
                 });
             }
 

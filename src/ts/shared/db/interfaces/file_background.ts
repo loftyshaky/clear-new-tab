@@ -3,7 +3,6 @@ export interface FileBackground {
     theme_id: string | undefined;
     i: string;
     type: 'img_file' | 'video_file' | 'img_link';
-    thumbnail: string | undefined;
     width: number;
     height: number;
     thumbnail_width: number;

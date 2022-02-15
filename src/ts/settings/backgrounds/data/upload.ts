@@ -22,6 +22,7 @@ export class Upload {
     }): Promise<void> => {
         try {
             const next_i: string = s_backgrounds.I.i().get_next_background_i();
+            const ordered_thumbnails: i_backgrounds.OrderedThumbnails[] = [];
             const ordered_files: i_backgrounds.OrderedFiles[] = [];
 
             const new_backgrounds: (i_db.Background | undefined)[] = await Promise.all(
@@ -34,9 +35,6 @@ export class Upload {
                             try {
                                 const id: string = x.unique_id();
                                 const i: string = new BigNumber(next_i).plus(i_2).toString();
-
-                                ordered_files.push({ id, file });
-
                                 const background_props: i_backgrounds.BackgroundProps =
                                     // eslint-disable-next-line max-len
                                     await s_backgrounds.Thumbnail.i().get_background_width_height_and_thumbnail(
@@ -45,6 +43,12 @@ export class Upload {
                                         },
                                     );
 
+                                ordered_files.push({ id, file });
+                                ordered_thumbnails.push({
+                                    id,
+                                    thumbnail: background_props.thumbnail,
+                                });
+
                                 return {
                                     id,
                                     theme_id: undefined,
@@ -52,7 +56,6 @@ export class Upload {
                                     type: `${s_backgrounds.FileType.i().get_file_type({
                                         file,
                                     })}`,
-                                    thumbnail: background_props.thumbnail,
                                     width: background_props.width,
                                     height: background_props.height,
                                     thumbnail_width: background_props.thumbnail_width,
@@ -82,6 +85,17 @@ export class Upload {
                     err(() => (n(background) ? [background] : []), 'cnt_54346'),
             );
 
+            const new_background_thumbnails: i_db.BackgroundThumbnail[] = ordered_thumbnails.map(
+                (ordered_thumbnail: i_backgrounds.OrderedThumbnails): i_db.BackgroundThumbnail =>
+                    err(
+                        () => ({
+                            id: ordered_thumbnail.id,
+                            background: ordered_thumbnail.thumbnail,
+                        }),
+                        'cnt_64285',
+                    ),
+            );
+
             const new_background_files: i_db.BackgroundFile[] = ordered_files.map(
                 (ordered_file: i_backgrounds.OrderedFiles): i_db.BackgroundFile =>
                     err(
@@ -95,10 +109,14 @@ export class Upload {
 
             await s_db.Manipulation.i().save_backgrounds({
                 backgrounds: new_backgrounds_final,
+                background_thumbnails: new_background_thumbnails,
                 background_files: new_background_files,
             });
             d_backgrounds.BackgroundAnimation.i().allow_animation();
-            d_backgrounds.Main.i().merge_backgrounds({ backgrounds: new_backgrounds_final });
+            d_backgrounds.Main.i().merge_backgrounds({
+                backgrounds: new_backgrounds_final,
+                background_thumbnails: new_background_thumbnails,
+            });
             await d_backgrounds.CurrentBackground.i().set_last_uploaded_background_as_current({
                 id: new_backgrounds_final[new_backgrounds_final.length - 1].id,
             });

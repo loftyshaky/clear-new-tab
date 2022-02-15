@@ -17,6 +17,7 @@ export class Restore {
     private constructor() {}
 
     public restored_backgrounds: i_db.Background[] = [];
+    public restored_background_thumbnails: i_db.BackgroundThumbnail[] = [];
 
     public restore_confirm = ({ settings }: { settings?: i_data.Settings } = {}): Promise<void> =>
         err_async(async () => {
@@ -38,6 +39,8 @@ export class Restore {
         err_async(async () => {
             const background_files: i_db.BackgroundFile[] =
                 await s_db.Manipulation.i().get_background_files();
+            const background_thumbnails: i_db.BackgroundThumbnail[] =
+                await s_db.Manipulation.i().get_background_thumbnails();
 
             let backgrounds: string = '';
             let is_first_background: boolean = true;
@@ -48,6 +51,7 @@ export class Restore {
             const backup_data_leading_size = new TextEncoder().encode(backup_data_leading).length;
             const backup_data_trailing_size = new TextEncoder().encode(backup_data_trailing).length;
             let backgrounds_size: number = 0;
+            let background_i: number = 0;
 
             // eslint-disable-next-line no-restricted-syntax
             for await (const background of d_backgrounds.Main.i().backgrounds) {
@@ -75,9 +79,15 @@ export class Restore {
                                         ),
                           };
 
+                    const thumbnail: i_sections.BackUpBackgroundThumbnail = {
+                        background: background_thumbnails[background_i].background,
+                    };
+
                     const new_chunk: string = `${
                         is_first_background ? '' : ','
-                    }{"data":${JSON.stringify(background)},"file":${JSON.stringify(file)}}`;
+                    }{"data":${JSON.stringify(background)},"thumbnail":${JSON.stringify(
+                        thumbnail,
+                    )},"file":${JSON.stringify(file)}}`;
 
                     const new_chunk_size = new TextEncoder().encode(new_chunk).length;
                     backgrounds_size += new_chunk_size;
@@ -97,6 +107,8 @@ export class Restore {
                         is_first_background = false;
                     }
                 }
+
+                background_i += 1;
             }
 
             return backup_data_leading + backgrounds + backup_data_trailing;
@@ -120,6 +132,7 @@ export class Restore {
             await s_db.Manipulation.i().clear_all_tables();
 
             this.restored_backgrounds = [];
+            this.restored_background_thumbnails = [];
             const restored_background_files: i_db.BackgroundFile[] = [];
 
             await Promise.all(
@@ -132,6 +145,10 @@ export class Restore {
                                 back_up_background.data.type.includes('color') ||
                                 back_up_background.data.type === 'img_link'
                             ) {
+                                this.restored_background_thumbnails.push({
+                                    id: back_up_background.data.id,
+                                    background: back_up_background.thumbnail.background,
+                                });
                                 restored_background_files.push({
                                     id: back_up_background.data.id,
                                     background: back_up_background.file.background,
@@ -146,6 +163,11 @@ export class Restore {
                                     lastModified: back_up_background.file.last_modified,
                                 });
 
+                                this.restored_background_thumbnails.push({
+                                    id: back_up_background.data.id,
+                                    background: back_up_background.thumbnail.background,
+                                });
+
                                 restored_background_files.push({
                                     id: back_up_background.data.id,
                                     background: file,
@@ -157,6 +179,7 @@ export class Restore {
 
             await s_db.Manipulation.i().save_backgrounds({
                 backgrounds: this.restored_backgrounds,
+                background_thumbnails: this.restored_background_thumbnails,
                 background_files: restored_background_files,
             });
 

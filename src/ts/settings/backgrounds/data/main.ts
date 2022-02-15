@@ -18,11 +18,11 @@ export class Main {
         makeObservable(this, {
             backgrounds: observable,
             merge_backgrounds: action,
-            update_backgrounds: action,
         });
     }
 
     public backgrounds: i_db.Background[] = [];
+    public background_thumbnails: i_db.BackgroundThumbnail[] = [];
 
     public developer_info = computedFn(function (
         this: Main,
@@ -35,19 +35,39 @@ export class Main {
         return undefined;
     });
 
+    public get_background_thumbnail_by_id = ({
+        id,
+    }: {
+        id: string;
+    }): i_db.BackgroundThumbnail | undefined =>
+        err(
+            () =>
+                this.background_thumbnails.find(
+                    (background_thumbnail: i_db.BackgroundThumbnail): boolean =>
+                        err(() => background_thumbnail.id === id, 'cnt_64355'),
+                ),
+            'cnt_55756',
+        );
+
     public set_backgrounds = ({
         backgrounds,
+        background_thumbnails,
     }: {
         backgrounds?: i_db.Background[];
+        background_thumbnails?: i_db.BackgroundThumbnail[];
     } = {}): Promise<void> =>
         err(async () => {
             const backgrounds_2: i_db.Background[] = n(backgrounds)
                 ? backgrounds
                 : await s_db.Manipulation.i().get_backgrounds();
+            const backgrounds_thumbnails_2: i_db.BackgroundThumbnail[] = n(background_thumbnails)
+                ? background_thumbnails
+                : await s_db.Manipulation.i().get_background_thumbnails();
 
             runInAction(() =>
                 err(() => {
                     this.backgrounds = backgrounds_2;
+                    this.background_thumbnails = backgrounds_thumbnails_2;
 
                     d_backgrounds_shared.Main.i().sort_backgrounds({
                         backgrounds: d_backgrounds.Main.i().backgrounds,
@@ -56,13 +76,15 @@ export class Main {
             );
         }, 'cnt_49273');
 
-    public merge_backgrounds = ({ backgrounds }: { backgrounds: i_db.Background[] }): void =>
+    public merge_backgrounds = ({
+        backgrounds,
+        background_thumbnails,
+    }: {
+        backgrounds: i_db.Background[];
+        background_thumbnails: i_db.BackgroundThumbnail[];
+    }): void =>
         err(() => {
             this.backgrounds = _.union(this.backgrounds, backgrounds);
-        }, 'cnt_49273');
-
-    public update_backgrounds = ({ backgrounds }: { backgrounds: i_db.Background[] }): void =>
-        err(() => {
-            this.backgrounds = _.union(this.backgrounds, backgrounds);
+            this.background_thumbnails = _.union(this.background_thumbnails, background_thumbnails);
         }, 'cnt_49273');
 }

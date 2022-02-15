@@ -7,6 +7,12 @@ import { c_backgrounds, d_backgrounds, p_backgrounds } from 'settings/internal';
 
 export const Background: React.FunctionComponent<p_backgrounds.Background> = observer((props) => {
     const { key, index, style, background, dragged } = props;
+    const background_thumbnail: i_db.BackgroundThumbnail | undefined =
+        d_backgrounds.Main.i().get_background_thumbnail_by_id({ id: background.id });
+    const background_thumbnail_background: string =
+        n(background_thumbnail) && n(background_thumbnail.background)
+            ? background_thumbnail.background
+            : '';
 
     useEffect(() => {
         d_backgrounds.BackgroundAnimation.i().push_already_animated_id({ id: background.id });
@@ -35,12 +41,15 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                 }),
                 d_backgrounds.Dnd.i().cursor_default_cls,
             ])}
-            style={{ ...style, backgroundColor: background.thumbnail }}
+            style={{
+                ...style,
+                backgroundColor: background_thumbnail_background,
+            }}
             title={d_backgrounds.Main.i().developer_info({ background })}
         >
             {background.type.includes('color') ? undefined : (
                 <img
-                    src={background.thumbnail}
+                    src={background_thumbnail_background}
                     alt='Background'
                     draggable='false'
                     style={{ width: style.width, height: style.height }}

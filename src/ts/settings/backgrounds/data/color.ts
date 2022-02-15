@@ -21,7 +21,13 @@ export class Color {
                     theme_id: undefined,
                     i: s_backgrounds.I.i().get_next_background_i(),
                     type: 'color',
-                    thumbnail: color,
+                },
+            ];
+
+            const new_background_thumbnails: i_db.BackgroundThumbnail[] = [
+                {
+                    id,
+                    background: color,
                 },
             ];
 
@@ -34,11 +40,15 @@ export class Color {
 
             await s_db.Manipulation.i().save_backgrounds({
                 backgrounds: new_backgrounds,
+                background_thumbnails: new_background_thumbnails,
                 background_files: new_background_files,
             });
 
             d_backgrounds.BackgroundAnimation.i().allow_animation();
-            d_backgrounds.Main.i().merge_backgrounds({ backgrounds: new_backgrounds });
+            d_backgrounds.Main.i().merge_backgrounds({
+                backgrounds: new_backgrounds,
+                background_thumbnails: new_background_thumbnails,
+            });
             d_backgrounds.CurrentBackground.i().set_last_uploaded_background_as_current({
                 id,
             });

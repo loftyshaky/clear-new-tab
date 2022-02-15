@@ -13,18 +13,22 @@ export class Manipulation {
 
     public save_backgrounds = ({
         backgrounds,
+        background_thumbnails,
         background_files,
     }: {
         backgrounds: i_db.Background[];
+        background_thumbnails: i_db.BackgroundThumbnail[];
         background_files: i_db.BackgroundFile[];
     }): Promise<void> =>
         err_async(async () => {
             await db.transaction(
                 'rw',
                 db.backgrounds,
+                db.background_thumbnails,
                 db.background_files,
                 async (): Promise<void> => {
                     await db.backgrounds.bulkAdd(backgrounds);
+                    await db.background_thumbnails.bulkAdd(background_thumbnails);
                     await db.background_files.bulkAdd(background_files);
                 },
             );
@@ -36,6 +40,14 @@ export class Manipulation {
 
             return backgrounds;
         }, 'cnt_94527');
+
+    public get_background_thumbnails = (): Promise<i_db.BackgroundThumbnail[]> =>
+        err_async(async () => {
+            const backgrounds_thumbnails: i_db.BackgroundThumbnail[] =
+                await db.background_thumbnails.toArray();
+
+            return backgrounds_thumbnails;
+        }, 'cnt_54256');
 
     public get_background_files = (): Promise<i_db.BackgroundFile[]> =>
         err_async(async () => {
@@ -50,6 +62,15 @@ export class Manipulation {
 
             return background;
         }, 'cnt_57438');
+
+    public get_background_thumbnail = ({ id }: { id: string }): Promise<i_db.BackgroundThumbnail> =>
+        err_async(async () => {
+            const background_thumbnail: i_db.BackgroundThumbnail = await (
+                db.background_thumbnails.get as any
+            )(id);
+
+            return background_thumbnail;
+        }, 'cnt_89376');
 
     public get_background_file = ({ id }: { id: string }): Promise<i_db.BackgroundFile> =>
         err_async(async () => {
@@ -84,12 +105,14 @@ export class Manipulation {
     public delete_background = ({ id }: { id: string }): Promise<void> =>
         err_async(async () => {
             await db.backgrounds.delete(id as any);
+            await db.background_thumbnails.delete(id as any);
             await db.background_files.delete(id as any);
         }, 'cnt_94527');
 
     public clear_all_tables = (): Promise<void> =>
         err_async(async () => {
             await db.backgrounds.clear();
+            await db.background_thumbnails.clear();
             await db.background_files.clear();
         }, 'cnt_74365');
 }
