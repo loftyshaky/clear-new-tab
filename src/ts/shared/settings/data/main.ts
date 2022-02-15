@@ -15,8 +15,6 @@ export class Main {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
-    public allow_rerun_actions = true;
-
     private set = ({ settings }: { settings?: i_data.Settings } = {}): Promise<void> =>
         err_async(async () => {
             let settings_final: i_data.Settings;
@@ -41,8 +39,6 @@ export class Main {
     public change = ({ key, val }: { key: string; val: t.AnyUndefined }): void =>
         err(() => {
             data.settings[key] = val;
-
-            this.allow_rerun_actions = false;
 
             ext.send_msg_resp({
                 msg: 'update_settings',
