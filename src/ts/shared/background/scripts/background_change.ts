@@ -11,7 +11,7 @@ export class BackgroundChange {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
-    private slideshow_timer: number = 0;
+    private slideshow_timers: number[] = [];
 
     public update_background = ({ no_tr }: { no_tr: boolean }): Promise<void> =>
         err_async(async () => {
@@ -115,23 +115,25 @@ export class BackgroundChange {
                             current_time +
                             background_change_interval_corrected;
 
-                        this.slideshow_timer = self.setTimeout(
-                            () => {
-                                err_async(async () => {
-                                    if (
-                                        settings.mode === 'multiple_backgrounds' &&
-                                        settings.slideshow
-                                    ) {
-                                        await this.change_background({
-                                            current_time: new Date().getTime(),
-                                            no_tr: false,
-                                        });
-                                    }
+                        this.slideshow_timers.push(
+                            self.setTimeout(
+                                () => {
+                                    err_async(async () => {
+                                        if (
+                                            settings.mode === 'multiple_backgrounds' &&
+                                            settings.slideshow
+                                        ) {
+                                            await this.change_background({
+                                                current_time: new Date().getTime(),
+                                                no_tr: false,
+                                            });
+                                        }
 
-                                    resolve();
-                                }, 'cnt_53566');
-                            },
-                            rerun_2 ? background_change_interval_corrected : remaining_time,
+                                        resolve();
+                                    }, 'cnt_53566');
+                                },
+                                rerun_2 ? background_change_interval_corrected : remaining_time,
+                            ),
                         );
                     }, 'cnt_64356');
                 });
@@ -147,6 +149,12 @@ export class BackgroundChange {
 
     public clear_slideshow_timer = (): void =>
         err(() => {
-            self.clearTimeout(this.slideshow_timer);
+            this.slideshow_timers.forEach((slideshow_timer: number): void =>
+                err(() => {
+                    self.clearTimeout(slideshow_timer);
+                }, 'cnt_87534'),
+            );
+
+            this.slideshow_timers = [];
         }, 'cnt_64466');
 }
