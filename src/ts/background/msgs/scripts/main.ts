@@ -21,7 +21,11 @@ we.runtime.onMessage.addListener(
             } else if (msg_str === 'push_tab_id') {
                 s_tabs.TabIds.i().push_tab_id();
             } else if (msg_str === 'get_background') {
-                s_background.BackgroundChange.i().try_to_change_background();
+                s_background.BackgroundChange.i().try_to_change_background({
+                    allow_to_start_slideshow_timer: n(msg.allow_to_start_slideshow_timer)
+                        ? msg.allow_to_start_slideshow_timer
+                        : true,
+                });
             } else if (msg_str === 'clear_slideshow_timer') {
                 s_background.BackgroundChange.i().clear_slideshow_timer();
             } else if (msg_str === 'open_theme_background') {

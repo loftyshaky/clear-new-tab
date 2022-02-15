@@ -90,13 +90,16 @@ export class CurrentBackground {
 
             ext.send_msg({
                 msg: 'get_background',
+                allow_to_start_slideshow_timer: false,
             });
         }, 'cnt_64357');
 
     public set_selected_background_as_current = (): void =>
         err(() => {
             if (this.selected_background_id) {
-                this.set_background_as_current({ id: this.selected_background_id });
+                this.set_background_as_current({
+                    id: this.selected_background_id,
+                });
             } else {
                 // eslint-disable-next-line no-alert
                 alert(ext.msg('select_background_alert'));

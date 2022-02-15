@@ -25,7 +25,6 @@ export class BackgroundChange {
                 background_container_i,
                 opposite_background_container_i,
                 background,
-                background_data,
                 get_background,
                 get_background_position,
                 get_background_repeat,
@@ -34,55 +33,49 @@ export class BackgroundChange {
                 get_background_css,
             } = d_background.Main.i();
 
-            if (
-                !n(background_data[background_container_i]) ||
-                background_data[background_container_i]!.id !== data.settings.current_background_id
-            ) {
-                if (typeof background[background_container_i] === 'string') {
-                    URL.revokeObjectURL(background[background_container_i]);
-                }
-
-                const new_background_data = await s_db.Manipulation.i().get_background({
-                    id: data.settings.current_background_id,
-                });
-
-                const new_background_file = await s_db.Manipulation.i().get_background_file({
-                    id: data.settings.current_background_id,
-                });
-
-                runInAction(() =>
-                    err(() => {
-                        d_background.Main.i().background_container_i =
-                            opposite_background_container_i;
-                        d_background.Main.i().background_data[opposite_background_container_i] =
-                            new_background_data;
-                        d_background.Main.i().background_file[opposite_background_container_i] =
-                            new_background_file;
-                    }, 'cnt_74757'),
-                );
-
-                d_background.BackgroundSize.i().determine_background_size();
-
-                runInAction(() =>
-                    err(() => {
-                        d_background.Main.i().background[opposite_background_container_i] =
-                            get_background();
-                        d_background.Main.i().background_position[opposite_background_container_i] =
-                            get_background_position();
-                        d_background.Main.i().background_repeat[opposite_background_container_i] =
-                            get_background_repeat();
-                        d_background.Main.i().color_of_area_around_background[
-                            opposite_background_container_i
-                        ] = get_color_of_area_around_background();
-                        d_background.Main.i().video_volume[opposite_background_container_i] =
-                            get_video_volume();
-                        d_background.Main.i().background_css[opposite_background_container_i] =
-                            get_background_css();
-                    }, 'cnt_84755'),
-                );
-
-                await s_background.Load.i().wait_to_visibility();
+            if (typeof background[background_container_i] === 'string') {
+                URL.revokeObjectURL(background[background_container_i]);
             }
+
+            const new_background_data = await s_db.Manipulation.i().get_background({
+                id: data.settings.current_background_id,
+            });
+
+            const new_background_file = await s_db.Manipulation.i().get_background_file({
+                id: data.settings.current_background_id,
+            });
+
+            runInAction(() =>
+                err(() => {
+                    d_background.Main.i().background_container_i = opposite_background_container_i;
+                    d_background.Main.i().background_data[opposite_background_container_i] =
+                        new_background_data;
+                    d_background.Main.i().background_file[opposite_background_container_i] =
+                        new_background_file;
+                }, 'cnt_74757'),
+            );
+
+            d_background.BackgroundSize.i().determine_background_size();
+
+            runInAction(() =>
+                err(() => {
+                    d_background.Main.i().background[opposite_background_container_i] =
+                        get_background();
+                    d_background.Main.i().background_position[opposite_background_container_i] =
+                        get_background_position();
+                    d_background.Main.i().background_repeat[opposite_background_container_i] =
+                        get_background_repeat();
+                    d_background.Main.i().color_of_area_around_background[
+                        opposite_background_container_i
+                    ] = get_color_of_area_around_background();
+                    d_background.Main.i().video_volume[opposite_background_container_i] =
+                        get_video_volume();
+                    d_background.Main.i().background_css[opposite_background_container_i] =
+                        get_background_css();
+                }, 'cnt_84755'),
+            );
+
+            await s_background.Load.i().wait_to_visibility();
         }, 'cnt_75465');
 
     public react_to_visibility_change = (): void =>

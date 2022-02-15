@@ -21,13 +21,17 @@ export class BackgroundChange {
             });
         }, 'cnt_75465');
 
-    public try_to_change_background = (): Promise<void> =>
+    public try_to_change_background = ({
+        allow_to_start_slideshow_timer = true,
+    }: {
+        allow_to_start_slideshow_timer?: boolean;
+    } = {}): Promise<void> =>
         err_async(async () => {
             this.clear_slideshow_timer();
 
             const settings: i_data.Settings = await ext.storage_get();
 
-            if (settings.mode === 'multiple_backgrounds') {
+            if (settings.mode === 'multiple_backgrounds' && allow_to_start_slideshow_timer) {
                 const current_time: number = new Date().getTime();
                 const time_to_change_background: boolean =
                     current_time >

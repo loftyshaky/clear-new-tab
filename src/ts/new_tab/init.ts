@@ -5,7 +5,7 @@ export const init = (): Promise<void> =>
     err_async(async () => {
         InitAll.i().init();
         ext.send_msg({ msg: 'push_tab_id' });
-        ext.send_msg({ msg: 'get_background' });
+        ext.send_msg({ msg: 'get_background', allow_to_start_slideshow_timer: !document.hidden });
 
         x.bind(
             document,

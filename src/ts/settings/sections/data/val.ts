@@ -79,6 +79,7 @@ export class Val {
 
                             ext.send_msg({
                                 msg: 'get_background',
+                                allow_to_start_slideshow_timer: false,
                             });
                         } else if (input.name !== 'create_solid_color_background') {
                             ext.send_msg({
