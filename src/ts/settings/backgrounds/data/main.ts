@@ -56,7 +56,7 @@ export class Main {
         backgrounds?: i_db.Background[];
         background_thumbnails?: i_db.BackgroundThumbnail[];
     } = {}): Promise<void> =>
-        err(async () => {
+        err_async(async () => {
             const backgrounds_2: i_db.Background[] = n(backgrounds)
                 ? backgrounds
                 : await s_db.Manipulation.i().get_backgrounds();
@@ -69,9 +69,10 @@ export class Main {
                     this.backgrounds = backgrounds_2;
                     this.background_thumbnails = backgrounds_thumbnails_2;
 
-                    d_backgrounds_shared.Main.i().sort_backgrounds({
-                        backgrounds: d_backgrounds.Main.i().backgrounds,
-                    });
+                    d_backgrounds.Main.i().backgrounds =
+                        d_backgrounds_shared.Main.i().sort_backgrounds({
+                            backgrounds: d_backgrounds.Main.i().backgrounds,
+                        });
                 }, 'cnt_64357'),
             );
         }, 'cnt_49273');

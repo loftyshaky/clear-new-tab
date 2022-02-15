@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { d_backgrounds, s_data, db, i_data, i_db } from 'shared/internal';
+import { db, s_data, s_db, i_data, i_db } from 'shared/internal';
 
 export class CurrentBackground {
     private static i0: CurrentBackground;
@@ -37,9 +37,8 @@ export class CurrentBackground {
             if (!current_background_is_the_only_background && settings.shuffle_backgrounds) {
                 settings.future_background_id = await this.get_id_of_random_background();
             } else {
-                const backgrounds: i_db.Background[] = await db.backgrounds.toArray();
-
-                d_backgrounds.Main.i().sort_backgrounds({ backgrounds });
+                const backgrounds: i_db.Background[] =
+                    await s_db.Manipulation.i().get_backgrounds();
 
                 const i_of_background_with_current_id: number = this.find_i_of_background_with_id({
                     id: settings.current_background_id,

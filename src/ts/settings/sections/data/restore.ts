@@ -127,6 +127,7 @@ export class Restore {
                 msg: 'update_settings',
                 settings,
                 update_background: true,
+                update_instantly: true,
             });
 
             await s_db.Manipulation.i().clear_all_tables();

@@ -291,9 +291,11 @@ export class Dnd {
                     });
                 }
 
-                d_backgrounds_shared.Main.i().sort_backgrounds({
-                    backgrounds: d_backgrounds.Main.i().backgrounds,
-                });
+                d_backgrounds.Main.i().backgrounds = d_backgrounds_shared.Main.i().sort_backgrounds(
+                    {
+                        backgrounds: d_backgrounds.Main.i().backgrounds,
+                    },
+                );
 
                 d_backgrounds.CurrentBackground.i().set_current_background_i();
 

@@ -121,11 +121,7 @@ export class CurrentBackground {
             const background_with_current_i: i_db.Background =
                 d_backgrounds.Main.i().backgrounds[data.ui.current_background_i - 1];
 
-            ext.send_msg({
-                msg: 'update_settings',
-                settings: { current_background_id: background_with_current_i.id },
-                update_background: true,
-            });
+            this.set_background_as_current({ id: background_with_current_i.id });
         }, 'cnt_64789');
 
     public decrement_current_background = ({
@@ -181,12 +177,7 @@ export class CurrentBackground {
             data.settings.current_background_id = reset_val;
             data.ui.current_background_i = reset_val;
 
-            ext.send_msg({
-                msg: 'update_settings',
-                settings: { current_background_id: reset_val },
-                update_instantly: true,
-                update_background: true,
-            });
+            this.save_current_background_id_from_i();
         }, 'cnt_64684');
 
     private get_id_of_random_background = (): string | number =>

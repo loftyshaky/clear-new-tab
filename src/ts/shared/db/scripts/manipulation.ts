@@ -1,4 +1,4 @@
-import { db, i_db } from 'shared/internal';
+import { db, d_backgrounds, i_db } from 'shared/internal';
 
 export class Manipulation {
     private static i0: Manipulation;
@@ -37,8 +37,11 @@ export class Manipulation {
     public get_backgrounds = (): Promise<i_db.Background[]> =>
         err_async(async () => {
             const backgrounds: i_db.Background[] = await db.backgrounds.toArray();
+            const backgrounds_sorted = d_backgrounds.Main.i().sort_backgrounds({
+                backgrounds,
+            });
 
-            return backgrounds;
+            return backgrounds_sorted;
         }, 'cnt_94527');
 
     public get_background_thumbnails = (): Promise<i_db.BackgroundThumbnail[]> =>

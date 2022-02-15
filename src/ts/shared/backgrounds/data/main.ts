@@ -13,10 +13,16 @@ export class Main {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
-    public sort_backgrounds = ({ backgrounds }: { backgrounds: i_db.Background[] }): void =>
-        err(() => {
-            backgrounds.sort((a: i_db.Background, b: i_db.Background): number =>
-                err(() => new BigNumber(a.i).minus(b.i).toString(), 'cnt_64367'),
-            );
-        }, 'cnt_64436');
+    public sort_backgrounds = ({
+        backgrounds,
+    }: {
+        backgrounds: i_db.Background[];
+    }): i_db.Background[] =>
+        err(
+            () =>
+                [...backgrounds].sort((a: i_db.Background, b: i_db.Background): number =>
+                    err(() => new BigNumber(a.i).minus(b.i).toString(), 'cnt_64367'),
+                ),
+            'cnt_64436',
+        );
 }
