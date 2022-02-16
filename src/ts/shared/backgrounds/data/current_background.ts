@@ -65,6 +65,8 @@ export class CurrentBackground {
                     settings,
                 });
             } else if (page === 'settings') {
+                data.settings.future_background_id = settings.future_background_id;
+
                 await ext.send_msg_resp({
                     msg: 'update_settings',
                     settings,

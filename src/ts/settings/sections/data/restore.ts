@@ -27,6 +27,8 @@ export class Restore {
             if (confirmed_restore) {
                 const settings_final: i_data.Settings = await this.set({ settings });
 
+                l(settings_final);
+
                 await ext.send_msg_resp({
                     msg: 'update_settings',
                     settings: settings_final,
@@ -231,7 +233,7 @@ export class Restore {
         err(
             () => ({
                 current_background_id: data.settings.current_background_id,
-                fuuture_background_id: data.settings.fuuture_background_id,
+                future_background_id: data.settings.future_background_id,
                 color_help_is_visible: data.settings.color_help_is_visible,
             }),
             'cnt_1135',
