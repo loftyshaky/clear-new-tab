@@ -91,6 +91,13 @@ const rules = {
         //> react
         'react/no-array-index-key': 'off',
         'jsx-quotes': ['error', 'prefer-single'],
+        'react/function-component-definition': [
+            'error',
+            {
+                namedComponents: 'arrow-function',
+                unnamedComponents: 'arrow-function',
+            },
+        ],
         //< react
     },
     ts: {
@@ -134,7 +141,8 @@ const rules = {
 module.exports = {
     extends: ['airbnb', 'airbnb/hooks', 'prettier'],
     plugins: ['react', 'prettier'],
-    parser: 'babel-eslint',
+    parser: '@babel/eslint-parser',
+    parserOptions: { requireConfigFile: false },
     rules: {
         ...rules.js,
         'prettier/prettier': [
