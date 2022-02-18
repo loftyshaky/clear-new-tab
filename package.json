@@ -50,11 +50,11 @@
         "webpack-fix-style-only-entries": "^0.6.1"
     },
     "dependencies": {
-        "@loftyshaky/shared": "0.0.38",
+        "@loftyshaky/shared": "0.0.39",
         "@simonwep/pickr": "^1.8.2",
         "@svgr/webpack": "^6.2.1",
         "@types/react-virtualized": "^9.21.19",
-        "advanced-extension-reloader-watch-2": "1.0.0",
+        "advanced-extension-reloader-watch-2": "1.0.1",
         "bignumber.js": "^9.0.2",
         "confusing-browser-globals": "^1.0.11",
         "dexie": "^3.2.1",
