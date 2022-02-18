@@ -27,8 +27,6 @@ export class Restore {
             if (confirmed_restore) {
                 const settings_final: i_data.Settings = await this.set({ settings });
 
-                l(settings_final);
-
                 await ext.send_msg_resp({
                     msg: 'update_settings',
                     settings: settings_final,
