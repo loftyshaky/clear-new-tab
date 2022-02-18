@@ -3,8 +3,7 @@ const path = require('path');
 const appRoot = require('app-root-path').path;
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const Reloader = require('advanced-extension-reloader-watch-2/umd/reloader');
@@ -43,8 +42,7 @@ module.exports = (env, argv) => {
         argv,
         env,
         MiniCssExtractPlugin,
-        OptimizeCssAssetsPlugin,
-        FixStyleOnlyEntriesPlugin,
+        CssMinimizerPlugin,
         CopyWebpackPlugin,
         copy_patters: [],
         callback_begin: () => {

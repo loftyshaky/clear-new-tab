@@ -58,8 +58,7 @@ $backgrounds_section_max_width: 922px;
 
         .row {
             display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
+            flex-flow: row wrap;
         }
 
         &.backgrounds {
