@@ -43,7 +43,7 @@ export class Main {
                 download_img_when_link_given: false,
                 background_change_time: 0,
                 install_help_msg_is_visible: true,
-                current_random_solid_color: '#ffffff',
+                current_random_solid_color: '',
                 show_background_id_and_i_in_tooltip: false,
                 update_database_when_dnd_background: true,
             };

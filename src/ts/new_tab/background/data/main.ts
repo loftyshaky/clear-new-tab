@@ -56,7 +56,7 @@ export class Main {
     private default_val_4: t.AnyRecord[] = [{}, {}];
     public background_container_i: number = 1;
     public background_data: (i_db.Background | undefined)[] = this.default_val_1;
-    public background_file: (i_db.BackgroundFile | undefined)[] = this.default_val_2;
+    public background_file: (i_db.BackgroundFile | string | undefined)[] = this.default_val_2;
     public background: string[] = this.default_val_3;
     public background_position: string[] = this.default_val_3;
     public background_repeat: string[] = this.default_val_3;
@@ -73,6 +73,10 @@ export class Main {
             const background_file = this.background_file[this.background_container_i];
 
             if (n(background_file)) {
+                if (data.settings.mode === 'random_solid_color') {
+                    return this.background_file[this.background_container_i] as string;
+                }
+
                 if (
                     s_background.Type.i().is_img_file({
                         background_container_i: this.background_container_i,
@@ -81,7 +85,9 @@ export class Main {
                         background_container_i: this.background_container_i,
                     })
                 ) {
-                    return URL.createObjectURL(background_file.background as File);
+                    return URL.createObjectURL(
+                        (background_file as i_db.BackgroundFile).background as File,
+                    );
                 }
 
                 if (
@@ -90,7 +96,7 @@ export class Main {
                     })
                 ) {
                     return d_color.Color.i().access_from_val({
-                        val: background_file.background as i_color.Color,
+                        val: (background_file as i_db.BackgroundFile).background as i_color.Color,
                     });
                 }
 
@@ -99,7 +105,7 @@ export class Main {
                         background_container_i: this.background_container_i,
                     })
                 ) {
-                    return background_file.background as string;
+                    return (background_file as i_db.BackgroundFile).background as string;
                 }
             }
 
@@ -213,6 +219,14 @@ export class Main {
 
     public get_background_css = (): any =>
         err(() => {
+            if (data.settings.mode === 'random_solid_color') {
+                const background_file = this.background_file[this.background_container_i];
+
+                return {
+                    backgroundColor: background_file,
+                };
+            }
+
             if (
                 s_background.Type.i().is_img({
                     background_container_i: this.background_container_i,
@@ -256,9 +270,10 @@ export class Main {
             ) {
                 const background_file = this.background_file[this.background_container_i];
 
-                if (n(background_file) && n(background_file.background)) {
+                if (n(background_file) && n((background_file as i_db.BackgroundFile).background)) {
                     return {
-                        backgroundColor: background_file.background as string,
+                        backgroundColor: (background_file as i_db.BackgroundFile)
+                            .background as string,
                     };
                 }
             }

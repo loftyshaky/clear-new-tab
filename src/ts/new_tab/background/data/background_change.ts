@@ -51,7 +51,9 @@ export class BackgroundChange {
                     d_background.Main.i().background_data[opposite_background_container_i] =
                         new_background_data;
                     d_background.Main.i().background_file[opposite_background_container_i] =
-                        new_background_file;
+                        data.settings.mode === 'random_solid_color'
+                            ? data.settings.current_random_solid_color
+                            : new_background_file;
                 }, 'cnt_74757'),
             );
 

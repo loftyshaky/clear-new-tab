@@ -1,4 +1,4 @@
-import { d_backgrounds, s_data, i_data } from 'shared/internal';
+import { d_backgrounds, s_background, s_data, i_data } from 'shared/internal';
 
 export class BackgroundChange {
     private static i0: BackgroundChange;
@@ -31,11 +31,16 @@ export class BackgroundChange {
 
             const settings: i_data.Settings = await ext.storage_get();
 
-            if (settings.mode === 'multiple_backgrounds' && allow_to_start_slideshow_timer) {
+            if (
+                ['multiple_backgrounds', 'random_solid_color'].includes(settings.mode) &&
+                allow_to_start_slideshow_timer
+            ) {
                 const current_time: number = new Date().getTime();
                 const time_to_change_background: boolean =
+                    (settings.mode === 'random_solid_color' &&
+                        settings.current_random_solid_color === '') ||
                     current_time >
-                    settings.background_change_time + settings.background_change_interval;
+                        settings.background_change_time + settings.background_change_interval;
 
                 const start_slideshow_timer: boolean = settings.slideshow;
 
@@ -89,13 +94,22 @@ export class BackgroundChange {
             const settings: i_data.Settings = await ext.storage_get();
 
             settings.background_change_time = current_time;
-            settings.current_background_id = settings.future_background_id;
 
-            await s_data.Main.i().update_settings({
-                settings,
-            });
+            if (settings.mode === 'random_solid_color') {
+                settings.current_random_solid_color = s_background.RandomSolidColor.i().generate();
 
-            d_backgrounds.CurrentBackground.i().set_future_background_id();
+                await s_data.Main.i().update_settings({
+                    settings,
+                });
+            } else {
+                settings.current_background_id = settings.future_background_id;
+
+                await s_data.Main.i().update_settings({
+                    settings,
+                });
+
+                d_backgrounds.CurrentBackground.i().set_future_background_id();
+            }
         }, 'cnt_64354');
 
     public run_slideshow_timer = ({
@@ -124,7 +138,9 @@ export class BackgroundChange {
                                 () => {
                                     err_async(async () => {
                                         if (
-                                            settings.mode === 'multiple_backgrounds' &&
+                                            ['multiple_backgrounds', 'random_solid_color'].includes(
+                                                settings.mode,
+                                            ) &&
                                             settings.slideshow
                                         ) {
                                             await this.change_background({
@@ -144,7 +160,10 @@ export class BackgroundChange {
 
             this.clear_slideshow_timer();
 
-            if (settings.mode === 'multiple_backgrounds' && settings.slideshow) {
+            if (
+                ['multiple_backgrounds', 'random_solid_color'].includes(settings.mode) &&
+                settings.slideshow
+            ) {
                 await shedule_background_change({ rerun_2: rerun });
 
                 await this.run_slideshow_timer({ rerun: true });

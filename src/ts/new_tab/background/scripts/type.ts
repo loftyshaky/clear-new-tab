@@ -21,7 +21,11 @@ export class Type {
             const background_data: i_db.Background | undefined =
                 d_background.Main.i().background_data[background_container_i];
 
-            return n(background_data) && background_data.type.includes('img_file');
+            return (
+                data.settings.mode !== 'random_solid_color' &&
+                n(background_data) &&
+                background_data.type.includes('img_file')
+            );
         }, 'cnt_43453');
 
     public is_img_link = ({
@@ -33,14 +37,19 @@ export class Type {
             const background_data: i_db.Background | undefined =
                 d_background.Main.i().background_data[background_container_i];
 
-            return n(background_data) && background_data.type === 'img_link';
+            return (
+                data.settings.mode !== 'random_solid_color' &&
+                n(background_data) &&
+                background_data.type === 'img_link'
+            );
         }, 'cnt_43453');
 
     public is_img = ({ background_container_i }: { background_container_i: number }): boolean =>
         err(
             () =>
-                this.is_img_file({ background_container_i }) ||
-                this.is_img_link({ background_container_i }),
+                data.settings.mode !== 'random_solid_color' &&
+                (this.is_img_file({ background_container_i }) ||
+                    this.is_img_link({ background_container_i })),
             'cnt_533535',
         );
 
@@ -49,7 +58,10 @@ export class Type {
             const background_data: i_db.Background | undefined =
                 d_background.Main.i().background_data[background_container_i];
 
-            return n(background_data) && background_data.type.includes('color');
+            return (
+                data.settings.mode === 'random_solid_color' ||
+                (n(background_data) && background_data.type.includes('color'))
+            );
         }, 'cnt_53575');
 
     public is_video = ({ background_container_i }: { background_container_i: number }): boolean =>
@@ -57,6 +69,10 @@ export class Type {
             const background_data: i_db.Background | undefined =
                 d_background.Main.i().background_data[background_container_i];
 
-            return n(background_data) && background_data.type.includes('video');
+            return (
+                data.settings.mode !== 'random_solid_color' &&
+                n(background_data) &&
+                background_data.type.includes('video')
+            );
         }, 'cnt_67543');
 }

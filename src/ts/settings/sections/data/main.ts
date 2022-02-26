@@ -231,14 +231,20 @@ export class Main {
                                 options: this.options,
                                 parent: 'slideshow',
                                 is_enabled_conds: [
-                                    { input_name: 'mode', pass_vals: ['multiple_backgrounds'] },
+                                    {
+                                        input_name: 'mode',
+                                        pass_vals: ['multiple_backgrounds', 'random_solid_color'],
+                                    },
                                 ],
                                 event_callback: d_sections.Val.i().change,
                             }),
                             new o_inputs.Select({
                                 name: 'slide_direction',
                                 is_enabled_conds: [
-                                    { input_name: 'mode', pass_vals: ['multiple_backgrounds'] },
+                                    {
+                                        input_name: 'mode',
+                                        pass_vals: ['multiple_backgrounds', 'random_solid_color'],
+                                    },
                                     {
                                         input_name: 'background_change_effect',
                                         pass_vals: ['slide'],
