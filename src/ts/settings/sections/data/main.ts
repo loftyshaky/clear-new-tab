@@ -24,6 +24,10 @@ export class Main {
                     new o_inputs.Option({ name: 'multiple_backgrounds' }),
                     new o_inputs.Option({ name: 'random_solid_color' }),
                 ],
+                color_type: [
+                    new o_inputs.Option({ name: 'all' }),
+                    new o_inputs.Option({ name: 'pastel' }),
+                ],
                 background_change_interval: [
                     new o_inputs.Option({ name: '1_millisecond', val: 1 }),
                     new o_inputs.Option({ name: '3_seconds', val: 3000 }),
@@ -161,6 +165,14 @@ export class Main {
                                 name: 'mode',
                                 options: this.options,
                                 include_help: true,
+                                event_callback: d_sections.Val.i().change,
+                            }),
+                            new o_inputs.Select({
+                                name: 'color_type',
+                                options: this.options,
+                                is_enabled_conds: [
+                                    { input_name: 'mode', pass_vals: ['random_solid_color'] },
+                                ],
                                 event_callback: d_sections.Val.i().change,
                             }),
                             new o_inputs.Checkbox({

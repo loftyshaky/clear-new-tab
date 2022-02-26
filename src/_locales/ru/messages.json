@@ -47,6 +47,9 @@
     "mode_label_text": {
         "message": "Режим"
     },
+    "color_type_label_text": {
+        "message": "Тип цветов"
+    },
     "keep_old_themes_backgrounds_label_text": {
         "message": "Не удалять фоны старых тем"
     },
@@ -121,6 +124,12 @@
     },
     "random_solid_color_option_text": {
         "message": "Случайный сплошной цвет"
+    },
+    "all_option_text": {
+        "message": "Все"
+    },
+    "pastel_option_text": {
+        "message": "Пастельные"
     },
     "1_millisecond_option_text": {
         "message": "1 миллисекунда"

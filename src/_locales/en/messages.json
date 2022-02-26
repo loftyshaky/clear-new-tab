@@ -47,6 +47,9 @@
     "mode_label_text": {
         "message": "Mode"
     },
+    "color_type_label_text": {
+        "message": "Color type"
+    },
     "keep_old_themes_backgrounds_label_text": {
         "message": "Keep old themes' backgrounds"
     },
@@ -121,6 +124,12 @@
     },
     "random_solid_color_option_text": {
         "message": "Random solid color"
+    },
+    "all_option_text": {
+        "message": "All"
+    },
+    "pastel_option_text": {
+        "message": "Pastel"
     },
     "1_millisecond_option_text": {
         "message": "1 Millisecond"

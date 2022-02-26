@@ -82,10 +82,18 @@ export class Val {
                                 allow_to_start_slideshow_timer: false,
                             });
                         } else if (input.name !== 'create_solid_color_background') {
-                            ext.send_msg({
+                            await ext.send_msg_resp({
                                 msg: 'update_settings',
                                 settings: { [input.name]: val },
+                                update_instantly: true,
                             });
+
+                            if (input.name === 'color_type') {
+                                await ext.send_msg_resp({
+                                    msg: 'get_background',
+                                    force_change: true,
+                                });
+                            }
                         }
                     }, 'cnt_1137');
 

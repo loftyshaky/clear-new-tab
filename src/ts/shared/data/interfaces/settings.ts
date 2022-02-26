@@ -7,6 +7,7 @@ export interface Settings {
     enable_cut_features: boolean;
     colors: i_color.Color[];
     mode: string;
+    color_type: string;
     keep_old_themes_backgrounds: boolean;
     current_background_id: string | number;
     future_background_id: string | number;

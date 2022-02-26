@@ -26,6 +26,7 @@ export class Main {
                 enable_cut_features: false,
                 colors: d_color.Color.i().default_colors,
                 mode: 'theme_background',
+                color_type: 'pastel',
                 keep_old_themes_backgrounds: false,
                 current_background_id: 1,
                 future_background_id: 1,
