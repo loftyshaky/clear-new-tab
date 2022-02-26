@@ -85,7 +85,7 @@ export class Main {
             const settings: i_data.Settings = await ext.storage_get();
 
             if (_.isEmpty(settings)) {
-                this.update_settings();
+                await this.update_settings();
             }
         }, 'cnt_1004');
 }
