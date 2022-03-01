@@ -7,6 +7,7 @@ import { s_css_vars, s_theme } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
+    s_browser_theme,
     d_optional_permission_settings,
     d_sections,
 } from 'settings/internal';
@@ -77,10 +78,12 @@ export class Val {
                                 update_instantly: true,
                             });
 
-                            ext.send_msg({
-                                msg: 'get_background',
-                                allow_to_start_slideshow_timer: false,
-                            });
+                            if (input.name === 'mode' && val === 'theme_background') {
+                                await s_browser_theme.Main.i().get_theme_background({
+                                    theme_id: undefined,
+                                    force_theme_redownload: false,
+                                });
+                            }
                         } else if (input.name !== 'create_solid_color_background') {
                             await ext.send_msg_resp({
                                 msg: 'update_settings',

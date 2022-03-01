@@ -5,6 +5,7 @@ import {
     d_backgrounds,
     d_optional_permission_settings,
     d_sections,
+    s_browser_theme,
 } from 'settings/internal';
 
 export const init = (): Promise<void> =>
@@ -18,6 +19,8 @@ export const init = (): Promise<void> =>
         d_background_settings.GlobalCheckboxes.i().set_ui_vals();
         d_background_settings.SettingsType.i().react_to_global_selection();
         d_optional_permission_settings.Main.i().set_ui_vals();
+        s_browser_theme.Main.i().try_to_get_theme_background();
+        ext.send_msg({ msg: 'push_options_page_tab_id' });
 
         x.bind(window, 'resize', d_sections.Width.i().set_backgrounds_section_width);
         x.bind(window, 'scroll', s_color.Position.i().set);

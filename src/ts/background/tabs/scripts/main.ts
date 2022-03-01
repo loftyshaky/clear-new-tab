@@ -43,5 +43,12 @@ we.tabs.onRemoved.addListener(
             remove_id({ id_to_remove: tab_id });
 
             s_service_worker.Lifeline.i().connect();
+
+            const options_page_tab_closed: boolean =
+                tab_id === s_tabs.TabIds.i().options_page_tab_id;
+
+            if (options_page_tab_closed) {
+                s_tabs.TabIds.i().options_page_tab_id = undefined;
+            }
         }, 'cnt_64254'),
 );

@@ -1,4 +1,6 @@
-export interface FileBackground {
+import { i_db } from 'shared/internal';
+
+export interface FileBackground extends i_db.BackgroundProps {
     id: string;
     theme_id: string | undefined;
     i: string;
@@ -7,9 +9,4 @@ export interface FileBackground {
     height: number;
     thumbnail_width: number;
     thumbnail_height: number;
-    background_size: string;
-    background_position: string;
-    background_repeat: string;
-    color_of_area_around_background: string;
-    video_volume: string;
 }

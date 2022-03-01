@@ -1,7 +1,7 @@
 import { BigNumber } from 'bignumber.js';
 
 import { o_inputs, d_inputs } from '@loftyshaky/shared/inputs';
-import { d_backgrounds as d_backgrounds_shared, s_db, i_db } from 'shared/internal';
+import { s_db, i_db } from 'shared/internal';
 import { d_backgrounds, s_backgrounds, i_backgrounds } from 'settings/internal';
 
 export class Upload {
@@ -17,8 +17,12 @@ export class Upload {
 
     public upload_with_browse_btn = async ({
         files,
+        theme_id,
+        background_props,
     }: {
         files: File[] | string[];
+        theme_id?: string;
+        background_props?: i_db.BackgroundProps;
     }): Promise<void> => {
         try {
             const next_i: string = s_backgrounds.I.i().get_next_background_i();
@@ -35,7 +39,7 @@ export class Upload {
                             try {
                                 const id: string = x.unique_id();
                                 const i: string = new BigNumber(next_i).plus(i_2).toString();
-                                const background_props: i_backgrounds.BackgroundProps =
+                                const background_img_props: i_backgrounds.BackgroundImgProps =
                                     // eslint-disable-next-line max-len
                                     await s_backgrounds.Thumbnail.i().get_background_width_height_and_thumbnail(
                                         {
@@ -46,25 +50,35 @@ export class Upload {
                                 ordered_files.push({ id, file });
                                 ordered_thumbnails.push({
                                     id,
-                                    thumbnail: background_props.thumbnail,
+                                    thumbnail: background_img_props.thumbnail,
                                 });
 
                                 return {
                                     id,
-                                    theme_id: undefined,
+                                    theme_id,
                                     i,
                                     type: `${s_backgrounds.FileType.i().get_file_type({
                                         file,
                                     })}`,
-                                    width: background_props.width,
-                                    height: background_props.height,
-                                    thumbnail_width: background_props.thumbnail_width,
-                                    thumbnail_height: background_props.thumbnail_height,
-                                    background_size: 'global',
-                                    background_position: 'global',
-                                    background_repeat: 'global',
-                                    color_of_area_around_background: 'global',
-                                    video_volume: 'global',
+                                    width: background_img_props.width,
+                                    height: background_img_props.height,
+                                    thumbnail_width: background_img_props.thumbnail_width,
+                                    thumbnail_height: background_img_props.thumbnail_height,
+                                    background_size: n(background_props) // n(background_props) - adding theme background
+                                        ? background_props.background_size
+                                        : 'global',
+                                    background_position: n(background_props)
+                                        ? background_props.background_position
+                                        : 'global',
+                                    background_repeat: n(background_props)
+                                        ? background_props.background_repeat
+                                        : 'global',
+                                    color_of_area_around_background: n(background_props)
+                                        ? background_props.color_of_area_around_background
+                                        : 'global',
+                                    video_volume: n(background_props)
+                                        ? background_props.video_volume
+                                        : 'global',
                                 };
                             } catch (error_obj: any) {
                                 show_err_ribbon(error_obj, 'cnt_63636', { silent: true });
@@ -112,16 +126,17 @@ export class Upload {
                 background_thumbnails: new_background_thumbnails,
                 background_files: new_background_files,
             });
+
             d_backgrounds.BackgroundAnimation.i().allow_animation();
             d_backgrounds.Main.i().merge_backgrounds({
                 backgrounds: new_backgrounds_final,
                 background_thumbnails: new_background_thumbnails,
             });
+
             await d_backgrounds.CurrentBackground.i().set_last_uploaded_background_as_current({
                 id: new_backgrounds_final[new_backgrounds_final.length - 1].id,
             });
 
-            d_backgrounds_shared.CurrentBackground.i().set_future_background_id();
             await d_backgrounds.BackgroundAnimation.i().forbid_animation();
 
             if (at_least_one_background_is_broken) {

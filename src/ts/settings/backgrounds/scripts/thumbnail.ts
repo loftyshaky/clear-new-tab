@@ -21,7 +21,7 @@ export class Thumbnail {
         file,
     }: {
         file: File | string;
-    }): Promise<i_backgrounds.BackgroundProps> =>
+    }): Promise<i_backgrounds.BackgroundImgProps> =>
         new Promise((resolve, reject) => {
             err(
                 () => {

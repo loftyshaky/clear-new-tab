@@ -170,14 +170,7 @@ export class CurrentBackground {
                     }
                 }
 
-                data.settings.current_background_id = new_current_background_id;
-
-                ext.send_msg({
-                    msg: 'update_settings',
-                    settings: { current_background_id: new_current_background_id },
-                    update_instantly: true,
-                    update_background: true,
-                });
+                this.set_background_as_current({ id: new_current_background_id });
             }
         }, 'cnt_53246');
 

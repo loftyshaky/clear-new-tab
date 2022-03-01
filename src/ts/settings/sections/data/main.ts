@@ -2,7 +2,7 @@ import { s_utils } from '@loftyshaky/shared';
 import { o_inputs, o_color, i_inputs } from '@loftyshaky/shared/inputs';
 import { d_settings } from '@loftyshaky/shared/settings';
 import { svg } from 'shared/internal';
-import { d_backgrounds, d_sections, s_theme } from 'settings/internal';
+import { d_backgrounds, d_sections, s_browser_theme, s_theme } from 'settings/internal';
 
 export class Main {
     private static i0: Main;
@@ -111,7 +111,12 @@ export class Main {
                             }),
                             new o_inputs.Btn({
                                 name: 'load_theme_background',
-                                event_callback: () => undefined,
+                                event_callback: (): void => {
+                                    s_browser_theme.Main.i().get_theme_background({
+                                        theme_id: undefined,
+                                        force_theme_redownload: true,
+                                    });
+                                },
                             }),
                             new o_inputs.UploadBox({
                                 name: 'upload_background',

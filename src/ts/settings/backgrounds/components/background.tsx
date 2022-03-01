@@ -108,7 +108,7 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                     ])}
                     onClick={(e: MouseEvent): void => {
                         d_backgrounds.BackgroundDeletion.i().trigger_delete(
-                            { id: background.id },
+                            { ids: [background.id], deleting_background_with_delete_button: true },
                             e,
                         );
                     }}

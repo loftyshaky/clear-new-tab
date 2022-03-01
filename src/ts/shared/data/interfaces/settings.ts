@@ -25,6 +25,7 @@ export interface Settings {
     download_img_when_link_given: boolean;
     background_change_time: number;
     install_help_msg_is_visible: boolean;
+    id_of_last_installed_theme: string;
     current_random_solid_color: string;
     show_background_id_and_i_in_tooltip: boolean;
     update_database_when_dnd_background: boolean;

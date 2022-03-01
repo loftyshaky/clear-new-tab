@@ -19,60 +19,92 @@ export class BackgroundDeletion {
         makeObservable<BackgroundDeletion, 'deleting_background'>(this, {
             deleting_background: observable,
             trigger_delete: action,
-            delete: action,
             delete_all_backgrounds: action,
         });
     }
 
     public deletion_reason: 'delete_all_backgrounds' | 'restore_back_up' = 'delete_all_backgrounds';
     private deleting_background: boolean = false;
-    private background_to_delete_id: string = '';
+    private background_to_delete_ids: string[] = [];
 
     public deleted_cls = computedFn(function (
         this: BackgroundDeletion,
         { id }: { id: string },
     ): string {
-        return this.deleting_background && id === this.background_to_delete_id ? 'deleted' : '';
+        return this.deleting_background && this.background_to_delete_ids.includes(id)
+            ? 'deleted'
+            : '';
     });
 
-    public trigger_delete = ({ id }: { id: string }, e: MouseEvent): Promise<void> =>
+    public trigger_delete = (
+        {
+            ids,
+            deleting_background_with_delete_button = false,
+        }: { ids: string[]; deleting_background_with_delete_button?: boolean },
+        e?: MouseEvent,
+    ): Promise<void> =>
         err_async(async () => {
-            e.stopPropagation();
+            if (n(e)) {
+                e.stopPropagation();
+            }
 
-            this.background_to_delete_id = id;
+            this.background_to_delete_ids = ids;
             this.deleting_background = true;
 
             await x.delay(data.settings.transition_duration + 70);
 
-            this.delete({ id });
+            this.delete({ ids, deleting_background_with_delete_button });
         }, 'cnt_55355');
 
-    public delete = ({ id }: { id: string }): Promise<void> =>
+    private delete = ({
+        ids,
+        deleting_background_with_delete_button = false,
+    }: {
+        ids: string[];
+        deleting_background_with_delete_button?: boolean;
+    }): Promise<void> =>
         err_async(async () => {
-            const deleted_background_i: number =
-                d_backgrounds_shared.CurrentBackground.i().find_i_of_background_with_id({
-                    id,
-                    backgrounds: d_backgrounds.Main.i().backgrounds,
-                });
+            let deleted_background_i: number | undefined;
+
+            if (deleting_background_with_delete_button) {
+                deleted_background_i =
+                    d_backgrounds_shared.CurrentBackground.i().find_i_of_background_with_id({
+                        id: ids[0],
+                        backgrounds: d_backgrounds.Main.i().backgrounds,
+                    });
+            }
 
             runInAction(() =>
                 err(() => {
                     d_backgrounds.Main.i().backgrounds = _.reject(
                         d_backgrounds.Main.i().backgrounds,
-                        (background: i_db.Background) => background.id === id,
+                        (background: i_db.Background) => ids.includes(background.id),
                     );
                 }, 'cnt_65653'),
             );
 
-            await d_backgrounds.CurrentBackground.i().decrement_current_background({
-                deleted_background_id: id,
-                deleted_background_i,
-            });
+            if (deleting_background_with_delete_button && n(deleted_background_i)) {
+                const last_theme_background: i_db.Background | undefined =
+                    d_backgrounds.Main.i().backgrounds.find(
+                        (background: i_db.Background): boolean =>
+                            err(() => n(background.theme_id), 'cnt_75467'),
+                    );
 
-            await d_backgrounds.CurrentBackground.i().set_current_background_i();
-            d_backgrounds_shared.CurrentBackground.i().set_future_background_id();
+                if (data.settings.mode === 'theme_background' && n(last_theme_background)) {
+                    if (n(last_theme_background)) {
+                        await d_backgrounds.CurrentBackground.i().set_background_as_current({
+                            id: last_theme_background.id,
+                        });
+                    }
+                } else {
+                    await d_backgrounds.CurrentBackground.i().decrement_current_background({
+                        deleted_background_id: ids[0],
+                        deleted_background_i,
+                    });
+                }
+            }
 
-            await s_db.Manipulation.i().delete_background({ id });
+            await s_db.Manipulation.i().delete_backgrounds({ ids });
 
             runInAction(() =>
                 err(() => {

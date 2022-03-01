@@ -1,0 +1,84 @@
+import _ from 'lodash';
+
+export class ThemeFile {
+    private static i0: ThemeFile;
+
+    public static i(): ThemeFile {
+        // eslint-disable-next-line no-return-assign
+        return this.i0 || (this.i0 = new this());
+    }
+
+    // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
+    private constructor() {}
+
+    public valid_img_file_types: string[] = ['gif', 'jpeg', 'jpg', 'png'];
+    public clear_new_tab_video_file_names: string[] = [
+        'clear_new_tab_video.mp4',
+        'clear_new_tab_video.webm',
+        'clear_new_tab_video.ogv',
+        'clear_new_tab_video.gif',
+    ];
+
+    public extract_file = ({
+        theme_package_data,
+        img_file_name,
+        clear_new_tab_video_file_name,
+    }: {
+        theme_package_data: any;
+        img_file_name: string | undefined;
+        clear_new_tab_video_file_name: string | undefined;
+    }): Promise<File> =>
+        err_async(async () => {
+            const clear_new_tab_video_file = await theme_package_data.file(
+                clear_new_tab_video_file_name,
+            );
+            const img_file = await theme_package_data.file(img_file_name); // download theme image
+            const img_file_final = n(img_file)
+                ? img_file
+                : await theme_package_data.file(_.upperFirst(img_file)); // download theme image (convert first letter of image name to uppercase);
+            const is_img_file: boolean = this.valid_img_file_types.some(
+                (file_ext: string): boolean =>
+                    err(() => n(img_file_name) && img_file_name.endsWith(file_ext), 'cnt_64647'),
+            );
+            const is_gif_clear_new_tab_file: boolean =
+                n(clear_new_tab_video_file_name) &&
+                this.get_file_ext({ file_name: clear_new_tab_video_file_name }) === 'gif';
+
+            const file_type: string = `${
+                is_gif_clear_new_tab_file || is_img_file ? 'image/' : 'video/'
+            }${this.get_file_ext({
+                file_name: is_gif_clear_new_tab_file
+                    ? clear_new_tab_video_file_name
+                    : img_file_name,
+            })}`;
+
+            const blob = await (n(clear_new_tab_video_file)
+                ? clear_new_tab_video_file
+                : img_file_final
+            ).async('blob');
+            const file = this.convert_to_file_object({ blob, file_type });
+
+            return file;
+        }, 'cnt_65467');
+
+    private get_file_ext = ({ file_name }: { file_name: string | undefined }): string =>
+        err(() => {
+            let ext: string = n(file_name) ? file_name.split('.').pop() || '' : '';
+
+            if (ext === 'jpg') {
+                ext = 'jpeg';
+            } else if (ext === 'ogv') {
+                ext = 'ogg';
+            }
+
+            return ext;
+        }, 'cnt_75789');
+
+    private convert_to_file_object = ({
+        blob,
+        file_type,
+    }: {
+        blob: Blob;
+        file_type: string;
+    }): File => err(() => new self.File([blob], '', { type: file_type }), 'cnt_75467');
+}
