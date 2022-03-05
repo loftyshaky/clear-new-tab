@@ -90,13 +90,13 @@ export class Val {
                                 settings: { [input.name]: val },
                                 update_instantly: true,
                             });
+                        }
 
-                            if (input.name === 'color_type') {
-                                await ext.send_msg_resp({
-                                    msg: 'get_background',
-                                    force_change: true,
-                                });
-                            }
+                        if (['mode', 'color_type'].includes(input.name)) {
+                            await ext.send_msg_resp({
+                                msg: 'get_background',
+                                force_change: true,
+                            });
                         }
                     }, 'cnt_1137');
 
