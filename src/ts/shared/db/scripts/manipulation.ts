@@ -107,9 +107,17 @@ export class Manipulation {
 
     public delete_background = ({ id }: { id: string }): Promise<void> =>
         err_async(async () => {
-            await db.backgrounds.delete(id as any);
-            await db.background_thumbnails.delete(id as any);
-            await db.background_files.delete(id as any);
+            await db.transaction(
+                'rw',
+                db.backgrounds,
+                db.background_thumbnails,
+                db.background_files,
+                async () => {
+                    await db.backgrounds.delete(id as any);
+                    await db.background_thumbnails.delete(id as any);
+                    await db.background_files.delete(id as any);
+                },
+            );
         }, 'cnt_94527');
 
     public delete_backgrounds = ({ ids }: { ids: string[] }): Promise<void> =>
@@ -129,8 +137,16 @@ export class Manipulation {
 
     public clear_all_tables = (): Promise<void> =>
         err_async(async () => {
-            await db.backgrounds.clear();
-            await db.background_thumbnails.clear();
-            await db.background_files.clear();
+            await db.transaction(
+                'rw',
+                db.backgrounds,
+                db.background_thumbnails,
+                db.background_files,
+                async () => {
+                    await db.backgrounds.clear();
+                    await db.background_thumbnails.clear();
+                    await db.background_files.clear();
+                },
+            );
         }, 'cnt_74365');
 }
