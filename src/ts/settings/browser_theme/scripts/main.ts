@@ -13,6 +13,8 @@ export class Main {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
+    private getting_theme_background: boolean = false;
+
     public try_to_get_theme_background = (): Promise<void> =>
         err_async(async () => {
             const response: i_browser_theme.GetThemeBackground | undefined =
@@ -21,7 +23,7 @@ export class Main {
                 });
 
             if (n(response)) {
-                this.get_theme_background({
+                await this.get_theme_background({
                     theme_id: response.theme_id,
                     force_theme_redownload: response.force_theme_redownload,
                 });
@@ -33,7 +35,32 @@ export class Main {
         force_theme_redownload = false,
     }: i_browser_theme.GetThemeBackground): Promise<void> =>
         err_async(async () => {
-            if (data.settings.mode === 'theme_background') {
+            if (
+                ((force_theme_redownload && !this.getting_theme_background) ||
+                    !force_theme_redownload) &&
+                data.settings.mode === 'theme_background'
+            ) {
+                const ensure_that_uploading_last_installed_theme_background = ({
+                    callback,
+                }: {
+                    callback: t.CallbackVoid;
+                }): Promise<void> =>
+                    err_async(async () => {
+                        const currently_added_theme_id: string | undefined =
+                            await ext.send_msg_resp({
+                                msg: 'get_id_of_currently_added_theme',
+                            });
+
+                        if (
+                            force_theme_redownload ||
+                            !currently_added_theme_id ||
+                            currently_added_theme_id === theme_id_final
+                        ) {
+                            await callback();
+                        }
+                    }, 'cnt_64357');
+                this.getting_theme_background = true;
+
                 const theme_id_final: string | undefined = n(theme_id)
                     ? theme_id
                     : await s_browser_theme.ThemeId.i().get_installed();
@@ -93,10 +120,14 @@ export class Main {
                                     theme_background_data.clear_new_tab_video_file_name,
                             });
 
-                            await d_backgrounds.Upload.i().upload_with_browse_btn({
-                                files: [file],
-                                theme_id: theme_id_final,
-                                background_props: theme_background_data.background_props,
+                            await ensure_that_uploading_last_installed_theme_background({
+                                callback: async () => {
+                                    await d_backgrounds.Upload.i().upload_with_browse_btn({
+                                        files: [file],
+                                        theme_id: theme_id_final,
+                                        background_props: theme_background_data.background_props,
+                                    });
+                                },
                             });
                         }
                     }
@@ -113,6 +144,7 @@ export class Main {
                         id: last_theme_background.id,
                     });
                 }
+                this.getting_theme_background = false;
             }
         }, 'cnt_75643');
 }

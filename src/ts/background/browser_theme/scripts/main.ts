@@ -52,4 +52,7 @@ export class Main {
 
             return undefined;
         }, 'cnt_75356');
+
+    public get_id_of_currently_added_theme = (): string | undefined =>
+        err(() => this.theme_id, 'cnt_74356');
 }

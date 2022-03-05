@@ -35,6 +35,8 @@ we.runtime.onMessage.addListener(
                 s_browser_theme.LinkToImage.i().open();
             } else if (msg_str === 'get_theme_background_response') {
                 return s_browser_theme.Main.i().get_theme_background_response();
+            } else if (msg_str === 'get_id_of_currently_added_theme') {
+                return s_browser_theme.Main.i().get_id_of_currently_added_theme();
             } else if (msg_str === 'get_all_exts') {
                 return s_management.Main.i().get_all_exts();
             } else {
