@@ -129,6 +129,16 @@ export class Main {
                                     });
                                 },
                             });
+                        } else {
+                            await ensure_that_uploading_last_installed_theme_background({
+                                callback: async () => {
+                                    await d_backgrounds.Color.i().create_solid_color_background({
+                                        color: theme_background_data.background_props
+                                            .color_of_area_around_background,
+                                        theme_id: theme_id_final,
+                                    });
+                                },
+                            });
                         }
                     }
                 }

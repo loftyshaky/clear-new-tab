@@ -12,13 +12,19 @@ export class Color {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
-    public create_solid_color_background = ({ color }: { color: string }): Promise<void> =>
+    public create_solid_color_background = ({
+        color,
+        theme_id,
+    }: {
+        color: string;
+        theme_id?: string;
+    }): Promise<void> =>
         err_async(async () => {
             const id: string = x.unique_id();
             const new_backgrounds: i_db.Background[] = [
                 {
                     id,
-                    theme_id: undefined,
+                    theme_id,
                     i: s_backgrounds.I.i().get_next_background_i(),
                     type: 'color',
                 },
