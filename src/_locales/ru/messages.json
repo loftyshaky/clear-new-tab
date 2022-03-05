@@ -50,7 +50,7 @@
     "color_type_label_text": {
         "message": "Тип цветов"
     },
-    "keep_old_themes_backgrounds_label_text": {
+    "keep_old_theme_backgrounds_label_text": {
         "message": "Не удалять фоны старых тем"
     },
     "current_background_id_label_text": {
