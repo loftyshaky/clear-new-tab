@@ -42,9 +42,18 @@ export class Load {
                         ),
                     );
 
-                    background.src = s_background.Type.i().is_img_link({ background_container_i })
-                        ? (d_background.Main.i().background[background_container_i] as string)
-                        : d_background.Main.i().background[background_container_i];
+                    if (
+                        s_background.Type.i().is_img({ background_container_i }) ||
+                        s_background.Type.i().is_video({ background_container_i })
+                    ) {
+                        background.src = s_background.Type.i().is_img_link({
+                            background_container_i,
+                        })
+                            ? (d_background.Main.i().background[background_container_i] as string)
+                            : d_background.Main.i().background[background_container_i];
+                    } else {
+                        resolve();
+                    }
                 } catch (error_obj: any) {
                     reject(error_obj);
                 }
