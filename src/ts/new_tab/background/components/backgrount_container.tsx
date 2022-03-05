@@ -50,7 +50,7 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
                     }}
                 >
                     {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-                    <video src={background} style={video_background_css as any} loop autoPlay />
+                    <video src={background} style={video_background_css} loop autoPlay />
                 </div>
                 <div
                     className={x.cls([
@@ -60,7 +60,7 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
                         img_is_visible_cls,
                         background_is_sliding_cls,
                     ])}
-                    style={background_css as any}
+                    style={background_css}
                 />
             </>
         );
