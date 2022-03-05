@@ -181,7 +181,7 @@ export class Main {
                                 event_callback: d_sections.Val.i().change,
                             }),
                             new o_inputs.Checkbox({
-                                name: 'keep_old_themes_backgrounds',
+                                name: 'keep_old_theme_backgrounds',
                                 is_enabled_conds: [
                                     { input_name: 'mode', pass_vals: ['theme_background'] },
                                 ],

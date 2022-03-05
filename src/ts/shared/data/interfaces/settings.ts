@@ -8,7 +8,7 @@ export interface Settings {
     colors: i_color.Color[];
     mode: string;
     color_type: string;
-    keep_old_themes_backgrounds: boolean;
+    keep_old_theme_backgrounds: boolean;
     current_background_id: string | number;
     future_background_id: string | number;
     automatically_set_last_uploaded_background_as_current: boolean;

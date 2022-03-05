@@ -25,7 +25,7 @@ export class Main {
         err_async(async () => {
             let ids_to_delete: string[] = [];
 
-            if (!data.settings.keep_old_themes_backgrounds) {
+            if (!data.settings.keep_old_theme_backgrounds) {
                 const backgrounds_to_delete: i_db.Background[] =
                     d_backgrounds.Main.i().backgrounds.filter(
                         (background: i_db.Background): boolean =>

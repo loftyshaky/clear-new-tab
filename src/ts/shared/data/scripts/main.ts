@@ -27,7 +27,7 @@ export class Main {
                 colors: d_color.Color.i().default_colors,
                 mode: 'theme_background',
                 color_type: 'pastel',
-                keep_old_themes_backgrounds: false,
+                keep_old_theme_backgrounds: false,
                 current_background_id: 1,
                 future_background_id: 1,
                 automatically_set_last_uploaded_background_as_current: true,
