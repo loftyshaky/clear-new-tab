@@ -1,6 +1,7 @@
 import React, { useEffect, MouseEvent } from 'react';
 import { observer } from 'mobx-react';
 
+import { s_tab_index } from '@loftyshaky/shared';
 import { svg, i_db } from 'shared/internal';
 import { c_backgrounds, d_backgrounds, p_backgrounds } from 'settings/internal';
 
@@ -59,8 +60,8 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                     'ui',
                     d_backgrounds.CurrentBackground.i().selected_cls({ id: background.id }),
                 ])}
-                role='none'
-                tabIndex={-1}
+                role='button'
+                tabIndex={0}
                 onClick={(): void => {
                     d_backgrounds.CurrentBackground.i().select({ background });
                 }}
@@ -73,6 +74,7 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                         e,
                     );
                 }}
+                onKeyDown={s_tab_index.Main.i().simulate_click_on_enter}
             >
                 <c_backgrounds.OverlayItemInfo name='background_index' text={index + 1} />
                 {background.type.includes('color') ? undefined : (

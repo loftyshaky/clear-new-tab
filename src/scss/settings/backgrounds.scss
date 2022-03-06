@@ -54,9 +54,7 @@ $drop_zone_size: 3px;
             position: absolute;
 
             &.selected {
-                @include outline_solid_thick;
-
-                outline-offset: 3px;
+                @include background_outline;
             }
         }
 
@@ -115,7 +113,7 @@ $drop_zone_size: 3px;
                 font-size: $overlay_item_font_size;
                 text-align: left;
                 border: 0;
-                outline: 0;
+                outline: 0 !important;
                 background-color: white;
                 color: $black;
 

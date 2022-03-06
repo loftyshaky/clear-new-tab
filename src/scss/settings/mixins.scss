@@ -1,0 +1,5 @@
+@mixin background_outline {
+    @include outline_solid_thick;
+
+    outline-offset: 3px;
+}

@@ -1,3 +1,5 @@
+@import 'template_focus';
+
 .main,
 .sections {
     background-color: $gaq;
@@ -17,12 +19,12 @@
     .drop_zone {
         outline-color: $ycp;
     }
-}
 
-.background {
-    border-color: $lpe;
+    .background {
+        border-color: $lpe;
 
-    .ui.selected {
-        outline-color: $ycp;
+        .ui.selected {
+            outline-color: $ycp;
+        }
     }
 }

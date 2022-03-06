@@ -1,7 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import { stop_propagation } from '@loftyshaky/shared';
 import { d_backgrounds, p_backgrounds } from 'settings/internal';
 
 export const OverlayItemBtn: React.FunctionComponent<p_backgrounds.OverlayItemBtn> = observer(
@@ -18,9 +17,8 @@ export const OverlayItemBtn: React.FunctionComponent<p_backgrounds.OverlayItemBt
                     cls,
                 ])}
                 role='button'
-                tabIndex={-1}
+                tabIndex={0}
                 onClick={on_click}
-                onMouseDown={stop_propagation}
                 onKeyDown={() => undefined}
             >
                 {text}

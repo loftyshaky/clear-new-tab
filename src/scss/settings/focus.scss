@@ -1,3 +1,9 @@
-body.keyboard .btn.text:focus {
-    outline: none;
+.keyboard .backgrounds .background .ui:focus {
+    @include background_outline;
+}
+
+.keyboard .backgrounds .background .delete_background_btn,
+.keyboard .backgrounds .background .overlay_item,
+.keyboard .backgrounds .background .action_btns_w .btn {
+    transition: none;
 }
