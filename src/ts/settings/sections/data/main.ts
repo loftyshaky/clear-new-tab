@@ -2,7 +2,13 @@ import { s_utils } from '@loftyshaky/shared';
 import { o_inputs, o_color, i_inputs } from '@loftyshaky/shared/inputs';
 import { d_settings } from '@loftyshaky/shared/settings';
 import { svg } from 'shared/internal';
-import { d_backgrounds, d_sections, s_browser_theme, s_theme } from 'settings/internal';
+import {
+    d_backgrounds,
+    d_sections,
+    s_browser_theme,
+    d_protecting_screen,
+    s_theme,
+} from 'settings/internal';
 
 export class Main {
     private static i0: Main;
@@ -361,6 +367,7 @@ export class Main {
                 ],
                 ...d_settings.Sections.i().make_shared_sections({
                     download_back_up_callback: d_sections.Restore.i().download_back_up,
+                    download_back_up_final_callback: d_protecting_screen.Visibility.i().hide,
                     upload_back_up_callback: d_sections.Restore.i().restore_back_up,
                     restore_defaults_callback: () => d_sections.Restore.i().restore_confirm(),
                     input_change_val_callback: d_sections.Val.i().change,

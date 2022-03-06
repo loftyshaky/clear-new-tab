@@ -2,7 +2,12 @@ import { BigNumber } from 'bignumber.js';
 
 import { o_inputs, d_inputs } from '@loftyshaky/shared/inputs';
 import { s_db, i_db } from 'shared/internal';
-import { d_backgrounds, s_backgrounds, i_backgrounds } from 'settings/internal';
+import {
+    d_backgrounds,
+    d_protecting_screen,
+    s_backgrounds,
+    i_backgrounds,
+} from 'settings/internal';
 
 export class Upload {
     private static i0: Upload;
@@ -24,6 +29,8 @@ export class Upload {
         theme_id?: string;
         background_props?: i_db.BackgroundProps;
     }): Promise<void> => {
+        d_protecting_screen.Visibility.i().show();
+
         try {
             const next_i: string = s_backgrounds.I.i().get_next_background_i();
             const ordered_thumbnails: i_backgrounds.OrderedThumbnails[] = [];
@@ -146,6 +153,8 @@ export class Upload {
             show_err_ribbon(error_obj, 'cnt_63793', { silent: true });
             throw_err_obj(error_obj);
         }
+
+        d_protecting_screen.Visibility.i().hide();
     };
 
     public upload_with_paste_input = (
@@ -153,6 +162,7 @@ export class Upload {
         e: ClipboardEvent,
     ): Promise<void> =>
         err_async(async () => {
+            d_protecting_screen.Visibility.i().show();
             d_inputs.Text.i().set_loading_placeholder_text({ input });
 
             try {
@@ -210,6 +220,7 @@ export class Upload {
 
                 d_inputs.Text.i().set_error_placeholder_text({ input });
             }
+            d_protecting_screen.Visibility.i().hide();
         }, 'cnt_56893');
 
     public upload_with_paste_btn = (): void =>

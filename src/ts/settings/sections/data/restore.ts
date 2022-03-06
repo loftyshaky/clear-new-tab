@@ -3,7 +3,13 @@ import { runInAction } from 'mobx';
 
 import { t, s_theme as s_theme_shared } from '@loftyshaky/shared';
 import { s_db, s_theme, i_data, i_db } from 'shared/internal';
-import { d_background_settings, d_backgrounds, d_sections, i_sections } from 'settings/internal';
+import {
+    d_background_settings,
+    d_backgrounds,
+    d_protecting_screen,
+    d_sections,
+    i_sections,
+} from 'settings/internal';
 
 export class Restore {
     private static i0: Restore;
@@ -25,6 +31,8 @@ export class Restore {
             const confirmed_restore: boolean = self.confirm(ext.msg('restore_defaults_confirm'));
 
             if (confirmed_restore) {
+                d_protecting_screen.Visibility.i().show();
+
                 const settings_final: i_data.Settings = await this.set({ settings });
 
                 await ext.send_msg_resp({
@@ -32,11 +40,15 @@ export class Restore {
                     settings: settings_final,
                     update_background: true,
                 });
+
+                d_protecting_screen.Visibility.i().hide();
             }
         }, 'cnt_1130');
 
     public download_back_up = (): Promise<string> =>
         err_async(async () => {
+            d_protecting_screen.Visibility.i().show();
+
             const background_files: i_db.BackgroundFile[] =
                 await s_db.Manipulation.i().get_background_files();
             const background_thumbnails: i_db.BackgroundThumbnail[] =
@@ -118,6 +130,8 @@ export class Restore {
 
     public restore_back_up = ({ data_obj }: { data_obj: t.AnyRecord }): Promise<void> =>
         err_async(async () => {
+            d_protecting_screen.Visibility.i().show();
+
             const settings: i_data.Settings = {
                 ...data_obj.settings,
                 ...this.get_unchanged_settings(),
@@ -193,6 +207,8 @@ export class Restore {
                     d_sections.SectionContent.i().backgrounds_section_content_is_visible = false;
                 }, 'cnt_94257'),
             );
+
+            d_protecting_screen.Visibility.i().hide();
         }, 'cnt_1131');
 
     private set = ({ settings }: { settings?: i_data.Settings } = {}): Promise<i_data.Settings> =>

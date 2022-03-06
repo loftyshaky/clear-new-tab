@@ -1,0 +1,6 @@
+.protecting_screen {
+    @include full_spread;
+
+    position: fixed;
+    cursor: wait;
+}

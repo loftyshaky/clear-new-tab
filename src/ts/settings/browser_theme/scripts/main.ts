@@ -1,6 +1,11 @@
 import { t } from '@loftyshaky/shared';
 import { i_browser_theme, i_db } from 'shared/internal';
-import { d_backgrounds, d_browser_theme, s_browser_theme } from 'settings/internal';
+import {
+    d_backgrounds,
+    d_browser_theme,
+    d_protecting_screen,
+    s_browser_theme,
+} from 'settings/internal';
 
 export class Main {
     private static i0: Main;
@@ -17,6 +22,8 @@ export class Main {
 
     public try_to_get_theme_background = (): Promise<void> =>
         err_async(async () => {
+            d_protecting_screen.Visibility.i().show();
+
             const response: i_browser_theme.GetThemeBackground | undefined =
                 await ext.send_msg_resp({
                     msg: 'get_theme_background_response',
@@ -27,6 +34,8 @@ export class Main {
                     theme_id: response.theme_id,
                     force_theme_redownload: response.force_theme_redownload,
                 });
+            } else {
+                d_protecting_screen.Visibility.i().hide();
             }
         }, 'cnt_84736');
 
@@ -35,6 +44,8 @@ export class Main {
         force_theme_redownload = false,
     }: i_browser_theme.GetThemeBackground): Promise<void> =>
         err_async(async () => {
+            d_protecting_screen.Visibility.i().show();
+
             if (
                 ((force_theme_redownload && !this.getting_theme_background) ||
                     !force_theme_redownload) &&
@@ -156,5 +167,7 @@ export class Main {
                 }
                 this.getting_theme_background = false;
             }
+
+            d_protecting_screen.Visibility.i().hide();
         }, 'cnt_75643');
 }

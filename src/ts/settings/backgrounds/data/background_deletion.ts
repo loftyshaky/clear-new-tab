@@ -4,7 +4,7 @@ import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
 import { d_backgrounds as d_backgrounds_shared, s_db, i_db } from 'shared/internal';
-import { d_backgrounds, d_sections } from 'settings/internal';
+import { d_backgrounds, d_protecting_screen, d_sections } from 'settings/internal';
 
 export class BackgroundDeletion {
     private static i0: BackgroundDeletion;
@@ -48,12 +48,18 @@ export class BackgroundDeletion {
                 e.stopPropagation();
             }
 
+            d_protecting_screen.Visibility.i().show();
+
             this.background_to_delete_ids = ids;
             this.deleting_background = true;
 
             await x.delay(data.settings.transition_duration + 70);
 
-            this.delete({ ids, deleting_background_with_delete_button });
+            await this.delete({ ids, deleting_background_with_delete_button });
+
+            if (deleting_background_with_delete_button) {
+                d_protecting_screen.Visibility.i().hide();
+            }
         }, 'cnt_55355');
 
     private delete = ({
@@ -117,6 +123,8 @@ export class BackgroundDeletion {
         err_async(async () => {
             // eslint-disable-next-line no-alert
             if (window.confirm(ext.msg('delete_all_backgrounds_confirm'))) {
+                d_protecting_screen.Visibility.i().show();
+
                 this.deletion_reason = 'delete_all_backgrounds';
 
                 d_sections.SectionContent.i().backgrounds_section_content_is_visible = false;
@@ -140,5 +148,7 @@ export class BackgroundDeletion {
             }
 
             d_backgrounds.CurrentBackground.i().reset_current_background_id();
+
+            d_protecting_screen.Visibility.i().hide();
         }, 'cnt_45345');
 }

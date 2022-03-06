@@ -1,5 +1,5 @@
 import { s_db, i_db } from 'shared/internal';
-import { d_backgrounds, s_backgrounds } from 'settings/internal';
+import { d_backgrounds, d_protecting_screen, s_backgrounds } from 'settings/internal';
 
 export class Color {
     private static i0: Color;
@@ -20,6 +20,7 @@ export class Color {
         theme_id?: string;
     }): Promise<void> =>
         err_async(async () => {
+            d_protecting_screen.Visibility.i().show();
             const id: string = x.unique_id();
             const new_backgrounds: i_db.Background[] = [
                 {
@@ -59,5 +60,7 @@ export class Color {
                 id,
             });
             await d_backgrounds.BackgroundAnimation.i().forbid_animation();
+
+            d_protecting_screen.Visibility.i().hide();
         }, 'cnt_45931');
 }
