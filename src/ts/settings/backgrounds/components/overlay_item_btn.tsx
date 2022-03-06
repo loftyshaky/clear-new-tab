@@ -6,7 +6,7 @@ import { d_backgrounds, p_backgrounds } from 'settings/internal';
 
 export const OverlayItemBtn: React.FunctionComponent<p_backgrounds.OverlayItemBtn> = observer(
     (props) => {
-        const { name, text, on_click } = props;
+        const { name, text, cls, on_click, children } = props;
 
         return (
             <div
@@ -15,6 +15,7 @@ export const OverlayItemBtn: React.FunctionComponent<p_backgrounds.OverlayItemBt
                     'btn',
                     name,
                     d_backgrounds.Dnd.i().pointer_events_none_cls,
+                    cls,
                 ])}
                 role='button'
                 tabIndex={-1}
@@ -23,6 +24,7 @@ export const OverlayItemBtn: React.FunctionComponent<p_backgrounds.OverlayItemBt
                 onKeyDown={() => undefined}
             >
                 {text}
+                {children}
             </div>
         );
     },

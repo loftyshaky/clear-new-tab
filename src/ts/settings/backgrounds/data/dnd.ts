@@ -431,13 +431,8 @@ export class Dnd {
             }
         }, 'cnt_54674');
 
-    public move_by_move_btn = (
-        { background }: { background: i_db.Background },
-        e: MouseEvent,
-    ): void =>
+    public move_by_move_btn = ({ background }: { background: i_db.Background }): void =>
         err(() => {
-            e.stopPropagation();
-
             this.background_to_move = background;
 
             // eslint-disable-next-line no-alert

@@ -1,3 +1,4 @@
+export * from 'settings/backgrounds/components/actions';
 export * from 'settings/backgrounds/components/background';
 export * from 'settings/backgrounds/components/body';
 export * from 'settings/backgrounds/components/dragged_background';

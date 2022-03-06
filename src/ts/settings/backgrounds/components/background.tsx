@@ -1,7 +1,6 @@
 import React, { useEffect, MouseEvent } from 'react';
 import { observer } from 'mobx-react';
 
-import { stop_propagation } from '@loftyshaky/shared';
 import { svg, i_db } from 'shared/internal';
 import { c_backgrounds, d_backgrounds, p_backgrounds } from 'settings/internal';
 
@@ -88,18 +87,7 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                     name='background_type'
                     text={ext.msg(`background_type_${background.type}_text`)}
                 />
-                <c_backgrounds.OverlayItemBtn
-                    name='preview_background'
-                    text={ext.msg('preview_background_btn_text')}
-                    on_click={stop_propagation}
-                />
-                <c_backgrounds.OverlayItemBtn
-                    name='move_background'
-                    text={ext.msg('move_background_btn_text')}
-                    on_click={(e: MouseEvent): void => {
-                        d_backgrounds.Dnd.i().move_by_move_btn({ background }, e);
-                    }}
-                />
+                <c_backgrounds.Actions background={background} />
                 <button
                     className={x.cls([
                         'btn',

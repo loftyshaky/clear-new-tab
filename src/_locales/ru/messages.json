@@ -302,11 +302,17 @@
     "background_type_theme_video_file_text": {
         "message": "Видео файл (тема)"
     },
+    "actions_btn_text": {
+        "message": "Действия"
+    },
     "preview_background_btn_text": {
         "message": "Открыть"
     },
     "move_background_btn_text": {
         "message": "Переместить"
+    },
+    "copy_background_id_btn_text": {
+        "message": "Копировать id"
     },
     "upload_background_help_text": {
         "message": "Вы можете загрузить несколько картинок / видео сразу. Просто выберите несколько картинок / видео перед нажатием \"Открыть\" / перетаскиванием.\n\nПоддерживаемы форматы: png, jpg, gif, mp4, webm, ogg."

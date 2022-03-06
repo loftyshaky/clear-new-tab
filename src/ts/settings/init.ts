@@ -28,6 +28,7 @@ export const init = (): Promise<void> =>
         x.bind(document, 'mousedown', d_color.Visibility.i().hide_all);
         x.bind(document, 'mousemove', d_backgrounds.Dnd.i().set_dragged_background_position);
         x.bind(document, 'mouseup', d_backgrounds.Dnd.i().stop_drag);
+        x.bind(document, 'click', d_backgrounds.Actions.i().hide);
 
         InitAll.i().render_settings();
     }, 'cnt_1125');

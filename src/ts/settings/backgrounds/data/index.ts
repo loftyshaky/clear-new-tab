@@ -1,3 +1,4 @@
+export * from 'settings/backgrounds/data/actions';
 export * from 'settings/backgrounds/data/background_animation';
 export * from 'settings/backgrounds/data/background_deletion';
 export * from 'settings/backgrounds/data/color';

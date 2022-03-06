@@ -32,7 +32,7 @@ export const Body: React.FunctionComponent = observer(() => {
                     ),
                 )}
             </div>
-            <c_backgrounds.Backgrounds />
+            <c_backgrounds.Body />
         </div>
     );
 });

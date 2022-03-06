@@ -1,3 +1,5 @@
+$overlay_item_size: 14px;
+$overlay_item_font_size: 10px;
 $overlay_item_side_padding: 2px;
 $overlay_item_block_offset: 4px;
 
@@ -97,6 +99,37 @@ $drop_zone_size: 3px;
             fill: white;
         }
 
+        .action_btns_w {
+            position: absolute;
+            top: unset !important;
+            bottom: $overlay_item_size + 4px;
+            left: 2px;
+            box-shadow: rgb(0 0 0 / 60%) 0 0 2px, rgb(0 0 0 / 60%) 0 4px 8px;
+
+            .btn {
+                height: $overlay_item_size;
+                width: 100%;
+                padding-left: $overlay_item_side_padding;
+                padding-right: $overlay_item_side_padding;
+                margin: 0;
+                font-size: $overlay_item_font_size;
+                text-align: left;
+                border: 0;
+                outline: 0;
+                background-color: white;
+                color: $black;
+
+                &:hover {
+                    background-color: #beffba;
+                }
+            }
+
+            hr {
+                margin: 0;
+                background-color: #bbb;
+            }
+        }
+
         .overlay_item.background_index {
             position: absolute;
             top: $overlay_item_block_offset;
@@ -106,32 +139,37 @@ $drop_zone_size: 3px;
         .overlay_item {
             position: absolute;
             max-width: fit-content;
-            height: 14px;
+            height: $overlay_item_size;
             bottom: $overlay_item_block_offset;
             left: $overlay_item_block_offset;
             padding-left: $overlay_item_side_padding;
             padding-right: $overlay_item_side_padding;
-            font-size: 10px;
+            font-size: $overlay_item_font_size;
             background-color: $black;
             opacity: 0.85;
             white-space: nowrap;
-            overflow: hidden;
             text-overflow: ellipsis;
 
             &.info {
                 pointer-events: none;
             }
 
-            &.preview_background {
+            &.background_type {
                 bottom: 20px;
             }
 
-            &.background_type {
+            &.background_dims {
                 bottom: 36px;
             }
 
-            &.background_dims {
-                bottom: 52px;
+            &.actions {
+                opacity: 1;
+                background-color: rgb(47 47 157 / 85%);
+
+                &:hover,
+                &.is_opened {
+                    background-color: rgb(42 108 38 / 85%);
+                }
             }
         }
     }

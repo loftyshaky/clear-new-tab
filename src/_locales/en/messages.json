@@ -302,11 +302,17 @@
     "background_type_theme_video_file_text": {
         "message": "Video file (theme)"
     },
+    "actions_btn_text": {
+        "message": "Actions"
+    },
     "preview_background_btn_text": {
         "message": "Preview"
     },
     "move_background_btn_text": {
         "message": "Move"
+    },
+    "copy_background_id_btn_text": {
+        "message": "Copy id"
     },
     "upload_background_help_text": {
         "message": "You can upload multiple images/videos at once. Just select multiple images/videos before clicking \"Open\" / dragging.\n\nSupported formats: png, jpg, gif, mp4, webm, ogg."
