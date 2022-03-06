@@ -136,10 +136,10 @@ export class CurrentBackground {
         }, 'cnt_64789');
 
     public decrement_current_background = ({
-        deleted_background_id,
         deleted_background_i,
+        current_background_i,
     }: {
-        deleted_background_id: string;
+        current_background_i: number;
         deleted_background_i: number;
     }): void =>
         err(() => {
@@ -147,30 +147,37 @@ export class CurrentBackground {
 
             if (no_backgrounds_exist) {
                 this.reset_current_background_id();
-            } else if (data.settings.current_background_id === deleted_background_id) {
+            } else {
                 let new_current_background_id: string | number | undefined;
+                const deleting_current_background: boolean =
+                    deleted_background_i === current_background_i;
 
                 if (
                     data.settings.mode === 'multiple_backgrounds' &&
-                    data.settings.shuffle_backgrounds
+                    data.settings.shuffle_backgrounds &&
+                    deleting_current_background
                 ) {
                     new_current_background_id = this.get_id_of_random_background();
-                } else {
-                    const next_background: i_db.Background | undefined = toJS(
-                        d_backgrounds.Main.i().backgrounds,
-                    )[deleted_background_i];
+                } else if (deleted_background_i <= current_background_i) {
+                    const there_is_bacground_after_deleted_background: boolean = n(
+                        toJS(d_backgrounds.Main.i().backgrounds)[current_background_i],
+                    );
                     const previous_background: i_db.Background | undefined = toJS(
                         d_backgrounds.Main.i().backgrounds,
-                    )[deleted_background_i - 1];
+                    )[
+                        deleting_current_background && there_is_bacground_after_deleted_background
+                            ? current_background_i
+                            : current_background_i - 1
+                    ];
 
-                    if (n(next_background)) {
-                        new_current_background_id = next_background.id;
-                    } else if (n(previous_background)) {
+                    if (n(previous_background)) {
                         new_current_background_id = previous_background.id;
                     }
                 }
 
-                this.set_background_as_current({ id: new_current_background_id });
+                if (n(new_current_background_id)) {
+                    this.set_background_as_current({ id: new_current_background_id });
+                }
             }
         }, 'cnt_53246');
 

@@ -70,9 +70,15 @@ export class BackgroundDeletion {
         deleting_background_with_delete_button?: boolean;
     }): Promise<void> =>
         err_async(async () => {
-            let deleted_background_i: number | undefined;
+            let current_background_i: number = 0;
+            let deleted_background_i: number = 0;
 
             if (deleting_background_with_delete_button) {
+                current_background_i =
+                    d_backgrounds_shared.CurrentBackground.i().find_i_of_background_with_id({
+                        id: data.settings.current_background_id,
+                        backgrounds: d_backgrounds.Main.i().backgrounds,
+                    });
                 deleted_background_i =
                     d_backgrounds_shared.CurrentBackground.i().find_i_of_background_with_id({
                         id: ids[0],
@@ -88,7 +94,6 @@ export class BackgroundDeletion {
                     );
                 }, 'cnt_65653'),
             );
-
             if (deleting_background_with_delete_button && n(deleted_background_i)) {
                 const last_theme_background: i_db.Background | undefined =
                     d_backgrounds.Main.i().backgrounds.find(
@@ -104,7 +109,7 @@ export class BackgroundDeletion {
                     }
                 } else {
                     await d_backgrounds.CurrentBackground.i().decrement_current_background({
-                        deleted_background_id: ids[0],
+                        current_background_i,
                         deleted_background_i,
                     });
                 }
