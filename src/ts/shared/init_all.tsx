@@ -130,7 +130,7 @@ export class InitAll {
             const { Body } = await import('settings/components/body');
             const on_render = (): Promise<void> =>
                 err_async(async () => {
-                    const { d_sections } = await import('settings/internal');
+                    const { s_backgrounds, d_sections } = await import('settings/internal');
 
                     await d_inputs.InputWidth.i().calculate_for_all_sections({
                         sections: d_sections.Main.i().sections as i_inputs.Sections,
@@ -138,9 +138,13 @@ export class InitAll {
                     });
                     d_sections.Width.i().set();
 
+                    s_tab_index.Main.i().bind_set_input_type_f();
+
                     d_loading_screen.Main.i().hide();
 
-                    s_tab_index.Main.i().bind_set_input_type_f();
+                    await x.delay(300);
+
+                    s_backgrounds.VirtualizedList.i().set_bottom_scroll_position();
                 }, 'cnt_1148');
 
             if (n(this.settings_root)) {
@@ -169,6 +173,7 @@ export class InitAll {
     public render_new_tab = (): Promise<void> =>
         err_async(async () => {
             const { Body } = await import('new_tab/components/body');
+
             const on_render = (): Promise<void> =>
                 err_async(async () => {
                     d_inputs.InputWidth.i().set_max_width();

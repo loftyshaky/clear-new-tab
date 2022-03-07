@@ -61,6 +61,7 @@ export class Color {
             });
             await d_backgrounds.BackgroundAnimation.i().forbid_animation();
 
+            s_backgrounds.VirtualizedList.i().set_bottom_scroll_position();
             d_protecting_screen.Visibility.i().hide();
         }, 'cnt_45931');
 }

@@ -16,4 +16,14 @@ export class VirtualizedList {
 
             ReactVirtualized__Collection?.setAttribute('tabIndex', '-1');
         }, 'cnt_53665');
+
+    public set_bottom_scroll_position = (): void =>
+        err(() => {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            const ReactVirtualized__Collection = s<HTMLElement>('.ReactVirtualized__Collection');
+
+            if (n(ReactVirtualized__Collection)) {
+                ReactVirtualized__Collection.scrollTop = ReactVirtualized__Collection.scrollHeight;
+            }
+        }, 'cnt_54357');
 }
