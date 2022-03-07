@@ -53,7 +53,8 @@ export class Main {
     private default_val_1: (i_db.Background | undefined)[] = [undefined, undefined];
     private default_val_2: (i_db.BackgroundFile | undefined)[] = [undefined, undefined];
     public default_val_3: string[] = ['', ''];
-    private default_val_4: t.AnyRecord[] = [{}, {}];
+    public default_val_4: number[] = [0, 0];
+    private default_val_5: t.AnyRecord[] = [{}, {}];
     public background_container_i: number = 1;
     public background_data: (i_db.Background | undefined)[] = this.default_val_1;
     public background_file: (i_db.BackgroundFile | string | undefined)[] = this.default_val_2;
@@ -61,8 +62,8 @@ export class Main {
     public background_position: string[] = this.default_val_3;
     public background_repeat: string[] = this.default_val_3;
     public color_of_area_around_background: string[] = this.default_val_3;
-    public video_volume: string[] = this.default_val_3;
-    public background_css: t.AnyRecord[] = this.default_val_4;
+    public video_volume: number[] = this.default_val_4;
+    public background_css: t.AnyRecord[] = this.default_val_5;
 
     public get opposite_background_container_i() {
         return _.clone(this).background_container_i === 0 ? 1 : 0;
@@ -199,7 +200,7 @@ export class Main {
             return '';
         }, 'cnt_84625');
 
-    public get_video_volume = (): string =>
+    public get_video_volume = (): number =>
         err(() => {
             if (
                 s_background.Type.i().is_video({

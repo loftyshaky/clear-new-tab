@@ -108,7 +108,10 @@ export class Val {
                 } else {
                     val = d_inputs.Val.i().access({ input });
 
-                    if (input.name === 'background_change_interval' && n(val)) {
+                    if (
+                        ['background_change_interval', 'video_volume'].includes(input.name) &&
+                        n(val)
+                    ) {
                         val = +val;
                     }
                 }
