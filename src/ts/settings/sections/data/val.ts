@@ -92,7 +92,14 @@ export class Val {
                             });
                         }
 
-                        if (['mode', 'color_type'].includes(input.name)) {
+                        if (
+                            [
+                                'mode',
+                                'color_type',
+                                'slideshow',
+                                'background_change_interval',
+                            ].includes(input.name)
+                        ) {
                             await ext.send_msg_resp({
                                 msg: 'get_background',
                                 force_change: true,
