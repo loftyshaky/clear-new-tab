@@ -86,8 +86,12 @@ export class BackgroundChange {
                 if (data.settings.slideshow) {
                     ext.send_msg({ msg: 'get_background' });
                 }
+
+                d_background.VideoPlayback.i().set_play_status({ is_playing: true });
             } else if (document.visibilityState === 'hidden') {
                 ext.send_msg({ msg: 'clear_slideshow_timer' });
+
+                d_background.VideoPlayback.i().set_play_status({ is_playing: false });
             }
         }, 'cnt_76545');
 }

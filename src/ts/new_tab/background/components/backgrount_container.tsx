@@ -7,6 +7,9 @@ import { d_background, s_background, p_background } from 'new_tab/internal';
 
 export const BackgrountContainer: React.FunctionComponent<p_background.BackgrountContainer> =
     observer((props) => {
+        // eslint-disable-next-line no-unused-expressions
+        d_background.VideoPlayback.i().is_playing;
+
         const video_el_ref = useRef<any>(null);
 
         useEffect(() => {
@@ -14,10 +17,24 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
                 video_volume,
                 video_el: video_el_ref.current,
             });
-            s_background.VideoPlayback.i().pause_video({
+            s_background.VideoPlayback.i().pause_hidden_video({
                 background_container_i,
                 video_el: video_el_ref.current,
             });
+
+            if (d_background.VideoPlayback.i().is_playing) {
+                s_background.VideoPlayback.i().play_or_pause_current_video({
+                    play_status: 'play',
+                    background_container_i,
+                    video_el: video_el_ref.current,
+                });
+            } else {
+                s_background.VideoPlayback.i().play_or_pause_current_video({
+                    play_status: 'pause',
+                    background_container_i,
+                    video_el: video_el_ref.current,
+                });
+            }
         });
 
         const { background_container_i } = props;
@@ -64,13 +81,7 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
                     }}
                 >
                     {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-                    <video
-                        src={background}
-                        style={video_background_css}
-                        loop
-                        autoPlay
-                        ref={video_el_ref}
-                    />
+                    <video src={background} style={video_background_css} loop ref={video_el_ref} />
                 </div>
                 <div
                     className={x.cls([

@@ -11,6 +11,16 @@ export class VideoPlayback {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
+    private is_visible_video = ({
+        background_container_i,
+    }: {
+        background_container_i: number;
+    }): boolean =>
+        err(
+            () => background_container_i === d_background.Main.i().background_container_i,
+            'cnt_75443',
+        );
+
     public set_video_volume = ({
         video_volume,
         video_el,
@@ -24,7 +34,7 @@ export class VideoPlayback {
             }
         }, 'cnt_53654');
 
-    public pause_video = ({
+    public pause_hidden_video = ({
         background_container_i,
         video_el,
     }: {
@@ -33,12 +43,31 @@ export class VideoPlayback {
     }): void =>
         err(() => {
             if (n(video_el)) {
-                const is_hidden_video: boolean =
-                    background_container_i ===
-                    d_background.Main.i().opposite_background_container_i;
+                const is_visible_video: boolean = this.is_visible_video({ background_container_i });
 
-                if (is_hidden_video) {
+                if (!is_visible_video) {
                     video_el.pause();
+                }
+            }
+        }, 'cnt_86545');
+
+    public play_or_pause_current_video = ({
+        play_status,
+        background_container_i,
+        video_el,
+    }: {
+        play_status: 'play' | 'pause';
+        background_container_i: number;
+        video_el: HTMLVideoElement | undefined;
+    }): void =>
+        err(() => {
+            if (n(video_el)) {
+                const is_visible_video: boolean = this.is_visible_video({
+                    background_container_i,
+                });
+
+                if (is_visible_video) {
+                    video_el[play_status]();
                 }
             }
         }, 'cnt_86545');
