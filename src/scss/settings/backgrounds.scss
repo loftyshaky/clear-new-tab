@@ -136,7 +136,7 @@ $drop_zone_size: 3px;
 
         .overlay_item {
             position: absolute;
-            max-width: fit-content;
+            max-width: calc(100% - #{$overlay_item_block_offset * 2 + 4});
             height: $overlay_item_size;
             bottom: $overlay_item_block_offset;
             left: $overlay_item_block_offset;
@@ -150,6 +150,7 @@ $drop_zone_size: 3px;
 
             &.info {
                 pointer-events: none;
+                overflow: hidden;
             }
 
             &.background_type {
