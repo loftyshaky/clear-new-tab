@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { useEffect, useRef } from 'react';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
@@ -65,7 +66,7 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
         const background_is_sliding_cls: string =
             d_background.Classes.i().background_is_sliding_cls[background_container_i];
 
-        return (
+        return _.isEmpty(background_css) ? null : (
             <>
                 <div
                     className={x.cls([

@@ -7,9 +7,10 @@ import { s_css_vars, s_theme } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
-    s_browser_theme,
     d_optional_permission_settings,
     d_sections,
+    s_preload_color,
+    s_browser_theme,
 } from 'settings/internal';
 
 export class Val {
@@ -191,6 +192,8 @@ export class Val {
                         settings: { colors },
                     });
                 }
+
+                s_preload_color.Storage.i().set_preload_color();
             }, 'cnt_1138'),
     );
 
@@ -232,6 +235,8 @@ export class Val {
         err_async(async () => {
             if (input.name !== 'create_solid_color_background') {
                 await d_background_settings.Val.i().change({ name: input.name, new_val: i });
+
+                s_preload_color.Storage.i().set_preload_color();
             }
         }, 'cnt_1143');
 
