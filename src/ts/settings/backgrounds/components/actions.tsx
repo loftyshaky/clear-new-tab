@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { o_inputs, c_inputs } from '@loftyshaky/shared/inputs';
 
 import { Tr } from 'shared/internal';
-import { d_backgrounds, c_backgrounds, p_backgrounds } from 'settings/internal';
+import { c_backgrounds, d_backgrounds, s_backgrounds, p_backgrounds } from 'settings/internal';
 
 export const Actions: React.FunctionComponent<p_backgrounds.Actions> = observer((props) => {
     const { background } = props;
@@ -28,7 +28,8 @@ export const Actions: React.FunctionComponent<p_backgrounds.Actions> = observer(
                     input={
                         new o_inputs.Btn({
                             name: 'preview_background',
-                            event_callback: () => undefined,
+                            event_callback: () =>
+                                s_backgrounds.Preview.i().open({ background_id: background.id }),
                         })
                     }
                 />

@@ -37,12 +37,19 @@ export class BackgroundChange {
                 URL.revokeObjectURL(background[background_container_i]);
             }
 
+            const preview_background_id = new URL(self.location.href).searchParams.get(
+                'preview_background_id',
+            );
+            const background_id: string = n(preview_background_id)
+                ? preview_background_id
+                : data.settings.current_background_id;
+
             const new_background_data = await s_db.Manipulation.i().get_background({
-                id: data.settings.current_background_id,
+                id: background_id,
             });
 
             const new_background_file = await s_db.Manipulation.i().get_background_file({
-                id: data.settings.current_background_id,
+                id: background_id,
             });
 
             runInAction(() =>
