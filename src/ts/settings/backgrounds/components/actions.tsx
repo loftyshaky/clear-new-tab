@@ -49,7 +49,10 @@ export const Actions: React.FunctionComponent<p_backgrounds.Actions> = observer(
                     input={
                         new o_inputs.Btn({
                             name: 'copy_background_id',
-                            event_callback: () => undefined,
+                            event_callback: () =>
+                                s_backgrounds.BackgroundId.i().copy_to_clipboard({
+                                    background_id: background.id,
+                                }),
                         })
                     }
                 />
