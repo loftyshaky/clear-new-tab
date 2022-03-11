@@ -49,6 +49,7 @@ export class Dnd {
     public dragged_background_left: number = 0;
     public dragged_background_top: number = 0;
     public background_to_move: i_db.Background | undefined;
+    private background_to_move_i: number = 0;
     private hovering_over_background: i_db.Background | undefined;
     public drop_zone_background: i_db.Background | undefined = undefined;
 
@@ -124,6 +125,12 @@ export class Dnd {
 
             this.initial_x = e.clientX;
             this.initial_y = e.clientY;
+
+            this.background_to_move_i =
+                d_backgrounds_shared.CurrentBackground.i().find_i_of_background_with_id({
+                    id: this.background_to_move.id,
+                    backgrounds: d_backgrounds.Main.i().backgrounds,
+                });
         }, 'cnt_53643');
 
     public stop_drag = (): Promise<void> =>
@@ -144,11 +151,6 @@ export class Dnd {
             this.remove_drop_zone();
 
             if (n(this.background_to_move) && n(this.drop_zone_background)) {
-                const background_to_move_i: number =
-                    d_backgrounds_shared.CurrentBackground.i().find_i_of_background_with_id({
-                        id: this.background_to_move.id,
-                        backgrounds: d_backgrounds.Main.i().backgrounds,
-                    });
                 const drop_zone_background_i: number =
                     d_backgrounds_shared.CurrentBackground.i().find_i_of_background_with_id({
                         id: this.drop_zone_background.id,
@@ -200,8 +202,9 @@ export class Dnd {
                                         [dropped_at_trailing_left_position ? 'minus' : 'plus'](1)
                                         .toString();
 
-                                    d_backgrounds.Main.i().backgrounds[background_to_move_i].i =
-                                        new_i;
+                                    d_backgrounds.Main.i().backgrounds[
+                                        this.background_to_move_i
+                                    ].i = new_i;
                                 } else {
                                     set_intermediate_i({
                                         drop_zone_insert_direction,
@@ -269,17 +272,17 @@ export class Dnd {
                                 .div(2)
                                 .toString();
 
-                            d_backgrounds.Main.i().backgrounds[background_to_move_i].i =
+                            d_backgrounds.Main.i().backgrounds[this.background_to_move_i].i =
                                 intermediate_i;
                         }),
                         'cnt_53673',
                     );
 
-                if (background_to_move_i < drop_zone_background_i) {
+                if (this.background_to_move_i < drop_zone_background_i) {
                     move_dragged_background({
                         drop_zone_insert_direction: 'left',
                     });
-                } else if (background_to_move_i > drop_zone_background_i) {
+                } else if (this.background_to_move_i > drop_zone_background_i) {
                     move_dragged_background({
                         drop_zone_insert_direction: 'right',
                     });
@@ -287,7 +290,9 @@ export class Dnd {
 
                 if (data.settings.update_database_when_dnd_background) {
                     await s_db.Manipulation.i().update_backgrounds({
-                        backgrounds: [d_backgrounds.Main.i().backgrounds[background_to_move_i]],
+                        backgrounds: [
+                            d_backgrounds.Main.i().backgrounds[this.background_to_move_i],
+                        ],
                     });
                 }
 
@@ -354,16 +359,16 @@ export class Dnd {
                             if (this.background_to_move.id === this.hovering_over_background.id) {
                                 this.drop_zone_insert_direction = this.drag_direction;
                                 this.drop_zone_background =
-                                    backgrounds[background_to_move_i + i_modifier_1];
+                                    backgrounds[this.background_to_move_i + i_modifier_1];
                             } else if (
-                                n(backgrounds[background_to_move_i + i_modifier_2]) &&
+                                n(backgrounds[this.background_to_move_i + i_modifier_2]) &&
                                 this.hovering_over_background.id ===
-                                    backgrounds[background_to_move_i + i_modifier_2].id
+                                    backgrounds[this.background_to_move_i + i_modifier_2].id
                             ) {
-                                if (n(backgrounds[background_to_move_i + i_modifier_1])) {
+                                if (n(backgrounds[this.background_to_move_i + i_modifier_1])) {
                                     this.drop_zone_insert_direction = this.drag_direction;
                                     this.drop_zone_background =
-                                        backgrounds[background_to_move_i + i_modifier_1];
+                                        backgrounds[this.background_to_move_i + i_modifier_1];
                                 } else {
                                     this.drop_zone_insert_direction = drop_zone_insert_direction;
                                     this.drop_zone_background = this.hovering_over_background;
@@ -375,11 +380,6 @@ export class Dnd {
                         }
                     }, 'cnt_64684');
 
-                const background_to_move_i: number =
-                    d_backgrounds_shared.CurrentBackground.i().find_i_of_background_with_id({
-                        id: this.background_to_move.id,
-                        backgrounds: d_backgrounds.Main.i().backgrounds,
-                    });
                 const backgrounds: i_db.Background[] = toJS(d_backgrounds.Main.i().backgrounds);
 
                 const only_one_background_exist = d_backgrounds.Main.i().backgrounds.length === 1;
@@ -443,20 +443,15 @@ export class Dnd {
                 const val_is_integer: boolean = _.isInteger(val_2);
 
                 if (val_is_integer) {
-                    const background_to_move_i: number =
-                        d_backgrounds_shared.CurrentBackground.i().find_i_of_background_with_id({
-                            id: this.background_to_move.id,
-                            backgrounds: d_backgrounds.Main.i().backgrounds,
-                        });
                     const last_background_i: number = d_backgrounds.Main.i().backgrounds.length - 1;
                     let drop_i: number = 0;
                     this.drop_zone_insert_direction = 'left';
 
                     if (val_2 > 0 && val_2 <= last_background_i) {
                         drop_i = val_2 - 1;
-                        if (val_2 < background_to_move_i) {
+                        if (val_2 < this.background_to_move_i) {
                             this.drop_zone_insert_direction = 'left';
-                        } else if (val_2 > background_to_move_i) {
+                        } else if (val_2 > this.background_to_move_i) {
                             this.drop_zone_insert_direction = 'right';
                         }
                     } else if (val_2 > last_background_i) {
@@ -467,7 +462,7 @@ export class Dnd {
 
                     this.drop_zone_background = d_backgrounds.Main.i().backgrounds[drop_i];
 
-                    if (val_2 - 1 !== background_to_move_i) {
+                    if (val_2 - 1 !== this.background_to_move_i) {
                         this.drop();
                     }
                 }
