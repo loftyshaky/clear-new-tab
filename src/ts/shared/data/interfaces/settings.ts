@@ -1,6 +1,7 @@
 import { i_color } from '@loftyshaky/shared/inputs';
+import { i_data } from 'shared/internal';
 
-export interface Settings {
+export interface Settings extends i_data.Date {
     options_page_theme: string;
     transition_duration: number;
     color_help_is_visible: boolean;

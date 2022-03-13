@@ -47,6 +47,9 @@
     "mode_label_text": {
         "message": "Mode"
     },
+    "open_scheduler_btn_text": {
+        "message": "Open scheduler"
+    },
     "color_type_label_text": {
         "message": "Color type"
     },
@@ -107,6 +110,24 @@
     "update_database_when_dnd_background_label_text": {
         "message": "Update database when dragging and dropping background"
     },
+    "year_label_text": {
+        "message": "Year"
+    },
+    "day_of_the_week_label_text": {
+        "message": "Day of the week"
+    },
+    "month_label_text": {
+        "message": "Month"
+    },
+    "day_of_the_month_label_text": {
+        "message": "Day of the month"
+    },
+    "time_label_text": {
+        "message": "Time"
+    },
+    "add_new_task_btn_text": {
+        "message": "Add new task"
+    },
     "paste_background_text_btn_title": {
         "message": "Paste image or URL from clipboard"
     },
@@ -124,6 +145,9 @@
     },
     "random_solid_color_option_text": {
         "message": "Random solid color"
+    },
+    "scheduled_option_text": {
+        "message": "Scheduled"
     },
     "all_option_text": {
         "message": "All"
@@ -281,6 +305,66 @@
     "repeat_x_option_text": {
         "message": "Repeat X"
     },
+    "none_option_text": {
+        "message": "None"
+    },
+    "monday_option_text": {
+        "message": "Monday"
+    },
+    "tuesday_option_text": {
+        "message": "Tuesday"
+    },
+    "wednesday_option_text": {
+        "message": "Wednesday"
+    },
+    "Thursday_option_text": {
+        "message": "Thursday"
+    },
+    "friday_option_text": {
+        "message": "Friday"
+    },
+    "saturday_option_text": {
+        "message": "Saturday"
+    },
+    "sunday_option_text": {
+        "message": "Sunday"
+    },
+    "january_option_text": {
+        "message": "January"
+    },
+    "february_option_text": {
+        "message": "February"
+    },
+    "march_option_text": {
+        "message": "March"
+    },
+    "april_option_text": {
+        "message": "April"
+    },
+    "may_option_text": {
+        "message": "May"
+    },
+    "june_option_text": {
+        "message": "June"
+    },
+    "july_option_text": {
+        "message": "July"
+    },
+    "august_option_text": {
+        "message": "August"
+    },
+    "september_option_text": {
+        "message": "September"
+    },
+    "october_option_text": {
+        "message": "October"
+    },
+    "november_option_text": {
+        "message": "November"
+    },
+    "december_option_text": {
+        "message": "December"
+    },
     "background_type_color_text": {
         "message": "Color"
     },
@@ -313,6 +397,15 @@
     },
     "copy_background_id_btn_text": {
         "message": "Copy id"
+    },
+    "save_tasks_btn_title": {
+        "message": "Save tasks"
+    },
+    "discard_tasks_btn_title": {
+        "message": "Discard tasks"
+    },
+    "close_scheduler_btn_title": {
+        "message": "Close scheduler"
     },
     "upload_background_help_text": {
         "message": "You can upload multiple images/videos at once. Just select multiple images/videos before clicking \"Open\" / dragging.\n\nSupported formats: png, jpg, gif, mp4, webm, ogg."

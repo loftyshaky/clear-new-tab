@@ -130,13 +130,16 @@ export class InitAll {
             const { Body } = await import('settings/components/body');
             const on_render = (): Promise<void> =>
                 err_async(async () => {
-                    const { s_backgrounds, d_sections } = await import('settings/internal');
+                    const { s_backgrounds, d_scheduler, d_sections } = await import(
+                        'settings/internal'
+                    );
 
                     await d_inputs.InputWidth.i().calculate_for_all_sections({
                         sections: d_sections.Main.i().sections as i_inputs.Sections,
                         all_sections_inputs_equal_width: true,
                     });
                     d_sections.Width.i().set();
+                    d_scheduler.Position.i().set_left();
 
                     s_tab_index.Main.i().bind_set_input_type_f();
 

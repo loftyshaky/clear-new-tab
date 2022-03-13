@@ -14,6 +14,8 @@ import Visibility from '../../svg/visibility.svg';
 import Yard from '../../svg/yard.svg';
 import ContentPaste from '../../svg/content_paste.svg';
 import AssistantPhoto from '../../svg/assistant_photo.svg';
+import Check from '../../svg/check.svg';
+import Delete from '../../svg/delete.svg';
 
 export type SvgType = {
     Archive: string;
@@ -30,6 +32,8 @@ export type SvgType = {
     Yard: string;
     ContentPaste: string;
     AssistantPhoto: string;
+    Check: string;
+    Delete: string;
 };
 
 export const svg: SvgType = {
@@ -47,4 +51,6 @@ export const svg: SvgType = {
     Yard,
     ContentPaste,
     AssistantPhoto,
+    Check,
+    Delete,
 };

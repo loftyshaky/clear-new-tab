@@ -2,7 +2,13 @@ import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 
 import { c_inputs, o_inputs, d_inputs, i_inputs } from '@loftyshaky/shared/inputs';
-import { c_settings, c_backgrounds, c_protecting_screen, d_sections } from 'settings/internal';
+import {
+    c_settings,
+    c_backgrounds,
+    c_protecting_screen,
+    c_scheduler,
+    d_sections,
+} from 'settings/internal';
 
 export const Body: React.FunctionComponent = observer(() => {
     useEffect(
@@ -38,6 +44,7 @@ export const Body: React.FunctionComponent = observer(() => {
                     )}
                 </div>
                 <c_backgrounds.Body />
+                <c_scheduler.Body />
             </div>
             <c_protecting_screen.Body />
         </>

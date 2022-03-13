@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { makeObservable, action } from 'mobx';
+import { makeObservable, action, observable } from 'mobx';
 
 import { s_viewport } from '@loftyshaky/shared';
 import { d_backgrounds } from 'settings/internal';
@@ -15,10 +15,14 @@ export class Width {
 
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {
-        makeObservable(this, {
+        makeObservable<this, 'set_settings_section_width'>(this, {
+            settings_section_width: observable,
+            set_settings_section_width: action,
             set_backgrounds_section_width: action,
         });
     }
+
+    public settings_section_width: number = 0;
 
     private set_settings_section_width = (): void =>
         err(() => {
@@ -31,12 +35,11 @@ export class Width {
                 );
 
                 if (n(max_width_section_el)) {
-                    const max_width_section_val: number =
+                    this.settings_section_width =
                         max_width_section_el.offsetWidth - vars.border_width * 2;
-
                     [...section_els].forEach((section_el: HTMLDivElement): void =>
                         err(() => {
-                            section_el.style.width = x.px(max_width_section_val);
+                            section_el.style.width = x.px(this.settings_section_width);
                         }, 'cnt_99999'),
                     );
                 }
@@ -66,6 +69,7 @@ export class Width {
 
                 if (new_width <= backgrounds_sections_el_max_width) {
                     const backgrounds_section_el_width = new_width - 2;
+
                     backgrounds_sections_el.style.width = x.px(new_width + outer_margin + 2);
                     backgrounds_section_el.style.width = x.px(backgrounds_section_el_width);
 

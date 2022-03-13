@@ -47,6 +47,9 @@
     "mode_label_text": {
         "message": "Режим"
     },
+    "open_scheduler_btn_text": {
+        "message": "Открыть планировщик"
+    },
     "color_type_label_text": {
         "message": "Тип цветов"
     },
@@ -107,6 +110,24 @@
     "update_database_when_dnd_background_label_text": {
         "message": "Обновлять базу данных при перемещении фона"
     },
+    "year_label_text": {
+        "message": "Год"
+    },
+    "day_of_the_week_label_text": {
+        "message": "День недели"
+    },
+    "month_label_text": {
+        "message": "Месяц"
+    },
+    "day_of_the_month_label_text": {
+        "message": "День месяца"
+    },
+    "time_label_text": {
+        "message": "Время"
+    },
+    "add_new_task_btn_text": {
+        "message": "Добавить новую задачу"
+    },
     "paste_background_text_btn_title": {
         "message": "Вставьте изображение или ссылку на него из буфера обмена"
     },
@@ -124,6 +145,9 @@
     },
     "random_solid_color_option_text": {
         "message": "Случайный сплошной цвет"
+    },
+    "scheduled_option_text": {
+        "message": "По расписанию"
     },
     "all_option_text": {
         "message": "Все"
@@ -275,6 +299,66 @@
     "repeat_x_option_text": {
         "message": "Повторять X"
     },
+    "none_option_text": {
+        "message": "Не выбрано"
+    },
+    "monday_option_text": {
+        "message": "Понедельник"
+    },
+    "tuesday_option_text": {
+        "message": "Вторник"
+    },
+    "wednesday_option_text": {
+        "message": "Среда"
+    },
+    "Thursday_option_text": {
+        "message": "Четверг"
+    },
+    "friday_option_text": {
+        "message": "Пятница"
+    },
+    "saturday_option_text": {
+        "message": "Суббота"
+    },
+    "sunday_option_text": {
+        "message": "Воскресенье"
+    },
+    "january_option_text": {
+        "message": "Январь"
+    },
+    "february_option_text": {
+        "message": "Февраль"
+    },
+    "march_option_text": {
+        "message": "Март"
+    },
+    "april_option_text": {
+        "message": "Апрель"
+    },
+    "may_option_text": {
+        "message": "Май"
+    },
+    "june_option_text": {
+        "message": "Июнь"
+    },
+    "july_option_text": {
+        "message": "Июль"
+    },
+    "august_option_text": {
+        "message": "Август"
+    },
+    "september_option_text": {
+        "message": "Сентябрь"
+    },
+    "october_option_text": {
+        "message": "Октябрь"
+    },
+    "november_option_text": {
+        "message": "Ноябрь"
+    },
+    "december_option_text": {
+        "message": "Декабрь"
+    },
     "global_option_text": {
         "message": "Глобальные"
     },
@@ -313,6 +397,15 @@
     },
     "copy_background_id_btn_text": {
         "message": "Копировать id"
+    },
+    "save_tasks_btn_title": {
+        "message": "Сохранить задачи"
+    },
+    "discard_tasks_btn_title": {
+        "message": "Отменить изменения"
+    },
+    "close_scheduler_btn_title": {
+        "message": "Закрыть планировщик"
     },
     "upload_background_help_text": {
         "message": "Вы можете загрузить несколько картинок / видео сразу. Просто выберите несколько картинок / видео перед нажатием \"Открыть\" / перетаскиванием.\n\nПоддерживаемы форматы: png, jpg, gif, mp4, webm, ogg."

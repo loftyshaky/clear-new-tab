@@ -4,6 +4,7 @@ import {
     d_background_settings,
     d_backgrounds,
     d_optional_permission_settings,
+    d_scheduler,
     d_sections,
     s_preload_color,
     s_browser_theme,
@@ -15,6 +16,9 @@ export const init = (): Promise<void> =>
         d_data.Main.i().create_objs();
         d_sections.Main.i().init_options();
         d_sections.Main.i().init_sections();
+        d_scheduler.TopControls.i().init();
+        d_scheduler.DatePicker.i().init_options();
+        d_scheduler.DatePicker.i().init_inputs();
         await d_backgrounds.Main.i().set_backgrounds();
         d_backgrounds.CurrentBackground.i().set_current_background_i();
         d_background_settings.GlobalCheckboxes.i().set_ui_vals();
@@ -27,6 +31,7 @@ export const init = (): Promise<void> =>
         x.bind(window, 'resize', d_sections.Width.i().set_backgrounds_section_width);
         x.bind(window, 'scroll', s_color.Position.i().set);
         x.bind(window, 'resize', s_color.Position.i().set);
+        x.bind(window, 'resize', d_scheduler.Position.i().set_left);
         x.bind(document, 'mousedown', d_color.Visibility.i().hide_all);
         x.bind(document, 'mousemove', d_backgrounds.Dnd.i().set_dragged_background_position);
         x.bind(document, 'mouseup', d_backgrounds.Dnd.i().stop_drag);

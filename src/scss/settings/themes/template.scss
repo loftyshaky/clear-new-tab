@@ -1,7 +1,7 @@
 @import 'template_focus';
 
 .main,
-.sections {
+.sections, {
     background-color: $gaq;
 }
 
@@ -27,4 +27,8 @@
             outline-color: $ycp;
         }
     }
+}
+
+.scheduler {
+    background-color: $htc;
 }

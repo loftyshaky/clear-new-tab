@@ -7,6 +7,7 @@ import {
     d_sections,
     s_browser_theme,
     d_protecting_screen,
+    d_scheduler,
     s_theme,
 } from 'settings/internal';
 
@@ -29,6 +30,7 @@ export class Main {
                     new o_inputs.Option({ name: 'one_background' }),
                     new o_inputs.Option({ name: 'multiple_backgrounds' }),
                     new o_inputs.Option({ name: 'random_solid_color' }),
+                    new o_inputs.Option({ name: 'scheduled' }),
                 ],
                 color_type: [
                     new o_inputs.Option({ name: 'all' }),
@@ -177,6 +179,20 @@ export class Main {
                                 options: this.options,
                                 include_help: true,
                                 event_callback: d_sections.Val.i().change,
+                            }),
+                            new o_inputs.Btn({
+                                name: 'open_scheduler',
+                                is_enabled_conds: [
+                                    {
+                                        input_name: 'mode',
+                                        pass_vals: ['scheduled'],
+                                    },
+                                ],
+                                event_callback: () => {
+                                    d_scheduler.Visibility.i().change({
+                                        is_visible: true,
+                                    });
+                                },
                             }),
                             new o_inputs.Select({
                                 name: 'color_type',

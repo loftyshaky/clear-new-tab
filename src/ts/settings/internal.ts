@@ -7,12 +7,14 @@ export * from 'settings/init';
 export * as c_settings from 'settings/components';
 export * as c_backgrounds from 'settings/backgrounds/components';
 export * as c_protecting_screen from 'settings/protecting_screen/components';
+export * as c_scheduler from 'settings/scheduler/components';
 
 export * as d_background_settings from 'settings/background_settings/data';
 export * as d_backgrounds from 'settings/backgrounds/data';
 export * as d_browser_theme from 'settings/browser_theme/data';
 export * as d_optional_permission_settings from 'settings/optional_permission_settings/data';
 export * as d_protecting_screen from 'settings/protecting_screen/data';
+export * as d_scheduler from 'settings/scheduler/data';
 export * as d_sections from 'settings/sections/data';
 
 export * as s_background_settings from 'settings/background_settings/scripts';
