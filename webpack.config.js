@@ -44,7 +44,11 @@ module.exports = (env, argv) => {
         MiniCssExtractPlugin,
         CssMinimizerPlugin,
         CopyWebpackPlugin,
-        copy_patters: [],
+        copy_patters: [
+            {
+                from: path.join(app_root, 'src', 'imgs'),
+            },
+        ],
         callback_begin: () => {
             task_scheduler.unlock_dist({
                 package_name: 'Clear New Tab',

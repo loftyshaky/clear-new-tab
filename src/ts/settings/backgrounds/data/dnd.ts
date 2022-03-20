@@ -3,7 +3,7 @@ import { MouseEvent } from 'react';
 import { makeObservable, observable, computed, action, toJS } from 'mobx';
 import { BigNumber } from 'bignumber.js';
 
-import { d_backgrounds as d_backgrounds_shared, s_db, i_db } from 'shared/internal';
+import { d_backgrounds as d_backgrounds_shared, s_db, s_i, i_db } from 'shared/internal';
 import { d_backgrounds, s_backgrounds, i_backgrounds } from 'settings/internal';
 
 export class Dnd {
@@ -296,11 +296,9 @@ export class Dnd {
                     });
                 }
 
-                d_backgrounds.Main.i().backgrounds = d_backgrounds_shared.Main.i().sort_backgrounds(
-                    {
-                        backgrounds: d_backgrounds.Main.i().backgrounds,
-                    },
-                );
+                d_backgrounds.Main.i().backgrounds = s_i.Main.i().sort_by_i_ascending({
+                    data: d_backgrounds.Main.i().backgrounds,
+                }) as i_db.Background[];
 
                 d_backgrounds.CurrentBackground.i().set_current_background_i();
 

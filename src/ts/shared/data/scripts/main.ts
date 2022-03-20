@@ -43,7 +43,7 @@ export class Main {
                 video_volume: 0,
                 download_img_when_link_given: false,
                 year: new Date().getFullYear().toString(),
-                day_of_the_week: 'monday',
+                day_of_the_week: 'none',
                 month: '0',
                 day_of_the_month: '0',
                 time: '00:00:00',

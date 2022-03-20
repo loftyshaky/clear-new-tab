@@ -1,4 +1,4 @@
-import { db, d_backgrounds, i_db } from 'shared/internal';
+import { db, d_backgrounds, s_i, i_db } from 'shared/internal';
 
 export class Manipulation {
     private static i0: Manipulation;
@@ -34,12 +34,17 @@ export class Manipulation {
             );
         }, 'cnt_64358');
 
+    public save_tasks = ({ tasks }: { tasks: i_db.Task[] }): Promise<void> =>
+        err_async(async () => {
+            await db.tasks.bulkAdd(tasks);
+        }, 'cnt_64358');
+
     public get_backgrounds = (): Promise<i_db.Background[]> =>
         err_async(async () => {
             const backgrounds: i_db.Background[] = await db.backgrounds.toArray();
-            const backgrounds_sorted = d_backgrounds.Main.i().sort_backgrounds({
-                backgrounds,
-            });
+            const backgrounds_sorted = s_i.Main.i().sort_by_i_ascending({
+                data: backgrounds,
+            }) as i_db.Background[];
 
             return backgrounds_sorted;
         }, 'cnt_94527');
@@ -82,6 +87,9 @@ export class Manipulation {
             return background_file;
         }, 'cnt_89376');
 
+    public get_tasks = (): Promise<i_db.Task[]> =>
+        err_async(async () => db.tasks.toArray(), 'cnt_94527');
+
     public update_background = ({ background }: { background: i_db.Background }): Promise<void> =>
         err_async(async () => {
             await db.backgrounds.update(background.id as any, background);
@@ -103,6 +111,11 @@ export class Manipulation {
                     ),
                 );
             });
+        }, 'cnt_56461');
+
+    public update_task = ({ task }: { task: i_db.Task }): Promise<void> =>
+        err_async(async () => {
+            await db.tasks.update(task.id as any, task);
         }, 'cnt_56461');
 
     public delete_background = ({ id }: { id: string }): Promise<void> =>
@@ -134,6 +147,11 @@ export class Manipulation {
                 },
             );
         }, 'cnt_94584');
+
+    public delete_task = ({ id }: { id: string }): Promise<void> =>
+        err_async(async () => {
+            await db.tasks.delete(id as any);
+        }, 'cnt_94527');
 
     public clear_all_tables = (): Promise<void> =>
         err_async(async () => {

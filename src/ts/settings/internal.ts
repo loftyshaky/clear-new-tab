@@ -20,12 +20,14 @@ export * as d_sections from 'settings/sections/data';
 export * as s_background_settings from 'settings/background_settings/scripts';
 export * as s_backgrounds from 'settings/backgrounds/scripts';
 export * as s_browser_theme from 'settings/browser_theme/scripts';
+export * as s_i from 'settings/i/scripts';
 export * as s_preload_color from 'settings/preload_color/scripts';
 export * as s_theme from 'settings/theme/scripts';
 
 export * as p_settings from 'settings/components/prop_types';
 
 export * as p_backgrounds from 'settings/backgrounds/components/prop_types';
+export * as p_scheduler from 'settings/scheduler/components/prop_types';
 
 export * as i_backgrounds from 'settings/backgrounds/interfaces';
 export * as i_browser_theme from 'settings/browser_theme/interfaces';

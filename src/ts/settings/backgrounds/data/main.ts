@@ -2,8 +2,7 @@ import _ from 'lodash';
 import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
-import { d_backgrounds as d_backgrounds_shared, s_db, i_db } from 'shared/internal';
-import { d_backgrounds } from 'settings/internal';
+import { s_db, s_i, i_db } from 'shared/internal';
 
 export class Main {
     private static i0: Main;
@@ -66,13 +65,10 @@ export class Main {
 
             runInAction(() =>
                 err(() => {
-                    this.backgrounds = backgrounds_2;
+                    this.backgrounds = s_i.Main.i().sort_by_i_ascending({
+                        data: backgrounds_2,
+                    }) as i_db.Background[];
                     this.background_thumbnails = backgrounds_thumbnails_2;
-
-                    d_backgrounds.Main.i().backgrounds =
-                        d_backgrounds_shared.Main.i().sort_backgrounds({
-                            backgrounds: d_backgrounds.Main.i().backgrounds,
-                        });
                 }, 'cnt_64357'),
             );
         }, 'cnt_49273');

@@ -16,7 +16,11 @@ export const Body: React.FunctionComponent = observer(() => (
             left: x.px(d_scheduler.Position.i().left),
         }}
     >
-        <c_scheduler.TopControls />
-        <c_scheduler.DatePicker />
+        <div>
+            <c_scheduler.TopControls />
+            <c_scheduler.BackgroundPreview background_id={data.ui.background_id} />
+            <c_scheduler.DatePicker />
+        </div>
+        <c_scheduler.Tasks />
     </Tr>
 ));

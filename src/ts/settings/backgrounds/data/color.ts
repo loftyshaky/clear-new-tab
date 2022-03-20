@@ -1,5 +1,5 @@
 import { s_db, i_db } from 'shared/internal';
-import { d_backgrounds, d_protecting_screen, s_backgrounds } from 'settings/internal';
+import { d_backgrounds, d_protecting_screen, s_backgrounds, s_i } from 'settings/internal';
 
 export class Color {
     private static i0: Color;
@@ -26,7 +26,9 @@ export class Color {
                 {
                     id,
                     theme_id,
-                    i: s_backgrounds.I.i().get_next_background_i(),
+                    i: s_i.I.i().get_next_i({
+                        items: d_backgrounds.Main.i().backgrounds,
+                    }),
                     type: 'color',
                 },
             ];

@@ -3,7 +3,7 @@ import { makeObservable, observable, action, toJS } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
 import { d_backgrounds as d_backgrounds_shared, i_db } from 'shared/internal';
-import { d_background_settings, d_backgrounds } from 'settings/internal';
+import { d_background_settings, d_backgrounds, d_scheduler } from 'settings/internal';
 
 export class CurrentBackground {
     private static i0: CurrentBackground;
@@ -29,12 +29,19 @@ export class CurrentBackground {
 
     public select = ({ background }: { background: i_db.Background }): void =>
         err(() => {
-            if (!d_backgrounds.Dnd.i().lock_background_selection) {
+            if (
+                !d_backgrounds.Dnd.i().lock_background_selection &&
+                !d_scheduler.Visibility.i().is_visible
+            ) {
                 this.selected_background_id = background.id;
 
                 d_background_settings.SettingsType.i().react_to_background_selection({
                     background,
                 });
+            }
+
+            if (d_scheduler.Visibility.i().is_visible) {
+                d_scheduler.Tasks.i().set_background_id({ background_id: background.id });
             }
         }, 'cnt_96436');
 

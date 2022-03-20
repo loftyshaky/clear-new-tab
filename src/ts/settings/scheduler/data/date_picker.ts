@@ -1,5 +1,6 @@
 import { s_utils } from '@loftyshaky/shared';
 import { o_inputs, i_inputs } from '@loftyshaky/shared/inputs';
+import { d_scheduler } from 'settings/internal';
 
 export class DatePicker {
     private static i0: DatePicker;
@@ -19,18 +20,23 @@ export class DatePicker {
         err(() => {
             this.options = {
                 day_of_the_week: [
-                    'none',
-                    'monday',
-                    'tuesday',
-                    'wednesday',
-                    'thursday',
-                    'friday',
-                    'saturday',
-                    'sunday',
-                ].map(
-                    (name: string): o_inputs.Option =>
-                        err(() => new o_inputs.Option({ name }), 'cnt_73478'),
-                ),
+                    ...[new o_inputs.Option({ name: 'none' })],
+                    ...[
+                        'sunday',
+                        'monday',
+                        'tuesday',
+                        'wednesday',
+                        'thursday',
+                        'friday',
+                        'saturday',
+                    ].map(
+                        (name: string, i: number): o_inputs.Option =>
+                            err(
+                                () => new o_inputs.Option({ name, val: i.toString() }),
+                                'cnt_73478',
+                            ),
+                    ),
+                ],
                 month: [
                     ...[new o_inputs.Option({ name: 'none' })],
                     ...[
@@ -93,7 +99,7 @@ export class DatePicker {
                 }),
                 new o_inputs.Btn({
                     name: 'add_new_task',
-                    event_callback: () => undefined,
+                    event_callback: d_scheduler.Tasks.i().add,
                 }),
             ];
 

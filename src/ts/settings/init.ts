@@ -20,6 +20,7 @@ export const init = (): Promise<void> =>
         d_scheduler.DatePicker.i().init_options();
         d_scheduler.DatePicker.i().init_inputs();
         await d_backgrounds.Main.i().set_backgrounds();
+        d_scheduler.Tasks.i().set_tasks();
         d_backgrounds.CurrentBackground.i().set_current_background_i();
         d_background_settings.GlobalCheckboxes.i().set_ui_vals();
         d_background_settings.SettingsType.i().react_to_global_selection();

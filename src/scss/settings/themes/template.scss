@@ -31,4 +31,20 @@
 
 .scheduler {
     background-color: $htc;
+
+    .background_preview {
+        border-color: $lpe;
+    }
+
+    .tasks {
+        .task {
+            border-color: $hev;
+            background-color: $yos;
+        }
+
+        /* stylelint-disable-next-line selector-class-pattern */
+        .ReactVirtualized__List {
+            border-color: $hev;
+        }
+    }
 }

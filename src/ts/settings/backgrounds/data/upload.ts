@@ -6,6 +6,7 @@ import {
     d_backgrounds,
     d_protecting_screen,
     s_backgrounds,
+    s_i,
     i_backgrounds,
 } from 'settings/internal';
 
@@ -32,7 +33,9 @@ export class Upload {
         d_protecting_screen.Visibility.i().show();
 
         try {
-            const next_i: string = s_backgrounds.I.i().get_next_background_i();
+            const next_i: string = s_i.I.i().get_next_i({
+                items: d_backgrounds.Main.i().backgrounds,
+            });
             const ordered_thumbnails: i_backgrounds.OrderedThumbnails[] = [];
             const ordered_files: i_backgrounds.OrderedFiles[] = [];
 

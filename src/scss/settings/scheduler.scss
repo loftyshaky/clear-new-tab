@@ -1,5 +1,11 @@
+$background_preview: 44px;
+$delete_task_btn_size: 14px;
+$task_gap: 5px;
+
 .scheduler {
     position: fixed;
+    display: flex;
+    flex-direction: column;
     width: 300px;
     height: calc(100vh - #{($main_margin * 2) + ($section_padding * 4) + $border_width * 2});
     top: $main_margin + $section_padding + $border_width;
@@ -21,5 +27,57 @@
 
     .btn.add_new_task {
         margin-left: auto;
+    }
+
+    .background_preview {
+        @include border;
+
+        display: block;
+        height: $background_preview;
+        margin: $gap 0;
+
+        &.color {
+            width: $background_preview;
+        }
+    }
+
+    .tasks {
+        height: 100%;
+        margin-top: $gap;
+
+        .task {
+            @include border;
+
+            box-sizing: border-box;
+            padding: 0 $task_gap;
+
+            .date_w {
+                display: flex;
+                margin-top: 3px;
+
+                .date { font-size: $font_small; }
+
+                .delete_task_btn {
+                    margin-left: auto;
+                }
+
+                .delete_task_btn svg {
+                    width: $delete_task_btn_size;
+                    height: $delete_task_btn_size;
+                }
+            }
+
+            .background_preview {
+                margin-top: $task_gap;
+            }
+        }
+
+        /* stylelint-disable-next-line selector-class-pattern */
+        .ReactVirtualized__List {
+            @include border;
+
+            padding: 5px;
+            padding-bottom: 0;
+        }
     }
 }
