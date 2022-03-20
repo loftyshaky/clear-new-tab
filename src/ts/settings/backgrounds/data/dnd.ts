@@ -99,6 +99,7 @@ export class Dnd {
                         background: this.background_to_move,
                     }),
                 };
+
                 d_backgrounds.Main.i().backgrounds = x.insert_item(
                     insertion_i,
                     [drop_zone],
@@ -378,7 +379,12 @@ export class Dnd {
                         }
                     }, 'cnt_64684');
 
-                const backgrounds: i_db.Background[] = toJS(d_backgrounds.Main.i().backgrounds);
+                const backgrounds: i_db.Background[] = toJS(
+                    _.reject(
+                        d_backgrounds.Main.i().backgrounds,
+                        (item: any) => item.type === 'drop_zone',
+                    ),
+                );
 
                 const only_one_background_exist = d_backgrounds.Main.i().backgrounds.length === 1;
                 const dragging_first_background_over_first_background =
