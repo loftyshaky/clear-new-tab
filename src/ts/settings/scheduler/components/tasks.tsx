@@ -14,13 +14,14 @@ export const Tasks: React.FunctionComponent = observer(() => (
                             width={width}
                             height={height}
                             rowCount={d_scheduler.Tasks.i().tasks.length}
-                            rowHeight={83}
+                            rowHeight={d_scheduler.Dims.i().task_height}
                             rowRenderer={({ index, key, style }) => (
                                 <c_scheduler.Task
                                     index={index}
                                     key={key}
                                     style={style}
                                     task={d_scheduler.Tasks.i().tasks[index]}
+                                    dragged={false}
                                 />
                             )}
                         />
@@ -28,5 +29,6 @@ export const Tasks: React.FunctionComponent = observer(() => (
                 </Observer>
             )}
         </AutoSizer>
+        <c_scheduler.DraaggedTask />
     </div>
 ));

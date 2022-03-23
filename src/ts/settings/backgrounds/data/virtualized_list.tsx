@@ -45,7 +45,7 @@ export class VirtualizedList {
             } else if ((d_backgrounds.Main.i().backgrounds as any)[index].type === 'drop_zone') {
                 thumbnail_width = d_backgrounds.Main.i().backgrounds[index].type.includes('color')
                     ? s_backgrounds.Thumbnail.i().height
-                    : (d_backgrounds.Main.i().backgrounds[index] as i_db.DropZone).width;
+                    : (d_backgrounds.Main.i().backgrounds[index] as i_db.BackgroundDropZone).width;
                 thumbnail_height = s_backgrounds.Thumbnail.i().height;
             } else {
                 thumbnail_width = (d_backgrounds.Main.i().backgrounds[index] as i_db.FileBackground)
@@ -66,7 +66,8 @@ export class VirtualizedList {
                         index - 1
                     ].type.includes('color')
                         ? s_backgrounds.Thumbnail.i().height
-                        : (d_backgrounds.Main.i().backgrounds[index - 1] as i_db.DropZone).width;
+                        : (d_backgrounds.Main.i().backgrounds[index - 1] as i_db.BackgroundDropZone)
+                              .width;
                     previous_thumbnail_height = s_backgrounds.Thumbnail.i().height;
                 } else {
                     previous_thumbnail_width = (

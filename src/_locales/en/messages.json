@@ -107,8 +107,8 @@
     "show_background_id_and_i_in_tooltip_label_text": {
         "message": "Show background id and index in tooltip"
     },
-    "update_database_when_dnd_background_label_text": {
-        "message": "Update database when dragging and dropping background"
+    "update_database_when_dnd_item_label_text": {
+        "message": "Update database when dragging and dropping background or task"
     },
     "year_label_text": {
         "message": "Year"

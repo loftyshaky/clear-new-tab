@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { db, s_data, s_db, i_data, i_db } from 'shared/internal';
+import { db, s_data, s_db, s_i, i_data, i_db } from 'shared/internal';
 
 export class CurrentBackground {
     private static i0: CurrentBackground;
@@ -12,21 +12,6 @@ export class CurrentBackground {
 
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
-
-    public find_i_of_background_with_id = ({
-        id,
-        backgrounds,
-    }: {
-        id: number | string;
-        backgrounds: i_db.Background[];
-    }): number =>
-        err(
-            () =>
-                backgrounds.findIndex((background: i_db.Background): boolean =>
-                    err(() => background.id === id, 'cnt_56538'),
-                ),
-            'cnt_54723',
-        );
 
     public set_future_background_id = (): Promise<void> =>
         err_async(async () => {
@@ -40,10 +25,12 @@ export class CurrentBackground {
                 const backgrounds: i_db.Background[] =
                     await s_db.Manipulation.i().get_backgrounds();
 
-                const i_of_background_with_current_id: number = this.find_i_of_background_with_id({
-                    id: settings.current_background_id,
-                    backgrounds,
-                });
+                const i_of_background_with_current_id: number = s_i.Main.i().find_i_of_item_with_id(
+                    {
+                        id: settings.current_background_id,
+                        items: backgrounds,
+                    },
+                );
 
                 if (i_of_background_with_current_id !== -1) {
                     const current_background_is_last_background: boolean =

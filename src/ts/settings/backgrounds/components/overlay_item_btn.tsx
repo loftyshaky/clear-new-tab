@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import { d_backgrounds, p_backgrounds } from 'settings/internal';
+import { d_dnd, p_backgrounds } from 'settings/internal';
 
 export const OverlayItemBtn: React.FunctionComponent<p_backgrounds.OverlayItemBtn> = observer(
     (props) => {
@@ -13,7 +13,7 @@ export const OverlayItemBtn: React.FunctionComponent<p_backgrounds.OverlayItemBt
                     'overlay_item',
                     'btn',
                     name,
-                    d_backgrounds.Dnd.i().pointer_events_none_cls,
+                    d_dnd.Main.i().pointer_events_none_cls,
                     cls,
                 ])}
                 role='button'

@@ -1,18 +1,18 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import { Tr } from 'shared/internal';
-import { c_backgrounds, d_backgrounds } from 'settings/internal';
+import { Tr, i_db } from 'shared/internal';
+import { c_backgrounds, d_backgrounds, d_dnd } from 'settings/internal';
 
-export const DraaggedBackgrounds: React.FunctionComponent = observer(() => (
+export const DraaggedBackground: React.FunctionComponent = observer(() => (
     <Tr
         tag='div'
         name='fade'
         cls='dragged_background'
         // eslint-disable-next-line max-len
-        state={d_backgrounds.Dnd.i().show_dragged_background}
+        state={d_dnd.Main.i().show_dragged_background}
     >
-        {n(d_backgrounds.Dnd.i().background_to_move) ? (
+        {d_dnd.Main.i().drag_type === 'background' && n(d_dnd.Main.i().item_to_move) ? (
             <c_backgrounds.Background
                 key={0}
                 index={0}
@@ -27,10 +27,10 @@ export const DraaggedBackgrounds: React.FunctionComponent = observer(() => (
                             dim: 'height',
                         }),
                     ),
-                    left: x.px(d_backgrounds.Dnd.i().dragged_background_left),
-                    top: x.px(d_backgrounds.Dnd.i().dragged_background_top),
+                    left: x.px(d_dnd.Main.i().dragged_background_left),
+                    top: x.px(d_dnd.Main.i().dragged_background_top),
                 }}
-                background={d_backgrounds.Dnd.i().background_to_move!}
+                background={d_dnd.Main.i().item_to_move as i_db.Background}
                 dragged
             />
         ) : undefined}

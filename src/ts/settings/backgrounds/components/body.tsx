@@ -2,12 +2,12 @@ import React, { useEffect, useRef } from 'react';
 import { observer } from 'mobx-react';
 import { Collection } from 'react-virtualized';
 
-import { c_settings, c_backgrounds, d_backgrounds, s_backgrounds } from 'settings/internal';
+import { c_settings, c_backgrounds, d_backgrounds, d_dnd, s_backgrounds } from 'settings/internal';
 
 export const Body: React.FunctionComponent = observer(() => {
     d_backgrounds.Dnd.i().collection_ref = useRef<any>(null);
     const { width, height } = d_backgrounds.VirtualizedList.i();
-    const { drop_zone_background, drop_zone_insert_direction } = d_backgrounds.Dnd.i(); // drop_zone_background and drop_zone_insert_direction need to be here and in useEffect, otherwise drop zone and backgrounds render with incorrect width
+    const { drop_zone_item, drop_zone_insert_direction } = d_dnd.Main.i(); // drop_zone_item and drop_zone_insert_direction need to be here and in useEffect, otherwise drop zone and backgrounds render with incorrect width
 
     useEffect(() => {
         s_backgrounds.VirtualizedList.i().remove_container_tab_index();
@@ -15,7 +15,7 @@ export const Body: React.FunctionComponent = observer(() => {
 
     useEffect(() => {
         d_backgrounds.Dnd.i().collection_ref.current.recomputeCellSizesAndPositions();
-    }, [width, height, drop_zone_background, drop_zone_insert_direction]);
+    }, [width, height, drop_zone_item, drop_zone_insert_direction]);
 
     return (
         <div className='sections custom backgrounds'>
@@ -38,7 +38,7 @@ export const Body: React.FunctionComponent = observer(() => {
                     height={d_backgrounds.VirtualizedList.i().height}
                     ref={d_backgrounds.Dnd.i().collection_ref}
                 />
-                <c_backgrounds.DraaggedBackgrounds />
+                <c_backgrounds.DraaggedBackground />
             </c_settings.Section>
         </div>
     );

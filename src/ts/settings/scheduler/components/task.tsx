@@ -1,23 +1,45 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import { observer } from 'mobx-react';
 
 import { c_inputs, o_inputs } from '@loftyshaky/shared/inputs';
 import { svg } from 'shared/internal';
-import { c_scheduler, d_scheduler, p_scheduler } from 'settings/internal';
+import { c_dnd, c_scheduler, d_dnd, d_scheduler, p_scheduler } from 'settings/internal';
 
 export const Task: React.FunctionComponent<p_scheduler.Task> = observer((props) => {
-    const { key, style, task } = props;
+    const { key, style, task, dragged } = props;
+    const height: string = '78px';
 
-    return (
+    return (task as any).type === 'drop_zone' ? (
+        <c_dnd.DropZone
+            key={key}
+            style={{ ...style, height }}
+            on_mouse_up={(): void => {
+                d_dnd.Main.i().drop();
+            }}
+        />
+    ) : (
         <div
             key={key}
-            className='task'
+            className={x.cls([
+                'task',
+                d_dnd.Main.i().dragged_item_cls({
+                    dragged,
+                }),
+                d_dnd.Main.i().cursor_default_cls,
+            ])}
+            role='none'
             style={{
                 ...style,
-                height: '78px',
+                height,
+            }}
+            onMouseDown={(e: MouseEvent): void => {
+                d_scheduler.TaskDnd.i().start_drag({ task_to_move: task }, e);
+            }}
+            onMouseMove={(e: MouseEvent): void => {
+                d_scheduler.TaskDnd.i().create_drop_zone({ hovering_over_task: task }, e);
             }}
         >
-            <div className='date_w'>
+            <div className={x.cls(['date_w', d_dnd.Main.i().pointer_events_none_cls])}>
                 <span className='date'>{d_scheduler.Tasks.i().generate_date({ task })}</span>
                 <c_inputs.IconBtn
                     input={

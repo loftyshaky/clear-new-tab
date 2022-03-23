@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 
 import { s_tab_index } from '@loftyshaky/shared';
 import { svg, i_db } from 'shared/internal';
-import { c_backgrounds, d_backgrounds, p_backgrounds } from 'settings/internal';
+import { c_backgrounds, c_dnd, d_backgrounds, d_dnd, p_backgrounds } from 'settings/internal';
 
 export const Background: React.FunctionComponent<p_backgrounds.Background> = observer((props) => {
     const { key, index, style, background, dragged } = props;
@@ -19,12 +19,12 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
     }, [background]);
 
     return (background as any).type === 'drop_zone' ? (
-        <div
+        <c_dnd.DropZone
             key={key}
-            className='drop_zone'
             style={style}
-            role='none'
-            onMouseUp={d_backgrounds.Dnd.i().drop}
+            on_mouse_up={(): void => {
+                d_dnd.Main.i().drop();
+            }}
         />
     ) : (
         <span
@@ -36,10 +36,10 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                 d_backgrounds.BackgroundDeletion.i().deleted_cls({
                     id: background.id,
                 }),
-                d_backgrounds.Dnd.i().dragged_cls({
+                d_dnd.Main.i().dragged_item_cls({
                     dragged,
                 }),
-                d_backgrounds.Dnd.i().cursor_default_cls,
+                d_dnd.Main.i().cursor_default_cls,
             ])}
             style={{
                 ...style,
@@ -70,7 +70,7 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                 }}
                 onMouseMove={(e: MouseEvent): void => {
                     d_backgrounds.Dnd.i().create_drop_zone(
-                        { background_hovering_over: background },
+                        { hovering_over_background: background },
                         e,
                     );
                 }}
@@ -94,7 +94,7 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                     className={x.cls([
                         'btn',
                         'delete_background_btn',
-                        d_backgrounds.Dnd.i().pointer_events_none_cls,
+                        d_dnd.Main.i().pointer_events_none_cls,
                     ])}
                     onClick={(e: MouseEvent): void => {
                         d_backgrounds.BackgroundDeletion.i().trigger_delete(

@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { makeObservable, observable, action, toJS } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
-import { d_backgrounds as d_backgrounds_shared, i_db } from 'shared/internal';
+import { d_backgrounds as d_backgrounds_shared, s_i, i_db } from 'shared/internal';
 import { d_background_settings, d_backgrounds, d_scheduler } from 'settings/internal';
 
 export class CurrentBackground {
@@ -69,11 +69,12 @@ export class CurrentBackground {
             if (no_backgrounds_exist) {
                 data.ui.current_background_i = 1;
             } else {
-                const i_of_background_with_current_id: number =
-                    d_backgrounds_shared.CurrentBackground.i().find_i_of_background_with_id({
+                const i_of_background_with_current_id: number = s_i.Main.i().find_i_of_item_with_id(
+                    {
                         id: data.settings.current_background_id,
-                        backgrounds: d_backgrounds.Main.i().backgrounds,
-                    });
+                        items: d_backgrounds.Main.i().backgrounds,
+                    },
+                );
                 data.ui.current_background_i = i_of_background_with_current_id + 1;
             }
         }, 'cnt_56743');

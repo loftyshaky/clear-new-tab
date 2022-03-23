@@ -12,7 +12,7 @@ export const Body: React.FunctionComponent = observer(() => (
         // eslint-disable-next-line max-len
         state={d_scheduler.Visibility.i().is_visible}
         style={{
-            width: x.px(d_scheduler.Width.i().width),
+            width: x.px(d_scheduler.Dims.i().scheduler_width),
             left: x.px(d_scheduler.Position.i().left),
         }}
     >

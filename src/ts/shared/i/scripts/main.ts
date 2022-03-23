@@ -26,4 +26,19 @@ export class Main {
                 ),
             'cnt_65435',
         );
+
+    public find_i_of_item_with_id = ({
+        id,
+        items,
+    }: {
+        id: number | string;
+        items: i_db.Background[] | i_db.Task[];
+    }): number =>
+        err(
+            () =>
+                items.findIndex((item: i_db.Background | i_db.Task): boolean =>
+                    err(() => item.id === id, 'cnt_56538'),
+                ),
+            'cnt_54723',
+        );
 }

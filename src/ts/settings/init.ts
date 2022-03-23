@@ -3,6 +3,7 @@ import { InitAll, d_data } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
+    d_dnd,
     d_optional_permission_settings,
     d_scheduler,
     d_sections,
@@ -34,8 +35,9 @@ export const init = (): Promise<void> =>
         x.bind(window, 'resize', s_color.Position.i().set);
         x.bind(window, 'resize', d_scheduler.Position.i().set_left);
         x.bind(document, 'mousedown', d_color.Visibility.i().hide_all);
-        x.bind(document, 'mousemove', d_backgrounds.Dnd.i().set_dragged_background_position);
+        x.bind(document, 'mousemove', d_dnd.Main.i().set_dragged_item_position);
         x.bind(document, 'mouseup', d_backgrounds.Dnd.i().stop_drag);
+        x.bind(document, 'mouseup', d_scheduler.TaskDnd.i().stop_drag);
         x.bind(document, 'click', d_backgrounds.Actions.i().hide);
 
         InitAll.i().render_settings();

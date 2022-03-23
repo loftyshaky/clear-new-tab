@@ -44,12 +44,14 @@ $task_gap: 5px;
     .tasks {
         height: 100%;
         margin-top: $gap;
+        user-select: none;
 
         .task {
             @include border;
 
             box-sizing: border-box;
             padding: 0 $task_gap;
+            cursor: move;
 
             .date_w {
                 display: flex;
@@ -69,6 +71,7 @@ $task_gap: 5px;
 
             .background_preview {
                 margin-top: $task_gap;
+                pointer-events: none;
             }
         }
 
@@ -79,5 +82,9 @@ $task_gap: 5px;
             padding: 5px;
             padding-bottom: 0;
         }
+    }
+
+    .drop_zone {
+        box-sizing: border-box;
     }
 }

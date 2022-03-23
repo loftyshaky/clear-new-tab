@@ -52,7 +52,7 @@ export class Main {
                 id_of_last_installed_theme: '',
                 current_random_solid_color: '',
                 show_background_id_and_i_in_tooltip: false,
-                update_database_when_dnd_background: true,
+                update_database_when_dnd_item: true,
             };
         }, 'cnt_1002');
 

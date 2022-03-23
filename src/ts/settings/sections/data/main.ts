@@ -400,7 +400,7 @@ export class Main {
                             event_callback: d_sections.Val.i().change,
                         }),
                         new o_inputs.Checkbox({
-                            name: 'update_database_when_dnd_background',
+                            name: 'update_database_when_dnd_item',
                             event_callback: d_sections.Val.i().change,
                         }),
                     ],

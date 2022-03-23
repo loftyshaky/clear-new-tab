@@ -2,21 +2,35 @@ import { makeObservable, computed } from 'mobx';
 
 import { d_sections } from 'settings/internal';
 
-export class Width {
-    private static i0: Width;
+export class Dims {
+    private static i0: Dims;
 
-    public static i(): Width {
+    public static i(): Dims {
         // eslint-disable-next-line no-return-assign
         return this.i0 || (this.i0 = new this());
     }
 
     private constructor() {
         makeObservable(this, {
-            width: computed,
+            scheduler_width: computed,
         });
     }
 
-    public get width() {
+    public task_height: number = 83;
+
+    public get task_width() {
+        const task = s<HTMLDivElement>('.task');
+
+        if (n(task)) {
+            const task_width: number = x.get_numeric_css_val(task, 'width');
+
+            return task_width;
+        }
+
+        return 0;
+    }
+
+    public get scheduler_width() {
         // eslint-disable-next-line no-unused-expressions
         d_sections.Width.i().settings_section_width;
 

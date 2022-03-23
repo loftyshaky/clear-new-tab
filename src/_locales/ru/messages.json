@@ -107,8 +107,8 @@
     "show_background_id_and_i_in_tooltip_label_text": {
         "message": "Показывать id и index фона во всплывающей подсказке"
     },
-    "update_database_when_dnd_background_label_text": {
-        "message": "Обновлять базу данных при перемещении фона"
+    "update_database_when_dnd_item_label_text": {
+        "message": "Обновлять базу данных при перемещении фона или задачи"
     },
     "year_label_text": {
         "message": "Год"

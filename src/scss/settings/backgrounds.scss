@@ -12,19 +12,7 @@ $delete_background_btn_offset: 5px;
 $delete_background_btn_size: 22px;
 $delete_background_btn_svg_size: 12px;
 
-$drop_zone_size: 3px;
-
 .backgrounds {
-    .drop_zone {
-        @include border;
-
-        position: absolute;
-        border-color: transparent;
-        outline: $drop_zone_size dashed;
-        outline-offset: (-$drop_zone_size);
-        cursor: alias;
-    }
-
     .background {
         @include border;
 
@@ -55,18 +43,6 @@ $drop_zone_size: 3px;
 
             &.selected {
                 @include background_outline;
-            }
-        }
-
-        &.dragged {
-            position: fixed;
-            opacity: 0.7;
-            pointer-events: none;
-
-            .ui {
-                &.selected {
-                    outline: none;
-                }
             }
         }
 

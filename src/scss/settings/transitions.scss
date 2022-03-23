@@ -1,7 +1,8 @@
 .backgrounds .background,
 .backgrounds .action_btns_w,
 .backgrounds .dragged_background,
-.scheduler {
+.scheduler,
+.scheduler .dragged_task {
     transition: var(--transition);
     transition-property: opacity;
 }
