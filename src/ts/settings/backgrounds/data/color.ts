@@ -1,5 +1,5 @@
 import { s_db, i_db } from 'shared/internal';
-import { d_backgrounds, d_protecting_screen, s_backgrounds, s_i } from 'settings/internal';
+import { d_backgrounds, d_protecting_screen, s_i, s_virtualized_list } from 'settings/internal';
 
 export class Color {
     private static i0: Color;
@@ -63,7 +63,9 @@ export class Color {
             });
             await d_backgrounds.BackgroundAnimation.i().forbid_animation();
 
-            s_backgrounds.VirtualizedList.i().set_bottom_scroll_position();
+            s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({
+                virtualized_list_type: 'backgrounds',
+            });
             d_protecting_screen.Visibility.i().hide();
         }, 'cnt_45931');
 }

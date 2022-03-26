@@ -130,7 +130,7 @@ export class InitAll {
             const { Body } = await import('settings/components/body');
             const on_render = (): Promise<void> =>
                 err_async(async () => {
-                    const { s_backgrounds, d_scheduler, d_sections } = await import(
+                    const { d_scheduler, d_sections, s_virtualized_list } = await import(
                         'settings/internal'
                     );
 
@@ -147,7 +147,9 @@ export class InitAll {
 
                     await x.delay(300);
 
-                    s_backgrounds.VirtualizedList.i().set_bottom_scroll_position();
+                    s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({
+                        virtualized_list_type: 'backgrounds',
+                    });
                 }, 'cnt_1148');
 
             if (n(this.settings_root)) {

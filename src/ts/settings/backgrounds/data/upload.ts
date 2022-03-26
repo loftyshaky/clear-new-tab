@@ -8,6 +8,7 @@ import {
     s_backgrounds,
     s_i,
     i_backgrounds,
+    s_virtualized_list,
 } from 'settings/internal';
 
 export class Upload {
@@ -157,7 +158,9 @@ export class Upload {
             throw_err_obj(error_obj);
         }
 
-        s_backgrounds.VirtualizedList.i().set_bottom_scroll_position();
+        s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({
+            virtualized_list_type: 'backgrounds',
+        });
         d_protecting_screen.Visibility.i().hide();
     };
 
@@ -225,7 +228,9 @@ export class Upload {
                 d_inputs.Text.i().set_error_placeholder_text({ input });
             }
 
-            s_backgrounds.VirtualizedList.i().set_bottom_scroll_position();
+            s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({
+                virtualized_list_type: 'backgrounds',
+            });
             d_protecting_screen.Visibility.i().hide();
         }, 'cnt_56893');
 

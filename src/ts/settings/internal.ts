@@ -25,6 +25,7 @@ export * as s_browser_theme from 'settings/browser_theme/scripts';
 export * as s_i from 'settings/i/scripts';
 export * as s_preload_color from 'settings/preload_color/scripts';
 export * as s_theme from 'settings/theme/scripts';
+export * as s_virtualized_list from 'settings/virtualized_list/scripts';
 
 export * as p_settings from 'settings/components/prop_types';
 
@@ -36,3 +37,4 @@ export * as i_backgrounds from 'settings/backgrounds/interfaces';
 export * as i_browser_theme from 'settings/browser_theme/interfaces';
 export * as i_optional_permission_settings from 'settings/optional_permission_settings/interfaces';
 export * as i_sections from 'settings/sections/interfaces';
+export * as i_virtualized_list from 'settings/virtualized_list/interfaces';

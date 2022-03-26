@@ -2,7 +2,7 @@ import { makeObservable, observable, action, runInAction } from 'mobx';
 import { BigNumber } from 'bignumber.js';
 
 import { s_db, s_i as s_i_shared, i_db } from 'shared/internal';
-import { s_i, d_protecting_screen, d_scheduler } from 'settings/internal';
+import { s_i, d_protecting_screen, d_scheduler, s_virtualized_list } from 'settings/internal';
 
 export class Tasks {
     private static i0: Tasks;
@@ -130,6 +130,10 @@ export class Tasks {
             this.tasks.push(new_task);
 
             await d_scheduler.TaskAnimation.i().forbid_animation();
+
+            s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({
+                virtualized_list_type: 'tasks',
+            });
 
             d_protecting_screen.Visibility.i().hide();
         }, 'cnt_76435');
