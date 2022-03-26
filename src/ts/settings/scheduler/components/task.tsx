@@ -22,6 +22,9 @@ export const Task: React.FunctionComponent<p_scheduler.Task> = observer((props) 
             key={key}
             className={x.cls([
                 'task',
+                d_scheduler.TaskDeletion.i().deleted_cls({
+                    id: task.id,
+                }),
                 d_dnd.Main.i().dragged_item_cls({
                     dragged,
                 }),
@@ -46,7 +49,14 @@ export const Task: React.FunctionComponent<p_scheduler.Task> = observer((props) 
                         new o_inputs.IconBtn({
                             name: 'delete_task_btn',
                             Svg: svg.Close,
-                            event_callback: () => undefined,
+                            event_callback: (e: MouseEvent): void => {
+                                d_scheduler.TaskDeletion.i().trigger_delete(
+                                    {
+                                        id: task.id,
+                                    },
+                                    e,
+                                );
+                            },
                         })
                     }
                 />

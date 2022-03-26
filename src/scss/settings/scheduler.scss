@@ -73,6 +73,10 @@ $task_gap: 5px;
                 margin-top: $task_gap;
                 pointer-events: none;
             }
+
+            &.deleted {
+                animation: var(--fade_out);
+            }
         }
 
         /* stylelint-disable-next-line selector-class-pattern */

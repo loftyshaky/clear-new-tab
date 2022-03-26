@@ -3,7 +3,7 @@ import { MouseEvent } from 'react';
 import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
-import { s_db, s_i, i_db } from 'shared/internal';
+import { vars, s_db, s_i, i_db } from 'shared/internal';
 import { d_backgrounds, d_protecting_screen, d_sections } from 'settings/internal';
 
 export class BackgroundDeletion {
@@ -53,7 +53,7 @@ export class BackgroundDeletion {
             this.background_to_delete_ids = ids;
             this.deleting_background = true;
 
-            await x.delay(data.settings.transition_duration + 70);
+            await x.delay(data.settings.transition_duration + vars.item_deletion_delay);
 
             await this.delete({ ids, deleting_background_with_delete_button });
 
