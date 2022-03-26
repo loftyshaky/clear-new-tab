@@ -74,6 +74,10 @@ $task_gap: 5px;
                 pointer-events: none;
             }
 
+            &.animated {
+                animation: var(--fade_in);
+            }
+
             &.deleted {
                 animation: var(--fade_out);
             }

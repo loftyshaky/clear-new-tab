@@ -2,7 +2,7 @@ import { makeObservable, observable, action, runInAction } from 'mobx';
 import { BigNumber } from 'bignumber.js';
 
 import { s_db, s_i as s_i_shared, i_db } from 'shared/internal';
-import { s_i } from 'settings/internal';
+import { s_i, d_protecting_screen, d_scheduler } from 'settings/internal';
 
 export class Tasks {
     private static i0: Tasks;
@@ -103,6 +103,8 @@ export class Tasks {
 
     public add = (): Promise<void> =>
         err_async(async () => {
+            d_protecting_screen.Visibility.i().show();
+
             const next_i: string = s_i.I.i().get_next_i({
                 items: this.tasks,
             });
@@ -121,8 +123,14 @@ export class Tasks {
                 time: data.settings.time,
             };
 
+            await s_db.Manipulation.i().save_tasks({ tasks: [new_task] });
+
+            d_scheduler.TaskAnimation.i().trigger_animation({ id });
+
             this.tasks.push(new_task);
 
-            await s_db.Manipulation.i().save_tasks({ tasks: [new_task] });
+            await d_scheduler.TaskAnimation.i().forbid_animation();
+
+            d_protecting_screen.Visibility.i().hide();
         }, 'cnt_76435');
 }

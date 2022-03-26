@@ -22,6 +22,9 @@ export const Task: React.FunctionComponent<p_scheduler.Task> = observer((props) 
             key={key}
             className={x.cls([
                 'task',
+                d_scheduler.TaskAnimation.i().animated_cls({
+                    id: task.id,
+                }),
                 d_scheduler.TaskDeletion.i().deleted_cls({
                     id: task.id,
                 }),
