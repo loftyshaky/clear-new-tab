@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import { MouseEvent } from 'react';
 import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
@@ -29,12 +28,8 @@ export class TaskDeletion {
         return this.deleting_background && this.background_to_delete_id === id ? 'deleted' : '';
     });
 
-    public trigger_delete = ({ id }: { id: string }, e?: MouseEvent): Promise<void> =>
+    public trigger_delete = ({ id }: { id: string }): Promise<void> =>
         err_async(async () => {
-            if (n(e)) {
-                e.stopPropagation();
-            }
-
             d_protecting_screen.Visibility.i().show();
 
             this.background_to_delete_id = id;

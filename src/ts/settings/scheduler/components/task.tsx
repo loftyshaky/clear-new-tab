@@ -49,13 +49,10 @@ export const Task: React.FunctionComponent<p_scheduler.Task> = observer((props) 
                         new o_inputs.IconBtn({
                             name: 'delete_task_btn',
                             Svg: svg.Close,
-                            event_callback: (e: MouseEvent): void => {
-                                d_scheduler.TaskDeletion.i().trigger_delete(
-                                    {
-                                        id: task.id,
-                                    },
-                                    e,
-                                );
+                            event_callback: (): void => {
+                                d_scheduler.TaskDeletion.i().trigger_delete({
+                                    id: task.id,
+                                });
                             },
                         })
                     }
