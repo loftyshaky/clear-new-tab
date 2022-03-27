@@ -1,5 +1,6 @@
 import { s_utils } from '@loftyshaky/shared';
 import { o_inputs, i_inputs } from '@loftyshaky/shared/inputs';
+import { vars } from 'shared/internal';
 import { d_scheduler, d_sections } from 'settings/internal';
 
 export class DatePicker {
@@ -20,7 +21,7 @@ export class DatePicker {
         err(() => {
             this.options = {
                 day_of_the_week: [
-                    ...[new o_inputs.Option({ name: 'none', val: '' })],
+                    ...[new o_inputs.Option({ name: 'none', val: vars.scheduler_none_val })],
                     ...[
                         'sunday',
                         'monday',
@@ -38,7 +39,7 @@ export class DatePicker {
                     ),
                 ],
                 month: [
-                    ...[new o_inputs.Option({ name: 'none', val: '' })],
+                    ...[new o_inputs.Option({ name: 'none', val: vars.scheduler_none_val })],
                     ...[
                         'january',
                         'february',
@@ -61,7 +62,7 @@ export class DatePicker {
                     ),
                 ],
                 day_of_the_month: [
-                    ...[new o_inputs.Option({ name: 'none', val: '' })],
+                    ...[new o_inputs.Option({ name: 'none', val: vars.scheduler_none_val })],
                     ...Array.from(
                         { length: 31 },
                         (not_used, i: number) =>

@@ -3,7 +3,7 @@ import { action } from 'mobx';
 import { i_data } from '@loftyshaky/shared';
 import { o_color, d_inputs, d_color, i_inputs, i_color } from '@loftyshaky/shared/inputs';
 import { s_settings } from '@loftyshaky/shared/settings';
-import { s_css_vars, s_theme } from 'shared/internal';
+import { vars, s_css_vars, s_theme } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
@@ -236,7 +236,7 @@ export class Val {
             if (['year', 'time'].includes(input.name)) {
                 await ext.send_msg_resp({
                     msg: 'update_settings',
-                    settings: { [input.name]: '' },
+                    settings: { [input.name]: vars.scheduler_none_val },
                     update_instantly: true,
                 });
             }

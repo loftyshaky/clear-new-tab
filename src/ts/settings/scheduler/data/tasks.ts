@@ -1,7 +1,7 @@
 import { makeObservable, observable, action, runInAction } from 'mobx';
 import { BigNumber } from 'bignumber.js';
 
-import { s_db, s_i as s_i_shared, i_db } from 'shared/internal';
+import { vars, s_db, s_i as s_i_shared, i_db } from 'shared/internal';
 import { s_i, d_protecting_screen, d_scheduler, s_virtualized_list } from 'settings/internal';
 
 export class Tasks {
@@ -50,19 +50,20 @@ export class Tasks {
     public generate_date = ({ task }: { task: i_db.Task }): string =>
         err(() => {
             const day_of_the_week: string | undefined =
-                task.day_of_the_week === 'none'
+                task.day_of_the_week === vars.scheduler_none_val
                     ? undefined
                     : ext.msg(`${this.days_of_the_week[task.day_of_the_week]}_option_text`);
             const month: string | undefined =
-                task.month === 'none'
+                task.month === vars.scheduler_none_val
                     ? undefined
                     : ext.msg(`${this.months[task.month]}_option_text`);
             const day_of_the_month: string | undefined =
-                task.day_of_the_month === 'none'
+                task.day_of_the_month === vars.scheduler_none_val
                     ? undefined
                     : (+task.day_of_the_month + 1).toString();
-            const year: string | undefined = task.year === 'none' ? undefined : task.year;
-            const time: string = task.time === 'none' ? '' : task.time;
+            const year: string | undefined =
+                task.year === vars.scheduler_none_val ? undefined : task.year;
+            const time: string = task.time === vars.scheduler_none_val ? '' : task.time;
             let month_and_day_of_the_month: string | undefined = '';
 
             if (n(month)) {

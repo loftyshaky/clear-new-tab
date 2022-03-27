@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { t } from '@loftyshaky/shared';
 import { d_color } from '@loftyshaky/shared/inputs';
-import { s_background, i_data } from 'shared/internal';
+import { vars, s_background, i_data } from 'shared/internal';
 
 export class Main {
     private static i0: Main;
@@ -43,7 +43,7 @@ export class Main {
                 video_volume: 0,
                 download_img_when_link_given: false,
                 year: new Date().getFullYear().toString(),
-                day_of_the_week: '',
+                day_of_the_week: vars.scheduler_none_val,
                 month: '0',
                 day_of_the_month: '0',
                 time: '00:00:00',
