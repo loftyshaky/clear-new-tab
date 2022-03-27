@@ -22,5 +22,5 @@ export class BackgroundPreview {
             return n(background_thumbnail) && n(background_thumbnail.background)
                 ? background_thumbnail.background
                 : 'scheduler_background_preview_placeholder.png';
-        }, '_99999');
+        }, 'cnt_86426');
 }
