@@ -214,6 +214,17 @@ export class Val {
                     return d_inputs.Val.i().validate_input({ input });
                 }
 
+                if (input.name === 'year') {
+                    return !(
+                        (/^2\d{3}$/.test(val) && +val >= new Date().getFullYear()) ||
+                        val === ''
+                    );
+                }
+
+                if (input.name === 'time') {
+                    return !(/^(2[0-3]|[0-1][\d]):[0-5][\d]:[0-5][\d]$/.test(val) || val === '');
+                }
+
                 return !/^1$|^0$|^(0\.[0-9]{1,2}|1\.00?)$/.test(val);
             }
 
@@ -222,7 +233,13 @@ export class Val {
 
     public remove_val = ({ input }: { input: i_inputs.Input }): Promise<void> =>
         err_async(async () => {
-            this.change({ input });
+            if (['year', 'time'].includes(input.name)) {
+                await ext.send_msg_resp({
+                    msg: 'update_settings',
+                    settings: { [input.name]: '' },
+                    update_instantly: true,
+                });
+            }
         }, 'cnt_1142');
 
     public save_selected_palette_color = ({

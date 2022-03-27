@@ -1,6 +1,6 @@
 import { s_utils } from '@loftyshaky/shared';
 import { o_inputs, i_inputs } from '@loftyshaky/shared/inputs';
-import { d_scheduler } from 'settings/internal';
+import { d_scheduler, d_sections } from 'settings/internal';
 
 export class DatePicker {
     private static i0: DatePicker;
@@ -20,7 +20,7 @@ export class DatePicker {
         err(() => {
             this.options = {
                 day_of_the_week: [
-                    ...[new o_inputs.Option({ name: 'none' })],
+                    ...[new o_inputs.Option({ name: 'none', val: '' })],
                     ...[
                         'sunday',
                         'monday',
@@ -38,7 +38,7 @@ export class DatePicker {
                     ),
                 ],
                 month: [
-                    ...[new o_inputs.Option({ name: 'none' })],
+                    ...[new o_inputs.Option({ name: 'none', val: '' })],
                     ...[
                         'january',
                         'february',
@@ -61,7 +61,7 @@ export class DatePicker {
                     ),
                 ],
                 day_of_the_month: [
-                    ...[new o_inputs.Option({ name: 'none' })],
+                    ...[new o_inputs.Option({ name: 'none', val: '' })],
                     ...Array.from(
                         { length: 31 },
                         (not_used, i: number) =>
@@ -76,26 +76,30 @@ export class DatePicker {
             this.inputs = [
                 new o_inputs.Text({
                     name: 'year',
-                    event_callback: () => undefined,
+                    event_callback: d_sections.Val.i().change,
+                    remove_val_callback: d_sections.Val.i().remove_val,
+                    warn_state_checker: d_sections.Val.i().validate_input,
                 }),
                 new o_inputs.Select({
                     name: 'day_of_the_week',
                     options: this.options,
-                    event_callback: () => undefined,
+                    event_callback: d_sections.Val.i().change,
                 }),
                 new o_inputs.Select({
                     name: 'month',
                     options: this.options,
-                    event_callback: () => undefined,
+                    event_callback: d_sections.Val.i().change,
                 }),
                 new o_inputs.Select({
                     name: 'day_of_the_month',
                     options: this.options,
-                    event_callback: () => undefined,
+                    event_callback: d_sections.Val.i().change,
                 }),
                 new o_inputs.Text({
                     name: 'time',
-                    event_callback: () => undefined,
+                    event_callback: d_sections.Val.i().change,
+                    remove_val_callback: d_sections.Val.i().remove_val,
+                    warn_state_checker: d_sections.Val.i().validate_input,
                 }),
                 new o_inputs.Btn({
                     name: 'add_new_task',
