@@ -64,13 +64,17 @@ export class Tasks {
             const year: string | undefined =
                 task.year === vars.scheduler_none_val ? undefined : task.year;
             const time: string = task.time === vars.scheduler_none_val ? '' : task.time;
-            let month_and_day_of_the_month: string | undefined = '';
+            let month_and_day_of_the_month: string | undefined;
 
             if (n(month)) {
                 month_and_day_of_the_month = month;
             }
 
             if (n(day_of_the_month)) {
+                if (!n(month)) {
+                    month_and_day_of_the_month = '';
+                }
+
                 month_and_day_of_the_month += n(month) ? ` ${day_of_the_month}` : day_of_the_month;
             }
 
