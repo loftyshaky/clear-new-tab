@@ -11,6 +11,11 @@ export const Body: React.FunctionComponent = observer(() => {
         });
     }, []);
 
+    useEffect(() => {
+        d_scheduler.Val.i().set_add_new_task_btn_ability();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data.ui.background_id]);
+
     return (
         <Tr
             tag='div'

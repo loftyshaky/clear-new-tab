@@ -9,7 +9,7 @@ export const BackgroundPreview: React.FunctionComponent<p_scheduler.BackgroundPr
         const background: string = d_scheduler.BackgroundPreview.i().get({ background_id });
 
         return background.includes('data:') ||
-            background === 'scheduler_background_preview_placeholder.png' ? (
+            background === d_scheduler.BackgroundPreview.i().placeholder_img_name ? (
             <img className='background_preview img' alt='Background preview' src={background} />
         ) : (
             <div className='background_preview color' style={{ backgroundColor: background }} />

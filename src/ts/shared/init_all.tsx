@@ -140,6 +140,7 @@ export class InitAll {
                     });
                     d_sections.Width.i().set();
                     d_scheduler.Position.i().set_left();
+                    await d_scheduler.Val.i().set_add_new_task_btn_ability();
 
                     s_tab_index.Main.i().bind_set_input_type_f();
 

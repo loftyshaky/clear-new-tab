@@ -77,28 +77,40 @@ export class DatePicker {
             this.inputs = [
                 new o_inputs.Text({
                     name: 'year',
-                    event_callback: d_sections.Val.i().change,
+                    event_callback: d_scheduler.Val.i().change,
                     remove_val_callback: d_sections.Val.i().remove_val,
                     warn_state_checker: d_sections.Val.i().validate_input,
                 }),
                 new o_inputs.Select({
                     name: 'day_of_the_week',
                     options: this.options,
-                    event_callback: d_sections.Val.i().change,
+                    is_enabled_conds: [
+                        {
+                            input_name: 'day_of_the_month',
+                            pass_vals: [vars.scheduler_none_val],
+                        },
+                    ],
+                    event_callback: d_scheduler.Val.i().change,
                 }),
                 new o_inputs.Select({
                     name: 'month',
                     options: this.options,
-                    event_callback: d_sections.Val.i().change,
+                    event_callback: d_scheduler.Val.i().change,
                 }),
                 new o_inputs.Select({
                     name: 'day_of_the_month',
                     options: this.options,
-                    event_callback: d_sections.Val.i().change,
+                    is_enabled_conds: [
+                        {
+                            input_name: 'day_of_the_week',
+                            pass_vals: [vars.scheduler_none_val],
+                        },
+                    ],
+                    event_callback: d_scheduler.Val.i().change,
                 }),
                 new o_inputs.Text({
                     name: 'time',
-                    event_callback: d_sections.Val.i().change,
+                    event_callback: d_scheduler.Val.i().change,
                     remove_val_callback: d_sections.Val.i().remove_val,
                     warn_state_checker: d_sections.Val.i().validate_input,
                 }),

@@ -11,6 +11,7 @@ import {
     d_sections,
     s_preload_color,
     s_browser_theme,
+    d_scheduler,
 } from 'settings/internal';
 
 export class Val {
@@ -239,6 +240,8 @@ export class Val {
                     settings: { [input.name]: vars.scheduler_none_val },
                     update_instantly: true,
                 });
+
+                await d_scheduler.Val.i().set_add_new_task_btn_ability();
             }
         }, 'cnt_1142');
 

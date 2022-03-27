@@ -12,6 +12,8 @@ export class BackgroundPreview {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
+    public placeholder_img_name: string = 'scheduler_background_preview_placeholder.png';
+
     public get = ({ background_id }: { background_id: string }): string =>
         err(() => {
             const background_thumbnail: i_db.BackgroundThumbnail | undefined =
@@ -21,6 +23,6 @@ export class BackgroundPreview {
 
             return n(background_thumbnail) && n(background_thumbnail.background)
                 ? background_thumbnail.background
-                : 'scheduler_background_preview_placeholder.png';
+                : this.placeholder_img_name;
         }, 'cnt_86426');
 }
