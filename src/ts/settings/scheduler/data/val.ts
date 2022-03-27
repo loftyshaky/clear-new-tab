@@ -1,4 +1,4 @@
-import { makeObservable, action } from 'mobx';
+import { runInAction } from 'mobx';
 
 import { i_inputs, i_color } from '@loftyshaky/shared/inputs';
 import { i_data } from 'shared/internal';
@@ -12,11 +12,8 @@ export class Val {
         return this.i0 || (this.i0 = new this());
     }
 
-    private constructor() {
-        makeObservable(this, {
-            set_add_new_task_btn_ability: action,
-        });
-    }
+    // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
+    private constructor() {}
 
     public change = ({ input, i }: { input: i_inputs.Input; i?: i_color.I }): Promise<void> =>
         err_async(async () => {
@@ -46,9 +43,13 @@ export class Val {
                 ),
             );
 
-            (
-                d_scheduler.DatePicker.i().inputs as Record<string, i_inputs.Input>
-            ).add_new_task.is_enabled =
-                background_is_selected && one_of_inputs_in_date_picker_is_set_to_val;
+            runInAction(() =>
+                err(() => {
+                    (
+                        d_scheduler.DatePicker.i().inputs as Record<string, i_inputs.Input>
+                    ).add_new_task.is_enabled =
+                        background_is_selected && one_of_inputs_in_date_picker_is_set_to_val;
+                }, 'cnt_7475'),
+            );
         }, 'cnt_74356');
 }
