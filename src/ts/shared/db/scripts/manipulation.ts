@@ -39,6 +39,19 @@ export class Manipulation {
             await db.tasks.bulkAdd(tasks);
         }, 'cnt_64358');
 
+    public replace_alarm_data = ({
+        alarm_data,
+    }: {
+        alarm_data: i_db.AlarmDataItem[];
+    }): Promise<void> =>
+        err_async(async () => {
+            await db.transaction('rw', db.alarm_data, async () => {
+                await db.alarm_data.clear();
+
+                await db.alarm_data.bulkAdd(alarm_data);
+            });
+        }, 'cnt_64358');
+
     public get_backgrounds = (): Promise<i_db.Background[]> =>
         err_async(async () => {
             const backgrounds: i_db.Background[] = await db.backgrounds.toArray();
@@ -89,6 +102,9 @@ export class Manipulation {
 
     public get_tasks = (): Promise<i_db.Task[]> =>
         err_async(async () => db.tasks.toArray(), 'cnt_94527');
+
+    public get_alarm_data = (): Promise<i_db.AlarmDataItem[]> =>
+        err_async(async () => db.alarm_data.toArray(), 'cnt_94527');
 
     public update_background = ({ background }: { background: i_db.Background }): Promise<void> =>
         err_async(async () => {

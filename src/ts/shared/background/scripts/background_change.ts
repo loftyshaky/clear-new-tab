@@ -15,7 +15,7 @@ export class BackgroundChange {
 
     public update_background = ({ no_tr }: { no_tr: boolean }): Promise<void> =>
         err_async(async () => {
-            ext.send_msg({
+            await ext.send_msg_resp({
                 msg: 'update_background',
                 no_tr,
             });

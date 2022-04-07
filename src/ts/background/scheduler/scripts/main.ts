@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { isPresent } from 'ts-is-present';
 import * as dateFns from 'date-fns';
 import { s_db, i_db } from 'shared/internal';
-import { i_scheduler } from 'background/internal';
+import { s_backgrounds } from 'background/internal';
 
 export class Main {
     private static i0: Main;
@@ -28,12 +28,12 @@ export class Main {
             'cnt_75655',
         );
 
-    public convert_tasks_to_alarm_data = (): Promise<i_scheduler.AlarmDataItem[]> =>
+    public convert_tasks_to_alarm_data = (): Promise<i_db.AlarmDataItem[]> =>
         err_async(async () => {
             const tasks: i_db.Task[] = await s_db.Manipulation.i().get_tasks();
 
-            const alarm_data: (i_scheduler.AlarmDataItem | undefined)[] = tasks.map(
-                (task: i_db.Task): i_scheduler.AlarmDataItem | undefined =>
+            const alarm_data: (i_db.AlarmDataItem | undefined)[] = tasks.map(
+                (task: i_db.Task): i_db.AlarmDataItem | undefined =>
                     err(() => {
                         const bump_month = (): void =>
                             err(() => {
@@ -316,30 +316,58 @@ export class Main {
                         }
 
                         return date_exists
-                            ? { date: date.getTime(), background_id: task.background_id }
+                            ? {
+                                  id: x.unique_id(),
+                                  date: date.getTime(),
+                                  background_id: task.background_id,
+                              }
                             : undefined;
                     }, 'cnt_56443'),
             );
 
-            const alarm_data_final: i_scheduler.AlarmDataItem[] = alarm_data.filter(isPresent);
+            const alarm_data_final: i_db.AlarmDataItem[] = alarm_data.filter(isPresent);
 
             return alarm_data_final;
         }, 'cnt_54357');
 
     public schedule_background_display = (): Promise<void> =>
         err_async(async () => {
-            const alarm_data: i_scheduler.AlarmDataItem[] =
-                await this.convert_tasks_to_alarm_data();
+            const handle_missed_background = (): Promise<void> =>
+                err_async(async () => {
+                    const alarm_data_2: i_db.AlarmDataItem[] =
+                        await s_db.Manipulation.i().get_alarm_data();
+                    const alarm_data_only_old: i_db.AlarmDataItem[] = alarm_data_2.filter(
+                        (alarm_data_item: i_db.AlarmDataItem): boolean =>
+                            err(() => alarm_data_item.date < now, 'cnt_75565'),
+                    );
+                    const closest_alarm_data_item_2: i_db.AlarmDataItem | undefined = _.maxBy(
+                        alarm_data_only_old,
+                        'date',
+                    );
 
+                    if (n(closest_alarm_data_item_2)) {
+                        await s_backgrounds.Main.i().update_background({
+                            background_id: closest_alarm_data_item_2.background_id,
+                        });
+                    }
+
+                    await s_db.Manipulation.i().replace_alarm_data({
+                        alarm_data: alarm_data_no_old,
+                    });
+                }, 'cnt_54386');
+
+            const alarm_data: i_db.AlarmDataItem[] = await this.convert_tasks_to_alarm_data();
             const now: number = Date.now();
-            const alarm_data_no_old: i_scheduler.AlarmDataItem[] = alarm_data.filter(
-                (alarm_data_item: i_scheduler.AlarmDataItem): boolean =>
+            const alarm_data_no_old: i_db.AlarmDataItem[] = alarm_data.filter(
+                (alarm_data_item: i_db.AlarmDataItem): boolean =>
                     err(() => alarm_data_item.date > now, 'cnt_75565'),
             );
-            const closest_alarm_data_item: i_scheduler.AlarmDataItem | undefined = _.minBy(
+            const closest_alarm_data_item: i_db.AlarmDataItem | undefined = _.minBy(
                 alarm_data_no_old,
                 'date',
             );
+
+            await handle_missed_background();
 
             if (n(closest_alarm_data_item)) {
                 await we.alarms.clearAll();

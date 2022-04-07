@@ -12,5 +12,3 @@ export * as s_scheduler from 'background/scheduler/scripts';
 export * as s_service_worker from 'background/service_worker/scripts';
 export * as s_tabs from 'background/tabs/scripts';
 export * as s_browser_theme from 'background/browser_theme/scripts';
-
-export * as i_scheduler from 'background/scheduler/interfaces';

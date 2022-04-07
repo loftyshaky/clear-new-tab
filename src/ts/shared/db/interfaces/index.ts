@@ -1,3 +1,4 @@
+export * from 'shared/db/interfaces/alarm_data_item';
 export * from 'shared/db/interfaces/background_file';
 export * from 'shared/db/interfaces/background_props';
 export * from 'shared/db/interfaces/background_thumbnail';
