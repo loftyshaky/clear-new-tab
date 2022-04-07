@@ -333,7 +333,7 @@ export class Main {
 
     public schedule_background_display = (): Promise<void> =>
         err_async(async () => {
-            const handle_missed_background = (): Promise<void> =>
+            const handle_missed_tasks = (): Promise<void> =>
                 err_async(async () => {
                     const alarm_data_2: i_db.AlarmDataItem[] =
                         await s_db.Manipulation.i().get_alarm_data();
@@ -385,7 +385,7 @@ export class Main {
                 'date',
             );
 
-            await handle_missed_background();
+            await handle_missed_tasks();
             await remove_expired_tasks();
 
             if (n(closest_alarm_data_item)) {
