@@ -319,6 +319,7 @@ export class Main {
                             ? {
                                   id: x.unique_id(),
                                   date: date.getTime(),
+                                  task_id: task.id,
                                   background_id: task.background_id,
                               }
                             : undefined;
@@ -352,22 +353,40 @@ export class Main {
                     }
 
                     await s_db.Manipulation.i().replace_alarm_data({
-                        alarm_data: alarm_data_no_old,
+                        alarm_data: alarm_data_no_expired,
                     });
                 }, 'cnt_54386');
 
+            const remove_expired_tasks = (): Promise<void> =>
+                err_async(async () => {
+                    const expired_task_ids: string[] = alarm_data_only_expired.map(
+                        (alarm_data_item: i_db.AlarmDataItem): string =>
+                            err(() => alarm_data_item.task_id, 'cnt_75643'),
+                    );
+
+                    await s_db.Manipulation.i().delete_tasks({ ids: expired_task_ids });
+
+                    await ext.send_msg_resp({ msg: 'update_tasks' });
+                }, 'cnt_64636');
+
             const alarm_data: i_db.AlarmDataItem[] = await this.convert_tasks_to_alarm_data();
             const now: number = Date.now();
-            const alarm_data_no_old: i_db.AlarmDataItem[] = alarm_data.filter(
+            const alarm_data_no_expired: i_db.AlarmDataItem[] = alarm_data.filter(
                 (alarm_data_item: i_db.AlarmDataItem): boolean =>
                     err(() => alarm_data_item.date > now, 'cnt_75565'),
             );
+            const alarm_data_only_expired: i_db.AlarmDataItem[] = alarm_data.filter(
+                (alarm_data_item: i_db.AlarmDataItem): boolean =>
+                    err(() => alarm_data_item.date < now, 'cnt_75565'),
+            );
+
             const closest_alarm_data_item: i_db.AlarmDataItem | undefined = _.minBy(
-                alarm_data_no_old,
+                alarm_data_no_expired,
                 'date',
             );
 
             await handle_missed_background();
+            await remove_expired_tasks();
 
             if (n(closest_alarm_data_item)) {
                 await we.alarms.clearAll();

@@ -169,6 +169,11 @@ export class Manipulation {
             await db.tasks.delete(id as any);
         }, 'cnt_94527');
 
+    public delete_tasks = ({ ids }: { ids: string[] }): Promise<void> =>
+        err_async(async () => {
+            await db.tasks.bulkDelete(ids as any);
+        }, 'cnt_94584');
+
     public clear_all_tables = (): Promise<void> =>
         err_async(async () => {
             await db.transaction(
