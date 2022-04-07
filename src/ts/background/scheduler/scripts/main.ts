@@ -331,7 +331,11 @@ export class Main {
             return alarm_data_final;
         }, 'cnt_54357');
 
-    public schedule_background_display = (): Promise<void> =>
+    public schedule_background_display = ({
+        called_after_task_completed = false,
+    }: {
+        called_after_task_completed?: boolean;
+    } = {}): Promise<void> =>
         err_async(async () => {
             const handle_missed_tasks = (): Promise<void> =>
                 err_async(async () => {
@@ -346,7 +350,7 @@ export class Main {
                         'date',
                     );
 
-                    if (n(closest_alarm_data_item_2)) {
+                    if (!called_after_task_completed && n(closest_alarm_data_item_2)) {
                         await s_backgrounds.Main.i().update_background({
                             background_id: closest_alarm_data_item_2.background_id,
                         });
