@@ -140,6 +140,8 @@ export class Tasks {
                 virtualized_list_type: 'tasks',
             });
 
+            ext.send_msg({ msg: 'schedule_background_display' });
+
             d_protecting_screen.Visibility.i().hide();
         }, 'cnt_76435');
 }

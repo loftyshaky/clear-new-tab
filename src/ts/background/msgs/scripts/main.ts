@@ -1,6 +1,12 @@
 import { t } from '@loftyshaky/shared';
 import { s_background, s_data } from 'shared/internal';
-import { s_backgrounds, s_browser_theme, s_management, s_tabs } from 'background/internal';
+import {
+    s_backgrounds,
+    s_browser_theme,
+    s_management,
+    s_scheduler,
+    s_tabs,
+} from 'background/internal';
 
 we.runtime.onMessage.addListener(
     (msg: t.Msg): Promise<any> =>
@@ -41,6 +47,8 @@ we.runtime.onMessage.addListener(
                 s_backgrounds.Preview.i().open({ background_id: msg.background_id });
             } else if (msg_str === 'get_all_exts') {
                 return s_management.Main.i().get_all_exts();
+            } else if (msg_str === 'schedule_background_display') {
+                await s_scheduler.Main.i().schedule_background_display();
             } else {
                 await x.delay(10000);
             }
