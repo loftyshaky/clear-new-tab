@@ -23,7 +23,6 @@ export * as s_background_settings from 'settings/background_settings/scripts';
 export * as s_backgrounds from 'settings/backgrounds/scripts';
 export * as s_browser_theme from 'settings/browser_theme/scripts';
 export * as s_i from 'settings/i/scripts';
-export * as s_preload_color from 'settings/preload_color/scripts';
 export * as s_theme from 'settings/theme/scripts';
 export * as s_virtualized_list from 'settings/virtualized_list/scripts';
 

@@ -1,5 +1,5 @@
 import { d_color, s_color } from '@loftyshaky/shared/inputs';
-import { InitAll, d_data } from 'shared/internal';
+import { InitAll, d_data, s_preload_color } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
@@ -7,7 +7,6 @@ import {
     d_optional_permission_settings,
     d_scheduler,
     d_sections,
-    s_preload_color,
     s_browser_theme,
 } from 'settings/internal';
 

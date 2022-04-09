@@ -3,13 +3,12 @@ import { action } from 'mobx';
 import { i_data } from '@loftyshaky/shared';
 import { o_color, d_inputs, d_color, i_inputs, i_color } from '@loftyshaky/shared/inputs';
 import { s_settings } from '@loftyshaky/shared/settings';
-import { vars, s_css_vars, s_theme } from 'shared/internal';
+import { vars, s_css_vars, s_preload_color, s_theme } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
     d_optional_permission_settings,
     d_sections,
-    s_preload_color,
     s_browser_theme,
     d_scheduler,
 } from 'settings/internal';

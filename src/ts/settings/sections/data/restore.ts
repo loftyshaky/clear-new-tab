@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { runInAction } from 'mobx';
 
 import { t, s_theme as s_theme_shared } from '@loftyshaky/shared';
-import { s_db, s_theme, i_data, i_db } from 'shared/internal';
+import { s_db, s_preload_color, s_theme, i_data, i_db } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
@@ -41,6 +41,7 @@ export class Restore {
                     update_background: true,
                 });
 
+                s_preload_color.Storage.i().set_preload_color();
                 d_protecting_screen.Visibility.i().hide();
             }
         }, 'cnt_1130');
@@ -208,6 +209,7 @@ export class Restore {
                 }, 'cnt_94257'),
             );
 
+            s_preload_color.Storage.i().set_preload_color();
             d_protecting_screen.Visibility.i().hide();
         }, 'cnt_1131');
 
