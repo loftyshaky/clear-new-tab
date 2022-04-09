@@ -22,7 +22,7 @@ export class TopControls {
                 new o_inputs.IconBtn({
                     name: 'show_scheduler_help',
                     Svg: svg.Help,
-                    event_callback: () => undefined,
+                    event_callback: d_scheduler.Help.i().change_help_visibility,
                 }),
                 new o_inputs.IconBtn({
                     name: 'close_scheduler',

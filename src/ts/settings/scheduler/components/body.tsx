@@ -20,7 +20,7 @@ export const Body: React.FunctionComponent = observer(() => {
         <Tr
             tag='div'
             name='fade'
-            cls='scheduler'
+            cls={x.cls(['scheduler', d_scheduler.Help.i().scheduler_overflow_auto_cls])}
             // eslint-disable-next-line max-len
             state={d_scheduler.Visibility.i().is_visible}
             style={{
@@ -30,10 +30,15 @@ export const Body: React.FunctionComponent = observer(() => {
         >
             <div>
                 <c_scheduler.TopControls />
-                <c_scheduler.BackgroundPreview background_id={data.ui.background_id} />
-                <c_scheduler.DatePicker />
+                <div
+                    className={x.cls(['top', d_scheduler.Help.i().scheduler_inner_visibility_cls])}
+                >
+                    <c_scheduler.BackgroundPreview background_id={data.ui.background_id} />
+                    <c_scheduler.DatePicker />
+                </div>
             </div>
             <c_scheduler.Tasks />
+            <c_scheduler.Help />
         </Tr>
     );
 });

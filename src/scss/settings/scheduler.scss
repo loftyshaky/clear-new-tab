@@ -13,6 +13,10 @@ $task_gap: 5px;
     z-index: 2;
     box-shadow: rgb(0 0 0 / 30%) 0 0 2px, rgb(0 0 0 / 30%) 0 4px 8px;
 
+    .scheduler_help {
+        font-size: $font_small;
+    }
+
     .top_controls {
         display: flex;
         justify-content: flex-end;
