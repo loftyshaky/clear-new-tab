@@ -2,7 +2,7 @@ const _ = require('lodash');
 const restrictedGlobals = require('confusing-browser-globals');
 
 const naming_convention_exceptions = {
-    regex: '^(marginBottom|minWidth|maxWidth|marginLeft|marginRight|scrollTop|backgroundColor|marginInlineStart|componentDidMount|componentWillUnmount|componentDidUpdate|componentDidCatch|getDerivedStateFromError|enforceActions|recurseEverything|currentWindow|windowTypes|defaultProps|windowId|useAsButton|autoReposition|lockOpacity|showAlways|childList|backgroundImage|attributeFilter|saveAs|tabId|sendResponse|unsharpAmount|unsharpRadius|unsharpThreshold|onDragEnter|onDragLeave|onDrop|onDragOver|lastModified|objectFit|objectPosition|ROUNDING_MODE)$',
+    regex: '^(marginBottom|minWidth|maxWidth|marginLeft|marginRight|scrollTop|backgroundColor|marginInlineStart|componentDidMount|componentWillUnmount|componentDidUpdate|componentDidCatch|getDerivedStateFromError|enforceActions|recurseEverything|currentWindow|windowTypes|defaultProps|windowId|useAsButton|autoReposition|lockOpacity|showAlways|childList|backgroundImage|attributeFilter|saveAs|tabId|sendResponse|unsharpAmount|unsharpRadius|unsharpThreshold|onDragEnter|onDragLeave|onDrop|onDragOver|lastModified|objectFit|objectPosition|ROUNDING_MODE|tabIndex|onClick|onKeyDown)$',
     match: false,
 };
 
