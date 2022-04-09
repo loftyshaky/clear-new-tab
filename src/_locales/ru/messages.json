@@ -404,6 +404,9 @@
     "discard_tasks_btn_title": {
         "message": "Отменить изменения"
     },
+    "show_scheduler_help_btn_title": {
+        "message": "Показать справку по планировщику"
+    },
     "close_scheduler_btn_title": {
         "message": "Закрыть планировщик"
     },

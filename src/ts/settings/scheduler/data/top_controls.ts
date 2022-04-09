@@ -20,13 +20,8 @@ export class TopControls {
         err(() => {
             this.top_controls = [
                 new o_inputs.IconBtn({
-                    name: 'save_tasks',
-                    Svg: svg.Check,
-                    event_callback: () => undefined,
-                }),
-                new o_inputs.IconBtn({
-                    name: 'discard_tasks',
-                    Svg: svg.Delete,
+                    name: 'show_scheduler_help',
+                    Svg: svg.Help,
                     event_callback: () => undefined,
                 }),
                 new o_inputs.IconBtn({

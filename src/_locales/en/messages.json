@@ -404,6 +404,9 @@
     "discard_tasks_btn_title": {
         "message": "Discard tasks"
     },
+    "show_scheduler_help_btn_title": {
+        "message": "Show scheduler help"
+    },
     "close_scheduler_btn_title": {
         "message": "Close scheduler"
     },
