@@ -22,7 +22,9 @@ export class Main {
                     settings,
                 });
 
-                await s_background.BackgroundChange.i().update_background({ no_tr: false });
+                if (settings.slideshow) {
+                    await s_background.BackgroundChange.i().update_background({ no_tr: false });
+                }
             }
         }, 'cnt_64455');
 }

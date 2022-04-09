@@ -105,6 +105,7 @@ export class Val {
                             await ext.send_msg_resp({
                                 msg: 'get_background',
                                 force_change: true,
+                                force_update: true,
                                 allow_to_start_slideshow_timer: false,
                             });
                         }

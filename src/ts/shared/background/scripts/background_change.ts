@@ -12,11 +12,13 @@ export class BackgroundChange {
     private constructor() {}
 
     private slideshow_timers: number[] = [];
+    private force_update = false;
 
     public update_background = ({ no_tr }: { no_tr: boolean }): Promise<void> =>
         err_async(async () => {
             await ext.send_msg_resp({
                 msg: 'update_background',
+                force_update: this.force_update,
                 no_tr,
             });
         }, 'cnt_75465');
@@ -24,12 +26,16 @@ export class BackgroundChange {
     public try_to_change_background = ({
         allow_to_start_slideshow_timer = true,
         force_change = false,
+        force_update = false,
     }: {
         allow_to_start_slideshow_timer?: boolean;
         force_change?: boolean;
+        force_update?: boolean;
     } = {}): Promise<void> =>
         err_async(async () => {
             this.clear_slideshow_timer();
+
+            this.force_update = force_update;
 
             const settings: i_data.Settings = await ext.storage_get();
 

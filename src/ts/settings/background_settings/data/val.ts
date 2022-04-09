@@ -68,6 +68,7 @@ export class Val {
             ext.send_msg({
                 msg: 'get_background',
                 allow_to_start_slideshow_timer: false,
+                force_update: true,
             });
         }, 'cnt_64566');
 }

@@ -15,6 +15,7 @@ we.runtime.onMessage.addListener(
                 await d_settings.Main.i().set_from_storage();
                 await d_background.BackgroundChange.i().update_background({
                     no_tr: document.hidden ? true : msg.no_tr,
+                    force_update: msg.force_update,
                 });
             } else {
                 await x.delay(10000);
