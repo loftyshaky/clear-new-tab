@@ -182,7 +182,7 @@ export class Main {
                             }),
                             new o_inputs.Btn({
                                 name: 'open_scheduler',
-                                is_enabled_conds: [
+                                is_visible_conds: [
                                     {
                                         input_name: 'mode',
                                         pass_vals: ['scheduled'],
@@ -197,14 +197,14 @@ export class Main {
                             new o_inputs.Select({
                                 name: 'color_type',
                                 options: this.options,
-                                is_enabled_conds: [
+                                is_visible_conds: [
                                     { input_name: 'mode', pass_vals: ['random_solid_color'] },
                                 ],
                                 event_callback: d_sections.Val.i().change,
                             }),
                             new o_inputs.Checkbox({
                                 name: 'keep_old_theme_backgrounds',
-                                is_enabled_conds: [
+                                is_visible_conds: [
                                     { input_name: 'mode', pass_vals: ['theme_background'] },
                                 ],
                                 event_callback: d_sections.Val.i().change,
@@ -213,7 +213,7 @@ export class Main {
                                 name: 'current_background_id',
                                 text_type: 'number',
                                 val_accessor: 'ui.current_background_i',
-                                is_enabled_conds: [
+                                is_visible_conds: [
                                     {
                                         input_name: 'mode',
                                         pass_vals: ['one_background', 'multiple_backgrounds'],
@@ -236,7 +236,7 @@ export class Main {
                             }),
                             new o_inputs.Checkbox({
                                 name: 'automatically_set_last_uploaded_background_as_current',
-                                is_enabled_conds: [
+                                is_visible_conds: [
                                     {
                                         input_name: 'mode',
                                         pass_vals: ['one_background', 'multiple_backgrounds'],
@@ -247,7 +247,7 @@ export class Main {
                             new o_inputs.Select({
                                 name: 'background_change_interval',
                                 options: this.options,
-                                is_enabled_conds: [
+                                is_visible_conds: [
                                     {
                                         input_name: 'mode',
                                         pass_vals: ['multiple_backgrounds', 'random_solid_color'],
@@ -257,10 +257,14 @@ export class Main {
                             }),
                             new o_inputs.Checkbox({
                                 name: 'slideshow',
-                                is_enabled_conds: [
+                                is_visible_conds: [
                                     {
                                         input_name: 'mode',
-                                        pass_vals: ['multiple_backgrounds', 'random_solid_color'],
+                                        pass_vals: [
+                                            'multiple_backgrounds',
+                                            'random_solid_color',
+                                            'scheduled',
+                                        ],
                                     },
                                 ],
                                 event_callback: d_sections.Val.i().change,
@@ -272,7 +276,21 @@ export class Main {
                                 is_enabled_conds: [
                                     {
                                         input_name: 'mode',
-                                        pass_vals: ['multiple_backgrounds', 'random_solid_color'],
+                                        pass_vals: [
+                                            'multiple_backgrounds',
+                                            'random_solid_color',
+                                            'scheduled',
+                                        ],
+                                    },
+                                ],
+                                is_visible_conds: [
+                                    {
+                                        input_name: 'mode',
+                                        pass_vals: [
+                                            'multiple_backgrounds',
+                                            'random_solid_color',
+                                            'scheduled',
+                                        ],
                                     },
                                 ],
                                 event_callback: d_sections.Val.i().change,
@@ -282,11 +300,25 @@ export class Main {
                                 is_enabled_conds: [
                                     {
                                         input_name: 'mode',
-                                        pass_vals: ['multiple_backgrounds', 'random_solid_color'],
+                                        pass_vals: [
+                                            'multiple_backgrounds',
+                                            'random_solid_color',
+                                            'scheduled',
+                                        ],
                                     },
                                     {
                                         input_name: 'background_change_effect',
                                         pass_vals: ['slide'],
+                                    },
+                                ],
+                                is_visible_conds: [
+                                    {
+                                        input_name: 'mode',
+                                        pass_vals: [
+                                            'multiple_backgrounds',
+                                            'random_solid_color',
+                                            'scheduled',
+                                        ],
                                     },
                                 ],
                                 options: this.options,
@@ -295,7 +327,7 @@ export class Main {
                             }),
                             new o_inputs.Checkbox({
                                 name: 'shuffle_backgrounds',
-                                is_enabled_conds: [
+                                is_visible_conds: [
                                     { input_name: 'mode', pass_vals: ['multiple_backgrounds'] },
                                 ],
                                 event_callback: d_sections.Val.i().change,
