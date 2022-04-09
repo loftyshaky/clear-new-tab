@@ -55,7 +55,7 @@ module.exports = (env, argv) => {
                 remove_dist: argv.mode === 'production',
             });
         },
-        callback_done: () => {
+        callback_done: (stats) => {
             manifest.generate({
                 test: env.test,
                 browser: env.browser,
@@ -63,7 +63,11 @@ module.exports = (env, argv) => {
             env_instance.generate({ browser: env.browser });
             locales.merge();
 
-            if (first_reload_completed) {
+            const an_error_occured = stats.compilation.errors.length !== 0;
+
+            if (an_error_occured) {
+                reloader.play_error_notification();
+            } else if (first_reload_completed) {
                 reloader.reload({
                     ext_id,
                     hard: false,
