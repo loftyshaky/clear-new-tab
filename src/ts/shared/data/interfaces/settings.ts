@@ -29,6 +29,6 @@ export interface Settings extends i_data.Date {
     install_help_msg_is_visible: boolean;
     id_of_last_installed_theme: string;
     current_random_solid_color: string;
-    show_background_id_and_i_in_tooltip: boolean;
+    show_item_developer_info_in_tooltip: boolean;
     update_database_when_dnd_item: boolean;
 }

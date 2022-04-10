@@ -1,4 +1,5 @@
 import { makeObservable, observable, action, runInAction } from 'mobx';
+import { computedFn } from 'mobx-utils';
 import { BigNumber } from 'bignumber.js';
 
 import { vars, s_db, s_i as s_i_shared, i_db } from 'shared/internal';
@@ -46,6 +47,17 @@ export class Tasks {
         '5': 'friday',
         '6': 'saturday',
     };
+
+    public developer_info = computedFn(function (
+        this: Tasks,
+        { task }: { task: i_db.Task },
+    ): string | undefined {
+        if (data.settings.show_item_developer_info_in_tooltip) {
+            return `ID: ${task.id}\nIndex: ${task.i}\nBackground ID:${task.background_id}`;
+        }
+
+        return undefined;
+    });
 
     public generate_date = ({ task }: { task: i_db.Task }): string =>
         err(() => {

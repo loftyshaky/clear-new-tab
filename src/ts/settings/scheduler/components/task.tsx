@@ -34,6 +34,7 @@ export const Task: React.FunctionComponent<p_scheduler.Task> = observer((props) 
                 d_dnd.Main.i().cursor_default_cls,
             ])}
             role='none'
+            title={d_scheduler.Tasks.i().developer_info({ task })}
             style={{
                 ...style,
                 height,

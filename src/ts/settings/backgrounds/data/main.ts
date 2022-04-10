@@ -27,8 +27,8 @@ export class Main {
         this: Main,
         { background }: { background: i_db.Background },
     ): string | undefined {
-        if (data.settings.show_background_id_and_i_in_tooltip) {
-            return `id: ${background.id}\nindex: ${background.i}`;
+        if (data.settings.show_item_developer_info_in_tooltip) {
+            return `ID: ${background.id}\nIndex: ${background.i}`;
         }
 
         return undefined;

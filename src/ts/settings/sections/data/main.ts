@@ -428,7 +428,7 @@ export class Main {
                     ],
                     admin_inputs: [
                         new o_inputs.Checkbox({
-                            name: 'show_background_id_and_i_in_tooltip',
+                            name: 'show_item_developer_info_in_tooltip',
                             event_callback: d_sections.Val.i().change,
                         }),
                         new o_inputs.Checkbox({

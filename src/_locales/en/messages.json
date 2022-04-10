@@ -104,8 +104,8 @@
     "allow_downloading_img_by_link_label_text": {
         "message": "Allow downloading an image when a link to an image pasted in \"Paste image or URL\" input"
     },
-    "show_background_id_and_i_in_tooltip_label_text": {
-        "message": "Show background id and index in tooltip"
+    "show_item_developer_info_in_tooltip_label_text": {
+        "message": "Show background/task developer info in tooltip"
     },
     "update_database_when_dnd_item_label_text": {
         "message": "Update database when dragging and dropping background or task"
