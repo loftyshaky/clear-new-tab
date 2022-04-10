@@ -425,6 +425,10 @@ export class Main {
                             event_callback:
                                 d_backgrounds.BackgroundDeletion.i().delete_all_backgrounds,
                         }),
+                        new o_inputs.Btn({
+                            name: 'delete_all_tasks',
+                            event_callback: d_scheduler.TaskDeletion.i().delete_all_tasks,
+                        }),
                     ],
                     admin_inputs: [
                         new o_inputs.Checkbox({

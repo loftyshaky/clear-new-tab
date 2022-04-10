@@ -18,6 +18,7 @@ export class TaskDeletion {
         makeObservable<TaskDeletion, 'deleting_background'>(this, {
             deleting_background: observable,
             trigger_delete: action,
+            delete_all_tasks: action,
         });
     }
 
@@ -61,4 +62,14 @@ export class TaskDeletion {
                 }, 'cnt_56464'),
             );
         }, 'cnt_85356');
+
+    public delete_all_tasks = (): Promise<void> =>
+        err_async(async () => {
+            // eslint-disable-next-line no-alert
+            if (window.confirm(ext.msg('delete_all_tasks_confirm'))) {
+                d_scheduler.Tasks.i().tasks = [];
+
+                await s_db.Manipulation.i().clear_task_table();
+            }
+        }, 'cnt_86432');
 }

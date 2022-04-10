@@ -147,7 +147,7 @@ export class Restore {
                 update_instantly: true,
             });
 
-            await s_db.Manipulation.i().clear_all_tables();
+            await s_db.Manipulation.i().clear_all_background_tables();
 
             this.restored_backgrounds = [];
             this.restored_background_thumbnails = [];

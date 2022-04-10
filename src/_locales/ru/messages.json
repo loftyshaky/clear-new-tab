@@ -11,6 +11,9 @@
     "delete_all_backgrounds_confirm": {
         "message": "Удалить все фоны?"
     },
+    "delete_all_tasks_confirm": {
+        "message": "Удалить все задачи?"
+    },
     "enter_new_background_no_prompt": {
         "message": "Введите новый № фона:"
     },
@@ -97,6 +100,9 @@
     },
     "delete_all_backgrounds_btn_text": {
         "message": "Удалить все фоны"
+    },
+    "delete_all_tasks_btn_text": {
+        "message": "Удалить все задачи"
     },
     "paste_btn_is_visible_label_text": {
         "message": "Добавить кнопку \"Вставить\" к текстовому полю \"Вставьте изображение или ссылку на него\""

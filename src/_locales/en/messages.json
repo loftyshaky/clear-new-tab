@@ -11,6 +11,9 @@
     "delete_all_backgrounds_confirm": {
         "message": "Delete all backgrounds?"
     },
+    "delete_all_tasks_confirm": {
+        "message": "Delete all tasks?"
+    },
     "enter_new_background_no_prompt": {
         "message": "Enter the new background №:"
     },
@@ -97,6 +100,9 @@
     },
     "delete_all_backgrounds_btn_text": {
         "message": "Delete all backgrounds"
+    },
+    "delete_all_tasks_btn_text": {
+        "message": "Delete all tasks"
     },
     "paste_btn_is_visible_label_text": {
         "message": "Add \"Paste\" button to \"Paste image or URL\" input"

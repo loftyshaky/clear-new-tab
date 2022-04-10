@@ -174,7 +174,7 @@ export class Manipulation {
             await db.tasks.bulkDelete(ids as any);
         }, 'cnt_94584');
 
-    public clear_all_tables = (): Promise<void> =>
+    public clear_all_background_tables = (): Promise<void> =>
         err_async(async () => {
             await db.transaction(
                 'rw',
@@ -188,4 +188,9 @@ export class Manipulation {
                 },
             );
         }, 'cnt_74365');
+
+    public clear_task_table = (): Promise<void> =>
+        err_async(async () => {
+            await db.tasks.clear();
+        }, 'cnt_74645');
 }
