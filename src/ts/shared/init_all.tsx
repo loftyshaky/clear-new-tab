@@ -134,11 +134,16 @@ export class InitAll {
                         'settings/internal'
                     );
 
-                    await d_inputs.InputWidth.i().calculate_for_all_sections({
-                        sections: d_sections.Main.i().sections as i_inputs.Sections,
-                        all_sections_inputs_equal_width: true,
-                    });
-                    d_sections.Width.i().set();
+                    self.setTimeout(() => {
+                        err_async(async () => {
+                            await d_inputs.InputWidth.i().calculate_for_all_sections({
+                                sections: d_sections.Main.i().sections as i_inputs.Sections,
+                                all_sections_inputs_equal_width: true,
+                            });
+                            d_sections.Width.i().set();
+                        }, 'cnt_56747');
+                    }, data.settings.transition_duration);
+
                     d_scheduler.Position.i().set_left();
                     await d_scheduler.Val.i().set_add_new_task_btn_ability();
 
