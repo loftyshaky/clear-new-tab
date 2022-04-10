@@ -45,17 +45,19 @@ export const Actions: React.FunctionComponent<p_backgrounds.Actions> = observer(
                     }
                 />
                 <hr />
-                <c_inputs.Btn
-                    input={
-                        new o_inputs.Btn({
-                            name: 'copy_background_id',
-                            event_callback: () =>
-                                s_backgrounds.BackgroundId.i().copy_to_clipboard({
-                                    background_id: background.id,
-                                }),
-                        })
-                    }
-                />
+                {data.settings.enable_cut_features ? (
+                    <c_inputs.Btn
+                        input={
+                            new o_inputs.Btn({
+                                name: 'copy_background_id',
+                                event_callback: () =>
+                                    s_backgrounds.BackgroundId.i().copy_to_clipboard({
+                                        background_id: background.id,
+                                    }),
+                            })
+                        }
+                    />
+                ) : undefined}
             </Tr>
         </c_backgrounds.OverlayItemBtn>
     );
