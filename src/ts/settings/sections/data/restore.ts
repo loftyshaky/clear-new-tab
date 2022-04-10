@@ -34,6 +34,8 @@ export class Restore {
             if (confirmed_restore) {
                 d_protecting_screen.Visibility.i().show();
 
+                const { transition_duration } = _.clone(data.settings);
+
                 const settings_final: i_data.Settings = await this.set({ settings });
 
                 await ext.send_msg_resp({
@@ -42,7 +44,7 @@ export class Restore {
                     update_background: true,
                 });
 
-                s_theme.Main.i().reset_theme();
+                await s_theme.Main.i().reset_theme({ transition_duration });
                 s_preload_color.Storage.i().set_preload_color();
                 d_protecting_screen.Visibility.i().hide();
             }
@@ -139,6 +141,7 @@ export class Restore {
                 ...data_obj.settings,
                 ...this.get_unchanged_settings(),
             } as i_data.Settings;
+            const { transition_duration } = _.clone(data.settings);
 
             await this.set({ settings });
 
@@ -149,7 +152,7 @@ export class Restore {
                 update_instantly: true,
             });
 
-            s_theme.Main.i().reset_theme();
+            await s_theme.Main.i().reset_theme({ transition_duration });
 
             await s_db.Manipulation.i().clear_all_background_tables();
 

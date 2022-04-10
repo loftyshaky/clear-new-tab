@@ -12,9 +12,13 @@ export class Main {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
-    public reset_theme = (): Promise<void> =>
+    public reset_theme = ({
+        transition_duration,
+    }: {
+        transition_duration: number;
+    }): Promise<void> =>
         err_async(async () => {
-            await x.delay(data.settings.transition_duration);
+            await x.delay(transition_duration);
 
             await s_theme_shared.Main.i().set({
                 name: data.settings.options_page_theme,
