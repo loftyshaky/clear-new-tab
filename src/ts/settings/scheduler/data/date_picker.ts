@@ -77,6 +77,7 @@ export class DatePicker {
             this.inputs = [
                 new o_inputs.Text({
                     name: 'year',
+                    text_type: 'number',
                     event_callback: d_scheduler.Val.i().change,
                     remove_val_callback: d_sections.Val.i().remove_val,
                     warn_state_checker: d_sections.Val.i().validate_input,
