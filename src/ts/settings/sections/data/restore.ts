@@ -1,13 +1,14 @@
 import _ from 'lodash';
 import { runInAction } from 'mobx';
 
-import { t, s_theme as s_theme_shared } from '@loftyshaky/shared';
-import { s_db, s_preload_color, s_theme, i_data, i_db } from 'shared/internal';
+import { t } from '@loftyshaky/shared';
+import { s_db, s_preload_color, i_data, i_db } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
     d_protecting_screen,
     d_sections,
+    s_theme,
     i_sections,
 } from 'settings/internal';
 
@@ -41,6 +42,7 @@ export class Restore {
                     update_background: true,
                 });
 
+                s_theme.Main.i().reset_theme();
                 s_preload_color.Storage.i().set_preload_color();
                 d_protecting_screen.Visibility.i().hide();
             }
@@ -147,6 +149,8 @@ export class Restore {
                 update_instantly: true,
             });
 
+            s_theme.Main.i().reset_theme();
+
             await s_db.Manipulation.i().clear_all_background_tables();
 
             this.restored_backgrounds = [];
@@ -231,11 +235,6 @@ export class Restore {
                         data.settings = settings_final;
 
                         d_background_settings.SettingsType.i().react_to_global_selection();
-
-                        s_theme_shared.Main.i().set({
-                            name: data.settings.options_page_theme,
-                            additional_theme_callback: s_theme.Main.i().set,
-                        });
                     }, 'cnt_1132'),
                 );
 
