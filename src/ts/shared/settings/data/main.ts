@@ -41,7 +41,7 @@ export class Main {
             data.settings[key] = val;
 
             ext.send_msg_resp({
-                msg: 'update_settings',
+                msg: 'update_settings_background',
                 settings: { [key]: val },
             });
         }, 'cnt_1165');

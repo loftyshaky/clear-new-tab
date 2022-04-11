@@ -71,7 +71,7 @@ export class Val {
                             ['mode', 'slideshow', 'background_change_interval'].includes(input.name)
                         ) {
                             await ext.send_msg_resp({
-                                msg: 'update_settings',
+                                msg: 'update_settings_background',
                                 settings: {
                                     [input.name]: val,
                                     background_change_time: new Date().getTime(),
@@ -87,7 +87,7 @@ export class Val {
                             }
                         } else if (input.name !== 'create_solid_color_background') {
                             await ext.send_msg_resp({
-                                msg: 'update_settings',
+                                msg: 'update_settings_background',
                                 settings: { [input.name]: val },
                                 update_instantly: true,
                             });
@@ -189,7 +189,7 @@ export class Val {
                     s_css_vars.Main.i().set();
 
                     await ext.send_msg_resp({
-                        msg: 'update_settings',
+                        msg: 'update_settings_background',
                         settings: { colors },
                     });
                 }
@@ -236,7 +236,7 @@ export class Val {
         err_async(async () => {
             if (['year', 'time'].includes(input.name)) {
                 await ext.send_msg_resp({
-                    msg: 'update_settings',
+                    msg: 'update_settings_background',
                     settings: { [input.name]: vars.scheduler_none_val },
                     update_instantly: true,
                 });
@@ -263,7 +263,7 @@ export class Val {
     public remove_color_callback = ({ input }: { input: o_color.Color }): Promise<void> =>
         err_async(async () => {
             await ext.send_msg_resp({
-                msg: 'update_settings',
+                msg: 'update_settings_background',
                 settings: { [input.name]: '' },
             });
         }, 'cnt_1144');
@@ -275,7 +275,7 @@ export class Val {
     }): Promise<void> =>
         err_async(async () => {
             await ext.send_msg_resp({
-                msg: 'update_settings',
+                msg: 'update_settings_background',
                 settings: { colors: default_colors },
             });
         }, 'cnt_1145');

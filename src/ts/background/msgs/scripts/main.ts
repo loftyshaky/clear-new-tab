@@ -14,7 +14,7 @@ we.runtime.onMessage.addListener(
         err_async(async () => {
             const msg_str: string = msg.msg;
 
-            if (msg_str === 'update_settings') {
+            if (msg_str === 'update_settings_background') {
                 if (n(msg.update_instantly) && msg.update_instantly) {
                     await s_data.Main.i().update_settings({
                         settings: msg.settings,
@@ -24,7 +24,7 @@ we.runtime.onMessage.addListener(
                     s_data.Main.i().update_settings_debounce(msg.settings, msg.update_background);
                 }
 
-                ext.send_msg({ msg: 'update_settings' });
+                ext.send_msg({ msg: 'update_settings_new_tab' });
             } else if (msg_str === 'get_defaults') {
                 return s_data.Main.i().defaults;
             } else if (msg_str === 'push_tab_id') {

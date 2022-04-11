@@ -37,7 +37,7 @@ export class Val {
                     d_background_settings.SettingsType.i().react_to_global_selection();
 
                     await ext.send_msg_resp({
-                        msg: 'update_settings',
+                        msg: 'update_settings_background',
                         settings: { [name]: new_val },
                         update_background: true,
                     });

@@ -17,7 +17,7 @@ we.runtime.onMessage.addListener(
                     no_tr: document.hidden ? true : msg.no_tr,
                     force_update: msg.force_update,
                 });
-            } else if (msg_str === 'update_settings') {
+            } else if (msg_str === 'update_settings_new_tab') {
                 await d_settings.Main.i().set_from_storage();
             } else {
                 await x.delay(10000);

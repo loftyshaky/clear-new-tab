@@ -90,7 +90,7 @@ export class CurrentBackground {
             this.set_current_background_i();
 
             await ext.send_msg_resp({
-                msg: 'update_settings',
+                msg: 'update_settings_background',
                 settings: {
                     current_background_id: id,
                     ...(id === 1 && { future_background_id: id }),

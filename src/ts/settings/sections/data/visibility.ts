@@ -12,7 +12,7 @@ export class Visibility {
     public hide_color_help = (): void =>
         err(() => {
             ext.send_msg({
-                msg: 'update_settings',
+                msg: 'update_settings_background',
                 settings: { color_help_is_visible: false },
             });
         }, 'cnt_1146');

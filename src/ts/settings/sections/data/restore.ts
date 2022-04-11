@@ -41,7 +41,7 @@ export class Restore {
                 const settings_final: i_data.Settings = await this.set({ settings });
 
                 await ext.send_msg_resp({
-                    msg: 'update_settings',
+                    msg: 'update_settings_background',
                     settings: settings_final,
                     update_background: true,
                 });
@@ -172,7 +172,7 @@ export class Restore {
             await this.set({ settings });
 
             await ext.send_msg_resp({
-                msg: 'update_settings',
+                msg: 'update_settings_background',
                 settings,
                 update_background: true,
                 update_instantly: true,

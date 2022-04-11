@@ -55,7 +55,7 @@ export class CurrentBackground {
                 data.settings.future_background_id = settings.future_background_id;
 
                 await ext.send_msg_resp({
-                    msg: 'update_settings',
+                    msg: 'update_settings_background',
                     settings,
                     update_instantly: true,
                 });
