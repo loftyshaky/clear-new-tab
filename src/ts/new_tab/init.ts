@@ -4,6 +4,9 @@ import { d_background } from 'new_tab/internal';
 export const init = (): Promise<void> =>
     err_async(async () => {
         InitAll.i().init();
+
+        d_background.BackgroundChange.i().record_new_tab_page_visit();
+
         ext.send_msg({ msg: 'push_tab_id' });
         ext.send_msg({ msg: 'get_background', allow_to_start_slideshow_timer: !document.hidden });
 

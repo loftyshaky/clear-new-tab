@@ -13,6 +13,13 @@ export class BackgroundChange {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
+    private visited_this_new_tab_page_once: boolean = false;
+
+    public record_new_tab_page_visit = (): void =>
+        err(() => {
+            this.visited_this_new_tab_page_once = !document.hidden;
+        }, 'cnt_75643');
+
     public update_background = ({
         no_tr = false,
         force_update = false,
@@ -99,9 +106,11 @@ export class BackgroundChange {
     public react_to_visibility_change = (): void =>
         err(() => {
             if (document.visibilityState === 'visible') {
-                if (data.settings.slideshow) {
+                if (data.settings.slideshow || !this.visited_this_new_tab_page_once) {
                     ext.send_msg({ msg: 'get_background' });
                 }
+
+                this.record_new_tab_page_visit();
 
                 d_background.VideoPlayback.i().set_play_status({ is_playing: true });
             } else if (document.visibilityState === 'hidden') {
