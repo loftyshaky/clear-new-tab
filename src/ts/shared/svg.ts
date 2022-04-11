@@ -17,6 +17,7 @@ import AssistantPhoto from '../../svg/assistant_photo.svg';
 import Check from '../../svg/check.svg';
 import Delete from '../../svg/delete.svg';
 import Help from '../../svg/help.svg';
+import Home from '../../svg/home.svg';
 
 export type SvgType = {
     Archive: string;
@@ -36,6 +37,7 @@ export type SvgType = {
     Check: string;
     Delete: string;
     Help: string;
+    Home: string;
 };
 
 export const svg: SvgType = {
@@ -56,4 +58,5 @@ export const svg: SvgType = {
     Check,
     Delete,
     Help,
+    Home,
 };

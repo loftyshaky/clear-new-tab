@@ -104,6 +104,12 @@
     "delete_all_tasks_btn_text": {
         "message": "Удалить все задачи"
     },
+    "home_btn_is_visible_label_text": {
+        "message": "Показывать кнопку \"Домой\" на странице новой вкладки"
+    },
+    "home_btn_position_label_text": {
+        "message": "Позиция кнопки \"Домой\""
+    },
     "paste_btn_is_visible_label_text": {
         "message": "Добавить кнопку \"Вставить\" к текстовому полю \"Вставьте изображение или ссылку на него\""
     },
@@ -463,5 +469,8 @@
     },
     "new_tab_title_text": {
         "message": "Новая вкладка"
+    },
+    "go_to_home_page_title": {
+        "message": "Перейти на стандартную страницу новой вкладки"
     }
 }

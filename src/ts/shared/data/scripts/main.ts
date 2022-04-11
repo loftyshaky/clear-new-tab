@@ -42,6 +42,8 @@ export class Main {
                 color_of_area_around_background: 0,
                 video_volume: 0,
                 download_img_when_link_given: false,
+                home_btn_is_visible: false,
+                home_btn_position: 'right_top',
                 year: '',
                 day_of_the_week: vars.scheduler_none_val,
                 month: '',

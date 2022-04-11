@@ -103,6 +103,12 @@ export class Main {
                     new o_inputs.Option({ name: 'repeat_y' }),
                     new o_inputs.Option({ name: 'repeat_x' }),
                 ],
+                home_btn_position: [
+                    new o_inputs.Option({ name: 'left_top' }),
+                    new o_inputs.Option({ name: 'left_bottom' }),
+                    new o_inputs.Option({ name: 'right_top' }),
+                    new o_inputs.Option({ name: 'right_bottom' }),
+                ],
             };
         }, 'cnt_1127');
 
@@ -400,6 +406,17 @@ export class Main {
                             d_settings.Sections.i().get_shared_input({
                                 input_change_val_callback: d_sections.Val.i().change,
                             }).options_page_theme,
+                            new o_inputs.Checkbox({
+                                name: 'home_btn_is_visible',
+                                include_help: true,
+                                event_callback: d_sections.Val.i().change,
+                            }),
+                            new o_inputs.Select({
+                                name: 'home_btn_position',
+                                parent: 'home_btn_is_visible',
+                                options: this.options,
+                                event_callback: d_sections.Val.i().change,
+                            }),
                             new o_inputs.Checkbox({
                                 name: 'paste_btn_is_visible',
                                 val_accessor: 'ui.paste_btn_is_visible',

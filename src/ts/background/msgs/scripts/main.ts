@@ -3,6 +3,7 @@ import { s_background, s_data } from 'shared/internal';
 import {
     s_backgrounds,
     s_browser_theme,
+    s_home_btn,
     s_management,
     s_scheduler,
     s_tabs,
@@ -22,6 +23,8 @@ we.runtime.onMessage.addListener(
                 } else {
                     s_data.Main.i().update_settings_debounce(msg.settings, msg.update_background);
                 }
+
+                ext.send_msg({ msg: 'update_settings' });
             } else if (msg_str === 'get_defaults') {
                 return s_data.Main.i().defaults;
             } else if (msg_str === 'push_tab_id') {
@@ -50,6 +53,8 @@ we.runtime.onMessage.addListener(
                 return s_management.Main.i().get_all_exts();
             } else if (msg_str === 'schedule_background_display') {
                 await s_scheduler.Main.i().schedule_background_display();
+            } else if (msg_str === 'open_default_new_tab_page') {
+                await s_home_btn.Main.i().open_default_new_tab_page();
             } else {
                 await x.delay(10000);
             }

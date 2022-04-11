@@ -104,6 +104,12 @@
     "delete_all_tasks_btn_text": {
         "message": "Delete all tasks"
     },
+    "home_btn_is_visible_label_text": {
+        "message": "Show \"Home\" button in new tab page"
+    },
+    "home_btn_position_label_text": {
+        "message": "\"Home\" button position"
+    },
     "paste_btn_is_visible_label_text": {
         "message": "Add \"Paste\" button to \"Paste image or URL\" input"
     },
@@ -463,5 +469,8 @@
     },
     "new_tab_title_text": {
         "message": "New Tab"
+    },
+    "go_to_home_page_title": {
+        "message": "Go to default new tab page"
     }
 }

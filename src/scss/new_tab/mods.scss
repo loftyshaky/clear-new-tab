@@ -1,3 +1,5 @@
+$home_btn_offset: 8px;
+
 .no_tr {
     transition: none !important;
 }
@@ -65,4 +67,24 @@
 
 .from_bottom_to_top {
     top: -100%;
+}
+
+.home_btn_left_top {
+    top: $home_btn_offset;
+    left: $home_btn_offset;
+}
+
+.home_btn_left_bottom {
+    bottom: $home_btn_offset;
+    left: $home_btn_offset;
+}
+
+.home_btn_right_top {
+    top: $home_btn_offset;
+    right: $home_btn_offset;
+}
+
+.home_btn_right_bottom {
+    bottom: $home_btn_offset;
+    right: $home_btn_offset;
 }
