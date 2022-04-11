@@ -19,6 +19,8 @@ export class Tasks {
             tasks: observable,
             set_background_id: action,
             add: action,
+            set_tasks_from_arg: action,
+            reset_background_id: action,
         });
     }
 
@@ -113,10 +115,33 @@ export class Tasks {
             );
         }, 'cnt_65456');
 
+    public set_tasks_from_arg = ({ tasks }: { tasks: i_db.Task[] }): void =>
+        err(() => {
+            this.tasks = s_i_shared.Main.i().sort_by_i_ascending({
+                data: tasks,
+            }) as i_db.Task[];
+        }, 'cnt_65444');
+
     public set_background_id = ({ background_id }: { background_id: string }): void =>
         err(() => {
             data.ui.background_id = background_id;
         }, 'cnt_75543');
+
+    public reset_background_id = (): void =>
+        err(() => {
+            data.ui.background_id = undefined;
+        }, 'cnt_64647');
+
+    public reset_background_id_from_background_id = ({
+        background_id,
+    }: {
+        background_id: string;
+    }): void =>
+        err(() => {
+            if (data.ui.background_id === background_id) {
+                this.reset_background_id();
+            }
+        }, 'cnt_17958');
 
     public add = (): Promise<void> =>
         err_async(async () => {
@@ -144,7 +169,11 @@ export class Tasks {
 
             d_scheduler.TaskAnimation.i().trigger_animation({ id });
 
-            this.tasks.push(new_task);
+            runInAction(() =>
+                err(() => {
+                    this.tasks.push(new_task);
+                }, 'cnt_64564'),
+            );
 
             await d_scheduler.TaskAnimation.i().forbid_animation();
 

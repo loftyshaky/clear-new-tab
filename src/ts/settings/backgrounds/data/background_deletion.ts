@@ -4,7 +4,7 @@ import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
 import { vars, s_db, s_i, i_db } from 'shared/internal';
-import { d_backgrounds, d_protecting_screen, d_sections } from 'settings/internal';
+import { d_backgrounds, d_protecting_screen, d_scheduler, d_sections } from 'settings/internal';
 
 export class BackgroundDeletion {
     private static i0: BackgroundDeletion;
@@ -114,6 +114,9 @@ export class BackgroundDeletion {
             }
 
             await s_db.Manipulation.i().delete_backgrounds({ ids });
+            await d_scheduler.TaskDeletion.i().delete_from_background_id({
+                background_ids: ids,
+            });
 
             runInAction(() =>
                 err(() => {
@@ -143,10 +146,18 @@ export class BackgroundDeletion {
                 d_backgrounds.Main.i().background_thumbnails = [];
 
                 await s_db.Manipulation.i().clear_all_background_tables();
+
+                await d_scheduler.TaskDeletion.i().delete_all_tasks();
             } else if (this.deletion_reason === 'restore_back_up') {
                 await d_backgrounds.Main.i().set_backgrounds({
                     backgrounds: d_sections.Restore.i().restored_backgrounds,
                     background_thumbnails: d_sections.Restore.i().restored_background_thumbnails,
+                });
+                await s_db.Manipulation.i().save_tasks({
+                    tasks: d_sections.Restore.i().restored_tasks,
+                });
+                await d_scheduler.Tasks.i().set_tasks_from_arg({
+                    tasks: d_sections.Restore.i().restored_tasks,
                 });
             }
 

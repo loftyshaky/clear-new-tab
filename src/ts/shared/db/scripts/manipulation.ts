@@ -101,7 +101,15 @@ export class Manipulation {
         }, 'cnt_89376');
 
     public get_tasks = (): Promise<i_db.Task[]> =>
-        err_async(async () => db.tasks.toArray(), 'cnt_94527');
+        err_async(async () => {
+            const tasks: i_db.Task[] = await db.tasks.toArray();
+
+            const tasks_sorted = s_i.Main.i().sort_by_i_ascending({
+                data: tasks,
+            }) as i_db.Task[];
+
+            return tasks_sorted;
+        }, 'cnt_94527');
 
     public get_alarm_data = (): Promise<i_db.AlarmDataItem[]> =>
         err_async(async () => db.alarm_data.toArray(), 'cnt_94527');

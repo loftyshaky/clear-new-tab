@@ -63,13 +63,38 @@ export class TaskDeletion {
             );
         }, 'cnt_85356');
 
+    public delete_from_background_id = ({ background_ids }: { background_ids: string[] }): void =>
+        err(() => {
+            background_ids.forEach((background_id: string): void =>
+                err(() => {
+                    const task_with_background_id: i_db.Task | undefined =
+                        d_scheduler.Tasks.i().tasks.find((task: i_db.Task): boolean =>
+                            err(() => task.background_id === background_id, 'cnt_74736'),
+                        );
+
+                    if (n(task_with_background_id)) {
+                        this.trigger_delete({ id: task_with_background_id.id });
+                    }
+
+                    d_scheduler.Tasks.i().reset_background_id_from_background_id({ background_id });
+                }, 'cnt_64674'),
+            );
+        }, 'cnt_75665');
+
     public delete_all_tasks = (): Promise<void> =>
+        err_async(async () => {
+            d_scheduler.Tasks.i().tasks = [];
+
+            await s_db.Manipulation.i().clear_task_table();
+
+            d_scheduler.Tasks.i().reset_background_id();
+        }, 'cnt_54363');
+
+    public delete_all_tasks_confirm = (): Promise<void> =>
         err_async(async () => {
             // eslint-disable-next-line no-alert
             if (window.confirm(ext.msg('delete_all_tasks_confirm'))) {
-                d_scheduler.Tasks.i().tasks = [];
-
-                await s_db.Manipulation.i().clear_task_table();
+                await this.delete_all_tasks();
             }
         }, 'cnt_86432');
 }

@@ -427,7 +427,7 @@ export class Main {
                         }),
                         new o_inputs.Btn({
                             name: 'delete_all_tasks',
-                            event_callback: d_scheduler.TaskDeletion.i().delete_all_tasks,
+                            event_callback: d_scheduler.TaskDeletion.i().delete_all_tasks_confirm,
                         }),
                     ],
                     admin_inputs: [

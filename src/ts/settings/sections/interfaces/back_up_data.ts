@@ -3,5 +3,5 @@ import { i_sections } from 'settings/internal';
 
 export interface BackUpData {
     settings: i_data.Settings;
-    backgrounds: i_sections.BackUpBackground[];
+    backgrounds: i_sections.BackUpChunk[];
 }
