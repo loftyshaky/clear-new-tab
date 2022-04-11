@@ -212,6 +212,7 @@ export class Main {
                             new o_inputs.Text({
                                 name: 'current_background_id',
                                 text_type: 'number',
+                                allow_removing_val: false,
                                 val_accessor: 'ui.current_background_i',
                                 is_visible_conds: [
                                     {
