@@ -40,7 +40,7 @@ we.runtime.onMessage.addListener(
                     force_update: n(msg.force_update) ? msg.force_update : false,
                 });
             } else if (msg_str === 'clear_slideshow_timer') {
-                await s_background.BackgroundChange.i().clear_slideshow_timer();
+                s_background.BackgroundChange.i().clear_slideshow_timer();
             } else if (msg_str === 'open_theme_background') {
                 s_browser_theme.LinkToImage.i().open();
             } else if (msg_str === 'get_theme_background_response') {

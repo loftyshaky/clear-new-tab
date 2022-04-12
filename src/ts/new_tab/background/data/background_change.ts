@@ -114,9 +114,7 @@ export class BackgroundChange {
 
                 d_background.VideoPlayback.i().set_play_status({ is_playing: true });
             } else if (document.visibilityState === 'hidden') {
-                if (data.settings.mode !== 'scheduled') {
-                    ext.send_msg({ msg: 'clear_slideshow_timer' });
-                }
+                ext.send_msg({ msg: 'clear_slideshow_timer' });
 
                 d_background.VideoPlayback.i().set_play_status({ is_playing: false });
             }

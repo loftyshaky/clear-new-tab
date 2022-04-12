@@ -1,4 +1,3 @@
-import 'background/alarms/scripts';
 import 'background/browser_action/scripts';
 import 'background/msgs/scripts';
 import 'background/on_installed/scripts';
