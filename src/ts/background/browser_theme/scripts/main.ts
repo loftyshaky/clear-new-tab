@@ -28,13 +28,9 @@ export class Main {
 
             const settings: i_data.Settings = await ext.storage_get();
 
-            const options_page_is_open: boolean = n(s_tabs.TabIds.i().options_page_tab_id);
-
-            if (options_page_is_open) {
-                ext.send_msg({ msg: 'try_to_get_theme_background' });
-            }
-
             if (settings.mode === 'theme_background' || clear_new_tab_install) {
+                ext.send_msg({ msg: 'try_to_get_theme_background' });
+
                 we.runtime.openOptionsPage();
             }
         }, 'cnt_84214');
