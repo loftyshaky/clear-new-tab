@@ -27,8 +27,6 @@ we.runtime.onMessage.addListener(
                 ext.send_msg({ msg: 'update_settings_new_tab' });
             } else if (msg_str === 'get_defaults') {
                 return s_data.Main.i().defaults;
-            } else if (msg_str === 'push_tab_id') {
-                s_tabs.TabIds.i().push_tab_id();
             } else if (msg_str === 'push_options_page_tab_id') {
                 s_tabs.TabIds.i().push_options_page_tab_id();
             } else if (msg_str === 'get_background') {
