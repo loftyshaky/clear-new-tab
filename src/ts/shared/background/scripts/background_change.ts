@@ -11,8 +11,8 @@ export class BackgroundChange {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
-    private slideshow_timers: number[] = [];
     private force_update = false;
+    public rerun: boolean = false;
 
     public update_background = ({ no_tr }: { no_tr: boolean }): Promise<void> =>
         err_async(async () => {
@@ -33,11 +33,13 @@ export class BackgroundChange {
         force_update?: boolean;
     } = {}): Promise<void> =>
         err_async(async () => {
-            this.clear_slideshow_timer();
-
             this.force_update = force_update;
 
             const settings: i_data.Settings = await ext.storage_get();
+
+            if (settings.mode !== 'scheduled') {
+                this.clear_slideshow_timer();
+            }
 
             if (
                 ['multiple_backgrounds', 'random_solid_color'].includes(settings.mode) &&
@@ -60,11 +62,11 @@ export class BackgroundChange {
                     });
 
                     if (start_slideshow_timer) {
-                        this.run_slideshow_timer({ current_time });
+                        this.schedule_background_change({ current_time });
                     }
                 } else if (start_slideshow_timer) {
                     await this.update_background({ no_tr: true });
-                    this.run_slideshow_timer({ current_time });
+                    this.schedule_background_change({ current_time });
                 } else {
                     // multiple backgrounds, slideshow off
                     await this.update_background({ no_tr: true });
@@ -75,7 +77,7 @@ export class BackgroundChange {
             }
         }, 'cnt_65432');
 
-    private change_background = ({
+    public change_background = ({
         current_time,
         no_tr,
     }: {
@@ -122,72 +124,48 @@ export class BackgroundChange {
             }
         }, 'cnt_64354');
 
-    public run_slideshow_timer = ({
+    public schedule_background_change = ({
         current_time = 0,
         rerun = false,
     }: { current_time?: number; rerun?: boolean } = {}): Promise<void> =>
         err_async(async () => {
+            this.rerun = rerun;
+
             const settings: i_data.Settings = await ext.storage_get();
 
-            const shedule_background_change = ({
-                rerun_2 = false,
-            }: { rerun_2?: boolean } = {}): Promise<void> =>
-                new Promise((resolve) => {
-                    err(() => {
-                        const background_change_interval_corrected: number =
-                            settings.background_change_interval === 1
-                                ? 3000
-                                : settings.background_change_interval;
-                        const remaining_time: number =
-                            settings.background_change_time -
-                            current_time +
-                            background_change_interval_corrected;
+            const can_do_slideshow: boolean = await this.can_do_slideshow();
 
-                        this.slideshow_timers.push(
-                            self.setTimeout(
-                                () => {
-                                    err_async(async () => {
-                                        if (
-                                            ['multiple_backgrounds', 'random_solid_color'].includes(
-                                                settings.mode,
-                                            ) &&
-                                            settings.slideshow
-                                        ) {
-                                            await this.change_background({
-                                                current_time: new Date().getTime(),
-                                                no_tr: false,
-                                            });
-                                        }
+            if (can_do_slideshow) {
+                this.clear_slideshow_timer();
 
-                                        resolve();
-                                    }, 'cnt_53566');
-                                },
-                                rerun_2 ? background_change_interval_corrected : remaining_time,
-                            ),
-                        );
-                    }, 'cnt_64356');
+                const background_change_interval_corrected: number =
+                    current_time +
+                    (settings.background_change_interval === 1
+                        ? 3000
+                        : settings.background_change_interval);
+                const remaining_time: number =
+                    settings.background_change_time -
+                    current_time +
+                    background_change_interval_corrected;
+
+                await we.alarms.create('schedule_background_change', {
+                    when: rerun ? background_change_interval_corrected : remaining_time,
                 });
-
-            this.clear_slideshow_timer();
-
-            if (
-                ['multiple_backgrounds', 'random_solid_color'].includes(settings.mode) &&
-                settings.slideshow
-            ) {
-                await shedule_background_change({ rerun_2: rerun });
-
-                await this.run_slideshow_timer({ rerun: true });
             }
         }, 'cnt_75357');
 
-    public clear_slideshow_timer = (): void =>
-        err(() => {
-            this.slideshow_timers.forEach((slideshow_timer: number): void =>
-                err(() => {
-                    self.clearTimeout(slideshow_timer);
-                }, 'cnt_87534'),
-            );
-
-            this.slideshow_timers = [];
+    public clear_slideshow_timer = (): Promise<void> =>
+        err_async(async () => {
+            await we.alarms.clearAll();
         }, 'cnt_64466');
+
+    public can_do_slideshow = (): Promise<boolean> =>
+        err_async(async () => {
+            const settings: i_data.Settings = await ext.storage_get();
+
+            return (
+                ['multiple_backgrounds', 'random_solid_color'].includes(settings.mode) &&
+                settings.slideshow
+            );
+        }, 'cnt_56457');
 }

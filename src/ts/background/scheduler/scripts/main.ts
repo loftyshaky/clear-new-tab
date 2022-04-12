@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { isPresent } from 'ts-is-present';
 import * as dateFns from 'date-fns';
-import { s_db, i_db } from 'shared/internal';
+import { s_background, s_db, i_db } from 'shared/internal';
 import { s_backgrounds } from 'background/internal';
 
 export class Main {
@@ -393,7 +393,7 @@ export class Main {
             await remove_expired_tasks();
 
             if (n(closest_alarm_data_item)) {
-                await we.alarms.clearAll();
+                await s_background.BackgroundChange.i().clear_slideshow_timer();
                 await we.alarms.create(closest_alarm_data_item.background_id, {
                     when: closest_alarm_data_item.date,
                 });
