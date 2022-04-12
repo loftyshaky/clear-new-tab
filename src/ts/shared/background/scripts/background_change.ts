@@ -83,18 +83,20 @@ export class BackgroundChange {
         no_tr: boolean;
     }): Promise<void> =>
         err_async(async () => {
-            await this.update_background_change_time_and_future_background_id({
+            await this.update_background_change_time_and_current_background_id({
                 current_time,
             });
 
             await this.update_background({ no_tr });
+
+            d_backgrounds.CurrentBackground.i().set_future_background_id();
 
             ext.send_msg({
                 msg: 'set_current_background_i',
             });
         }, 'cnt_75355');
 
-    private update_background_change_time_and_future_background_id = ({
+    private update_background_change_time_and_current_background_id = ({
         current_time,
     }: {
         current_time: number;
@@ -117,8 +119,6 @@ export class BackgroundChange {
                 await s_data.Main.i().update_settings({
                     settings,
                 });
-
-                d_backgrounds.CurrentBackground.i().set_future_background_id();
             }
         }, 'cnt_64354');
 
