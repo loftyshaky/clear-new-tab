@@ -119,24 +119,6 @@ export class Manipulation {
             await db.backgrounds.update(background.id as any, background);
         }, 'cnt_56461');
 
-    public update_backgrounds = ({
-        backgrounds,
-    }: {
-        backgrounds: i_db.Background[];
-    }): Promise<void> =>
-        err_async(async () => {
-            await db.transaction('rw', db.backgrounds, db.background_files, async () => {
-                await Promise.all(
-                    backgrounds.map(
-                        async (background: i_db.Background): Promise<void> =>
-                            err_async(async () => {
-                                await db.backgrounds.update(background.id as any, background);
-                            }, 'cnt_45678'),
-                    ),
-                );
-            });
-        }, 'cnt_56461');
-
     public update_task = ({ task }: { task: i_db.Task }): Promise<void> =>
         err_async(async () => {
             await db.tasks.update(task.id as any, task);
