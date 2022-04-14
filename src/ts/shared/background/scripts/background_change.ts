@@ -129,7 +129,7 @@ export class BackgroundChange {
         err_async(async () => {
             const settings: i_data.Settings = await ext.storage_get();
 
-            const shedule_background_change = ({
+            const schedule_background_change = ({
                 rerun_2 = false,
             }: { rerun_2?: boolean } = {}): Promise<void> =>
                 new Promise((resolve) => {
@@ -174,7 +174,7 @@ export class BackgroundChange {
                 ['multiple_backgrounds', 'random_solid_color'].includes(settings.mode) &&
                 settings.slideshow
             ) {
-                await shedule_background_change({ rerun_2: rerun });
+                await schedule_background_change({ rerun_2: rerun });
 
                 await this.run_slideshow_timer({ rerun: true });
             }
