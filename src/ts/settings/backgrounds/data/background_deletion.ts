@@ -4,7 +4,13 @@ import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
 import { vars, s_db, s_i, i_db } from 'shared/internal';
-import { d_backgrounds, d_protecting_screen, d_scheduler, d_sections } from 'settings/internal';
+import {
+    d_background_settings,
+    d_backgrounds,
+    d_protecting_screen,
+    d_scheduler,
+    d_sections,
+} from 'settings/internal';
 
 export class BackgroundDeletion {
     private static i0: BackgroundDeletion;
@@ -59,6 +65,17 @@ export class BackgroundDeletion {
 
             if (deleting_background_with_delete_button) {
                 d_protecting_screen.Visibility.i().hide();
+            }
+
+            const deleting_selected_background: boolean = ids.some((id: string): boolean =>
+                err(
+                    () => id === d_backgrounds.CurrentBackground.i().selected_background_id,
+                    'cnt_87589',
+                ),
+            );
+
+            if (deleting_selected_background) {
+                d_background_settings.SettingsType.i().react_to_global_selection();
             }
         }, 'cnt_55355');
 
