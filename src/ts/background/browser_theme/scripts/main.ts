@@ -24,7 +24,7 @@ export class Main {
         err_async(async () => {
             const settings: i_data.Settings = await ext.storage_get();
 
-            const options_page_is_open: boolean = n(s_tabs.TabIds.i().options_page_tab_id);
+            const options_page_is_open: boolean = n(settings.options_page_tab_id);
 
             if (settings.mode === 'theme_background' || clear_new_tab_install) {
                 we.runtime.openOptionsPage();

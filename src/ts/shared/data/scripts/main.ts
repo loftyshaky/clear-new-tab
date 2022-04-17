@@ -55,6 +55,7 @@ export class Main {
                 current_random_solid_color: '',
                 show_item_developer_info_in_tooltip: false,
                 update_database_when_dnd_item: true,
+                options_page_tab_id: undefined,
             };
         }, 'cnt_1002');
 

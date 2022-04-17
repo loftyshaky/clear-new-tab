@@ -31,4 +31,5 @@ export interface Settings extends i_data.Date {
     current_random_solid_color: string;
     show_item_developer_info_in_tooltip: boolean;
     update_database_when_dnd_item: boolean;
+    options_page_tab_id: number | undefined;
 }

@@ -1,5 +1,6 @@
 import { Tabs } from 'webextension-polyfill-ts';
 
+import { s_data, i_data } from 'shared/internal';
 import { s_service_worker } from 'background/internal';
 
 export class TabIds {
@@ -14,11 +15,11 @@ export class TabIds {
     private constructor() {}
     public main_tab_id: number | undefined;
     public tab_ids: number[] = [];
-    public options_page_tab_id: number | undefined;
 
     public push_tab_id = (): Promise<void> =>
         err_async(async () => {
             const active_tab: Tabs.Tab | undefined = await ext.get_active_tab();
+
             if (n(active_tab) && n(active_tab.id)) {
                 const active_tab_id_already_pushed = n(this.main_tab_id);
 
@@ -47,14 +48,29 @@ export class TabIds {
 
     public push_options_page_tab_id = (): Promise<void> =>
         err_async(async () => {
+            const settings: i_data.Settings = await ext.storage_get();
             const active_tab: Tabs.Tab | undefined = await ext.get_active_tab();
 
             if (n(active_tab) && n(active_tab.id)) {
-                const active_tab_id_already_pushed = n(this.options_page_tab_id);
+                const active_tab_id_already_pushed = n(settings.options_page_tab_id);
 
                 if (!active_tab_id_already_pushed) {
-                    this.options_page_tab_id = active_tab.id;
+                    await this.update_options_page_tab_id({ options_page_tab_id: active_tab.id });
                 }
             }
         }, 'cnt_72145');
+
+    public update_options_page_tab_id = ({
+        options_page_tab_id,
+    }: {
+        options_page_tab_id: number | undefined;
+    }): Promise<void> =>
+        err_async(async () => {
+            const settings: i_data.Settings = await ext.storage_get();
+            settings.options_page_tab_id = options_page_tab_id;
+
+            await s_data.Main.i().update_settings({
+                settings,
+            });
+        }, '_99999');
 }

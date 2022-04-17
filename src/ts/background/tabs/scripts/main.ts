@@ -1,12 +1,13 @@
 import _ from 'lodash';
 import { Tabs } from 'webextension-polyfill-ts';
 
-import { s_background } from 'shared/internal';
+import { s_background, i_data } from 'shared/internal';
 import { s_service_worker, s_tabs } from 'background/internal';
 
 we.tabs.onRemoved.addListener(
     (tab_id: number): Promise<void> =>
         err_async(async () => {
+            const settings: i_data.Settings = await ext.storage_get();
             const current_tab: Tabs.Tab | undefined = await ext.get_active_tab();
 
             if (n(current_tab) && n(current_tab.id)) {
@@ -44,11 +45,12 @@ we.tabs.onRemoved.addListener(
 
             s_service_worker.Lifeline.i().connect();
 
-            const options_page_tab_closed: boolean =
-                tab_id === s_tabs.TabIds.i().options_page_tab_id;
+            const options_page_tab_closed: boolean = tab_id === settings.options_page_tab_id;
 
             if (options_page_tab_closed) {
-                s_tabs.TabIds.i().options_page_tab_id = undefined;
+                await s_tabs.TabIds.i().update_options_page_tab_id({
+                    options_page_tab_id: undefined,
+                });
             }
         }, 'cnt_64254'),
 );
