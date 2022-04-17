@@ -19,12 +19,12 @@ export class Help {
         });
     }
 
+    private help_is_visible: boolean = false;
+
     public change_help_visibility = (): void =>
         err(() => {
             this.help_is_visible = !this.help_is_visible;
         }, 'cnt_76467');
-
-    private help_is_visible: boolean = false;
 
     public get help_visibility_cls() {
         return this.help_is_visible ? '' : 'none';
