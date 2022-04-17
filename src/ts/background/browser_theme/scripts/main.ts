@@ -13,8 +13,6 @@ export class Main {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
-    private need_to_get_theme_background: boolean = false;
-
     public theme_id: string | undefined;
     public force_theme_redownload: boolean = false;
 
@@ -24,8 +22,6 @@ export class Main {
         clear_new_tab_install?: boolean;
     } = {}): Promise<void> =>
         err_async(async () => {
-            this.need_to_get_theme_background = true;
-
             const settings: i_data.Settings = await ext.storage_get();
 
             const options_page_is_open: boolean = n(s_tabs.TabIds.i().options_page_tab_id);
