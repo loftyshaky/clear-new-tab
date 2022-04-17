@@ -21,6 +21,7 @@ export class Color {
     }): Promise<void> =>
         err_async(async () => {
             d_protecting_screen.Visibility.i().show();
+
             const id: string = x.unique_id();
             const new_backgrounds: i_db.Background[] = [
                 {

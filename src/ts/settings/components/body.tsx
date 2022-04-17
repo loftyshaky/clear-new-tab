@@ -5,6 +5,7 @@ import { c_inputs, o_inputs, d_inputs, i_inputs } from '@loftyshaky/shared/input
 import {
     c_settings,
     c_backgrounds,
+    c_custom_code,
     c_protecting_screen,
     c_scheduler,
     d_sections,
@@ -45,6 +46,7 @@ export const Body: React.FunctionComponent = observer(() => {
                 </div>
                 <c_backgrounds.Body />
                 <c_scheduler.Body />
+                <c_custom_code.Body />
             </div>
             <c_protecting_screen.Body />
         </>

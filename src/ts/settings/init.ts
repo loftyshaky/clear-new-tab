@@ -3,6 +3,7 @@ import { InitAll, d_data, s_preload_color } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
+    d_custom_code,
     d_dnd,
     d_optional_permission_settings,
     d_scheduler,
@@ -17,10 +18,12 @@ export const init = (): Promise<void> =>
         d_sections.Main.i().init_options();
         d_sections.Main.i().init_sections();
         d_scheduler.TopControls.i().init();
+        d_custom_code.TopControls.i().init();
         d_scheduler.DatePicker.i().init_options();
         d_scheduler.DatePicker.i().init_inputs();
         await d_backgrounds.Main.i().set_backgrounds();
         d_scheduler.Tasks.i().set_tasks();
+        d_custom_code.Main.i().set_custom_code();
         d_backgrounds.CurrentBackground.i().set_current_background_i();
         d_background_settings.GlobalCheckboxes.i().set_ui_vals();
         d_background_settings.SettingsType.i().react_to_global_selection();

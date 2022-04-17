@@ -1,0 +1,52 @@
+$code_editor_offset: ($main_margin * 2) + ($section_padding * 4) + $border_width;
+
+.code_editor {
+    position: fixed;
+    padding: $gap;
+    margin-top: $main_margin + $section_padding + $border_width;
+    width: calc(100% - #{$code_editor_offset});
+    height: calc(100% - #{$code_editor_offset});
+    box-shadow: $popup_shadow;
+    z-index: $popup_z_index;
+    overflow: auto;
+
+    .code_editor_inner {
+        height: calc(100% - 70px);
+
+        .edit_areas {
+            display: flex;
+            height: 100%;
+
+            .edit_area {
+                position: relative;
+                width: 100%;
+
+                &:not(:first-child) {
+                    margin-left: $gap;
+                }
+
+                .name.js { margin-left: 2px; }
+
+                /* stylelint-disable-next-line selector-class-pattern */
+                .CodeMirror {
+                    @include border;
+
+                    position: absolute;
+                    margin-top: $gap_small;
+                    left: 0;
+                    width: 100%;
+                    height: calc(100% - 28px);
+                    font-size: $font_small;
+                }
+            }
+        }
+    }
+
+    .top_controls {
+        margin-bottom: $gap;
+    }
+
+    .custom_code_help {
+        font-size: $font_small;
+    }
+}

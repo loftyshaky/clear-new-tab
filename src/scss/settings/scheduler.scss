@@ -10,16 +10,11 @@ $task_gap: 5px;
     height: calc(100vh - #{($main_margin * 2) + ($section_padding * 4) + $border_width * 2});
     top: $main_margin + $section_padding + $border_width;
     padding: $gap;
-    z-index: 2;
-    box-shadow: rgb(0 0 0 / 30%) 0 0 2px, rgb(0 0 0 / 30%) 0 4px 8px;
+    z-index: $popup_z_index;
+    box-shadow: $popup_shadow;
 
     .scheduler_help {
         font-size: $font_small;
-    }
-
-    .top_controls {
-        display: flex;
-        justify-content: flex-end;
     }
 
     .date_picker {

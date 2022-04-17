@@ -39,6 +39,11 @@ export class Manipulation {
             await db.tasks.bulkAdd(tasks);
         }, 'cnt_64358');
 
+    public save_custom_code = ({ custom_code }: { custom_code: i_db.CustomCode }): Promise<void> =>
+        err_async(async () => {
+            await (db.custom_code as any).update('custom_code', custom_code);
+        }, 'cnt_64358');
+
     public replace_alarm_data = ({
         alarm_data,
     }: {
@@ -114,6 +119,13 @@ export class Manipulation {
     public get_alarm_data = (): Promise<i_db.AlarmDataItem[]> =>
         err_async(async () => db.alarm_data.toArray(), 'cnt_94527');
 
+    public get_custom_code = (): Promise<i_db.CustomCode> =>
+        err_async(async () => {
+            const custom_code: i_db.CustomCode = await (db.custom_code as any).get('custom_code');
+
+            return custom_code;
+        }, 'cnt_64358');
+
     public update_background = ({ background }: { background: i_db.Background }): Promise<void> =>
         err_async(async () => {
             await db.backgrounds.update(background.id as any, background);
@@ -183,4 +195,9 @@ export class Manipulation {
         err_async(async () => {
             await db.tasks.clear();
         }, 'cnt_74645');
+
+    public clear_custom_code_table = (): Promise<void> =>
+        err_async(async () => {
+            await db.custom_code.clear();
+        }, 'cnt_85478');
 }

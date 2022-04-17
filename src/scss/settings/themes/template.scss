@@ -48,3 +48,16 @@
         }
     }
 }
+
+.code_editor {
+    background-color: $htc;
+
+    .edit_areas {
+        .edit_area {
+            /* stylelint-disable-next-line selector-class-pattern */
+            .CodeMirror {
+                border-color: $hev;
+            }
+        }
+    }
+}

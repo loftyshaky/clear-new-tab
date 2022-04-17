@@ -130,9 +130,10 @@ export class InitAll {
             const { Body } = await import('settings/components/body');
             const on_render = (): Promise<void> =>
                 err_async(async () => {
-                    const { d_scheduler, d_sections, s_virtualized_list } = await import(
-                        'settings/internal'
-                    );
+                    const { s_custom_code, d_scheduler, d_sections, s_virtualized_list } =
+                        await import('settings/internal');
+
+                    s_custom_code.CodeMirror.i().change_theme();
 
                     await d_inputs.InputWidth.i().calculate_for_all_sections({
                         sections: d_sections.Main.i().sections as i_inputs.Sections,

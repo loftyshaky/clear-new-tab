@@ -6,6 +6,7 @@ import {
     d_backgrounds,
     d_sections,
     s_browser_theme,
+    d_custom_code,
     d_protecting_screen,
     d_scheduler,
     s_theme,
@@ -427,6 +428,11 @@ export class Main {
                                 val_accessor: 'ui.allow_downloading_img_by_link',
                                 is_cut: true,
                                 event_callback: d_sections.Val.i().change,
+                            }),
+                            new o_inputs.Btn({
+                                name: 'custom_code',
+                                event_callback: () =>
+                                    d_custom_code.Visibility.i().change({ is_visible: true }),
                             }),
                         ],
                     }),

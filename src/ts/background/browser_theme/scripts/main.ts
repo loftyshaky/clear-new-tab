@@ -28,26 +28,25 @@ export class Main {
 
             const settings: i_data.Settings = await ext.storage_get();
 
-            if (settings.mode === 'theme_background' || clear_new_tab_install) {
-                ext.send_msg({ msg: 'try_to_get_theme_background' });
+            const options_page_is_open: boolean = n(s_tabs.TabIds.i().options_page_tab_id);
 
+            if (settings.mode === 'theme_background' || clear_new_tab_install) {
                 we.runtime.openOptionsPage();
+            }
+
+            if (options_page_is_open) {
+                ext.send_msg({ msg: 'try_to_get_theme_background' });
             }
         }, 'cnt_84214');
 
-    public get_theme_background_response = (): i_browser_theme.GetThemeBackground | undefined =>
-        err(() => {
-            if (this.need_to_get_theme_background) {
-                this.need_to_get_theme_background = false;
-
-                return {
-                    theme_id: this.theme_id,
-                    force_theme_redownload: this.force_theme_redownload,
-                };
-            }
-
-            return undefined;
-        }, 'cnt_75356');
+    public get_theme_background_response = (): i_browser_theme.GetThemeBackground =>
+        err(
+            () => ({
+                theme_id: this.theme_id,
+                force_theme_redownload: this.force_theme_redownload,
+            }),
+            'cnt_75356',
+        );
 
     public get_id_of_currently_added_theme = (): string | undefined =>
         err(() => this.theme_id, 'cnt_74356');

@@ -24,19 +24,16 @@ export class Main {
         err_async(async () => {
             d_protecting_screen.Visibility.i().show();
 
-            const response: i_browser_theme.GetThemeBackground | undefined =
-                await ext.send_msg_resp({
-                    msg: 'get_theme_background_response',
-                });
+            const response: i_browser_theme.GetThemeBackground = await ext.send_msg_resp({
+                msg: 'get_theme_background_response',
+            });
 
-            if (n(response)) {
-                await this.get_theme_background({
-                    theme_id: response.theme_id,
-                    force_theme_redownload: response.force_theme_redownload,
-                });
-            } else {
-                d_protecting_screen.Visibility.i().hide();
-            }
+            await this.get_theme_background({
+                theme_id: response.theme_id,
+                force_theme_redownload: response.force_theme_redownload,
+            });
+
+            d_protecting_screen.Visibility.i().hide();
         }, 'cnt_84736');
 
     public get_theme_background = ({

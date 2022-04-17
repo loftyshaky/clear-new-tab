@@ -8,6 +8,7 @@ export class Main extends Dexie {
     public background_files: Dexie.Table<i_db.BackgroundFile, number>;
     public tasks: Dexie.Table<i_db.Task, number>;
     public alarm_data: Dexie.Table<i_db.AlarmDataItem, number>;
+    public custom_code: Dexie.Table<i_db.CustomCode, number>;
 
     public constructor() {
         super('clear-new-tab');
@@ -18,6 +19,7 @@ export class Main extends Dexie {
             background_files: 'id',
             tasks: 'id',
             alarm_data: 'id',
+            custom_code: '',
         });
 
         this.backgrounds = this.table('backgrounds');
@@ -25,11 +27,21 @@ export class Main extends Dexie {
         this.background_files = this.table('background_files');
         this.tasks = this.table('tasks');
         this.alarm_data = this.table('alarm_data');
+        this.custom_code = this.table('custom_code');
     }
 
     public init_db = (): void =>
         err(() => {
             this.open();
+
+            (this.custom_code as any).add(
+                {
+                    html: '',
+                    css: '',
+                    js: '',
+                },
+                'custom_code',
+            );
         }, 'cnt_1121');
 }
 
