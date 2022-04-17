@@ -20,6 +20,8 @@ export class Db {
             d_custom_code.Main.i().set_custom_code({
                 custom_code,
             });
+
+            ext.send_msg({ msg: 'set_custom_code' });
         }, 'cnt_64557');
 
     public save_val = ({ type, val }: { type: i_custom_code.Type; val: string }): void =>
@@ -31,6 +33,8 @@ export class Db {
                 type,
                 val,
             });
+
+            ext.send_msg({ msg: 'set_custom_code' });
         }, 'cnt_64675');
 
     public save_val_debounce = _.debounce(this.save_val, 250);

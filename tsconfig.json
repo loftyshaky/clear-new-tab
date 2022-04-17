@@ -15,7 +15,8 @@
             "shared/*": ["./ts/shared/*"],
             "background/*": ["./ts/background/*"],
             "settings/*": ["./ts/settings/*"],
-            "new_tab/*": ["./ts/new_tab/*"]
+            "new_tab/*": ["./ts/new_tab/*"],
+            "sandbox/*": ["./ts/sandbox/*"]
         }
     },
     "include": ["src"],

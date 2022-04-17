@@ -96,6 +96,7 @@ module.exports = (env, argv) => {
         ...config.resolve.alias,
         ...{
             new_tab: path.join(paths.ts, 'new_tab'),
+            sandbox: path.join(paths.ts, 'sandbox'),
         },
     };
 
@@ -105,9 +106,11 @@ module.exports = (env, argv) => {
             background: path.join(paths.ts, 'background', 'background.ts'),
             settings: path.join(paths.ts, 'settings', 'settings.ts'),
             new_tab: path.join(paths.ts, 'new_tab', 'new_tab.ts'),
+            sandbox: path.join(paths.ts, 'sandbox', 'sandbox.ts'),
             preload_color: path.join(paths.ts, 'new_tab', 'preload_color.ts'),
             settings_css: path.join(app_root, 'src', 'scss', 'settings', 'index.scss'),
             new_tab_css: path.join(app_root, 'src', 'scss', 'new_tab', 'index.scss'),
+            sandbox_css: path.join(app_root, 'src', 'scss', 'sandbox', 'index.scss'),
             preload: path.join(app_root, 'src', 'scss', 'new_tab', 'preload.scss'),
             settings_light_theme: path.join(paths.themes, 'light_theme.scss'),
             settings_dark_theme: path.join(paths.themes, 'dark_theme.scss'),

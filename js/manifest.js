@@ -27,6 +27,9 @@ class Manifest {
             chrome_url_overrides: {
                 newtab: 'new_tab.html',
             },
+            sandbox: {
+                pages: ['sandbox.html'],
+            },
             permissions: ['storage', 'alarms', 'management'],
             optional_permissions: ['clipboardRead'],
             host_permissions: [

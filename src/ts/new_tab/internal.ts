@@ -13,6 +13,7 @@ export * as d_background from 'new_tab/background/data';
 export * as d_home_btn from 'new_tab/home_btn/data';
 
 export * as s_background from 'new_tab/background/scripts';
+export * as s_custom_code from 'new_tab/custom_code/scripts';
 export * as s_home_btn from 'new_tab/home_btn/scripts';
 export * as s_service_worker from 'new_tab/service_worker/scripts';
 
