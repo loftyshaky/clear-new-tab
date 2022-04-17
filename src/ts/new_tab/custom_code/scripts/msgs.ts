@@ -15,17 +15,26 @@ export class Msgs {
 
     public send_set_custom_code_msg = (): Promise<void> =>
         err_async(async () => {
-            const sandbox = s<HTMLIFrameElement>('.sandbox');
+            x.remove(s('.sandbox'));
+
+            const sandbox: HTMLIFrameElement = x.create('iframe', 'sandbox');
+            sandbox.style.border = '0';
+            sandbox.src = 'sandbox.html';
+            x.append(document.body, sandbox);
             const custom_code: i_db.CustomCode = await s_db.Manipulation.i().get_custom_code();
 
-            if (n(sandbox) && n(sandbox.contentWindow)) {
-                sandbox.contentWindow.postMessage(
-                    {
-                        command: 'set_custom_code',
-                        value: custom_code,
-                    },
-                    '*',
-                );
-            }
+            x.bind(sandbox, 'load', (): void =>
+                err(() => {
+                    if (n(sandbox) && n(sandbox.contentWindow)) {
+                        sandbox.contentWindow.postMessage(
+                            {
+                                command: 'set_custom_code',
+                                value: custom_code,
+                            },
+                            '*',
+                        );
+                    }
+                }, 'cnt_54567'),
+            );
         }, 'cnt_77664');
 }

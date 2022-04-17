@@ -13,17 +13,14 @@ export class Main {
 
     private constructor() {
         makeObservable(this, {
-            key: observable,
             custom_code: observable,
             set_custom_code: action,
         });
     }
 
-    public key: number = 0; // needed to remount component on js update
     public custom_code: i_db.CustomCode = s_custom_code.Main.i().default_custom_code;
 
     public set_custom_code = ({ custom_code }: { custom_code: i_db.CustomCode }): void => {
-        this.key += 1;
         this.custom_code = custom_code;
     };
 }

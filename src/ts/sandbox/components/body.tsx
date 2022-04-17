@@ -11,7 +11,7 @@ export const Body: React.FunctionComponent = observer(() => {
     });
 
     return (
-        <div key={d_custom_code.Main.i().key} className='sandbox' ref={sandbox_ref}>
+        <div className='sandbox' ref={sandbox_ref}>
             <div
                 className='html'
                 // eslint-disable-next-line react/no-danger
