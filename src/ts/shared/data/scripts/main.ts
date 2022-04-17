@@ -64,7 +64,6 @@ export class Main {
     }: {
         settings?: i_data.Settings;
         update_background?: boolean;
-        update_settings_obj?: boolean;
     } = {}): Promise<void> =>
         err_async(async () => {
             const settings_final: i_data.Settings = n(settings)
