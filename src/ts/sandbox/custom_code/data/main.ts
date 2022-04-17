@@ -1,5 +1,6 @@
 import { makeObservable, observable, action } from 'mobx';
 
+import * as s_custom_code from 'shared/custom_code/scripts';
 import * as i_db from 'shared/db/interfaces';
 
 export class Main {
@@ -19,7 +20,7 @@ export class Main {
     }
 
     public key: number = 0; // needed to remount component on js update
-    public custom_code: i_db.CustomCode = { html: '', css: '', js: '' };
+    public custom_code: i_db.CustomCode = s_custom_code.Main.i().default_custom_code;
 
     public set_custom_code = ({ custom_code }: { custom_code: i_db.CustomCode }): void => {
         this.key += 1;

@@ -1,6 +1,6 @@
 import { makeObservable, observable, action, runInAction } from 'mobx';
 
-import { i_db, s_db } from 'shared/internal';
+import { s_custom_code, i_db, s_db } from 'shared/internal';
 import { i_custom_code } from 'settings/internal';
 
 export class Main {
@@ -19,7 +19,7 @@ export class Main {
         });
     }
 
-    public custom_code: i_db.CustomCode = { html: '', css: '', js: '' };
+    public custom_code: i_db.CustomCode = s_custom_code.Main.i().default_custom_code;
 
     public set_custom_code = ({
         custom_code,

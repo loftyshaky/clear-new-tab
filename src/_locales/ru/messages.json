@@ -14,6 +14,9 @@
     "delete_all_tasks_confirm": {
         "message": "Удалить все задачи?"
     },
+    "delete_custom_code_confirm": {
+        "message": "Удалить пользовательский HTML/CSS/JS?"
+    },
     "enter_new_background_no_prompt": {
         "message": "Введите новый № фона:"
     },
@@ -103,6 +106,9 @@
     },
     "delete_all_tasks_btn_text": {
         "message": "Удалить все задачи"
+    },
+    "delete_custom_code_btn_text": {
+        "message": "Удалить пользовательский HTML/CSS/JS"
     },
     "home_btn_is_visible_label_text": {
         "message": "Показывать кнопку \"Домой\" на странице новой вкладки"

@@ -14,6 +14,9 @@
     "delete_all_tasks_confirm": {
         "message": "Delete all tasks?"
     },
+    "delete_custom_code_confirm": {
+        "message": "Delete custom HTML/CSS/JS?"
+    },
     "enter_new_background_no_prompt": {
         "message": "Enter the new background №:"
     },
@@ -103,6 +106,9 @@
     },
     "delete_all_tasks_btn_text": {
         "message": "Delete all tasks"
+    },
+    "delete_custom_code_btn_text": {
+        "message": "Delete custom HTML/CSS/JS"
     },
     "home_btn_is_visible_label_text": {
         "message": "Show \"Home\" button in new tab page"

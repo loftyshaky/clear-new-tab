@@ -25,7 +25,6 @@ export class CodeMirror {
         very_dark: 'material-ocean',
     };
 
-    private set_code_vals_once: boolean = false;
     private attempted_to_save_code_val_count: number = 0;
     private prettier_options: t.AnyRecord = {
         singleQuote: true,
@@ -92,8 +91,7 @@ export class CodeMirror {
 
     public set_vals = (): void =>
         err(() => {
-            if (!this.set_code_vals_once) {
-                this.set_code_vals_once = true;
+            if (d_custom_code.Visibility.i().is_visible) {
                 this.monde_mirror_insts.forEach((code_mirror_inst: EditorFromTextArea): void =>
                     err(() => {
                         const type: i_custom_code.Type = this.get_type({

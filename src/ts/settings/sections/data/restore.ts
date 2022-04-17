@@ -9,6 +9,7 @@ import {
     d_protecting_screen,
     d_scheduler,
     d_sections,
+    s_custom_code,
     s_theme,
     i_sections,
 } from 'settings/internal';
@@ -75,6 +76,7 @@ export class Restore {
 
             const v8_limit: number = 536870888;
             let v8_limit_reached: boolean = false;
+            const custom_code: i_db.CustomCode = await s_db.Manipulation.i().get_custom_code();
             const background_files: i_db.BackgroundFile[] =
                 await s_db.Manipulation.i().get_background_files();
             const background_thumbnails: i_db.BackgroundThumbnail[] =
@@ -85,7 +87,7 @@ export class Restore {
 
             const backup_data_leading: string = `{"settings":${JSON.stringify(
                 data.settings,
-            )},"chunks":[`;
+            )},"custom_code":${JSON.stringify(custom_code)},"chunks":[`;
             const backup_data_trailing: string = ']}';
 
             const backup_data_leading_size = new TextEncoder().encode(backup_data_leading).length;
@@ -180,6 +182,7 @@ export class Restore {
 
             await s_theme.Main.i().reset_theme({ transition_duration });
 
+            await s_db.Manipulation.i().reset_custom_code_table();
             await s_db.Manipulation.i().clear_all_background_tables();
             await s_db.Manipulation.i().clear_task_table();
 
@@ -187,6 +190,8 @@ export class Restore {
             this.restored_background_thumbnails = [];
             const restored_background_files: i_db.BackgroundFile[] = [];
             this.restored_tasks = [];
+
+            await s_custom_code.Db.i().save_custom_code({ custom_code: data_obj.custom_code });
 
             await Promise.all(
                 data_obj.chunks.map(

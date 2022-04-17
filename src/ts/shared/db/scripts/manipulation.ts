@@ -1,4 +1,4 @@
-import { db, s_i, i_db } from 'shared/internal';
+import { db, s_custom_code, s_i, i_db } from 'shared/internal';
 
 export class Manipulation {
     private static i0: Manipulation;
@@ -196,8 +196,10 @@ export class Manipulation {
             await db.tasks.clear();
         }, 'cnt_74645');
 
-    public clear_custom_code_table = (): Promise<void> =>
+    public reset_custom_code_table = (): Promise<void> =>
         err_async(async () => {
-            await db.custom_code.clear();
+            await this.save_custom_code({
+                custom_code: s_custom_code.Main.i().default_custom_code,
+            });
         }, 'cnt_85478');
 }

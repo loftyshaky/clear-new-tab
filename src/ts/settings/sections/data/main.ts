@@ -9,6 +9,7 @@ import {
     d_custom_code,
     d_protecting_screen,
     d_scheduler,
+    s_custom_code,
     s_theme,
 } from 'settings/internal';
 
@@ -452,6 +453,10 @@ export class Main {
                         new o_inputs.Btn({
                             name: 'delete_all_tasks',
                             event_callback: d_scheduler.TaskDeletion.i().delete_all_tasks_confirm,
+                        }),
+                        new o_inputs.Btn({
+                            name: 'delete_custom_code',
+                            event_callback: s_custom_code.Db.i().delete_custom_code,
                         }),
                     ],
                     admin_inputs: [
