@@ -150,9 +150,17 @@ export class Upload {
                 background_thumbnails: new_background_thumbnails,
             });
 
-            await d_backgrounds.CurrentBackground.i().set_last_uploaded_background_as_current({
-                id: new_backgrounds_final[new_backgrounds_final.length - 1].id,
-            });
+            if (new_backgrounds_final.length === 0) {
+                await d_backgrounds.CurrentBackground.i().set_background_as_current({
+                    id: n(d_backgrounds.Main.i().backgrounds[0])
+                        ? d_backgrounds.Main.i().backgrounds[0].id
+                        : 1,
+                });
+            } else {
+                await d_backgrounds.CurrentBackground.i().set_last_uploaded_background_as_current({
+                    id: new_backgrounds_final[new_backgrounds_final.length - 1].id,
+                });
+            }
 
             await d_backgrounds.BackgroundAnimation.i().forbid_animation();
 
