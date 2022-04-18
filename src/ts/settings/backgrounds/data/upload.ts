@@ -5,6 +5,7 @@ import { s_db, i_db } from 'shared/internal';
 import {
     d_backgrounds,
     d_protecting_screen,
+    d_sections,
     s_backgrounds,
     s_i,
     i_backgrounds,
@@ -46,57 +47,62 @@ export class Upload {
                         file: File | string,
                         i_2: number,
                     ): Promise<i_db.Background | undefined> =>
-                        err_async(async () => {
-                            try {
-                                const id: string = x.unique_id();
-                                const i: string = new BigNumber(next_i).plus(i_2).toString();
-                                const background_img_props: i_backgrounds.BackgroundImgProps =
-                                    // eslint-disable-next-line max-len
-                                    await s_backgrounds.Thumbnail.i().get_background_width_height_and_thumbnail(
-                                        {
+                        err_async(
+                            async () => {
+                                try {
+                                    const id: string = x.unique_id();
+                                    const i: string = new BigNumber(next_i).plus(i_2).toString();
+                                    const background_img_props: i_backgrounds.BackgroundImgProps =
+                                        // eslint-disable-next-line max-len
+                                        await s_backgrounds.Thumbnail.i().get_background_width_height_and_thumbnail(
+                                            {
+                                                file,
+                                            },
+                                        );
+
+                                    ordered_files.push({ id, file });
+                                    ordered_thumbnails.push({
+                                        id,
+                                        thumbnail: background_img_props.thumbnail,
+                                    });
+
+                                    return {
+                                        id,
+                                        theme_id,
+                                        i,
+                                        type: `${s_backgrounds.FileType.i().get_file_type({
                                             file,
-                                        },
-                                    );
+                                        })}`,
+                                        width: background_img_props.width,
+                                        height: background_img_props.height,
+                                        thumbnail_width: background_img_props.thumbnail_width,
+                                        thumbnail_height: background_img_props.thumbnail_height,
+                                        background_size: n(background_props) // n(background_props) - adding theme background
+                                            ? background_props.background_size
+                                            : 'global',
+                                        background_position: n(background_props)
+                                            ? background_props.background_position
+                                            : 'global',
+                                        background_repeat: n(background_props)
+                                            ? background_props.background_repeat
+                                            : 'global',
+                                        color_of_area_around_background: n(background_props)
+                                            ? background_props.color_of_area_around_background
+                                            : 'global',
+                                        video_volume: n(background_props)
+                                            ? background_props.video_volume
+                                            : 'global',
+                                    };
+                                } catch (error_obj: any) {
+                                    show_err_ribbon(error_obj, 'cnt_63756', { silent: true });
+                                    throw_err_obj(error_obj);
 
-                                ordered_files.push({ id, file });
-                                ordered_thumbnails.push({
-                                    id,
-                                    thumbnail: background_img_props.thumbnail,
-                                });
-
-                                return {
-                                    id,
-                                    theme_id,
-                                    i,
-                                    type: `${s_backgrounds.FileType.i().get_file_type({
-                                        file,
-                                    })}`,
-                                    width: background_img_props.width,
-                                    height: background_img_props.height,
-                                    thumbnail_width: background_img_props.thumbnail_width,
-                                    thumbnail_height: background_img_props.thumbnail_height,
-                                    background_size: n(background_props) // n(background_props) - adding theme background
-                                        ? background_props.background_size
-                                        : 'global',
-                                    background_position: n(background_props)
-                                        ? background_props.background_position
-                                        : 'global',
-                                    background_repeat: n(background_props)
-                                        ? background_props.background_repeat
-                                        : 'global',
-                                    color_of_area_around_background: n(background_props)
-                                        ? background_props.color_of_area_around_background
-                                        : 'global',
-                                    video_volume: n(background_props)
-                                        ? background_props.video_volume
-                                        : 'global',
-                                };
-                            } catch (error_obj: any) {
-                                show_err_ribbon(error_obj, 'cnt_63636', { silent: true });
-
-                                return undefined;
-                            }
-                        }, 'cnt_63689'),
+                                    return undefined;
+                                }
+                            },
+                            'cnt_63689',
+                            { silent: true },
+                        ),
                 ),
             );
 
@@ -154,6 +160,8 @@ export class Upload {
                 throw_err('Upload error');
             }
         } catch (error_obj: any) {
+            d_sections.Upload.i().set_visibility_of_error_msg({ is_visible: true });
+
             show_err_ribbon(error_obj, 'cnt_63793', { silent: true });
             throw_err_obj(error_obj);
         }
