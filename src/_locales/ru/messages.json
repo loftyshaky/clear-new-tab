@@ -246,19 +246,25 @@
         "message": "Скольжение"
     },
     "random_option_text": {
-        "message": "Random"
+        "message": "Случайное"
     },
     "from_right_to_left_option_text": {
-        "message": "From right to left"
+        "message": "Справа налево"
     },
     "from_left_to_right_option_text": {
-        "message": "From left to right"
+        "message": "Cлева направо"
     },
     "from_top_to_bottom_option_text": {
-        "message": "From top to bottom"
+        "message": "Сверху вниз"
     },
     "from_bottom_to_top_option_text": {
-        "message": "From bottom to top"
+        "message": "Снизу вверх"
+    },
+    "global_option_text": {
+        "message": "Глобальные"
+    },
+    "selected_background_option_text": {
+        "message": "Выбранный фон"
     },
     "dont_resize_option_text": {
         "message": "Не менять размер"
@@ -380,12 +386,6 @@
     "december_option_text": {
         "message": "Декабрь"
     },
-    "global_option_text": {
-        "message": "Глобальные"
-    },
-    "selected_background_option_text": {
-        "message": "Выбранный фон"
-    },
     "background_type_color_text": {
         "message": "Цвет"
     },
@@ -436,15 +436,6 @@
     },
     "close_code_editor_btn_title": {
         "message": "Закрыть редактор кода"
-    },
-    "html_label_text": {
-        "message": "HTML"
-    },
-    "css_label_text": {
-        "message": "CSS"
-    },
-    "js_label_text": {
-        "message": "JS"
     },
     "format_btn_text": {
         "message": "Отформатировать"
