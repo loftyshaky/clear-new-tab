@@ -148,6 +148,12 @@ export class Val {
                         }
                     }
                 } else if (input.type !== 'color' || i === 'main') {
+                    if (input.name === 'mode') {
+                        d_sections.Upload.i().set_visibility_of_error_msg({
+                            is_visible: false,
+                        });
+                    }
+
                     const is_optional_permission_checkbox: boolean = Object.keys(
                         d_optional_permission_settings.Main.i().optional_permission_checkbox_dict,
                     ).includes(input.name);

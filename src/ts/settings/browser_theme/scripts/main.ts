@@ -89,87 +89,98 @@ export class Main {
                             force_theme_redownload ||
                             !theme_background_with_this_theme_id_already_exists
                         ) {
-                            const theme_package: ArrayBuffer = await s_browser_theme.Crx.i().get({
-                                theme_id: theme_id_final,
-                            });
-                            const theme_background_data: t.AnyRecord =
-                                await s_browser_theme.Crx.i().read_manifest({
-                                    theme_package,
+                            const theme_package: ArrayBuffer | undefined =
+                                await s_browser_theme.Crx.i().get({
+                                    theme_id: theme_id_final,
                                 });
+                            const found_theme_package: boolean = n(theme_package);
 
-                            const is_valid_img_file: boolean | undefined = n(
-                                theme_background_data.img_file_name,
-                            )
-                                ? s_browser_theme.ThemeFile.i().valid_img_file_types.some(
-                                      (file_ext: string): boolean =>
-                                          err(
-                                              () =>
-                                                  theme_background_data.img_file_name.endsWith(
-                                                      `.${file_ext}`,
-                                                  ),
-                                              'cnt_65785',
-                                          ),
-                                  )
-                                : undefined;
+                            if (found_theme_package) {
+                                const theme_background_data: t.AnyRecord =
+                                    await s_browser_theme.Crx.i().read_manifest({
+                                        theme_package,
+                                    });
 
-                            if (
-                                is_valid_img_file &&
-                                !is_valid_img_file &&
-                                env.browser === 'firefox'
-                            ) {
-                                throw 'Image is not valid image'; // eslint-disable-line no-throw-literal
-                            }
+                                const is_valid_img_file: boolean | undefined = n(
+                                    theme_background_data.img_file_name,
+                                )
+                                    ? s_browser_theme.ThemeFile.i().valid_img_file_types.some(
+                                          (file_ext: string): boolean =>
+                                              err(
+                                                  () =>
+                                                      theme_background_data.img_file_name.endsWith(
+                                                          `.${file_ext}`,
+                                                      ),
+                                                  'cnt_65785',
+                                              ),
+                                      )
+                                    : undefined;
 
-                            const found_background_img_file_or_clear_new_tab_video_file =
-                                n(theme_background_data.img_file_name) ||
-                                n(theme_background_data.clear_new_tab_video_file_name);
+                                if (
+                                    is_valid_img_file &&
+                                    !is_valid_img_file &&
+                                    env.browser === 'firefox'
+                                ) {
+                                    throw 'Image is not valid image'; // eslint-disable-line no-throw-literal
+                                }
 
-                            if (found_background_img_file_or_clear_new_tab_video_file) {
-                                const file = await s_browser_theme.ThemeFile.i().extract_file({
-                                    theme_package_data: theme_background_data.theme_package_data,
-                                    img_file_name: theme_background_data.img_file_name,
-                                    clear_new_tab_video_file_name:
-                                        theme_background_data.clear_new_tab_video_file_name,
-                                });
+                                const found_background_img_file_or_clear_new_tab_video_file =
+                                    n(theme_background_data.img_file_name) ||
+                                    n(theme_background_data.clear_new_tab_video_file_name);
 
-                                await ensure_that_uploading_last_installed_theme_background({
-                                    callback: async () => {
-                                        await d_backgrounds.Upload.i().upload_with_browse_btn({
-                                            files: [file],
-                                            theme_id: theme_id_final,
-                                            background_props:
-                                                theme_background_data.background_props,
-                                        });
-                                    },
-                                });
-                            } else {
-                                await ensure_that_uploading_last_installed_theme_background({
-                                    callback: async () => {
-                                        await d_backgrounds.Color.i().create_solid_color_background(
-                                            {
-                                                color: theme_background_data.background_props
-                                                    .color_of_area_around_background,
+                                if (found_background_img_file_or_clear_new_tab_video_file) {
+                                    const file = await s_browser_theme.ThemeFile.i().extract_file({
+                                        theme_package_data:
+                                            theme_background_data.theme_package_data,
+                                        img_file_name: theme_background_data.img_file_name,
+                                        clear_new_tab_video_file_name:
+                                            theme_background_data.clear_new_tab_video_file_name,
+                                    });
+
+                                    await ensure_that_uploading_last_installed_theme_background({
+                                        callback: async () => {
+                                            await d_backgrounds.Upload.i().upload_with_browse_btn({
+                                                files: [file],
                                                 theme_id: theme_id_final,
-                                            },
-                                        );
-                                    },
+                                                background_props:
+                                                    theme_background_data.background_props,
+                                            });
+                                        },
+                                    });
+                                } else {
+                                    await ensure_that_uploading_last_installed_theme_background({
+                                        callback: async () => {
+                                            // eslint-disable-next-line max-len
+                                            await d_backgrounds.Color.i().create_solid_color_background(
+                                                {
+                                                    color: theme_background_data.background_props
+                                                        .color_of_area_around_background,
+                                                    theme_id: theme_id_final,
+                                                },
+                                            );
+                                        },
+                                    });
+                                }
+                            } else {
+                                d_sections.Upload.i().set_visibility_of_error_msg({
+                                    is_visible: true,
                                 });
                             }
                         }
-                    }
 
-                    const last_theme_background: i_db.Background | undefined =
-                        d_backgrounds.Main.i().backgrounds.find(
-                            (background: i_db.Background): boolean =>
-                                err(() => background.theme_id === theme_id_final, 'cnt_64747'),
-                        );
+                        const last_theme_background: i_db.Background | undefined =
+                            d_backgrounds.Main.i().backgrounds.find(
+                                (background: i_db.Background): boolean =>
+                                    err(() => background.theme_id === theme_id_final, 'cnt_64747'),
+                            );
 
-                    if (n(last_theme_background)) {
-                        await d_backgrounds.CurrentBackground.i().set_background_as_current({
-                            id: last_theme_background.id,
-                        });
+                        if (n(last_theme_background)) {
+                            await d_backgrounds.CurrentBackground.i().set_background_as_current({
+                                id: last_theme_background.id,
+                            });
+                        }
+                        this.getting_theme_background = false;
                     }
-                    this.getting_theme_background = false;
                 }, 'cnt_85645');
 
             d_protecting_screen.Visibility.i().show();

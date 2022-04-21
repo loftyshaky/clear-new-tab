@@ -55,24 +55,28 @@ export class Crx {
     //<
 
     public get = ({ theme_id }: { theme_id: string }): Promise<ArrayBuffer> =>
-        err_async(async () => {
-            const chrome_crx_url: string = `https://clients2.google.com/service/update2/crx?response=redirect&prodversion=9999.0.9999.0&acceptformat=crx2,crx3&x=id%3D${theme_id}%26uc`;
-            const edge_crx_url: string = `https://edge.microsoft.com/extensionwebstorebase/v1/crx?response=redirect&prod=chromiumcrx&prodchannel=&x=id%3D${theme_id}%26installsource%3Dondemand%26uc`;
+        err_async(
+            async () => {
+                const chrome_crx_url: string = `https://clients2.google.com/service/update2/crx?response=redirect&prodversion=9999.0.9999.0&acceptformat=crx2,crx3&x=id%3D${theme_id}%26uc`;
+                const edge_crx_url: string = `https://edge.microsoft.com/extensionwebstorebase/v1/crx?response=redirect&prod=chromiumcrx&prodchannel=&x=id%3D${theme_id}%26installsource%3Dondemand%26uc`;
 
-            let response = await fetch(chrome_crx_url);
+                let response = await fetch(chrome_crx_url);
 
-            if (!response.ok) {
-                response = await fetch(edge_crx_url);
-            }
+                if (!response.ok) {
+                    response = await fetch(edge_crx_url);
+                }
 
-            if (!response.ok) {
-                throw_err('CRX download error.');
-            }
+                if (!response.ok) {
+                    throw_err('CRX download error.');
+                }
 
-            const theme_package = await response.arrayBuffer();
+                const theme_package = await response.arrayBuffer();
 
-            return theme_package;
-        }, 'cnt_65658');
+                return theme_package;
+            },
+            'cnt_65658',
+            { silent: true },
+        );
 
     public read_manifest = ({
         theme_package,
