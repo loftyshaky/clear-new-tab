@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { isPresent } from 'ts-is-present';
 import * as dateFns from 'date-fns';
+import { BigNumber } from 'bignumber.js';
 import { s_db, i_db } from 'shared/internal';
 import { s_backgrounds } from 'background/internal';
 
@@ -318,6 +319,7 @@ export class Main {
                         return date_exists
                             ? {
                                   id: x.unique_id(),
+                                  i: task.i,
                                   date: date.getTime(),
                                   task_id: task.id,
                                   background_id: task.background_id,
@@ -388,14 +390,36 @@ export class Main {
                 alarm_data_no_expired,
                 'date',
             );
+            const all_alarm_data_items_with_closest_time: i_db.AlarmDataItem[] =
+                alarm_data_no_expired.filter((alarm_data_item: i_db.AlarmDataItem): boolean =>
+                    err(
+                        () =>
+                            n(closest_alarm_data_item) &&
+                            alarm_data_item.date === closest_alarm_data_item.date,
+                        'cnt_54564',
+                    ),
+                );
+            const all_alarm_data_items_with_closest_time_is: string[] =
+                all_alarm_data_items_with_closest_time.map(
+                    (alarm_data_item: i_db.AlarmDataItem): string =>
+                        err(() => alarm_data_item.i, 'cnt_64567'),
+                );
+            const closest_alarm_data_item_i: string = BigNumber.max
+                .apply(null, all_alarm_data_items_with_closest_time_is)
+                .toString();
+            const closest_alarm_data_item_final: i_db.AlarmDataItem | undefined =
+                all_alarm_data_items_with_closest_time.find(
+                    (alarm_data_item: i_db.AlarmDataItem): boolean =>
+                        err(() => alarm_data_item.i === closest_alarm_data_item_i, 'cnt_64567'),
+                );
 
             await handle_missed_tasks();
             await remove_expired_tasks();
 
-            if (n(closest_alarm_data_item)) {
+            if (n(closest_alarm_data_item_final)) {
                 await we.alarms.clearAll();
-                await we.alarms.create(closest_alarm_data_item.background_id, {
-                    when: closest_alarm_data_item.date,
+                await we.alarms.create(closest_alarm_data_item_final.background_id, {
+                    when: closest_alarm_data_item_final.date,
                 });
             }
         }, 'cnt_54345');
