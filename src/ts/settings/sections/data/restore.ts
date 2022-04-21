@@ -50,10 +50,12 @@ export class Restore {
 
                 await s_theme.Main.i().reset_theme({ transition_duration });
                 s_preload_color.Storage.i().set_preload_color();
+
                 await s_browser_theme.Main.i().get_theme_background({
                     theme_id: undefined,
                     force_theme_redownload: false,
                 });
+
                 d_protecting_screen.Visibility.i().hide();
             }
         }, 'cnt_1130');
@@ -168,6 +170,8 @@ export class Restore {
 
     public restore_back_up = ({ data_obj }: { data_obj: t.AnyRecord }): Promise<void> =>
         err_async(async () => {
+            // when backgrounds are deleted delete_all_backgrounds_transition_end_callback() fires
+
             d_protecting_screen.Visibility.i().show();
 
             const settings: i_data.Settings = {
@@ -268,7 +272,10 @@ export class Restore {
             if (_.isEmpty(settings)) {
                 const default_settings = await ext.send_msg_resp({ msg: 'get_defaults' });
 
-                settings_final = { ...default_settings, ...this.get_unchanged_settings() };
+                settings_final = {
+                    ...default_settings,
+                    ...this.get_unchanged_settings(),
+                };
             } else if (n(settings)) {
                 settings_final = settings;
             }
@@ -288,11 +295,9 @@ export class Restore {
             return set_inner();
         }, 'cnt_1133');
 
-    public get_unchanged_settings = (): t.AnyRecord =>
+    private get_unchanged_settings = (): t.AnyRecord =>
         err(
             () => ({
-                current_background_id: data.settings.current_background_id,
-                future_background_id: data.settings.future_background_id,
                 color_help_is_visible: data.settings.color_help_is_visible,
             }),
             'cnt_1135',

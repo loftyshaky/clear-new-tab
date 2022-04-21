@@ -164,6 +164,8 @@ export class BackgroundDeletion {
                 await s_db.Manipulation.i().clear_all_background_tables();
 
                 await d_scheduler.TaskDeletion.i().delete_all_tasks();
+
+                d_backgrounds.CurrentBackground.i().reset_current_background_id();
             } else if (this.deletion_reason === 'restore_back_up') {
                 await d_backgrounds.Main.i().set_backgrounds({
                     backgrounds: d_sections.Restore.i().restored_backgrounds,
@@ -176,8 +178,6 @@ export class BackgroundDeletion {
                     tasks: d_sections.Restore.i().restored_tasks,
                 });
             }
-
-            d_backgrounds.CurrentBackground.i().reset_current_background_id();
 
             d_protecting_screen.Visibility.i().hide();
         }, 'cnt_45345');
