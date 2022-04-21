@@ -14,6 +14,7 @@ export const Body: React.FunctionComponent = observer(() => {
     d_backgrounds.Dnd.i().collection_ref = useRef<any>(null);
     const { width, height } = d_backgrounds.VirtualizedList.i();
     const { drop_zone_item, drop_zone_insert_direction } = d_dnd.Main.i(); // drop_zone_item and drop_zone_insert_direction need to be here and in useEffect, otherwise drop zone and backgrounds render with incorrect width
+    const { backgrounds } = d_backgrounds.Main.i();
 
     useEffect(() => {
         s_virtualized_list.VirtualizedList.i().remove_container_tab_index({
@@ -23,7 +24,7 @@ export const Body: React.FunctionComponent = observer(() => {
 
     useEffect(() => {
         d_backgrounds.Dnd.i().collection_ref.current.recomputeCellSizesAndPositions();
-    }, [width, height, drop_zone_item, drop_zone_insert_direction]);
+    }, [backgrounds, width, height, drop_zone_item, drop_zone_insert_direction]);
 
     return (
         <div className='sections custom backgrounds'>
