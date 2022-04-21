@@ -13,7 +13,6 @@ export class Width {
         return this.i0 || (this.i0 = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {
         makeObservable<this, 'set_settings_section_width'>(this, {
             settings_section_width: observable,
