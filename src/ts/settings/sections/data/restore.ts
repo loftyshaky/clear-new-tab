@@ -9,6 +9,7 @@ import {
     d_protecting_screen,
     d_scheduler,
     d_sections,
+    s_browser_theme,
     s_custom_code,
     s_theme,
     i_sections,
@@ -49,6 +50,10 @@ export class Restore {
 
                 await s_theme.Main.i().reset_theme({ transition_duration });
                 s_preload_color.Storage.i().set_preload_color();
+                await s_browser_theme.Main.i().get_theme_background({
+                    theme_id: undefined,
+                    force_theme_redownload: false,
+                });
                 d_protecting_screen.Visibility.i().hide();
             }
         }, 'cnt_1130');
