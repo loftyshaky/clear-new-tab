@@ -1,7 +1,5 @@
 import { i_browser_theme, i_data } from 'shared/internal';
 
-import { s_tabs } from 'background/internal';
-
 export class Main {
     private static i0: Main;
 
