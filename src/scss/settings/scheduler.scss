@@ -30,6 +30,7 @@ $task_gap: 5px;
 
     .background_preview {
         @include border;
+        @include checkerboard_gradient;
 
         display: block;
         height: $background_preview;
