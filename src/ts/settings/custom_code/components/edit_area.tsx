@@ -21,6 +21,7 @@ export const EditArea: React.FunctionComponent<p_custom_code.EditArea> = observe
                 className={x.cls(['text_input', type])}
                 ref={textarea_ref}
                 autoComplete='off'
+                value=' ' /* needed to be not blank otherwise code mirror change event will not fire on initial paste */
             />
         </div>
     );
