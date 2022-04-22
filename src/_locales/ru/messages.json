@@ -486,7 +486,7 @@
         "message": "⚗️ Clear New Tab для Firefox"
     },
     "rate_chrome_link_href": {
-        "message": "http://bit.ly/clear-new-tab-rate"
+        "message": "http://bit.ly/clear-new-tab-rate-ru"
     },
     "rate_edge_link_href": {
         "message": "https://bit.ly/clear-new-tab-edge-ru"
@@ -495,7 +495,7 @@
         "message": "https://bit.ly/clear-new-tab-firefox"
     },
     "clear_new_tab_for_chrome_link_href": {
-        "message": "https://bit.ly/clear-new-tab"
+        "message": "https://bit.ly/clear-new-tab-ru"
     },
     "clear_new_tab_for_edge_link_href": {
         "message": "https://bit.ly/clear-new-tab-edge-ru"
