@@ -35,7 +35,7 @@ export class Main {
                 slideshow: false,
                 background_change_effect: 'crossfade',
                 shuffle_backgrounds: false,
-                slide_direction: 'from_right_to_left',
+                slide_direction: 'random',
                 background_size: 'dont_resize',
                 background_position: 'center',
                 background_repeat: 'no_repeat',
