@@ -488,6 +488,8 @@ export class Main {
                             event_callback: d_sections.Val.i().change,
                         }),
                     ],
+                    include_back_up_help: true,
+                    back_up_help_msg: ext.msg('back_up_help_text'),
                 }),
                 ...[
                     new o_inputs.Section({
