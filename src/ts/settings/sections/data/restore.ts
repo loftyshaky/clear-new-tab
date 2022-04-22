@@ -285,7 +285,7 @@ export class Restore {
                     err(() => {
                         data.settings = settings_final;
 
-                        d_background_settings.SettingsType.i().react_to_global_selection();
+                        d_background_settings.SettingsContext.i().react_to_global_selection();
                     }, 'cnt_1132'),
                 );
 

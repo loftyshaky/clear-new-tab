@@ -30,17 +30,17 @@ export class Val {
     public change = ({ name, new_val }: { name: string; new_val: i_data.Val }): Promise<void> =>
         err_async(async () => {
             if (this.allowed_keys.includes(name)) {
-                if (data.ui.settings_type === 'global') {
+                if (data.ui.settings_context === 'global') {
                     data.settings[name] = new_val;
 
-                    d_background_settings.SettingsType.i().react_to_global_selection();
+                    d_background_settings.SettingsContext.i().react_to_global_selection();
 
                     await ext.send_msg_resp({
                         msg: 'update_settings_background',
                         settings: { [name]: new_val },
                         update_background: true,
                     });
-                } else if (data.ui.settings_type === 'selected_background') {
+                } else if (data.ui.settings_context === 'selected_background') {
                     await this.change_background_val({ name, new_val });
                 }
             }
@@ -54,14 +54,14 @@ export class Val {
         new_val: i_data.Val;
     }): Promise<void> =>
         err_async(async () => {
-            (d_background_settings.SettingsType.i().selected_background as any)[name] = new_val;
+            (d_background_settings.SettingsContext.i().selected_background as any)[name] = new_val;
 
-            d_background_settings.SettingsType.i().react_to_background_selection({
-                background: d_background_settings.SettingsType.i().selected_background!,
+            d_background_settings.SettingsContext.i().react_to_background_selection({
+                background: d_background_settings.SettingsContext.i().selected_background!,
             });
 
             await s_db.Manipulation.i().update_background({
-                background: d_background_settings.SettingsType.i().selected_background!,
+                background: d_background_settings.SettingsContext.i().selected_background!,
             });
 
             ext.send_msg({

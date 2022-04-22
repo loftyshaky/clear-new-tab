@@ -13,7 +13,7 @@ export class Storage {
 
     public set_preload_color = (): void =>
         err(() => {
-            if (data.ui.settings_type === 'global') {
+            if (data.ui.settings_context === 'global') {
                 localStorage.setItem(
                     'preload_color',
                     d_color.Color.i().access_from_val({

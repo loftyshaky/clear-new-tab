@@ -26,7 +26,7 @@ export const init = (): Promise<void> =>
         d_custom_code.Main.i().set_custom_code();
         d_backgrounds.CurrentBackground.i().set_current_background_i();
         d_background_settings.GlobalCheckboxes.i().set_ui_vals();
-        d_background_settings.SettingsType.i().react_to_global_selection();
+        d_background_settings.SettingsContext.i().react_to_global_selection();
         d_optional_permission_settings.Main.i().set_ui_vals();
         s_browser_theme.Main.i().try_to_get_theme_background();
         ext.send_msg({ msg: 'push_options_page_tab_id' });

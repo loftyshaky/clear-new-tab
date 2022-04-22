@@ -182,11 +182,11 @@ export class Val {
                         d_backgrounds.Color.i().create_solid_color_background({
                             color: val as string,
                         });
-                    } else if (input.name === 'settings_type') {
+                    } else if (input.name === 'settings_context') {
                         if (val === 'global') {
-                            d_background_settings.SettingsType.i().react_to_global_selection();
+                            d_background_settings.SettingsContext.i().react_to_global_selection();
                         } else if (val === 'selected_background') {
-                            d_background_settings.SettingsType.i().show_selected_background_alert();
+                            d_background_settings.SettingsContext.i().show_selected_background_alert();
                         }
                     }
                 } else if (n(i)) {

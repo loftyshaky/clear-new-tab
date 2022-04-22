@@ -10,6 +10,14 @@ $code_editor_offset: ($main_margin * 2) + ($section_padding * 4) + $border_width
     z-index: $popup_z_index;
     overflow: auto;
 
+    .top_controls {
+        margin-bottom: $gap;
+    }
+
+    .custom_code_help {
+        font-size: $font_small;
+    }
+
     .code_editor_inner {
         height: calc(100% - 70px);
 
@@ -40,13 +48,5 @@ $code_editor_offset: ($main_margin * 2) + ($section_padding * 4) + $border_width
                 }
             }
         }
-    }
-
-    .top_controls {
-        margin-bottom: $gap;
-    }
-
-    .custom_code_help {
-        font-size: $font_small;
     }
 }

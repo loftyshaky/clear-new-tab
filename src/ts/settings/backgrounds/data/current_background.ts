@@ -34,7 +34,7 @@ export class CurrentBackground {
             ) {
                 this.selected_background_id = background.id;
 
-                d_background_settings.SettingsType.i().react_to_background_selection({
+                d_background_settings.SettingsContext.i().react_to_background_selection({
                     background,
                 });
             }

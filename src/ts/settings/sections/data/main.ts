@@ -72,7 +72,7 @@ export class Main {
                     new o_inputs.Option({ name: 'from_top_to_bottom' }),
                     new o_inputs.Option({ name: 'from_bottom_to_top' }),
                 ],
-                settings_type: [
+                settings_context: [
                     new o_inputs.Option({ name: 'global' }),
                     new o_inputs.Option({ name: 'selected_background' }),
                 ],
@@ -186,6 +186,7 @@ export class Main {
                                 name: 'mode',
                                 options: this.options,
                                 include_help: true,
+                                alt_help_msg: ext.msg(`mode_${env.browser}_help_text`),
                                 event_callback: d_sections.Val.i().change,
                             }),
                             new o_inputs.Btn({
@@ -266,6 +267,7 @@ export class Main {
                             }),
                             new o_inputs.Checkbox({
                                 name: 'slideshow',
+                                include_help: true,
                                 is_visible_conds: [
                                     {
                                         input_name: 'mode',
@@ -345,10 +347,10 @@ export class Main {
                                 name: 'hr_1',
                             }),
                             new o_inputs.Select({
-                                name: 'settings_type',
+                                name: 'settings_context',
                                 options: this.options,
                                 include_help: true,
-                                val_accessor: 'ui.settings_type',
+                                val_accessor: 'ui.settings_context',
                                 event_callback: d_sections.Val.i().change,
                             }),
                             new o_inputs.Select({
@@ -361,44 +363,61 @@ export class Main {
                             new o_inputs.Select({
                                 name: 'background_position',
                                 options: this.options,
+                                include_help: true,
                                 val_accessor: 'ui.background_position',
                                 event_callback: d_sections.Val.i().change,
                             }),
                             new o_inputs.Select({
                                 name: 'background_repeat',
                                 options: this.options,
+                                include_help: true,
                                 val_accessor: 'ui.background_repeat',
                                 event_callback: d_sections.Val.i().change,
                             }),
-                            new o_color.Color({
-                                name: 'color_of_area_around_background',
-                                val_accessor: 'ui.color_of_area_around_background',
-                                event_callback: d_sections.Val.i().change,
-                                select_palette_color_callback:
-                                    d_sections.Val.i().save_selected_palette_color,
-                                hide_color_help_callback: d_sections.Visibility.i().hide_color_help,
-                                remove_color_callback: d_sections.Val.i().remove_color_callback,
-                                restore_default_palette_callback:
-                                    d_sections.Val.i().restore_default_palette_callback,
+                            new o_inputs.Group({
+                                name: 'color_of_area_around_background_group',
+                                include_help: true,
+                                event_callback: () => undefined,
+                                inputs: [
+                                    new o_color.Color({
+                                        name: 'color_of_area_around_background',
+                                        val_accessor: 'ui.color_of_area_around_background',
+                                        event_callback: d_sections.Val.i().change,
+                                        select_palette_color_callback:
+                                            d_sections.Val.i().save_selected_palette_color,
+                                        hide_color_help_callback:
+                                            d_sections.Visibility.i().hide_color_help,
+                                        remove_color_callback:
+                                            d_sections.Val.i().remove_color_callback,
+                                        restore_default_palette_callback:
+                                            d_sections.Val.i().restore_default_palette_callback,
+                                    }),
+                                    new o_inputs.Checkbox({
+                                        name: 'color_of_area_around_background_global',
+                                        alt_msg: ext.msg('global_option_text'),
+                                        val_accessor: 'ui.color_of_area_around_background_global',
+                                        event_callback: d_sections.Val.i().change,
+                                    }),
+                                ],
                             }),
-                            new o_inputs.Checkbox({
-                                name: 'color_of_area_around_background_global',
-                                alt_msg: ext.msg('global_option_text'),
-                                val_accessor: 'ui.color_of_area_around_background_global',
-                                event_callback: d_sections.Val.i().change,
-                            }),
-                            new o_inputs.Range({
-                                name: 'video_volume',
-                                val_accessor: 'ui.video_volume',
-                                max: 1,
-                                step: 0.01,
-                                event_callback: d_sections.Val.i().change,
-                            }),
-                            new o_inputs.Checkbox({
-                                name: 'video_volume_global',
-                                alt_msg: ext.msg('global_option_text'),
-                                val_accessor: 'ui.video_volume_global',
-                                event_callback: d_sections.Val.i().change,
+                            new o_inputs.Group({
+                                name: 'video_volume_group',
+                                event_callback: () => undefined,
+                                inputs: [
+                                    new o_inputs.Range({
+                                        name: 'video_volume',
+                                        val_accessor: 'ui.video_volume',
+                                        max: 1,
+                                        step: 0.01,
+                                        event_callback: d_sections.Val.i().change,
+                                    }),
+                                    new o_inputs.Checkbox({
+                                        name: 'video_volume_global',
+                                        alt_msg: ext.msg('global_option_text'),
+                                        val_accessor: 'ui.video_volume_global',
+                                        event_callback: d_sections.Val.i().change,
+                                    }),
+                                ],
                             }),
                         ],
                     }),

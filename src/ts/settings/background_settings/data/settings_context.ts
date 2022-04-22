@@ -8,10 +8,10 @@ import {
     d_sections,
 } from 'settings/internal';
 
-export class SettingsType {
-    private static i0: SettingsType;
+export class SettingsContext {
+    private static i0: SettingsContext;
 
-    public static i(): SettingsType {
+    public static i(): SettingsContext {
         // eslint-disable-next-line no-return-assign
         return this.i0 || (this.i0 = new this());
     }
@@ -28,7 +28,7 @@ export class SettingsType {
 
     public react_to_global_selection = (): void =>
         err(() => {
-            data.ui.settings_type = 'global';
+            data.ui.settings_context = 'global';
 
             data.ui.background_size = data.settings.background_size;
             data.ui.background_position = data.settings.background_position;
@@ -40,9 +40,10 @@ export class SettingsType {
 
             this.reset_is_enabled_state({ val: true });
 
-            sections.background_settings.inputs.color_of_area_around_background_global.is_enabled =
+            // eslint-disable-next-line max-len
+            sections.background_settings.inputs.color_of_area_around_background_group.inputs[1].is_enabled =
                 false;
-            sections.background_settings.inputs.video_volume_global.is_enabled = false;
+            sections.background_settings.inputs.video_volume_group.inputs[1].is_enabled = false;
 
             d_background_settings.GlobalCheckboxes.i().set_ui_vals();
 
@@ -57,7 +58,7 @@ export class SettingsType {
         background: i_db.Background;
     }): void =>
         err(() => {
-            data.ui.settings_type = 'selected_background';
+            data.ui.settings_context = 'selected_background';
 
             this.selected_background = background;
 
@@ -82,9 +83,7 @@ export class SettingsType {
             }
 
             if (is_img) {
-                sections.background_settings.inputs.video_volume.is_enabled = false;
-
-                sections.background_settings.inputs.video_volume_global.is_enabled = false;
+                sections.background_settings.inputs.video_volume_group.is_enabled = false;
             }
 
             if (is_video) {
@@ -94,6 +93,7 @@ export class SettingsType {
                         : (background as i_db.FileBackground).video_volume;
 
                 sections.background_settings.inputs.background_repeat.is_enabled = false;
+                sections.background_settings.inputs.video_volume_group.is_enabled = true;
             }
 
             if (is_color) {
@@ -111,17 +111,37 @@ export class SettingsType {
             sections.background_settings.inputs.background_size.is_enabled = val;
             sections.background_settings.inputs.background_position.is_enabled = val;
             sections.background_settings.inputs.background_repeat.is_enabled = val;
-            sections.background_settings.inputs.color_of_area_around_background.is_enabled = val;
-            sections.background_settings.inputs.video_volume.is_enabled = val;
 
-            sections.background_settings.inputs.color_of_area_around_background_global.is_enabled =
+            if (val) {
+                // eslint-disable-next-line max-len
+                sections.background_settings.inputs.color_of_area_around_background_group.inputs[0].is_enabled =
+                    val;
+
+                // eslint-disable-next-line max-len
+                sections.background_settings.inputs.color_of_area_around_background_group.inputs[1].is_enabled =
+                    val;
+                sections.background_settings.inputs.video_volume_group.inputs[0].is_enabled = val;
+                sections.background_settings.inputs.video_volume_group.inputs[1].is_enabled = val;
+            } else {
+                // eslint-disable-next-line max-len
+                sections.background_settings.inputs.color_of_area_around_background_group.inputs[0].is_enabled =
+                    true;
+
+                // eslint-disable-next-line max-len
+                sections.background_settings.inputs.color_of_area_around_background_group.inputs[1].is_enabled =
+                    true;
+                sections.background_settings.inputs.video_volume_group.inputs[0].is_enabled = true;
+                sections.background_settings.inputs.video_volume_group.inputs[1].is_enabled = true;
+            }
+
+            sections.background_settings.inputs.video_volume_group.is_enabled = val;
+            sections.background_settings.inputs.color_of_area_around_background_group.is_enabled =
                 val;
-            sections.background_settings.inputs.video_volume_global.is_enabled = val;
         }, 'cnt_56357');
 
     public show_selected_background_alert = (): void =>
         err(() => {
-            data.ui.settings_type = 'global';
+            data.ui.settings_context = 'global';
 
             // eslint-disable-next-line no-alert
             alert(ext.msg('select_background_alert'));

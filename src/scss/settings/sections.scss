@@ -28,19 +28,11 @@ $backgrounds_section_max_width: 922px;
         .input_item {
             &.color_of_area_around_background {
                 display: inline-block;
-
-                .input_w {
-                    width: __MSG_input_with_global_checkbox_width__;
-                }
             }
 
             &.video_volume {
                 display: inline-block;
                 margin-top: $gap - 3px;
-
-                .input_w {
-                    min-width: __MSG_input_with_global_checkbox_width__ !important;
-                }
             }
 
             &.color_of_area_around_background_global {

@@ -13,8 +13,13 @@ $task_gap: 5px;
     z-index: $popup_z_index;
     box-shadow: $popup_shadow;
 
+    .top_controls {
+        margin-bottom: $gap;
+    }
+
     .scheduler_help {
         font-size: $font_small;
+        white-space: pre-line;
     }
 
     .date_picker {
@@ -34,7 +39,8 @@ $task_gap: 5px;
 
         display: block;
         height: $background_preview;
-        margin: $gap 0;
+        margin: 0;
+        margin-bottom: $gap;
 
         &.color {
             width: $background_preview;

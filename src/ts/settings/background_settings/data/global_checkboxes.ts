@@ -24,31 +24,33 @@ export class GlobalCheckboxes {
 
     public set_ui_vals = (): void =>
         err(() => {
-            const settings_type_is_global: boolean = data.ui.settings_type === 'global';
+            const settings_context_is_global: boolean = data.ui.settings_context === 'global';
             let video_volume_is_global = false;
             let color_of_area_around_background_is_global = false;
 
             if (
-                n(d_background_settings.SettingsType.i().selected_background) &&
-                !d_background_settings.SettingsType.i().selected_background!.type.includes('color')
+                n(d_background_settings.SettingsContext.i().selected_background) &&
+                !d_background_settings.SettingsContext.i().selected_background!.type.includes(
+                    'color',
+                )
             ) {
                 color_of_area_around_background_is_global =
                     (
-                        d_background_settings.SettingsType.i()
+                        d_background_settings.SettingsContext.i()
                             .selected_background! as i_db.FileBackground
                     ).color_of_area_around_background === 'global';
 
                 video_volume_is_global =
                     (
-                        d_background_settings.SettingsType.i()
+                        d_background_settings.SettingsContext.i()
                             .selected_background! as i_db.FileBackground
                     ).video_volume === 'global';
             }
 
             data.ui.color_of_area_around_background_global =
-                settings_type_is_global || color_of_area_around_background_is_global;
+                settings_context_is_global || color_of_area_around_background_is_global;
 
-            data.ui.video_volume_global = settings_type_is_global || video_volume_is_global;
+            data.ui.video_volume_global = settings_context_is_global || video_volume_is_global;
         }, 'cnt_64294');
 
     public restore_global_val = ({ name }: { name: string }): Promise<void> =>
