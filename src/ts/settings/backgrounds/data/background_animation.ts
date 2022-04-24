@@ -50,4 +50,13 @@ export class BackgroundAnimation {
         err(() => {
             this.already_animated_ids.push(id);
         }, 'cnt_49273');
+
+    public push_already_animated_id_deferred = ({ id }: { id: string }): Promise<void> =>
+        err_async(async () => {
+            await x.delay(data.settings.transition_duration);
+
+            this.push_already_animated_id({
+                id,
+            });
+        }, 'cnt_75546');
 }

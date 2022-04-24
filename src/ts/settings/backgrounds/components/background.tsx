@@ -15,7 +15,9 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
             : '';
 
     useEffect(() => {
-        d_backgrounds.BackgroundAnimation.i().push_already_animated_id({ id: background.id });
+        d_backgrounds.BackgroundAnimation.i().push_already_animated_id_deferred({
+            id: background.id,
+        });
     }, [background]);
 
     return (background as any).type === 'drop_zone' ? (

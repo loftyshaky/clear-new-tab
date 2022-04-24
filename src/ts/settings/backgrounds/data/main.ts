@@ -3,6 +3,7 @@ import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
 import { s_db, s_i, i_db } from 'shared/internal';
+import { d_backgrounds } from 'settings/internal';
 
 export class Main {
     private static i0: Main;
@@ -61,6 +62,14 @@ export class Main {
             const backgrounds_thumbnails_2: i_db.BackgroundThumbnail[] = n(background_thumbnails)
                 ? background_thumbnails
                 : await s_db.Manipulation.i().get_background_thumbnails();
+
+            backgrounds_2.map((background: i_db.Background): void =>
+                err(() => {
+                    d_backgrounds.BackgroundAnimation.i().push_already_animated_id({
+                        id: background.id,
+                    });
+                }, 'cnt_65655'),
+            );
 
             runInAction(() =>
                 err(() => {
