@@ -443,6 +443,15 @@
     "format_btn_text": {
         "message": "Format"
     },
+    "install_help_chrome_text": {
+        "message": "Thank you for installing Clear New Tab! If your Chrome has a theme from the <a class='link install_help' href='https://bit.ly/cws-themes' target='_blank' rel='noopener noreferrer'>Chrome Web Store</a> installed, wait till its background appears in the \"Backgrounds\" section, and then open the new tab to see it. Otherwise, you can upload your own background with the form below. If you need help on how to use the extension click on ? buttons or watch the <a class='link video_guide' href='https://www.google.com' target='_blank' rel='noopener noreferrer'>video guide</a>. Click <button class='btn link_btn hide_install_help' type='button' tabindex='0'>here</button> to hide this message."
+    },
+    "install_help_edge_text": {
+        "message": "Thank you for installing Clear New Tab! If your Edge has a theme from the <a class='link install_help' href='https://bit.ly/edge-add-ons-themes' target='_blank' rel='noopener noreferrer'>Edge Add-ons store</a> installed, wait till its background appears in the \"Backgrounds\" section, and then open the new tab to see it. Otherwise, you can upload your own background with the form below. If you need help on how to use the extension click on ? buttons or watch the <a class='link video_guide' href='https://www.google.com' target='_blank' rel='noopener noreferrer'>video guide</a>. Click <button class='btn link_btn hide_install_help' type='button' tabindex='0'>here</button> to hide this message."
+    },
+    "install_help_firefox_text": {
+        "message": "Thank you for installing Clear New Tab! You can install a theme from the <a class='link install_help' href='https://bit.ly/cws-themes' target='_blank' rel='noopener noreferrer'>Chrome Web Store</a> or upload your own background with the form below. If you need help on how to use the extension click on ? buttons or watch the <a class='link video_guide' href='https://www.google.com' target='_blank' rel='noopener noreferrer'>video guide</a>. Click <button class='btn link_btn hide_install_help' type='button' tabindex='0'>here</button> to hide this message."
+    },
     "back_up_help_text": {
         "message": "Here you can download and restore a Clear New Tab data back up. All Clear New Tab data is included in the back up, including your backgrounds and custom HTML/CSS/JS. The Limit of the back up is 512 mb. If the limit is exceeded, not fitting backgrounds will be cut from backup during download."
     },

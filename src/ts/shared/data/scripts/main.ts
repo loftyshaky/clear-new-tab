@@ -25,6 +25,7 @@ export class Main {
                 color_help_is_visible: true,
                 enable_cut_features: false,
                 colors: d_color.Color.i().default_colors,
+                install_help_is_visible: true,
                 mode: 'theme_background',
                 color_type: 'pastel',
                 keep_old_theme_backgrounds: false,

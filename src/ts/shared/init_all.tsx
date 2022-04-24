@@ -130,11 +130,17 @@ export class InitAll {
             const { Body } = await import('settings/components/body');
             const on_render = (): Promise<void> =>
                 err_async(async () => {
-                    const { s_custom_code, d_scheduler, d_sections, s_virtualized_list } =
-                        await import('settings/internal');
+                    const {
+                        s_custom_code,
+                        d_install_help,
+                        d_scheduler,
+                        d_sections,
+                        s_virtualized_list,
+                    } = await import('settings/internal');
 
                     s_custom_code.CodeMirror.i().change_theme();
 
+                    d_install_help.Visibility.i().bind_hide();
                     await d_inputs.InputWidth.i().calculate_for_all_sections({
                         sections: d_sections.Main.i().sections as i_inputs.Sections,
                         all_sections_inputs_equal_width: true,

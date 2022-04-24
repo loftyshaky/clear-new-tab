@@ -6,6 +6,7 @@ import {
     c_settings,
     c_backgrounds,
     c_custom_code,
+    c_install_help,
     c_protecting_screen,
     c_scheduler,
     d_sections,
@@ -39,6 +40,9 @@ export const Body: React.FunctionComponent = observer(() => {
                                 section_name={section.name}
                                 section={section}
                             >
+                                {section.name === 'background_upload' ? (
+                                    <c_install_help.Body />
+                                ) : undefined}
                                 <c_inputs.SectionContent inputs={section.inputs} />
                             </c_settings.Section>
                         ),

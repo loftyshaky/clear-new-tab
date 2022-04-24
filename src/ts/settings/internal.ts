@@ -8,6 +8,7 @@ export * as c_settings from 'settings/components';
 export * as c_backgrounds from 'settings/backgrounds/components';
 export * as c_custom_code from 'settings/custom_code/components';
 export * as c_dnd from 'settings/dnd/components';
+export * as c_install_help from 'settings/install_help/components';
 export * as c_protecting_screen from 'settings/protecting_screen/components';
 export * as c_scheduler from 'settings/scheduler/components';
 
@@ -16,6 +17,7 @@ export * as d_backgrounds from 'settings/backgrounds/data';
 export * as d_browser_theme from 'settings/browser_theme/data';
 export * as d_custom_code from 'settings/custom_code/data';
 export * as d_dnd from 'settings/dnd/data';
+export * as d_install_help from 'settings/install_help/data';
 export * as d_optional_permission_settings from 'settings/optional_permission_settings/data';
 export * as d_protecting_screen from 'settings/protecting_screen/data';
 export * as d_scheduler from 'settings/scheduler/data';
