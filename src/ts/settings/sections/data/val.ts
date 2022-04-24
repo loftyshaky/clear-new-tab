@@ -186,6 +186,7 @@ export class Val {
                         if (val === 'global') {
                             d_background_settings.SettingsContext.i().react_to_global_selection();
                         } else if (val === 'selected_background') {
+                            // eslint-disable-next-line max-len
                             d_background_settings.SettingsContext.i().show_selected_background_alert();
                         }
                     }
