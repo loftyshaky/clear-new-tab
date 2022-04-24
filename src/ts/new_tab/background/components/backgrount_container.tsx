@@ -81,8 +81,17 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
                         backgroundColor: color_of_area_around_background,
                     }}
                 >
-                    {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-                    <video src={background} style={video_background_css} loop ref={video_el_ref} />
+                    {s_background.Type.i().is_video({
+                        background_container_i,
+                    }) ? (
+                        // eslint-disable-next-line jsx-a11y/media-has-caption
+                        <video
+                            src={background}
+                            style={video_background_css}
+                            loop
+                            ref={video_el_ref}
+                        />
+                    ) : undefined}
                 </div>
                 <div
                     className={x.cls([

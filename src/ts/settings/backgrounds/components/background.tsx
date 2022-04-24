@@ -6,7 +6,7 @@ import { svg, i_db } from 'shared/internal';
 import { c_backgrounds, c_dnd, d_backgrounds, d_dnd, p_backgrounds } from 'settings/internal';
 
 export const Background: React.FunctionComponent<p_backgrounds.Background> = observer((props) => {
-    const { key, index, style, background, dragged } = props;
+    const { index, style, background, dragged } = props;
     const background_thumbnail: i_db.BackgroundThumbnail | undefined =
         d_backgrounds.Main.i().get_background_thumbnail_by_id({ id: background.id });
     const background_thumbnail_background: string =
@@ -22,7 +22,6 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
 
     return (background as any).type === 'drop_zone' ? (
         <c_dnd.DropZone
-            key={key}
             style={style}
             on_mouse_up={(): void => {
                 d_dnd.Main.i().drop();
@@ -30,7 +29,6 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
         />
     ) : (
         <span
-            key={key}
             className={x.cls([
                 'background',
                 background.type,
