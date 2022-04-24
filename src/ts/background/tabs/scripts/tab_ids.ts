@@ -72,5 +72,5 @@ export class TabIds {
             await s_data.Main.i().update_settings({
                 settings,
             });
-        }, '_99999');
+        }, 'cnt_64545');
 }
