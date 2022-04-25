@@ -18,6 +18,7 @@ export class CodeMirror {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
+    public init_calls: t.CallbackVoid[] = [];
     private monde_mirror_insts: Editor[] = [];
     private theme_dict: { [index: string]: string } = {
         light: 'mdn-like',
@@ -71,6 +72,15 @@ export class CodeMirror {
                 this.set_theme({ code_mirror_inst });
             }
         }, 'cnt_74786');
+
+    public init_all = (): void =>
+        err(() => {
+            this.init_calls.forEach((init_call: t.CallbackVoid): void =>
+                err(() => {
+                    init_call();
+                }, 'cnt_75454'),
+            );
+        }, 'cnt_74645');
 
     private set_theme = ({ code_mirror_inst }: { code_mirror_inst: Editor }): void =>
         err(() => {

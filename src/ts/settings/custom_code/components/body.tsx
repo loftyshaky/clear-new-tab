@@ -1,12 +1,8 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import 'codemirror/lib/codemirror.css';
 import 'codemirror/mode/xml/xml';
 import 'codemirror/mode/css/css';
 import 'codemirror/mode/javascript/javascript';
-import 'codemirror/theme/mdn-like.css';
-import 'codemirror/theme/material-palenight.css';
-import 'codemirror/theme/material-ocean.css';
 
 import { Tr } from 'shared/internal';
 import { c_custom_code, d_custom_code } from 'settings/internal';

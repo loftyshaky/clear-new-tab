@@ -1,3 +1,8 @@
+@import 'codemirror/lib/codemirror.css';
+@import 'codemirror/theme/mdn-like.css';
+@import 'codemirror/theme/material-palenight.css';
+@import 'codemirror/theme/material-ocean.css';
+
 $code_editor_offset: ($main_margin * 2) + ($section_padding * 4) + $border_width;
 
 .code_editor {

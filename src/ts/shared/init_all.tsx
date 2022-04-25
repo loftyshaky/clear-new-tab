@@ -169,6 +169,7 @@ export class InitAll {
                     } = await import('settings/internal');
 
                     s_custom_code.CodeMirror.i().change_theme();
+                    s_custom_code.CodeMirror.i().init_all();
 
                     d_install_help.Visibility.i().bind_hide();
                     await d_inputs.InputWidth.i().calculate_for_all_sections({
