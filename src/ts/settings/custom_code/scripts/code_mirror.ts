@@ -1,4 +1,4 @@
-import CodeMirrorLib, { EditorFromTextArea } from 'codemirror';
+import CodeMirrorLib, { Editor } from 'codemirror';
 import prettier from 'prettier/standalone';
 import parserHtml from 'prettier/parser-html';
 import parserPostcss from 'prettier/parser-postcss';
@@ -18,7 +18,7 @@ export class CodeMirror {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
-    private monde_mirror_insts: EditorFromTextArea[] = [];
+    private monde_mirror_insts: Editor[] = [];
     private theme_dict: { [index: string]: string } = {
         light: 'mdn-like',
         dark: 'material-palenight',
@@ -37,25 +37,22 @@ export class CodeMirror {
 
     public init = ({
         type,
-        textarea_el,
+        editor_el,
     }: {
         type: i_custom_code.Type;
-        textarea_el: HTMLTextAreaElement | undefined;
+        editor_el: HTMLDivElement | undefined;
     }): void =>
         err(() => {
-            if (n(textarea_el)) {
+            if (n(editor_el)) {
                 const mode: i_custom_code.Mode = s_custom_code.Type.i().get_mode_from_type({
                     type,
                 });
-
-                const code_mirror_inst: EditorFromTextArea = CodeMirrorLib.fromTextArea(
-                    textarea_el,
-                    {
-                        mode: { ...{ name: mode }, ...(mode === 'xml' && { htmlMode: true }) },
-                        lineWrapping: true,
-                        lineNumbers: true,
-                    },
-                );
+                const code_mirror_inst: Editor = CodeMirrorLib(editor_el, {
+                    mode: { ...{ name: mode }, ...(mode === 'xml' && { htmlMode: true }) },
+                    lineWrapping: true,
+                    lineNumbers: true,
+                    value: ' ',
+                });
                 code_mirror_inst.on('change', (inst: any) => {
                     if (this.attempted_to_save_code_val_count >= 3) {
                         const val: string = inst.getValue();
@@ -75,14 +72,14 @@ export class CodeMirror {
             }
         }, 'cnt_74786');
 
-    private set_theme = ({ code_mirror_inst }: { code_mirror_inst: EditorFromTextArea }): void =>
+    private set_theme = ({ code_mirror_inst }: { code_mirror_inst: Editor }): void =>
         err(() => {
             code_mirror_inst.setOption('theme', this.theme_dict[data.settings.options_page_theme]);
         }, 'cnt_64675');
 
     public change_theme = (): void =>
         err(() => {
-            this.monde_mirror_insts.forEach((code_mirror_inst: EditorFromTextArea): void =>
+            this.monde_mirror_insts.forEach((code_mirror_inst: Editor): void =>
                 err(() => {
                     this.set_theme({ code_mirror_inst });
                 }, 'cnt_74768'),
@@ -92,7 +89,7 @@ export class CodeMirror {
     public set_vals = (): void =>
         err(() => {
             if (d_custom_code.Visibility.i().is_visible) {
-                this.monde_mirror_insts.forEach((code_mirror_inst: EditorFromTextArea): void =>
+                this.monde_mirror_insts.forEach((code_mirror_inst: Editor): void =>
                     err(() => {
                         const type: i_custom_code.Type = this.get_type({
                             code_mirror_inst,
@@ -109,7 +106,7 @@ export class CodeMirror {
 
     public format = (): void =>
         err(() => {
-            this.monde_mirror_insts.forEach((code_mirror_inst: EditorFromTextArea): void =>
+            this.monde_mirror_insts.forEach((code_mirror_inst: Editor): void =>
                 err(
                     () => {
                         const type: i_custom_code.Type = this.get_type({ code_mirror_inst });
@@ -149,11 +146,7 @@ export class CodeMirror {
             );
         }, 'cnt_75467');
 
-    private get_type = ({
-        code_mirror_inst,
-    }: {
-        code_mirror_inst: EditorFromTextArea;
-    }): i_custom_code.Type =>
+    private get_type = ({ code_mirror_inst }: { code_mirror_inst: Editor }): i_custom_code.Type =>
         err(
             () =>
                 s_custom_code.Type.i().get_type_from_mode({
