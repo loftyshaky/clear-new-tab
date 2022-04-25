@@ -49,6 +49,7 @@ module.exports = (env, argv) => {
                 from: path.join(app_root, 'src', 'imgs'),
             },
         ],
+        enable_anouncement: true,
         callback_begin: () => {
             task_scheduler.unlock_dist({
                 package_name: 'Clear New Tab',
@@ -103,21 +104,11 @@ module.exports = (env, argv) => {
     config.entry = {
         ...config.entry,
         ...{
-            announcement: path.join(paths.ts, 'announcement', 'announcement.ts'),
             background: path.join(paths.ts, 'background', 'background.ts'),
             settings: path.join(paths.ts, 'settings', 'settings.ts'),
             new_tab: path.join(paths.ts, 'new_tab', 'new_tab.ts'),
             sandbox: path.join(paths.ts, 'sandbox', 'sandbox.ts'),
             preload_color: path.join(paths.ts, 'new_tab', 'preload_color.ts'),
-            announcement_css: path.join(
-                app_root,
-                'node_modules',
-                '@loftyshaky',
-                'shared',
-                'scss',
-                'announcement',
-                'index.scss',
-            ),
             settings_css: path.join(app_root, 'src', 'scss', 'settings', 'index.scss'),
             new_tab_css: path.join(app_root, 'src', 'scss', 'new_tab', 'index.scss'),
             sandbox_css: path.join(app_root, 'src', 'scss', 'sandbox', 'index.scss'),
