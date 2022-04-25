@@ -13,6 +13,7 @@
         "typeRoots": ["node_modules/@types", "node_modules/web-ext-types"],
         "paths": {
             "shared/*": ["./ts/shared/*"],
+            "announcement/*": ["./ts/announcement/*"],
             "background/*": ["./ts/background/*"],
             "settings/*": ["./ts/settings/*"],
             "new_tab/*": ["./ts/new_tab/*"],

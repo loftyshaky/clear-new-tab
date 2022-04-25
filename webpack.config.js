@@ -60,7 +60,7 @@ module.exports = (env, argv) => {
                 test: env.test,
                 browser: env.browser,
             });
-            env_instance.generate({ browser: env.browser });
+            env_instance.generate({ browser: env.browser, mode: argv.mode });
             locales.merge();
 
             const an_error_occured = stats.compilation.errors.length !== 0;
@@ -103,11 +103,21 @@ module.exports = (env, argv) => {
     config.entry = {
         ...config.entry,
         ...{
+            announcement: path.join(paths.ts, 'announcement', 'announcement.ts'),
             background: path.join(paths.ts, 'background', 'background.ts'),
             settings: path.join(paths.ts, 'settings', 'settings.ts'),
             new_tab: path.join(paths.ts, 'new_tab', 'new_tab.ts'),
             sandbox: path.join(paths.ts, 'sandbox', 'sandbox.ts'),
             preload_color: path.join(paths.ts, 'new_tab', 'preload_color.ts'),
+            announcement_css: path.join(
+                app_root,
+                'node_modules',
+                '@loftyshaky',
+                'shared',
+                'scss',
+                'announcement',
+                'index.scss',
+            ),
             settings_css: path.join(app_root, 'src', 'scss', 'settings', 'index.scss'),
             new_tab_css: path.join(app_root, 'src', 'scss', 'new_tab', 'index.scss'),
             sandbox_css: path.join(app_root, 'src', 'scss', 'sandbox', 'index.scss'),

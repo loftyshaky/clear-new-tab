@@ -13,7 +13,9 @@ export class Main {
 
     public set = (): void =>
         err(() => {
-            const roots = ['settings', 'new_tab'].includes(page) ? [document.documentElement] : [];
+            const roots = ['announcement', 'settings', 'new_tab'].includes(page)
+                ? [document.documentElement]
+                : [];
 
             s_css_vars.Main.i().set_transition_vars({
                 roots,

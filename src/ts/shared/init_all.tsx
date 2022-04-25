@@ -9,6 +9,7 @@ import {
     d_loading_screen,
     s_tab_index,
     s_theme as s_theme_shared,
+    s_title,
 } from '@loftyshaky/shared';
 import { d_inputs, i_inputs } from '@loftyshaky/shared/inputs';
 import { s_css_vars, s_suffix, s_theme } from 'shared/internal';
@@ -27,6 +28,7 @@ export class InitAll {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
+    private announcement_root: HTMLDivElement | undefined = undefined;
     private settings_root: HTMLDivElement | undefined = undefined;
     private new_tab_root: HTMLDivElement | undefined = undefined;
 
@@ -35,7 +37,7 @@ export class InitAll {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             __webpack_public_path__ = we.runtime.getURL('');
 
-            this.set_page_title();
+            s_title.Main.i().set();
 
             s_css_vars.Main.i().set();
 
@@ -44,7 +46,12 @@ export class InitAll {
                 prefix: 'loading_screen',
             }) as ShadowRoot;
 
-            if (page === 'settings') {
+            if (page === 'announcement') {
+                this.announcement_root = this.create_root({
+                    prefix: 'announcement',
+                    shadow_root: false,
+                }) as HTMLDivElement;
+            } else if (page === 'settings') {
                 this.settings_root = this.create_root({
                     prefix: 'settings',
                     shadow_root: false,
@@ -116,14 +123,37 @@ export class InitAll {
             return root;
         }, 'cnt_1161');
 
-    private set_page_title = (): void =>
-        err(() => {
-            const title_el = s<HTMLTitleElement>('title');
+    public render_announcement = (): Promise<void> =>
+        err_async(async () => {
+            const { Body } = await import('announcement/components/body');
 
-            if (n(title_el)) {
-                title_el.textContent = ext.msg(`${page}_title_text`);
+            const on_render = (): Promise<void> =>
+                err_async(async () => {
+                    d_loading_screen.Main.i().hide();
+                }, 'cnt_1148');
+
+            if (n(this.announcement_root)) {
+                render(
+                    <c_crash_handler.Body>
+                        <Body />
+                    </c_crash_handler.Body>,
+                    this.announcement_root,
+                    (): void =>
+                        err(() => {
+                            const announcement_css = x.css('announcement_css', document.head);
+
+                            s_theme_shared.Main.i().set({
+                                name: data.settings.options_page_theme,
+                                additional_theme_callback: s_theme.Main.i().set,
+                            });
+
+                            if (n(announcement_css)) {
+                                x.bind(announcement_css, 'load', on_render);
+                            }
+                        }, 'cnt_1149'),
+                );
             }
-        }, 'cnt_1162');
+        }, 'cnt_1150');
 
     public render_settings = (): Promise<void> =>
         err_async(async () => {

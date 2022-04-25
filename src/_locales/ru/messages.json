@@ -2,6 +2,15 @@
     "description": {
         "message": ""
     },
+    "msg_to_user_chrome_text": {
+        "message": "Clear New Tab обновлена до версии 6.0.0 ✨. Все фоны были удалены, настройки сброшены. Прошу прощения за неудобства 😊. Видео о новых функциях 👉 <a class='link new_features_video' href='https://www.google.com' target='_blank' rel='noopener noreferrer'>здесь</a> 🚀."
+    },
+    "msg_to_user_edge_text": {
+        "message": "Clear New Tab обновлена до версии 6.0.0 ✨. Все фоны были удалены, настройки сброшены. Прошу прощения за неудобства 😊. Видео о новых функциях 👉 <a class='link new_features_video' href='https://www.google.com' target='_blank' rel='noopener noreferrer'>здесь</a> 🚀."
+    },
+    "msg_to_user_firefox_text": {
+        "message": ""
+    },
     "color_of_area_around_background_label_width": {
         "message": "217px"
     },
