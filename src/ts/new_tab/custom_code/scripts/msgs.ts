@@ -20,7 +20,7 @@ export class Msgs {
             const sandbox: HTMLIFrameElement = x.create('iframe', 'sandbox');
             sandbox.style.border = '0';
             sandbox.src = 'sandbox.html';
-            x.append(document.body, sandbox);
+
             const custom_code: i_db.CustomCode = await s_db.Manipulation.i().get_custom_code();
 
             x.bind(sandbox, 'load', (): void =>
@@ -36,5 +36,7 @@ export class Msgs {
                     }
                 }, 'cnt_54567'),
             );
+
+            x.append(document.body, sandbox);
         }, 'cnt_77664');
 }
