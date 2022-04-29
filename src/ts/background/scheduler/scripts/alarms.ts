@@ -14,6 +14,8 @@ we.alarms.onAlarm.addListener(
                 we.alarms.create('schedule_background_display', {
                     when: Date.now() + 1000,
                 });
+
+                ext.send_msg({ msg: 'set_current_background_i' });
             }
         }, 'cnt_64676'),
 );
