@@ -299,6 +299,7 @@ export class Restore {
         err(
             () => ({
                 color_help_is_visible: data.settings.color_help_is_visible,
+                install_help_is_visible: data.settings.install_help_is_visible,
             }),
             'cnt_1135',
         );
