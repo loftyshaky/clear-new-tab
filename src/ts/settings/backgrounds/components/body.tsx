@@ -12,6 +12,8 @@ import {
 
 export const Body: React.FunctionComponent = observer(() => {
     d_backgrounds.Dnd.i().collection_ref = useRef<any>(null);
+
+    const CollectionAny = Collection as any;
     const { width, height } = d_backgrounds.VirtualizedList.i();
     const { drop_zone_item, drop_zone_insert_direction } = d_dnd.Main.i(); // drop_zone_item and drop_zone_insert_direction need to be here and in useEffect, otherwise drop zone and backgrounds render with incorrect width
     const { backgrounds } = d_backgrounds.Main.i();
@@ -29,9 +31,9 @@ export const Body: React.FunctionComponent = observer(() => {
     return (
         <div className='sections custom backgrounds'>
             <c_settings.Section section_name='backgrounds'>
-                <Collection
+                <CollectionAny
                     cellCount={d_backgrounds.Main.i().backgrounds.length}
-                    cellRenderer={({ index, key, style }) => (
+                    cellRenderer={({ index, key, style }: any) => (
                         <c_backgrounds.Background
                             key={key}
                             index={index}
