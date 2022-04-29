@@ -226,7 +226,11 @@ export class Main {
                                 is_visible_conds: [
                                     {
                                         input_name: 'mode',
-                                        pass_vals: ['one_background', 'multiple_backgrounds'],
+                                        pass_vals: [
+                                            'one_background',
+                                            'multiple_backgrounds',
+                                            'scheduled',
+                                        ],
                                     },
                                 ],
                                 text_btns: [
