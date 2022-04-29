@@ -200,6 +200,8 @@ export class Val {
                     await ext.send_msg_resp({
                         msg: 'update_settings_background',
                         settings: { colors },
+                        update_instantly: true,
+                        update_background: true,
                     });
                 }
 
