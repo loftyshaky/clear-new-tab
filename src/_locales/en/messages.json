@@ -1,6 +1,6 @@
 {
     "description": {
-        "message": ""
+        "message": "Remove everything from the new tab page and display any image, gif or video in it as a wallpaper."
     },
     "msg_to_user_chrome_text": {
         "message": "Clear New Tab has been updated to version 6.0.0 ✨. All backgrounds were removed and settings were restored to default. Sorry for the inconvenience 😊. The video about new features is 👉 <a class='link new_features_video' href='https://www.google.com' target='_blank' rel='noopener noreferrer'>here</a> 🚀."

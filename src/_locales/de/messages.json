@@ -1,4 +1,7 @@
 {
+    "description": {
+        "message": "Entferne alles von der \"Neuer Tab\"-Seite und zeige dort stattdessen Bilder, GIFs oder Videos als Hintergrundbild an."
+    },
     "new_tab_title_text": {
         "message": "Neuer Tab"
     }
