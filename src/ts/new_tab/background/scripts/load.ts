@@ -61,13 +61,17 @@ export class Load {
         });
 
     public wait_to_visibility = (): Promise<void> =>
-        err_async(async () => {
-            const { background_container_i } = d_background.Main.i();
+        err_async(
+            async () => {
+                const { background_container_i } = d_background.Main.i();
 
-            if (!s_background.Type.i().is_color({ background_container_i })) {
-                await this.load_background();
-            }
+                if (!s_background.Type.i().is_color({ background_container_i })) {
+                    await this.load_background();
+                }
 
-            d_background.Classes.i().set_classes();
-        }, 'cnt_67435');
+                d_background.Classes.i().set_classes();
+            },
+            'cnt_67435',
+            { silent: true },
+        );
 }
