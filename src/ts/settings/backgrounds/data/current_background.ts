@@ -133,17 +133,20 @@ export class CurrentBackground {
             }
         }, 'cnt_63785');
 
-    public save_current_background_id_from_i = (): void =>
-        err(() => {
-            if (d_backgrounds.Main.i().backgrounds.length !== 0) {
-                const background_with_current_i: i_db.Background | undefined =
-                    d_backgrounds.Main.i().backgrounds[data.ui.current_background_i - 1];
+    public save_current_background_id_from_i = _.debounce(
+        (): void =>
+            err(() => {
+                if (d_backgrounds.Main.i().backgrounds.length !== 0) {
+                    const background_with_current_i: i_db.Background | undefined =
+                        d_backgrounds.Main.i().backgrounds[data.ui.current_background_i - 1];
 
-                this.set_background_as_current({
-                    id: n(background_with_current_i) ? background_with_current_i.id : 1,
-                });
-            }
-        }, 'cnt_64789');
+                    this.set_background_as_current({
+                        id: n(background_with_current_i) ? background_with_current_i.id : 1,
+                    });
+                }
+            }, 'cnt_64789'),
+        200,
+    );
 
     public decrement_current_background = ({
         deleted_background_i,
