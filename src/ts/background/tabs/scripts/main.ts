@@ -25,7 +25,7 @@ we.tabs.onRemoved.addListener(
                         s_tabs.TabIds.i().tab_ids,
                         (tab_id_2: number) => tab_id_2 === id_to_remove,
                     );
-                }, 'cnt_66556');
+                }, 'cnt_1036');
 
             if (s_tabs.TabIds.i().main_tab_id === tab_id) {
                 if (s_tabs.TabIds.i().tab_ids.length === 0) {
@@ -52,5 +52,5 @@ we.tabs.onRemoved.addListener(
                     options_page_tab_id: undefined,
                 });
             }
-        }, 'cnt_64254'),
+        }, 'cnt_1037'),
 );

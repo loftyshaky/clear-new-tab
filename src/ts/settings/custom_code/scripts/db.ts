@@ -22,7 +22,7 @@ export class Db {
             });
 
             await ext.send_msg_resp({ msg: 'set_custom_code' });
-        }, 'cnt_64557');
+        }, 'cnt_1201');
 
     public save_val = ({ type, val }: { type: i_custom_code.Type; val: string }): Promise<void> =>
         err_async(async () => {
@@ -36,7 +36,7 @@ export class Db {
             });
 
             await ext.send_msg({ msg: 'set_custom_code' });
-        }, 'cnt_64675');
+        }, 'cnt_1202');
 
     public save_val_debounce = _.debounce(this.save_val, 250);
 
@@ -48,5 +48,5 @@ export class Db {
                     custom_code: s_custom_code.Main.i().default_custom_code,
                 });
             }
-        }, 'cnt_64557');
+        }, 'cnt_1203');
 }

@@ -24,7 +24,7 @@ export class BackgroundAnimation {
         { id }: { id: string },
     ): string {
         const already_animated_image_with_this_id: boolean = this.already_animated_ids.some(
-            (id_2: string): boolean => err(() => id === id_2, 'cnt_63574'),
+            (id_2: string): boolean => err(() => id === id_2, 'cnt_1094'),
         );
 
         return this.animated && !already_animated_image_with_this_id ? 'animated' : '';
@@ -33,7 +33,7 @@ export class BackgroundAnimation {
     public allow_animation = (): void =>
         err(() => {
             this.animated = true;
-        }, 'cnt_64683');
+        }, 'cnt_1095');
 
     public forbid_animation = (): Promise<void> =>
         err_async(async () => {
@@ -42,14 +42,14 @@ export class BackgroundAnimation {
             runInAction(() =>
                 err(() => {
                     this.animated = false;
-                }, 'cnt_64294'),
+                }, 'cnt_1096'),
             );
-        }, 'cnt_64683');
+        }, 'cnt_1097');
 
     public push_already_animated_id = ({ id }: { id: string }): void =>
         err(() => {
             this.already_animated_ids.push(id);
-        }, 'cnt_49273');
+        }, 'cnt_1098');
 
     public push_already_animated_id_deferred = ({ id }: { id: string }): Promise<void> =>
         err_async(async () => {
@@ -58,5 +58,5 @@ export class BackgroundAnimation {
             this.push_already_animated_id({
                 id,
             });
-        }, 'cnt_75546');
+        }, 'cnt_1099');
 }

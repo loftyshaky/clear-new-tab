@@ -24,5 +24,5 @@ export class Main {
                     clear_new_tab_install: true,
                 });
             }
-        }, 'cnt_76545');
+        }, 'cnt_1008');
 }

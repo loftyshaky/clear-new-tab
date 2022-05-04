@@ -18,4 +18,4 @@ export const init = (): Promise<void> =>
             d_background.BackgroundChange.i().react_to_visibility_change,
         );
         InitAll.i().render_new_tab();
-    }, 'cnt_61125');
+    }, 'cnt_1078');

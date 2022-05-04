@@ -22,7 +22,7 @@ export class Lifeline {
             if (n(main_tab_id)) {
                 ext.send_msg_to_tab(main_tab_id, { msg: 'connect' });
             }
-        }, 'cnt_64565');
+        }, 'cnt_1033');
 
     public disconnect = (): void =>
         err(() => {
@@ -31,5 +31,5 @@ export class Lifeline {
             if (n(main_tab_id)) {
                 ext.send_msg_to_tab(main_tab_id, { msg: 'disconnect' });
             }
-        }, 'cnt_64565');
+        }, 'cnt_1034');
 }

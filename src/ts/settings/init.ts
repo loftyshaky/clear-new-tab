@@ -43,4 +43,4 @@ export const init = (): Promise<void> =>
         x.bind(document, 'click', d_backgrounds.Actions.i().hide);
 
         InitAll.i().render_settings();
-    }, 'cnt_1125');
+    }, 'cnt_1221');

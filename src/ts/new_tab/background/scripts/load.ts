@@ -29,7 +29,7 @@ export class Load {
                         () =>
                             err(() => {
                                 resolve();
-                            }, 'cnt_64783'),
+                            }, 'cnt_1062'),
                     );
 
                     x.bind(background, 'error', () =>
@@ -37,7 +37,7 @@ export class Load {
                             () => {
                                 reject(err_obj('Load error'));
                             },
-                            'cnt_53645',
+                            'cnt_1063',
                             { silent: true },
                         ),
                     );
@@ -57,7 +57,7 @@ export class Load {
                 } catch (error_obj: any) {
                     reject(error_obj);
                 }
-            }, 'cnt_64356');
+            }, 'cnt_1064');
         });
 
     public wait_to_visibility = (): Promise<void> =>
@@ -71,7 +71,7 @@ export class Load {
 
                 d_background.Classes.i().set_classes();
             },
-            'cnt_67435',
+            'cnt_1065',
             { silent: true },
         );
 }

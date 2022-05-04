@@ -83,7 +83,7 @@ export class Classes {
                 this.select_slide_direction();
 
             this.no_tr = false;
-        }, 'cnt_53684');
+        }, 'cnt_1051');
 
     get_no_tr_cls = ({ is_background }: { is_background: boolean }): string =>
         err(() => {
@@ -94,7 +94,7 @@ export class Classes {
             }
 
             return is_background ? '' : 'no_tr';
-        }, 'cnt_65643');
+        }, 'cnt_1052');
 
     public select_slide_direction = (): string =>
         err(() => {
@@ -112,5 +112,5 @@ export class Classes {
             }
 
             return '';
-        }, 'cnt_54356');
+        }, 'cnt_1053');
 }

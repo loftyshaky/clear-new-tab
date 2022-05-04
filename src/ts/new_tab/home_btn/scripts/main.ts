@@ -12,5 +12,5 @@ export class Main {
     public open_default_new_tab_page = (): void =>
         err(() => {
             ext.send_msg({ msg: 'open_default_new_tab_page' });
-        }, 'cnt_54467');
+        }, 'cnt_1077');
 }

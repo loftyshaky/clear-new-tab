@@ -68,5 +68,5 @@ export class Color {
                 virtualized_list_type: 'backgrounds',
             });
             d_protecting_screen.Visibility.i().hide();
-        }, 'cnt_45931');
+        }, 'cnt_1108');
 }

@@ -1,5 +1,5 @@
 we.action.onClicked.addListener((): void =>
     err(() => {
         we.runtime.openOptionsPage();
-    }, 'cnt_1000'),
+    }, 'cnt_1003'),
 );

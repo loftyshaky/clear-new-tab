@@ -18,7 +18,7 @@ export class VideoPlayback {
     }): boolean =>
         err(
             () => background_container_i === d_background.Main.i().background_container_i,
-            'cnt_75443',
+            'cnt_1071',
         );
 
     public set_video_volume = ({
@@ -32,7 +32,7 @@ export class VideoPlayback {
             if (n(video_el)) {
                 video_el.volume = video_volume;
             }
-        }, 'cnt_53654');
+        }, 'cnt_1072');
 
     public pause_hidden_video = ({
         background_container_i,
@@ -49,7 +49,7 @@ export class VideoPlayback {
                     video_el.pause();
                 }
             }
-        }, 'cnt_86545');
+        }, 'cnt_1073');
 
     public play_or_pause_current_video = ({
         play_status,
@@ -70,5 +70,5 @@ export class VideoPlayback {
                     video_el[play_status]();
                 }
             }
-        }, 'cnt_86545');
+        }, 'cnt_1074');
 }

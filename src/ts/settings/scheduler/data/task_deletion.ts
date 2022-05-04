@@ -40,7 +40,7 @@ export class TaskDeletion {
             await this.delete({ id });
 
             d_protecting_screen.Visibility.i().hide();
-        }, 'cnt_74674');
+        }, 'cnt_1239');
 
     private delete = ({ id }: { id: string }): Promise<void> =>
         err_async(async () => {
@@ -50,7 +50,7 @@ export class TaskDeletion {
                         d_scheduler.Tasks.i().tasks,
                         (task: i_db.Task) => task.id === id,
                     );
-                }, 'cnt_74846'),
+                }, 'cnt_1240'),
             );
 
             await s_db.Manipulation.i().delete_task({ id });
@@ -58,9 +58,9 @@ export class TaskDeletion {
             runInAction(() =>
                 err(() => {
                     this.deleting_background = false;
-                }, 'cnt_56464'),
+                }, 'cnt_1241'),
             );
-        }, 'cnt_85356');
+        }, 'cnt_1242');
 
     public delete_from_background_id = ({ background_ids }: { background_ids: string[] }): void =>
         err(() => {
@@ -68,7 +68,7 @@ export class TaskDeletion {
                 err(() => {
                     const task_with_background_id: i_db.Task | undefined =
                         d_scheduler.Tasks.i().tasks.find((task: i_db.Task): boolean =>
-                            err(() => task.background_id === background_id, 'cnt_74736'),
+                            err(() => task.background_id === background_id, 'cnt_1243'),
                         );
 
                     if (n(task_with_background_id)) {
@@ -76,9 +76,9 @@ export class TaskDeletion {
                     }
 
                     d_scheduler.Tasks.i().reset_background_id_from_background_id({ background_id });
-                }, 'cnt_64674'),
+                }, 'cnt_1244'),
             );
-        }, 'cnt_75665');
+        }, 'cnt_1245');
 
     public delete_all_tasks = (): Promise<void> =>
         err_async(async () => {
@@ -87,7 +87,7 @@ export class TaskDeletion {
             await s_db.Manipulation.i().clear_task_table();
 
             d_scheduler.Tasks.i().reset_background_id();
-        }, 'cnt_54363');
+        }, 'cnt_1246');
 
     public delete_all_tasks_confirm = (): Promise<void> =>
         err_async(async () => {
@@ -95,5 +95,5 @@ export class TaskDeletion {
             if (window.confirm(ext.msg('delete_all_tasks_confirm'))) {
                 await this.delete_all_tasks();
             }
-        }, 'cnt_86432');
+        }, 'cnt_1247');
 }

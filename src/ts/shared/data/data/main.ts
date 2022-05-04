@@ -12,5 +12,5 @@ export class Main {
     public create_objs = (): void =>
         err(() => {
             data.ui = {};
-        }, 'cnt_64364');
+        }, 'cnt_1318');
 }

@@ -22,7 +22,7 @@ export class Type {
             }
 
             return type;
-        }, 'cnt_64735');
+        }, 'cnt_1204');
 
     public get_mode_from_type = ({ type }: { type: i_custom_code.Type }): i_custom_code.Mode =>
         err(() => {
@@ -35,5 +35,5 @@ export class Type {
             }
 
             return mode;
-        }, 'cnt_64735');
+        }, 'cnt_1205');
 }

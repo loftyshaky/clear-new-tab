@@ -34,7 +34,7 @@ export class Val {
             const platform_info = await we.runtime.getPlatformInfo();
 
             this.os = platform_info.os;
-        }, 'cnt_1136');
+        }, 'cnt_1286');
 
     public change = action(
         ({ input, i }: { input: i_inputs.Input; i?: i_color.I }): Promise<void> =>
@@ -109,7 +109,7 @@ export class Val {
                                 allow_to_start_slideshow_timer: false,
                             });
                         }
-                    }, 'cnt_1137');
+                    }, 'cnt_1287');
 
                 if (input.type === 'color' && n(i)) {
                     val = d_color.Color.i().access({
@@ -206,7 +206,7 @@ export class Val {
                 }
 
                 s_preload_color.Storage.i().set_preload_color();
-            }, 'cnt_1138'),
+            }, 'cnt_1288'),
     );
 
     public validate_input = ({ input }: { input: i_inputs.Input }): boolean =>
@@ -241,7 +241,7 @@ export class Val {
             }
 
             return false;
-        }, 'cnt_1141');
+        }, 'cnt_1289');
 
     public remove_val = ({ input }: { input: i_inputs.Input }): Promise<void> =>
         err_async(async () => {
@@ -254,7 +254,7 @@ export class Val {
 
                 await d_scheduler.Val.i().set_add_new_task_btn_ability();
             }
-        }, 'cnt_1142');
+        }, 'cnt_1290');
 
     public save_selected_palette_color = ({
         input,
@@ -269,7 +269,7 @@ export class Val {
 
                 s_preload_color.Storage.i().set_preload_color();
             }
-        }, 'cnt_1143');
+        }, 'cnt_1291');
 
     public remove_color_callback = ({ input }: { input: o_color.Color }): Promise<void> =>
         err_async(async () => {
@@ -277,7 +277,7 @@ export class Val {
                 msg: 'update_settings_background',
                 settings: { [input.name]: '' },
             });
-        }, 'cnt_1144');
+        }, 'cnt_1292');
 
     public restore_default_palette_callback = ({
         default_colors,
@@ -289,7 +289,7 @@ export class Val {
                 msg: 'update_settings_background',
                 settings: { colors: default_colors },
             });
-        }, 'cnt_1145');
+        }, 'cnt_1293');
 
     validate_current_background_i = ({ val }: { val: i_data.Val }): boolean =>
         err(() => {
@@ -299,5 +299,5 @@ export class Val {
                 /^(?!0)\d+$/.test(val as string) &&
                 (i === 0 || i <= d_backgrounds.Main.i().backgrounds.length - 1)
             );
-        }, 'cnt_99999');
+        }, 'cnt_1294');
 }

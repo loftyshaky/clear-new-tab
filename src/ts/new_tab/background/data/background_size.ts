@@ -41,7 +41,7 @@ export class BackgroundSize {
                         ? data.settings.background_size
                         : (background_data as i_db.FileBackground).background_size;
             }
-        }, 'cnt_64674');
+        }, 'cnt_1047');
 
     public determine_background_size = (): void =>
         err(() => {
@@ -96,7 +96,7 @@ export class BackgroundSize {
                     this.calculate_background_dims_when_in_screen_mode();
                 }
             }
-        }, 'cnt_75754');
+        }, 'cnt_1048');
 
     private calculate_background_dims_when_in_screen_mode = (): void =>
         err(() => {
@@ -188,7 +188,7 @@ export class BackgroundSize {
             if (s_background.Type.i().is_video({ background_container_i })) {
                 this.background_size[background_container_i] = 'unset';
             }
-        }, 'cnt_64635');
+        }, 'cnt_1049');
 
     private calculate_background_dims_when_in_fit_screen_or_cover_screen_mode = ({
         window_width,
@@ -219,5 +219,5 @@ export class BackgroundSize {
                 width,
                 height,
             };
-        }, 'cnt_67453');
+        }, 'cnt_1050');
 }

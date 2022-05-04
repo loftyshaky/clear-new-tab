@@ -21,7 +21,7 @@ export class BackgroundChange {
                 force_update: this.force_update,
                 no_tr,
             });
-        }, 'cnt_75465');
+        }, 'cnt_1305');
 
     public try_to_change_background = ({
         allow_to_start_slideshow_timer = true,
@@ -73,7 +73,7 @@ export class BackgroundChange {
                 // one background; theme background
                 await this.update_background({ no_tr: true });
             }
-        }, 'cnt_65432');
+        }, 'cnt_1306');
 
     private change_background = ({
         current_time,
@@ -94,7 +94,7 @@ export class BackgroundChange {
             ext.send_msg({
                 msg: 'set_current_background_i',
             });
-        }, 'cnt_75355');
+        }, 'cnt_1307');
 
     private update_background_change_time_and_current_background_id = ({
         current_time,
@@ -120,7 +120,7 @@ export class BackgroundChange {
                     settings,
                 });
             }
-        }, 'cnt_64354');
+        }, 'cnt_1308');
 
     public run_slideshow_timer = ({
         current_time = 0,
@@ -160,12 +160,12 @@ export class BackgroundChange {
                                         }
 
                                         resolve();
-                                    }, 'cnt_53566');
+                                    }, 'cnt_1309');
                                 },
                                 rerun_2 ? background_change_interval_corrected : remaining_time,
                             ),
                         );
-                    }, 'cnt_64356');
+                    }, 'cnt_1310');
                 });
 
             this.clear_slideshow_timer();
@@ -178,16 +178,16 @@ export class BackgroundChange {
 
                 await this.run_slideshow_timer({ rerun: true });
             }
-        }, 'cnt_75357');
+        }, 'cnt_1311');
 
     public clear_slideshow_timer = (): void =>
         err(() => {
             this.slideshow_timers.forEach((slideshow_timer: number): void =>
                 err(() => {
                     self.clearTimeout(slideshow_timer);
-                }, 'cnt_87534'),
+                }, 'cnt_1312'),
             );
 
             this.slideshow_timers = [];
-        }, 'cnt_64466');
+        }, 'cnt_1313');
 }

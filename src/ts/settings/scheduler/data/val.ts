@@ -20,7 +20,7 @@ export class Val {
             await d_sections.Val.i().change({ input, i });
 
             await this.set_add_new_task_btn_ability();
-        }, 'cnt_64677');
+        }, 'cnt_1263');
 
     public set_add_new_task_btn_ability = (): Promise<void> =>
         err_async(async () => {
@@ -39,7 +39,7 @@ export class Val {
                         settings[input.name] !== '' &&
                         !input.is_in_warn_state,
 
-                    'cnt_64678',
+                    'cnt_1264',
                 ),
             );
 
@@ -49,7 +49,7 @@ export class Val {
                         d_scheduler.DatePicker.i().inputs as Record<string, i_inputs.Input>
                     ).add_new_task.is_enabled =
                         background_is_selected && one_of_inputs_in_date_picker_is_set_to_val;
-                }, 'cnt_7475'),
+                }, 'cnt_1265'),
             );
-        }, 'cnt_74356');
+        }, 'cnt_1266');
 }

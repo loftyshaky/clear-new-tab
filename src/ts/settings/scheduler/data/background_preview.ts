@@ -24,5 +24,5 @@ export class BackgroundPreview {
             return n(background_thumbnail) && n(background_thumbnail.background)
                 ? background_thumbnail.background
                 : this.placeholder_img_name;
-        }, 'cnt_86426');
+        }, 'cnt_1229');
 }

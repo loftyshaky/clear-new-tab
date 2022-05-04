@@ -110,7 +110,7 @@ export class Main {
             }
 
             return '';
-        }, 'cnt_75354');
+        }, 'cnt_1054');
 
     public get_background_position = (): string =>
         err(() => {
@@ -150,7 +150,7 @@ export class Main {
             }
 
             return '';
-        }, 'cnt_75646');
+        }, 'cnt_1055');
 
     public get_background_repeat = (): string =>
         err(() => {
@@ -170,7 +170,7 @@ export class Main {
             }
 
             return '';
-        }, 'cnt_75384');
+        }, 'cnt_1056');
 
     public get_color_of_area_around_background = (): string =>
         err(() => {
@@ -197,7 +197,7 @@ export class Main {
             }
 
             return '';
-        }, 'cnt_84625');
+        }, 'cnt_1057');
 
     public get_video_volume = (): number =>
         err(() => {
@@ -215,7 +215,7 @@ export class Main {
             }
 
             return '';
-        }, 'cnt_84625');
+        }, 'cnt_1058');
 
     public get_background_css = (): any =>
         err(() => {
@@ -279,7 +279,7 @@ export class Main {
             }
 
             return {};
-        }, 'cnt_84625');
+        }, 'cnt_1059');
 
     public get_video_background_css = ({
         background_container_i,
@@ -292,5 +292,5 @@ export class Main {
             }
 
             return {};
-        }, 'cnt_65435');
+        }, 'cnt_1060');
 }

@@ -12,5 +12,5 @@ export class Preview {
     public open = ({ background_id }: { background_id: string }): void =>
         err(() => {
             ext.send_msg({ msg: 'open_background_preview', background_id });
-        }, 'cnt_65435');
+        }, 'cnt_1150');
 }

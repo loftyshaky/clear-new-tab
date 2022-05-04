@@ -23,10 +23,10 @@ export class Main {
                     err(
                         () => +item,
 
-                        'cnt_75676',
+                        'cnt_1016',
                     ),
                 ),
-            'cnt_75655',
+            'cnt_1017',
         );
 
     public convert_tasks_to_alarm_data = (): Promise<i_db.AlarmDataItem[]> =>
@@ -50,7 +50,7 @@ export class Main {
                                     year_2: year,
                                     month_2: date.getMonth(),
                                 });
-                            }, 'cnt_76469');
+                            }, 'cnt_1018');
 
                         const get_date_from_day_of_the_week = ({
                             day_of_the_week,
@@ -123,7 +123,7 @@ export class Main {
                                 }
 
                                 return current_or_next_day_of_the_week_date;
-                            }, 'cnt_75666');
+                            }, 'cnt_1019');
 
                         const shift_month_or_year_if_day_of_the_month_doesnt_exists = ({
                             month_2,
@@ -167,7 +167,7 @@ export class Main {
                                         date.setDate(29);
                                     }
                                 }
-                            }, 'cnt_75544');
+                            }, 'cnt_1020');
 
                         let date_exists: boolean = true;
                         const now: number = Date.now();
@@ -325,13 +325,13 @@ export class Main {
                                   background_id: task.background_id,
                               }
                             : undefined;
-                    }, 'cnt_56443'),
+                    }, 'cnt_1021'),
             );
 
             const alarm_data_final: i_db.AlarmDataItem[] = alarm_data.filter(isPresent);
 
             return alarm_data_final;
-        }, 'cnt_54357');
+        }, 'cnt_1022');
 
     public schedule_background_display = ({
         called_after_task_completed = false,
@@ -345,7 +345,7 @@ export class Main {
                         await s_db.Manipulation.i().get_alarm_data();
                     const alarm_data_only_old: i_db.AlarmDataItem[] = alarm_data_2.filter(
                         (alarm_data_item: i_db.AlarmDataItem): boolean =>
-                            err(() => alarm_data_item.date < now, 'cnt_75565'),
+                            err(() => alarm_data_item.date < now, 'cnt_1023'),
                     );
                     const closest_alarm_data_item_2: i_db.AlarmDataItem | undefined = _.maxBy(
                         alarm_data_only_old,
@@ -361,29 +361,29 @@ export class Main {
                     await s_db.Manipulation.i().replace_alarm_data({
                         alarm_data: alarm_data_no_expired,
                     });
-                }, 'cnt_54386');
+                }, 'cnt_1024');
 
             const remove_expired_tasks = (): Promise<void> =>
                 err_async(async () => {
                     const expired_task_ids: string[] = alarm_data_only_expired.map(
                         (alarm_data_item: i_db.AlarmDataItem): string =>
-                            err(() => alarm_data_item.task_id, 'cnt_75643'),
+                            err(() => alarm_data_item.task_id, 'cnt_1025'),
                     );
 
                     await s_db.Manipulation.i().delete_tasks({ ids: expired_task_ids });
 
                     await ext.send_msg_resp({ msg: 'update_tasks' });
-                }, 'cnt_64636');
+                }, 'cnt_1026');
 
             const alarm_data: i_db.AlarmDataItem[] = await this.convert_tasks_to_alarm_data();
             const now: number = Date.now();
             const alarm_data_no_expired: i_db.AlarmDataItem[] = alarm_data.filter(
                 (alarm_data_item: i_db.AlarmDataItem): boolean =>
-                    err(() => alarm_data_item.date > now, 'cnt_75565'),
+                    err(() => alarm_data_item.date > now, 'cnt_1027'),
             );
             const alarm_data_only_expired: i_db.AlarmDataItem[] = alarm_data.filter(
                 (alarm_data_item: i_db.AlarmDataItem): boolean =>
-                    err(() => alarm_data_item.date < now, 'cnt_75565'),
+                    err(() => alarm_data_item.date < now, 'cnt_1028'),
             );
 
             const closest_alarm_data_item: i_db.AlarmDataItem | undefined = _.minBy(
@@ -396,13 +396,13 @@ export class Main {
                         () =>
                             n(closest_alarm_data_item) &&
                             alarm_data_item.date === closest_alarm_data_item.date,
-                        'cnt_54564',
+                        'cnt_1029',
                     ),
                 );
             const all_alarm_data_items_with_closest_time_is: string[] =
                 all_alarm_data_items_with_closest_time.map(
                     (alarm_data_item: i_db.AlarmDataItem): string =>
-                        err(() => alarm_data_item.i, 'cnt_64567'),
+                        err(() => alarm_data_item.i, 'cnt_1030'),
                 );
             const closest_alarm_data_item_i: string = BigNumber.max
                 .apply(null, all_alarm_data_items_with_closest_time_is)
@@ -410,7 +410,7 @@ export class Main {
             const closest_alarm_data_item_final: i_db.AlarmDataItem | undefined =
                 all_alarm_data_items_with_closest_time.find(
                     (alarm_data_item: i_db.AlarmDataItem): boolean =>
-                        err(() => alarm_data_item.i === closest_alarm_data_item_i, 'cnt_64567'),
+                        err(() => alarm_data_item.i === closest_alarm_data_item_i, 'cnt_1031'),
                 );
 
             await handle_missed_tasks();
@@ -422,5 +422,5 @@ export class Main {
                     when: closest_alarm_data_item_final.date,
                 });
             }
-        }, 'cnt_54345');
+        }, 'cnt_1032');
 }

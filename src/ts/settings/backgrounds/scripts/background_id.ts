@@ -12,5 +12,5 @@ export class BackgroundId {
     public copy_to_clipboard = ({ background_id }: { background_id: string }): Promise<void> =>
         err_async(async () => {
             await navigator.clipboard.writeText(background_id);
-        }, 'cnt_63567');
+        }, 'cnt_1145');
 }

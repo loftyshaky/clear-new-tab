@@ -20,7 +20,7 @@ export class ThemeId {
 
             const enabled_themes: Management.ExtensionInfo[] = ext_info.filter(
                 (item: Management.ExtensionInfo): boolean =>
-                    err(() => item.type === 'theme' && item.enabled, 'cnt_65648'),
+                    err(() => item.type === 'theme' && item.enabled, 'cnt_1180'),
             );
 
             const found_enabled_themes = !_.isEmpty(enabled_themes);
@@ -30,5 +30,5 @@ export class ThemeId {
             }
 
             return undefined;
-        }, 'cnt_76555');
+        }, 'cnt_1181');
 }

@@ -21,12 +21,12 @@ export class Upload {
             (
                 d_sections.Main.i().sections as any
             ).background_upload.inputs.upload_background.loading_msg_is_visible = is_visible;
-        }, 'cnt_64546');
+        }, 'cnt_1284');
 
     public set_visibility_of_error_msg = ({ is_visible }: { is_visible: boolean }): void =>
         err(() => {
             (
                 d_sections.Main.i().sections as any
             ).background_upload.inputs.upload_background.error_msg_is_visible = is_visible;
-        }, 'cnt_64564');
+        }, 'cnt_1285');
 }

@@ -58,7 +58,7 @@ export class Main {
                 update_database_when_dnd_item: true,
                 options_page_tab_id: undefined,
             };
-        }, 'cnt_1002');
+        }, 'cnt_1319');
 
     public update_settings = ({
         settings,
@@ -80,13 +80,13 @@ export class Main {
                     force_update: true,
                 });
             }
-        }, 'cnt_1003');
+        }, 'cnt_1320');
 
     public update_settings_debounce = _.debounce(
         (settings: i_data.Settings, update_background?: boolean) =>
             err_async(async () => {
                 await this.update_settings({ settings, update_background });
-            }, 'cnt_1177'),
+            }, 'cnt_1321'),
         500,
     );
 
@@ -97,5 +97,5 @@ export class Main {
             if (_.isEmpty(settings)) {
                 await this.update_settings();
             }
-        }, 'cnt_1004');
+        }, 'cnt_1322');
 }

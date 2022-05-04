@@ -35,7 +35,7 @@ export class Dnd {
             }
 
             return 0;
-        }, 'cnt_75467');
+        }, 'cnt_1119');
 
     public remove_drop_zone = (): void =>
         err(() => {
@@ -43,7 +43,7 @@ export class Dnd {
                 d_backgrounds.Main.i().backgrounds,
                 (background: i_db.BackgroundDropZone): boolean => background.type === 'drop_zone',
             );
-        }, 'cnt_86466');
+        }, 'cnt_1120');
 
     public start_drag = (
         { background_to_move }: { background_to_move: i_db.Background },
@@ -61,14 +61,14 @@ export class Dnd {
                 id: d_dnd.Main.i().item_to_move!.id,
                 items: d_backgrounds.Main.i().backgrounds,
             });
-        }, 'cnt_53643');
+        }, 'cnt_1121');
 
     public stop_drag = (): Promise<void> =>
         err_async(async () => {
             await d_dnd.Main.i().stop_drag({ remove_drop_zone: this.remove_drop_zone });
 
             this.lock_background_selection = false;
-        }, 'cnt_53643');
+        }, 'cnt_1122');
 
     public create_drop_zone = (
         { hovering_over_background }: { hovering_over_background: i_db.Background },
@@ -93,7 +93,7 @@ export class Dnd {
                 });
                 d_dnd.Main.i().insert_drop_zone();
             }
-        }, 'cnt_74357');
+        }, 'cnt_1123');
 
     public move_by_move_btn = ({ background }: { background: i_db.Background }): void =>
         err(() => {
@@ -131,5 +131,5 @@ export class Dnd {
                     }
                 }
             }
-        }, 'cnt_64356');
+        }, 'cnt_1124');
 }

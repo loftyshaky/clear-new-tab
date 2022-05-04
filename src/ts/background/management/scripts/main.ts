@@ -14,7 +14,7 @@ export class Main {
     private constructor() {}
 
     public get_all_exts = (): Promise<Management.ExtensionInfo[]> =>
-        err_async(async () => we.management.getAll(), 'cnt_85479');
+        err_async(async () => we.management.getAll(), 'cnt_1011');
 }
 
 we.management.onEnabled.addListener(
@@ -26,5 +26,5 @@ we.management.onEnabled.addListener(
 
                 await s_browser_theme.Main.i().get_theme_background();
             }
-        }, 'cnt_46378'),
+        }, 'cnt_1012'),
 );

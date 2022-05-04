@@ -32,9 +32,9 @@ export class Main {
             runInAction(() =>
                 err(() => {
                     data.settings = settings_final;
-                }, 'cnt_1163'),
+                }, 'cnt_1364'),
             );
-        }, 'cnt_1164');
+        }, 'cnt_1365');
 
     public change = ({ key, val }: { key: string; val: t.AnyUndefined }): void =>
         err(() => {
@@ -44,7 +44,7 @@ export class Main {
                 msg: 'update_settings_background',
                 settings: { [key]: val },
             });
-        }, 'cnt_1165');
+        }, 'cnt_1366');
 
     public set_from_storage = (): Promise<void> =>
         err_async(async () => {
@@ -59,5 +59,5 @@ export class Main {
             if (!_.isEqual(toJS(data.settings), settings)) {
                 this.set({ settings });
             }
-        }, 'cnt_1166');
+        }, 'cnt_1367');
 }

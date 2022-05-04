@@ -92,14 +92,14 @@ export class Tasks {
             }
 
             const date_no_time_arr = [day_of_the_week, month_and_day_of_the_month, year].filter(
-                (item: string | undefined): boolean => err(() => n(item), 'cnt_85347'),
+                (item: string | undefined): boolean => err(() => n(item), 'cnt_1252'),
             );
 
             const date_no_time: string = date_no_time_arr.join(', ');
             const date: string = date_no_time === '' ? time : `${date_no_time} ${time}`;
 
             return date;
-        }, 'cnt_53675');
+        }, 'cnt_1253');
 
     public set_tasks = (): Promise<void> =>
         err_async(async () => {
@@ -110,26 +110,26 @@ export class Tasks {
                     this.tasks = s_i_shared.Main.i().sort_by_i_ascending({
                         data: tasks,
                     }) as i_db.Task[];
-                }, 'cnt_64357'),
+                }, 'cnt_1254'),
             );
-        }, 'cnt_65456');
+        }, 'cnt_1255');
 
     public set_tasks_from_arg = ({ tasks }: { tasks: i_db.Task[] }): void =>
         err(() => {
             this.tasks = s_i_shared.Main.i().sort_by_i_ascending({
                 data: tasks,
             }) as i_db.Task[];
-        }, 'cnt_65444');
+        }, 'cnt_1256');
 
     public set_background_id = ({ background_id }: { background_id: string }): void =>
         err(() => {
             data.ui.background_id = background_id;
-        }, 'cnt_75543');
+        }, 'cnt_1257');
 
     public reset_background_id = (): void =>
         err(() => {
             data.ui.background_id = undefined;
-        }, 'cnt_64647');
+        }, 'cnt_1258');
 
     public reset_background_id_from_background_id = ({
         background_id,
@@ -140,7 +140,7 @@ export class Tasks {
             if (data.ui.background_id === background_id) {
                 this.reset_background_id();
             }
-        }, 'cnt_17958');
+        }, 'cnt_1259');
 
     public add = (): Promise<void> =>
         err_async(async () => {
@@ -171,7 +171,7 @@ export class Tasks {
             runInAction(() =>
                 err(() => {
                     this.tasks.push(new_task);
-                }, 'cnt_64564'),
+                }, 'cnt_1260'),
             );
 
             await d_scheduler.TaskAnimation.i().forbid_animation();
@@ -183,5 +183,5 @@ export class Tasks {
             ext.send_msg({ msg: 'schedule_background_display' });
 
             d_protecting_screen.Visibility.i().hide();
-        }, 'cnt_76435');
+        }, 'cnt_1261');
 }

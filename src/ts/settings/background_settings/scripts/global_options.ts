@@ -12,10 +12,10 @@ export class GlobalOptions {
     public hide = (): void =>
         err(() => {
             x.css('global_hidden', document.head);
-        }, 'cnt_64368');
+        }, 'cnt_1090');
 
     public show = (): void =>
         err(() => {
             x.remove(s('.global_hidden_link'));
-        }, 'cnt_46367');
+        }, 'cnt_1091');
 }

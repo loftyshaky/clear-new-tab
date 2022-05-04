@@ -35,7 +35,7 @@ export class Main {
             });
 
             d_protecting_screen.Visibility.i().hide();
-        }, 'cnt_84736');
+        }, 'cnt_1168');
 
     public get_theme_background = ({
         theme_id,
@@ -64,7 +64,7 @@ export class Main {
                                     await callback();
                                 }
                             },
-                            'cnt_64357',
+                            'cnt_1169',
                             { silent: true },
                         );
                     this.getting_theme_background = true;
@@ -82,7 +82,7 @@ export class Main {
                         const theme_background_with_this_theme_id_already_exists: boolean =
                             d_backgrounds.Main.i().backgrounds.some(
                                 (background: i_db.Background): boolean =>
-                                    err(() => background.theme_id === theme_id_final, 'cnt_64678'),
+                                    err(() => background.theme_id === theme_id_final, 'cnt_1170'),
                             );
 
                         if (
@@ -111,7 +111,7 @@ export class Main {
                                                       theme_background_data.img_file_name.endsWith(
                                                           `.${file_ext}`,
                                                       ),
-                                                  'cnt_65785',
+                                                  'cnt_1171',
                                               ),
                                       )
                                     : undefined;
@@ -171,7 +171,7 @@ export class Main {
                         const last_theme_background: i_db.Background | undefined =
                             d_backgrounds.Main.i().backgrounds.find(
                                 (background: i_db.Background): boolean =>
-                                    err(() => background.theme_id === theme_id_final, 'cnt_64747'),
+                                    err(() => background.theme_id === theme_id_final, 'cnt_1172'),
                             );
 
                         if (n(last_theme_background)) {
@@ -181,7 +181,7 @@ export class Main {
                         }
                         this.getting_theme_background = false;
                     }
-                }, 'cnt_85645');
+                }, 'cnt_1173');
 
             d_protecting_screen.Visibility.i().show();
             d_sections.Upload.i().set_visibility_of_loading_msg({ is_visible: true });
@@ -197,10 +197,10 @@ export class Main {
                 }
             } catch (error_obj: any) {
                 d_sections.Upload.i().set_visibility_of_error_msg({ is_visible: false });
-                show_err_ribbon(error_obj, 'cnt_75656', { silent: true });
+                show_err_ribbon(error_obj, 'cnt_1174', { silent: true });
             }
 
             d_sections.Upload.i().set_visibility_of_loading_msg({ is_visible: false });
             d_protecting_screen.Visibility.i().hide();
-        }, 'cnt_75643');
+        }, 'cnt_1175');
 }

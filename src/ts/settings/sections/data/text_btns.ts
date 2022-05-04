@@ -10,8 +10,8 @@ export class TextBtns {
     private constructor() {}
 
     public decide_set_background_as_current_btn_visibility = (): boolean =>
-        err(() => true, 'cnt_1141');
+        err(() => true, 'cnt_1282');
 
     public decide_paste_background_btn_visibility = (): boolean =>
-        err(() => data.ui.paste_btn_is_visible, 'cnt_1141');
+        err(() => data.ui.paste_btn_is_visible, 'cnt_1283');
 }

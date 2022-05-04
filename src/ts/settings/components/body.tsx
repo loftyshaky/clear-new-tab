@@ -22,10 +22,10 @@ export const Body: React.FunctionComponent = observer(() => {
                             sections: d_sections.Main.i().sections as i_inputs.Sections,
                             set_to_all_sections: true,
                         });
-                    }, 'cnt_1123');
+                    }, 'cnt_1182');
 
                 run();
-            }, 'cnt_1124'),
+            }, 'cnt_1183'),
         [],
     );
 

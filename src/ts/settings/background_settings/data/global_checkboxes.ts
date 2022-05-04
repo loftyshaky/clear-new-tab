@@ -51,7 +51,7 @@ export class GlobalCheckboxes {
                 settings_context_is_global || color_of_area_around_background_is_global;
 
             data.ui.video_volume_global = settings_context_is_global || video_volume_is_global;
-        }, 'cnt_64294');
+        }, 'cnt_1082');
 
     public restore_global_val = ({ name }: { name: string }): Promise<void> =>
         err_async(async () => {
@@ -59,5 +59,5 @@ export class GlobalCheckboxes {
                 name,
                 new_val: 'global',
             });
-        }, 'cnt_64356');
+        }, 'cnt_1083');
 }

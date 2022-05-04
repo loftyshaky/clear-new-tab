@@ -32,12 +32,12 @@ export class TaskDnd {
                 id: d_dnd.Main.i().item_to_move!.id,
                 items: d_scheduler.Tasks.i().tasks,
             });
-        }, 'cnt_53643');
+        }, 'cnt_1248');
 
     public stop_drag = (): Promise<void> =>
         err_async(async () => {
             await d_dnd.Main.i().stop_drag({ remove_drop_zone: this.remove_drop_zone });
-        }, 'cnt_74545');
+        }, 'cnt_1249');
 
     public create_drop_zone = (
         { hovering_over_task }: { hovering_over_task: i_db.Task },
@@ -61,7 +61,7 @@ export class TaskDnd {
                 });
                 d_dnd.Main.i().insert_drop_zone();
             }
-        }, 'cnt_74357');
+        }, 'cnt_1250');
 
     public remove_drop_zone = (): void =>
         err(() => {
@@ -69,5 +69,5 @@ export class TaskDnd {
                 d_scheduler.Tasks.i().tasks,
                 (task: i_db.TaskDropZone): boolean => task.type === 'drop_zone',
             );
-        }, 'cnt_86466');
+        }, 'cnt_1251');
 }

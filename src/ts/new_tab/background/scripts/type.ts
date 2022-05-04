@@ -26,7 +26,7 @@ export class Type {
                 n(background_data) &&
                 background_data.type.includes('img_file')
             );
-        }, 'cnt_43453');
+        }, 'cnt_1066');
 
     public is_img_link = ({
         background_container_i,
@@ -42,7 +42,7 @@ export class Type {
                 n(background_data) &&
                 background_data.type === 'img_link'
             );
-        }, 'cnt_43453');
+        }, 'cnt_1067');
 
     public is_img = ({ background_container_i }: { background_container_i: number }): boolean =>
         err(
@@ -50,7 +50,7 @@ export class Type {
                 data.settings.mode !== 'random_solid_color' &&
                 (this.is_img_file({ background_container_i }) ||
                     this.is_img_link({ background_container_i })),
-            'cnt_533535',
+            'cnt_1068',
         );
 
     public is_color = ({ background_container_i }: { background_container_i: number }): boolean =>
@@ -62,7 +62,7 @@ export class Type {
                 data.settings.mode === 'random_solid_color' ||
                 (n(background_data) && background_data.type.includes('color'))
             );
-        }, 'cnt_53575');
+        }, 'cnt_1069');
 
     public is_video = ({ background_container_i }: { background_container_i: number }): boolean =>
         err(() => {
@@ -74,5 +74,5 @@ export class Type {
                 n(background_data) &&
                 background_data.type.includes('video')
             );
-        }, 'cnt_67543');
+        }, 'cnt_1070');
 }

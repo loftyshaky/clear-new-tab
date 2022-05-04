@@ -74,7 +74,7 @@ export class Crx {
 
                 return theme_package;
             },
-            'cnt_65658',
+            'cnt_1163',
             { silent: true },
         );
 
@@ -88,7 +88,7 @@ export class Crx {
             const clear_new_tab_video_file_name: string | undefined =
                 s_browser_theme.ThemeFile.i().clear_new_tab_video_file_names.find(
                     (file_name: string): void =>
-                        err(() => theme_package_data.files[file_name], 'cnt_64678'),
+                        err(() => theme_package_data.files[file_name], 'cnt_1164'),
                 );
             const manifest = await theme_package_data.file('manifest.json').async('string');
             const manifest_obj = JSON.parse(manifest.trim()); // trim fixes bug with some themes. ex: https://chrome.google.com/webstore/detail/sexy-girl-chrome-theme-ar/pkibpgkliocdchedibhioiibdiddomac
@@ -153,7 +153,7 @@ export class Crx {
             };
 
             return theme_background_info;
-        }, 'cnt_78648');
+        }, 'cnt_1165');
 
     public rgb_to_hex = ({ val }: { val: number[] }): string =>
         err(
@@ -164,9 +164,9 @@ export class Crx {
                             const hex = sub_val.toString(16);
 
                             return hex.length === 1 ? `0${hex}` : hex;
-                        }, 'cnt_95737'),
+                        }, 'cnt_1166'),
                     )
                     .join('')}`,
-            'cnt_85374',
+            'cnt_1167',
         );
 }

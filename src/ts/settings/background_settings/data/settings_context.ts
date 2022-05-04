@@ -50,7 +50,7 @@ export class SettingsContext {
             s_background_settings.GlobalOptions.i().hide();
 
             d_backgrounds.CurrentBackground.i().deselect();
-        }, 'cnt_75467');
+        }, 'cnt_1084');
 
     public react_to_background_selection = ({
         background,
@@ -102,7 +102,7 @@ export class SettingsContext {
 
             d_background_settings.GlobalCheckboxes.i().set_ui_vals();
             s_background_settings.GlobalOptions.i().show();
-        }, 'cnt_75467');
+        }, 'cnt_1085');
 
     private reset_is_enabled_state = ({ val }: { val: boolean }): void =>
         err(() => {
@@ -137,7 +137,7 @@ export class SettingsContext {
             sections.background_settings.inputs.video_volume_group.is_enabled = val;
             sections.background_settings.inputs.color_of_area_around_background_group.is_enabled =
                 val;
-        }, 'cnt_56357');
+        }, 'cnt_1086');
 
     public show_selected_background_alert = (): void =>
         err(() => {
@@ -145,5 +145,5 @@ export class SettingsContext {
 
             // eslint-disable-next-line no-alert
             alert(ext.msg('select_background_alert'));
-        }, 'cnt_65436');
+        }, 'cnt_1087');
 }

@@ -60,7 +60,7 @@ export class CurrentBackground {
                     update_instantly: true,
                 });
             }
-        }, 'cnt_43673');
+        }, 'cnt_1315');
 
     private get_id_of_random_background = (): Promise<string | number> =>
         err_async(async () => {
@@ -82,5 +82,5 @@ export class CurrentBackground {
             }
 
             return future_background_id;
-        }, 'cnt_64356');
+        }, 'cnt_1316');
 }

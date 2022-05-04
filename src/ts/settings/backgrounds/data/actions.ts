@@ -37,7 +37,7 @@ export class Actions {
             } else {
                 this.actions_visibility[background_id] = true;
             }
-        }, 'cnt_64357');
+        }, 'cnt_1092');
 
     public is_visible = computedFn(function (
         this: Actions,
@@ -74,5 +74,5 @@ export class Actions {
             if (!x.closest(e.target as HTMLElement, '.actions')) {
                 this.actions_visibility = {};
             }
-        }, 'cnt_75432');
+        }, 'cnt_1093');
 }

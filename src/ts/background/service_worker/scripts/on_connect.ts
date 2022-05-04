@@ -17,5 +17,5 @@ we.runtime.onConnect.addListener(
 
                 port.onDisconnect.addListener(s_service_worker.Lifeline.i().connect);
             }
-        }, 'cnt_1017'),
+        }, 'cnt_1035'),
 );

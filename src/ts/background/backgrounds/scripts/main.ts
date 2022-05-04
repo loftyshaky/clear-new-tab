@@ -26,5 +26,5 @@ export class Main {
                     await s_background.BackgroundChange.i().update_background({ no_tr: false });
                 }
             }
-        }, 'cnt_64455');
+        }, 'cnt_1001');
 }

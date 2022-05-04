@@ -20,5 +20,5 @@ export class Visibility {
     public change = ({ is_visible }: { is_visible: boolean }): void =>
         err(() => {
             this.is_visible = is_visible;
-        }, 'cnt_78545');
+        }, 'cnt_1267');
 }

@@ -44,7 +44,7 @@ export class Val {
                     await this.change_background_val({ name, new_val });
                 }
             }
-        }, 'cnt_53674');
+        }, 'cnt_1088');
 
     public change_background_val = ({
         name,
@@ -69,5 +69,5 @@ export class Val {
                 allow_to_start_slideshow_timer: false,
                 force_update: true,
             });
-        }, 'cnt_64566');
+        }, 'cnt_1089');
 }

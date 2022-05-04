@@ -30,12 +30,12 @@ export class Main {
                         (background: i_db.Background): boolean =>
                             err(
                                 () => n(background.theme_id) && background.theme_id !== theme_id,
-                                'cnt_63684',
+                                'cnt_1159',
                             ),
                     );
 
                 ids_to_delete = backgrounds_to_delete.map((background: i_db.Background): string =>
-                    err(() => background.id, 'cnt_63464'),
+                    err(() => background.id, 'cnt_1160'),
                 );
             }
 
@@ -45,7 +45,7 @@ export class Main {
                         (background: i_db.Background): boolean =>
                             err(
                                 () => n(background.theme_id) && background.theme_id === theme_id,
-                                'cnt_74556',
+                                'cnt_1161',
                             ),
                     );
 
@@ -55,5 +55,5 @@ export class Main {
             }
 
             d_backgrounds.BackgroundDeletion.i().trigger_delete({ ids: ids_to_delete });
-        }, 'cnt_56812');
+        }, 'cnt_1162');
 }

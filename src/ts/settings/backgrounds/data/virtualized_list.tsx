@@ -124,10 +124,10 @@ export class VirtualizedList {
                 x: n(this.position_map[index]) ? this.position_map[index].x : 0,
                 y: n(this.position_map[index]) ? this.position_map[index].y : 0,
             };
-        }, 'cnt_73925');
+        }, 'cnt_1143');
 
     public calculate_height = (): void =>
         err(() => {
             this.height = s_viewport.Main.i().get_dim({ dim: 'height' }) - 76;
-        }, 'cnt_57843');
+        }, 'cnt_1144');
 }

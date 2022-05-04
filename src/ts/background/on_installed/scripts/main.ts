@@ -17,5 +17,5 @@ we.runtime.onInstalled.addListener(
                     s_announcement.Display.i().display_announcement();
                 }
             }
-        }, 'cnt_53783'),
+        }, 'cnt_1014'),
 );

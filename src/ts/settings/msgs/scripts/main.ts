@@ -19,5 +19,5 @@ we.runtime.onMessage.addListener(
             }
 
             return true;
-        }, 'cnt_54374'),
+        }, 'cnt_1224'),
 );

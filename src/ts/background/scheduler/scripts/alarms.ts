@@ -17,5 +17,5 @@ we.alarms.onAlarm.addListener(
 
                 ext.send_msg({ msg: 'set_current_background_i' });
             }
-        }, 'cnt_64676'),
+        }, 'cnt_1015'),
 );

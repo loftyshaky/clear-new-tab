@@ -112,7 +112,7 @@ export class Main {
                     new o_inputs.Option({ name: 'right_bottom' }),
                 ],
             };
-        }, 'cnt_1127');
+        }, 'cnt_1268');
 
     public init_sections = (): void =>
         err(() => {
@@ -556,5 +556,5 @@ export class Main {
                 arr: this.sections.links.inputs as o_inputs.Section[],
                 section: 'links',
             });
-        }, 'cnt_1128');
+        }, 'cnt_1269');
 }

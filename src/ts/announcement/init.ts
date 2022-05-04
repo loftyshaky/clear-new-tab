@@ -5,4 +5,4 @@ export const init = (): void =>
         InitAll.i().init();
 
         InitAll.i().render_announcement();
-    }, 'cnt_61125');
+    }, 'cnt_1000');

@@ -42,14 +42,14 @@ export class CurrentBackground {
             if (d_scheduler.Visibility.i().is_visible) {
                 d_scheduler.Tasks.i().set_background_id({ background_id: background.id });
             }
-        }, 'cnt_96436');
+        }, 'cnt_1109');
 
     public deselect = (): void =>
         err(() => {
             if (!d_backgrounds.Dnd.i().lock_background_selection) {
                 this.selected_background_id = undefined;
             }
-        }, 'cnt_53645');
+        }, 'cnt_1110');
 
     selected_cls = computedFn(function (this: CurrentBackground, { id }: { id: string }): string {
         if (n(this.selected_background_id)) {
@@ -76,7 +76,7 @@ export class CurrentBackground {
                 );
                 data.ui.current_background_i = i_of_background_with_current_id + 1;
             }
-        }, 'cnt_56743');
+        }, 'cnt_1111');
 
     public set_background_as_current = ({
         id,
@@ -105,7 +105,7 @@ export class CurrentBackground {
                 allow_to_start_slideshow_timer: false,
                 force_update: true,
             });
-        }, 'cnt_64357');
+        }, 'cnt_1112');
 
     public set_selected_background_as_current = (): void =>
         err(() => {
@@ -117,7 +117,7 @@ export class CurrentBackground {
                 // eslint-disable-next-line no-alert
                 alert(ext.msg('select_background_alert'));
             }
-        }, 'cnt_53793');
+        }, 'cnt_1113');
 
     public set_last_uploaded_background_as_current = ({ id }: { id: string | undefined }): void =>
         err(() => {
@@ -131,7 +131,7 @@ export class CurrentBackground {
                     id: d_backgrounds.Main.i().backgrounds[0].id,
                 });
             }
-        }, 'cnt_63785');
+        }, 'cnt_1114');
 
     public save_current_background_id_from_i = _.debounce(
         (): void =>
@@ -144,7 +144,7 @@ export class CurrentBackground {
                         id: n(background_with_current_i) ? background_with_current_i.id : 1,
                     });
                 }
-            }, 'cnt_64789'),
+            }, 'cnt_1115'),
         200,
     );
 
@@ -192,7 +192,7 @@ export class CurrentBackground {
                     this.set_background_as_current({ id: new_current_background_id });
                 }
             }
-        }, 'cnt_53246');
+        }, 'cnt_1116');
 
     public reset_current_background_id = (): void =>
         err(() => {
@@ -202,7 +202,7 @@ export class CurrentBackground {
             data.ui.current_background_i = reset_val;
 
             this.save_current_background_id_from_i();
-        }, 'cnt_64684');
+        }, 'cnt_1117');
 
     private get_id_of_random_background = (): string | number =>
         err(() => {
@@ -219,5 +219,5 @@ export class CurrentBackground {
             }
 
             return future_background_id;
-        }, 'cnt_64356');
+        }, 'cnt_1118');
 }

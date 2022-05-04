@@ -16,10 +16,10 @@ export class Lifeline {
     public connect = (): void =>
         err(() => {
             this.lifeline = we.runtime.connect({ name: 'keep_alive' });
-        }, 'cnt_97654');
+        }, 'cnt_1080');
 
     public disconnect = (): void =>
         err(() => {
             this.lifeline?.disconnect();
-        }, 'cnt_97654');
+        }, 'cnt_1081');
 }

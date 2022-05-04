@@ -33,5 +33,5 @@ export class Main {
                 name: 'fade_out',
                 val: `fade_out ${data.settings.transition_duration}ms ease-out forwards`,
             });
-        }, 'cnt_1147');
+        }, 'cnt_1317');
 }

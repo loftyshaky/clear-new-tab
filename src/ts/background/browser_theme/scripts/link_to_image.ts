@@ -12,5 +12,5 @@ export class LinkToImage {
     public open = (): void =>
         err(() => {
             we.tabs.create({ url: 'chrome://theme/IDR_THEME_NTP_BACKGROUND' });
-        }, 'cnt_66433');
+        }, 'cnt_1004');
 }

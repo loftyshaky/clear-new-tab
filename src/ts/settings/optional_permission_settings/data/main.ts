@@ -32,7 +32,7 @@ export class Main {
             data.ui.allow_downloading_img_by_link = await we.permissions.contains(
                 this.optional_permission_checkbox_dict.allow_downloading_img_by_link,
             );
-        }, 'cnt_64345');
+        }, 'cnt_1225');
 
     public set_permission = ({ name }: { name: string }): Promise<void> =>
         err_async(async () => {
@@ -40,5 +40,5 @@ export class Main {
                 name,
                 optional_permission_checkbox_dict: this.optional_permission_checkbox_dict,
             });
-        }, 'cnt_56336');
+        }, 'cnt_1226');
 }

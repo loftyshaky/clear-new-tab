@@ -13,5 +13,5 @@ export class Main {
         err(() => {
             const name_final = `settings_${name}_theme`;
             x.css(name_final, el, 'settings_theme_link');
-        }, 'cnt_1129');
+        }, 'cnt_1368');
 }

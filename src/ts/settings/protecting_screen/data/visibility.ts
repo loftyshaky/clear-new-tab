@@ -22,12 +22,12 @@ export class Visibility {
     public show = (): void =>
         err(() => {
             this.is_visible = true;
-        }, 'cnt_64345');
+        }, 'cnt_1227');
 
     public hide = (): void =>
         err(() => {
             this.is_visible = false;
-        }, 'cnt_64345');
+        }, 'cnt_1228');
 
     public get visibility_cls() {
         return this.is_visible ? '' : 'none';

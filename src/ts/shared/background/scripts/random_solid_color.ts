@@ -33,5 +33,5 @@ export class RandomSolidColor {
             }
 
             return '';
-        }, 'cnt_64356');
+        }, 'cnt_1314');
 }

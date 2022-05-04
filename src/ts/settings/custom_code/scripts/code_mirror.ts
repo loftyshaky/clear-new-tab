@@ -71,30 +71,30 @@ export class CodeMirror {
 
                 this.set_theme({ code_mirror_inst });
             }
-        }, 'cnt_74786');
+        }, 'cnt_1190');
 
     public init_all = (): void =>
         err(() => {
             this.init_calls.forEach((init_call: t.CallbackVoid): void =>
                 err(() => {
                     init_call();
-                }, 'cnt_75454'),
+                }, 'cnt_1191'),
             );
-        }, 'cnt_74645');
+        }, 'cnt_1192');
 
     private set_theme = ({ code_mirror_inst }: { code_mirror_inst: Editor }): void =>
         err(() => {
             code_mirror_inst.setOption('theme', this.theme_dict[data.settings.options_page_theme]);
-        }, 'cnt_64675');
+        }, 'cnt_1193');
 
     public change_theme = (): void =>
         err(() => {
             this.monde_mirror_insts.forEach((code_mirror_inst: Editor): void =>
                 err(() => {
                     this.set_theme({ code_mirror_inst });
-                }, 'cnt_74768'),
+                }, 'cnt_1194'),
             );
-        }, 'cnt_64675');
+        }, 'cnt_1195');
 
     public set_vals = (): void =>
         err(() => {
@@ -109,10 +109,10 @@ export class CodeMirror {
                             'value',
                             d_custom_code.Main.i().custom_code[type],
                         );
-                    }, 'cnt_74768'),
+                    }, 'cnt_1196'),
                 );
             }
-        }, 'cnt_67675');
+        }, 'cnt_1197');
 
     public format = (): void =>
         err(() => {
@@ -150,11 +150,11 @@ export class CodeMirror {
                             s_custom_code.Db.i().save_val({ type, val: formatted_code });
                         }
                     },
-                    'cnt_74768',
+                    'cnt_1198',
                     { silent: true },
                 ),
             );
-        }, 'cnt_75467');
+        }, 'cnt_1199');
 
     private get_type = ({ code_mirror_inst }: { code_mirror_inst: Editor }): i_custom_code.Type =>
         err(
@@ -163,6 +163,6 @@ export class CodeMirror {
                     mode: (code_mirror_inst as any).options.mode.name,
                 }),
 
-            'cnt_74746',
+            'cnt_1200',
         );
 }

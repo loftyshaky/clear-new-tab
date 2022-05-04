@@ -15,5 +15,5 @@ export class Visibility {
                 msg: 'update_settings_background',
                 settings: { color_help_is_visible: false },
             });
-        }, 'cnt_1146');
+        }, 'cnt_1295');
 }

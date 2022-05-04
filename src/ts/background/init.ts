@@ -8,4 +8,4 @@ export const init = (): Promise<void> =>
         await s_scheduler.Main.i().schedule_background_display();
         db.init_db();
         await s_db.Main.i().delete_old_db();
-    }, 'cnt_1016');
+    }, 'cnt_1010');

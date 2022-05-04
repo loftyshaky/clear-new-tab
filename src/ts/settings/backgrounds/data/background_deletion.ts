@@ -69,14 +69,14 @@ export class BackgroundDeletion {
             const deleting_selected_background: boolean = ids.some((id: string): boolean =>
                 err(
                     () => id === d_backgrounds.CurrentBackground.i().selected_background_id,
-                    'cnt_87589',
+                    'cnt_1100',
                 ),
             );
 
             if (deleting_selected_background) {
                 d_background_settings.SettingsContext.i().react_to_global_selection();
             }
-        }, 'cnt_55355');
+        }, 'cnt_1101');
 
     private delete = ({
         ids,
@@ -106,13 +106,13 @@ export class BackgroundDeletion {
                         d_backgrounds.Main.i().backgrounds,
                         (background: i_db.Background) => ids.includes(background.id),
                     );
-                }, 'cnt_65653'),
+                }, 'cnt_1102'),
             );
             if (deleting_background_with_delete_button && n(deleted_background_i)) {
                 const last_theme_background: i_db.Background | undefined =
                     d_backgrounds.Main.i().backgrounds.find(
                         (background: i_db.Background): boolean =>
-                            err(() => n(background.theme_id), 'cnt_75467'),
+                            err(() => n(background.theme_id), 'cnt_1103'),
                     );
 
                 if (data.settings.mode === 'theme_background' && n(last_theme_background)) {
@@ -137,9 +137,9 @@ export class BackgroundDeletion {
             runInAction(() =>
                 err(() => {
                     this.deleting_background = false;
-                }, 'cnt_65653'),
+                }, 'cnt_1104'),
             );
-        }, 'cnt_64356');
+        }, 'cnt_1105');
 
     public delete_all_backgrounds = (): Promise<void> =>
         err_async(async () => {
@@ -151,7 +151,7 @@ export class BackgroundDeletion {
 
                 d_sections.SectionContent.i().backgrounds_section_content_is_visible = false;
             }
-        }, 'cnt_65656');
+        }, 'cnt_1106');
 
     public delete_all_backgrounds_transition_end_callback = (): Promise<void> =>
         err_async(async () => {
@@ -180,5 +180,5 @@ export class BackgroundDeletion {
             }
 
             d_protecting_screen.Visibility.i().hide();
-        }, 'cnt_45345');
+        }, 'cnt_1107');
 }

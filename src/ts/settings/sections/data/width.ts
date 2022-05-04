@@ -39,11 +39,11 @@ export class Width {
                     [...section_els].forEach((section_el: HTMLDivElement): void =>
                         err(() => {
                             section_el.style.width = x.px(this.settings_section_width);
-                        }, 'cnt_99999'),
+                        }, 'cnt_1296'),
                     );
                 }
             }
-        }, 'cnt_99999');
+        }, 'cnt_1297');
 
     public set_backgrounds_section_width = (): void =>
         err(() => {
@@ -85,11 +85,11 @@ export class Width {
 
                 d_backgrounds.VirtualizedList.i().calculate_height();
             }
-        }, 'cnt_99999');
+        }, 'cnt_1298');
 
     public set = (): void =>
         err(() => {
             this.set_settings_section_width();
             this.set_backgrounds_section_width();
-        }, 'cnt_99999');
+        }, 'cnt_1299');
 }

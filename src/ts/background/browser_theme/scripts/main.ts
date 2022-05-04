@@ -31,7 +31,7 @@ export class Main {
             if (options_page_is_open) {
                 ext.send_msg({ msg: 'try_to_get_theme_background' });
             }
-        }, 'cnt_84214');
+        }, 'cnt_1005');
 
     public get_theme_background_response = (): i_browser_theme.GetThemeBackground =>
         err(
@@ -39,9 +39,9 @@ export class Main {
                 theme_id: this.theme_id,
                 force_theme_redownload: this.force_theme_redownload,
             }),
-            'cnt_75356',
+            'cnt_1006',
         );
 
     public get_id_of_currently_added_theme = (): string | undefined =>
-        err(() => this.theme_id, 'cnt_74356');
+        err(() => this.theme_id, 'cnt_1007');
 }

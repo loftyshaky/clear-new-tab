@@ -22,7 +22,7 @@ export class Help {
     public change_help_visibility = (): void =>
         err(() => {
             this.help_is_visible = !this.help_is_visible;
-        }, 'cnt_76467');
+        }, 'cnt_1184');
 
     public get help_visibility_cls() {
         return this.help_is_visible ? '' : 'none';

@@ -16,5 +16,5 @@ export class Preview {
             );
 
             chrome.tabs.create({ active: true, url });
-        }, 'cnt_54272');
+        }, 'cnt_1002');
 }

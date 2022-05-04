@@ -33,5 +33,5 @@ export class Position {
 
                 this.left = section_rect.left + section_content_padding + vars.border_width;
             }
-        }, 'cnt_63435');
+        }, 'cnt_1235');
 }

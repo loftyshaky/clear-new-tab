@@ -24,5 +24,5 @@ export class Main {
                 name: data.settings.options_page_theme,
                 additional_theme_callback: s_theme.Main.i().set,
             });
-        }, 'cnt_65635');
+        }, 'cnt_1301');
 }

@@ -12,5 +12,5 @@ export class LinkToImage {
     public open = (): void =>
         err(() => {
             ext.send_msg({ msg: 'open_theme_background' });
-        }, 'cnt_54354');
+        }, 'cnt_1300');
 }

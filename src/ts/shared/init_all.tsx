@@ -92,14 +92,14 @@ export class InitAll {
                                             }
 
                                             d_loading_screen.Main.i().show();
-                                        }, 'cnt_1158'),
+                                        }, 'cnt_1350'),
                                     );
                                 }
                             }
-                        }, 'cnt_1159'),
+                        }, 'cnt_1351'),
                 );
             });
-        }, 'cnt_1160');
+        }, 'cnt_1352');
 
     private create_root = ({
         prefix,
@@ -121,7 +121,7 @@ export class InitAll {
             }
 
             return root;
-        }, 'cnt_1161');
+        }, 'cnt_1353');
 
     public render_announcement = (): Promise<void> =>
         err_async(async () => {
@@ -130,7 +130,7 @@ export class InitAll {
             const on_render = (): Promise<void> =>
                 err_async(async () => {
                     d_loading_screen.Main.i().hide();
-                }, 'cnt_1148');
+                }, 'cnt_1354');
 
             if (n(this.announcement_root)) {
                 render(
@@ -150,10 +150,10 @@ export class InitAll {
                             if (n(announcement_css)) {
                                 x.bind(announcement_css, 'load', on_render);
                             }
-                        }, 'cnt_1149'),
+                        }, 'cnt_1355'),
                 );
             }
-        }, 'cnt_1150');
+        }, 'cnt_1356');
 
     public render_settings = (): Promise<void> =>
         err_async(async () => {
@@ -189,7 +189,7 @@ export class InitAll {
                     s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({
                         virtualized_list_type: 'backgrounds',
                     });
-                }, 'cnt_1148');
+                }, 'cnt_1357');
 
             if (n(this.settings_root)) {
                 render(
@@ -209,10 +209,10 @@ export class InitAll {
                             if (n(settings_css)) {
                                 x.bind(settings_css, 'load', on_render);
                             }
-                        }, 'cnt_1149'),
+                        }, 'cnt_1358'),
                 );
             }
-        }, 'cnt_1150');
+        }, 'cnt_1359');
 
     public render_new_tab = (): Promise<void> =>
         err_async(async () => {
@@ -225,7 +225,7 @@ export class InitAll {
                     d_loading_screen.Main.i().hide();
 
                     s_tab_index.Main.i().bind_set_input_type_f();
-                }, 'cnt_1148');
+                }, 'cnt_1360');
 
             if (n(this.new_tab_root)) {
                 render(
@@ -240,8 +240,8 @@ export class InitAll {
                             if (n(new_tab_css)) {
                                 x.bind(new_tab_css, 'load', on_render);
                             }
-                        }, 'cnt_1149'),
+                        }, 'cnt_1361'),
                 );
             }
-        }, 'cnt_1150');
+        }, 'cnt_1362');
 }

@@ -19,12 +19,12 @@ export class FileType {
                         err(
                             () => file_type === file.type,
 
-                            'cnt_84260',
+                            'cnt_1147',
                         ),
                 );
 
                 const is_video: boolean = ['video/mp4', 'video/webm', 'video/ogg'].some(
-                    (file_type: string): boolean => err(() => file_type === file.type, 'cnt_63683'),
+                    (file_type: string): boolean => err(() => file_type === file.type, 'cnt_1148'),
                 );
 
                 if (is_img) {
@@ -37,5 +37,5 @@ export class FileType {
             }
 
             return 'img_link';
-        }, 'cnt_19345');
+        }, 'cnt_1149');
 }

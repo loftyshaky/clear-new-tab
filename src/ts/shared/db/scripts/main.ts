@@ -42,7 +42,7 @@ export class Main extends Dexie {
                 },
                 'custom_code',
             );
-        }, 'cnt_1121');
+        }, 'cnt_1323');
 }
 
 export const db = new Main();

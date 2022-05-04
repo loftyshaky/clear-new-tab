@@ -30,7 +30,7 @@ export class TaskAnimation {
         err(() => {
             this.background_to_animate_id = id;
             this.animating_task = true;
-        }, 'cnt_74746');
+        }, 'cnt_1236');
 
     public forbid_animation = (): Promise<void> =>
         err_async(async () => {
@@ -39,7 +39,7 @@ export class TaskAnimation {
             runInAction(() =>
                 err(() => {
                     this.animating_task = false;
-                }, 'cnt_64294'),
+                }, 'cnt_1237'),
             );
-        }, 'cnt_64683');
+        }, 'cnt_1238');
 }

@@ -23,7 +23,7 @@ export class Visibility {
                 settings: data.settings,
                 update_instantly: true,
             });
-        }, 'cnt_75456');
+        }, 'cnt_1222');
 
     public bind_hide = (): void =>
         err(() => {
@@ -32,5 +32,5 @@ export class Visibility {
             if (n(hide_install_help_el)) {
                 x.bind(hide_install_help_el, 'click', this.hide);
             }
-        }, 'cnt_64675');
+        }, 'cnt_1223');
 }

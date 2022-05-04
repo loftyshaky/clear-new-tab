@@ -35,5 +35,5 @@ export class TopControls {
             this.top_controls = s_utils.Main.i().to_object({
                 arr: this.top_controls as o_inputs.IconBtn[],
             });
-        }, 'cnt_11628');
+        }, 'cnt_1188');
 }

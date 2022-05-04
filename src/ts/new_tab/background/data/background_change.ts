@@ -18,7 +18,7 @@ export class BackgroundChange {
     public record_new_tab_page_visit = (): void =>
         err(() => {
             this.visited_this_new_tab_page_once = !document.hidden;
-        }, 'cnt_75643');
+        }, 'cnt_1042');
 
     public update_background = ({
         no_tr = false,
@@ -76,7 +76,7 @@ export class BackgroundChange {
                             data.settings.mode === 'random_solid_color'
                                 ? data.settings.current_random_solid_color
                                 : new_background_file;
-                    }, 'cnt_74757'),
+                    }, 'cnt_1043'),
                 );
 
                 d_background.BackgroundSize.i().determine_background_size();
@@ -96,12 +96,12 @@ export class BackgroundChange {
                             get_video_volume();
                         d_background.Main.i().background_css[opposite_background_container_i] =
                             get_background_css();
-                    }, 'cnt_84755'),
+                    }, 'cnt_1044'),
                 );
 
                 await s_background.Load.i().wait_to_visibility();
             }
-        }, 'cnt_75465');
+        }, 'cnt_1045');
 
     public react_to_visibility_change = (): void =>
         err(() => {
@@ -118,5 +118,5 @@ export class BackgroundChange {
 
                 d_background.VideoPlayback.i().set_play_status({ is_playing: false });
             }
-        }, 'cnt_76545');
+        }, 'cnt_1046');
 }

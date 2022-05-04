@@ -31,9 +31,9 @@ export class Main {
             runInAction(() =>
                 err(() => {
                     this.custom_code = custom_code_final;
-                }, 'cnt_74757'),
+                }, 'cnt_1185'),
             );
-        }, 'cnt_64646');
+        }, 'cnt_1186');
 
     public set_custom_code_item = ({
         type,
@@ -44,5 +44,5 @@ export class Main {
     }): void =>
         err(() => {
             this.custom_code[type] = val;
-        }, 'cnt_64646');
+        }, 'cnt_1187');
 }

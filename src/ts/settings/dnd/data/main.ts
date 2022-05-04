@@ -59,7 +59,7 @@ export class Main {
     }
 
     public dragged_item_cls = ({ dragged }: { dragged: boolean }): string =>
-        err(() => (dragged ? 'dragged_item' : ''), 'cnt_66347');
+        err(() => (dragged ? 'dragged_item' : ''), 'cnt_1206');
 
     public stop_drag = ({
         remove_drop_zone,
@@ -74,7 +74,7 @@ export class Main {
             remove_drop_zone();
 
             await x.delay(100);
-        }, 'cnt_75464');
+        }, 'cnt_1207');
 
     public drag_threshold_surpassed = ({ e }: { e: MouseEvent }): boolean =>
         err(
@@ -84,7 +84,7 @@ export class Main {
                     e.clientX - this.initial_x <= -this.drag_threshold ||
                     e.clientY - this.initial_y >= this.drag_threshold ||
                     e.clientY - this.initial_y <= -this.drag_threshold),
-            'cnt_86445',
+            'cnt_1208',
         );
 
     public set_drag_direction = (e: MouseEvent): void =>
@@ -103,7 +103,7 @@ export class Main {
 
             this.current_x = e.clientX;
             this.current_y = e.clientY;
-        }, 'cnt_76545');
+        }, 'cnt_1209');
 
     public get_drop_zone_item = ({ items }: { items: i_db.Background[] | i_db.Task[] }): void =>
         err(() => {
@@ -140,7 +140,7 @@ export class Main {
                                 this.drop_zone_item = this.hovering_over_item;
                             }
                         }
-                    }, 'cnt_64684');
+                    }, 'cnt_1210');
 
                 const items_2: i_db.Background[] | i_db.Task[] = toJS(
                     _.reject(items as any, (item: any) => item.type === 'drop_zone'),
@@ -180,7 +180,7 @@ export class Main {
                     });
                 }
             }
-        }, 'cnt_64781');
+        }, 'cnt_1211');
 
     public insert_drop_zone = (): void =>
         err(() => {
@@ -224,7 +224,7 @@ export class Main {
                     d_scheduler.Tasks.i().tasks = items_with_drop_zone as i_db.Task[];
                 }
             }
-        }, 'cnt_65435');
+        }, 'cnt_1212');
 
     private remove_drop_zone = (): void =>
         err(() => {
@@ -233,7 +233,7 @@ export class Main {
             } else if (this.drag_type === 'task') {
                 d_scheduler.TaskDnd.i().remove_drop_zone();
             }
-        }, 'cnt_65435');
+        }, 'cnt_1213');
 
     public set_dragged_item_position = (e: MouseEvent): void =>
         err(() => {
@@ -251,7 +251,7 @@ export class Main {
                           d_dnd.Main.i().dragged_background_offset
                         : e.clientX + d_dnd.Main.i().dragged_background_offset;
             }
-        }, 'cnt_54674');
+        }, 'cnt_1214');
 
     public drop = async (): Promise<void> =>
         err_async(async () => {
@@ -328,7 +328,7 @@ export class Main {
                                 }
                             }
                         }),
-                        'cnt_54680',
+                        'cnt_1215',
                     );
 
                 const set_intermediate_i = ({
@@ -389,7 +389,7 @@ export class Main {
                                     intermediate_i;
                             }
                         }),
-                        'cnt_53673',
+                        'cnt_1216',
                     );
 
                 if (d_dnd.Main.i().item_to_move_i < drop_zone_background_i) {
@@ -434,8 +434,8 @@ export class Main {
                                 data: items,
                             }) as i_db.Task[];
                         }
-                    }, 'cnt_56534'),
+                    }, 'cnt_1217'),
                 );
             }
-        }, 'cnt_64325');
+        }, 'cnt_1218');
 }

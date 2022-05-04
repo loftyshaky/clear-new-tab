@@ -38,7 +38,7 @@ export class ThemeFile {
                 : await theme_package_data.file(_.upperFirst(img_file)); // download theme image (convert first letter of image name to uppercase);
             const is_img_file: boolean = this.valid_img_file_types.some(
                 (file_ext: string): boolean =>
-                    err(() => n(img_file_name) && img_file_name.endsWith(file_ext), 'cnt_64647'),
+                    err(() => n(img_file_name) && img_file_name.endsWith(file_ext), 'cnt_1176'),
             );
             const is_gif_clear_new_tab_file: boolean =
                 n(clear_new_tab_video_file_name) &&
@@ -59,7 +59,7 @@ export class ThemeFile {
             const file = this.convert_to_file_object({ blob, file_type });
 
             return file;
-        }, 'cnt_65467');
+        }, 'cnt_1177');
 
     private get_file_ext = ({ file_name }: { file_name: string | undefined }): string =>
         err(() => {
@@ -72,7 +72,7 @@ export class ThemeFile {
             }
 
             return ext;
-        }, 'cnt_75789');
+        }, 'cnt_1178');
 
     private convert_to_file_object = ({
         blob,
@@ -80,5 +80,5 @@ export class ThemeFile {
     }: {
         blob: Blob;
         file_type: string;
-    }): File => err(() => new self.File([blob], '', { type: file_type }), 'cnt_75467');
+    }): File => err(() => new self.File([blob], '', { type: file_type }), 'cnt_1179');
 }

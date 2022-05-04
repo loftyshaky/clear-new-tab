@@ -29,7 +29,7 @@ export class I {
 
                 return added_items_count;
             },
-            'cnt_43795',
+            'cnt_1219',
             { silent: true },
         );
 
@@ -44,7 +44,7 @@ export class I {
 
                 return new BigNumber(highest_i).plus(1).toString();
             },
-            'cnt_43794',
+            'cnt_1220',
             { silent: true },
         );
 }

@@ -94,13 +94,13 @@ export class Upload {
                                             : 'global',
                                     };
                                 } catch (error_obj: any) {
-                                    show_err_ribbon(error_obj, 'cnt_63756', { silent: true });
+                                    show_err_ribbon(error_obj, 'cnt_1131', { silent: true });
                                     throw_err_obj(error_obj);
 
                                     return undefined;
                                 }
                             },
-                            'cnt_63689',
+                            'cnt_1132',
                             { silent: true },
                         ),
                 ),
@@ -108,12 +108,12 @@ export class Upload {
 
             const at_least_one_background_is_broken: boolean = new_backgrounds.some(
                 (background: i_db.Background | undefined): boolean =>
-                    err(() => !n(background), 'cnt_54346'),
+                    err(() => !n(background), 'cnt_1133'),
             );
 
             const new_backgrounds_final: i_db.Background[] = new_backgrounds.flatMap(
                 (background: i_db.Background | undefined): i_db.Background[] =>
-                    err(() => (n(background) ? [background] : []), 'cnt_54346'),
+                    err(() => (n(background) ? [background] : []), 'cnt_1134'),
             );
 
             const new_background_thumbnails: i_db.BackgroundThumbnail[] = ordered_thumbnails.map(
@@ -123,7 +123,7 @@ export class Upload {
                             id: ordered_thumbnail.id,
                             background: ordered_thumbnail.thumbnail,
                         }),
-                        'cnt_64285',
+                        'cnt_1135',
                     ),
             );
 
@@ -134,7 +134,7 @@ export class Upload {
                             id: ordered_file.id,
                             background: ordered_file.file,
                         }),
-                        'cnt_64285',
+                        'cnt_1136',
                     ),
             );
 
@@ -170,7 +170,7 @@ export class Upload {
         } catch (error_obj: any) {
             d_sections.Upload.i().set_visibility_of_error_msg({ is_visible: true });
 
-            show_err_ribbon(error_obj, 'cnt_63793', { silent: true });
+            show_err_ribbon(error_obj, 'cnt_1137', { silent: true });
             throw_err_obj(error_obj);
         }
 
@@ -198,7 +198,7 @@ export class Upload {
                     const pasted_img_clipboard_item: DataTransferItem | undefined = [
                         ...e.clipboardData.items,
                     ].find((clipboard_item: DataTransferItem): boolean =>
-                        err(() => clipboard_item.type.includes('image'), 'cnt_65210'),
+                        err(() => clipboard_item.type.includes('image'), 'cnt_1138'),
                     );
                     const pasted_img_file_object: File | null = n(pasted_img_clipboard_item)
                         ? pasted_img_clipboard_item.getAsFile()
@@ -239,7 +239,7 @@ export class Upload {
                     d_inputs.Text.i().clear_placeholder_text({ input });
                 }
             } catch (error_obj: any) {
-                show_err_ribbon(error_obj, 'cnt_64379', { silent: true });
+                show_err_ribbon(error_obj, 'cnt_1139', { silent: true });
 
                 d_inputs.Text.i().set_error_placeholder_text({ input });
             }
@@ -248,16 +248,16 @@ export class Upload {
                 virtualized_list_type: 'backgrounds',
             });
             d_protecting_screen.Visibility.i().hide();
-        }, 'cnt_56893');
+        }, 'cnt_1140');
 
     public upload_with_paste_btn = (): void =>
         err(() => {
             document.execCommand('paste');
-        }, 'cnt_65286');
+        }, 'cnt_1141');
 
     private convert_blob_to_file_object = ({ blob }: { blob: Blob }): File =>
         err(
             () => new File([blob], '', { type: blob.type }), // '' is file name, it means that file object was created from blob object
-            'cnt_53794',
+            'cnt_1142',
         );
 }

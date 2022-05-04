@@ -17,5 +17,5 @@ export class Main {
                         ? 'https://ntp.msn.com/edge/ntp?sp=Bing'
                         : 'chrome://new-tab-page',
             });
-        }, 'cnt_64567');
+        }, 'cnt_1009');
 }

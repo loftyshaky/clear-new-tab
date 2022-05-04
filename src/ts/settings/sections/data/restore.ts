@@ -58,7 +58,7 @@ export class Restore {
 
                 d_protecting_screen.Visibility.i().hide();
             }
-        }, 'cnt_1130');
+        }, 'cnt_1270');
 
     public download_back_up = (): Promise<string> =>
         err_async(async () => {
@@ -78,7 +78,7 @@ export class Restore {
                             backup_data_leading_size +
                             backup_data_trailing_size >=
                         v8_limit,
-                    'cnt_86465',
+                    'cnt_1271',
                 );
 
             const v8_limit: number = 536870888;
@@ -106,16 +106,16 @@ export class Restore {
             for await (const background of d_backgrounds.Main.i().backgrounds) {
                 const background_file: i_db.BackgroundFile | undefined = background_files.find(
                     (background_file_2: i_db.BackgroundFile): boolean =>
-                        err(() => background_file_2.id === background.id, 'cnt_64675'),
+                        err(() => background_file_2.id === background.id, 'cnt_1272'),
                 );
                 const background_thumbnail: i_db.BackgroundThumbnail | undefined =
                     background_thumbnails.find(
                         (background_thumbnail_2: i_db.BackgroundFile): boolean =>
-                            err(() => background_thumbnail_2.id === background.id, 'cnt_64675'),
+                            err(() => background_thumbnail_2.id === background.id, 'cnt_1273'),
                     );
                 const tasks: i_db.Task[] = d_scheduler.Tasks.i().tasks.filter(
                     (task: i_db.Task): boolean =>
-                        err(() => task.background_id === background.id, 'cnt_64357'),
+                        err(() => task.background_id === background.id, 'cnt_1274'),
                 );
 
                 if (n(background_file) && n(background_thumbnail)) {
@@ -166,7 +166,7 @@ export class Restore {
             }
 
             return backup_data_leading + chunks + backup_data_trailing;
-        }, 'cnt_63634');
+        }, 'cnt_1275');
 
     public restore_back_up = ({ data_obj }: { data_obj: t.AnyRecord }): Promise<void> =>
         err_async(async () => {
@@ -240,7 +240,7 @@ export class Restore {
                                     background: file,
                                 });
                             }
-                        }, 'cnt_64356'),
+                        }, 'cnt_1276'),
                 ),
             );
 
@@ -257,13 +257,13 @@ export class Restore {
             runInAction(() =>
                 err(() => {
                     d_sections.SectionContent.i().backgrounds_section_content_is_visible = false;
-                }, 'cnt_94257'),
+                }, 'cnt_1277'),
             );
 
             s_preload_color.Storage.i().set_preload_color();
             d_scheduler.Tasks.i().reset_background_id();
             d_protecting_screen.Visibility.i().hide();
-        }, 'cnt_1131');
+        }, 'cnt_1278');
 
     private set = ({ settings }: { settings?: i_data.Settings } = {}): Promise<i_data.Settings> =>
         err_async(async () => {
@@ -286,14 +286,14 @@ export class Restore {
                         data.settings = settings_final;
 
                         d_background_settings.SettingsContext.i().react_to_global_selection();
-                    }, 'cnt_1132'),
+                    }, 'cnt_1279'),
                 );
 
                 return settings_final;
             };
 
             return set_inner();
-        }, 'cnt_1133');
+        }, 'cnt_1280');
 
     private get_unchanged_settings = (): t.AnyRecord =>
         err(
@@ -301,6 +301,6 @@ export class Restore {
                 color_help_is_visible: data.settings.color_help_is_visible,
                 install_help_is_visible: data.settings.install_help_is_visible,
             }),
-            'cnt_1135',
+            'cnt_1281',
         );
 }

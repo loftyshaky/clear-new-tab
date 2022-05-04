@@ -29,7 +29,7 @@ export class TabIds {
 
                 const tab_id_already_pushed: boolean = n(
                     this.tab_ids.find((tab_id: number): boolean =>
-                        err(() => tab_id === active_tab.id, 'cnt_64264'),
+                        err(() => tab_id === active_tab.id, 'cnt_1038'),
                     ),
                 );
 
@@ -44,7 +44,7 @@ export class TabIds {
             }
 
             s_service_worker.Lifeline.i().connect();
-        }, 'cnt_64324');
+        }, 'cnt_1039');
 
     public push_options_page_tab_id = (): Promise<void> =>
         err_async(async () => {
@@ -58,7 +58,7 @@ export class TabIds {
                     await this.update_options_page_tab_id({ options_page_tab_id: active_tab.id });
                 }
             }
-        }, 'cnt_72145');
+        }, 'cnt_1040');
 
     public update_options_page_tab_id = ({
         options_page_tab_id,
@@ -72,5 +72,5 @@ export class TabIds {
             await s_data.Main.i().update_settings({
                 settings,
             });
-        }, 'cnt_64545');
+        }, 'cnt_1041');
 }
