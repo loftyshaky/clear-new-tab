@@ -512,6 +512,9 @@
     "clear_new_tab_for_firefox_link_text": {
         "message": "⚗️ Clear New Tab for Firefox"
     },
+    "theme_path_link_text": {
+        "message": "🛠️ Create your own theme with the ThemePath app"
+    },
     "rate_chrome_link_href": {
         "message": "https://bit.ly/clear-new-tab-rate"
     },

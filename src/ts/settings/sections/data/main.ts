@@ -523,6 +523,10 @@ export class Main {
                                           name: 'clear_new_tab_for_firefox',
                                           browser: 'firefox',
                                       }),
+                                      new o_inputs.Link({
+                                          name: 'theme_path',
+                                          href: 'http://bit.ly/theme-path',
+                                      }),
                                   ]),
                             new o_inputs.Link({
                                 name: 'facebook_page',

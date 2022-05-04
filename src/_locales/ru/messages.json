@@ -503,6 +503,9 @@
     "clear_new_tab_for_firefox_link_text": {
         "message": "⚗️ Clear New Tab для Firefox"
     },
+    "theme_path_link_text": {
+        "message": "🛠️ Создайте свою собственную тему с помощью приложения ThemePath"
+    },
     "rate_chrome_link_href": {
         "message": "http://bit.ly/clear-new-tab-rate-ru"
     },
