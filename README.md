@@ -1,7 +1,5 @@
 A browser extension that removes everything from the new tab page and displays any image, gif or video in it as a wallpaper.
 
-The extension was built on Windows. It uses webpack.
-
 ## Links
 
 [Chrome Web Store](https://bit.ly/clear-new-tab)<br>
