@@ -52,7 +52,7 @@
         "webpack-fix-style-only-entries": "^0.6.1"
     },
     "dependencies": {
-        "@loftyshaky/shared": "0.0.40",
+        "@loftyshaky/shared": "0.0.41",
         "@simonwep/pickr": "^1.8.2",
         "@svgr/webpack": "^6.2.1",
         "@types/react-virtualized": "^9.21.21",
