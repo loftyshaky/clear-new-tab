@@ -36,8 +36,12 @@ class Manifest {
                 // '<all_urls>',
                 'https://clients2.google.com/*',
                 'https://clients2.googleusercontent.com/*',
-                'https://edge.microsoft.com/*',
-                'http://msedgeextensions.f.tlu.dl.delivery.mp.microsoft.com/*',
+                ...(browser === 'edge'
+                    ? [
+                          'https://edge.microsoft.com/*',
+                          'http://msedgeextensions.f.tlu.dl.delivery.mp.microsoft.com/*',
+                      ]
+                    : []),
             ],
         };
 
