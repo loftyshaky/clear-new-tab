@@ -6,6 +6,7 @@ misplaced_dependency('background');
 
 export * from 'background/init';
 
+export * as s_announcement from 'background/announcement/scripts';
 export * as s_backgrounds from 'background/backgrounds/scripts';
 export * as s_browser_theme from 'background/browser_theme/scripts';
 export * as s_db from 'background/db/scripts';
