@@ -74,6 +74,8 @@ export class Main {
                         : await s_browser_theme.ThemeId.i().get_installed();
 
                     if (n(theme_id_final)) {
+                        await ext.storage_set({ id_of_last_installed_theme: theme_id_final });
+
                         await d_browser_theme.Main.i().delete_theme_background({
                             theme_id: theme_id_final,
                             force_theme_redownload,
