@@ -14,11 +14,7 @@ export class Main {
     public theme_id: string | undefined;
     public force_theme_redownload: boolean = false;
 
-    public get_theme_background = ({
-        clear_new_tab_install = false,
-    }: {
-        clear_new_tab_install?: boolean;
-    } = {}): Promise<void> =>
+    public get_theme_background = (): Promise<void> =>
         err_async(async () => {
             const settings: i_data.Settings = await ext.storage_get();
 
@@ -26,10 +22,7 @@ export class Main {
             const already_tried_install_this_theme: boolean =
                 this.theme_id === settings.id_of_last_installed_theme;
 
-            if (
-                (settings.mode === 'theme_background' && !already_tried_install_this_theme) ||
-                clear_new_tab_install
-            ) {
+            if (settings.mode === 'theme_background' && !already_tried_install_this_theme) {
                 we.runtime.openOptionsPage();
             }
 

@@ -1,3 +1,4 @@
+import { s_data } from 'shared/internal';
 import { s_announcement, s_browser_theme } from 'background/internal';
 
 we.runtime.onInstalled.addListener(
@@ -6,9 +7,8 @@ we.runtime.onInstalled.addListener(
             if (details.reason === 'install') {
                 s_announcement.Main.i().installing_ext = true;
 
-                await s_browser_theme.Main.i().get_theme_background({
-                    clear_new_tab_install: true,
-                });
+                await s_data.Main.i().set_from_storage();
+                await s_browser_theme.Main.i().get_theme_background();
             }
         }, 'cnt_1014'),
 );
