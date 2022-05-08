@@ -17,5 +17,7 @@ export const init = (): Promise<void> =>
             'visibilitychange',
             d_background.BackgroundChange.i().react_to_visibility_change,
         );
+        x.bind(window, 'resize', d_background.BackgroundChange.i().update_background_css);
+
         InitAll.i().render_new_tab();
     }, 'cnt_1078');

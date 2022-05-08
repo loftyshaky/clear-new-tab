@@ -27,8 +27,6 @@ export class BackgroundSize {
     public video_height: string[] = d_background.Main.i().default_val_3;
     private screen_width: number = window.screen.width;
     private screen_height: number = window.screen.height;
-    private browser_window_width: number = window.innerWidth;
-    private browser_window_height: number = window.outerHeight;
 
     private get_background_size_setting = (): void =>
         err(() => {
@@ -100,6 +98,9 @@ export class BackgroundSize {
 
     private calculate_background_dims_when_in_screen_mode = (): void =>
         err(() => {
+            const browser_window_width: number = window.innerWidth;
+            const browser_window_height: number = window.outerHeight;
+
             const { background_container_i } = d_background.Main.i();
             const background_size_setting: string =
                 this.background_size_setting[background_container_i];
@@ -134,19 +135,19 @@ export class BackgroundSize {
                 // if browser is in windowed mode
                 if (background_size_setting === 'stretch_screen') {
                     dims = {
-                        width: this.browser_window_width,
-                        height: this.browser_window_height,
+                        width: browser_window_width,
+                        height: browser_window_height,
                     };
                 } else if (['fit_screen', 'cover_screen'].includes(background_size_setting)) {
                     dims = this.calculate_background_dims_when_in_fit_screen_or_cover_screen_mode({
-                        window_width: this.browser_window_width,
-                        window_height: this.browser_window_height,
+                        window_width: browser_window_width,
+                        window_height: browser_window_height,
                     });
                 }
 
                 if (background_size_setting === 'cover_screen') {
-                    window_size.width = this.browser_window_width;
-                    window_size.height = this.browser_window_height;
+                    window_size.width = browser_window_width;
+                    window_size.height = browser_window_height;
                 }
             }
 

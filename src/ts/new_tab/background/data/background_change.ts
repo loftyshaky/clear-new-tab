@@ -1,4 +1,6 @@
-import { runInAction } from 'mobx';
+import { makeObservable, action, runInAction } from 'mobx';
+
+import { t } from '@loftyshaky/shared';
 import { s_db } from 'shared/internal';
 import { d_background, s_background } from 'new_tab/internal';
 
@@ -10,8 +12,11 @@ export class BackgroundChange {
         return this.i0 || (this.i0 = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
-    private constructor() {}
+    private constructor() {
+        makeObservable(this, {
+            update_background_css: action,
+        });
+    }
 
     private visited_this_new_tab_page_once: boolean = false;
 
@@ -102,6 +107,17 @@ export class BackgroundChange {
                 await s_background.Load.i().wait_to_visibility();
             }
         }, 'cnt_1045');
+
+    public update_background_css = (): void =>
+        err(() => {
+            const { get_background_css, background_container_i } = d_background.Main.i();
+
+            d_background.BackgroundSize.i().determine_background_size();
+
+            const background_css: t.AnyRecord = get_background_css();
+
+            d_background.Main.i().background_css[background_container_i] = background_css;
+        }, 'cnt_1371');
 
     public react_to_visibility_change = (): void =>
         err(() => {
