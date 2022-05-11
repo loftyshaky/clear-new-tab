@@ -71,12 +71,12 @@ export class Val {
                         } else if (
                             ['mode', 'slideshow', 'background_change_interval'].includes(input.name)
                         ) {
+                            data.settings[input.name] = val;
+                            data.settings.background_change_time = new Date().getTime();
+
                             await ext.send_msg_resp({
                                 msg: 'update_settings_background',
-                                settings: {
-                                    [input.name]: val,
-                                    background_change_time: new Date().getTime(),
-                                },
+                                settings: data.settings,
                                 update_instantly: true,
                             });
 

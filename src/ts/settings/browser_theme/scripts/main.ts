@@ -74,7 +74,13 @@ export class Main {
                         : await s_browser_theme.ThemeId.i().get_installed();
 
                     if (n(theme_id_final)) {
-                        await ext.storage_set({ id_of_last_installed_theme: theme_id_final });
+                        data.settings.id_of_last_installed_theme = theme_id_final;
+
+                        await ext.send_msg_resp({
+                            msg: 'update_settings_background',
+                            settings: data.settings,
+                            update_instantly: true,
+                        });
 
                         await d_browser_theme.Main.i().delete_theme_background({
                             theme_id: theme_id_final,

@@ -88,13 +88,15 @@ export class CurrentBackground {
 
             this.set_current_background_i();
 
+            if (id === 1) {
+                data.settings.future_background_id = id;
+            }
+
+            data.settings.background_change_time = new Date().getTime();
+
             await ext.send_msg_resp({
                 msg: 'update_settings_background',
-                settings: {
-                    current_background_id: id,
-                    ...(id === 1 && { future_background_id: id }),
-                    background_change_time: new Date().getTime(),
-                },
+                settings: data.settings,
                 update_instantly: true,
             });
 

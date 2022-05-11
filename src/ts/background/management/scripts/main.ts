@@ -1,6 +1,6 @@
 import { Management } from 'webextension-polyfill-ts';
 
-import { i_data } from 'shared/internal';
+import { s_data, i_data } from 'shared/internal';
 import { s_browser_theme } from 'background/internal';
 
 export class Main {
@@ -26,7 +26,13 @@ export class Main {
             const settings: i_data.Settings = await ext.storage_get();
 
             if (ext_info.type === 'theme' && ext_info.id === settings.id_of_last_installed_theme) {
-                await ext.storage_set({ id_of_last_installed_theme: '' });
+                settings.id_of_last_installed_theme = '';
+
+                await s_data.Main.i().update_settings({
+                    settings,
+                });
+
+                ext.send_msg({ msg: 'update_settings_settings' });
             }
         }, 'cnt_1370');
 }
