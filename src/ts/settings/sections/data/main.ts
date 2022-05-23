@@ -523,6 +523,20 @@ export class Main {
                                           name: 'clear_new_tab_for_firefox',
                                           browser: 'firefox',
                                       }),
+                                  ]),
+                            ...(env.browser === 'edge'
+                                ? []
+                                : [
+                                      new o_inputs.Link({
+                                          name: 'empty_new_tab_page',
+                                          href: ext.msg(
+                                              `empty_new_tab_page_for_${env.browser}_link_href`,
+                                          ),
+                                      }),
+                                  ]),
+                            ...(env.browser === 'edge'
+                                ? []
+                                : [
                                       new o_inputs.Link({
                                           name: 'theme_path',
                                           href: 'http://bit.ly/theme-path',

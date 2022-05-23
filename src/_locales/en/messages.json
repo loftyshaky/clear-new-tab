@@ -512,6 +512,9 @@
     "clear_new_tab_for_firefox_link_text": {
         "message": "⚗️ Clear New Tab for Firefox"
     },
+    "empty_new_tab_page_link_text": {
+        "message": "📄 Empty New Tab Page - a lighter version of Clear New Tab"
+    },
     "theme_path_link_text": {
         "message": "🛠️ Create your own theme with the ThemePath app"
     },
@@ -532,6 +535,15 @@
     },
     "clear_new_tab_for_firefox_link_href": {
         "message": "https://bit.ly/clear-new-tab-firefox"
+    },
+    "empty_new_tab_page_for_chrome_link_href": {
+        "message": "https://bit.ly/empty-new-tab-page"
+    },
+    "empty_new_tab_page_for_edge_link_href": {
+        "message": "https://bit.ly/empty-new-tab-page"
+    },
+    "empty_new_tab_page_for_firefox_link_href": {
+        "message": "https://bit.ly/empty-new-tab-page"
     },
     "new_tab_title_text": {
         "message": "New Tab"
