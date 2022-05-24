@@ -524,7 +524,7 @@ export class Main {
                                           browser: 'firefox',
                                       }),
                                   ]),
-                            ...(env.browser === 'edge'
+                            ...(env.browser === 'firefox'
                                 ? []
                                 : [
                                       new o_inputs.Link({

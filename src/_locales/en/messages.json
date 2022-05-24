@@ -540,7 +540,7 @@
         "message": "https://bit.ly/empty-new-tab-page"
     },
     "empty_new_tab_page_for_edge_link_href": {
-        "message": "https://bit.ly/empty-new-tab-page"
+        "message": "https://bit.ly/empty-new-tab-page-edge"
     },
     "empty_new_tab_page_for_firefox_link_href": {
         "message": "https://bit.ly/empty-new-tab-page"
