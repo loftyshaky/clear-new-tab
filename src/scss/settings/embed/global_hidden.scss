@@ -1,0 +1,9 @@
+select.input {
+    &#background_size,
+    &#background_position,
+    &#background_repeat {
+        option[value='global'] {
+            display: none;
+        }
+    }
+}

@@ -1,3 +1,0 @@
-*:not(.background_w):not(.background_placeholder):not(.loading_screen):not(.background_div) {
-    transition: none!important;
-}

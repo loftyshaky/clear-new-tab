@@ -1,0 +1,15 @@
+.install_help,
+.backgrounds .background,
+.backgrounds .action_btns_w,
+.backgrounds .dragged_background,
+.scheduler,
+.scheduler .dragged_task,
+.code_editor {
+    transition: var(--transition);
+    transition-property: opacity;
+}
+
+.section_content {
+    transition: var(--transition) !important;
+    transition-property: opacity !important;
+}

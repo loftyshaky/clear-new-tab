@@ -1,0 +1,63 @@
+@import 'template_focus';
+
+.main,
+.sections, {
+    background-color: $gaq;
+}
+
+.section {
+    border-color: $hev;
+    background-color: $htc;
+}
+
+.section_name {
+    background-color: $yos;
+    border-color: $hev;
+}
+
+.drop_zone {
+    outline-color: $ycp;
+}
+
+.backgrounds {
+    .background {
+        border-color: $lpe;
+
+        .ui.selected {
+            outline-color: $ycp;
+        }
+    }
+}
+
+.scheduler {
+    background-color: $htc;
+
+    .background_preview {
+        border-color: $lpe;
+    }
+
+    .tasks {
+        .task {
+            border-color: $hev;
+            background-color: $htm;
+        }
+
+        /* stylelint-disable-next-line selector-class-pattern */
+        .ReactVirtualized__List {
+            border-color: $hev;
+        }
+    }
+}
+
+.code_editor {
+    background-color: $htc;
+
+    .edit_areas {
+        .edit_area {
+            /* stylelint-disable-next-line selector-class-pattern */
+            .CodeMirror {
+                border-color: $hev;
+            }
+        }
+    }
+}

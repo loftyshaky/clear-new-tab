@@ -1,0 +1,6 @@
+.sandbox {
+    @include full_spread;
+
+    position: fixed;
+    z-index: 1;
+}

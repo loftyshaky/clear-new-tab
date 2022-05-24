@@ -1,0 +1,6 @@
+.background_container {
+    @include full_spread;
+
+    position: fixed;
+    display: flex;
+}

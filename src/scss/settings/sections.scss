@@ -1,0 +1,91 @@
+$backgrounds_section_max_width: 922px;
+
+.sections {
+    overflow: hidden;
+    flex-grow: unset;
+
+    &.settings {
+        min-width: max-content;
+    }
+
+    &.backgrounds {
+        position: relative;
+        max-width: $backgrounds_section_max_width + 16px + 2px;
+        width: 100%;
+    }
+
+    .section {
+        @include border;
+
+        width: min-content;
+
+        &.admin {
+            .input_item.options_page_theme {
+                display: none;
+            }
+        }
+
+        .input_item {
+            &.color_of_area_around_background {
+                display: inline-block;
+            }
+
+            &.video_volume {
+                display: inline-block;
+                margin-top: $gap - 3px;
+            }
+
+            &.color_of_area_around_background_global {
+                display: inline-block;
+                margin-left: $gap !important;
+                vertical-align: 6px;
+            }
+
+            &.video_volume_global {
+                display: inline-block;
+                margin-left: $gap !important;
+                vertical-align: 23px;
+            }
+        }
+
+        .row {
+            display: flex;
+            flex-flow: row wrap;
+        }
+
+        &.backgrounds {
+            position: fixed;
+            max-width: $backgrounds_section_max_width;
+            width: 100%;
+            height: calc(100vh - 34px);
+            margin-left: 0;
+        }
+
+        .section_content {
+            padding: $section_padding;
+            overflow: hidden !important;
+        }
+
+        &.backgrounds .section_content {
+            overflow: auto;
+            height: calc(100% - 42px);
+            box-sizing: border-box;
+            padding: 0;
+
+            /* stylelint-disable-next-line selector-class-pattern */
+            .ReactVirtualized__Collection {
+                padding-bottom: $section_padding + 2px;
+            }
+        }
+
+        .section_name {
+            @include border_bottom;
+
+            margin: 0;
+            width: 100%;
+            padding: 5px $section_padding;
+            font-size: $font_big;
+            box-sizing: border-box;
+        }
+    }
+}

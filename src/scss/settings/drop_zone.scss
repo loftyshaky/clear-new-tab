@@ -1,0 +1,11 @@
+$drop_zone_size: 3px;
+
+.drop_zone {
+    @include border;
+
+    position: absolute;
+    border-color: transparent;
+    outline: $drop_zone_size dashed;
+    outline-offset: (-$drop_zone_size);
+    cursor: alias;
+}

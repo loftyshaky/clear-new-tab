@@ -1,0 +1,90 @@
+$home_btn_offset: 8px;
+
+.no_tr {
+    transition: none !important;
+}
+
+.z_index_plus_1 {
+    z-index: 1;
+}
+
+.top {
+    align-items: start;
+    justify-content: center;
+}
+
+.center {
+    align-items: center;
+    justify-content: center;
+}
+
+.bottom {
+    align-items: end;
+    justify-content: center;
+}
+
+.left_top {
+    align-items: start;
+    justify-content: start;
+}
+
+.left_center {
+    align-items: center;
+    justify-content: start;
+}
+
+.left_bottom {
+    align-items: end;
+    justify-content: start;
+}
+
+.right_top {
+    align-items: start;
+    justify-content: end;
+}
+
+.right_center {
+    align-items: center;
+    justify-content: end;
+}
+
+.right_bottom {
+    align-items: end;
+    justify-content: end;
+}
+
+.from_right_to_left {
+    left: -100%;
+}
+
+.from_left_to_right {
+    left: 100%;
+}
+
+.from_top_to_bottom {
+    top: 100%;
+}
+
+.from_bottom_to_top {
+    top: -100%;
+}
+
+.home_btn_left_top {
+    top: $home_btn_offset;
+    left: $home_btn_offset;
+}
+
+.home_btn_left_bottom {
+    bottom: $home_btn_offset;
+    left: $home_btn_offset;
+}
+
+.home_btn_right_top {
+    top: $home_btn_offset;
+    right: $home_btn_offset;
+}
+
+.home_btn_right_bottom {
+    bottom: $home_btn_offset;
+    right: $home_btn_offset;
+}
