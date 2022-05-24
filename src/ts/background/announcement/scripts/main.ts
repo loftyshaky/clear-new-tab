@@ -20,13 +20,10 @@ export class Main {
 
             if (
                 env.mode === 'production' &&
-                ((n(settings.last_version) &&
-                    ((env.browser === 'chrome' && settings.last_version === '5.10.0') ||
-                        (env.browser === 'edge' && settings.last_version === '5.10.2'))) ||
-                    (env.browser === 'edge' && !this.installing_ext && !n(settings.last_version)))
+                n(settings.last_version) &&
+                ((env.browser === 'chrome' && settings.last_version === '5.10.0') ||
+                    (env.browser === 'edge' && settings.last_version === '5.10.2'))
             ) {
-                // env.mode === 'production' && n(settings.last_version) && ((env.browser === 'chrome' && settings.last_version === '5.10.0') || (env.browser === 'edge' && settings.last_version === '5.10.2'))
-
                 s_announcement.Display.i().display_announcement();
             }
 
