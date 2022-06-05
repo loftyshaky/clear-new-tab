@@ -143,21 +143,7 @@ module.exports = {
     plugins: ['react', 'prettier'],
     parser: '@babel/eslint-parser',
     parserOptions: { requireConfigFile: false },
-    rules: {
-        ...rules.js,
-        'prettier/prettier': [
-            'error',
-            {
-                singleQuote: true,
-                jsxSingleQuote: true,
-                tabWidth: 4,
-                printWidth: 100,
-                semi: true,
-                trailingComma: 'all',
-                endOfLine: 'auto',
-            },
-        ],
-    },
+    rules: rules.js,
     overrides: [
         {
             extends: ['airbnb', 'plugin:@typescript-eslint/recommended', 'prettier'],
