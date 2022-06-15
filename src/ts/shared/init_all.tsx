@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom/client';
 
 import '@loftyshaky/shared/ext';
 import {
@@ -34,6 +34,35 @@ export class InitAll {
 
     public init = (): Promise<void> =>
         err_async(async () => {
+            const on_loading_screen_render = (): void =>
+                err(() => {
+                    const loading_screen_root_el = s<HTMLDivElement>(
+                        `.${new s_suffix.Main('loading_screen').result}`,
+                    );
+
+                    if (n(loading_screen_root_el) && n(loading_screen_root_el.shadowRoot)) {
+                        const loading_screen_css = x.css(
+                            'loading_screen',
+                            loading_screen_root_el.shadowRoot,
+                        );
+
+                        if (n(loading_screen_css)) {
+                            x.bind(loading_screen_css, 'load', (): void =>
+                                err(() => {
+                                    if (page === 'settings') {
+                                        s_theme_shared.Main.i().set({
+                                            name: data.settings.options_page_theme,
+                                            additional_theme_callback: s_theme.Main.i().set,
+                                        });
+                                    }
+
+                                    d_loading_screen.Main.i().show();
+                                }, 'cnt_1350'),
+                            );
+                        }
+                    }
+                }, 'cnt_1351');
+
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             __webpack_public_path__ = we.runtime.getURL('');
 
@@ -63,42 +92,20 @@ export class InitAll {
                 }) as HTMLDivElement;
             }
 
-            render(<c_error.Body app_id={s_suffix.app_id} />, error_root, (): void => {
-                render(
-                    <c_crash_handler.Body>
-                        <c_loading_screen.Body />
-                    </c_crash_handler.Body>,
-                    loading_screen_root,
-                    (): void =>
+            ReactDOM.createRoot(error_root).render(
+                <c_error.Body
+                    app_id={s_suffix.app_id}
+                    on_render={(): void =>
                         err(() => {
-                            const loading_screen_root_el = s<HTMLDivElement>(
-                                `.${new s_suffix.Main('loading_screen').result}`,
+                            ReactDOM.createRoot(loading_screen_root).render(
+                                <c_crash_handler.Body>
+                                    <c_loading_screen.Body on_render={on_loading_screen_render} />
+                                </c_crash_handler.Body>,
                             );
-
-                            if (n(loading_screen_root_el) && n(loading_screen_root_el.shadowRoot)) {
-                                const loading_screen_css = x.css(
-                                    'loading_screen',
-                                    loading_screen_root_el.shadowRoot,
-                                );
-
-                                if (n(loading_screen_css)) {
-                                    x.bind(loading_screen_css, 'load', (): void =>
-                                        err(() => {
-                                            if (page === 'settings') {
-                                                s_theme_shared.Main.i().set({
-                                                    name: data.settings.options_page_theme,
-                                                    additional_theme_callback: s_theme.Main.i().set,
-                                                });
-                                            }
-
-                                            d_loading_screen.Main.i().show();
-                                        }, 'cnt_1350'),
-                                    );
-                                }
-                            }
-                        }, 'cnt_1351'),
-                );
-            });
+                        }, 'cnt_1372')
+                    }
+                />,
+            );
         }, 'cnt_1352');
 
     private create_root = ({
@@ -127,30 +134,34 @@ export class InitAll {
         err_async(async () => {
             const { Body } = await import('announcement/components/body');
 
-            const on_render = (): Promise<void> =>
+            const on_css_load = (): Promise<void> =>
                 err_async(async () => {
                     d_loading_screen.Main.i().hide();
                 }, 'cnt_1354');
 
             if (n(this.announcement_root)) {
-                render(
+                ReactDOM.createRoot(this.announcement_root).render(
                     <c_crash_handler.Body>
-                        <Body />
-                    </c_crash_handler.Body>,
-                    this.announcement_root,
-                    (): void =>
-                        err(() => {
-                            const announcement_css = x.css('announcement_css', document.head);
+                        <Body
+                            on_render={(): void =>
+                                err(() => {
+                                    const announcement_css = x.css(
+                                        'announcement_css',
+                                        document.head,
+                                    );
 
-                            s_theme_shared.Main.i().set({
-                                name: data.settings.options_page_theme,
-                                additional_theme_callback: s_theme.Main.i().set,
-                            });
+                                    s_theme_shared.Main.i().set({
+                                        name: data.settings.options_page_theme,
+                                        additional_theme_callback: s_theme.Main.i().set,
+                                    });
 
-                            if (n(announcement_css)) {
-                                x.bind(announcement_css, 'load', on_render);
+                                    if (n(announcement_css)) {
+                                        x.bind(announcement_css, 'load', on_css_load);
+                                    }
+                                }, 'cnt_1355')
                             }
-                        }, 'cnt_1355'),
+                        />
+                    </c_crash_handler.Body>,
                 );
             }
         }, 'cnt_1356');
@@ -158,7 +169,7 @@ export class InitAll {
     public render_settings = (): Promise<void> =>
         err_async(async () => {
             const { Body } = await import('settings/components/body');
-            const on_render = (): Promise<void> =>
+            const on_css_load = (): Promise<void> =>
                 err_async(async () => {
                     const {
                         s_custom_code,
@@ -192,24 +203,25 @@ export class InitAll {
                 }, 'cnt_1357');
 
             if (n(this.settings_root)) {
-                render(
+                ReactDOM.createRoot(this.settings_root).render(
                     <c_crash_handler.Body>
-                        <Body />
-                    </c_crash_handler.Body>,
-                    this.settings_root,
-                    (): void =>
-                        err(() => {
-                            const settings_css = x.css('settings_css', document.head);
+                        <Body
+                            on_render={(): void =>
+                                err(() => {
+                                    const settings_css = x.css('settings_css', document.head);
 
-                            s_theme_shared.Main.i().set({
-                                name: data.settings.options_page_theme,
-                                additional_theme_callback: s_theme.Main.i().set,
-                            });
+                                    s_theme_shared.Main.i().set({
+                                        name: data.settings.options_page_theme,
+                                        additional_theme_callback: s_theme.Main.i().set,
+                                    });
 
-                            if (n(settings_css)) {
-                                x.bind(settings_css, 'load', on_render);
+                                    if (n(settings_css)) {
+                                        x.bind(settings_css, 'load', on_css_load);
+                                    }
+                                }, 'cnt_1358')
                             }
-                        }, 'cnt_1358'),
+                        />
+                    </c_crash_handler.Body>,
                 );
             }
         }, 'cnt_1359');
@@ -218,7 +230,7 @@ export class InitAll {
         err_async(async () => {
             const { Body } = await import('new_tab/components/body');
 
-            const on_render = (): Promise<void> =>
+            const on_css_load = (): Promise<void> =>
                 err_async(async () => {
                     d_inputs.InputWidth.i().set_max_width();
 
@@ -228,19 +240,20 @@ export class InitAll {
                 }, 'cnt_1360');
 
             if (n(this.new_tab_root)) {
-                render(
+                ReactDOM.createRoot(this.new_tab_root).render(
                     <c_crash_handler.Body>
-                        <Body />
-                    </c_crash_handler.Body>,
-                    this.new_tab_root,
-                    (): void =>
-                        err(() => {
-                            const new_tab_css = x.css('new_tab_css', document.head);
+                        <Body
+                            on_render={(): void =>
+                                err(() => {
+                                    const new_tab_css = x.css('new_tab_css', document.head);
 
-                            if (n(new_tab_css)) {
-                                x.bind(new_tab_css, 'load', on_render);
+                                    if (n(new_tab_css)) {
+                                        x.bind(new_tab_css, 'load', on_css_load);
+                                    }
+                                }, 'cnt_1361')
                             }
-                        }, 'cnt_1361'),
+                        />
+                    </c_crash_handler.Body>,
                 );
             }
         }, 'cnt_1362');

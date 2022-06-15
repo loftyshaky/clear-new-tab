@@ -10,9 +10,16 @@ import {
     c_protecting_screen,
     c_scheduler,
     d_sections,
+    p_settings,
 } from 'settings/internal';
 
-export const Body: React.FunctionComponent = observer(() => {
+export const Body: React.FunctionComponent<p_settings.Body> = observer((props) => {
+    const { on_render } = props;
+
+    useEffect(() => {
+        on_render();
+    }, [on_render]);
+
     useEffect(
         () =>
             err(() => {

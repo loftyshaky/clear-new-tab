@@ -17,4 +17,5 @@ export * as s_custom_code from 'new_tab/custom_code/scripts';
 export * as s_home_btn from 'new_tab/home_btn/scripts';
 export * as s_service_worker from 'new_tab/service_worker/scripts';
 
+export * as p_new_tab from 'new_tab/components/prop_types';
 export * as p_background from 'new_tab/background/components/prop_types';
