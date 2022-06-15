@@ -38,6 +38,7 @@ module.exports = (env, argv) => {
     };
 
     const config = shared_config({
+        app_type: 'ext',
         app_root,
         webpack,
         argv,
