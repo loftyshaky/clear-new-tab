@@ -8,9 +8,9 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const Reloader = require('advanced-extension-reloader-watch-2/umd/reloader');
-const { Env } = require('@loftyshaky/shared/js/ext/env');
-const { Locales } = require('@loftyshaky/shared/js/ext/locales');
-const { shared_config } = require('@loftyshaky/shared/js/ext/webpack.config');
+const { Env } = require('@loftyshaky/shared/js/env');
+const { Locales } = require('@loftyshaky/shared/js/locales');
+const { shared_config } = require('@loftyshaky/shared/js/webpack.config');
 const { TaskScheduler } = require('@loftyshaky/shared/js/task_scheduler');
 const { Manifest } = require('./js/manifest');
 
