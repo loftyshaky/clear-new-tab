@@ -1,8 +1,10 @@
-const appRoot = require('app-root-path').path;
+const appRoot = require('app-root-path');
 
 const { Manifest: ManifestShared } = require('@loftyshaky/shared/js/ext/manifest');
 
-const manifest_shared = new ManifestShared({ app_root: appRoot });
+const app_root = appRoot.path;
+
+const manifest_shared = new ManifestShared({ app_root });
 
 class Manifest {
     generate = ({ test, browser }) => {

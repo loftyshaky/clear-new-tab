@@ -1,6 +1,6 @@
 const path = require('path');
 
-const appRoot = require('app-root-path').path;
+const appRoot = require('app-root-path');
 const webpack = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -22,7 +22,7 @@ reloader.watch();
 
 const task_scheduler = new TaskScheduler();
 
-const app_root = appRoot;
+const app_root = appRoot.path;
 
 const manifest = new Manifest({ app_root });
 const env_instance = new Env({ app_root });
