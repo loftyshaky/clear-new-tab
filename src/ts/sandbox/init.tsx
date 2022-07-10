@@ -1,10 +1,14 @@
 import React from 'react';
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom/client';
 
 import { c_sandbox, d_custom_code } from 'sandbox/internal';
 
 export const init = (): void => {
-    render(<c_sandbox.Body />, document.body.querySelector('.root'));
+    const root = document.body.querySelector('.root');
+
+    if (root) {
+        ReactDOM.createRoot(root).render(<c_sandbox.Body />);
+    }
 
     window.addEventListener('message', d_custom_code.Msgs.i().listen);
 };
