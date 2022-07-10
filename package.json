@@ -9,7 +9,7 @@
         "prode": "webpack --mode=production --env browser=edge",
         "prodteste": "webpack --mode=production --env test --env browser=edge",
         "format": "prettier --config .prettierrc.js webpack.config.js js/**/*.js src/**/*.ts src/scss/**/*.scss src/_locales/**/*.json src/html/**/*.html --write",
-        "lint": "npx eslint . --fix"
+        "lint": "npx eslint **/*.js **/*.ts --fix & npx stylelint src/scss/**/*.scss --fix"
     },
     "devDependencies": {
         "@babel/eslint-parser": "^7.18.2",
