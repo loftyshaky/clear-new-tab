@@ -23,6 +23,7 @@ export class Tasks {
         });
     }
 
+    /* eslint-disable @typescript-eslint/naming-convention */
     public tasks: i_db.Task[] = [];
     private months: { [index: string]: string } = {
         '0': 'january',
@@ -48,6 +49,7 @@ export class Tasks {
         '5': 'friday',
         '6': 'saturday',
     };
+    /* eslint-disable @typescript-eslint/naming-convention */
 
     public developer_info = computedFn(function (
         this: Tasks,

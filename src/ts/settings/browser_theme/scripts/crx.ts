@@ -15,6 +15,7 @@ export class Crx {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
+    /* eslint-disable @typescript-eslint/naming-convention */
     private position_dict: { [index: string]: string } = {
         top: 'top',
         center: 'center',
@@ -39,6 +40,7 @@ export class Crx {
         'repeat-y': 'repeat_y',
         'repeat-x': 'repeat_x',
     };
+    /* eslint-disable @typescript-eslint/naming-convention */
 
     //> purpose of this arrays is to exclude developers mistakes. Ex: ntp_background_alignment set to "middle" instead of "center" (https://chrome.google.com/webstore/detail/%D0%B1%D0%B5%D0%B3%D1%83%D1%89%D0%B0%D1%8F-%D0%BB%D0%B8%D1%81%D0%B8%D1%87%D0%BA%D0%B0/pcogoppjgcggbmflbmiihnbbdcbnbkjp)
     private positions: string[] = Object.keys(this.position_dict);
