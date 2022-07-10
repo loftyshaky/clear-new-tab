@@ -33,80 +33,88 @@ export class InitAll {
     private new_tab_root: HTMLDivElement | undefined = undefined;
 
     public init = (): Promise<void> =>
-        err_async(async () => {
-            const on_loading_screen_render = (): void =>
-                err(() => {
-                    const loading_screen_root_el = s<HTMLDivElement>(
-                        `.${new s_suffix.Main('loading_screen').result}`,
-                    );
-
-                    if (n(loading_screen_root_el) && n(loading_screen_root_el.shadowRoot)) {
-                        const loading_screen_css = x.css(
-                            'loading_screen',
-                            loading_screen_root_el.shadowRoot,
+        new Promise((reslove) => {
+            err_async(async () => {
+                const on_loading_screen_render = (): void =>
+                    err(() => {
+                        const loading_screen_root_el = s<HTMLDivElement>(
+                            `.${new s_suffix.Main('loading_screen').result}`,
                         );
 
-                        if (n(loading_screen_css)) {
-                            x.bind(loading_screen_css, 'load', (): void =>
-                                err(() => {
-                                    if (page === 'settings') {
-                                        s_theme_shared.Main.i().set({
-                                            name: data.settings.options_page_theme,
-                                            additional_theme_callback: s_theme.Main.i().set,
-                                        });
-                                    }
-
-                                    d_loading_screen.Main.i().show();
-                                }, 'cnt_1350'),
+                        if (n(loading_screen_root_el) && n(loading_screen_root_el.shadowRoot)) {
+                            const loading_screen_css = x.css(
+                                'loading_screen',
+                                loading_screen_root_el.shadowRoot,
                             );
+
+                            if (n(loading_screen_css)) {
+                                x.bind(loading_screen_css, 'load', (): void =>
+                                    err(() => {
+                                        if (page === 'settings') {
+                                            s_theme_shared.Main.i().set({
+                                                name: data.settings.options_page_theme,
+                                                additional_theme_callback: s_theme.Main.i().set,
+                                            });
+                                        }
+
+                                        d_loading_screen.Main.i().show();
+                                    }, 'cnt_1350'),
+                                );
+                            }
                         }
-                    }
-                }, 'cnt_1351');
+                    }, 'cnt_1351');
 
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            __webpack_public_path__ = we.runtime.getURL('');
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                __webpack_public_path__ = we.runtime.getURL('');
 
-            s_title.Main.i().set();
+                s_title.Main.i().set();
 
-            s_css_vars.Main.i().set();
+                s_css_vars.Main.i().set();
 
-            const error_root: ShadowRoot = this.create_root({ prefix: 'error' }) as ShadowRoot;
-            const loading_screen_root: ShadowRoot = this.create_root({
-                prefix: 'loading_screen',
-            }) as ShadowRoot;
+                const error_root: ShadowRoot = this.create_root({ prefix: 'error' }) as ShadowRoot;
+                const loading_screen_root: ShadowRoot = this.create_root({
+                    prefix: 'loading_screen',
+                }) as ShadowRoot;
 
-            if (page === 'announcement') {
-                this.announcement_root = this.create_root({
-                    prefix: 'announcement',
-                    shadow_root: false,
-                }) as HTMLDivElement;
-            } else if (page === 'settings') {
-                this.settings_root = this.create_root({
-                    prefix: 'settings',
-                    shadow_root: false,
-                }) as HTMLDivElement;
-            } else if (page === 'new_tab') {
-                this.new_tab_root = this.create_root({
-                    prefix: 'new_tab',
-                    shadow_root: false,
-                }) as HTMLDivElement;
-            }
+                if (page === 'announcement') {
+                    this.announcement_root = this.create_root({
+                        prefix: 'announcement',
+                        shadow_root: false,
+                    }) as HTMLDivElement;
+                } else if (page === 'settings') {
+                    this.settings_root = this.create_root({
+                        prefix: 'settings',
+                        shadow_root: false,
+                    }) as HTMLDivElement;
+                } else if (page === 'new_tab') {
+                    this.new_tab_root = this.create_root({
+                        prefix: 'new_tab',
+                        shadow_root: false,
+                    }) as HTMLDivElement;
+                }
 
-            ReactDOM.createRoot(error_root).render(
-                <c_error.Body
-                    app_id={s_suffix.app_id}
-                    on_render={(): void =>
-                        err(() => {
-                            ReactDOM.createRoot(loading_screen_root).render(
-                                <c_crash_handler.Body>
-                                    <c_loading_screen.Body on_render={on_loading_screen_render} />
-                                </c_crash_handler.Body>,
-                            );
-                        }, 'cnt_1372')
-                    }
-                />,
-            );
-        }, 'cnt_1352');
+                ReactDOM.createRoot(error_root).render(
+                    <c_error.Body
+                        app_id={s_suffix.app_id}
+                        on_render={(): void =>
+                            err(() => {
+                                ReactDOM.createRoot(loading_screen_root).render(
+                                    <c_crash_handler.Body>
+                                        <c_loading_screen.Body
+                                            on_render={(): void => {
+                                                reslove();
+
+                                                on_loading_screen_render();
+                                            }}
+                                        />
+                                    </c_crash_handler.Body>,
+                                );
+                            }, 'cnt_1372')
+                        }
+                    />,
+                );
+            }, 'cnt_1352');
+        });
 
     private create_root = ({
         prefix,
