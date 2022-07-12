@@ -10,7 +10,7 @@ class Manifest {
     generate = ({ test, browser }) => {
         const manifest = {
             manifest_version: 3,
-            name: '__MSG_name__',
+            name: 'Clear New Tab',
             description: '__MSG_description__',
             background: {
                 service_worker: 'background.js',
