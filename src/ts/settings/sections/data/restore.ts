@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { runInAction } from 'mobx';
 
 import { t } from '@loftyshaky/shared';
+import { d_inputs, i_inputs } from '@loftyshaky/shared/inputs';
 import { s_db, s_preload_color, i_data, i_db } from 'shared/internal';
 import {
     d_background_settings,
@@ -181,6 +182,17 @@ export class Restore {
             const { transition_duration } = _.clone(data.settings);
 
             await this.set({ settings });
+
+            Object.values((d_sections.Main.i().sections as any).background_settings.inputs).forEach(
+                (input: any): void =>
+                    err(() => {
+                        d_inputs.NestedInput.i().set_parent_disbled_vals({
+                            input,
+                            sections: d_sections.Main.i().sections as i_inputs.Sections,
+                            set_to_all_sections: true,
+                        });
+                    }, 'cnt_1375'),
+            );
 
             await ext.send_msg_resp({
                 msg: 'update_settings_background',
