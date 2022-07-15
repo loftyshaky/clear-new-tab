@@ -217,7 +217,7 @@ export class Main {
             return '';
         }, 'cnt_1058');
 
-    public get_background_css = (): any =>
+    public get_background_css = (): t.AnyRecord =>
         err(() => {
             if (data.settings.mode === 'random_solid_color') {
                 const background_file = this.background_file[this.background_container_i];
@@ -285,7 +285,7 @@ export class Main {
         background_container_i,
     }: {
         background_container_i: number;
-    }): any =>
+    }): t.AnyRecord =>
         err(() => {
             if (s_background.Type.i().is_video({ background_container_i })) {
                 return this.background_css[background_container_i];

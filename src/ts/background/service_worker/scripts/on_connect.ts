@@ -3,7 +3,7 @@ import { Runtime } from 'webextension-polyfill-ts';
 import { s_service_worker } from 'background/internal';
 
 we.runtime.onConnect.addListener(
-    (port: Runtime.Port): Promise<any> =>
+    (port: Runtime.Port): Promise<void> =>
         err_async(async () => {
             if (port.name === 'keep_alive') {
                 self.clearTimeout(s_service_worker.Lifeline.i().keep_alive_forced_timeout);
