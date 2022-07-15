@@ -62,11 +62,17 @@ export class Classes {
             this.z_index_plus_1_cls[background_container_i] = '';
             this.z_index_plus_1_cls[opposite_background_container_i] = 'z_index_plus_1';
 
-            this.img_no_tr_cls[background_container_i] = is_img_or_color ? 'no_tr' : 'no_tr';
+            this.img_no_tr_cls[background_container_i] = 'no_tr';
+            l(
+                opposite_background_container_i,
+                this.get_no_tr_cls({
+                    is_background: is_img_or_color_opposite,
+                }),
+            );
             this.img_no_tr_cls[opposite_background_container_i] = this.get_no_tr_cls({
                 is_background: is_img_or_color_opposite,
             });
-            this.video_no_tr_cls[background_container_i] = is_video ? 'no_tr' : 'no_tr';
+            this.video_no_tr_cls[background_container_i] = 'no_tr';
             this.video_no_tr_cls[opposite_background_container_i] = this.get_no_tr_cls({
                 is_background: is_video_opposite,
             });
