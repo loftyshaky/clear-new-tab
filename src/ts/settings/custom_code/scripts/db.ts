@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-import { s_custom_code, s_db, i_db } from 'shared/internal';
-import { d_custom_code, i_custom_code } from 'settings/internal';
+import { s_custom_code as s_custom_code_shared, s_db, i_db } from 'shared/internal';
+import { d_custom_code, s_custom_code, i_custom_code } from 'settings/internal';
 
 export class Db {
     private static i0: Db;
@@ -45,8 +45,10 @@ export class Db {
             // eslint-disable-next-line no-alert
             if (window.confirm(ext.msg('delete_custom_code_confirm'))) {
                 await this.save_custom_code({
-                    custom_code: s_custom_code.Main.i().default_custom_code,
+                    custom_code: s_custom_code_shared.Main.i().default_custom_code,
                 });
+
+                s_custom_code.CodeMirror.i().set_vals();
             }
         }, 'cnt_1203');
 }
