@@ -15,13 +15,6 @@ class Manifest {
             background: {
                 service_worker: 'background.js',
             },
-            action: {
-                default_icon: {
-                    16: 'icon16.png',
-                    32: 'icon32.png',
-                    64: 'icon64.png',
-                },
-            },
             options_ui: {
                 page: 'settings.html',
                 open_in_tab: true,
