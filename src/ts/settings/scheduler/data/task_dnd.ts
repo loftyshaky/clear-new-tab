@@ -16,6 +16,7 @@ export class TaskDnd {
     private constructor() {
         makeObservable(this, {
             create_drop_zone: action,
+            remove_drop_zone: action,
         });
     }
 
