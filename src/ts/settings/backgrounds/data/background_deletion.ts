@@ -179,6 +179,7 @@ export class BackgroundDeletion {
                 });
             }
 
+            d_background_settings.SettingsContext.i().react_to_global_selection();
             d_protecting_screen.Visibility.i().hide();
         }, 'cnt_1107');
 }
