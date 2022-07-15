@@ -6,12 +6,11 @@ import { svg } from 'shared/internal';
 import { c_dnd, c_scheduler, d_dnd, d_scheduler, p_scheduler } from 'settings/internal';
 
 export const Task: React.FunctionComponent<p_scheduler.Task> = observer((props) => {
-    const { key, style, task, dragged } = props;
+    const { style, task, dragged } = props;
     const height: string = '78px';
 
     return (task as any).type === 'drop_zone' ? (
         <c_dnd.DropZone
-            key={key}
             style={{ ...style, height }}
             on_mouse_up={(): void => {
                 d_dnd.Main.i().drop();
@@ -19,7 +18,6 @@ export const Task: React.FunctionComponent<p_scheduler.Task> = observer((props) 
         />
     ) : (
         <div
-            key={key}
             className={x.cls([
                 'task',
                 d_scheduler.TaskAnimation.i().animated_cls({
