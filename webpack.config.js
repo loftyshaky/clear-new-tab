@@ -29,7 +29,6 @@ const env_instance = new Env({ app_root });
 const locales = new Locales({ app_root });
 
 const ext_id = 'nnmhbhoglljdlhbllfgkemgenlplalie';
-let first_reload_completed = false;
 
 module.exports = (env, argv) => {
     const paths = {
@@ -71,25 +70,11 @@ module.exports = (env, argv) => {
 
             if (an_error_occured) {
                 reloader.play_error_notification();
-            } else if (first_reload_completed) {
-                reloader.reload({
-                    ext_id,
-                    hard: false,
-                    play_sound: true,
-                    hard_paths: [
-                        `_locales${path.sep}`,
-                        `shared${path.sep}`,
-                        `background${path.sep}`,
-                    ],
-                });
             } else {
                 reloader.reload({
                     ext_id,
-                    hard: true,
                     play_sound: true,
                 });
-
-                first_reload_completed = true;
             }
         },
     });
