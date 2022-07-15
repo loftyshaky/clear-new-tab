@@ -260,6 +260,7 @@ export class Restore {
                 }, 'cnt_1277'),
             );
 
+            d_background_settings.SettingsContext.i().react_to_global_selection();
             s_preload_color.Storage.i().set_preload_color();
             d_scheduler.Tasks.i().reset_background_id();
             d_protecting_screen.Visibility.i().hide();

@@ -79,6 +79,8 @@ export class Main {
                     this.background_thumbnails = backgrounds_thumbnails_2;
                 }, 'cnt_1128'),
             );
+
+            d_backgrounds.CurrentBackground.i().set_current_background_i();
         }, 'cnt_1129');
 
     public merge_backgrounds = ({
