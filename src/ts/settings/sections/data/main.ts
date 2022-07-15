@@ -169,6 +169,7 @@ export class Main {
                                 name: 'create_solid_color_background',
                                 include_remove_color_btn: false,
                                 include_ok_btn: true,
+                                val_accessor: 'ui.create_solid_color_background',
                                 event_callback: d_sections.Val.i().change,
                                 select_palette_color_callback:
                                     d_sections.Val.i().save_selected_palette_color,
