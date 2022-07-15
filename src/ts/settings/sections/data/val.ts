@@ -95,13 +95,12 @@ export class Val {
                         }
 
                         if (
-                            [
-                                'mode',
-                                'color_type',
-                                'slideshow',
-                                'background_change_interval',
-                            ].includes(input.name)
+                            ['color_type', 'slideshow', 'background_change_interval'].includes(
+                                input.name,
+                            ) ||
+                            (input.name === 'mode' && val !== 'theme_background')
                         ) {
+                            // (input.name === 'mode' && val !== 'theme_background') needed to prevent background change animation when selecting theme_background mode. Reproduce: 1. remove val !== 'theme_background' from condition. 2. Select theme_background mode and let theme background install. 3. Select one_background mode. 4. Set any non theme background. 5. Go to opened new tab. 6. Select theme_background mode. 7. Go to opened new tab. Result: change animation is played instead of instant background change.
                             await ext.send_msg_resp({
                                 msg: 'get_background',
                                 force_change: true,
