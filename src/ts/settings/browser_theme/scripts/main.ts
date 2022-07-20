@@ -69,17 +69,12 @@ export class Main {
             d_sections.Upload.i().set_visibility_of_loading_msg({ is_visible: true });
             d_sections.Upload.i().set_visibility_of_error_msg({ is_visible: false });
 
-            try {
-                if (
-                    ((this.force_theme_redownload && !this.getting_theme_background) ||
-                        !this.force_theme_redownload) &&
-                    data.settings.mode === 'theme_background'
-                ) {
-                    await get_theme_background_inner();
-                }
-            } catch (error_obj: any) {
-                d_sections.Upload.i().set_visibility_of_error_msg({ is_visible: false });
-                show_err_ribbon(error_obj, 'cnt_1174', { silent: true });
+            if (
+                ((this.force_theme_redownload && !this.getting_theme_background) ||
+                    !this.force_theme_redownload) &&
+                data.settings.mode === 'theme_background'
+            ) {
+                await get_theme_background_inner();
             }
 
             d_sections.Upload.i().set_visibility_of_loading_msg({ is_visible: false });
