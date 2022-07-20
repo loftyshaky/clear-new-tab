@@ -58,6 +58,8 @@ export class InitAll {
                                         }
 
                                         d_loading_screen.Main.i().show();
+
+                                        reslove();
                                     }, 'cnt_1350'),
                                 );
                             }
@@ -101,9 +103,8 @@ export class InitAll {
                                 ReactDOM.createRoot(loading_screen_root).render(
                                     <c_crash_handler.Body>
                                         <c_loading_screen.Body
+                                            app_id={s_suffix.app_id}
                                             on_render={(): void => {
-                                                reslove();
-
                                                 on_loading_screen_render();
                                             }}
                                         />
@@ -144,7 +145,7 @@ export class InitAll {
 
             const on_css_load = (): Promise<void> =>
                 err_async(async () => {
-                    d_loading_screen.Main.i().hide();
+                    d_loading_screen.Main.i().hide({ app_id: s_suffix.app_id });
                 }, 'cnt_1354');
 
             if (n(this.announcement_root)) {
@@ -201,7 +202,7 @@ export class InitAll {
 
                     s_tab_index.Main.i().bind_set_input_type_f();
 
-                    d_loading_screen.Main.i().hide();
+                    d_loading_screen.Main.i().hide({ app_id: s_suffix.app_id });
 
                     await x.delay(300);
 
@@ -242,7 +243,7 @@ export class InitAll {
                 err_async(async () => {
                     d_inputs.InputWidth.i().set_max_width();
 
-                    d_loading_screen.Main.i().hide();
+                    d_loading_screen.Main.i().hide({ app_id: s_suffix.app_id });
 
                     s_tab_index.Main.i().bind_set_input_type_f();
                 }, 'cnt_1360');
