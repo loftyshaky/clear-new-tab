@@ -142,7 +142,7 @@ export class Main {
 
                     show_err_ribbon(error_obj, 'cnt_1373', {
                         silent: true,
-                    });
+                    }); // when theme crx fetch ends with 404. To test try to fetch non-existent id
 
                     sucessfully_got_crx = false;
                 }
