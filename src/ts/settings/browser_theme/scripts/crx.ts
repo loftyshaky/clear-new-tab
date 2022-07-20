@@ -161,17 +161,24 @@ export class Crx {
         }, 'cnt_1165');
 
     public rgb_to_hex = ({ val }: { val: number[] }): string =>
-        err(
-            () =>
-                `#${val
-                    .map((sub_val: number): string =>
-                        err(() => {
-                            const hex = sub_val.toString(16);
+        err(() => {
+            const hex: string = `#${[val[0], val[1], val[2]]
+                .map((sub_val: number): string =>
+                    err(() => {
+                        const hex_2 = sub_val.toString(16);
 
-                            return hex.length === 1 ? `0${hex}` : hex;
-                        }, 'cnt_1166'),
-                    )
-                    .join('')}`,
-            'cnt_1167',
-        );
+                        return hex_2.length === 1 ? `0${hex_2}` : hex_2;
+                    }, 'cnt_1166'),
+                )
+                .join('')}`;
+
+            const alpha: number = val[3]; // some themes have alpha in ntp_background colors. Example: https://chrome.google.com/webstore/detail/lucy-pinder-sexy-in-black/aenbcngndjmiialioliekogkfgbobhjl
+            let hex_final: string = hex;
+
+            if (n(alpha)) {
+                hex_final += Math.round(alpha * 255).toString(16);
+            }
+
+            return hex_final;
+        }, 'cnt_1167');
 }
