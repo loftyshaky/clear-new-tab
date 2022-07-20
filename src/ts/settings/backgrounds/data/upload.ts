@@ -27,10 +27,12 @@ export class Upload {
         files,
         theme_id,
         background_props,
+        show_error_in_upload_box = true,
     }: {
         files: File[] | string[];
         theme_id?: string;
         background_props?: i_db.BackgroundProps;
+        show_error_in_upload_box?: boolean;
     }): Promise<void> => {
         d_protecting_screen.Visibility.i().show();
 
@@ -94,7 +96,7 @@ export class Upload {
                                             : 'global',
                                     };
                                 } catch (error_obj: any) {
-                                    show_err_ribbon(error_obj, 'cnt_1131', { silent: true });
+                                    show_err_ribbon(error_obj, 'cnt_1131', { silent: true }); // upload wrong file type (for example .txt) to cause this error
                                     throw_err_obj(error_obj);
 
                                     return undefined;
@@ -168,10 +170,18 @@ export class Upload {
                 throw_err('Upload error');
             }
         } catch (error_obj: any) {
-            d_sections.Upload.i().set_visibility_of_error_msg({ is_visible: true });
+            if (show_error_in_upload_box) {
+                d_sections.Upload.i().set_visibility_of_error_msg({ is_visible: true });
+            }
 
-            show_err_ribbon(error_obj, 'cnt_1137', { silent: true });
-            throw_err_obj(error_obj);
+            show_err_ribbon(error_obj, 'cnt_1137', { silent: true }); // upload wrong file type (for example .txt) to cause this error
+
+            s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({
+                virtualized_list_type: 'backgrounds',
+            });
+            d_protecting_screen.Visibility.i().hide();
+
+            throw_err_obj(error_obj); // needed for error in paste input to be shown
         }
 
         s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({
@@ -233,13 +243,14 @@ export class Upload {
                     if (blob_is_of_allowed_img_type) {
                         await this.upload_with_browse_btn({
                             files: n(img_file) ? [img_file] : [clipboard_text],
+                            show_error_in_upload_box: false,
                         });
                     }
 
                     d_inputs.Text.i().clear_placeholder_text({ input });
                 }
             } catch (error_obj: any) {
-                show_err_ribbon(error_obj, 'cnt_1139', { silent: true });
+                show_err_ribbon(error_obj, 'cnt_1139', { silent: true }); // paste in paste input wrong link to cause this error
 
                 d_inputs.Text.i().set_error_placeholder_text({ input });
             }
