@@ -1,7 +1,5 @@
-import { Management } from 'webextension-polyfill-ts';
-
 import { t } from '@loftyshaky/shared';
-import { i_browser_theme, i_db } from 'shared/internal';
+import { s_browser_theme as s_browser_theme_shared, i_browser_theme, i_db } from 'shared/internal';
 import {
     d_backgrounds,
     d_browser_theme,
@@ -56,10 +54,10 @@ export class Main {
                         : await s_browser_theme.ThemeId.i().get_installed();
 
                     if (n(this.theme_id_final)) {
-                        const theme: Management.ExtensionInfo = await we.management.get(
-                            this.theme_id_final,
-                        );
-                        const is_local_theme = !n(theme.updateUrl);
+                        const is_local_theme =
+                            await s_browser_theme_shared.ThemeId.i().check_if_theme_is_local({
+                                theme_id: this.theme_id_final,
+                            });
 
                         if (!is_local_theme) {
                             await this.upload_from_crx();

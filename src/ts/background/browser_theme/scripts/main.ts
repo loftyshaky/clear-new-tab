@@ -1,4 +1,4 @@
-import { i_browser_theme, i_data } from 'shared/internal';
+import { s_browser_theme, i_browser_theme, i_data } from 'shared/internal';
 
 export class Main {
     private static i0: Main;
@@ -22,12 +22,18 @@ export class Main {
             const already_tried_install_this_theme: boolean =
                 this.theme_id === settings.id_of_last_installed_theme;
 
-            if (settings.mode === 'theme_background' && !already_tried_install_this_theme) {
-                we.runtime.openOptionsPage();
-            }
+            const is_local_theme = await s_browser_theme.ThemeId.i().check_if_theme_is_local({
+                theme_id: this.theme_id,
+            });
 
-            if (options_page_is_open && !already_tried_install_this_theme) {
-                ext.send_msg({ msg: 'try_to_get_theme_background' });
+            if (!is_local_theme) {
+                if (settings.mode === 'theme_background' && !already_tried_install_this_theme) {
+                    we.runtime.openOptionsPage();
+                }
+
+                if (options_page_is_open && !already_tried_install_this_theme) {
+                    ext.send_msg({ msg: 'try_to_get_theme_background' });
+                }
             }
         }, 'cnt_1005');
 
