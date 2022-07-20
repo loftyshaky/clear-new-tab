@@ -54,6 +54,6 @@ export class Main {
                 }
             }
 
-            d_backgrounds.BackgroundDeletion.i().trigger_delete({ ids: ids_to_delete });
+            await d_backgrounds.BackgroundDeletion.i().trigger_delete({ ids: ids_to_delete });
         }, 'cnt_1162');
 }
