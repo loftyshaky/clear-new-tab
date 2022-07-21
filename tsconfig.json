@@ -2,14 +2,13 @@
     "compilerOptions": {
         "outDir": "dist",
         "baseUrl": "src",
-        "target": "es2019",
+        "target": "es6",
         "module": "esnext",
         "moduleResolution": "node",
         "jsx": "react",
         "strict": true,
         "esModuleInterop": true,
         "sourceMap": true,
-        "experimentalDecorators": true,
         "typeRoots": ["node_modules/@types", "node_modules/web-ext-types"],
         "paths": {
             "shared/*": ["./ts/shared/*"],
