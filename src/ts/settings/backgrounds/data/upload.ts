@@ -224,7 +224,7 @@ export class Upload {
                         data.settings.download_img_when_link_given &&
                         input_given_text
                     ) {
-                        const response: Response = await window.fetch(clipboard_text);
+                        const response: Response = await globalThis.fetch(clipboard_text);
                         const blob: Blob = await response.blob();
                         blob_is_of_allowed_img_type = [
                             'image/gif',

@@ -184,7 +184,7 @@ export class BackgroundChange {
         err(() => {
             this.slideshow_timers.forEach((slideshow_timer: number): void =>
                 err(() => {
-                    self.clearTimeout(slideshow_timer);
+                    globalThis.clearTimeout(slideshow_timer);
                 }, 'cnt_1312'),
             );
 

@@ -35,7 +35,7 @@ export class Thumbnail {
                             'img_file',
                             'img_link',
                         ].includes(file_type)
-                            ? new window.Image()
+                            ? new globalThis.Image()
                             : document.createElement('video');
 
                         if (file_type === 'video_file') {

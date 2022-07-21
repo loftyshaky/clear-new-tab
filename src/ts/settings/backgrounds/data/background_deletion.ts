@@ -144,7 +144,7 @@ export class BackgroundDeletion {
     public delete_all_backgrounds = (): Promise<void> =>
         err_async(async () => {
             // eslint-disable-next-line no-alert
-            if (window.confirm(ext.msg('delete_all_backgrounds_confirm'))) {
+            if (globalThis.confirm(ext.msg('delete_all_backgrounds_confirm'))) {
                 d_protecting_screen.Visibility.i().show();
 
                 this.deletion_reason = 'delete_all_backgrounds';

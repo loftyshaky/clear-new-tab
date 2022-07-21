@@ -100,7 +100,7 @@ export class Dnd {
             d_dnd.Main.i().item_to_move = background;
 
             // eslint-disable-next-line no-alert
-            const val: string | null = window.prompt(ext.msg('enter_new_background_no_prompt'));
+            const val: string | null = globalThis.prompt(ext.msg('enter_new_background_no_prompt'));
 
             if (n(val)) {
                 const val_2: number = +val;

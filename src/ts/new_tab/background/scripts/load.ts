@@ -18,7 +18,7 @@ export class Load {
                     const { background_container_i } = d_background.Main.i();
                     const background: HTMLImageElement | HTMLVideoElement =
                         s_background.Type.i().is_img({ background_container_i })
-                            ? new window.Image()
+                            ? new globalThis.Image()
                             : document.createElement('video');
 
                     x.bind(

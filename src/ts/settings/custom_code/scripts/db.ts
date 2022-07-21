@@ -43,7 +43,7 @@ export class Db {
     public delete_custom_code = (): Promise<void> =>
         err_async(async () => {
             // eslint-disable-next-line no-alert
-            if (window.confirm(ext.msg('delete_custom_code_confirm'))) {
+            if (globalThis.confirm(ext.msg('delete_custom_code_confirm'))) {
                 await this.save_custom_code({
                     custom_code: s_custom_code_shared.Main.i().default_custom_code,
                 });

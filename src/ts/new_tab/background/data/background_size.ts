@@ -25,8 +25,8 @@ export class BackgroundSize {
     public background_size: string[] = d_background.Main.i().default_val_3;
     public video_width: string[] = d_background.Main.i().default_val_3;
     public video_height: string[] = d_background.Main.i().default_val_3;
-    private screen_width: number = window.screen.width;
-    private screen_height: number = window.screen.height;
+    private screen_width: number = globalThis.screen.width;
+    private screen_height: number = globalThis.screen.height;
 
     private get_background_size_setting = (): void =>
         err(() => {
@@ -98,13 +98,14 @@ export class BackgroundSize {
 
     private calculate_background_dims_when_in_screen_mode = (): void =>
         err(() => {
-            const browser_window_width: number = window.innerWidth;
-            const browser_window_height: number = window.outerHeight;
+            const browser_window_width: number = globalThis.innerWidth;
+            const browser_window_height: number = globalThis.outerHeight;
 
             const { background_container_i } = d_background.Main.i();
             const background_size_setting: string =
                 this.background_size_setting[background_container_i];
-            const browser_is_in_fullscreen_mode: boolean = window.innerWidth === this.screen_width;
+            const browser_is_in_fullscreen_mode: boolean =
+                globalThis.innerWidth === this.screen_width;
             const window_size: { width: number; height: number } = {
                 width: 0,
                 height: 0,

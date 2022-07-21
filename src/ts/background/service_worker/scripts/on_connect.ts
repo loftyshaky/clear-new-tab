@@ -6,7 +6,7 @@ we.runtime.onConnect.addListener(
     (port: Runtime.Port): Promise<void> =>
         err_async(async () => {
             if (port.name === 'keep_alive') {
-                self.clearTimeout(s_service_worker.Lifeline.i().keep_alive_forced_timeout);
+                globalThis.clearTimeout(s_service_worker.Lifeline.i().keep_alive_forced_timeout);
 
                 s_service_worker.Lifeline.i().lifeline = port;
 

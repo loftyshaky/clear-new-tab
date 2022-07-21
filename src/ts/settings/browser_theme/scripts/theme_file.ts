@@ -80,5 +80,5 @@ export class ThemeFile {
     }: {
         blob: Blob;
         file_type: string;
-    }): File => err(() => new self.File([blob], '', { type: file_type }), 'cnt_1179');
+    }): File => err(() => new globalThis.File([blob], '', { type: file_type }), 'cnt_1179');
 }

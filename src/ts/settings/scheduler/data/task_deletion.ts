@@ -92,7 +92,7 @@ export class TaskDeletion {
     public delete_all_tasks_confirm = (): Promise<void> =>
         err_async(async () => {
             // eslint-disable-next-line no-alert
-            if (window.confirm(ext.msg('delete_all_tasks_confirm'))) {
+            if (globalThis.confirm(ext.msg('delete_all_tasks_confirm'))) {
                 await this.delete_all_tasks();
             }
         }, 'cnt_1247');

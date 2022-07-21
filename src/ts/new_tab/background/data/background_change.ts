@@ -56,7 +56,7 @@ export class BackgroundChange {
                     URL.revokeObjectURL(background[background_container_i]);
                 }
 
-                const preview_background_id = new URL(self.location.href).searchParams.get(
+                const preview_background_id = new URL(globalThis.location.href).searchParams.get(
                     'preview_background_id',
                 );
                 const background_id: string = n(preview_background_id)
