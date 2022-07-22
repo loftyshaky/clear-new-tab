@@ -7,7 +7,6 @@ import { vars, s_css_vars, s_preload_color, s_theme } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
-    s_custom_code,
     d_optional_permission_settings,
     d_sections,
     s_browser_theme,
@@ -175,7 +174,6 @@ export class Val {
                         name: val as string,
                         additional_theme_callback: s_theme.Main.i().set,
                     });
-                    s_custom_code.CodeMirror.i().change_theme();
 
                     if (input.name === 'create_solid_color_background') {
                         d_backgrounds.Color.i().create_solid_color_background({

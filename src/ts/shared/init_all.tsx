@@ -193,10 +193,11 @@ export class InitAll {
                         d_install_help,
                         d_scheduler,
                         d_sections,
+                        s_theme: s_theme_settings,
                         s_virtualized_list,
                     } = await import('settings/internal');
 
-                    s_custom_code.CodeMirror.i().change_theme();
+                    s_theme_settings.CodeMirrorTheme.i().set_up_change_theme_reaction();
                     s_custom_code.CodeMirror.i().init_all();
 
                     d_install_help.Visibility.i().bind_hide();
