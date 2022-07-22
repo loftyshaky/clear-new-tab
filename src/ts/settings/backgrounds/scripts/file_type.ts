@@ -14,22 +14,13 @@ export class FileType {
     public get_file_type = ({ file }: { file: File | string }): i_backgrounds.FileType =>
         err(() => {
             if (typeof file !== 'string') {
-                const file_type_for_background_specified_by_theme_author = file.name.includes('.'); // some themes don't have file type in theme_ntp_background. Example: https://chrome.google.com/webstore/detail/hatsune-miku/kigfdicgjnpjkhbnngdfgjfffmdaonfg
-
-                const is_img: boolean = ['image/png', 'image/jpeg', 'image/gif'].some(
-                    (file_type: string): boolean =>
-                        err(
-                            () => file_type === file.type,
-
-                            'cnt_1147',
-                        ),
-                );
+                // some themes don't have file type in theme_ntp_background. Example: https://chrome.google.com/webstore/detail/hatsune-miku/kigfdicgjnpjkhbnngdfgjfffmdaonfg
 
                 const is_video: boolean = ['video/mp4', 'video/webm', 'video/ogg'].some(
                     (file_type: string): boolean => err(() => file_type === file.type, 'cnt_1148'),
                 );
 
-                if (is_img || !file_type_for_background_specified_by_theme_author) {
+                if (!is_video) {
                     return 'img_file';
                 }
 

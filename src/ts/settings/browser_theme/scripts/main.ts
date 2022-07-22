@@ -153,7 +153,6 @@ export class Main {
                         await s_browser_theme.Crx.i().read_manifest({
                             theme_package,
                         });
-
                     const is_valid_img_file: boolean | undefined = n(
                         theme_background_data.img_file_name,
                     )
@@ -184,7 +183,6 @@ export class Main {
                             clear_new_tab_video_file_name:
                                 theme_background_data.clear_new_tab_video_file_name,
                         });
-
                         await this.ensure_that_uploading_last_installed_theme_background({
                             callback: async () => {
                                 await d_backgrounds.Upload.i().upload_with_browse_btn({

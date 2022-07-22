@@ -36,20 +36,9 @@ export class ThemeFile {
             const img_file_final = n(img_file)
                 ? img_file
                 : await theme_package_data.file(_.upperFirst(img_file)); // download theme image (convert first letter of image name to uppercase);
-            const is_img_file: boolean = this.valid_img_file_types.some(
-                (file_ext: string): boolean =>
-                    err(() => n(img_file_name) && img_file_name.endsWith(file_ext), 'cnt_1176'),
-            );
-            const is_gif_clear_new_tab_file: boolean =
-                n(clear_new_tab_video_file_name) &&
-                this.get_file_ext({ file_name: clear_new_tab_video_file_name }) === 'gif';
-
-            const file_type: string = `${
-                is_gif_clear_new_tab_file || is_img_file ? 'image/' : 'video/'
-            }${this.get_file_ext({
-                file_name: is_gif_clear_new_tab_file
-                    ? clear_new_tab_video_file_name
-                    : img_file_name,
+            const is_img_file: boolean = !n(clear_new_tab_video_file_name);
+            const file_type: string = `${is_img_file ? 'image/' : 'video/'}${this.get_file_ext({
+                file_name: is_img_file ? img_file_name : clear_new_tab_video_file_name,
             })}`;
 
             const blob = await (n(clear_new_tab_video_file)

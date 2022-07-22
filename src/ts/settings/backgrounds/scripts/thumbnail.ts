@@ -30,14 +30,12 @@ export class Thumbnail {
                             s_backgrounds.FileType.i().get_file_type({
                                 file,
                             });
-
                         const background: HTMLImageElement | HTMLVideoElement = [
                             'img_file',
                             'img_link',
                         ].includes(file_type)
                             ? new globalThis.Image()
                             : document.createElement('video');
-
                         if (file_type === 'video_file') {
                             x.bind(background, 'loadedmetadata', () => {
                                 (background as HTMLVideoElement).currentTime =
@@ -56,7 +54,6 @@ export class Thumbnail {
                                         const natural_height: number =
                                             (background as HTMLImageElement).naturalHeight ||
                                             (background as HTMLVideoElement).videoHeight;
-
                                         const thumbnail_dims: i_backgrounds.BackgroundDims =
                                             this.calculate_thumbnails_dims({
                                                 natural_width,
