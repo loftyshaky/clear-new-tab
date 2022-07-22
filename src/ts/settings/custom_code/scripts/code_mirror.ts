@@ -105,8 +105,7 @@ export class CodeMirror {
                             code_mirror_inst,
                         });
 
-                        code_mirror_inst.setOption(
-                            'value',
+                        (code_mirror_inst as any).doc.setValue(
                             d_custom_code.Main.i().custom_code[type],
                         );
                     }, 'cnt_1196'),
