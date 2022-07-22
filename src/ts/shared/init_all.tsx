@@ -74,9 +74,13 @@ export class InitAll {
                 s_css_vars.Main.i().set();
 
                 const error_root: ShadowRoot = this.create_root({ prefix: 'error' }) as ShadowRoot;
-                const loading_screen_root: ShadowRoot = this.create_root({
-                    prefix: 'loading_screen',
-                }) as ShadowRoot;
+                let loading_screen_root: ShadowRoot | undefined;
+
+                if (page !== 'new_tab') {
+                    loading_screen_root = this.create_root({
+                        prefix: 'loading_screen',
+                    }) as ShadowRoot;
+                }
 
                 if (page === 'announcement') {
                     this.announcement_root = this.create_root({
@@ -100,16 +104,20 @@ export class InitAll {
                         app_id={s_suffix.app_id}
                         on_render={(): void =>
                             err(() => {
-                                ReactDOM.createRoot(loading_screen_root).render(
-                                    <c_crash_handler.Body>
-                                        <c_loading_screen.Body
-                                            app_id={s_suffix.app_id}
-                                            on_render={(): void => {
-                                                on_loading_screen_render();
-                                            }}
-                                        />
-                                    </c_crash_handler.Body>,
-                                );
+                                if (page === 'new_tab') {
+                                    reslove();
+                                } else if (n(loading_screen_root)) {
+                                    ReactDOM.createRoot(loading_screen_root).render(
+                                        <c_crash_handler.Body>
+                                            <c_loading_screen.Body
+                                                app_id={s_suffix.app_id}
+                                                on_render={(): void => {
+                                                    on_loading_screen_render();
+                                                }}
+                                            />
+                                        </c_crash_handler.Body>,
+                                    );
+                                }
                             }, 'cnt_1372')
                         }
                     />,
