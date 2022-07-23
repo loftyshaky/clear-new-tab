@@ -28,27 +28,31 @@ export class ThemeFile {
         img_file_name: string | undefined;
         clear_new_tab_video_file_name: string | undefined;
     }): Promise<File> =>
-        err_async(async () => {
-            const clear_new_tab_video_file = await theme_package_data.file(
-                clear_new_tab_video_file_name,
-            );
-            const img_file = await theme_package_data.file(img_file_name); // download theme image
-            const img_file_final = n(img_file)
-                ? img_file
-                : await theme_package_data.file(_.upperFirst(img_file)); // download theme image (convert first letter of image name to uppercase);
-            const is_img_file: boolean = !n(clear_new_tab_video_file_name);
-            const file_type: string = `${is_img_file ? 'image/' : 'video/'}${this.get_file_ext({
-                file_name: is_img_file ? img_file_name : clear_new_tab_video_file_name,
-            })}`;
+        err_async(
+            async () => {
+                const clear_new_tab_video_file = await theme_package_data.file(
+                    clear_new_tab_video_file_name,
+                );
+                const img_file = await theme_package_data.file(img_file_name); // download theme image
+                const img_file_final = n(img_file)
+                    ? img_file
+                    : await theme_package_data.file(_.upperFirst(img_file)); // download theme image (convert first letter of image name to uppercase);
+                const is_img_file: boolean = !n(clear_new_tab_video_file_name);
+                const file_type: string = `${is_img_file ? 'image/' : 'video/'}${this.get_file_ext({
+                    file_name: is_img_file ? img_file_name : clear_new_tab_video_file_name,
+                })}`;
 
-            const blob = await (n(clear_new_tab_video_file)
-                ? clear_new_tab_video_file
-                : img_file_final
-            ).async('blob');
-            const file = this.convert_to_file_object({ blob, file_type });
+                const blob = await (n(clear_new_tab_video_file)
+                    ? clear_new_tab_video_file
+                    : img_file_final
+                ).async('blob');
+                const file = this.convert_to_file_object({ blob, file_type });
 
-            return file;
-        }, 'cnt_1177');
+                return file;
+            },
+            'cnt_1177',
+            { silent: true },
+        );
 
     private get_file_ext = ({ file_name }: { file_name: string | undefined }): string =>
         err(() => {

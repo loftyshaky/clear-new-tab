@@ -17,7 +17,8 @@ export class FileType {
                 // some themes don't have file type in theme_ntp_background. Example: https://chrome.google.com/webstore/detail/hatsune-miku/kigfdicgjnpjkhbnngdfgjfffmdaonfg
 
                 const is_video: boolean = ['video/mp4', 'video/webm', 'video/ogg'].some(
-                    (file_type: string): boolean => err(() => file_type === file.type, 'cnt_1148'),
+                    (file_type: string): boolean =>
+                        err(() => file_type === file.type, 'cnt_1148', { silent: true }),
                 );
 
                 if (!is_video) {
