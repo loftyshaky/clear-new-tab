@@ -134,6 +134,12 @@ export class Main {
                                         triggered_by_load_theme_background_btn: true,
                                     });
                                 },
+                                is_enabled_conds: [
+                                    {
+                                        input_name: 'mode',
+                                        pass_vals: ['theme_background'],
+                                    },
+                                ],
                             }),
                             new o_inputs.UploadBox({
                                 name: 'upload_background',
