@@ -153,7 +153,7 @@ export class Crx {
             const color_of_area_around_background_manifest = _.get(
                 theme_obj,
                 ['colors', 'ntp_background'],
-                '',
+                undefined,
             );
             const video_volume_manifest: number = _.get(
                 theme_obj,
