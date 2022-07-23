@@ -18,8 +18,15 @@ export class Crx {
     /* eslint-disable @typescript-eslint/naming-convention */
     private position_dict: { [index: string]: string } = {
         top: 'top',
+        'top center': 'top',
+        'center top': 'top',
         center: 'center',
+        'center center': 'center',
         bottom: 'bottom',
+        'bottom center': 'bottom',
+        'center bottom': 'bottom',
+        left: 'left_center', // https://chrome.google.com/webstore/detail/bmw-by-rb-themes/ccgmejigoahjchphkfcjnjddmcjcgpfp
+        right: 'right_center',
         'left top': 'left_top',
         'top left': 'left_top',
         'left center': 'left_center',
@@ -32,6 +39,23 @@ export class Crx {
         'center right': 'right_center',
         'right bottom': 'right_bottom',
         'bottom right': 'right_bottom',
+        'top-center': 'center', // properties with dash will not work in themes but theme autors still can mistakenly put them  in themes
+        'center-top': 'center',
+        'center-center': 'center',
+        'bottom-center': 'center',
+        'center-bottom': 'center',
+        'left-top': 'center',
+        'top-left': 'center',
+        'left-center': 'center',
+        'center-left': 'center',
+        'left-bottom': 'center',
+        'bottom-left': 'center',
+        'right-top': 'center',
+        'top-right': 'center',
+        'right-center': 'center',
+        'center-right': 'center',
+        'right-bottom': 'center',
+        'bottom-right': 'center',
     };
 
     repeat_dict: { [index: string]: string } = {
@@ -39,6 +63,12 @@ export class Crx {
         repeat: 'repeat',
         'repeat-y': 'repeat_y',
         'repeat-x': 'repeat_x',
+        'repeat y': 'no_repeat',
+        'repeat x': 'no_repeat',
+        'y-repeat': 'no_repeat',
+        'x-repeat': 'no_repeat',
+        'y repeat': 'no_repeat',
+        'x repeat': 'no_repeat',
     };
     /* eslint-disable @typescript-eslint/naming-convention */
 
