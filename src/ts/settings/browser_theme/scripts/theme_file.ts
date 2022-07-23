@@ -41,7 +41,6 @@ export class ThemeFile {
                 const file_type: string = `${is_img_file ? 'image/' : 'video/'}${this.get_file_ext({
                     file_name: is_img_file ? img_file_name : clear_new_tab_video_file_name,
                 })}`;
-
                 const blob = await (n(clear_new_tab_video_file)
                     ? clear_new_tab_video_file
                     : img_file_final

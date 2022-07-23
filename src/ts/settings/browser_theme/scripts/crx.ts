@@ -128,11 +128,16 @@ export class Crx {
             const manifest = await theme_package_data.file('manifest.json').async('string');
             const manifest_obj = JSON.parse(manifest.trim()); // trim fixes bug with some themes. ex: https://chrome.google.com/webstore/detail/sexy-girl-chrome-theme-ar/pkibpgkliocdchedibhioiibdiddomac
             const theme_obj = manifest_obj.theme;
-
-            const img_file_name: string | undefined = _.get(theme_obj, [
+            //> folder or file name may be uppercase, but in manifest it can be listed as lower case and the theme will still work. To prevent this I read actual path to theme_ntp_background (https://chrome.google.com/webstore/detail/bmw-by-rb-themes/ccgmejigoahjchphkfcjnjddmcjcgpfp)
+            const img_file_name_listed_in_manifest: string | undefined = _.get(theme_obj, [
                 'images',
                 'theme_ntp_background',
             ]);
+            const img_file_name: string | undefined = Object.keys(theme_package_data.files).find(
+                (path: string): boolean =>
+                    err(() => path.toLowerCase() === img_file_name_listed_in_manifest, 'cnt_1379'),
+            );
+            //<
             const size_manifest: string = _.get(theme_obj, ['clear_new_tab', 'size'], '');
             const position_manifest: string = _.get(
                 theme_obj,
