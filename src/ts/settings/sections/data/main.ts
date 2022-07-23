@@ -131,6 +131,7 @@ export class Main {
                                     s_browser_theme.Main.i().get_theme_background({
                                         theme_id: undefined,
                                         force_theme_redownload: true,
+                                        triggered_by_load_theme_background_btn: true,
                                     });
                                 },
                             }),

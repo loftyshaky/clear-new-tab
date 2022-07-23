@@ -42,39 +42,42 @@ export class Main {
     public get_theme_background = ({
         theme_id,
         force_theme_redownload = false,
+        triggered_by_load_theme_background_btn = false,
     }: i_browser_theme.GetThemeBackground): Promise<void> =>
         err_async(async () => {
             this.force_theme_redownload = force_theme_redownload;
-            const get_theme_background_inner = (): Promise<void> =>
-                err_async(async () => {
-                    this.getting_theme_background = true;
-
-                    this.theme_id_final = n(theme_id)
-                        ? theme_id
-                        : await s_browser_theme.ThemeId.i().get_installed();
-
-                    if (n(this.theme_id_final)) {
-                        const is_local_theme =
-                            await s_browser_theme_shared.ThemeId.i().check_if_theme_is_local({
-                                theme_id: this.theme_id_final,
-                            });
-
-                        if (!is_local_theme) {
-                            await this.upload_from_crx();
-                        }
-                    }
-                }, 'cnt_1173');
 
             d_protecting_screen.Visibility.i().show();
             d_sections.Upload.i().set_visibility_of_loading_msg({ is_visible: true });
             d_sections.Upload.i().set_visibility_of_error_msg({ is_visible: false });
+
+            this.theme_id_final = n(theme_id)
+                ? theme_id
+                : await s_browser_theme.ThemeId.i().get_installed();
+
+            const is_local_theme = await s_browser_theme_shared.ThemeId.i().check_if_theme_is_local(
+                {
+                    theme_id: this.theme_id_final,
+                },
+            );
+
+            if (triggered_by_load_theme_background_btn && is_local_theme) {
+                // eslint-disable-next-line no-alert
+                alert(ext.msg('unable_to_load_background_of_local_theme_alert'));
+            }
 
             if (
                 ((this.force_theme_redownload && !this.getting_theme_background) ||
                     !this.force_theme_redownload) &&
                 data.settings.mode === 'theme_background'
             ) {
-                await get_theme_background_inner();
+                this.getting_theme_background = true;
+
+                if (n(this.theme_id_final)) {
+                    if (!is_local_theme) {
+                        await this.upload_from_crx();
+                    }
+                }
             }
 
             d_sections.Upload.i().set_visibility_of_loading_msg({ is_visible: false });
