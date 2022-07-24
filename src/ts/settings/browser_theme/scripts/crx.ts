@@ -133,10 +133,19 @@ export class Crx {
                 'images',
                 'theme_ntp_background',
             ]);
-            const img_file_name: string | undefined = Object.keys(theme_package_data.files).find(
-                (path: string): boolean =>
-                    err(() => path.toLowerCase() === img_file_name_listed_in_manifest, 'cnt_1379'),
-            );
+            let img_file_name: string | undefined;
+
+            if (n(img_file_name_listed_in_manifest)) {
+                img_file_name = Object.keys(theme_package_data.files).find(
+                    (path: string): boolean =>
+                        err(
+                            () =>
+                                path.toLowerCase() ===
+                                img_file_name_listed_in_manifest.toLowerCase(),
+                            'cnt_1379',
+                        ),
+                );
+            }
             //<
             const size_manifest: string = _.get(theme_obj, ['clear_new_tab', 'size'], '');
             const position_manifest: string = _.get(
