@@ -38,6 +38,10 @@ class Manifest {
                       ]
                     : []),
             ],
+            content_security_policy: {
+                sandbox:
+                    "sandbox allow-scripts allow-forms allow-popups allow-modals allow-top-navigation; script-src 'self' 'unsafe-inline'; child-src 'self'",
+            },
         };
 
         if (test) {
