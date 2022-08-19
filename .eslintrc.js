@@ -1,11 +1,6 @@
 const _ = require('lodash');
 const restrictedGlobals = require('confusing-browser-globals');
 
-const naming_convention_exceptions = {
-    regex: '^(btn:save|globalThis|marginBottom|minWidth|maxWidth|marginLeft|marginRight|scrollTop|backgroundColor|marginInlineStart|componentDidMount|componentWillUnmount|componentDidUpdate|componentDidCatch|getDerivedStateFromError|enforceActions|recurseEverything|currentWindow|windowTypes|defaultProps|windowId|useAsButton|autoReposition|lockOpacity|showAlways|childList|backgroundImage|attributeFilter|saveAs|tabId|sendResponse|unsharpAmount|unsharpRadius|unsharpThreshold|onDragEnter|onDragLeave|onDrop|onDragOver|lastModified|objectFit|objectPosition|ROUNDING_MODE|tabIndex|onClick|onKeyDown|lineWrapping|lineNumbers|htmlMode|singleQuote|jsxSingleQuote|tabWidth|printWidth|semi|trailingComma|endOfLine|__html|webPreferences|nodeIntegration|contextIsolation|responseHeaders|defaultViewport|executablePath|ignoreDefaultArgs|browserWSEndpoint|waitUntil|ignoreInitial|autoIncrement|primaryKey|allowNull|modelName)$',
-    match: false,
-};
-
 const rules = {
     js: {
         //> javascript
@@ -17,6 +12,7 @@ const rules = {
         'no-param-reassign': 'off',
         'class-methods-use-this': 'off',
         'linebreak-style': 'off',
+        'import/no-unresolved': [2, { ignore: ['@ioc:'] }],
         'import/extensions': [
             'error',
             'ignorePackages',
@@ -115,23 +111,6 @@ const rules = {
         '@typescript-eslint/no-inferrable-types': 'off',
         '@typescript-eslint/no-non-null-assertion': 'off',
         '@typescript-eslint/brace-style': ['error', '1tbs', { allowSingleLine: true }],
-        '@typescript-eslint/naming-convention': [
-            'error',
-            {
-                selector: 'default',
-                format: ['snake_case'],
-                filter: naming_convention_exceptions,
-            },
-            {
-                selector: 'typeLike',
-                format: ['PascalCase'],
-            },
-            {
-                selector: ['variable', 'property'],
-                format: ['snake_case', 'PascalCase'],
-                filter: naming_convention_exceptions,
-            },
-        ],
         '@typescript-eslint/type-annotation-spacing': 'error',
         '@typescript-eslint/prefer-includes': 'error',
         //< typescript
