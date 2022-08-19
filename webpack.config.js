@@ -59,12 +59,14 @@ module.exports = (env, argv) => {
             });
         },
         callback_done: (stats) => {
+            const env_2 = 'ext';
+
             manifest.generate({
                 test: env.test,
                 browser: env.browser,
             });
-            env_instance.generate({ browser: env.browser, mode: argv.mode });
-            locales.merge();
+            env_instance.generate({ browser: env.browser, mode: argv.mode, env: env_2 });
+            locales.merge({ env: env_2 });
 
             const an_error_occured = stats.compilation.errors.length !== 0;
 
