@@ -1,13 +1,18 @@
 @import 'template_focus';
 
+.body {
+    background: $gqb;
+}
+
 .main,
+.main_2,
 .sections, {
-    background-color: $gaq;
+    background-color: $hfb;
 }
 
 .section {
     border-color: $hev;
-    background-color: $htc;
+    background-color: $tbn;
 }
 
 .section_name {
@@ -30,10 +35,12 @@
 }
 
 .scheduler {
-    background-color: $htc;
-
     .background_preview {
-        border-color: $lpe;
+        border-color: $rbp;
+    }
+
+    .drop_zone {
+        outline-color: $iub;
     }
 
     .tasks {
@@ -47,17 +54,96 @@
             border-color: $hev;
         }
     }
+
+    input,
+    button,
+    select {
+        color: $rbp;
+    }
+
+    select {
+        background-image: linear-gradient(45deg, transparent 50%, $rbp 50%),
+            linear-gradient(135deg, $rbp 50%, transparent 50%),
+            linear-gradient(to right, $rbp, $rbp);
+
+        option {
+            color: $rbp;
+        }
+    }
+
+    .input_item {
+        .inset_border::before {
+            outline-color: $hev;
+        }
+
+        .input {
+            background-color: $gaq;
+        }
+    }
 }
 
 .code_editor {
-    background-color: $htc;
-
     .edit_areas {
         .edit_area {
             /* stylelint-disable-next-line selector-class-pattern */
             .CodeMirror {
                 border-color: $hev;
             }
+        }
+    }
+}
+
+.scheduler,
+.code_editor {
+    color: $rbp;
+    background-color: $htc;
+
+    ::selection {
+        background-color: $hgb !important;
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: $gaq;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: $hev;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: $rbp;
+    }
+
+    ::-webkit-scrollbar-track:horizontal,
+    ::-webkit-scrollbar-track:vertical {
+        border-color: $hev;
+    }
+
+    .btn.text_input {
+        background-color: $gaq;
+
+        svg {
+            fill: $rbp;
+        }
+    }
+
+    .btn.icon {
+        svg {
+            fill: $rbp;
+        }
+    }
+}
+
+.scheduler,
+.code_editor,
+.input_item.color {
+    .btn.text {
+        color: $rbp;
+        background-color: $gaq;
+        outline-color: $hev;
+
+        &:hover {
+            background-color: $hyv;
         }
     }
 }

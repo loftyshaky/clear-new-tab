@@ -24,6 +24,8 @@ export class CodeMirror {
         light: 'mdn-like',
         dark: 'material-palenight',
         very_dark: 'material-ocean',
+        lavender: 'mdn-like',
+        aqua: 'mdn-like',
     };
 
     private attempted_to_save_code_val_count: number = 0;

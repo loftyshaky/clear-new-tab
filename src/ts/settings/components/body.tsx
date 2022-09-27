@@ -39,25 +39,27 @@ export const Body: React.FunctionComponent<p_settings.Body> = observer((props) =
     return (
         <>
             <div className='main'>
-                <div className='sections custom settings'>
-                    {Object.values(d_sections.Main.i().sections).map(
-                        (section: o_inputs.Section, i: number): JSX.Element => (
-                            <c_settings.Section
-                                key={i}
-                                section_name={section.name}
-                                section={section}
-                            >
-                                {section.name === 'background_upload' ? (
-                                    <c_install_help.Body />
-                                ) : undefined}
-                                <c_inputs.SectionContent inputs={section.inputs} />
-                            </c_settings.Section>
-                        ),
-                    )}
+                <div className='main_2'>
+                    <div className='sections custom settings'>
+                        {Object.values(d_sections.Main.i().sections).map(
+                            (section: o_inputs.Section, i: number): JSX.Element => (
+                                <c_settings.Section
+                                    key={i}
+                                    section_name={section.name}
+                                    section={section}
+                                >
+                                    {section.name === 'background_upload' ? (
+                                        <c_install_help.Body />
+                                    ) : undefined}
+                                    <c_inputs.SectionContent inputs={section.inputs} />
+                                </c_settings.Section>
+                            ),
+                        )}
+                    </div>
+                    <c_backgrounds.Body />
+                    <c_scheduler.Body />
+                    <c_custom_code.Body />
                 </div>
-                <c_backgrounds.Body />
-                <c_scheduler.Body />
-                <c_custom_code.Body />
             </div>
             <c_protecting_screen.Body />
         </>

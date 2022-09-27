@@ -1,0 +1,14 @@
+@import '../../../../node_modules/@loftyshaky/shared/scss/shared/vars';
+@import '../../../../node_modules/@loftyshaky/shared/scss/shared/mixins';
+@import '../../../../node_modules/@loftyshaky/shared/scss/shared/themes/colors/aqua';
+@import 'template';
+
+.section {
+    @include glass;
+
+    box-shadow: none;
+
+    .section_name {
+        background-color: $gvb;
+    }
+}

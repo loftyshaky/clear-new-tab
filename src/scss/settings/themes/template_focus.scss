@@ -1,3 +1,31 @@
+/* stylelint-disable selector-class-pattern */
+
+.scheduler,
+.code_editor {
+    .input_item .input_w {
+        &.is_in_focus_state:not(.select)::before {
+            outline-color: $yun;
+        }
+
+        &.is_in_warn_state:not(.select)::before {
+            outline-color: $suc;
+        }
+    }
+}
+
+.keyboard .scheduler .btn.text_input::before,
+.keyboard .code_editor .btn.text_input::before,
+body.keyboard .scheduler .btn.text:focus,
+body.keyboard .code_editor .btn.text:focus,
+.keyboard .scheduler .btn.icon:focus,
+.keyboard .code_editor .btn.icon:focus,
+.keyboard .link_btn:focus,
+.keyboard .scheduler .code_editor .link_btn:focus,
+.keyboard .scheduler .input_item .input_w:not(.text, .textarea).is_in_focus_state::before,
+.keyboard .code_editor .input_item .input_w:not(.text, .textarea).is_in_focus_state::before {
+    outline-color: $dwk;
+}
+
 .keyboard .backgrounds .background .ui:focus {
     outline-color: $uzf;
 }
