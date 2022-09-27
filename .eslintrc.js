@@ -160,6 +160,8 @@ module.exports = {
         we: false,
         page: false,
         show_err_ribbon: false,
+        show_flash: false,
+        show_notification: false,
         err: false,
         err_async: false,
         throw_err: false,
