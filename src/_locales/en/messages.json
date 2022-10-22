@@ -1,4 +1,7 @@
 {
+    "name": {
+        "message": "Clear New Tab"
+    },
     "description": {
         "message": "Remove everything from the new tab page and display any image, gif or video in it as a wallpaper."
     },
