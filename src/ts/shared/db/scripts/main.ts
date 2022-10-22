@@ -22,6 +22,15 @@ export class Main extends Dexie {
             custom_code: '',
         });
 
+        this.version(2).upgrade(async (tx) => {
+            await tx
+                .table('backgrounds')
+                .toCollection()
+                .modify((background) => {
+                    background.video_speed = 'global';
+                });
+        });
+
         this.backgrounds = this.table('backgrounds');
         this.background_thumbnails = this.table('background_thumbnails');
         this.background_files = this.table('background_files');

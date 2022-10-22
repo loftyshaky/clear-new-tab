@@ -6,6 +6,7 @@ export * from 'shared/db/interfaces/background';
 export * from 'shared/db/interfaces/color_background';
 export * from 'shared/db/interfaces/background_drop_zone';
 export * from 'shared/db/interfaces/custom_code';
+export * from 'shared/db/interfaces/file_background_type';
 export * from 'shared/db/interfaces/file_background';
 export * from 'shared/db/interfaces/task_drop_zone';
 export * from 'shared/db/interfaces/task';

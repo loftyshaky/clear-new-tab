@@ -48,7 +48,7 @@ export class BackgroundChange {
                     get_background_position,
                     get_background_repeat,
                     get_color_of_area_around_background,
-                    get_video_volume,
+                    get_video_val,
                     get_background_css,
                 } = d_background.Main.i();
 
@@ -97,8 +97,10 @@ export class BackgroundChange {
                         d_background.Main.i().color_of_area_around_background[
                             opposite_background_container_i
                         ] = get_color_of_area_around_background();
+                        d_background.Main.i().video_speed[opposite_background_container_i] =
+                            get_video_val({ type: 'speed' });
                         d_background.Main.i().video_volume[opposite_background_container_i] =
-                            get_video_volume();
+                            get_video_val({ type: 'volume' });
                         d_background.Main.i().background_css[opposite_background_container_i] =
                             get_background_css();
                     }, 'cnt_1044'),

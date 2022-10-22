@@ -19,12 +19,14 @@ export class GlobalCheckboxes {
 
     public global_checkboxes: string[] = [
         'color_of_area_around_background_global',
+        'video_speed_global',
         'video_volume_global',
     ];
 
     public set_ui_vals = (): void =>
         err(() => {
             const settings_context_is_global: boolean = data.ui.settings_context === 'global';
+            let video_speed_is_global = false;
             let video_volume_is_global = false;
             let color_of_area_around_background_is_global = false;
 
@@ -40,6 +42,12 @@ export class GlobalCheckboxes {
                             .selected_background! as i_db.FileBackground
                     ).color_of_area_around_background === 'global';
 
+                video_speed_is_global =
+                    (
+                        d_background_settings.SettingsContext.i()
+                            .selected_background! as i_db.FileBackground
+                    ).video_speed === 'global';
+
                 video_volume_is_global =
                     (
                         d_background_settings.SettingsContext.i()
@@ -50,6 +58,7 @@ export class GlobalCheckboxes {
             data.ui.color_of_area_around_background_global =
                 settings_context_is_global || color_of_area_around_background_is_global;
 
+            data.ui.video_speed_global = settings_context_is_global || video_speed_is_global;
             data.ui.video_volume_global = settings_context_is_global || video_volume_is_global;
         }, 'cnt_1082');
 

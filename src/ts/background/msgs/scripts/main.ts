@@ -21,9 +21,14 @@ we.runtime.onMessage.addListener(
                     await s_data.Main.i().update_settings({
                         settings: msg.settings,
                         update_background: msg.update_background,
+                        transform: n(msg.transform) ? msg.transform : false,
                     });
                 } else {
-                    s_data.Main.i().update_settings_debounce(msg.settings, msg.update_background);
+                    s_data.Main.i().update_settings_debounce(
+                        msg.settings,
+                        msg.update_background,
+                        n(msg.transform) ? msg.transform : false,
+                    );
                 }
 
                 ext.send_msg({ msg: 'update_settings_new_tab' });

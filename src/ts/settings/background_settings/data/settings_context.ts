@@ -34,6 +34,7 @@ export class SettingsContext {
             data.ui.background_position = data.settings.background_position;
             data.ui.background_repeat = data.settings.background_repeat;
             data.ui.color_of_area_around_background = data.settings.color_of_area_around_background;
+            data.ui.video_speed = data.settings.video_speed;
             data.ui.video_volume = data.settings.video_volume;
 
             const sections = d_sections.Main.i().sections as any;
@@ -43,6 +44,7 @@ export class SettingsContext {
             // eslint-disable-next-line max-len
             sections.background_settings.inputs.color_of_area_around_background_group.inputs[1].is_enabled =
                 false;
+            sections.background_settings.inputs.video_speed_group.inputs[1].is_enabled = false;
             sections.background_settings.inputs.video_volume_group.inputs[1].is_enabled = false;
 
             d_background_settings.GlobalCheckboxes.i().set_ui_vals();
@@ -83,16 +85,23 @@ export class SettingsContext {
             }
 
             if (is_img) {
+                sections.background_settings.inputs.video_speed_group.is_enabled = false;
                 sections.background_settings.inputs.video_volume_group.is_enabled = false;
             }
 
             if (is_video) {
+                data.ui.video_speed =
+                    (background as i_db.FileBackground).video_speed === 'global'
+                        ? data.settings.video_speed
+                        : (background as i_db.FileBackground).video_speed;
+
                 data.ui.video_volume =
                     (background as i_db.FileBackground).video_volume === 'global'
                         ? data.settings.video_volume
                         : (background as i_db.FileBackground).video_volume;
 
                 sections.background_settings.inputs.background_repeat.is_enabled = false;
+                sections.background_settings.inputs.video_speed_group.is_enabled = true;
                 sections.background_settings.inputs.video_volume_group.is_enabled = true;
             }
 
@@ -116,24 +125,27 @@ export class SettingsContext {
                 // eslint-disable-next-line max-len
                 sections.background_settings.inputs.color_of_area_around_background_group.inputs[0].is_enabled =
                     val;
-
                 // eslint-disable-next-line max-len
                 sections.background_settings.inputs.color_of_area_around_background_group.inputs[1].is_enabled =
                     val;
+                sections.background_settings.inputs.video_speed_group.inputs[0].is_enabled = val;
+                sections.background_settings.inputs.video_speed_group.inputs[1].is_enabled = val;
                 sections.background_settings.inputs.video_volume_group.inputs[0].is_enabled = val;
                 sections.background_settings.inputs.video_volume_group.inputs[1].is_enabled = val;
             } else {
                 // eslint-disable-next-line max-len
                 sections.background_settings.inputs.color_of_area_around_background_group.inputs[0].is_enabled =
                     true;
-
                 // eslint-disable-next-line max-len
                 sections.background_settings.inputs.color_of_area_around_background_group.inputs[1].is_enabled =
                     true;
+                sections.background_settings.inputs.video_speed_group.inputs[0].is_enabled = true;
+                sections.background_settings.inputs.video_speed_group.inputs[1].is_enabled = true;
                 sections.background_settings.inputs.video_volume_group.inputs[0].is_enabled = true;
                 sections.background_settings.inputs.video_volume_group.inputs[1].is_enabled = true;
             }
 
+            sections.background_settings.inputs.video_speed_group.is_enabled = val;
             sections.background_settings.inputs.video_volume_group.is_enabled = val;
             sections.background_settings.inputs.color_of_area_around_background_group.is_enabled =
                 val;

@@ -91,6 +91,9 @@ export class Upload {
                                         color_of_area_around_background: n(background_props)
                                             ? background_props.color_of_area_around_background
                                             : 'global',
+                                        video_speed: n(background_props)
+                                            ? background_props.video_speed
+                                            : 'global',
                                         video_volume: n(background_props)
                                             ? background_props.video_volume
                                             : 'global',

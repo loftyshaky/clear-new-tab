@@ -30,21 +30,23 @@ $backgrounds_section_max_width: 922px;
                 display: inline-block;
             }
 
-            &.video_volume {
-                display: inline-block;
-                margin-top: $gap - 3px;
-            }
-
             &.color_of_area_around_background_global {
                 display: inline-block;
                 margin-left: $gap !important;
                 vertical-align: 6px;
             }
 
-            &.video_volume_global {
-                display: inline-block;
+            &.video_volume_global,
+            &.video_speed_global {
                 margin-left: $gap !important;
-                vertical-align: 23px;
+            }
+
+            &.group .input_item.text {
+                width: 100%;
+
+                .input_w {
+                    width: 100%;
+                }
             }
         }
 

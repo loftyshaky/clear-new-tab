@@ -23,6 +23,7 @@ export class Main {
             background_position: observable,
             background_repeat: observable,
             color_of_area_around_background: observable,
+            video_speed: observable,
             video_volume: observable,
             background_css: observable,
             opposite_background_container_i: computed,
@@ -52,8 +53,9 @@ export class Main {
     private default_val_1: (i_db.Background | undefined)[] = [undefined, undefined];
     private default_val_2: (i_db.BackgroundFile | undefined)[] = [undefined, undefined];
     public default_val_3: string[] = ['', ''];
-    public default_val_4: number[] = [0, 0];
-    private default_val_5: t.AnyRecord[] = [{}, {}];
+    public default_val_4: number[] = [1, 1];
+    public default_val_5: number[] = [0, 0];
+    private default_val_6: t.AnyRecord[] = [{}, {}];
     public background_container_i: number = 1;
     public background_data: (i_db.Background | undefined)[] = this.default_val_1;
     public background_file: (i_db.BackgroundFile | string | undefined)[] = this.default_val_2;
@@ -61,8 +63,9 @@ export class Main {
     public background_position: string[] = this.default_val_3;
     public background_repeat: string[] = this.default_val_3;
     public color_of_area_around_background: string[] = this.default_val_3;
-    public video_volume: number[] = this.default_val_4;
-    public background_css: t.AnyRecord[] = this.default_val_5;
+    public video_speed: number[] = this.default_val_4;
+    public video_volume: number[] = this.default_val_5;
+    public background_css: t.AnyRecord[] = this.default_val_6;
 
     public get opposite_background_container_i() {
         return _.clone(this).background_container_i === 0 ? 1 : 0;
@@ -199,7 +202,7 @@ export class Main {
             return '';
         }, 'cnt_1057');
 
-    public get_video_volume = (): number =>
+    public get_video_val = ({ type }: { type: 'speed' | 'volume' }): number =>
         err(() => {
             if (
                 s_background.Type.i().is_video({
@@ -207,11 +210,12 @@ export class Main {
                 })
             ) {
                 const background_data = this.background_data[this.background_container_i];
+                const key: string = `video_${type}`;
 
                 return n(background_data) &&
-                    (background_data as i_db.FileBackground).video_volume === 'global'
-                    ? data.settings.video_volume
-                    : (background_data as i_db.FileBackground).video_volume;
+                    (background_data as i_db.FileBackground)[key] === 'global'
+                    ? data.settings[key]
+                    : (background_data as i_db.FileBackground)[key];
             }
 
             return '';

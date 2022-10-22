@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { t } from '@loftyshaky/shared';
+import { t, o_schema, d_schema } from '@loftyshaky/shared';
 import { d_color } from '@loftyshaky/shared/inputs';
 import { vars, s_background, i_data } from 'shared/internal';
 
@@ -42,6 +42,7 @@ export class Main {
                 background_position: 'center',
                 background_repeat: 'no_repeat',
                 color_of_area_around_background: 0,
+                video_speed: 1,
                 video_volume: 0,
                 download_img_when_link_given: false,
                 home_btn_is_visible: false,
@@ -64,14 +65,22 @@ export class Main {
     public update_settings = ({
         settings,
         update_background,
+        transform = false,
     }: {
         settings?: i_data.Settings;
         update_background?: boolean;
+        transform?: boolean;
     } = {}): Promise<void> =>
         err_async(async () => {
-            const settings_final: i_data.Settings = n(settings)
+            const settings_2: i_data.Settings = n(settings)
                 ? settings
                 : (this.defaults as i_data.Settings);
+
+            let settings_final: i_data.Settings = settings_2;
+
+            if (transform) {
+                settings_final = await this.transform({ settings: settings_2 });
+            }
 
             await ext.storage_set(settings_final);
 
@@ -84,19 +93,40 @@ export class Main {
         }, 'cnt_1320');
 
     public update_settings_debounce = _.debounce(
-        (settings: i_data.Settings, update_background?: boolean) =>
+        (settings: i_data.Settings, update_background?: boolean, transform: boolean = false) =>
             err_async(async () => {
-                await this.update_settings({ settings, update_background });
+                await this.update_settings({ settings, update_background, transform });
             }, 'cnt_1321'),
         500,
     );
 
-    public set_from_storage = (): Promise<void> =>
+    public set_from_storage = ({
+        transform = false,
+    }: { transform?: boolean } = {}): Promise<void> =>
         err_async(async () => {
             const settings: i_data.Settings = await ext.storage_get();
 
             if (_.isEmpty(settings)) {
-                await this.update_settings();
+                await this.update_settings({ transform });
+            } else if (transform) {
+                await this.update_settings({ settings, transform });
             }
         }, 'cnt_1322');
+
+    private transform = ({ settings }: { settings: i_data.Settings }): Promise<i_data.Settings> =>
+        err_async(async () => {
+            const transform_items: o_schema.TransformItem[] = [
+                new o_schema.TransformItem({
+                    new_key: 'video_speed',
+                    new_val: 1,
+                }),
+            ];
+
+            const settings_final: i_data.Settings = await d_schema.Main.i().transform({
+                settings,
+                transform_items,
+            });
+
+            return settings_final;
+        }, 'ges_1199');
 }

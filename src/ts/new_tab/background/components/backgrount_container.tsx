@@ -14,6 +14,10 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
         const video_el_ref = useRef<any>(null);
 
         useEffect(() => {
+            s_background.VideoPlayback.i().set_video_speed({
+                video_speed,
+                video_el: video_el_ref.current,
+            });
             s_background.VideoPlayback.i().set_video_volume({
                 video_volume,
                 video_el: video_el_ref.current,
@@ -44,6 +48,7 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
             d_background.Main.i().background_position[background_container_i];
         const color_of_area_around_background: string =
             d_background.Main.i().color_of_area_around_background[background_container_i];
+        const video_speed: number = d_background.Main.i().video_speed[background_container_i];
         const video_volume: number = d_background.Main.i().video_volume[background_container_i];
         const background_css: t.AnyRecord = toJS(
             d_background.Main.i().background_css[background_container_i],

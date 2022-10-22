@@ -110,6 +110,9 @@
     "color_of_area_around_background_label_text": {
         "message": "Color of area around background"
     },
+    "video_speed_label_text": {
+        "message": "Video speed"
+    },
     "video_volume_label_text": {
         "message": "Video volume"
     },
@@ -502,6 +505,9 @@
     },
     "color_of_area_around_background_group_help_text": {
         "message": "Apart from the main function, this setting (in global settings context) also determines the color visible before any background is displayed when you open a new tab, so if you want to eliminate the \"white flash\" set this setting's value to a darker color."
+    },
+    "video_speed_group_help_text": {
+        "message": "This setting allows you to control a video playback speed. 1.0 is \"normal speed\". Values lower than 1.0 make the video play slower than normal. Higher values make it play faster. The minimum value is 0.1. The maximum value is 16."
     },
     "home_btn_is_visible_help_text": {
         "message": "Displays \"Home\" button in the new tab page that leads to the default new tab page."

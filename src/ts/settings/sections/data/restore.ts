@@ -201,6 +201,7 @@ export class Restore {
                 settings,
                 update_background: true,
                 update_instantly: true,
+                transform: true,
             });
 
             await s_theme.Main.i().reset_theme({ transition_duration });

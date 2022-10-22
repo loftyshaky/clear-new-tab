@@ -21,6 +21,19 @@ export class VideoPlayback {
             'cnt_1071',
         );
 
+    public set_video_speed = ({
+        video_speed,
+        video_el,
+    }: {
+        video_speed: number;
+        video_el: HTMLVideoElement | undefined;
+    }): void =>
+        err(() => {
+            if (n(video_el)) {
+                video_el.playbackRate = video_speed;
+            }
+        }, 'cnt_1072');
+
     public set_video_volume = ({
         video_volume,
         video_el,

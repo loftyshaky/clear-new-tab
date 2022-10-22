@@ -141,6 +141,11 @@ export class Crx {
                 ['colors', 'ntp_background'],
                 undefined,
             );
+            const video_speed_manifest: number = _.get(
+                theme_obj,
+                ['clear_new_tab', 'video_speed'],
+                Infinity,
+            );
             const video_volume_manifest: number = _.get(
                 theme_obj,
                 ['clear_new_tab', 'video_volume'],
@@ -159,6 +164,12 @@ export class Crx {
             const color_of_area_around_background = n(color_of_area_around_background_manifest)
                 ? this.rgb_to_hex({ val: color_of_area_around_background_manifest })
                 : '#ffffff';
+            const video_speed: string | number =
+                video_speed_manifest !== Infinity &&
+                video_speed_manifest >= 0 &&
+                video_volume_manifest <= 16
+                    ? +video_speed_manifest
+                    : 'global';
             const video_volume: string | number =
                 video_volume_manifest !== Infinity &&
                 video_volume_manifest >= 0 &&
@@ -174,6 +185,7 @@ export class Crx {
                     background_position,
                     background_repeat,
                     color_of_area_around_background,
+                    video_speed,
                     video_volume,
                 },
             };

@@ -24,6 +24,7 @@ export class Val {
         'background_position',
         'background_repeat',
         'color_of_area_around_background',
+        'video_speed',
         'video_volume',
     ];
 

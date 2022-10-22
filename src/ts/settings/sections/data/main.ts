@@ -413,6 +413,27 @@ export class Main {
                                 ],
                             }),
                             new o_inputs.Group({
+                                name: 'video_speed_group',
+                                include_help: true,
+                                event_callback: () => undefined,
+                                inputs: [
+                                    new o_inputs.Text({
+                                        name: 'video_speed',
+                                        text_type: 'number',
+                                        allow_removing_val: false,
+                                        val_accessor: 'ui.video_speed',
+                                        event_callback: d_sections.Val.i().change,
+                                        warn_state_checker: d_sections.Val.i().validate_input,
+                                    }),
+                                    new o_inputs.Checkbox({
+                                        name: 'video_speed_global',
+                                        alt_msg: ext.msg('global_option_text'),
+                                        val_accessor: 'ui.video_speed_global',
+                                        event_callback: d_sections.Val.i().change,
+                                    }),
+                                ],
+                            }),
+                            new o_inputs.Group({
                                 name: 'video_volume_group',
                                 event_callback: () => undefined,
                                 inputs: [

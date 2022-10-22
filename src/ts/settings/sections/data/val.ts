@@ -118,7 +118,9 @@ export class Val {
                     val = d_inputs.Val.i().access({ input });
 
                     if (
-                        ['background_change_interval', 'video_volume'].includes(input.name) &&
+                        ['background_change_interval', 'video_volume', 'video_speed'].includes(
+                            input.name,
+                        ) &&
                         n(val)
                     ) {
                         val = +val;
@@ -219,6 +221,10 @@ export class Val {
                     return !this.validate_current_background_i({ val });
                 }
 
+                if (input.name === 'video_speed') {
+                    return !this.validate_video_speed({ val });
+                }
+
                 if (input.name === 'transition_duration') {
                     return d_inputs.Val.i().validate_input({ input });
                 }
@@ -288,7 +294,7 @@ export class Val {
             });
         }, 'cnt_1293');
 
-    validate_current_background_i = ({ val }: { val: i_data.Val }): boolean =>
+    private validate_current_background_i = ({ val }: { val: i_data.Val }): boolean =>
         err(() => {
             const i: number = (val as number) - 1;
 
@@ -297,4 +303,7 @@ export class Val {
                 (i === 0 || i <= d_backgrounds.Main.i().backgrounds.length - 1)
             );
         }, 'cnt_1294');
+
+    private validate_video_speed = ({ val }: { val: i_data.Val }): boolean =>
+        err(() => n(val) && /^[+-]?\d+(\.\d+)?$/.test(val as string) && val >= 0.1, 'cnt_1294');
 }
