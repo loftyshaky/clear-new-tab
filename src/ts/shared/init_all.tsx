@@ -211,13 +211,13 @@ export class InitAll {
 
                     s_tab_index.Main.i().bind_set_input_type_f();
 
-                    d_loading_screen.Main.i().hide({ app_id: s_suffix.app_id });
-
                     await x.delay(300);
 
                     s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({
                         virtualized_list_type: 'backgrounds',
                     });
+
+                    d_loading_screen.Main.i().hide({ app_id: s_suffix.app_id });
                 }, 'cnt_1357');
 
             if (n(this.settings_root)) {
