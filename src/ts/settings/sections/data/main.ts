@@ -587,6 +587,15 @@ export class Main {
             this.sections = s_utils.Main.i().to_object({
                 arr: this.sections as o_inputs.Section[],
             });
+            this.sections.back_up.inputs = s_utils.Main.i().to_object({
+                arr: this.sections.back_up.inputs as o_inputs.Section[],
+            });
+            this.sections.restore.inputs = s_utils.Main.i().to_object({
+                arr: this.sections.restore.inputs as o_inputs.Section[],
+            });
+            this.sections.admin.inputs = s_utils.Main.i().to_object({
+                arr: this.sections.admin.inputs as o_inputs.Section[],
+            });
             this.sections.background_upload.inputs = s_utils.Main.i().to_object({
                 arr: this.sections.background_upload.inputs as o_inputs.Section[],
                 section: 'background_upload',
