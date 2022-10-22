@@ -66,7 +66,7 @@ export class Width {
                 const new_width: number =
                     viewport_width - settings_sections_el_width - outer_margin;
 
-                if (new_width <= backgrounds_sections_el_max_width) {
+                if (new_width <= backgrounds_sections_el_max_width - vars.scrollbar_width) {
                     const backgrounds_section_el_width = new_width - 2;
 
                     backgrounds_sections_el.style.width = x.px(new_width + outer_margin + 2);
