@@ -3,7 +3,7 @@ import { runInAction } from 'mobx';
 
 import { t } from '@loftyshaky/shared';
 import { d_inputs, i_inputs } from '@loftyshaky/shared/inputs';
-import { s_db, s_preload_color, i_data, i_db } from 'shared/internal';
+import { s_css_vars, s_db, s_preload_color, i_data, i_db } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
@@ -52,6 +52,7 @@ export class Restore {
                 });
 
                 await s_theme.Main.i().reset_theme({ transition_duration });
+                s_css_vars.Main.i().set();
                 s_preload_color.Storage.i().set_preload_color();
 
                 await s_browser_theme.Main.i().get_theme_background({
@@ -205,6 +206,7 @@ export class Restore {
             });
 
             await s_theme.Main.i().reset_theme({ transition_duration });
+            s_css_vars.Main.i().set();
 
             await s_db.Manipulation.i().reset_custom_code_table();
             await s_db.Manipulation.i().clear_all_background_tables();
