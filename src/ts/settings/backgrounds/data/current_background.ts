@@ -116,8 +116,10 @@ export class CurrentBackground {
                     id: this.selected_background_id,
                 });
             } else {
-                // eslint-disable-next-line no-alert
-                alert(ext.msg('select_background_alert'));
+                show_notification({
+                    error_msg_key: 'set_background_as_current_notification',
+                    hide_delay: 8000,
+                });
             }
         }, 'cnt_1113');
 

@@ -62,8 +62,10 @@ export class Main {
             );
 
             if (triggered_by_load_theme_background_btn && is_local_theme) {
-                // eslint-disable-next-line no-alert
-                alert(ext.msg('unable_to_load_background_of_local_theme_alert'));
+                show_notification({
+                    error_msg_key: 'unable_to_load_background_of_local_theme_notification',
+                    hide_delay: 30000,
+                });
             }
 
             if (

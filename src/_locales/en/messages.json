@@ -17,10 +17,13 @@
     "color_of_area_around_background_label_width": {
         "message": "229px"
     },
-    "select_background_alert": {
+    "select_background_notification": {
         "message": "To change settings of a particular background, select it from the \"Backgrounds\" section first."
     },
-    "unable_to_load_background_of_local_theme_alert": {
+    "set_background_as_current_notification": {
+        "message": "To set a background as current, select it from the \"Backgrounds\" section first."
+    },
+    "unable_to_load_background_of_local_theme_notification": {
         "message": "Automatic loading of the background of a locally installed theme is not supported. To load the background of a locally installed theme manually, click on the \"Link to theme background\" button, in the opened tab right-click on the image and select \"Copy image\" from the context menu. Then go to the Clear New Tab settings page and paste the copied image into the \"Paste image or URL\" field."
     },
     "delete_all_backgrounds_confirm": {

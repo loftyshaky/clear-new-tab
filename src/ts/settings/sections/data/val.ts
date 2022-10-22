@@ -186,7 +186,7 @@ export class Val {
                             d_background_settings.SettingsContext.i().react_to_global_selection();
                         } else if (val === 'selected_background') {
                             // eslint-disable-next-line max-len
-                            d_background_settings.SettingsContext.i().show_selected_background_alert();
+                            d_background_settings.SettingsContext.i().show_selected_background_notification();
                         }
                     }
                 } else if (n(i)) {

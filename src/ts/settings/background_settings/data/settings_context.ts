@@ -20,7 +20,7 @@ export class SettingsContext {
         makeObservable(this, {
             react_to_global_selection: action,
             react_to_background_selection: action,
-            show_selected_background_alert: action,
+            show_selected_background_notification: action,
         });
     }
 
@@ -151,11 +151,13 @@ export class SettingsContext {
                 val;
         }, 'cnt_1086');
 
-    public show_selected_background_alert = (): void =>
+    public show_selected_background_notification = (): void =>
         err(() => {
             data.ui.settings_context = 'global';
 
-            // eslint-disable-next-line no-alert
-            alert(ext.msg('select_background_alert'));
+            show_notification({
+                error_msg_key: 'select_background_notification',
+                hide_delay: 8000,
+            });
         }, 'cnt_1087');
 }
