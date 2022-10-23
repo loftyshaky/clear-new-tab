@@ -20,7 +20,7 @@ export class Main {
     public init_defaults = (): void =>
         err(() => {
             this.defaults = {
-                options_page_theme: 'dark',
+                options_page_theme: 'lavender',
                 transition_duration: 200,
                 color_help_is_visible: true,
                 enable_cut_features: false,
