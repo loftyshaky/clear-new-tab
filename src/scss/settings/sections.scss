@@ -18,6 +18,7 @@ $backgrounds_section_max_width: 922px;
         @include border;
 
         width: min-content;
+        box-shadow: rgb(0 0 0 / 40%) 0 3px 8px;
 
         &.admin {
             .input_item.options_page_theme {
