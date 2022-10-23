@@ -63,7 +63,10 @@ $task_gap: 5px;
                 display: flex;
                 margin-top: 3px;
 
-                .date { font-size: $font_small; }
+                .date {
+                    font-size: $font_small;
+                    width: 100%;
+                }
 
                 .delete_task_btn {
                     margin-left: auto;
