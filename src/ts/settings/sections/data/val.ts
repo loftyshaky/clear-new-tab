@@ -305,5 +305,8 @@ export class Val {
         }, 'cnt_1294');
 
     private validate_video_speed = ({ val }: { val: i_data.Val }): boolean =>
-        err(() => n(val) && /^[+-]?\d+(\.\d+)?$/.test(val as string) && val >= 0.1, 'cnt_1294');
+        err(
+            () => n(val) && /^[+-]?\d+(\.\d+)?$/.test(val as string) && val >= 0.1 && val <= 16,
+            'cnt_1294',
+        );
 }
