@@ -45,7 +45,6 @@ export class Main {
     private background_repeat_dict: { [index: string]: string } = {
         no_repeat: 'no-repeat',
         repeat: 'repeat',
-        bottom: '50% 100%',
         repeat_y: 'repeat-y',
         repeat_x: 'repeat-x',
     };
