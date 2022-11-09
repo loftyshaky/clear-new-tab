@@ -26,9 +26,13 @@ export class Main {
             ) {
                 s_announcement.Display.i().display_announcement();
             }
+            const version: string = await we.runtime.getManifest().version;
 
-            settings.last_version = await we.runtime.getManifest().version;
+            // if condition needed to prevent overwriting current_background_id by current value when uploading background while background service worker inactive
+            if (settings.last_version !== version) {
+                settings.last_version = version;
 
-            await ext.storage_set(settings);
+                await ext.storage_set(settings);
+            }
         }, 'cnt_1369');
 }

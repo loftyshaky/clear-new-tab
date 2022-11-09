@@ -17,6 +17,8 @@ we.runtime.onMessage.addListener(
             if (msg_str === 'reload_ext') {
                 we.runtime.reload();
             } else if (msg_str === 'update_settings_background') {
+                s_data.Main.i().service_worker_woken_up_by_update_settings_background_msg = true;
+
                 if (n(msg.update_instantly) && msg.update_instantly) {
                     await s_data.Main.i().update_settings({
                         settings: msg.settings,

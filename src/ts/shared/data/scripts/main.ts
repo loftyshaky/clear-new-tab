@@ -16,6 +16,7 @@ export class Main {
     private constructor() {}
 
     public defaults: i_data.Settings | t.EmptyRecord = {};
+    public service_worker_woken_up_by_update_settings_background_msg: boolean = false; // needed to prevent overwriting current_background_id by current value in set_from_storage function when uploading background while background service worker inactive
 
     public init_defaults = (): void =>
         err(() => {
@@ -108,7 +109,10 @@ export class Main {
 
             if (_.isEmpty(settings)) {
                 await this.update_settings({ transform });
-            } else if (transform) {
+            } else if (
+                transform &&
+                !this.service_worker_woken_up_by_update_settings_background_msg
+            ) {
                 await this.update_settings({ settings, transform });
             }
         }, 'cnt_1322');
