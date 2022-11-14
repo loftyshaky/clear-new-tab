@@ -1,8 +1,8 @@
 import { makeObservable, action, runInAction } from 'mobx';
 
 import { t } from '@loftyshaky/shared';
-import { s_db } from 'shared/internal';
-import { d_background, s_background } from 'new_tab/internal';
+import { s_db, i_db } from 'shared/internal';
+import { d_background, i_background, s_background } from 'new_tab/internal';
 
 export class BackgroundChange {
     private static i0: BackgroundChange;
@@ -17,13 +17,6 @@ export class BackgroundChange {
             update_background_css: action,
         });
     }
-
-    private visited_this_new_tab_page_once: boolean = false;
-
-    public record_new_tab_page_visit = (): void =>
-        err(() => {
-            this.visited_this_new_tab_page_once = !document.hidden;
-        }, 'cnt_1042');
 
     public update_background = ({
         no_tr = false,
@@ -44,6 +37,7 @@ export class BackgroundChange {
                     background_container_i,
                     opposite_background_container_i,
                     background,
+                    background_file,
                     get_background,
                     get_background_position,
                     get_background_repeat,
@@ -52,8 +46,13 @@ export class BackgroundChange {
                     get_background_css,
                 } = d_background.Main.i();
 
-                if (typeof background[background_container_i] === 'string') {
-                    URL.revokeObjectURL(background[background_container_i]);
+                if (
+                    typeof background[background_container_i] === 'string' &&
+                    n(background_file[background_container_i]) &&
+                    d_background.Main.i().current_object_url_background_id !==
+                        (background_file[background_container_i] as i_db.BackgroundFile).id
+                ) {
+                    URL.revokeObjectURL(d_background.Main.i().current_object_url);
                 }
 
                 const preview_background_id = new URL(globalThis.location.href).searchParams.get(
@@ -86,6 +85,9 @@ export class BackgroundChange {
 
                 d_background.BackgroundSize.i().determine_background_size();
 
+                const video_repeat_positions: i_background.Position[] =
+                    d_background.VideoReapeat.i().calculate_video_repeat_positions();
+
                 runInAction(() =>
                     err(() => {
                         d_background.Main.i().background[opposite_background_container_i] =
@@ -103,6 +105,9 @@ export class BackgroundChange {
                             get_video_val({ type: 'volume' });
                         d_background.Main.i().background_css[opposite_background_container_i] =
                             get_background_css();
+                        d_background.VideoReapeat.i().video_repeat_positions[
+                            opposite_background_container_i
+                        ] = video_repeat_positions;
                     }, 'cnt_1044'),
                 );
 
@@ -124,11 +129,7 @@ export class BackgroundChange {
     public react_to_visibility_change = (): void =>
         err(() => {
             if (document.visibilityState === 'visible') {
-                if (data.settings.slideshow || !this.visited_this_new_tab_page_once) {
-                    ext.send_msg({ msg: 'get_background' });
-                }
-
-                this.record_new_tab_page_visit();
+                ext.send_msg({ msg: 'get_background' });
 
                 d_background.VideoPlayback.i().set_play_status({ is_playing: true });
             } else if (document.visibilityState === 'hidden') {

@@ -100,7 +100,6 @@ export class SettingsContext {
                         ? data.settings.video_volume
                         : (background as i_db.FileBackground).video_volume;
 
-                sections.background_settings.inputs.background_repeat.is_enabled = false;
                 sections.background_settings.inputs.video_speed_group.is_enabled = true;
                 sections.background_settings.inputs.video_volume_group.is_enabled = true;
             }
@@ -119,7 +118,6 @@ export class SettingsContext {
 
             sections.background_settings.inputs.background_size.is_enabled = val;
             sections.background_settings.inputs.background_position.is_enabled = val;
-            sections.background_settings.inputs.background_repeat.is_enabled = val;
 
             if (val) {
                 // eslint-disable-next-line max-len

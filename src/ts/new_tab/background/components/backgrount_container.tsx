@@ -4,7 +4,13 @@ import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 
 import { t } from '@loftyshaky/shared';
-import { d_background, s_background, p_background } from 'new_tab/internal';
+import {
+    c_background,
+    d_background,
+    s_background,
+    p_background,
+    i_background,
+} from 'new_tab/internal';
 
 export const BackgrountContainer: React.FunctionComponent<p_background.BackgrountContainer> =
     observer((props) => {
@@ -12,32 +18,40 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
         d_background.VideoPlayback.i().is_playing;
 
         const video_el_ref = useRef<any>(null);
+        const repeated_video_el_refs = useRef<any>([]);
 
         useEffect(() => {
+            const video_els = [video_el_ref.current, ...repeated_video_el_refs.current].filter(
+                (item): boolean => err(() => n(item), 'cnt_1393'),
+            );
+
             s_background.VideoPlayback.i().set_video_speed({
                 video_speed,
-                video_el: video_el_ref.current,
+                video_els,
             });
             s_background.VideoPlayback.i().set_video_volume({
                 video_volume,
-                video_el: video_el_ref.current,
+                video_els,
             });
-            s_background.VideoPlayback.i().pause_hidden_video({
+
+            s_background.VideoPlayback.i().play_or_pause_current_video({
+                play_status: 'pause',
                 background_container_i,
-                video_el: video_el_ref.current,
+                video_els,
+                is_visible_video_comparison_bool: false,
             });
 
             if (d_background.VideoPlayback.i().is_playing) {
                 s_background.VideoPlayback.i().play_or_pause_current_video({
                     play_status: 'play',
                     background_container_i,
-                    video_el: video_el_ref.current,
+                    video_els,
                 });
             } else {
                 s_background.VideoPlayback.i().play_or_pause_current_video({
                     play_status: 'pause',
                     background_container_i,
-                    video_el: video_el_ref.current,
+                    video_els,
                 });
             }
         });
@@ -46,6 +60,8 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
         const background: string = d_background.Main.i().background[background_container_i];
         const background_position: string =
             d_background.Main.i().background_position[background_container_i];
+        const background_repeat: string =
+            d_background.Main.i().background_repeat[background_container_i];
         const color_of_area_around_background: string =
             d_background.Main.i().color_of_area_around_background[background_container_i];
         const video_speed: number = d_background.Main.i().video_speed[background_container_i];
@@ -57,6 +73,9 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
             d_background.Main.i().get_video_background_css({
                 background_container_i,
             }),
+        );
+        const video_repeat_positions: i_background.Position[] = toJS(
+            d_background.VideoReapeat.i().video_repeat_positions[background_container_i],
         );
         const z_index_plus_1_cls: string =
             d_background.Classes.i().z_index_plus_1_cls[background_container_i];
@@ -80,6 +99,7 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
                         z_index_plus_1_cls,
                         video_no_tr_cls,
                         video_is_visible_cls,
+                        d_background.Classes.i().videos_load_video_is_visible_cls,
                         background_is_sliding_cls,
                     ])}
                     style={{
@@ -89,13 +109,22 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
                     {s_background.Type.i().is_video({
                         background_container_i,
                     }) ? (
-                        // eslint-disable-next-line jsx-a11y/media-has-caption
-                        <video
-                            src={background}
-                            style={video_background_css}
-                            loop
-                            ref={video_el_ref}
-                        />
+                        <>
+                            {background_repeat === 'no-repeat' ? (
+                                // eslint-disable-next-line jsx-a11y/media-has-caption
+                                <video
+                                    src={background}
+                                    style={video_background_css}
+                                    loop
+                                    ref={video_el_ref}
+                                />
+                            ) : undefined}
+                            <c_background.RepeatedVideos
+                                background={background}
+                                video_repeat_positions={video_repeat_positions}
+                                repeated_video_el_refs={repeated_video_el_refs}
+                            />
+                        </>
                     ) : undefined}
                 </div>
                 <div

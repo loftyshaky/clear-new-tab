@@ -7,8 +7,6 @@ export const init = (): Promise<void> =>
 
         s_custom_code.Msgs.i().send_set_custom_code_msg();
 
-        d_background.BackgroundChange.i().record_new_tab_page_visit();
-
         ext.send_msg({ msg: 'push_tab_id' });
         ext.send_msg({ msg: 'get_background', allow_to_start_slideshow_timer: !document.hidden });
 
@@ -17,7 +15,7 @@ export const init = (): Promise<void> =>
             'visibilitychange',
             d_background.BackgroundChange.i().react_to_visibility_change,
         );
-        x.bind(window, 'resize', d_background.BackgroundChange.i().update_background_css);
+        x.bind(window, 'resize', d_background.BackgroundChange.i().react_to_visibility_change);
 
         InitAll.i().render_new_tab();
     }, 'cnt_1078');

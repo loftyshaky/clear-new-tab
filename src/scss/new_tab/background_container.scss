@@ -3,4 +3,9 @@
 
     position: fixed;
     display: flex;
+    contain: layout paint;
+}
+
+.repeated_video {
+    position: absolute;
 }

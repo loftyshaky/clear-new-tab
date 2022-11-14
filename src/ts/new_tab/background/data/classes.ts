@@ -1,6 +1,7 @@
 import _ from 'lodash';
-import { makeObservable, observable, action } from 'mobx';
+import { makeObservable, observable, computed, action } from 'mobx';
 
+import { i_db } from 'shared/internal';
 import { d_background, s_background } from 'new_tab/internal';
 
 export class Classes {
@@ -18,6 +19,7 @@ export class Classes {
             video_no_tr_cls: observable,
             img_is_visible_cls: observable,
             video_is_visible_cls: observable,
+            videos_load_video_is_visible_cls: computed,
             set_classes: action,
         });
     }
@@ -38,9 +40,16 @@ export class Classes {
     public video_is_visible_cls: string[] = ['opacity_0', 'opacity_0'];
     public background_is_sliding_cls: string[] = d_background.Main.i().default_val_3;
 
+    public get videos_load_video_is_visible_cls() {
+        return d_background.VideoReapeat.i().loaded_videos_count >=
+            d_background.VideoReapeat.i().total_videos_count
+            ? ''
+            : 'opacity_0';
+    }
+
     public set_classes = (): void =>
         err(() => {
-            const { background_container_i, opposite_background_container_i } =
+            const { background_file, background_container_i, opposite_background_container_i } =
                 d_background.Main.i();
             const is_img_or_color =
                 s_background.Type.i().is_img({ background_container_i }) ||
@@ -82,7 +91,15 @@ export class Classes {
             this.background_is_sliding_cls[opposite_background_container_i] =
                 this.select_slide_direction();
 
-            this.no_tr = false;
+            if (n(background_file[background_container_i])) {
+                const new_object_url_background_id: string = (
+                    background_file[background_container_i] as i_db.BackgroundFile
+                ).id;
+
+                this.no_tr =
+                    d_background.Main.i().current_object_url_background_id ===
+                    new_object_url_background_id;
+            }
         }, 'cnt_1051');
 
     get_no_tr_cls = ({ is_background }: { is_background: boolean }): string =>

@@ -41,6 +41,13 @@ export class BackgroundSize {
             }
         }, 'cnt_1047');
 
+    public get_background_size = (): string =>
+        err(() => {
+            const { background_container_i } = d_background.Main.i();
+
+            return this.background_size_setting[background_container_i];
+        }, 'cnt_1397');
+
     public determine_background_size = (): void =>
         err(() => {
             this.get_background_size_setting();

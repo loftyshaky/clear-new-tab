@@ -65,6 +65,9 @@ export class Main {
     public video_speed: number[] = this.default_val_4;
     public video_volume: number[] = this.default_val_5;
     public background_css: t.AnyRecord[] = this.default_val_6;
+    public current_object_url: string = '';
+    public current_object_url_background_id: string = '';
+    private dont_resize_or_browser_background_size: boolean = false;
 
     public get opposite_background_container_i() {
         return _.clone(this).background_container_i === 0 ? 1 : 0;
@@ -87,9 +90,20 @@ export class Main {
                         background_container_i: this.background_container_i,
                     })
                 ) {
-                    return URL.createObjectURL(
+                    const new_object_url_background_id: string = (
+                        background_file as i_db.BackgroundFile
+                    ).id;
+
+                    if (new_object_url_background_id === this.current_object_url_background_id) {
+                        return this.current_object_url;
+                    }
+
+                    this.current_object_url_background_id = new_object_url_background_id;
+                    this.current_object_url = URL.createObjectURL(
                         (background_file as i_db.BackgroundFile).background as File,
                     );
+
+                    return this.current_object_url;
                 }
 
                 if (
@@ -114,30 +128,29 @@ export class Main {
             return '';
         }, 'cnt_1054');
 
-    public get_background_position = (): string =>
+    public get_background_position_no_dict = (): string =>
         err(() => {
             const background_data = this.background_data[this.background_container_i];
 
             if (n(background_data)) {
-                if (
+                this.dont_resize_or_browser_background_size =
                     s_background.Type.i().is_img({
                         background_container_i: this.background_container_i,
                     }) ||
                     (s_background.Type.i().is_video({
                         background_container_i: this.background_container_i,
                     }) &&
-                        (d_background.BackgroundSize.i().background_size_setting[
+                        d_background.BackgroundSize.i().background_size_setting[
                             this.background_container_i
-                        ].includes('browser') ||
-                            d_background.BackgroundSize.i().background_size_setting[
-                                this.background_container_i
-                            ] === 'dont_resize'))
-                ) {
+                        ].includes('browser')) ||
+                    d_background.BackgroundSize.i().background_size_setting[
+                        this.background_container_i
+                    ] === 'dont_resize';
+
+                if (this.dont_resize_or_browser_background_size) {
                     return (background_data as i_db.FileBackground).background_position === 'global'
-                        ? this.background_position_dict[data.settings.background_position]
-                        : this.background_position_dict[
-                              (background_data as i_db.FileBackground).background_position
-                          ];
+                        ? data.settings.background_position
+                        : (background_data as i_db.FileBackground).background_position;
                 }
 
                 if (
@@ -154,25 +167,30 @@ export class Main {
             return '';
         }, 'cnt_1055');
 
-    public get_background_repeat = (): string =>
+    public get_background_repeat_no_dict = (): string =>
         err(() => {
             const background_data = this.background_data[this.background_container_i];
 
-            if (
-                n(background_data) &&
-                s_background.Type.i().is_img({
-                    background_container_i: this.background_container_i,
-                })
-            ) {
+            if (n(background_data)) {
                 return (background_data as i_db.FileBackground).background_repeat === 'global'
-                    ? this.background_repeat_dict[data.settings.background_repeat]
-                    : this.background_repeat_dict[
-                          (background_data as i_db.FileBackground).background_repeat
-                      ];
+                    ? data.settings.background_repeat
+                    : (background_data as i_db.FileBackground).background_repeat;
             }
 
             return '';
         }, 'cnt_1056');
+
+    public get_background_repeat = (): string =>
+        err(() => this.background_repeat_dict[this.get_background_repeat_no_dict()], 'cnt_1381');
+
+    public get_background_position = (): string =>
+        err(
+            () =>
+                this.dont_resize_or_browser_background_size
+                    ? this.background_position_dict[this.get_background_position_no_dict()]
+                    : this.get_background_position_no_dict(),
+            'cnt_1382',
+        );
 
     public get_color_of_area_around_background = (): string =>
         err(() => {
@@ -260,6 +278,7 @@ export class Main {
                         ],
                     objectPosition: this.background_position[this.background_container_i],
                     width: d_background.BackgroundSize.i().video_width[this.background_container_i],
+
                     height: d_background.BackgroundSize.i().video_height[
                         this.background_container_i
                     ],
