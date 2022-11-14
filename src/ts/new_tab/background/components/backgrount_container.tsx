@@ -58,6 +58,8 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
 
         const { background_container_i } = props;
         const background: string = d_background.Main.i().background[background_container_i];
+        const background_size: string =
+            d_background.BackgroundSize.i().background_size[background_container_i];
         const background_position: string =
             d_background.Main.i().background_position[background_container_i];
         const background_repeat: string =
@@ -110,7 +112,8 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
                         background_container_i,
                     }) ? (
                         <>
-                            {background_repeat === 'no-repeat' ? (
+                            {background_size !== 'dont_resize' ||
+                            background_repeat === 'no-repeat' ? (
                                 // eslint-disable-next-line jsx-a11y/media-has-caption
                                 <video
                                     src={background}
