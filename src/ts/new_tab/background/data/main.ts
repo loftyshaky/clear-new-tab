@@ -67,7 +67,6 @@ export class Main {
     public background_css: t.AnyRecord[] = this.default_val_6;
     public current_object_url: string = '';
     public current_object_url_background_id: string = '';
-    private dont_resize_or_browser_background_size: boolean = false;
 
     public get opposite_background_container_i() {
         return _.clone(this).background_container_i === 0 ? 1 : 0;
@@ -133,21 +132,7 @@ export class Main {
             const background_data = this.background_data[this.background_container_i];
 
             if (n(background_data)) {
-                this.dont_resize_or_browser_background_size =
-                    s_background.Type.i().is_img({
-                        background_container_i: this.background_container_i,
-                    }) ||
-                    (s_background.Type.i().is_video({
-                        background_container_i: this.background_container_i,
-                    }) &&
-                        d_background.BackgroundSize.i().background_size_setting[
-                            this.background_container_i
-                        ].includes('browser')) ||
-                    d_background.BackgroundSize.i().background_size_setting[
-                        this.background_container_i
-                    ] === 'dont_resize';
-
-                if (this.dont_resize_or_browser_background_size) {
+                if (this.is_dont_resize_or_browser_background_size()) {
                     return (background_data as i_db.FileBackground).background_position === 'global'
                         ? data.settings.background_position
                         : (background_data as i_db.FileBackground).background_position;
@@ -186,7 +171,7 @@ export class Main {
     public get_background_position = (): string =>
         err(
             () =>
-                this.dont_resize_or_browser_background_size
+                this.is_dont_resize_or_browser_background_size()
                     ? this.background_position_dict[this.get_background_position_no_dict()]
                     : this.get_background_position_no_dict(),
             'cnt_1382',
@@ -315,4 +300,22 @@ export class Main {
 
             return {};
         }, 'cnt_1060');
+
+    public is_dont_resize_or_browser_background_size = (): boolean =>
+        err(
+            () =>
+                s_background.Type.i().is_img({
+                    background_container_i: this.background_container_i,
+                }) ||
+                (s_background.Type.i().is_video({
+                    background_container_i: this.background_container_i,
+                }) &&
+                    d_background.BackgroundSize.i().background_size_setting[
+                        this.background_container_i
+                    ].includes('browser')) ||
+                d_background.BackgroundSize.i().background_size_setting[
+                    this.background_container_i
+                ] === 'dont_resize',
+            'cnt_1408',
+        );
 }
