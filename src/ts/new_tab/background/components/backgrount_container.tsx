@@ -112,8 +112,8 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
                         background_container_i,
                     }) ? (
                         <>
-                            {background_size !== 'dont_resize' ||
-                            background_repeat === 'no-repeat' ? (
+                            {background_size === 'none' && // none = dont_resize
+                            background_repeat.includes('repeat') ? undefined : (
                                 // eslint-disable-next-line jsx-a11y/media-has-caption
                                 <video
                                     src={background}
@@ -121,7 +121,7 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
                                     loop
                                     ref={video_el_ref}
                                 />
-                            ) : undefined}
+                            )}
                             <c_background.RepeatedVideos
                                 background={background}
                                 video_repeat_positions={video_repeat_positions}
