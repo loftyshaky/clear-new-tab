@@ -1,23 +1,12 @@
 import _ from 'lodash';
-import { Tabs } from 'webextension-polyfill-ts';
 
-import { s_background, i_data } from 'shared/internal';
+import { i_data } from 'shared/internal';
 import { s_service_worker, s_tabs } from 'background/internal';
 
 we.tabs.onRemoved.addListener(
     (tab_id: number): Promise<void> =>
         err_async(async () => {
             const settings: i_data.Settings = await ext.storage_get();
-            const current_tab: Tabs.Tab | undefined = await ext.get_active_tab();
-
-            if (n(current_tab) && n(current_tab.id)) {
-                const current_tab_is_new_tab: boolean = s_tabs.TabIds.i().tab_ids.includes(
-                    current_tab.id,
-                );
-                if (!current_tab_is_new_tab) {
-                    s_background.BackgroundChange.i().clear_slideshow_timer();
-                }
-            }
 
             const remove_id = ({ id_to_remove }: { id_to_remove: number }): void =>
                 err(() => {
