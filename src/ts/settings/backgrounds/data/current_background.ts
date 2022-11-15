@@ -147,6 +147,12 @@ export class CurrentBackground {
                     this.set_background_as_current({
                         id: n(background_with_current_i) ? background_with_current_i.id : 1,
                     });
+
+                    if (n(background_with_current_i)) {
+                        d_background_settings.SettingsContext.i().react_to_background_selection({
+                            background: background_with_current_i,
+                        });
+                    }
                 }
             }, 'cnt_1115'),
         200,
