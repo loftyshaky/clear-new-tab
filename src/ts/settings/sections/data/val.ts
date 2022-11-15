@@ -188,6 +188,11 @@ export class Val {
                             // eslint-disable-next-line max-len
                             d_background_settings.SettingsContext.i().show_selected_background_notification();
                         }
+                    } else if (input.name === 'enable_video_repeat') {
+                        d_background_settings.SettingsContext.i().react_to_background_selection({
+                            background:
+                                d_background_settings.SettingsContext.i().selected_background!,
+                        });
                     }
                 } else if (n(i)) {
                     const { colors } = data.settings;

@@ -76,205 +76,226 @@ export class VideoReapeat {
 
     public calculate_video_repeat_positions = (): i_background.Position[] =>
         err(() => {
-            const calculate_video_repeat_positions_for_side = ({
-                dim,
-                direction,
-                modifier,
-            }: {
-                dim: i_background.Dim;
-                direction: i_background.Direction;
-                modifier: number;
-            }): i_background.Position[] =>
-                err(() => {
-                    this.video_repeat_count[direction] = Math.floor(
-                        (this[`browser_window_${dim}`] -
-                            (this[`background_position_is_center_${dim === 'width' ? 'x' : 'y'}`]
-                                ? this[`browser_window_${dim}`] -
-                                  this[`background_${direction}_offset`]
-                                : 0)) /
-                            this[`background_${dim}`] +
-                            modifier,
-                    );
-
-                    const video_repeat_positions: i_background.Position[] = Array(
-                        this.video_repeat_count[direction],
-                    )
-                        .fill(0)
-                        .map(
-                            (video_repeat_count_item: number, i: number): i_background.Position =>
-                                err(
-                                    () =>
-                                        this.calculate_repeated_video_position({
-                                            direction,
-                                            video_i: i,
-                                        }),
-                                    'cnt_1398',
-                                ),
+            if (data.settings.enable_video_repeat) {
+                const calculate_video_repeat_positions_for_side = ({
+                    dim,
+                    direction,
+                    modifier,
+                }: {
+                    dim: i_background.Dim;
+                    direction: i_background.Direction;
+                    modifier: number;
+                }): i_background.Position[] =>
+                    err(() => {
+                        this.video_repeat_count[direction] = Math.floor(
+                            (this[`browser_window_${dim}`] -
+                                (this[
+                                    `background_position_is_center_${dim === 'width' ? 'x' : 'y'}`
+                                ]
+                                    ? this[`browser_window_${dim}`] -
+                                      this[`background_${direction}_offset`]
+                                    : 0)) /
+                                this[`background_${dim}`] +
+                                modifier,
                         );
 
-                    return video_repeat_positions;
-                }, 'cnt_1384');
+                        const video_repeat_positions: i_background.Position[] = Array(
+                            this.video_repeat_count[direction],
+                        )
+                            .fill(0)
+                            .map(
+                                (
+                                    video_repeat_count_item: number,
+                                    i: number,
+                                ): i_background.Position =>
+                                    err(
+                                        () =>
+                                            this.calculate_repeated_video_position({
+                                                direction,
+                                                video_i: i,
+                                            }),
+                                        'cnt_1398',
+                                    ),
+                            );
 
-            const calculate_modifier = ({ axis }: { axis: 'x' | 'y' }): number =>
-                err(() => (this[`background_position_is_center_${axis}`] ? 1 : 0), 'cnt_1385');
+                        return video_repeat_positions;
+                    }, 'cnt_1384');
 
-            this.horizontal_video_repeat_positions = _.clone(
-                this.repeated_video_positions_item_default_val,
-            );
-            this.single_video_repeat_positions = _.clone(
-                this.repeated_video_positions_item_default_val,
-            );
-            this.video_repeat_count = _.clone(this.video_repeat_count_default_vals);
+                const calculate_modifier = ({ axis }: { axis: 'x' | 'y' }): number =>
+                    err(() => (this[`background_position_is_center_${axis}`] ? 1 : 0), 'cnt_1385');
 
-            const {
-                background_container_i,
-                get_background_position_no_dict,
-                get_background_repeat_no_dict,
-            } = d_background.Main.i();
+                this.horizontal_video_repeat_positions = _.clone(
+                    this.repeated_video_positions_item_default_val,
+                );
+                this.single_video_repeat_positions = _.clone(
+                    this.repeated_video_positions_item_default_val,
+                );
+                this.video_repeat_count = _.clone(this.video_repeat_count_default_vals);
 
-            this.browser_window_width = globalThis.innerWidth;
-            this.browser_window_height = globalThis.innerHeight;
-            const center_x: number = this.browser_window_width / 2;
-            const center_y: number = this.browser_window_height / 2;
+                const {
+                    background_container_i,
+                    get_background_position_no_dict,
+                    get_background_repeat_no_dict,
+                } = d_background.Main.i();
 
-            this.background_width = (
-                d_background.Main.i().background_data[background_container_i] as i_db.FileBackground
-            ).width;
-            this.background_height = (
-                d_background.Main.i().background_data[background_container_i] as i_db.FileBackground
-            ).height;
-            this.half_background_width = this.background_width / 2;
-            this.half_background_height = this.background_height / 2;
-            const background_position: string = get_background_position_no_dict();
-            const background_repeat: string = get_background_repeat_no_dict();
-            const background_size: string = d_background.BackgroundSize.i().get_background_size();
-            this.background_position_is_center_x = ['top', 'center', 'bottom'].includes(
-                background_position,
-            );
-            this.background_position_is_center_y = [
-                'center',
-                'left_center',
-                'right_center',
-            ].includes(background_position);
+                this.browser_window_width = globalThis.innerWidth;
+                this.browser_window_height = globalThis.innerHeight;
+                const center_x: number = this.browser_window_width / 2;
+                const center_y: number = this.browser_window_height / 2;
 
-            this.background_left_offset = this.background_position_is_center_x
-                ? center_x - this.half_background_width
-                : 0;
-            this.background_right_offset = this.background_position_is_center_x
-                ? center_x + this.half_background_width
-                : 0;
-            this.background_top_offset = this.background_position_is_center_y
-                ? center_y - this.half_background_height
-                : 0;
-            this.background_bottom_offset = this.background_position_is_center_y
-                ? center_y + this.half_background_height
-                : 0;
+                this.background_width = (
+                    d_background.Main.i().background_data[
+                        background_container_i
+                    ] as i_db.FileBackground
+                ).width;
+                this.background_height = (
+                    d_background.Main.i().background_data[
+                        background_container_i
+                    ] as i_db.FileBackground
+                ).height;
+                this.half_background_width = this.background_width / 2;
+                this.half_background_height = this.background_height / 2;
+                const background_position: string = get_background_position_no_dict();
+                const background_repeat: string = get_background_repeat_no_dict();
+                const background_size: string =
+                    d_background.BackgroundSize.i().get_background_size();
+                this.background_position_is_center_x = ['top', 'center', 'bottom'].includes(
+                    background_position,
+                );
+                this.background_position_is_center_y = [
+                    'center',
+                    'left_center',
+                    'right_center',
+                ].includes(background_position);
 
-            this.may_repeat_to_left = [
-                'top',
-                'center',
-                'bottom',
-                'right_top',
-                'right_center',
-                'right_bottom',
-            ].includes(background_position);
-            this.may_repeat_to_right = [
-                'top',
-                'center',
-                'bottom',
-                'left_top',
-                'left_center',
-                'left_bottom',
-            ].includes(background_position);
-            this.may_repeat_to_top = [
-                'center',
-                'bottom',
-                'left_center',
-                'left_bottom',
-                'right_center',
-                'right_bottom',
-            ].includes(background_position);
-            this.may_repeat_to_bottom = [
-                'top',
-                'center',
-                'left_top',
-                'left_center',
-                'right_top',
-                'right_center',
-            ].includes(background_position);
-            this.positioned_to_center = ['center', 'left_center', 'right_center'].includes(
-                background_position,
-            );
+                this.background_left_offset = this.background_position_is_center_x
+                    ? center_x - this.half_background_width
+                    : 0;
+                this.background_right_offset = this.background_position_is_center_x
+                    ? center_x + this.half_background_width
+                    : 0;
+                this.background_top_offset = this.background_position_is_center_y
+                    ? center_y - this.half_background_height
+                    : 0;
+                this.background_bottom_offset = this.background_position_is_center_y
+                    ? center_y + this.half_background_height
+                    : 0;
 
-            const repeat_x: boolean = ['repeat', 'repeat_x'].includes(background_repeat);
-            const repeat_y: boolean = ['repeat', 'repeat_y'].includes(background_repeat);
+                this.may_repeat_to_left = [
+                    'top',
+                    'center',
+                    'bottom',
+                    'right_top',
+                    'right_center',
+                    'right_bottom',
+                ].includes(background_position);
+                this.may_repeat_to_right = [
+                    'top',
+                    'center',
+                    'bottom',
+                    'left_top',
+                    'left_center',
+                    'left_bottom',
+                ].includes(background_position);
+                this.may_repeat_to_top = [
+                    'center',
+                    'bottom',
+                    'left_center',
+                    'left_bottom',
+                    'right_center',
+                    'right_bottom',
+                ].includes(background_position);
+                this.may_repeat_to_bottom = [
+                    'top',
+                    'center',
+                    'left_top',
+                    'left_center',
+                    'right_top',
+                    'right_center',
+                ].includes(background_position);
+                this.positioned_to_center = ['center', 'left_center', 'right_center'].includes(
+                    background_position,
+                );
 
-            if (background_size === 'dont_resize') {
-                this.calculate_main_background_position();
+                const repeat_x: boolean = ['repeat', 'repeat_x'].includes(background_repeat);
+                const repeat_y: boolean = ['repeat', 'repeat_y'].includes(background_repeat);
 
-                if (repeat_x) {
-                    if (this.may_repeat_to_left) {
-                        const left_video_repeat_positions =
-                            calculate_video_repeat_positions_for_side({
-                                dim: 'width',
-                                direction: 'left',
-                                modifier: calculate_modifier({
-                                    axis: 'x',
-                                }),
-                            });
+                if (background_size === 'dont_resize') {
+                    this.calculate_main_background_position();
 
-                        this.horizontal_video_repeat_positions.push(...left_video_repeat_positions);
-                        this.single_video_repeat_positions.push(...left_video_repeat_positions);
+                    if (repeat_x) {
+                        if (this.may_repeat_to_left) {
+                            const left_video_repeat_positions =
+                                calculate_video_repeat_positions_for_side({
+                                    dim: 'width',
+                                    direction: 'left',
+                                    modifier: calculate_modifier({
+                                        axis: 'x',
+                                    }),
+                                });
+
+                            this.horizontal_video_repeat_positions.push(
+                                ...left_video_repeat_positions,
+                            );
+                            this.single_video_repeat_positions.push(...left_video_repeat_positions);
+                        }
+
+                        if (this.may_repeat_to_right) {
+                            const right_video_repeat_positions =
+                                calculate_video_repeat_positions_for_side({
+                                    dim: 'width',
+                                    direction: 'right',
+                                    modifier: 0,
+                                });
+
+                            this.horizontal_video_repeat_positions.push(
+                                ...right_video_repeat_positions,
+                            );
+                            this.single_video_repeat_positions.push(
+                                ...right_video_repeat_positions,
+                            );
+                        }
                     }
 
-                    if (this.may_repeat_to_right) {
-                        const right_video_repeat_positions =
-                            calculate_video_repeat_positions_for_side({
-                                dim: 'width',
-                                direction: 'right',
-                                modifier: 0,
-                            });
+                    if (repeat_y) {
+                        if (this.may_repeat_to_top) {
+                            const top_video_repeat_positions =
+                                calculate_video_repeat_positions_for_side({
+                                    dim: 'height',
+                                    direction: 'top',
+                                    modifier: calculate_modifier({
+                                        axis: 'y',
+                                    }),
+                                });
 
-                        this.horizontal_video_repeat_positions.push(
-                            ...right_video_repeat_positions,
-                        );
-                        this.single_video_repeat_positions.push(...right_video_repeat_positions);
+                            this.single_video_repeat_positions.push(...top_video_repeat_positions);
+                        }
+
+                        if (this.may_repeat_to_bottom) {
+                            const bottom_video_repeat_positions =
+                                calculate_video_repeat_positions_for_side({
+                                    dim: 'height',
+                                    direction: 'bottom',
+                                    modifier: 0,
+                                });
+
+                            this.single_video_repeat_positions.push(
+                                ...bottom_video_repeat_positions,
+                            );
+                        }
                     }
                 }
 
-                if (repeat_y) {
-                    if (this.may_repeat_to_top) {
-                        const top_video_repeat_positions =
-                            calculate_video_repeat_positions_for_side({
-                                dim: 'height',
-                                direction: 'top',
-                                modifier: calculate_modifier({
-                                    axis: 'y',
-                                }),
-                            });
-
-                        this.single_video_repeat_positions.push(...top_video_repeat_positions);
-                    }
-
-                    if (this.may_repeat_to_bottom) {
-                        const bottom_video_repeat_positions =
-                            calculate_video_repeat_positions_for_side({
-                                dim: 'height',
-                                direction: 'bottom',
-                                modifier: 0,
-                            });
-
-                        this.single_video_repeat_positions.push(...bottom_video_repeat_positions);
-                    }
+                if (background_repeat === 'repeat') {
+                    this.calculate_repeated_video_position_with_repeat_setting({
+                        direction: 'top',
+                    });
+                    this.calculate_repeated_video_position_with_repeat_setting({
+                        direction: 'bottom',
+                    });
                 }
-            }
 
-            if (background_repeat === 'repeat') {
-                this.calculate_repeated_video_position_with_repeat_setting({ direction: 'top' });
-                this.calculate_repeated_video_position_with_repeat_setting({ direction: 'bottom' });
-            }
-
-            /*
+                /*
             // eslint-disable-next-line no-console
             console.log(
                 'video_repeat_count:',
@@ -304,9 +325,12 @@ export class VideoReapeat {
             );
 */
 
-            this.total_videos_count = this.single_video_repeat_positions.length;
+                this.total_videos_count = this.single_video_repeat_positions.length;
 
-            return this.single_video_repeat_positions;
+                return this.single_video_repeat_positions;
+            }
+
+            return this.repeated_video_positions_item_default_val;
         }, 'cnt_1380');
 
     private calculate_repeated_video_position = ({

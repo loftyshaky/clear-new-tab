@@ -513,6 +513,10 @@ export class Main {
                     ],
                     admin_inputs: [
                         new o_inputs.Checkbox({
+                            name: 'enable_video_repeat',
+                            event_callback: d_sections.Val.i().change,
+                        }),
+                        new o_inputs.Checkbox({
                             name: 'show_item_developer_info_in_tooltip',
                             event_callback: d_sections.Val.i().change,
                         }),

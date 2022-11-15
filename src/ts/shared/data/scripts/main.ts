@@ -57,6 +57,7 @@ export class Main {
                 install_help_msg_is_visible: true,
                 id_of_last_installed_theme: '',
                 current_random_solid_color: '',
+                enable_video_repeat: false,
                 show_item_developer_info_in_tooltip: false,
                 update_database_when_dnd_item: true,
                 options_page_tab_id: undefined,
@@ -123,6 +124,10 @@ export class Main {
                 new o_schema.TransformItem({
                     new_key: 'video_speed',
                     new_val: 1,
+                }),
+                new o_schema.TransformItem({
+                    new_key: 'enable_video_repeat',
+                    new_val: false,
                 }),
             ];
 

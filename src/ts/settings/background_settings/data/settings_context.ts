@@ -100,6 +100,8 @@ export class SettingsContext {
                         ? data.settings.video_volume
                         : (background as i_db.FileBackground).video_volume;
 
+                sections.background_settings.inputs.background_repeat.is_enabled =
+                    !!data.settings.enable_video_repeat;
                 sections.background_settings.inputs.video_speed_group.is_enabled = true;
                 sections.background_settings.inputs.video_volume_group.is_enabled = true;
             }
@@ -116,6 +118,7 @@ export class SettingsContext {
         err(() => {
             const sections = d_sections.Main.i().sections as any;
 
+            sections.background_settings.inputs.background_repeat.is_enabled = val;
             sections.background_settings.inputs.background_size.is_enabled = val;
             sections.background_settings.inputs.background_position.is_enabled = val;
 

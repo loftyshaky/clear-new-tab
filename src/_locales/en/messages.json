@@ -146,6 +146,9 @@
     "allow_downloading_img_by_link_label_text": {
         "message": "Allow downloading an image when a link to an image pasted in \"Paste image or URL\" input"
     },
+    "enable_video_repeat_label_text": {
+        "message": "Enable the ability to repeat video backgrounds"
+    },
     "show_item_developer_info_in_tooltip_label_text": {
         "message": "Show background/task developer info in tooltip"
     },

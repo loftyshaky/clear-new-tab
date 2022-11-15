@@ -112,7 +112,8 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
                         background_container_i,
                     }) ? (
                         <>
-                            {background_size === 'none' && // none = dont_resize
+                            {data.settings.enable_video_repeat &&
+                            background_size === 'none' && // none = dont_resize
                             background_repeat.includes('repeat') ? undefined : (
                                 // eslint-disable-next-line jsx-a11y/media-has-caption
                                 <video
@@ -122,11 +123,13 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
                                     ref={video_el_ref}
                                 />
                             )}
-                            <c_background.RepeatedVideos
-                                background={background}
-                                video_repeat_positions={video_repeat_positions}
-                                repeated_video_el_refs={repeated_video_el_refs}
-                            />
+                            {data.settings.enable_video_repeat ? (
+                                <c_background.RepeatedVideos
+                                    background={background}
+                                    video_repeat_positions={video_repeat_positions}
+                                    repeated_video_el_refs={repeated_video_el_refs}
+                                />
+                            ) : undefined}
                         </>
                     ) : undefined}
                 </div>
