@@ -309,7 +309,7 @@ export class VideoReapeat {
             return this.single_video_repeat_positions;
         }, 'cnt_1380');
 
-    public calculate_repeated_video_position = ({
+    private calculate_repeated_video_position = ({
         video_i,
         direction,
     }: {
