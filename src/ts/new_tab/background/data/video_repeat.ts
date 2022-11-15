@@ -89,6 +89,7 @@ export class VideoReapeat {
                     err(() => {
                         this.video_repeat_count[direction] = Math.floor(
                             (this[`browser_window_${dim}`] -
+                                1 - // - 1 prevents repeating of video when width/height of video equals viewport
                                 (this[
                                     `background_position_is_center_${dim === 'width' ? 'x' : 'y'}`
                                 ]
