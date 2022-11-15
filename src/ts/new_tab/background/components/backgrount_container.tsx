@@ -38,6 +38,7 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
                 play_status: 'pause',
                 background_container_i,
                 video_els,
+                video_volume,
                 is_visible_video_comparison_bool: false,
             });
 
@@ -46,12 +47,14 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
                     play_status: 'play',
                     background_container_i,
                     video_els,
+                    video_volume,
                 });
             } else {
                 s_background.VideoPlayback.i().play_or_pause_current_video({
                     play_status: 'pause',
                     background_container_i,
                     video_els,
+                    video_volume,
                 });
             }
         });

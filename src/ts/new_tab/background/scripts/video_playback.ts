@@ -65,11 +65,13 @@ export class VideoPlayback {
         play_status,
         background_container_i,
         video_els,
+        video_volume,
         is_visible_video_comparison_bool = true,
     }: {
         play_status: 'play' | 'pause';
         background_container_i: number;
         video_els: HTMLVideoElement[] | undefined;
+        video_volume: number;
         is_visible_video_comparison_bool?: boolean;
     }): void =>
         err(() => {
@@ -78,7 +80,7 @@ export class VideoPlayback {
                     background_container_i,
                 });
 
-                if (is_visible_video === is_visible_video_comparison_bool) {
+                if (is_visible_video === is_visible_video_comparison_bool && video_volume !== 0) {
                     video_els.forEach((video_el: HTMLVideoElement): void =>
                         err(() => {
                             this.restart_video({ video_el });
