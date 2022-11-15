@@ -116,10 +116,10 @@
     "color_of_area_around_background_label_text": {
         "message": "Color of area around background"
     },
-    "video_speed_label_text": {
+    "video_speed_group_label_text": {
         "message": "Video speed"
     },
-    "video_volume_label_text": {
+    "video_volume_group_label_text": {
         "message": "Video volume"
     },
     "delete_all_backgrounds_btn_text": {
