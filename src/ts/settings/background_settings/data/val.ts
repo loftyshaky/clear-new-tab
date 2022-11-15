@@ -58,7 +58,7 @@ export class Val {
             (d_background_settings.SettingsContext.i().selected_background as any)[name] = new_val;
 
             d_background_settings.SettingsContext.i().react_to_background_selection({
-                background: d_background_settings.SettingsContext.i().selected_background!,
+                background: d_background_settings.SettingsContext.i().selected_background,
             });
 
             await s_db.Manipulation.i().update_background({

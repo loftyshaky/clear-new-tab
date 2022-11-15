@@ -191,7 +191,7 @@ export class Val {
                     } else if (input.name === 'enable_video_repeat') {
                         d_background_settings.SettingsContext.i().react_to_background_selection({
                             background:
-                                d_background_settings.SettingsContext.i().selected_background!,
+                                d_background_settings.SettingsContext.i().selected_background,
                         });
                     }
                 } else if (n(i)) {
