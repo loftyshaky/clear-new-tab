@@ -20,6 +20,7 @@ export class Tasks {
             set_background_id: action,
             add: action,
             set_tasks_from_arg: action,
+            merge_tasks: action,
             reset_background_id: action,
         });
     }
