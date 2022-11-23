@@ -61,7 +61,11 @@ export class CurrentBackground {
         return '';
     });
 
-    public set_current_background_i = (): void =>
+    public set_current_background_i = ({
+        reset_current_background_i_if_background_with_id_doesnt_exists = false,
+    }: {
+        reset_current_background_i_if_background_with_id_doesnt_exists?: boolean;
+    } = {}): void =>
         err(() => {
             const no_backgrounds_exist: boolean = d_backgrounds.Main.i().backgrounds.length === 0;
 
@@ -74,7 +78,16 @@ export class CurrentBackground {
                         items: d_backgrounds.Main.i().backgrounds,
                     },
                 );
-                data.ui.current_background_i = i_of_background_with_current_id + 1;
+                const background_with_id_found: boolean = i_of_background_with_current_id !== -1;
+
+                if (
+                    background_with_id_found ||
+                    !reset_current_background_i_if_background_with_id_doesnt_exists
+                ) {
+                    data.ui.current_background_i = i_of_background_with_current_id + 1;
+                } else {
+                    this.reset_current_background_id();
+                }
             }
         }, 'cnt_1111');
 

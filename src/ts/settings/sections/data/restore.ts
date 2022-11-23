@@ -402,6 +402,9 @@ export class Restore {
                 await save_backgrounds();
 
                 s_preload_color.Storage.i().set_preload_color();
+                d_backgrounds.CurrentBackground.i().set_current_background_i({
+                    reset_current_background_i_if_background_with_id_doesnt_exists: true,
+                });
                 d_scheduler.Tasks.i().reset_background_id();
             }
 
