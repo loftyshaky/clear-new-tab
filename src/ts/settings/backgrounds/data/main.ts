@@ -86,12 +86,61 @@ export class Main {
     public merge_backgrounds = ({
         backgrounds,
         background_thumbnails,
+        sort = false,
     }: {
         backgrounds: i_db.Background[];
         background_thumbnails: i_db.BackgroundThumbnail[];
+        sort?: boolean;
     }): void =>
         err(() => {
-            this.backgrounds = _.union(this.backgrounds, backgrounds);
+            const merged_backgrounds: i_db.Background[] = _.union(this.backgrounds, backgrounds);
+
+            this.backgrounds = sort
+                ? (s_i.Main.i().sort_by_i_ascending({
+                      data: merged_backgrounds,
+                  }) as i_db.Background[])
+                : merged_backgrounds;
             this.background_thumbnails = _.union(this.background_thumbnails, background_thumbnails);
         }, 'cnt_1130');
+
+    public get_missing_items = ({
+        items,
+    }: {
+        items: (i_db.Background | i_db.BackgroundThumbnail | i_db.BackgroundFile)[];
+    }): (i_db.Background | i_db.BackgroundThumbnail | i_db.BackgroundFile)[] =>
+        err(() => {
+            const ids = this.backgrounds.map((el) => el.id);
+
+            return items.filter((item) => !ids.includes(item.id));
+        }, 'cnt_1411');
+
+    public get_missing_backgrounds = ({
+        backgrounds,
+    }: {
+        backgrounds: i_db.Background[];
+    }): i_db.Background[] =>
+        err(() => this.get_missing_items({ items: backgrounds }) as i_db.Background[], 'cnt_1412');
+
+    public get_missing_background_thumbnails = ({
+        background_thumbnails,
+    }: {
+        background_thumbnails: i_db.BackgroundThumbnail[];
+    }): i_db.BackgroundThumbnail[] =>
+        err(
+            () =>
+                this.get_missing_items({
+                    items: background_thumbnails,
+                }) as i_db.BackgroundThumbnail[],
+            'cnt_1413',
+        );
+
+    public get_missing_background_files = ({
+        background_files,
+    }: {
+        background_files: i_db.BackgroundFile[];
+    }): i_db.BackgroundFile[] =>
+        err(
+            () => this.get_missing_items({ items: background_files }) as i_db.BackgroundFile[],
+            'cnt_1414',
+        );
 }

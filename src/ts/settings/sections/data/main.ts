@@ -7,7 +7,6 @@ import {
     d_sections,
     s_browser_theme,
     d_custom_code,
-    d_protecting_screen,
     d_scheduler,
     s_custom_code,
     s_theme,
@@ -492,7 +491,7 @@ export class Main {
                 ],
                 ...d_settings.Sections.i().make_shared_sections({
                     download_back_up_callback: d_sections.Restore.i().download_back_up,
-                    download_back_up_final_callback: d_protecting_screen.Visibility.i().hide,
+                    download_back_up_final_callback: () => undefined,
                     upload_back_up_callback: d_sections.Restore.i().restore_back_up,
                     restore_defaults_callback: () => d_sections.Restore.i().restore_confirm(),
                     input_change_val_callback: d_sections.Val.i().change,
@@ -527,6 +526,8 @@ export class Main {
                     ],
                     include_back_up_help: true,
                     back_up_help_msg: ext.msg('back_up_help_text'),
+                    download_backup: false,
+                    allow_multiple_file_backup_upload: true,
                 }),
                 ...[
                     new o_inputs.Section({

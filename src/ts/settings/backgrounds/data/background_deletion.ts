@@ -134,6 +134,8 @@ export class BackgroundDeletion {
                 background_ids: ids,
             });
 
+            d_backgrounds.BackgroundAnimation.i().remove_already_animated_ids({ ids });
+
             runInAction(() =>
                 err(() => {
                     this.deleting_background = false;
@@ -149,13 +151,19 @@ export class BackgroundDeletion {
 
                 this.deletion_reason = 'delete_all_backgrounds';
 
-                d_sections.SectionContent.i().backgrounds_section_content_is_visible = false;
+                d_sections.SectionContent.i().set_backgrounds_section_content_visibility({
+                    is_visible: false,
+                });
             }
         }, 'cnt_1106');
 
     public delete_all_backgrounds_transition_end_callback = (): Promise<void> =>
         err_async(async () => {
-            d_sections.SectionContent.i().backgrounds_section_content_is_visible = true;
+            d_sections.SectionContent.i().set_backgrounds_section_content_visibility({
+                is_visible: true,
+            });
+
+            d_backgrounds.BackgroundAnimation.i().remove_all_already_animated_ids();
 
             if (this.deletion_reason === 'delete_all_backgrounds') {
                 d_backgrounds.Main.i().backgrounds = [];

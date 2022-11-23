@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 import { BigNumber } from 'bignumber.js';
@@ -122,6 +123,13 @@ export class Tasks {
                 data: tasks,
             }) as i_db.Task[];
         }, 'cnt_1256');
+
+    public merge_tasks = ({ tasks }: { tasks: i_db.Task[] }): void =>
+        err(() => {
+            this.tasks = s_i_shared.Main.i().sort_by_i_ascending({
+                data: _.union(this.tasks, tasks),
+            }) as i_db.Task[];
+        }, 'cnt_1421');
 
     public set_background_id = ({ background_id }: { background_id: string }): void =>
         err(() => {

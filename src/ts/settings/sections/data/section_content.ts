@@ -1,4 +1,4 @@
-import { makeObservable, observable } from 'mobx';
+import { makeObservable, observable, action } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
 export class SectionContent {
@@ -10,12 +10,13 @@ export class SectionContent {
     }
 
     private constructor() {
-        makeObservable(this, {
+        makeObservable<this, 'backgrounds_section_content_is_visible'>(this, {
             backgrounds_section_content_is_visible: observable,
+            set_backgrounds_section_content_visibility: action,
         });
     }
 
-    public backgrounds_section_content_is_visible: boolean = true;
+    private backgrounds_section_content_is_visible: boolean = true;
 
     backgrounds_section_content_is_visible_computed = computedFn(function (
         this: SectionContent,
@@ -27,4 +28,13 @@ export class SectionContent {
 
         return true;
     });
+
+    public set_backgrounds_section_content_visibility = ({
+        is_visible,
+    }: {
+        is_visible: boolean;
+    }): void =>
+        err(() => {
+            this.backgrounds_section_content_is_visible = is_visible;
+        }, 'cnt_1420');
 }

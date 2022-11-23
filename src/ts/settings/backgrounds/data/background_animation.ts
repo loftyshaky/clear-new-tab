@@ -48,7 +48,9 @@ export class BackgroundAnimation {
 
     public push_already_animated_id = ({ id }: { id: string }): void =>
         err(() => {
-            this.already_animated_ids.push(id);
+            if (!this.already_animated_ids.includes(id)) {
+                this.already_animated_ids.push(id);
+            }
         }, 'cnt_1098');
 
     public push_already_animated_id_deferred = ({ id }: { id: string }): Promise<void> =>
@@ -59,4 +61,21 @@ export class BackgroundAnimation {
                 id,
             });
         }, 'cnt_1099');
+
+    public remove_already_animated_ids = ({ ids }: { ids: string[] }): void =>
+        err(() => {
+            ids.forEach((id_to_remove: string): void =>
+                err(() => {
+                    x.remove_item(
+                        this.already_animated_ids.indexOf(id_to_remove),
+                        this.already_animated_ids,
+                    );
+                }, 'cnt_1417'),
+            );
+        }, 'cnt_1415');
+
+    public remove_all_already_animated_ids = (): void =>
+        err(() => {
+            this.already_animated_ids = [];
+        }, 'cnt_1416');
 }
