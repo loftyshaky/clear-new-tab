@@ -10,6 +10,7 @@ import {
     d_protecting_screen,
     d_scheduler,
     d_sections,
+    s_virtualized_list,
 } from 'settings/internal';
 
 export class BackgroundDeletion {
@@ -184,6 +185,10 @@ export class BackgroundDeletion {
                 });
                 await d_scheduler.Tasks.i().set_tasks_from_arg({
                     tasks: d_sections.Restore.i().restored_tasks,
+                });
+
+                s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({
+                    virtualized_list_type: 'backgrounds',
                 });
             }
 

@@ -14,6 +14,7 @@ import {
     s_browser_theme,
     s_custom_code,
     s_theme,
+    s_virtualized_list,
     i_sections,
 } from 'settings/internal';
 
@@ -327,6 +328,10 @@ export class Restore {
                         });
 
                         await d_backgrounds.BackgroundAnimation.i().forbid_animation();
+
+                        s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({
+                            virtualized_list_type: 'backgrounds',
+                        });
                     }
                 }, 'cnt_1418');
 
