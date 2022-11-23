@@ -132,8 +132,9 @@ export class Main {
             ];
 
             const settings_final: i_data.Settings = await d_schema.Main.i().transform({
-                settings,
+                data: settings,
                 transform_items,
+                remove_from_storage: false,
             });
 
             return settings_final;

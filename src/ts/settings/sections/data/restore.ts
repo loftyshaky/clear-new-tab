@@ -229,6 +229,11 @@ export class Restore {
                                             ...chunk.tasks,
                                         ];
 
+                                        chunk.data =
+                                            await d_backgrounds.Main.i().transform_background({
+                                                background: chunk.data,
+                                            });
+
                                         this.restored_backgrounds.push(chunk.data);
 
                                         if (

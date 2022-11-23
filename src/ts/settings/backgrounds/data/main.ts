@@ -2,7 +2,8 @@ import _ from 'lodash';
 import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
-import { s_db, s_i, i_db } from 'shared/internal';
+import { o_schema, d_schema } from '@loftyshaky/shared';
+import { s_db, s_i, i_data, i_db } from 'shared/internal';
 import { d_backgrounds } from 'settings/internal';
 
 export class Main {
@@ -143,4 +144,29 @@ export class Main {
             () => this.get_missing_items({ items: background_files }) as i_db.BackgroundFile[],
             'cnt_1414',
         );
+
+    public transform_background = ({
+        background,
+    }: {
+        background: i_db.Background;
+    }): Promise<i_db.Background> =>
+        err_async(async () => {
+            if (background.type.includes('color')) {
+                return background;
+            }
+
+            const transform_items: o_schema.TransformItem[] = [
+                new o_schema.TransformItem({
+                    new_key: 'video_speed',
+                    new_val: 'global',
+                }),
+            ];
+
+            const background_final: i_db.Background = await d_schema.Main.i().transform({
+                data: background,
+                transform_items,
+            });
+
+            return background_final;
+        }, 'ges_1422');
 }
