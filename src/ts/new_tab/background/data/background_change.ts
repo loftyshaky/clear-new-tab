@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { makeObservable, action, runInAction } from 'mobx';
 
 import { t } from '@loftyshaky/shared';
@@ -128,7 +129,7 @@ export class BackgroundChange {
 
     public react_to_visibility_change = (): void =>
         err(() => {
-            if (document.visibilityState === 'visible') {
+            if (document.visibilityState === 'visible' && data.settings.slideshow) {
                 ext.send_msg({ msg: 'get_background' });
 
                 d_background.VideoPlayback.i().set_play_status({ is_playing: true });
@@ -138,4 +139,6 @@ export class BackgroundChange {
                 d_background.VideoPlayback.i().set_play_status({ is_playing: false });
             }
         }, 'cnt_1046');
+
+    public react_to_visibility_change_debounce = _.debounce(this.react_to_visibility_change, 500);
 }

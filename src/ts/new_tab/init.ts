@@ -15,5 +15,9 @@ export const init = (): Promise<void> =>
             'visibilitychange',
             d_background.BackgroundChange.i().react_to_visibility_change,
         );
-        x.bind(window, 'resize', d_background.BackgroundChange.i().react_to_visibility_change);
+        x.bind(
+            window,
+            'resize',
+            d_background.BackgroundChange.i().react_to_visibility_change_debounce,
+        );
     }, 'cnt_1078');
