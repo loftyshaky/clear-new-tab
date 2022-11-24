@@ -138,5 +138,5 @@ export class Main {
             });
 
             return settings_final;
-        }, 'ges_1199');
+        }, 'cnt_1199');
 }

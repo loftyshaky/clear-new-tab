@@ -168,5 +168,5 @@ export class Main {
             });
 
             return background_final;
-        }, 'ges_1422');
+        }, 'cnt_1422');
 }
