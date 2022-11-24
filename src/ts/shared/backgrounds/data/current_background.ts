@@ -51,6 +51,8 @@ export class CurrentBackground {
                 await s_data.Main.i().update_settings({
                     settings,
                 });
+
+                ext.send_msg({ msg: 'update_settings_settings' });
             } else if (page === 'settings') {
                 data.settings.future_background_id = settings.future_background_id;
 
