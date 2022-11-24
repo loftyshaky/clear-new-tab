@@ -13,6 +13,8 @@ export class CurrentBackground {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
+    public reset_val: number = 0;
+
     public set_future_background_id = (): Promise<void> =>
         err_async(async () => {
             const settings: i_data.Settings = await ext.storage_get();
@@ -36,13 +38,15 @@ export class CurrentBackground {
                     const current_background_is_last_background: boolean =
                         background_count - 1 === i_of_background_with_current_id;
                     if (current_background_is_last_background) {
-                        settings.future_background_id = n(backgrounds[0]) ? backgrounds[0].id : 1;
+                        settings.future_background_id = n(backgrounds[0])
+                            ? backgrounds[0].id
+                            : this.reset_val;
                     } else {
                         settings.future_background_id = n(
                             backgrounds[i_of_background_with_current_id + 1],
                         )
                             ? backgrounds[i_of_background_with_current_id + 1].id
-                            : 1;
+                            : this.reset_val;
                     }
                 }
             }

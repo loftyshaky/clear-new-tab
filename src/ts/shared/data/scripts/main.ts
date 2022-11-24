@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { t, o_schema, d_schema } from '@loftyshaky/shared';
 import { d_color } from '@loftyshaky/shared/inputs';
-import { vars, s_background, i_data } from 'shared/internal';
+import { vars, d_backgrounds, s_background, i_data } from 'shared/internal';
 
 export class Main {
     private static i0: Main;
@@ -31,8 +31,8 @@ export class Main {
                 mode: 'theme_background',
                 color_type: 'pastel',
                 keep_old_theme_backgrounds: false,
-                current_background_id: 0,
-                future_background_id: 0,
+                current_background_id: d_backgrounds.CurrentBackground.i().reset_val,
+                future_background_id: d_backgrounds.CurrentBackground.i().reset_val,
                 automatically_set_last_uploaded_background_as_current: true,
                 background_change_interval: 1,
                 slideshow: false,

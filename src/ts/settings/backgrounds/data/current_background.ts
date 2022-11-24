@@ -26,7 +26,6 @@ export class CurrentBackground {
     }
 
     public selected_background_id: string | undefined = undefined;
-    private reset_val: number = 0;
 
     public select = ({ background }: { background: i_db.Background }): void =>
         err(() => {
@@ -68,7 +67,7 @@ export class CurrentBackground {
             const no_backgrounds_exist: boolean = d_backgrounds.Main.i().backgrounds.length === 0;
 
             if (no_backgrounds_exist) {
-                data.ui.current_background_i = 0;
+                data.ui.current_background_i = d_backgrounds_shared.CurrentBackground.i().reset_val;
             } else {
                 const i_of_background_with_current_id: number = s_i.Main.i().find_i_of_item_with_id(
                     {
@@ -91,7 +90,7 @@ export class CurrentBackground {
 
             this.set_current_background_i();
 
-            if (id === 1) {
+            if (id === 0) {
                 data.settings.future_background_id = id;
             }
 
@@ -133,7 +132,10 @@ export class CurrentBackground {
                 data.settings.automatically_set_last_uploaded_background_as_current
             ) {
                 this.set_background_as_current({ id });
-            } else if (data.settings.current_background_id === 1) {
+            } else if (
+                data.settings.current_background_id ===
+                d_backgrounds_shared.CurrentBackground.i().reset_val
+            ) {
                 this.set_background_as_current({
                     id: d_backgrounds.Main.i().backgrounds[0].id,
                 });
@@ -148,7 +150,9 @@ export class CurrentBackground {
                         d_backgrounds.Main.i().backgrounds[data.ui.current_background_i - 1];
 
                     this.set_background_as_current({
-                        id: n(background_with_current_i) ? background_with_current_i.id : 1,
+                        id: n(background_with_current_i)
+                            ? background_with_current_i.id
+                            : d_backgrounds_shared.CurrentBackground.i().reset_val,
                     });
 
                     if (n(background_with_current_i)) {
@@ -209,17 +213,20 @@ export class CurrentBackground {
 
     public reset_current_background_id = (): void =>
         err(() => {
-            data.settings.current_background_id = this.reset_val;
-            data.ui.current_background_i = this.reset_val;
+            data.settings.current_background_id =
+                d_backgrounds_shared.CurrentBackground.i().reset_val;
+            data.ui.current_background_i = d_backgrounds_shared.CurrentBackground.i().reset_val;
 
             this.save_current_background_id_from_i();
         }, 'cnt_1117');
 
     public set_current_and_future_background_id_to_default = (): Promise<void> =>
         err_async(async () => {
-            data.settings.current_background_id = this.reset_val;
-            data.settings.future_background_id = this.reset_val;
-            data.ui.current_background_i = this.reset_val;
+            data.settings.current_background_id =
+                d_backgrounds_shared.CurrentBackground.i().reset_val;
+            data.settings.future_background_id =
+                d_backgrounds_shared.CurrentBackground.i().reset_val;
+            data.ui.current_background_i = d_backgrounds_shared.CurrentBackground.i().reset_val;
 
             await ext.send_msg_resp({
                 msg: 'update_settings_background',
