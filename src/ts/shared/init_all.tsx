@@ -97,6 +97,8 @@ export class InitAll {
                         prefix: 'new_tab',
                         shadow_root: false,
                     }) as HTMLDivElement;
+
+                    this.render_new_tab();
                 }
 
                 ReactDOM.createRoot(error_root).render(
@@ -244,16 +246,12 @@ export class InitAll {
             }
         }, 'cnt_1359');
 
-    public render_new_tab = (): Promise<void> =>
+    private render_new_tab = (): Promise<void> =>
         err_async(async () => {
             const { Body } = await import('new_tab/components/body');
 
             const on_css_load = (): Promise<void> =>
                 err_async(async () => {
-                    d_inputs.InputWidth.i().set_max_width();
-
-                    d_loading_screen.Main.i().hide({ app_id: s_suffix.app_id });
-
                     s_tab_index.Main.i().bind_set_input_type_f();
                 }, 'cnt_1360');
 
