@@ -21,10 +21,12 @@ export class CurrentBackground {
             set_current_background_i: action,
             set_background_as_current: action,
             reset_current_background_id: action,
+            set_current_and_future_background_id_to_default: action,
         });
     }
 
     public selected_background_id: string | undefined = undefined;
+    private reset_val: number = 0;
 
     public select = ({ background }: { background: i_db.Background }): void =>
         err(() => {
@@ -61,16 +63,12 @@ export class CurrentBackground {
         return '';
     });
 
-    public set_current_background_i = ({
-        reset_current_background_i_if_background_with_id_doesnt_exists = false,
-    }: {
-        reset_current_background_i_if_background_with_id_doesnt_exists?: boolean;
-    } = {}): void =>
+    public set_current_background_i = (): void =>
         err(() => {
             const no_backgrounds_exist: boolean = d_backgrounds.Main.i().backgrounds.length === 0;
 
             if (no_backgrounds_exist) {
-                data.ui.current_background_i = 1;
+                data.ui.current_background_i = 0;
             } else {
                 const i_of_background_with_current_id: number = s_i.Main.i().find_i_of_item_with_id(
                     {
@@ -78,16 +76,8 @@ export class CurrentBackground {
                         items: d_backgrounds.Main.i().backgrounds,
                     },
                 );
-                const background_with_id_found: boolean = i_of_background_with_current_id !== -1;
 
-                if (
-                    background_with_id_found ||
-                    !reset_current_background_i_if_background_with_id_doesnt_exists
-                ) {
-                    data.ui.current_background_i = i_of_background_with_current_id + 1;
-                } else {
-                    this.reset_current_background_id();
-                }
+                data.ui.current_background_i = i_of_background_with_current_id + 1;
             }
         }, 'cnt_1111');
 
@@ -219,13 +209,24 @@ export class CurrentBackground {
 
     public reset_current_background_id = (): void =>
         err(() => {
-            const reset_val: number = 1;
-
-            data.settings.current_background_id = reset_val;
-            data.ui.current_background_i = reset_val;
+            data.settings.current_background_id = this.reset_val;
+            data.ui.current_background_i = this.reset_val;
 
             this.save_current_background_id_from_i();
         }, 'cnt_1117');
+
+    public set_current_and_future_background_id_to_default = (): Promise<void> =>
+        err_async(async () => {
+            data.settings.current_background_id = this.reset_val;
+            data.settings.future_background_id = this.reset_val;
+            data.ui.current_background_i = this.reset_val;
+
+            await ext.send_msg_resp({
+                msg: 'update_settings_background',
+                settings: data.settings,
+                update_instantly: true,
+            });
+        }, 'cnt_1423');
 
     private get_id_of_random_background = (): string | number =>
         err(() => {

@@ -137,6 +137,11 @@ export class BackgroundDeletion {
 
             d_backgrounds.BackgroundAnimation.i().remove_already_animated_ids({ ids });
 
+            if (d_backgrounds.Main.i().backgrounds.length === 0) {
+                // eslint-disable-next-line max-len
+                await d_backgrounds.CurrentBackground.i().set_current_and_future_background_id_to_default();
+            }
+
             runInAction(() =>
                 err(() => {
                     this.deleting_background = false;
@@ -174,7 +179,8 @@ export class BackgroundDeletion {
 
                 await d_scheduler.TaskDeletion.i().delete_all_tasks();
 
-                d_backgrounds.CurrentBackground.i().reset_current_background_id();
+                // eslint-disable-next-line max-len
+                await d_backgrounds.CurrentBackground.i().set_current_and_future_background_id_to_default();
             } else if (this.deletion_reason === 'restore_back_up') {
                 await d_backgrounds.Main.i().set_backgrounds({
                     backgrounds: d_sections.Restore.i().restored_backgrounds,

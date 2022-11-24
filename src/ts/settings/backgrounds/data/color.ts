@@ -22,6 +22,8 @@ export class Color {
         err_async(async () => {
             d_protecting_screen.Visibility.i().show();
 
+            const no_backgrounds_before_upload: boolean =
+                d_backgrounds.Main.i().backgrounds.length === 0;
             const id: string = x.unique_id();
             const new_backgrounds: i_db.Background[] = [
                 {
@@ -59,9 +61,16 @@ export class Color {
                 backgrounds: new_backgrounds,
                 background_thumbnails: new_background_thumbnails,
             });
-            d_backgrounds.CurrentBackground.i().set_last_uploaded_background_as_current({
-                id,
-            });
+
+            if (no_backgrounds_before_upload) {
+                await d_backgrounds.CurrentBackground.i().set_background_as_current({
+                    id: d_backgrounds.Main.i().backgrounds[0].id,
+                });
+            } else {
+                d_backgrounds.CurrentBackground.i().set_last_uploaded_background_as_current({
+                    id,
+                });
+            }
             await d_backgrounds.BackgroundAnimation.i().forbid_animation();
 
             s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({

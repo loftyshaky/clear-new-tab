@@ -42,6 +42,8 @@ export class Upload {
             });
             const ordered_thumbnails: i_backgrounds.OrderedThumbnails[] = [];
             const ordered_files: i_backgrounds.OrderedFiles[] = [];
+            const no_backgrounds_before_upload: boolean =
+                d_backgrounds.Main.i().backgrounds.length === 0;
 
             const new_backgrounds: (i_db.Background | undefined)[] = await Promise.all(
                 [...files].map(
@@ -155,11 +157,11 @@ export class Upload {
                 background_thumbnails: new_background_thumbnails,
             });
 
-            if (new_backgrounds_final.length === 0) {
+            if (no_backgrounds_before_upload) {
                 await d_backgrounds.CurrentBackground.i().set_background_as_current({
                     id: n(d_backgrounds.Main.i().backgrounds[0])
                         ? d_backgrounds.Main.i().backgrounds[0].id
-                        : 1,
+                        : 0,
                 });
             } else {
                 await d_backgrounds.CurrentBackground.i().set_last_uploaded_background_as_current({
