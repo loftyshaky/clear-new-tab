@@ -14,15 +14,9 @@ export class BackgroundChange {
     private slideshow_timers: number[] = [];
     private force_update = false;
 
-    public update_background = ({
-        no_tr,
-        send_msg_to_active_new_tab = false,
-    }: {
-        no_tr: boolean;
-        send_msg_to_active_new_tab?: boolean;
-    }): Promise<void> =>
+    public update_background = ({ no_tr }: { no_tr: boolean }): Promise<void> =>
         err_async(async () => {
-            await ext[send_msg_to_active_new_tab ? 'send_msg_to_active_tab' : 'send_msg_resp']({
+            await ext.send_msg_resp({
                 msg: 'update_background',
                 force_update: this.force_update,
                 no_tr,
@@ -90,7 +84,7 @@ export class BackgroundChange {
                 current_time,
             });
 
-            await this.update_background({ no_tr, send_msg_to_active_new_tab: true });
+            await this.update_background({ no_tr });
 
             d_backgrounds.CurrentBackground.i().set_future_background_id();
 
