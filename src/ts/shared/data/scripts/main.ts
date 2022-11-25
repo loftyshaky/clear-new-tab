@@ -58,6 +58,7 @@ export class Main {
                 id_of_last_installed_theme: '',
                 current_random_solid_color: '',
                 enable_video_repeat: false,
+                always_use_alarms_api_to_change_background_in_slideshow_mode: false,
                 show_item_developer_info_in_tooltip: false,
                 update_database_when_dnd_item: true,
                 options_page_tab_id: undefined,
