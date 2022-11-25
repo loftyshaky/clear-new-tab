@@ -37,7 +37,7 @@ export class BackgroundChange {
         force_update?: boolean;
     } = {}): Promise<void> =>
         err_async(async () => {
-            this.clear_slideshow_timer();
+            await this.clear_slideshow_timer();
 
             this.force_update = force_update;
 
@@ -135,56 +135,51 @@ export class BackgroundChange {
             const schedule_background_change = ({
                 rerun_2 = false,
             }: { rerun_2?: boolean } = {}): Promise<void> =>
-                new Promise((resolve) => {
-                    err(() => {
-                        const background_change_interval_corrected: number =
-                            settings.background_change_interval === 1
-                                ? 3000
-                                : settings.background_change_interval;
-                        const remaining_time: number =
-                            settings.background_change_time -
-                            current_time +
-                            background_change_interval_corrected;
+                err_async(async () => {
+                    const background_change_interval_corrected: number =
+                        settings.background_change_interval === 1
+                            ? 3000
+                            : settings.background_change_interval;
+                    const remaining_time: number =
+                        settings.background_change_time -
+                        current_time +
+                        background_change_interval_corrected;
+                    const delay = rerun_2 ? background_change_interval_corrected : remaining_time;
 
+                    // 60000 = 1 minute
+                    if (
+                        settings.background_change_interval >= 60000 ||
+                        settings.always_use_alarms_api_to_change_background_in_slideshow_mode
+                    ) {
+                        await we.alarms.create('change_slideshow_background', {
+                            when: Date.now() + delay,
+                        });
+                    } else {
                         this.slideshow_timers.push(
-                            self.setTimeout(
-                                () => {
-                                    err_async(async () => {
-                                        if (
-                                            ['multiple_backgrounds', 'random_solid_color'].includes(
-                                                settings.mode,
-                                            ) &&
-                                            settings.slideshow
-                                        ) {
-                                            await this.change_background({
-                                                current_time: new Date().getTime(),
-                                                no_tr: false,
-                                            });
-                                        }
-
-                                        resolve();
-                                    }, 'cnt_1309');
-                                },
-                                rerun_2 ? background_change_interval_corrected : remaining_time,
-                            ),
+                            self.setTimeout(() => {
+                                err_async(async () => {
+                                    await this.change_slideshow_background();
+                                    await this.run_slideshow_timer({ rerun: true });
+                                }, 'cnt_1309');
+                            }, delay),
                         );
-                    }, 'cnt_1310');
-                });
+                    }
+                }, 'cnt_1310');
 
-            this.clear_slideshow_timer();
+            await this.clear_slideshow_timer();
 
             if (
                 ['multiple_backgrounds', 'random_solid_color'].includes(settings.mode) &&
                 settings.slideshow
             ) {
                 await schedule_background_change({ rerun_2: rerun });
-
-                await this.run_slideshow_timer({ rerun: true });
             }
         }, 'cnt_1311');
 
-    public clear_slideshow_timer = (): void =>
-        err(() => {
+    public clear_slideshow_timer = (): Promise<void> =>
+        err_async(async () => {
+            await we.alarms.clearAll();
+
             this.slideshow_timers.forEach((slideshow_timer: number): void =>
                 err(() => {
                     globalThis.clearTimeout(slideshow_timer);
@@ -193,4 +188,18 @@ export class BackgroundChange {
 
             this.slideshow_timers = [];
         }, 'cnt_1313');
+
+    public change_slideshow_background = (): Promise<void> =>
+        err_async(async () => {
+            const settings: i_data.Settings = await ext.storage_get();
+            if (
+                ['multiple_backgrounds', 'random_solid_color'].includes(settings.mode) &&
+                settings.slideshow
+            ) {
+                await this.change_background({
+                    current_time: new Date().getTime(),
+                    no_tr: false,
+                });
+            }
+        }, 'cnt_1424');
 }

@@ -516,6 +516,10 @@ export class Main {
                             event_callback: d_sections.Val.i().change,
                         }),
                         new o_inputs.Checkbox({
+                            name: 'always_use_alarms_api_to_change_background_in_slideshow_mode',
+                            event_callback: d_sections.Val.i().change,
+                        }),
+                        new o_inputs.Checkbox({
                             name: 'show_item_developer_info_in_tooltip',
                             event_callback: d_sections.Val.i().change,
                         }),

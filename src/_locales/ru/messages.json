@@ -146,6 +146,9 @@
     "enable_video_repeat_label_text": {
         "message": "Включить возможность повтоять видео фоны"
     },
+    "always_use_alarms_api_to_change_background_in_slideshow_mode_label_text": {
+        "message": "Всегда использовать alarms API для изменения фона в режиме слайд-шоу"
+    },
     "show_item_developer_info_in_tooltip_label_text": {
         "message": "Показывать информацию для разработчиков о фоне/задаче во всплывающей подсказке"
     },

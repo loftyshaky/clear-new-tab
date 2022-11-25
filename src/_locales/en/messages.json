@@ -149,6 +149,9 @@
     "enable_video_repeat_label_text": {
         "message": "Enable the ability to repeat video backgrounds"
     },
+    "always_use_alarms_api_to_change_background_in_slideshow_mode_label_text": {
+        "message": "Always use alarms API to change background in slideshow mode"
+    },
     "show_item_developer_info_in_tooltip_label_text": {
         "message": "Show background/task developer info in tooltip"
     },

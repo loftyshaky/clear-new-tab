@@ -1,6 +1,7 @@
 import 'background/browser_action/scripts';
 import 'background/msgs/scripts';
 import 'background/on_installed/scripts';
+import 'background/alarms/scripts';
 
 misplaced_dependency('background');
 

@@ -1,10 +1,15 @@
 import { Alarms } from 'webextension-polyfill-ts';
+
+import { s_background } from 'shared/internal';
 import { s_backgrounds, s_scheduler } from 'background/internal';
 
 we.alarms.onAlarm.addListener(
     (alarm: Alarms.Alarm): Promise<void> =>
         err_async(async () => {
-            if (alarm.name === 'schedule_background_display') {
+            if (alarm.name === 'change_slideshow_background') {
+                await s_background.BackgroundChange.i().change_slideshow_background();
+                await s_background.BackgroundChange.i().run_slideshow_timer({ rerun: true });
+            } else if (alarm.name === 'schedule_background_display') {
                 s_scheduler.Main.i().schedule_background_display({
                     called_after_task_completed: true,
                 });

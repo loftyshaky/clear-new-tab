@@ -129,6 +129,10 @@ export class Main {
                     new_key: 'enable_video_repeat',
                     new_val: false,
                 }),
+                new o_schema.TransformItem({
+                    new_key: 'always_use_alarms_api_to_change_background_in_slideshow_mode',
+                    new_val: false,
+                }),
             ];
 
             const settings_final: i_data.Settings = await d_schema.Main.i().transform({
