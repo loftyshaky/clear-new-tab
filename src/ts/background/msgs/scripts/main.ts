@@ -45,6 +45,7 @@ we.runtime.onMessage.addListener(
                     allow_to_start_slideshow_timer: n(msg.allow_to_start_slideshow_timer)
                         ? msg.allow_to_start_slideshow_timer
                         : true,
+                    force_change: n(msg.force_change) ? msg.force_change : false,
                     force_update: n(msg.force_update) ? msg.force_update : false,
                 });
             } else if (msg_str === 'clear_slideshow_timer') {

@@ -25,9 +25,11 @@ export class BackgroundChange {
 
     public try_to_change_background = ({
         allow_to_start_slideshow_timer = true,
+        force_change = false,
         force_update = false,
     }: {
         allow_to_start_slideshow_timer?: boolean;
+        force_change?: boolean;
         force_update?: boolean;
     } = {}): Promise<void> =>
         err_async(async () => {
@@ -46,7 +48,8 @@ export class BackgroundChange {
                     (settings.mode === 'random_solid_color' &&
                         settings.current_random_solid_color === '') ||
                     current_time >
-                        settings.background_change_time + settings.background_change_interval;
+                        settings.background_change_time + settings.background_change_interval ||
+                    force_change;
 
                 const start_slideshow_timer: boolean = settings.slideshow;
 
