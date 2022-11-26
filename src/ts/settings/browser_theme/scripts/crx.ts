@@ -167,7 +167,7 @@ export class Crx {
             const video_speed: string | number =
                 video_speed_manifest !== Infinity &&
                 video_speed_manifest >= 0 &&
-                video_volume_manifest <= 16
+                video_speed_manifest <= 16
                     ? +video_speed_manifest
                     : 'global';
             const video_volume: string | number =
