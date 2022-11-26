@@ -12,7 +12,7 @@ we.runtime.onMessage.addListener(
             } else if (msg_str === 'disconnect') {
                 s_service_worker.Lifeline.i().disconnect();
             } else if (msg_str === 'update_background') {
-                if (!document.hidden) {
+                if (!document.hidden || msg.force_update) {
                     await d_settings.Main.i().set_from_storage();
                     await d_background.BackgroundChange.i().update_background({
                         no_tr: document.hidden ? true : msg.no_tr,
