@@ -29,18 +29,15 @@ export class Val {
             const background_is_selected: boolean =
                 d_scheduler.BackgroundPreview.i().get({ background_id: data.ui.background_id }) !==
                 d_scheduler.BackgroundPreview.i().placeholder_img_name;
-
             const one_of_inputs_in_date_picker_is_set_to_val = Object.values(
                 d_scheduler.DatePicker.i().inputs,
             ).some((input: i_inputs.Input): boolean =>
-                err(
-                    () =>
-                        n(settings[input.name]) &&
-                        settings[input.name] !== '' &&
-                        !input.is_in_warn_state,
-
-                    'cnt_1264',
-                ),
+                err(() => n(settings[input.name]) && settings[input.name] !== '', 'cnt_1264'),
+            );
+            const all_inputs_are_in_success_state = Object.values(
+                d_scheduler.DatePicker.i().inputs,
+            ).every((input: i_inputs.Input): boolean =>
+                err(() => !input.is_in_warn_state, 'cnt_1425'),
             );
 
             runInAction(() =>
@@ -48,7 +45,9 @@ export class Val {
                     (
                         d_scheduler.DatePicker.i().inputs as Record<string, i_inputs.Input>
                     ).add_new_task.is_enabled =
-                        background_is_selected && one_of_inputs_in_date_picker_is_set_to_val;
+                        background_is_selected &&
+                        one_of_inputs_in_date_picker_is_set_to_val &&
+                        all_inputs_are_in_success_state;
                 }, 'cnt_1265'),
             );
         }, 'cnt_1266');

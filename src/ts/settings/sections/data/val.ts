@@ -266,6 +266,8 @@ export class Val {
     public remove_val = ({ input }: { input: i_inputs.Input }): Promise<void> =>
         err_async(async () => {
             if (['year', 'time'].includes(input.name)) {
+                this.change({ input });
+
                 await ext.send_msg_resp({
                     msg: 'update_settings_background',
                     settings: { [input.name]: vars.scheduler_none_val },
