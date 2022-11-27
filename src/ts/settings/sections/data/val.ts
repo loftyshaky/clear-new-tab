@@ -3,7 +3,13 @@ import { action } from 'mobx';
 import { i_data } from '@loftyshaky/shared';
 import { o_color, d_inputs, d_color, i_inputs, i_color } from '@loftyshaky/shared/inputs';
 import { s_settings } from '@loftyshaky/shared/settings';
-import { vars, s_css_vars, s_preload_color, s_theme } from 'shared/internal';
+import {
+    vars,
+    d_backgrounds as d_backgrounds_shared,
+    s_css_vars,
+    s_preload_color,
+    s_theme,
+} from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
@@ -79,11 +85,17 @@ export class Val {
                                 update_instantly: true,
                             });
 
-                            if (input.name === 'mode' && val === 'theme_background') {
-                                await s_browser_theme.Main.i().get_theme_background({
-                                    theme_id: undefined,
-                                    force_theme_redownload: false,
-                                });
+                            if (input.name === 'mode') {
+                                if (val === 'theme_background') {
+                                    await s_browser_theme.Main.i().get_theme_background({
+                                        theme_id: undefined,
+                                        force_theme_redownload: false,
+                                    });
+                                }
+                                if (val === 'multiple_backgrounds') {
+                                    // eslint-disable-next-line max-len
+                                    d_backgrounds_shared.CurrentBackground.i().set_future_background_id();
+                                }
                             }
                         } else if (input.name !== 'create_solid_color_background') {
                             await ext.send_msg_resp({
