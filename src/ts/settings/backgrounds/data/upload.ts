@@ -157,7 +157,10 @@ export class Upload {
                 background_thumbnails: new_background_thumbnails,
             });
 
-            if (no_backgrounds_before_upload) {
+            if (
+                no_backgrounds_before_upload &&
+                !data.settings.automatically_set_last_uploaded_background_as_current
+            ) {
                 await d_backgrounds.CurrentBackground.i().set_background_as_current({
                     id: n(d_backgrounds.Main.i().backgrounds[0])
                         ? d_backgrounds.Main.i().backgrounds[0].id
