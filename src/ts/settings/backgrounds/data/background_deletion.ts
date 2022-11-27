@@ -3,10 +3,11 @@ import { MouseEvent } from 'react';
 import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
-import { vars, s_db, s_i, i_db } from 'shared/internal';
+import { vars, s_db, s_preload_color, s_i, i_db } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
+    d_browser_theme,
     d_protecting_screen,
     d_scheduler,
     d_sections,
@@ -136,11 +137,7 @@ export class BackgroundDeletion {
             });
 
             d_backgrounds.BackgroundAnimation.i().remove_already_animated_ids({ ids });
-
-            if (d_backgrounds.Main.i().backgrounds.length === 0) {
-                // eslint-disable-next-line max-len
-                await d_backgrounds.CurrentBackground.i().set_current_and_future_background_id_to_default();
-            }
+            await this.react_to_all_background_deletion();
 
             runInAction(() =>
                 err(() => {
@@ -176,22 +173,22 @@ export class BackgroundDeletion {
                 d_backgrounds.Main.i().background_thumbnails = [];
 
                 await s_db.Manipulation.i().clear_all_background_tables();
-
                 await d_scheduler.TaskDeletion.i().delete_all_tasks();
-
-                // eslint-disable-next-line max-len
-                await d_backgrounds.CurrentBackground.i().set_current_and_future_background_id_to_default();
+                await this.react_to_all_background_deletion();
             } else if (this.deletion_reason === 'restore_back_up') {
                 await d_backgrounds.Main.i().set_backgrounds({
                     backgrounds: d_sections.Restore.i().restored_backgrounds,
                     background_thumbnails: d_sections.Restore.i().restored_background_thumbnails,
                 });
+
                 await s_db.Manipulation.i().save_tasks({
                     tasks: d_sections.Restore.i().restored_tasks,
                 });
                 await d_scheduler.Tasks.i().set_tasks_from_arg({
                     tasks: d_sections.Restore.i().restored_tasks,
                 });
+
+                await d_browser_theme.Main.i().refresh_theme_backgrounds();
 
                 s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({
                     virtualized_list_type: 'backgrounds',
@@ -201,4 +198,16 @@ export class BackgroundDeletion {
             d_background_settings.SettingsContext.i().react_to_global_selection();
             d_protecting_screen.Visibility.i().hide();
         }, 'cnt_1107');
+
+    private react_to_all_background_deletion = (): Promise<void> =>
+        err_async(async () => {
+            if (d_backgrounds.Main.i().backgrounds.length === 0) {
+                // eslint-disable-next-line max-len
+                await d_backgrounds.CurrentBackground.i().set_current_and_future_background_id_to_default();
+
+                s_preload_color.Storage.i().set_preload_color();
+
+                ext.send_msg({ msg: 'get_background', force_update: true });
+            }
+        }, 'cnt_1426');
 }

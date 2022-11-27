@@ -19,19 +19,17 @@ export class Main {
             const settings: i_data.Settings = await ext.storage_get();
 
             const options_page_is_open: boolean = n(settings.options_page_tab_id);
-            const already_tried_install_this_theme: boolean =
-                this.theme_id === settings.id_of_last_installed_theme;
 
             const is_local_theme = await s_browser_theme.ThemeId.i().check_if_theme_is_local({
                 theme_id: this.theme_id,
             });
 
             if (!is_local_theme) {
-                if (settings.mode === 'theme_background' && !already_tried_install_this_theme) {
+                if (settings.mode === 'theme_background') {
                     we.runtime.openOptionsPage();
                 }
 
-                if (options_page_is_open && !already_tried_install_this_theme) {
+                if (options_page_is_open) {
                     ext.send_msg({ msg: 'try_to_get_theme_background' });
                 }
             }

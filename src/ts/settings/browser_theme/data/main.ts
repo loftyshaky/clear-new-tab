@@ -1,7 +1,7 @@
 import { makeObservable, action } from 'mobx';
 
 import { i_browser_theme, i_db } from 'shared/internal';
-import { d_backgrounds } from 'settings/internal';
+import { d_backgrounds, s_browser_theme } from 'settings/internal';
 
 export class Main {
     private static i0: Main;
@@ -56,4 +56,21 @@ export class Main {
 
             await d_backgrounds.BackgroundDeletion.i().trigger_delete({ ids: ids_to_delete });
         }, 'cnt_1162');
+
+    public refresh_theme_backgrounds = (): Promise<void> =>
+        err_async(async () => {
+            const theme_id: string | undefined = await s_browser_theme.ThemeId.i().get_installed();
+
+            if (data.settings.mode === 'theme_background') {
+                if (n(theme_id)) {
+                    await s_browser_theme.Main.i().get_theme_background({
+                        theme_id: undefined,
+                        force_theme_redownload: false,
+                    });
+                } else {
+                    // eslint-disable-next-line max-len
+                    await d_backgrounds.CurrentBackground.i().set_current_background_id_to_id_of_first_background();
+                }
+            }
+        }, 'cnt_1424');
 }

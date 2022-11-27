@@ -110,6 +110,8 @@ export class Main {
                         background_container_i: this.background_container_i,
                     })
                 ) {
+                    this.current_object_url_background_id = 'solid_color';
+
                     return d_color.Color.i().access_from_val({
                         val: (background_file as i_db.BackgroundFile).background as i_color.Color,
                     });
@@ -180,18 +182,21 @@ export class Main {
     public get_color_of_area_around_background = (): string =>
         err(() => {
             const background_data = this.background_data[this.background_container_i];
+            const no_backgrounds: boolean = data.settings.current_background_id === 0;
 
             if (
-                n(background_data) &&
-                (s_background.Type.i().is_img({
-                    background_container_i: this.background_container_i,
-                }) ||
-                    s_background.Type.i().is_video({
+                (n(background_data) &&
+                    (s_background.Type.i().is_img({
                         background_container_i: this.background_container_i,
-                    }))
+                    }) ||
+                        s_background.Type.i().is_video({
+                            background_container_i: this.background_container_i,
+                        }))) ||
+                no_backgrounds
             ) {
-                return (background_data as i_db.FileBackground).color_of_area_around_background ===
-                    'global'
+                return no_backgrounds ||
+                    (background_data as i_db.FileBackground).color_of_area_around_background ===
+                        'global'
                     ? d_color.Color.i().access_from_val({
                           val: data.settings.color_of_area_around_background,
                       })

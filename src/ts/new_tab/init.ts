@@ -8,7 +8,11 @@ export const init = (): Promise<void> =>
         s_custom_code.Msgs.i().send_set_custom_code_msg();
 
         ext.send_msg({ msg: 'push_tab_id' });
-        ext.send_msg({ msg: 'get_background', allow_to_start_slideshow_timer: !document.hidden });
+        ext.send_msg({
+            msg: 'get_background',
+            allow_to_start_slideshow_timer: data.settings.slideshow ? !document.hidden : true,
+            force_update: true,
+        });
 
         x.bind(
             document,

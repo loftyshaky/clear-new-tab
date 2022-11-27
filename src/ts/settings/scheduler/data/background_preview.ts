@@ -25,4 +25,18 @@ export class BackgroundPreview {
                 ? background_thumbnail.background
                 : this.placeholder_img_name;
         }, 'cnt_1229');
+
+    public background_is_color = ({ background_id }: { background_id: string }): boolean =>
+        err(() => {
+            const background: i_db.Background | undefined =
+                d_backgrounds.Main.i().get_background_by_id({
+                    id: background_id,
+                });
+
+            if (n(background)) {
+                return background.type === 'color';
+            }
+
+            return false;
+        }, 'cnt_1428');
 }

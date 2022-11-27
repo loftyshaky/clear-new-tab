@@ -49,6 +49,15 @@ export class Main {
             'cnt_1126',
         );
 
+    public get_background_by_id = ({ id }: { id: string }): i_db.Background | undefined =>
+        err(
+            () =>
+                this.backgrounds.find((background: i_db.Background): boolean =>
+                    err(() => background.id === id, 'cnt_1125'),
+                ),
+            'cnt_1427',
+        );
+
     public set_backgrounds = ({
         backgrounds,
         background_thumbnails,

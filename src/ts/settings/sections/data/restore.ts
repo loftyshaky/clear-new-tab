@@ -8,10 +8,10 @@ import { s_css_vars, s_db, s_preload_color, i_data, i_db } from 'shared/internal
 import {
     d_background_settings,
     d_backgrounds,
+    d_browser_theme,
     d_protecting_screen,
     d_scheduler,
     d_sections,
-    s_browser_theme,
     s_custom_code,
     s_theme,
     s_virtualized_list,
@@ -56,11 +56,7 @@ export class Restore {
                 await s_theme.Main.i().reset_theme({ transition_duration });
                 s_css_vars.Main.i().set();
                 s_preload_color.Storage.i().set_preload_color();
-
-                await s_browser_theme.Main.i().get_theme_background({
-                    theme_id: undefined,
-                    force_theme_redownload: false,
-                });
+                await d_browser_theme.Main.i().refresh_theme_backgrounds();
 
                 d_protecting_screen.Visibility.i().hide();
             }
@@ -109,10 +105,13 @@ export class Restore {
 
             let chunks: string = '';
             let is_first_chunk: boolean = true;
+            const settings_to_store_in_file: i_data.Settings = _.clone(data.settings);
+
+            settings_to_store_in_file.id_of_last_installed_theme = '';
 
             const backup_data_leading_chunks_only: string = '{"chunks":[';
             const backup_data_leading: string = `{"settings":${JSON.stringify(
-                data.settings,
+                settings_to_store_in_file,
             )},"custom_code":${JSON.stringify(custom_code)},"chunks":[`;
             const backup_data_trailing: string = ']}';
 
@@ -356,12 +355,16 @@ export class Restore {
                 }, 'cnt_1410'),
             );
 
+            let settings: i_data.Settings | undefined;
+
             if (n(full_data_obj)) {
                 if (one_of_the_uploaded_files_has_settings) {
-                    const settings: i_data.Settings = {
+                    settings = {
                         ...full_data_obj.settings,
                         ...this.get_unchanged_settings(),
                     } as i_data.Settings;
+                    settings.id_of_last_installed_theme = data.settings.id_of_last_installed_theme;
+
                     const { transition_duration } = _.clone(data.settings);
 
                     await this.set({ settings });
@@ -404,6 +407,8 @@ export class Restore {
                 s_preload_color.Storage.i().set_preload_color();
                 d_backgrounds.CurrentBackground.i().set_current_background_i();
                 d_scheduler.Tasks.i().reset_background_id();
+
+                ext.send_msg({ msg: 'get_background', force_update: true });
             }
 
             d_protecting_screen.Visibility.i().hide();

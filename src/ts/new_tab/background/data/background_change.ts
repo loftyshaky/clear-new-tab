@@ -4,6 +4,7 @@ import { makeObservable, action, runInAction } from 'mobx';
 import { t } from '@loftyshaky/shared';
 import { s_db, i_db } from 'shared/internal';
 import { d_background, i_background, s_background } from 'new_tab/internal';
+import { set_preload_color } from 'new_tab/preload_color';
 
 export class BackgroundChange {
     private static i0: BackgroundChange;
@@ -111,6 +112,8 @@ export class BackgroundChange {
                         ] = video_repeat_positions;
                     }, 'cnt_1044'),
                 );
+
+                set_preload_color();
 
                 await s_background.Load.i().wait_to_visibility();
             }

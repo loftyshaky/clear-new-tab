@@ -194,6 +194,7 @@ export class Main {
                                     files: [file],
                                     theme_id: this.theme_id_final,
                                     background_props: theme_background_data.background_props,
+                                    update_current_background_id: false,
                                 });
                             },
                         });
@@ -205,6 +206,7 @@ export class Main {
                                     color: theme_background_data.background_props
                                         .color_of_area_around_background,
                                     theme_id: this.theme_id_final,
+                                    update_current_background_id: false,
                                 });
                             },
                         });
@@ -226,6 +228,7 @@ export class Main {
                     id: last_theme_background.id,
                 });
             }
+
             this.getting_theme_background = false;
         }, 'cnt_1374');
 }

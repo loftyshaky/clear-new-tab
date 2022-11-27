@@ -15,9 +15,11 @@ export class Color {
     public create_solid_color_background = ({
         color,
         theme_id,
+        update_current_background_id = true,
     }: {
         color: string;
         theme_id?: string;
+        update_current_background_id?: boolean;
     }): Promise<void> =>
         err_async(async () => {
             d_protecting_screen.Visibility.i().show();
@@ -62,15 +64,20 @@ export class Color {
                 background_thumbnails: new_background_thumbnails,
             });
 
-            if (no_backgrounds_before_upload) {
-                await d_backgrounds.CurrentBackground.i().set_background_as_current({
-                    id: d_backgrounds.Main.i().backgrounds[0].id,
-                });
-            } else {
-                d_backgrounds.CurrentBackground.i().set_last_uploaded_background_as_current({
-                    id,
-                });
+            if (update_current_background_id) {
+                if (no_backgrounds_before_upload) {
+                    // eslint-disable-next-line max-len
+                    await d_backgrounds.CurrentBackground.i().set_current_background_id_to_id_of_first_background();
+                } else {
+                    // eslint-disable-next-line max-len
+                    await d_backgrounds.CurrentBackground.i().set_last_uploaded_background_as_current(
+                        {
+                            id,
+                        },
+                    );
+                }
             }
+
             await d_backgrounds.BackgroundAnimation.i().forbid_animation();
 
             s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({

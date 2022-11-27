@@ -12,6 +12,9 @@ we.runtime.onMessage.addListener(
             } else if (msg_str === 'set_current_background_i') {
                 await d_settings.Main.i().set_from_storage();
                 d_backgrounds.CurrentBackground.i().set_current_background_i();
+            } else if (msg_str === 'set_current_background_id_to_id_of_first_background') {
+                // eslint-disable-next-line max-len
+                await d_backgrounds.CurrentBackground.i().set_current_background_id_to_id_of_first_background();
             } else if (msg_str === 'try_to_get_theme_background') {
                 s_browser_theme.Main.i().try_to_get_theme_background();
             } else if (msg_str === 'update_tasks') {

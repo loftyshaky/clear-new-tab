@@ -125,8 +125,12 @@ export class CurrentBackground {
             }
         }, 'cnt_1113');
 
-    public set_last_uploaded_background_as_current = ({ id }: { id: string | undefined }): void =>
-        err(() => {
+    public set_last_uploaded_background_as_current = ({
+        id,
+    }: {
+        id: string | undefined;
+    }): Promise<void> =>
+        err_async(async () => {
             if (
                 ['one_background', 'multiple_backgrounds'].includes(data.settings.mode) &&
                 data.settings.automatically_set_last_uploaded_background_as_current
@@ -136,9 +140,7 @@ export class CurrentBackground {
                 data.settings.current_background_id ===
                 d_backgrounds_shared.CurrentBackground.i().reset_val
             ) {
-                this.set_background_as_current({
-                    id: d_backgrounds.Main.i().backgrounds[0].id,
-                });
+                await this.set_current_background_id_to_id_of_first_background();
             }
         }, 'cnt_1114');
 
@@ -234,6 +236,13 @@ export class CurrentBackground {
                 update_instantly: true,
             });
         }, 'cnt_1423');
+
+    public set_current_background_id_to_id_of_first_background = (): Promise<void> =>
+        err_async(async () => {
+            await d_backgrounds.CurrentBackground.i().set_background_as_current({
+                id: d_backgrounds.Main.i().backgrounds[0].id,
+            });
+        }, 'cnt_1425');
 
     private get_id_of_random_background = (): string | number =>
         err(() => {

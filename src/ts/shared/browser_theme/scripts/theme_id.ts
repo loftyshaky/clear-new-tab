@@ -16,14 +16,18 @@ export class ThemeId {
     }: {
         theme_id: string | undefined;
     }): Promise<boolean> =>
-        err_async(async () => {
-            if (n(theme_id)) {
-                const theme: Management.ExtensionInfo = await we.management.get(theme_id);
-                const is_local_theme = !n(theme.updateUrl);
+        err_async(
+            async () => {
+                if (n(theme_id)) {
+                    const theme: Management.ExtensionInfo = await we.management.get(theme_id);
+                    const is_local_theme = !n(theme.updateUrl);
 
-                return is_local_theme;
-            }
+                    return is_local_theme;
+                }
 
-            return false;
-        }, 'cnt_1376');
+                return false;
+            },
+            'cnt_1376',
+            { silent: true },
+        );
 }
