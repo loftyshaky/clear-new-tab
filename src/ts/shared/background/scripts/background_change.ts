@@ -175,7 +175,7 @@ export class BackgroundChange {
 
     public clear_slideshow_timer = (): Promise<void> =>
         err_async(async () => {
-            await we.alarms.clearAll();
+            await we.alarms.clear('change_slideshow_background');
 
             this.slideshow_timers.forEach((slideshow_timer: number): void =>
                 err(() => {
