@@ -25,7 +25,11 @@ export class Main {
         err_async(async () => {
             const settings: i_data.Settings = await ext.storage_get();
 
-            if (ext_info.type === 'theme' && ext_info.id === settings.id_of_last_installed_theme) {
+            if (
+                settings.mode === 'theme_background' &&
+                ext_info.type === 'theme' &&
+                ext_info.id === settings.id_of_last_installed_theme
+            ) {
                 settings.id_of_last_installed_theme = '';
 
                 await s_data.Main.i().update_settings({
