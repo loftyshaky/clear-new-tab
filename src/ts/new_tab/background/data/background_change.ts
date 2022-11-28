@@ -132,8 +132,10 @@ export class BackgroundChange {
 
     public react_to_visibility_change = (): void =>
         err(() => {
-            if (document.visibilityState === 'visible' && data.settings.slideshow) {
-                ext.send_msg({ msg: 'get_background' });
+            if (document.visibilityState === 'visible') {
+                if (data.settings.slideshow) {
+                    ext.send_msg({ msg: 'get_background' });
+                }
 
                 d_background.VideoPlayback.i().set_play_status({ is_playing: true });
             } else if (document.visibilityState === 'hidden') {
