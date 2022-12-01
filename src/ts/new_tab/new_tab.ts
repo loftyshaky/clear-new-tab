@@ -1,5 +1,4 @@
-import { init_shared } from '@loftyshaky/shared';
-import { d_settings } from 'shared/internal';
+import { init_shared, d_settings } from '@loftyshaky/shared';
 import { init } from 'new_tab/internal';
 
 (async () => {

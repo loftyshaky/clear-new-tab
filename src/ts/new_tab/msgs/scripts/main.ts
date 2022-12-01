@@ -1,5 +1,5 @@
-import { t } from '@loftyshaky/shared';
-import { d_settings } from 'shared/internal';
+import '@loftyshaky/shared/ext';
+import { t, d_settings } from '@loftyshaky/shared';
 import { d_background, s_custom_code, s_service_worker } from 'new_tab/internal';
 
 we.runtime.onMessage.addListener(

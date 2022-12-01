@@ -1,5 +1,4 @@
-import { t } from '@loftyshaky/shared';
-import { d_settings } from 'shared/internal';
+import { t, d_settings } from '@loftyshaky/shared';
 import { d_backgrounds, d_scheduler, s_browser_theme } from 'settings/internal';
 
 we.runtime.onMessage.addListener(

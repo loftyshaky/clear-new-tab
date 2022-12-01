@@ -1,4 +1,4 @@
-import { d_settings } from 'shared/internal';
+import { d_settings } from '@loftyshaky/shared';
 import { init } from 'announcement/internal';
 
 (async () => {
