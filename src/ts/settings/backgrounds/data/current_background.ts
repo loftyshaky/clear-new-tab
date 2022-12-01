@@ -239,9 +239,11 @@ export class CurrentBackground {
 
     public set_current_background_id_to_id_of_first_background = (): Promise<void> =>
         err_async(async () => {
-            await d_backgrounds.CurrentBackground.i().set_background_as_current({
-                id: d_backgrounds.Main.i().backgrounds[0].id,
-            });
+            if (d_backgrounds.Main.i().backgrounds.length !== 0) {
+                await d_backgrounds.CurrentBackground.i().set_background_as_current({
+                    id: d_backgrounds.Main.i().backgrounds[0].id,
+                });
+            }
         }, 'cnt_1425');
 
     private get_id_of_random_background = (): string | number =>
