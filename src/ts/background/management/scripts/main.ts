@@ -51,6 +51,9 @@ we.management.onEnabled.addListener(
                 s_browser_theme.Main.i().theme_id = ext_info.id;
                 s_browser_theme.Main.i().force_theme_redownload = false;
 
+                // eslint-disable-next-line no-console
+                console.log('management.onEnabled', ext_info);
+
                 await s_browser_theme.Main.i().get_theme_background();
             }
         }, 'cnt_1012'),
