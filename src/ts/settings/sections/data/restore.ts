@@ -93,7 +93,7 @@ export class Restore {
                     });
                 }, 'cnt_1409');
 
-            const v8_limit: number = 536870888;
+            const v8_limit: number = data.settings.one_backup_file_size_in_bytes;
             let v8_limit_reached: boolean = false;
             let part_i: number = 0;
             let first_back_up_part_downloaded: boolean = false;

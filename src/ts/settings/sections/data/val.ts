@@ -227,7 +227,7 @@ export class Val {
 
     public validate_input = ({ input }: { input: i_inputs.Input }): boolean =>
         err(() => {
-            const val: i_data.Val = d_inputs.Val.i().access({ input });
+            const val: i_data.Val = d_inputs.Val.i().access({ input }) as number;
 
             if (typeof val === 'string') {
                 if (input.name === 'paste_background') {
@@ -244,6 +244,10 @@ export class Val {
 
                 if (input.name === 'transition_duration') {
                     return d_inputs.Val.i().validate_input({ input });
+                }
+
+                if (input.name === 'one_backup_file_size_in_bytes') {
+                    return val < 52428800 || val > 536870888;
                 }
 
                 if (input.name === 'year') {

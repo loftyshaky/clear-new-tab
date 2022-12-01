@@ -62,6 +62,7 @@ export class Main {
                 show_item_developer_info_in_tooltip: false,
                 update_database_when_dnd_item: true,
                 options_page_tab_id: undefined,
+                one_backup_file_size_in_bytes: 536870888,
             };
         }, 'cnt_1319');
 
@@ -133,6 +134,10 @@ export class Main {
                 new o_schema.TransformItem({
                     new_key: 'always_use_alarms_api_to_change_background_in_slideshow_mode',
                     new_val: false,
+                }),
+                new o_schema.TransformItem({
+                    new_key: 'one_backup_file_size_in_bytes',
+                    new_val: 536870888,
                 }),
             ];
 

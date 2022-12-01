@@ -495,6 +495,16 @@ export class Main {
                     upload_back_up_callback: d_sections.Restore.i().restore_back_up,
                     restore_defaults_callback: () => d_sections.Restore.i().restore_confirm(),
                     input_change_val_callback: d_sections.Val.i().change,
+                    back_up_inputs: [
+                        new o_inputs.Text({
+                            name: 'one_backup_file_size_in_bytes',
+                            text_type: 'number',
+                            allow_removing_val: false,
+                            include_help: true,
+                            event_callback: d_sections.Val.i().change,
+                            warn_state_checker: d_sections.Val.i().validate_input,
+                        }),
+                    ],
                     restore_inputs: [
                         new o_inputs.Btn({
                             name: 'delete_all_backgrounds',

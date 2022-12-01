@@ -36,4 +36,5 @@ export interface Settings extends i_data.Date {
     show_item_developer_info_in_tooltip: boolean;
     update_database_when_dnd_item: boolean;
     options_page_tab_id: number | undefined;
+    one_backup_file_size_in_bytes: number;
 }

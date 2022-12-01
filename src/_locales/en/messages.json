@@ -122,6 +122,9 @@
     "video_volume_group_label_text": {
         "message": "Video volume"
     },
+    "one_backup_file_size_in_bytes_label_text": {
+        "message": "One backup file size (bytes)"
+    },
     "delete_all_backgrounds_btn_text": {
         "message": "Delete all backgrounds"
     },
@@ -520,6 +523,9 @@
     },
     "video_speed_group_help_text": {
         "message": "This setting allows you to control a video playback speed. 1.0 is \"normal speed\". Values lower than 1.0 make the video play slower than normal. Higher values make it play faster. The minimum value is 0 (video does not play). The maximum value is 16."
+    },
+    "one_backup_file_size_in_bytes_help_text": {
+        "message": "This setting allows you to change the size of the files into which the backup will be split. If Clear New Tab crash during back up download you can try to lower this value.\n\nMinimum value: 52428800.\nMaximum value: 536870888."
     },
     "home_btn_is_visible_help_text": {
         "message": "Displays \"Home\" button in the new tab page that leads to the default new tab page."
