@@ -120,89 +120,97 @@ export class Restore {
 
             let chunks_size: number = 0;
             let background_count = 0;
+            const at_least_one_background_exists = d_backgrounds.Main.i().backgrounds.length !== 0;
 
-            // eslint-disable-next-line no-restricted-syntax
-            for await (const background of d_backgrounds.Main.i().backgrounds) {
-                background_count += 1;
+            if (at_least_one_background_exists) {
+                // eslint-disable-next-line no-restricted-syntax
+                for await (const background of d_backgrounds.Main.i().backgrounds) {
+                    background_count += 1;
 
-                const background_file: i_db.BackgroundFile | undefined = background_files.find(
-                    (background_file_2: i_db.BackgroundFile): boolean =>
-                        err(() => background_file_2.id === background.id, 'cnt_1272'),
-                );
-                const background_thumbnail: i_db.BackgroundThumbnail | undefined =
-                    background_thumbnails.find(
-                        (background_thumbnail_2: i_db.BackgroundFile): boolean =>
-                            err(() => background_thumbnail_2.id === background.id, 'cnt_1273'),
+                    const background_file: i_db.BackgroundFile | undefined = background_files.find(
+                        (background_file_2: i_db.BackgroundFile): boolean =>
+                            err(() => background_file_2.id === background.id, 'cnt_1272'),
                     );
-                const tasks: i_db.Task[] = d_scheduler.Tasks.i().tasks.filter(
-                    (task: i_db.Task): boolean =>
-                        err(() => task.background_id === background.id, 'cnt_1274'),
-                );
+                    const background_thumbnail: i_db.BackgroundThumbnail | undefined =
+                        background_thumbnails.find(
+                            (background_thumbnail_2: i_db.BackgroundFile): boolean =>
+                                err(() => background_thumbnail_2.id === background.id, 'cnt_1273'),
+                        );
+                    const tasks: i_db.Task[] = d_scheduler.Tasks.i().tasks.filter(
+                        (task: i_db.Task): boolean =>
+                            err(() => task.background_id === background.id, 'cnt_1274'),
+                    );
 
-                if (n(background_file) && n(background_thumbnail)) {
-                    const is_color = background.type.includes('color');
+                    if (n(background_file) && n(background_thumbnail)) {
+                        const is_color = background.type.includes('color');
 
-                    const file: i_sections.BackUpBackgroundFile = is_color
-                        ? {
-                              background: background_file.background as string,
-                          }
-                        : {
-                              name: (background_file.background as File).name,
-                              type: (background_file.background as File).type,
-                              last_modified: (background_file.background as File).lastModified,
-                              background:
-                                  background.type === 'img_link'
-                                      ? (background_file.background as string)
-                                      : await x.convert_blob_to_base64(
-                                            background_file.background as File,
-                                        ),
-                          };
+                        const file: i_sections.BackUpBackgroundFile = is_color
+                            ? {
+                                  background: background_file.background as string,
+                              }
+                            : {
+                                  name: (background_file.background as File).name,
+                                  type: (background_file.background as File).type,
+                                  last_modified: (background_file.background as File).lastModified,
+                                  background:
+                                      background.type === 'img_link'
+                                          ? (background_file.background as string)
+                                          : await x.convert_blob_to_base64(
+                                                background_file.background as File,
+                                            ),
+                              };
 
-                    const thumbnail: i_sections.BackUpBackgroundThumbnail = {
-                        background: background_thumbnail.background,
-                    };
+                        const thumbnail: i_sections.BackUpBackgroundThumbnail = {
+                            background: background_thumbnail.background,
+                        };
 
-                    const new_chunk: string = `${is_first_chunk ? '' : ','}{"data":${JSON.stringify(
-                        background,
-                    )},"thumbnail":${JSON.stringify(thumbnail)},"file":${JSON.stringify(
-                        file,
-                    )},"tasks":${JSON.stringify(tasks)}}`;
-                    const new_chunk_size = new TextEncoder().encode(new_chunk).length;
-                    const is_last_background =
-                        background_count === d_backgrounds.Main.i().backgrounds.length;
+                        const new_chunk: string = `${
+                            is_first_chunk ? '' : ','
+                        }{"data":${JSON.stringify(background)},"thumbnail":${JSON.stringify(
+                            thumbnail,
+                        )},"file":${JSON.stringify(file)},"tasks":${JSON.stringify(tasks)}}`;
+                        const new_chunk_size = new TextEncoder().encode(new_chunk).length;
+                        const is_last_background =
+                            background_count === d_backgrounds.Main.i().backgrounds.length;
 
-                    chunks_size += new_chunk_size;
+                        chunks_size += new_chunk_size;
 
-                    v8_limit_reached = check_if_v8_limit_reached({
-                        chunks_size,
-                        new_chunk_size,
-                    });
+                        v8_limit_reached = check_if_v8_limit_reached({
+                            chunks_size,
+                            new_chunk_size,
+                        });
 
-                    if (v8_limit_reached || is_last_background) {
-                        const new_chunk_no_leading_comma: string =
-                            new_chunk[0] === ',' ? new_chunk.slice(1) : new_chunk;
+                        if (v8_limit_reached || is_last_background) {
+                            const new_chunk_no_leading_comma: string =
+                                new_chunk[0] === ',' ? new_chunk.slice(1) : new_chunk;
 
-                        if (is_last_background) {
-                            download_backup_part({ chunks_2: chunks + new_chunk });
+                            // eslint-disable-next-line max-depth
+                            if (is_last_background) {
+                                download_backup_part({ chunks_2: chunks + new_chunk });
+                            } else {
+                                download_backup_part({ chunks_2: chunks });
+                            }
+
+                            v8_limit_reached = false;
+                            part_i += 1;
+                            chunks = new_chunk_no_leading_comma;
+                            chunks_size = 0;
+                            first_back_up_part_downloaded = true;
                         } else {
-                            download_backup_part({ chunks_2: chunks });
+                            chunks += new_chunk;
+
+                            is_first_chunk = false;
                         }
 
-                        v8_limit_reached = false;
-                        part_i += 1;
-                        chunks = new_chunk_no_leading_comma;
-                        chunks_size = 0;
-                        first_back_up_part_downloaded = true;
-                    } else {
-                        chunks += new_chunk;
-
-                        is_first_chunk = false;
-                    }
-
-                    if (is_last_background) {
-                        d_protecting_screen.Visibility.i().hide();
+                        if (is_last_background) {
+                            d_protecting_screen.Visibility.i().hide();
+                        }
                     }
                 }
+            } else {
+                download_backup_part({ chunks_2: chunks });
+
+                d_protecting_screen.Visibility.i().hide();
             }
         }, 'cnt_1275');
 
