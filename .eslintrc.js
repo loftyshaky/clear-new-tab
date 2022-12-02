@@ -162,6 +162,7 @@ module.exports = {
         show_err_ribbon: false,
         show_flash: false,
         show_notification: false,
+        show_unable_to_access_settings_error: false,
         err: false,
         err_async: false,
         throw_err: false,
