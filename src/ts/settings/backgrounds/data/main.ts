@@ -3,7 +3,7 @@ import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
 import { o_schema, d_schema } from '@loftyshaky/shared';
-import { s_db, s_i, i_data, i_db } from 'shared/internal';
+import { s_db, s_i, i_db } from 'shared/internal';
 import { d_backgrounds } from 'settings/internal';
 
 export class Main {

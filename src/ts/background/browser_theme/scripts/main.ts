@@ -17,11 +17,8 @@ export class Main {
     public get_theme_background = (): Promise<void> =>
         err_async(async () => {
             const settings: i_data.Settings = await ext.storage_get();
-
-            const options_page_is_open: boolean = n(settings.options_page_tab_id);
             const already_tried_install_this_theme: boolean =
                 this.theme_id === settings.id_of_last_installed_theme;
-
             const is_local_theme = await s_browser_theme.ThemeId.i().check_if_theme_is_local({
                 theme_id: this.theme_id,
             });
@@ -29,9 +26,7 @@ export class Main {
             if (!is_local_theme) {
                 if (settings.mode === 'theme_background' && !already_tried_install_this_theme) {
                     we.runtime.openOptionsPage();
-                }
 
-                if (options_page_is_open && !already_tried_install_this_theme) {
                     ext.send_msg({ msg: 'try_to_get_theme_background' });
                 }
             }

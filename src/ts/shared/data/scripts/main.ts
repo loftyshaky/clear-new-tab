@@ -61,7 +61,6 @@ export class Main {
                 always_use_alarms_api_to_change_background_in_slideshow_mode: false,
                 show_item_developer_info_in_tooltip: false,
                 update_database_when_dnd_item: true,
-                options_page_tab_id: undefined,
                 one_backup_file_size_in_bytes: 536870888,
             };
         }, 'cnt_1319');
@@ -87,6 +86,7 @@ export class Main {
             }
 
             await ext.storage_set(settings_final);
+            await ext.send_msg_to_all_tabs({ msg: 'load_settings' });
 
             if (n(update_background) && update_background) {
                 s_background.BackgroundChange.i().try_to_change_background({
@@ -145,6 +145,7 @@ export class Main {
                 data: settings,
                 transform_items,
                 remove_from_storage: false,
+                keys_to_remove: ['options_page_tab_id'],
             });
 
             return settings_final;

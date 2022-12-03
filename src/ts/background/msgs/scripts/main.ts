@@ -38,9 +38,8 @@ we.runtime.onMessage.addListener(
                 return s_data.Main.i().defaults;
             } else if (msg_str === 'push_tab_id') {
                 s_tabs.TabIds.i().push_tab_id();
-            } else if (msg_str === 'push_options_page_tab_id') {
-                s_tabs.TabIds.i().push_options_page_tab_id();
             } else if (msg_str === 'get_background') {
+                await s_tabs.TabIds.i().push_last_visited_new_tab_id();
                 s_background.BackgroundChange.i().try_to_change_background({
                     allow_to_start_slideshow_timer: n(msg.allow_to_start_slideshow_timer)
                         ? msg.allow_to_start_slideshow_timer

@@ -19,7 +19,7 @@ we.runtime.onMessage.addListener(
                         force_update: msg.force_update,
                     });
                 }
-            } else if (msg_str === 'update_settings_new_tab') {
+            } else if (['load_settings', 'update_settings_new_tab'].includes(msg_str)) {
                 await d_settings.Main.i().set_from_storage();
             } else if (msg_str === 'set_custom_code') {
                 await s_custom_code.Msgs.i().send_set_custom_code_msg();

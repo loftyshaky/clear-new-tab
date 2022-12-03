@@ -35,6 +35,5 @@ export interface Settings extends i_data.Date {
     always_use_alarms_api_to_change_background_in_slideshow_mode: boolean;
     show_item_developer_info_in_tooltip: boolean;
     update_database_when_dnd_item: boolean;
-    options_page_tab_id: number | undefined;
     one_backup_file_size_in_bytes: number;
 }

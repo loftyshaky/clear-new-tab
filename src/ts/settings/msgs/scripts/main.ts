@@ -6,7 +6,7 @@ we.runtime.onMessage.addListener(
         err_async(async () => {
             const msg_str: string = msg.msg;
 
-            if (msg_str === 'update_settings_settings') {
+            if (['load_settings', 'update_settings_settings'].includes(msg_str)) {
                 await d_settings.Main.i().set_from_storage();
             } else if (msg_str === 'set_current_background_i') {
                 await d_settings.Main.i().set_from_storage();
