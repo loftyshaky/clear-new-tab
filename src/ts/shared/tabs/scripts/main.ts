@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import { Tabs } from 'webextension-polyfill-ts';
 
-import { s_background } from 'shared/internal';
-import { s_service_worker, s_tabs } from 'background/internal';
+import { s_background, s_service_worker, s_tabs } from 'shared/internal';
 
 export class Main {
     private static i0: Main;

@@ -1,6 +1,6 @@
 import { Tabs } from 'webextension-polyfill-ts';
 
-import { s_service_worker } from 'background/internal';
+import { s_service_worker } from 'shared/internal';
 
 export class TabIds {
     private static i0: TabIds;
@@ -44,7 +44,7 @@ export class TabIds {
             s_service_worker.Lifeline.i().connect();
         }, 'cnt_1039');
 
-    public push_last_visited_new_tab_id = (): Promise<void> =>
+    public set_last_visited_new_tab_id = (): Promise<void> =>
         err_async(async () => {
             const active_tab: Tabs.Tab | undefined = await ext.get_active_tab();
 

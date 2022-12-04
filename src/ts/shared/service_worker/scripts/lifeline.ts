@@ -1,5 +1,5 @@
 import { Runtime } from 'webextension-polyfill-ts';
-import { s_tabs } from 'background/internal';
+import { s_tabs } from 'shared/internal';
 
 export class Lifeline {
     private static i0: Lifeline;

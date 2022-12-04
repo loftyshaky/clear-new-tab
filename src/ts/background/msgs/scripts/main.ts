@@ -1,12 +1,11 @@
 import { t } from '@loftyshaky/shared';
-import { s_background, s_data } from 'shared/internal';
+import { s_background, s_data, s_tabs } from 'shared/internal';
 import {
     s_backgrounds,
     s_browser_theme,
     s_home_btn,
     s_management,
     s_scheduler,
-    s_tabs,
 } from 'background/internal';
 
 we.runtime.onMessage.addListener(
@@ -37,9 +36,9 @@ we.runtime.onMessage.addListener(
             } else if (msg_str === 'get_defaults') {
                 return s_data.Main.i().defaults;
             } else if (msg_str === 'push_tab_id') {
-                s_tabs.TabIds.i().push_tab_id();
+                await s_tabs.TabIds.i().push_tab_id();
+                await s_tabs.TabIds.i().set_last_visited_new_tab_id();
             } else if (msg_str === 'get_background') {
-                await s_tabs.TabIds.i().push_last_visited_new_tab_id();
                 s_background.BackgroundChange.i().try_to_change_background({
                     allow_to_start_slideshow_timer: n(msg.allow_to_start_slideshow_timer)
                         ? msg.allow_to_start_slideshow_timer

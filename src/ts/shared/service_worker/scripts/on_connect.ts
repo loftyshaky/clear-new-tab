@@ -1,6 +1,6 @@
 import { Runtime } from 'webextension-polyfill-ts';
 
-import { s_service_worker } from 'background/internal';
+import { s_service_worker } from 'shared/internal';
 
 we.runtime.onConnect.addListener(
     (port: Runtime.Port): Promise<void> =>

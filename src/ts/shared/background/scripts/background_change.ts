@@ -1,4 +1,6 @@
-import { d_backgrounds, s_background, s_data, i_data } from 'shared/internal';
+import { Tabs } from 'webextension-polyfill-ts';
+
+import { d_backgrounds, s_background, s_data, s_tabs, i_data } from 'shared/internal';
 
 export class BackgroundChange {
     private static i0: BackgroundChange;
@@ -128,6 +130,9 @@ export class BackgroundChange {
     }: { current_time?: number; rerun?: boolean } = {}): Promise<void> =>
         err_async(async () => {
             const settings: i_data.Settings = await ext.storage_get();
+            const current_tab: Tabs.Tab | undefined = await ext.get_active_tab();
+            const user_is_in_new_tab: boolean =
+                n(current_tab) && current_tab.id === s_tabs.TabIds.i().last_visited_new_tab_id;
 
             const schedule_background_change = ({
                 rerun_2 = false,
@@ -166,6 +171,7 @@ export class BackgroundChange {
             await this.clear_slideshow_timer();
 
             if (
+                user_is_in_new_tab &&
                 ['multiple_backgrounds', 'random_solid_color'].includes(settings.mode) &&
                 settings.slideshow
             ) {
