@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 
 import { c_inputs, o_inputs, d_inputs, i_inputs } from '@loftyshaky/shared/inputs';
+import { c_progress } from 'shared/internal';
 import {
     c_settings,
     c_backgrounds,
@@ -61,6 +62,7 @@ export const Body: React.FunctionComponent<p_settings.Body> = observer((props) =
                     <c_custom_code.Body />
                 </div>
             </div>
+            <c_progress.Progress />
             <c_protecting_screen.Body />
         </>
     );

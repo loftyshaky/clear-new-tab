@@ -1,4 +1,5 @@
-import { db, s_custom_code, s_i, i_db } from 'shared/internal';
+import _ from 'lodash';
+import { db, d_progress, s_custom_code, s_i, i_db } from 'shared/internal';
 
 export class Manipulation {
     private static i0: Manipulation;
@@ -21,15 +22,37 @@ export class Manipulation {
         background_files: i_db.BackgroundFile[];
     }): Promise<void> =>
         err_async(async () => {
+            const chunk_size: number = 10;
+
             await db.transaction(
                 'rw',
                 db.backgrounds,
                 db.background_thumbnails,
                 db.background_files,
                 async (): Promise<void> => {
-                    await db.backgrounds.bulkAdd(backgrounds);
-                    await db.background_thumbnails.bulkAdd(background_thumbnails);
-                    await db.background_files.bulkAdd(background_files);
+                    let i: number = 0;
+                    const backgrounds_chunked = _.chunk(backgrounds, chunk_size);
+                    const background_thumbnails_chunked = _.chunk(
+                        background_thumbnails,
+                        chunk_size,
+                    );
+                    const background_files_chunked = _.chunk(background_files, chunk_size);
+
+                    // eslint-disable-next-line no-restricted-syntax
+                    for await (const backgrounds_chunked_chunk of backgrounds_chunked) {
+                        // eslint-disable-next-line no-unused-expressions
+                        backgrounds_chunked_chunk;
+
+                        await db.backgrounds.bulkAdd(backgrounds_chunked[i]);
+                        await db.background_thumbnails.bulkAdd(background_thumbnails_chunked[i]);
+                        await db.background_files.bulkAdd(background_files_chunked[i]);
+
+                        d_progress.ProgressVal.i().increment_progress({
+                            increment_amount: backgrounds_chunked[i].length,
+                        });
+
+                        i += 1;
+                    }
                 },
             );
         }, 'cnt_1324');

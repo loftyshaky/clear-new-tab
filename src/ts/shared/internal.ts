@@ -6,8 +6,11 @@ export * as vars from 'shared/vars';
 
 export { db } from 'shared/db/scripts';
 
+export * as c_progress from 'shared/progress/components';
+
 export * as d_backgrounds from 'shared/backgrounds/data';
 export * as d_data from 'shared/data/data';
+export * as d_progress from 'shared/progress/data';
 
 export * as s_background from 'shared/background/scripts';
 export * as s_browser_theme from 'shared/browser_theme/scripts';
@@ -23,3 +26,4 @@ export * as s_theme from 'shared/theme/scripts';
 export * as i_browser_theme from 'shared/browser_theme/interfaces';
 export * as i_data from 'shared/data/interfaces';
 export * as i_db from 'shared/db/interfaces';
+export * as i_progress from 'shared/progress/interfaces';

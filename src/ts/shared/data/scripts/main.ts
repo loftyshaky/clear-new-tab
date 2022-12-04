@@ -122,6 +122,7 @@ export class Main {
 
     private transform = ({ settings }: { settings: i_data.Settings }): Promise<i_data.Settings> =>
         err_async(async () => {
+            // This function is also fired when restoring backup
             const transform_items: o_schema.TransformItem[] = [
                 new o_schema.TransformItem({
                     new_key: 'video_speed',
@@ -145,7 +146,7 @@ export class Main {
                 data: settings,
                 transform_items,
                 remove_from_storage: false,
-                keys_to_remove: ['options_page_tab_id'],
+                keys_to_remove: ['upload_background', 'options_page_tab_id'],
             });
 
             return settings_final;

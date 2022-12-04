@@ -147,3 +147,23 @@
         }
     }
 }
+
+.progress_w {
+    background-color: $beu;
+
+    .progress {
+        border-color: $rbp;
+
+        &::-webkit-progress-bar {
+            background-color: $htc;
+        }
+
+        &::-webkit-progress-value {
+            background-color: $yun;
+        }
+    }
+
+    .text {
+        color: $rbp;
+    }
+}

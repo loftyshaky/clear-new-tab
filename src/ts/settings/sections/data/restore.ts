@@ -4,7 +4,7 @@ import { runInAction } from 'mobx';
 import { t } from '@loftyshaky/shared';
 import { d_inputs, i_inputs } from '@loftyshaky/shared/inputs';
 import { d_settings } from '@loftyshaky/shared/settings';
-import { s_css_vars, s_db, s_preload_color, i_data, i_db } from 'shared/internal';
+import { d_progress, s_css_vars, s_db, s_preload_color, i_data, i_db } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
@@ -64,24 +64,50 @@ export class Restore {
 
     public download_back_up = (): Promise<void> =>
         err_async(async () => {
-            d_protecting_screen.Visibility.i().show();
+            d_protecting_screen.Visibility.i().show({ enable_progress: true });
 
             const check_if_v8_limit_reached = ({
                 chunks_size,
                 new_chunk_size,
+                chunks_2,
+                new_chunk_2,
             }: {
                 chunks_size: number;
                 new_chunk_size: number;
+                chunks_2: string;
+                new_chunk_2: string;
             }): boolean =>
-                err(
-                    () =>
-                        chunks_size +
-                            new_chunk_size +
-                            backup_data_leading_size +
-                            backup_data_trailing_size >=
-                        v8_limit,
-                    'cnt_1271',
-                );
+                err(() => {
+                    try {
+                        const v8_limit_reached =
+                            chunks_size +
+                                new_chunk_size +
+                                backup_data_leading_size +
+                                backup_data_trailing_size >=
+                            v8_limit;
+
+                        if (v8_limit_reached) {
+                            throw_err('V8 limit reached.');
+                        }
+
+                        if (first_back_up_part_downloaded) {
+                            // eslint-disable-next-line no-unused-expressions
+                            backup_data_leading_chunks_only +
+                                chunks_2 +
+                                new_chunk_2 +
+                                backup_data_trailing;
+                        } else {
+                            // eslint-disable-next-line no-unused-expressions
+                            backup_data_leading + chunks_2 + new_chunk_2 + backup_data_trailing;
+                        }
+
+                        return false;
+                    } catch (error_obj: any) {
+                        show_err_ribbon(error_obj, 'cnt_1436', { silent: true });
+
+                        return true;
+                    }
+                }, 'cnt_1271');
 
             const download_backup_part = ({ chunks_2 }: { chunks_2: string }): void =>
                 err(() => {
@@ -123,6 +149,10 @@ export class Restore {
             const at_least_one_background_exists = d_backgrounds.Main.i().backgrounds.length !== 0;
 
             if (at_least_one_background_exists) {
+                d_progress.ProgressVal.i().set_progress_max({
+                    progress_max: d_backgrounds.Main.i().backgrounds.length,
+                });
+
                 // eslint-disable-next-line no-restricted-syntax
                 for await (const background of d_backgrounds.Main.i().backgrounds) {
                     background_count += 1;
@@ -178,6 +208,8 @@ export class Restore {
                         v8_limit_reached = check_if_v8_limit_reached({
                             chunks_size,
                             new_chunk_size,
+                            chunks_2: chunks,
+                            new_chunk_2: new_chunk,
                         });
 
                         if (v8_limit_reached || is_last_background) {
@@ -206,6 +238,10 @@ export class Restore {
                             d_protecting_screen.Visibility.i().hide();
                         }
                     }
+
+                    d_progress.ProgressVal.i().increment_progress({
+                        increment_amount: 1,
+                    });
                 }
             } else {
                 download_backup_part({ chunks_2: chunks });
@@ -217,7 +253,7 @@ export class Restore {
     public restore_back_up = ({ data_objs }: { data_objs: t.AnyRecord[] }): Promise<void> =>
         err_async(async () => {
             // when backgrounds are deleted delete_all_backgrounds_transition_end_callback() fires
-            d_protecting_screen.Visibility.i().show();
+            d_protecting_screen.Visibility.i().show({ enable_progress: true });
 
             this.restored_backgrounds = [];
             this.restored_background_thumbnails = [];
@@ -228,57 +264,50 @@ export class Restore {
             const generate_resored_backgrounds = (): Promise<void> =>
                 err_async(async () => {
                     if (n(full_data_obj)) {
-                        await Promise.all(
-                            full_data_obj.chunks.map(
-                                (chunk: i_sections.BackUpChunk): Promise<void> =>
-                                    err_async(async () => {
-                                        this.restored_tasks = [
-                                            ...this.restored_tasks,
-                                            ...chunk.tasks,
-                                        ];
+                        // eslint-disable-next-line no-restricted-syntax
+                        for await (const chunk of full_data_obj.chunks) {
+                            this.restored_tasks = [...this.restored_tasks, ...chunk.tasks];
 
-                                        chunk.data =
-                                            await d_backgrounds.Main.i().transform_background({
-                                                background: chunk.data,
-                                            });
+                            chunk.data = await d_backgrounds.Main.i().transform_background({
+                                background: chunk.data,
+                            });
 
-                                        this.restored_backgrounds.push(chunk.data);
+                            this.restored_backgrounds.push(chunk.data);
 
-                                        if (
-                                            chunk.data.type.includes('color') ||
-                                            chunk.data.type === 'img_link'
-                                        ) {
-                                            this.restored_background_thumbnails.push({
-                                                id: chunk.data.id,
-                                                background: chunk.thumbnail.background,
-                                            });
-                                            restored_background_files.push({
-                                                id: chunk.data.id,
-                                                background: chunk.file.background,
-                                            });
-                                        } else if (n(chunk.file.name)) {
-                                            const blob = await x.convert_base64_to_blob(
-                                                chunk.file.background,
-                                            );
+                            if (
+                                chunk.data.type.includes('color') ||
+                                chunk.data.type === 'img_link'
+                            ) {
+                                this.restored_background_thumbnails.push({
+                                    id: chunk.data.id,
+                                    background: chunk.thumbnail.background,
+                                });
+                                restored_background_files.push({
+                                    id: chunk.data.id,
+                                    background: chunk.file.background,
+                                });
+                            } else if (n(chunk.file.name)) {
+                                const blob = await x.convert_base64_to_blob(chunk.file.background);
 
-                                            const file: File = new File([blob], chunk.file.name, {
-                                                type: chunk.file.type,
-                                                lastModified: chunk.file.last_modified,
-                                            });
+                                const file: File = new File([blob], chunk.file.name, {
+                                    type: chunk.file.type,
+                                    lastModified: chunk.file.last_modified,
+                                });
 
-                                            this.restored_background_thumbnails.push({
-                                                id: chunk.data.id,
-                                                background: chunk.thumbnail.background,
-                                            });
+                                this.restored_background_thumbnails.push({
+                                    id: chunk.data.id,
+                                    background: chunk.thumbnail.background,
+                                });
 
-                                            restored_background_files.push({
-                                                id: chunk.data.id,
-                                                background: file,
-                                            });
-                                        }
-                                    }, 'cnt_1276'),
-                            ),
-                        );
+                                restored_background_files.push({
+                                    id: chunk.data.id,
+                                    background: file,
+                                });
+                            }
+                            d_progress.ProgressVal.i().increment_progress({
+                                increment_amount: 1,
+                            });
+                        }
                     }
                 }, 'cnt_1419');
 
@@ -408,6 +437,10 @@ export class Restore {
                         custom_code: full_data_obj.custom_code,
                     });
                 }
+
+                d_progress.ProgressVal.i().set_progress_max({
+                    progress_max: full_data_obj.chunks.length * 2,
+                });
 
                 await generate_resored_backgrounds();
                 await save_backgrounds();

@@ -473,6 +473,15 @@
     "format_btn_text": {
         "message": "Format"
     },
+    "pre_processing_status_text": {
+        "message": "Pre-processing..."
+    },
+    "processing_status_text": {
+        "message": "Processing..."
+    },
+    "finalizing_status_text": {
+        "message": "Finalizing..."
+    },
     "install_help_chrome_text": {
         "message": "Thank you for installing Clear New Tab! If your Chrome has a theme from the <a class='link extension_store' href='https://bit.ly/cws-themes' target='_blank' rel='noopener noreferrer'>Chrome Web Store</a> installed, wait till its background appears in the \"Backgrounds\" section, and then open the new tab to see it. Otherwise, you can upload your own background with the form below. If you need help on how to use the extension click on ? buttons or watch the <a class='link video_guide' href='https://bit.ly/3OP7u6J' target='_blank' rel='noopener noreferrer'>video guide</a>. Click <button class='btn link_btn hide_install_help' type='button' tabindex='0'>here</button> to hide this message."
     },

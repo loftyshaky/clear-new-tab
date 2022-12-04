@@ -1,7 +1,7 @@
 import { BigNumber } from 'bignumber.js';
 
 import { o_inputs, d_inputs } from '@loftyshaky/shared/inputs';
-import { s_db, i_db } from 'shared/internal';
+import { d_progress, s_db, i_db } from 'shared/internal';
 import {
     d_backgrounds,
     d_protecting_screen,
@@ -36,7 +36,7 @@ export class Upload {
         show_error_in_upload_box?: boolean;
         update_current_background_id?: boolean;
     }): Promise<void> => {
-        d_protecting_screen.Visibility.i().show();
+        d_protecting_screen.Visibility.i().show({ enable_progress: files.length > 1 });
 
         try {
             const next_i: string = s_i.I.i().get_next_i({
@@ -47,73 +47,73 @@ export class Upload {
             const no_backgrounds_before_upload: boolean =
                 d_backgrounds.Main.i().backgrounds.length === 0;
 
-            const new_backgrounds: (i_db.Background | undefined)[] = await Promise.all(
-                [...files].map(
-                    async (
-                        file: File | string,
-                        i_2: number,
-                    ): Promise<i_db.Background | undefined> =>
-                        err_async(
-                            async () => {
-                                try {
-                                    const id: string = x.unique_id();
-                                    const i: string = new BigNumber(next_i).plus(i_2).toString();
-                                    const background_img_props: i_backgrounds.BackgroundImgProps =
-                                        // eslint-disable-next-line max-len
-                                        await s_backgrounds.Thumbnail.i().get_background_width_height_and_thumbnail(
-                                            {
-                                                file,
-                                            },
-                                        );
+            d_progress.ProgressVal.i().set_progress_max({
+                progress_max: files.length * 2,
+            });
 
-                                    ordered_files.push({ id, file });
-                                    ordered_thumbnails.push({
-                                        id,
-                                        thumbnail: background_img_props.thumbnail,
-                                    });
+            const new_backgrounds: (i_db.Background | undefined)[] = [];
+            let file_i: number = 0;
 
-                                    return {
-                                        id,
-                                        theme_id,
-                                        i,
-                                        type: `${s_backgrounds.FileType.i().get_file_type({
-                                            file,
-                                        })}`,
-                                        width: background_img_props.width,
-                                        height: background_img_props.height,
-                                        thumbnail_width: background_img_props.thumbnail_width,
-                                        thumbnail_height: background_img_props.thumbnail_height,
-                                        background_size: n(background_props) // n(background_props) - adding theme background
-                                            ? background_props.background_size
-                                            : 'global',
-                                        background_position: n(background_props)
-                                            ? background_props.background_position
-                                            : 'global',
-                                        background_repeat: n(background_props)
-                                            ? background_props.background_repeat
-                                            : 'global',
-                                        color_of_area_around_background: n(background_props)
-                                            ? background_props.color_of_area_around_background
-                                            : 'global',
-                                        video_speed: n(background_props)
-                                            ? background_props.video_speed
-                                            : 'global',
-                                        video_volume: n(background_props)
-                                            ? background_props.video_volume
-                                            : 'global',
-                                    };
-                                } catch (error_obj: any) {
-                                    show_err_ribbon(error_obj, 'cnt_1131', { silent: true }); // upload wrong file type (for example .txt) to cause this error
-                                    throw_err_obj(error_obj);
+            // eslint-disable-next-line no-restricted-syntax
+            for await (const file of files) {
+                try {
+                    file_i += 1;
 
-                                    return undefined;
-                                }
+                    const id: string = x.unique_id();
+                    const i: string = new BigNumber(next_i).plus(file_i).toString();
+                    const background_img_props: i_backgrounds.BackgroundImgProps =
+                        // eslint-disable-next-line max-len
+                        await s_backgrounds.Thumbnail.i().get_background_width_height_and_thumbnail(
+                            {
+                                file,
                             },
-                            'cnt_1132',
-                            { silent: true },
-                        ),
-                ),
-            );
+                        );
+
+                    ordered_files.push({ id, file });
+                    ordered_thumbnails.push({
+                        id,
+                        thumbnail: background_img_props.thumbnail,
+                    });
+
+                    d_progress.ProgressVal.i().increment_progress({
+                        increment_amount: 1,
+                    });
+
+                    new_backgrounds.push({
+                        id,
+                        theme_id,
+                        i,
+                        type: `${s_backgrounds.FileType.i().get_file_type({
+                            file,
+                        })}`,
+                        width: background_img_props.width,
+                        height: background_img_props.height,
+                        thumbnail_width: background_img_props.thumbnail_width,
+                        thumbnail_height: background_img_props.thumbnail_height,
+                        background_size: n(background_props) // n(background_props) - adding theme background
+                            ? background_props.background_size
+                            : 'global',
+                        background_position: n(background_props)
+                            ? background_props.background_position
+                            : 'global',
+                        background_repeat: n(background_props)
+                            ? background_props.background_repeat
+                            : 'global',
+                        color_of_area_around_background: n(background_props)
+                            ? background_props.color_of_area_around_background
+                            : 'global',
+                        video_speed: n(background_props) ? background_props.video_speed : 'global',
+                        video_volume: n(background_props)
+                            ? background_props.video_volume
+                            : 'global',
+                    });
+                } catch (error_obj: any) {
+                    show_err_ribbon(error_obj, 'cnt_1131', { silent: true }); // upload wrong file type (for example .txt) to cause this error
+                    throw_err_obj(error_obj);
+
+                    return undefined;
+                }
+            }
 
             const at_least_one_background_is_broken: boolean = new_backgrounds.some(
                 (background: i_db.Background | undefined): boolean =>
@@ -203,6 +203,8 @@ export class Upload {
             virtualized_list_type: 'backgrounds',
         });
         d_protecting_screen.Visibility.i().hide();
+
+        return undefined;
     };
 
     public upload_with_paste_input = (

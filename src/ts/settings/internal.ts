@@ -10,6 +10,7 @@ export * as c_custom_code from 'settings/custom_code/components';
 export * as c_dnd from 'settings/dnd/components';
 export * as c_install_help from 'settings/install_help/components';
 export * as c_protecting_screen from 'settings/protecting_screen/components';
+
 export * as c_scheduler from 'settings/scheduler/components';
 
 export * as d_background_settings from 'settings/background_settings/data';

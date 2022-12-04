@@ -1,5 +1,7 @@
 import { makeObservable, observable, computed, action } from 'mobx';
 
+import { d_progress } from 'shared/internal';
+
 export class Visibility {
     private static i0: Visibility;
 
@@ -19,17 +21,32 @@ export class Visibility {
 
     private is_visible: boolean = false;
 
-    public show = (): void =>
+    public get visibility_cls() {
+        return this.is_visible ? '' : 'none';
+    }
+
+    private change = ({
+        is_visible,
+        enable_progress,
+    }: {
+        is_visible: boolean;
+        enable_progress: boolean;
+    }): void =>
         err(() => {
-            this.is_visible = true;
+            this.is_visible = is_visible;
+
+            if (enable_progress) {
+                d_progress.Visibility.i().change({ is_visible });
+            }
+        }, 'cnt_1438');
+
+    public show = ({ enable_progress = false }: { enable_progress?: boolean } = {}): void =>
+        err(() => {
+            this.change({ is_visible: true, enable_progress });
         }, 'cnt_1227');
 
     public hide = (): void =>
         err(() => {
-            this.is_visible = false;
+            this.change({ is_visible: false, enable_progress: true });
         }, 'cnt_1228');
-
-    public get visibility_cls() {
-        return this.is_visible ? '' : 'none';
-    }
 }

@@ -1,0 +1,26 @@
+$progress_width: 500px;
+
+.progress_w {
+    @include full_spread;
+
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    cursor: wait;
+
+    .progress {
+        appearance: none;
+        width: 380px;
+        height: 30px;
+        border-width: 2px;
+        border-style: solid;
+        box-sizing: content-box;
+    }
+
+    .text {
+        position: absolute;
+        font-size: $font_main;
+    }
+}
