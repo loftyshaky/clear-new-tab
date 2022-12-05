@@ -143,7 +143,12 @@ export class Val {
                     if (!this.validate_input({ input })) {
                         if (
                             n(val) &&
-                            ['transition_duration', 'current_background_id'].includes(input.name)
+                            [
+                                'transition_duration',
+                                'current_background_id',
+                                'one_backup_file_size_in_bytes',
+                                'backgrounds_per_page',
+                            ].includes(input.name)
                         ) {
                             val = +val;
                         }
