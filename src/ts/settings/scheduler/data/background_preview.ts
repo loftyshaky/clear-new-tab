@@ -14,17 +14,15 @@ export class BackgroundPreview {
 
     public placeholder_img_name: string = 'scheduler_background_preview_placeholder.png';
 
-    public get = ({ background_id }: { background_id: string }): string =>
-        err(() => {
-            const background_thumbnail: i_db.BackgroundThumbnail | undefined =
+    public get = ({ background_id }: { background_id: string }): Promise<string> =>
+        err_async(
+            async () =>
                 d_backgrounds.Main.i().get_background_thumbnail_by_id({
                     id: background_id,
-                });
-
-            return n(background_thumbnail) && n(background_thumbnail.background)
-                ? background_thumbnail.background
-                : this.placeholder_img_name;
-        }, 'cnt_1229');
+                    placeholder_img_name: this.placeholder_img_name,
+                }),
+            'cnt_1229',
+        );
 
     public background_is_color = ({ background_id }: { background_id: string }): boolean =>
         err(() => {

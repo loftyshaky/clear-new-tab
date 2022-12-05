@@ -156,7 +156,6 @@ export class Upload {
             d_backgrounds.BackgroundAnimation.i().allow_animation();
             d_backgrounds.Main.i().merge_backgrounds({
                 backgrounds: new_backgrounds_final,
-                background_thumbnails: new_background_thumbnails,
             });
 
             if (update_current_background_id) {

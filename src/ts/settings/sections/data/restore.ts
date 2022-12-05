@@ -352,7 +352,6 @@ export class Restore {
 
                         d_backgrounds.Main.i().merge_backgrounds({
                             backgrounds: missing_backgrounds,
-                            background_thumbnails: missing_background_thumbnails,
                             sort: true,
                         });
 

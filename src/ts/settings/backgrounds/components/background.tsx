@@ -1,4 +1,4 @@
-import React, { useEffect, MouseEvent } from 'react';
+import React, { useEffect, useState, MouseEvent } from 'react';
 import { observer } from 'mobx-react';
 
 import { s_tab_index } from '@loftyshaky/shared';
@@ -7,17 +7,24 @@ import { c_backgrounds, c_dnd, d_backgrounds, d_dnd, p_backgrounds } from 'setti
 
 export const Background: React.FunctionComponent<p_backgrounds.Background> = observer((props) => {
     const { index, style, background, dragged } = props;
-    const background_thumbnail: i_db.BackgroundThumbnail | undefined =
-        d_backgrounds.Main.i().get_background_thumbnail_by_id({ id: background.id });
-    const background_thumbnail_background: string =
-        n(background_thumbnail) && n(background_thumbnail.background)
-            ? background_thumbnail.background
-            : '';
+    const [background_thumbnail, set_background_thumbnail] = useState('');
 
     useEffect(() => {
         d_backgrounds.BackgroundAnimation.i().push_already_animated_id_deferred({
             id: background.id,
         });
+
+        const set_background_thumbnail_2 = (): Promise<void> =>
+            err_async(async () => {
+                const background_thumbnail_2: string =
+                    await d_backgrounds.Main.i().get_background_thumbnail_by_id({
+                        id: background.id,
+                    });
+
+                set_background_thumbnail(background_thumbnail_2);
+            }, 'cnt_1444');
+
+        set_background_thumbnail_2();
     }, [background]);
 
     return (background as any).type === 'drop_zone' ? (
@@ -43,16 +50,24 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
             ])}
             style={{
                 ...style,
-                backgroundColor: background_thumbnail_background,
+                backgroundColor: d_backgrounds.Main.i().placeholder_color({ background_thumbnail }),
             }}
             title={d_backgrounds.Main.i().developer_info({ background })}
         >
             {background.type.includes('color') ? undefined : (
                 <img
-                    src={background_thumbnail_background}
+                    src={d_backgrounds.Main.i().thumbnail_src({
+                        background_thumbnail,
+                    })}
                     alt='Background'
                     draggable='false'
-                    style={{ width: style.width, height: style.height }}
+                    style={{
+                        width: style.width,
+                        height: style.height,
+                        backgroundColor: d_backgrounds.Main.i().placeholder_color({
+                            background_thumbnail,
+                        }),
+                    }}
                 />
             )}
             <div

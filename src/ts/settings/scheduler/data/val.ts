@@ -27,8 +27,9 @@ export class Val {
             const settings: i_data.Settings = await ext.storage_get();
 
             const background_is_selected: boolean =
-                d_scheduler.BackgroundPreview.i().get({ background_id: data.ui.background_id }) !==
-                d_scheduler.BackgroundPreview.i().placeholder_img_name;
+                (await d_scheduler.BackgroundPreview.i().get({
+                    background_id: data.ui.background_id,
+                })) !== d_scheduler.BackgroundPreview.i().placeholder_img_name;
             const one_of_inputs_in_date_picker_is_set_to_val = Object.values(
                 d_scheduler.DatePicker.i().inputs,
             ).some((input: i_inputs.Input): boolean =>

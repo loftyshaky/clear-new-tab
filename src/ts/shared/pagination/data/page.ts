@@ -15,7 +15,7 @@ export class Page {
         });
     }
 
-    public page: number = 0;
+    public page: number = 1;
 
     public change = (page: number): void =>
         err(() => {

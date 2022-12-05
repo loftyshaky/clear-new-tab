@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
-import { o_schema, d_schema } from '@loftyshaky/shared';
+import { vars, o_schema, d_schema } from '@loftyshaky/shared';
 import { s_db, s_i, i_db } from 'shared/internal';
 import { d_backgrounds } from 'settings/internal';
 
@@ -22,7 +22,18 @@ export class Main {
     }
 
     public backgrounds: i_db.Background[] = [];
-    public background_thumbnails: i_db.BackgroundThumbnail[] = [];
+
+    public thumbnail_src = ({ background_thumbnail }: { background_thumbnail: string }): string =>
+        err(
+            () => (background_thumbnail === '' ? vars.transpaerent_1px_png : background_thumbnail),
+            'cnt_1446',
+        );
+
+    public placeholder_color = ({
+        background_thumbnail,
+    }: {
+        background_thumbnail: string;
+    }): string => err(() => (background_thumbnail === '' ? x.pastel_color() : ''), 'cnt_1445');
 
     public developer_info = computedFn(function (
         this: Main,
@@ -37,17 +48,20 @@ export class Main {
 
     public get_background_thumbnail_by_id = ({
         id,
+        placeholder_img_name = '',
     }: {
         id: string;
-    }): i_db.BackgroundThumbnail | undefined =>
-        err(
-            () =>
-                this.background_thumbnails.find(
-                    (background_thumbnail: i_db.BackgroundThumbnail): boolean =>
-                        err(() => background_thumbnail.id === id, 'cnt_1125'),
-                ),
-            'cnt_1126',
-        );
+        placeholder_img_name?: string;
+    }): Promise<string> =>
+        err_async(async () => {
+            const background_thumbnail: i_db.BackgroundThumbnail | undefined = n(id)
+                ? await s_db.Manipulation.i().get_background_thumbnail({ id })
+                : undefined;
+
+            return n(background_thumbnail) && n(background_thumbnail.background)
+                ? background_thumbnail.background
+                : placeholder_img_name;
+        }, 'cnt_1126');
 
     public get_background_by_id = ({ id }: { id: string }): i_db.Background | undefined =>
         err(
@@ -60,18 +74,13 @@ export class Main {
 
     public set_backgrounds = ({
         backgrounds,
-        background_thumbnails,
     }: {
         backgrounds?: i_db.Background[];
-        background_thumbnails?: i_db.BackgroundThumbnail[];
     } = {}): Promise<void> =>
         err_async(async () => {
             const backgrounds_2: i_db.Background[] = n(backgrounds)
                 ? backgrounds
                 : await s_db.Manipulation.i().get_backgrounds();
-            const backgrounds_thumbnails_2: i_db.BackgroundThumbnail[] = n(background_thumbnails)
-                ? background_thumbnails
-                : await s_db.Manipulation.i().get_background_thumbnails();
 
             backgrounds_2.map((background: i_db.Background): void =>
                 err(() => {
@@ -86,7 +95,6 @@ export class Main {
                     this.backgrounds = s_i.Main.i().sort_by_i_ascending({
                         data: backgrounds_2,
                     }) as i_db.Background[];
-                    this.background_thumbnails = backgrounds_thumbnails_2;
                 }, 'cnt_1128'),
             );
 
@@ -95,11 +103,9 @@ export class Main {
 
     public merge_backgrounds = ({
         backgrounds,
-        background_thumbnails,
         sort = false,
     }: {
         backgrounds: i_db.Background[];
-        background_thumbnails: i_db.BackgroundThumbnail[];
         sort?: boolean;
     }): void =>
         err(() => {
@@ -110,7 +116,6 @@ export class Main {
                       data: merged_backgrounds,
                   }) as i_db.Background[])
                 : merged_backgrounds;
-            this.background_thumbnails = _.union(this.background_thumbnails, background_thumbnails);
         }, 'cnt_1130');
 
     public get_missing_items = ({
