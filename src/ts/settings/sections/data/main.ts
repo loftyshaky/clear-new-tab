@@ -521,6 +521,13 @@ export class Main {
                         }),
                     ],
                     admin_inputs: [
+                        new o_inputs.Text({
+                            name: 'backgrounds_per_page',
+                            text_type: 'number',
+                            allow_removing_val: false,
+                            event_callback: d_sections.Val.i().change,
+                            warn_state_checker: d_sections.Val.i().validate_input,
+                        }),
                         new o_inputs.Checkbox({
                             name: 'enable_video_repeat',
                             event_callback: d_sections.Val.i().change,

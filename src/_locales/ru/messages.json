@@ -146,6 +146,9 @@
     "allow_downloading_img_by_link_label_text": {
         "message": "Разрешить скачивать изображение когда вы вставляете ссылку на изображение в текстовое полю \"Вставьте изображение или ссылку на него\""
     },
+    "backgrounds_per_page_label_text": {
+        "message": "Количество фонов на одной странице"
+    },
     "enable_video_repeat_label_text": {
         "message": "Включить возможность повтоять видео фоны"
     },

@@ -57,6 +57,7 @@ export class Main {
                 install_help_msg_is_visible: true,
                 id_of_last_installed_theme: '',
                 current_random_solid_color: '',
+                backgrounds_per_page: 500,
                 enable_video_repeat: false,
                 always_use_alarms_api_to_change_background_in_slideshow_mode: false,
                 show_item_developer_info_in_tooltip: false,
@@ -139,6 +140,10 @@ export class Main {
                 new o_schema.TransformItem({
                     new_key: 'one_backup_file_size_in_bytes',
                     new_val: 536870888,
+                }),
+                new o_schema.TransformItem({
+                    new_key: 'backgrounds_per_page',
+                    new_val: 500,
                 }),
             ];
 

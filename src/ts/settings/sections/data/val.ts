@@ -250,6 +250,10 @@ export class Val {
                     return val < 52428800 || val > 536870888;
                 }
 
+                if (input.name === 'backgrounds_per_page') {
+                    return val < 50 || val > 999999999;
+                }
+
                 if (input.name === 'year') {
                     return !(
                         (/^2\d{3}$/.test(val) && +val >= new Date().getFullYear()) ||

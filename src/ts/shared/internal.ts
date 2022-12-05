@@ -6,10 +6,12 @@ export * as vars from 'shared/vars';
 
 export { db } from 'shared/db/scripts';
 
+export * as c_pagination from 'shared/pagination/components';
 export * as c_progress from 'shared/progress/components';
 
 export * as d_backgrounds from 'shared/backgrounds/data';
 export * as d_data from 'shared/data/data';
+export * as d_pagination from 'shared/pagination/data';
 export * as d_progress from 'shared/progress/data';
 
 export * as s_background from 'shared/background/scripts';

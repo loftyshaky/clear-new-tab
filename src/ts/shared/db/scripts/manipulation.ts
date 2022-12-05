@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { db, d_progress, s_custom_code, s_i, i_db } from 'shared/internal';
+import { db, d_pagination, d_progress, s_custom_code, s_i, i_db } from 'shared/internal';
 
 export class Manipulation {
     private static i0: Manipulation;
@@ -55,6 +55,8 @@ export class Manipulation {
                     }
                 },
             );
+
+            await d_pagination.Main.i().set_total_backgrounds();
         }, 'cnt_1324');
 
     public save_tasks = ({ tasks }: { tasks: i_db.Task[] }): Promise<void> =>
@@ -82,12 +84,9 @@ export class Manipulation {
 
     public get_backgrounds = (): Promise<i_db.Background[]> =>
         err_async(async () => {
-            const backgrounds: i_db.Background[] = await db.backgrounds.toArray();
-            const backgrounds_sorted = s_i.Main.i().sort_by_i_ascending({
-                data: backgrounds,
-            }) as i_db.Background[];
+            const backgrounds: i_db.Background[] = await db.backgrounds.orderBy('i').toArray();
 
-            return backgrounds_sorted;
+            return backgrounds;
         }, 'cnt_1328');
 
     public get_background_thumbnails = (): Promise<i_db.BackgroundThumbnail[]> =>

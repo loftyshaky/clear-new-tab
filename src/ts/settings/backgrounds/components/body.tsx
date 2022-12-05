@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { observer } from 'mobx-react';
 import { Collection } from 'react-virtualized';
 
+import { c_pagination } from 'shared/internal';
 import {
     c_settings,
     c_backgrounds,
@@ -50,6 +51,7 @@ export const Body: React.FunctionComponent = observer(() => {
                     ref={d_backgrounds.Dnd.i().collection_ref}
                 />
                 <c_backgrounds.DraaggedBackground />
+                <c_pagination.Body />
             </c_settings.Section>
         </div>
     );

@@ -1,5 +1,5 @@
 import { d_color, s_color } from '@loftyshaky/shared/inputs';
-import { InitAll, d_data, s_preload_color } from 'shared/internal';
+import { InitAll, d_data, d_pagination, s_preload_color } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
@@ -22,6 +22,7 @@ export const init = (): Promise<void> =>
         d_scheduler.DatePicker.i().init_options();
         d_scheduler.DatePicker.i().init_inputs();
         await d_backgrounds.Main.i().set_backgrounds();
+        await d_pagination.Main.i().set_total_backgrounds();
         d_scheduler.Tasks.i().set_tasks();
         d_custom_code.Main.i().set_custom_code();
         d_backgrounds.CurrentBackground.i().set_current_background_i();

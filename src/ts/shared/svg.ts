@@ -18,6 +18,10 @@ import Check from '../../svg/check.svg';
 import Delete from '../../svg/delete.svg';
 import Help from '../../svg/help.svg';
 import Home from '../../svg/home.svg';
+import FirstPage from '../../svg/first_page.svg';
+import LastPage from '../../svg/last_page.svg';
+import NavigateBefore from '../../svg/navigate_before.svg';
+import NavigateNext from '../../svg/navigate_next.svg';
 
 export type SvgType = {
     Archive: string;
@@ -38,6 +42,10 @@ export type SvgType = {
     Delete: string;
     Help: string;
     Home: string;
+    FirstPage: string;
+    LastPage: string;
+    NavigateBefore: string;
+    NavigateNext: string;
 };
 
 export const svg: SvgType = {
@@ -59,4 +67,8 @@ export const svg: SvgType = {
     Delete,
     Help,
     Home,
+    FirstPage,
+    LastPage,
+    NavigateBefore,
+    NavigateNext,
 };

@@ -167,3 +167,24 @@
         color: $rbp;
     }
 }
+
+.pagination_w {
+    border-color: $yuv;
+
+    .pagination_btn {
+        background-color: $npw;
+        border-color: $hyn;
+
+        a {
+            color: $lpe;
+        }
+
+        &.active {
+            background-color: $yos;
+        }
+
+        &:hover {
+            background-color: $qgp;
+        }
+    }
+}

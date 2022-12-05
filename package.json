@@ -21,6 +21,7 @@
         "@types/prettier": "^2.6.3",
         "@types/react": "^18.0.15",
         "@types/react-dom": "^18.0.6",
+        "@types/react-js-pagination": "^3.0.4",
         "@typescript-eslint/eslint-plugin": "^5.30.5",
         "@typescript-eslint/parser": "^5.30.5",
         "app-root-path": "^3.0.0",
@@ -73,6 +74,7 @@
         "prettier": "^2.7.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "react-js-pagination": "^3.0.3",
         "react-virtualized": "^9.22.3",
         "ts-is-present": "^1.2.2",
         "webextension-polyfill-ts": "^0.26.0"

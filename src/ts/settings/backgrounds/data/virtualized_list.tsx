@@ -128,6 +128,12 @@ export class VirtualizedList {
 
     public calculate_height = (): void =>
         err(() => {
-            this.height = s_viewport.Main.i().get_dim({ dim: 'height' }) - 76;
+            const pagination_w_el = s<HTMLDivElement>('.pagination_w');
+
+            if (n(pagination_w_el)) {
+                this.height =
+                    s_viewport.Main.i().get_dim({ dim: 'height' }) -
+                    (pagination_w_el.offsetHeight + 76);
+            }
         }, 'cnt_1144');
 }

@@ -1,0 +1,53 @@
+.pagination_w {
+    @include border_top;
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        list-style-type: none;
+        padding: $gap 0;
+        box-sizing: border-box;
+        margin: 0;
+    }
+
+    .pagination_btn {
+        @include border;
+
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 8px;
+        height: 26px;
+        margin: 0 !important;
+
+        svg {
+            @include text_btn_svg;
+        }
+
+        a {
+            text-decoration: none;
+            outline: none;
+        }
+
+        &.disabled {
+            @include is_disabled;
+        }
+
+        &.active {
+            pointer-events: none;
+        }
+
+        &:nth-child(2) {
+            border-right: 0;
+        }
+
+        &:not(:first-child, :nth-child(3)) {
+            border-left: 0;
+        }
+
+        &:focus {
+            z-index: 2;
+        }
+    }
+}
