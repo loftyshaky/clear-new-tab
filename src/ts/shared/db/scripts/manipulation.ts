@@ -84,9 +84,12 @@ export class Manipulation {
 
     public get_backgrounds = (): Promise<i_db.Background[]> =>
         err_async(async () => {
-            const backgrounds: i_db.Background[] = await db.backgrounds.orderBy('i').toArray();
+            const backgrounds: i_db.Background[] = await db.backgrounds.toArray();
+            const backgrounds_sorted = s_i.Main.i().sort_by_i_ascending({
+                data: backgrounds,
+            }) as i_db.Background[];
 
-            return backgrounds;
+            return backgrounds_sorted;
         }, 'cnt_1328');
 
     public get_background_thumbnails = (): Promise<i_db.BackgroundThumbnail[]> =>
