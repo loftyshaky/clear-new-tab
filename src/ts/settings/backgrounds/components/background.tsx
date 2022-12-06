@@ -8,6 +8,9 @@ import { c_backgrounds, c_dnd, d_backgrounds, d_dnd, p_backgrounds } from 'setti
 export const Background: React.FunctionComponent<p_backgrounds.Background> = observer((props) => {
     const { index, style, background, dragged } = props;
     const [background_thumbnail, set_background_thumbnail] = useState('');
+    const bacground_fade_in_cls: string = d_backgrounds.Cache.i().background_fade_in_cls({
+        background_id: background.id,
+    });
 
     useEffect(() => {
         d_backgrounds.BackgroundAnimation.i().push_already_animated_id_deferred({
@@ -50,25 +53,37 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
             ])}
             style={{
                 ...style,
-                backgroundColor: d_backgrounds.Main.i().placeholder_color({ background_thumbnail }),
             }}
             title={d_backgrounds.Main.i().developer_info({ background })}
         >
-            {background.type.includes('color') ? undefined : (
-                <img
-                    src={d_backgrounds.Main.i().thumbnail_src({
-                        background_thumbnail,
-                    })}
-                    alt='Background'
-                    draggable='false'
-                    style={{
-                        width: style.width,
-                        height: style.height,
-                        backgroundColor: d_backgrounds.Main.i().placeholder_color({
+            {background.type.includes('color') ? (
+                <c_backgrounds.ThumbnailW background_id={background.id}>
+                    <div
+                        className={x.cls(['color_thumbnail', bacground_fade_in_cls])}
+                        style={{
+                            backgroundColor: d_backgrounds.Main.i().thumbnail_src({
+                                id: background.id,
+                                background_thumbnail,
+                            }),
+                        }}
+                    />
+                </c_backgrounds.ThumbnailW>
+            ) : (
+                <c_backgrounds.ThumbnailW background_id={background.id}>
+                    <img
+                        className={x.cls(['img_thumbnail', bacground_fade_in_cls])}
+                        src={d_backgrounds.Main.i().thumbnail_src({
+                            id: background.id,
                             background_thumbnail,
-                        }),
-                    }}
-                />
+                        })}
+                        alt='Background'
+                        draggable='false'
+                        style={{
+                            width: style.width,
+                            height: style.height,
+                        }}
+                    />
+                </c_backgrounds.ThumbnailW>
             )}
             <div
                 className={x.cls([
@@ -91,7 +106,10 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                 }}
                 onKeyDown={s_tab_index.Main.i().simulate_click_on_enter}
             >
-                <c_backgrounds.OverlayItemInfo name='background_index' text={index + 1} />
+                <c_backgrounds.OverlayItemInfo
+                    name='background_index'
+                    text={d_backgrounds.Main.i().get_img_i({ i: index })}
+                />
                 {background.type.includes('color') ? undefined : (
                     <c_backgrounds.OverlayItemInfo
                         name='background_dims'

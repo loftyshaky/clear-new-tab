@@ -12,6 +12,7 @@ import {
     d_scheduler,
     d_sections,
     s_virtualized_list,
+    d_pagination,
 } from 'settings/internal';
 
 export class BackgroundDeletion {
@@ -102,10 +103,16 @@ export class BackgroundDeletion {
                 });
             }
 
+            await s_db.Manipulation.i().delete_backgrounds({ ids });
+
             runInAction(() =>
                 err(() => {
                     d_backgrounds.Main.i().backgrounds = _.reject(
                         d_backgrounds.Main.i().backgrounds,
+                        (background: i_db.Background) => ids.includes(background.id),
+                    );
+                    d_pagination.Page.i().page_backgrounds = _.reject(
+                        d_pagination.Page.i().page_backgrounds,
                         (background: i_db.Background) => ids.includes(background.id),
                     );
                 }, 'cnt_1102'),
@@ -131,13 +138,14 @@ export class BackgroundDeletion {
                 }
             }
 
-            await s_db.Manipulation.i().delete_backgrounds({ ids });
             await d_scheduler.TaskDeletion.i().delete_from_background_id({
                 background_ids: ids,
             });
 
             d_backgrounds.BackgroundAnimation.i().remove_already_animated_ids({ ids });
             await this.react_to_all_background_deletion();
+
+            d_pagination.Page.i().set_last_if_page_empty();
 
             runInAction(() =>
                 err(() => {
@@ -170,6 +178,7 @@ export class BackgroundDeletion {
 
             if (this.deletion_reason === 'delete_all_backgrounds') {
                 d_backgrounds.Main.i().backgrounds = [];
+                d_pagination.Page.i().page_backgrounds = [];
 
                 await s_db.Manipulation.i().clear_all_background_tables();
                 await d_scheduler.TaskDeletion.i().delete_all_tasks();
@@ -188,7 +197,7 @@ export class BackgroundDeletion {
 
                 await d_browser_theme.Main.i().refresh_theme_backgrounds();
 
-                s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({
+                s_virtualized_list.Main.i().set_scroll_position({
                     virtualized_list_type: 'backgrounds',
                 });
             }

@@ -15,7 +15,6 @@ $delete_background_btn_svg_size: 12px;
 .backgrounds {
     .background {
         @include border;
-        @include checkerboard_gradient;
 
         user-select: none;
         cursor: move;
@@ -30,6 +29,26 @@ $delete_background_btn_svg_size: 12px;
 
         &.deleted {
             animation: var(--fade_out);
+        }
+
+        .img_thumbnail {
+            @include checkerboard_gradient;
+
+            position: absolute;
+            opacity: 0;
+        }
+
+        .color_thumbnail {
+            @include full_dims;
+
+            position: absolute;
+            opacity: 0;
+        }
+
+        .color {
+            @include full_spread;
+
+            position: absolute;
         }
 
         .ui {

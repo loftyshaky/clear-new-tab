@@ -14,6 +14,7 @@ import {
     d_background_settings,
     d_backgrounds,
     d_optional_permission_settings,
+    d_pagination,
     d_sections,
     s_browser_theme,
     d_scheduler,
@@ -98,10 +99,13 @@ export class Val {
                                 }
                             }
                         } else if (input.name !== 'create_solid_color_background') {
+                            const is_text_input: boolean = input.type === 'text';
+
                             await ext.send_msg_resp({
                                 msg: 'update_settings_background',
                                 settings: { [input.name]: val },
-                                update_instantly: true,
+                                update_instantly: !is_text_input,
+                                load_settings: !is_text_input,
                             });
                         }
 
@@ -256,7 +260,10 @@ export class Val {
                 }
 
                 if (input.name === 'backgrounds_per_page') {
-                    return val < 50 || val > 999999999;
+                    return (
+                        val < d_pagination.Page.i().backgrounds_per_page_min_val ||
+                        val > d_pagination.Page.i().backgrounds_per_page_max_val
+                    );
                 }
 
                 if (input.name === 'year') {

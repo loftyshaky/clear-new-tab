@@ -1,5 +1,7 @@
 import { db } from 'shared/internal';
-import { makeObservable, observable, runInAction } from 'mobx';
+import { makeObservable, observable, reaction, runInAction } from 'mobx';
+
+import { d_backgrounds, d_pagination } from 'settings/internal';
 
 export class Main {
     private static i0: Main;
@@ -27,4 +29,19 @@ export class Main {
                 }, 'cnt_1441'),
             );
         }, 'cnt_1440');
+
+    public on_backgrounds_reaction = (): void =>
+        err(() => {
+            reaction(
+                () => d_backgrounds.Main.i().backgrounds,
+                async () => {
+                    await this.set_total_backgrounds();
+
+                    d_pagination.Page.i().set_page_backgrounds();
+
+                    d_backgrounds.VirtualizedList.i().calculate_height();
+                },
+                { fireImmediately: true },
+            );
+        }, 'cnt_1448');
 }

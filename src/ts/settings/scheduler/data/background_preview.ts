@@ -12,14 +12,14 @@ export class BackgroundPreview {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
-    public placeholder_img_name: string = 'scheduler_background_preview_placeholder.png';
+    public placeholder_img: string = 'scheduler_background_preview_placeholder.png';
 
     public get = ({ background_id }: { background_id: string }): Promise<string> =>
         err_async(
             async () =>
                 d_backgrounds.Main.i().get_background_thumbnail_by_id({
                     id: background_id,
-                    placeholder_img_name: this.placeholder_img_name,
+                    placeholder_img: this.placeholder_img,
                 }),
             'cnt_1229',
         );

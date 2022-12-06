@@ -4,6 +4,7 @@ import { o_inputs, d_inputs } from '@loftyshaky/shared/inputs';
 import { d_progress, s_db, i_db } from 'shared/internal';
 import {
     d_backgrounds,
+    d_pagination,
     d_protecting_screen,
     d_sections,
     s_backgrounds,
@@ -190,7 +191,7 @@ export class Upload {
 
             show_err_ribbon(error_obj, 'cnt_1137', { silent: true }); // upload wrong file type (for example .txt) to cause this error
 
-            s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({
+            s_virtualized_list.Main.i().set_scroll_position({
                 virtualized_list_type: 'backgrounds',
             });
             d_protecting_screen.Visibility.i().hide();
@@ -198,7 +199,9 @@ export class Upload {
             throw_err_obj(error_obj); // needed for error in paste input to be shown
         }
 
-        s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({
+        d_pagination.Page.i().set_last();
+
+        s_virtualized_list.Main.i().set_scroll_position({
             virtualized_list_type: 'backgrounds',
         });
         d_protecting_screen.Visibility.i().hide();
@@ -271,7 +274,7 @@ export class Upload {
                 d_inputs.Text.i().set_error_placeholder_text({ input });
             }
 
-            s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({
+            s_virtualized_list.Main.i().set_scroll_position({
                 virtualized_list_type: 'backgrounds',
             });
             d_protecting_screen.Visibility.i().hide();

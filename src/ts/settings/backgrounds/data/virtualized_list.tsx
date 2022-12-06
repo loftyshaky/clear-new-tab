@@ -2,7 +2,7 @@ import { makeObservable, observable, action } from 'mobx';
 
 import { s_viewport } from '@loftyshaky/shared';
 import { vars, i_db } from 'shared/internal';
-import { d_backgrounds, s_backgrounds } from 'settings/internal';
+import { d_backgrounds, d_pagination, s_backgrounds } from 'settings/internal';
 
 export class VirtualizedList {
     private static i0: VirtualizedList;
@@ -38,42 +38,51 @@ export class VirtualizedList {
             const gap_and_borders_width: number = gap + vars.border_width * 2;
             const backgrounds_section_content = s<HTMLDivElement>('.backgrounds .section_content');
 
-            if (d_backgrounds.Main.i().backgrounds[index].type.includes('color')) {
+            if (d_pagination.Page.i().page_backgrounds[index].type.includes('color')) {
                 thumbnail_width = s_backgrounds.Thumbnail.i().height;
                 thumbnail_height = s_backgrounds.Thumbnail.i().height;
-            } else if ((d_backgrounds.Main.i().backgrounds as any)[index].type === 'drop_zone') {
-                thumbnail_width = d_backgrounds.Main.i().backgrounds[index].type.includes('color')
+            } else if (
+                (d_pagination.Page.i().page_backgrounds as any)[index].type === 'drop_zone'
+            ) {
+                thumbnail_width = d_pagination.Page.i().page_backgrounds[index].type.includes(
+                    'color',
+                )
                     ? s_backgrounds.Thumbnail.i().height
-                    : (d_backgrounds.Main.i().backgrounds[index] as i_db.BackgroundDropZone).width;
+                    : (d_pagination.Page.i().page_backgrounds[index] as i_db.BackgroundDropZone)
+                          .width;
                 thumbnail_height = s_backgrounds.Thumbnail.i().height;
             } else {
-                thumbnail_width = (d_backgrounds.Main.i().backgrounds[index] as i_db.FileBackground)
-                    .thumbnail_width;
+                thumbnail_width = (
+                    d_pagination.Page.i().page_backgrounds[index] as i_db.FileBackground
+                ).thumbnail_width;
                 thumbnail_height = (
-                    d_backgrounds.Main.i().backgrounds[index] as i_db.FileBackground
+                    d_pagination.Page.i().page_backgrounds[index] as i_db.FileBackground
                 ).thumbnail_height;
             }
 
-            if (n(d_backgrounds.Main.i().backgrounds[index - 1])) {
-                if (d_backgrounds.Main.i().backgrounds[index - 1].type.includes('color')) {
+            if (n(d_pagination.Page.i().page_backgrounds[index - 1])) {
+                if (d_pagination.Page.i().page_backgrounds[index - 1].type.includes('color')) {
                     previous_thumbnail_width = s_backgrounds.Thumbnail.i().height;
                     previous_thumbnail_height = s_backgrounds.Thumbnail.i().height;
                 } else if (
-                    (d_backgrounds.Main.i().backgrounds as any)[index - 1].type === 'drop_zone'
+                    (d_pagination.Page.i().page_backgrounds as any)[index - 1].type === 'drop_zone'
                 ) {
-                    previous_thumbnail_width = d_backgrounds.Main.i().backgrounds[
+                    previous_thumbnail_width = d_pagination.Page.i().page_backgrounds[
                         index - 1
                     ].type.includes('color')
                         ? s_backgrounds.Thumbnail.i().height
-                        : (d_backgrounds.Main.i().backgrounds[index - 1] as i_db.BackgroundDropZone)
-                              .width;
+                        : (
+                              d_pagination.Page.i().page_backgrounds[
+                                  index - 1
+                              ] as i_db.BackgroundDropZone
+                          ).width;
                     previous_thumbnail_height = s_backgrounds.Thumbnail.i().height;
                 } else {
                     previous_thumbnail_width = (
-                        d_backgrounds.Main.i().backgrounds[index - 1] as i_db.FileBackground
+                        d_pagination.Page.i().page_backgrounds[index - 1] as i_db.FileBackground
                     ).thumbnail_width;
                     previous_thumbnail_height = (
-                        d_backgrounds.Main.i().backgrounds[index - 1] as i_db.FileBackground
+                        d_pagination.Page.i().page_backgrounds[index - 1] as i_db.FileBackground
                     ).thumbnail_height;
                 }
             }
@@ -131,9 +140,16 @@ export class VirtualizedList {
             const pagination_w_el = s<HTMLDivElement>('.pagination_w');
 
             if (n(pagination_w_el)) {
+                const there_are_backgrounds_for_more_than_one_page: boolean =
+                    d_backgrounds.Main.i().backgrounds.length >
+                    d_pagination.Page.i().backgrounds_per_page;
+
                 this.height =
                     s_viewport.Main.i().get_dim({ dim: 'height' }) -
-                    (pagination_w_el.offsetHeight + 76);
+                    ((there_are_backgrounds_for_more_than_one_page
+                        ? pagination_w_el.offsetHeight
+                        : 0) +
+                        76);
             }
         }, 'cnt_1144');
 }

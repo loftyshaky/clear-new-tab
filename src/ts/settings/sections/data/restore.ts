@@ -9,6 +9,7 @@ import {
     d_background_settings,
     d_backgrounds,
     d_browser_theme,
+    d_pagination,
     d_protecting_screen,
     d_scheduler,
     d_sections,
@@ -364,7 +365,9 @@ export class Restore {
 
                         await d_backgrounds.BackgroundAnimation.i().forbid_animation();
 
-                        s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({
+                        d_pagination.Page.i().set_last();
+
+                        s_virtualized_list.Main.i().set_scroll_position({
                             virtualized_list_type: 'backgrounds',
                         });
                     }

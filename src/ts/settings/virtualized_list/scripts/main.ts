@@ -1,9 +1,9 @@
 import { i_virtualized_list } from 'settings/internal';
 
-export class VirtualizedList {
-    private static i0: VirtualizedList;
+export class Main {
+    private static i0: Main;
 
-    public static i(): VirtualizedList {
+    public static i(): Main {
         // eslint-disable-next-line no-return-assign
         return this.i0 || (this.i0 = new this());
     }
@@ -34,10 +34,12 @@ export class VirtualizedList {
             ReactVirtualized__Collection?.setAttribute('tabIndex', '-1');
         }, 'cnt_1303');
 
-    public set_bottom_scroll_position = ({
+    public set_scroll_position = ({
         virtualized_list_type,
+        position = 'bottom',
     }: {
         virtualized_list_type: i_virtualized_list.VirtualizedListType;
+        position?: i_virtualized_list.Position;
     }): void =>
         err(() => {
             // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -46,7 +48,8 @@ export class VirtualizedList {
             );
 
             if (n(ReactVirtualized__Collection)) {
-                ReactVirtualized__Collection.scrollTop = ReactVirtualized__Collection.scrollHeight;
+                ReactVirtualized__Collection.scrollTop =
+                    position === 'top' ? 0 : ReactVirtualized__Collection.scrollHeight;
             }
         }, 'cnt_1304');
 }

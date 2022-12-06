@@ -188,6 +188,7 @@ export class InitAll {
     public render_settings = (): Promise<void> =>
         err_async(async () => {
             const { Body } = await import('settings/components/body');
+
             const on_css_load = (): Promise<void> =>
                 err_async(async () => {
                     const {
@@ -196,7 +197,7 @@ export class InitAll {
                         d_scheduler,
                         d_sections,
                         s_theme: s_theme_settings,
-                        s_virtualized_list,
+                        d_virtualized_list,
                     } = await import('settings/internal');
 
                     s_theme_settings.CodeMirrorTheme.i().set_up_change_theme_reaction();
@@ -213,35 +214,32 @@ export class InitAll {
 
                     s_tab_index.Main.i().bind_set_input_type_f();
 
-                    await x.delay(300);
-
-                    s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({
-                        virtualized_list_type: 'backgrounds',
-                    });
+                    // eslint-disable-next-line max-len
+                    d_virtualized_list.Main.i().set_scroll_scroll_backgrounds_virtualized_list_to_bottom_bool(
+                        { bool: true },
+                    );
 
                     d_loading_screen.Main.i().hide({ app_id: s_suffix.app_id });
                 }, 'cnt_1357');
 
             if (n(this.settings_root)) {
                 ReactDOM.createRoot(this.settings_root).render(
-                    <c_crash_handler.Body>
-                        <Body
-                            on_render={(): void =>
-                                err(() => {
-                                    const settings_css = x.css('settings_css', document.head);
+                    <Body
+                        on_render={(): void =>
+                            err(() => {
+                                const settings_css = x.css('settings_css', document.head);
 
-                                    s_theme_shared.Main.i().set({
-                                        name: data.settings.options_page_theme,
-                                        additional_theme_callback: s_theme.Main.i().set,
-                                    });
+                                s_theme_shared.Main.i().set({
+                                    name: data.settings.options_page_theme,
+                                    additional_theme_callback: s_theme.Main.i().set,
+                                });
 
-                                    if (n(settings_css)) {
-                                        x.bind(settings_css, 'load', on_css_load);
-                                    }
-                                }, 'cnt_1358')
-                            }
-                        />
-                    </c_crash_handler.Body>,
+                                if (n(settings_css)) {
+                                    x.bind(settings_css, 'load', on_css_load);
+                                }
+                            }, 'cnt_1358')
+                        }
+                    />,
                 );
             }
         }, 'cnt_1359');

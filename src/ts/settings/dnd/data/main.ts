@@ -5,7 +5,14 @@ import { BigNumber } from 'bignumber.js';
 
 import { t } from '@loftyshaky/shared';
 import { s_db, s_i, i_db } from 'shared/internal';
-import { d_backgrounds, d_dnd, d_scheduler, s_backgrounds, i_backgrounds } from 'settings/internal';
+import {
+    d_backgrounds,
+    d_dnd,
+    d_pagination,
+    d_scheduler,
+    s_backgrounds,
+    i_backgrounds,
+} from 'settings/internal';
 
 export class Main {
     private static i0: Main;
@@ -191,7 +198,7 @@ export class Main {
                     id: d_dnd.Main.i().drop_zone_item!.id,
                     items:
                         this.drag_type === 'background'
-                            ? d_backgrounds.Main.i().backgrounds
+                            ? d_pagination.Page.i().page_backgrounds
                             : d_scheduler.Tasks.i().tasks,
                 });
 
@@ -214,12 +221,13 @@ export class Main {
                     insertion_i,
                     [drop_zone],
                     this.drag_type === 'background'
-                        ? d_backgrounds.Main.i().backgrounds
+                        ? d_pagination.Page.i().page_backgrounds
                         : d_scheduler.Tasks.i().tasks,
                 );
 
                 if (this.drag_type === 'background') {
-                    d_backgrounds.Main.i().backgrounds = items_with_drop_zone as i_db.Background[];
+                    d_pagination.Page.i().page_backgrounds =
+                        items_with_drop_zone as i_db.Background[];
                 } else if (this.drag_type === 'task') {
                     d_scheduler.Tasks.i().tasks = items_with_drop_zone as i_db.Task[];
                 }
@@ -309,13 +317,10 @@ export class Main {
                                         .toString();
 
                                     if (this.drag_type === 'background') {
-                                        d_backgrounds.Main.i().backgrounds[
-                                            d_dnd.Main.i().item_to_move_i
-                                        ].i = new_i;
+                                        d_backgrounds.Main.i().backgrounds[this.item_to_move_i].i =
+                                            new_i;
                                     } else if (this.drag_type === 'task') {
-                                        d_scheduler.Tasks.i().tasks[
-                                            d_dnd.Main.i().item_to_move_i
-                                        ].i = new_i;
+                                        d_scheduler.Tasks.i().tasks[this.item_to_move_i].i = new_i;
                                     }
                                 } else {
                                     set_intermediate_i({
@@ -426,7 +431,7 @@ export class Main {
                             }) as i_db.Background[];
 
                             d_backgrounds.CurrentBackground.i().set_current_background_i();
-
+                            d_pagination.Page.i().set_page_backgrounds();
                             // eslint-disable-next-line max-len
                             d_backgrounds.Dnd.i().collection_ref.current.recomputeCellSizesAndPositions();
                         } else if (this.drag_type === 'task') {

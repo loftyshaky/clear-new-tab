@@ -4,7 +4,7 @@ import { computedFn } from 'mobx-utils';
 
 import { vars, o_schema, d_schema } from '@loftyshaky/shared';
 import { s_db, s_i, i_db } from 'shared/internal';
-import { d_backgrounds } from 'settings/internal';
+import { d_backgrounds, d_pagination } from 'settings/internal';
 
 export class Main {
     private static i0: Main;
@@ -23,17 +23,25 @@ export class Main {
 
     public backgrounds: i_db.Background[] = [];
 
-    public thumbnail_src = ({ background_thumbnail }: { background_thumbnail: string }): string =>
-        err(
-            () => (background_thumbnail === '' ? vars.transpaerent_1px_png : background_thumbnail),
-            'cnt_1446',
-        );
-
-    public placeholder_color = ({
+    public thumbnail_src = ({
+        id,
         background_thumbnail,
     }: {
+        id: string;
         background_thumbnail: string;
-    }): string => err(() => (background_thumbnail === '' ? x.pastel_color() : ''), 'cnt_1445');
+    }): string =>
+        err(() => {
+            const fallback: string | undefined = n(
+                d_backgrounds.Cache.i().access_prop_of_background_thumbnail_cache_item({
+                    background_id: id,
+                    key: 'thumbnail',
+                }),
+            )
+                ? d_backgrounds.Cache.i().background_thumbnail_cache_items[id].thumbnail
+                : vars.transpaerent_1px_png;
+
+            return n(fallback) && background_thumbnail === '' ? fallback : background_thumbnail;
+        }, 'cnt_1446');
 
     public developer_info = computedFn(function (
         this: Main,
@@ -48,19 +56,33 @@ export class Main {
 
     public get_background_thumbnail_by_id = ({
         id,
-        placeholder_img_name = '',
+        placeholder_img = '',
     }: {
         id: string;
-        placeholder_img_name?: string;
+        placeholder_img?: string;
     }): Promise<string> =>
         err_async(async () => {
             const background_thumbnail: i_db.BackgroundThumbnail | undefined = n(id)
                 ? await s_db.Manipulation.i().get_background_thumbnail({ id })
                 : undefined;
 
+            if (n(background_thumbnail) && n(background_thumbnail.background)) {
+                d_backgrounds.Cache.i().set_prop_of_background_thumbnail_cache_item({
+                    background_id: id,
+                    key: 'thumbnail',
+                    val: background_thumbnail.background,
+                });
+
+                d_backgrounds.Cache.i().set_prop_of_background_thumbnail_cache_item({
+                    background_id: id,
+                    key: 'loaded_once',
+                    val: true,
+                });
+            }
+
             return n(background_thumbnail) && n(background_thumbnail.background)
                 ? background_thumbnail.background
-                : placeholder_img_name;
+                : placeholder_img;
         }, 'cnt_1126');
 
     public get_background_by_id = ({ id }: { id: string }): i_db.Background | undefined =>
@@ -183,4 +205,7 @@ export class Main {
 
             return background_final;
         }, 'cnt_1422');
+
+    public get_img_i = ({ i }: { i: number }): number =>
+        err(() => d_pagination.Page.i().offset + i + 1, 'cnt_1449');
 }

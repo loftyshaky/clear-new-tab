@@ -70,10 +70,12 @@ export class Main {
         settings,
         update_background,
         transform = false,
+        load_settings = true,
     }: {
         settings?: i_data.Settings;
         update_background?: boolean;
         transform?: boolean;
+        load_settings?: boolean;
     } = {}): Promise<void> =>
         err_async(async () => {
             const settings_2: i_data.Settings = n(settings)
@@ -87,7 +89,10 @@ export class Main {
             }
 
             await ext.storage_set(settings_final);
-            await ext.send_msg_to_all_tabs({ msg: 'load_settings' });
+
+            if (load_settings) {
+                await ext.send_msg_resp({ msg: 'load_settings' });
+            }
 
             if (n(update_background) && update_background) {
                 s_background.BackgroundChange.i().try_to_change_background({
@@ -97,10 +102,20 @@ export class Main {
             }
         }, 'cnt_1320');
 
-    public update_settings_debounce = _.debounce(
-        (settings: i_data.Settings, update_background?: boolean, transform: boolean = false) =>
+    public update_settings_debounce = x.async_debounce(
+        (
+            settings: i_data.Settings,
+            update_background?: boolean,
+            transform: boolean = false,
+            load_settings: boolean = true,
+        ) =>
             err_async(async () => {
-                await this.update_settings({ settings, update_background, transform });
+                await this.update_settings({
+                    settings,
+                    update_background,
+                    transform,
+                    load_settings,
+                });
             }, 'cnt_1321'),
         500,
     );

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { db, d_pagination, d_progress, s_custom_code, s_i, i_db } from 'shared/internal';
+import { db, d_progress, s_custom_code, s_i, i_db } from 'shared/internal';
 
 export class Manipulation {
     private static i0: Manipulation;
@@ -55,8 +55,6 @@ export class Manipulation {
                     }
                 },
             );
-
-            await d_pagination.Main.i().set_total_backgrounds();
         }, 'cnt_1324');
 
     public save_tasks = ({ tasks }: { tasks: i_db.Task[] }): Promise<void> =>

@@ -187,7 +187,7 @@ export class Tasks {
 
             await d_scheduler.TaskAnimation.i().forbid_animation();
 
-            s_virtualized_list.VirtualizedList.i().set_bottom_scroll_position({
+            s_virtualized_list.Main.i().set_scroll_position({
                 virtualized_list_type: 'tasks',
             });
 

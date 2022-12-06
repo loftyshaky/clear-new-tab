@@ -22,7 +22,7 @@ export const BackgroundPreview: React.FunctionComponent<p_scheduler.BackgroundPr
         }, [background_id]);
 
         return d_scheduler.BackgroundPreview.i().background_is_color({ background_id }) &&
-            background !== d_scheduler.BackgroundPreview.i().placeholder_img_name ? (
+            background !== d_scheduler.BackgroundPreview.i().placeholder_img ? (
             <div className='background_preview color' style={{ backgroundColor: background }} />
         ) : (
             <img className='background_preview img' alt='Background preview' src={background} />

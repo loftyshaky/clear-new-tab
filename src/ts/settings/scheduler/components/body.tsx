@@ -6,7 +6,7 @@ import { c_scheduler, d_scheduler, s_virtualized_list } from 'settings/internal'
 
 export const Body: React.FunctionComponent = observer(() => {
     useEffect(() => {
-        s_virtualized_list.VirtualizedList.i().remove_container_tab_index({
+        s_virtualized_list.Main.i().remove_container_tab_index({
             virtualized_list_type: 'tasks',
         });
     }, []);

@@ -3,7 +3,7 @@ import { MouseEvent } from 'react';
 import { makeObservable, action } from 'mobx';
 
 import { s_i, i_db } from 'shared/internal';
-import { d_backgrounds, d_dnd, s_backgrounds } from 'settings/internal';
+import { d_backgrounds, d_pagination, d_dnd, s_backgrounds } from 'settings/internal';
 
 export class Dnd {
     private static i0: Dnd;
@@ -39,8 +39,8 @@ export class Dnd {
 
     public remove_drop_zone = (): void =>
         err(() => {
-            (d_backgrounds.Main.i().backgrounds as any) = _.reject(
-                d_backgrounds.Main.i().backgrounds,
+            (d_pagination.Page.i().page_backgrounds as any) = _.reject(
+                d_pagination.Page.i().page_backgrounds,
                 (background: i_db.BackgroundDropZone): boolean => background.type === 'drop_zone',
             );
         }, 'cnt_1120');
@@ -89,7 +89,7 @@ export class Dnd {
 
                 d_dnd.Main.i().set_drag_direction(e);
                 d_dnd.Main.i().get_drop_zone_item({
-                    items: d_backgrounds.Main.i().backgrounds,
+                    items: d_pagination.Page.i().page_backgrounds,
                 });
                 d_dnd.Main.i().insert_drop_zone();
             }

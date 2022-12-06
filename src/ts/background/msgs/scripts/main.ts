@@ -23,16 +23,16 @@ we.runtime.onMessage.addListener(
                         settings: msg.settings,
                         update_background: msg.update_background,
                         transform: n(msg.transform) ? msg.transform : false,
+                        load_settings: n(msg.load_settings) ? msg.load_settings : true,
                     });
                 } else {
-                    s_data.Main.i().update_settings_debounce(
+                    await s_data.Main.i().update_settings_debounce(
                         msg.settings,
                         msg.update_background,
                         n(msg.transform) ? msg.transform : false,
+                        n(msg.load_settings) ? msg.load_settings : true,
                     );
                 }
-
-                ext.send_msg({ msg: 'update_settings_new_tab' });
             } else if (msg_str === 'get_defaults') {
                 return s_data.Main.i().defaults;
             } else if (msg_str === 'push_tab_id') {
