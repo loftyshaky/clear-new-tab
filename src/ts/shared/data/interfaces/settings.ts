@@ -32,6 +32,7 @@ export interface Settings extends i_data.Date {
     id_of_last_installed_theme: string;
     current_random_solid_color: string;
     enable_video_repeat: boolean;
+    backgrounds_per_page: number;
     always_use_alarms_api_to_change_background_in_slideshow_mode: boolean;
     show_item_developer_info_in_tooltip: boolean;
     update_database_when_dnd_item: boolean;
