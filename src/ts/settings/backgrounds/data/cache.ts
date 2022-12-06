@@ -19,6 +19,10 @@ export class Cache {
         });
     }
 
+    public background_thumbnail_cache_items: {
+        [index: string]: i_backgrounds.BackgroundThumbnailCacheItem;
+    } = {};
+
     public background_fade_in_cls = computedFn(function ({
         background_id,
     }: {
@@ -48,10 +52,6 @@ export class Cache {
 
         return '';
     });
-
-    public background_thumbnail_cache_items: {
-        [index: string]: i_backgrounds.BackgroundThumbnailCacheItem;
-    } = {};
 
     public reset_background_thumbnail_cache = (): void =>
         err(() => {
