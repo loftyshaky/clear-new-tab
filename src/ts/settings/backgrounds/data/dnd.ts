@@ -59,7 +59,7 @@ export class Dnd {
 
             d_dnd.Main.i().item_to_move_i = s_i.Main.i().find_i_of_item_with_id({
                 id: d_dnd.Main.i().item_to_move!.id,
-                items: d_backgrounds.Main.i().backgrounds,
+                items: d_pagination.Page.i().page_backgrounds,
             });
         }, 'cnt_1121');
 
@@ -98,6 +98,10 @@ export class Dnd {
     public move_by_move_btn = ({ background }: { background: i_db.Background }): void =>
         err(() => {
             d_dnd.Main.i().item_to_move = background;
+            d_dnd.Main.i().item_to_move_i = s_i.Main.i().find_i_of_item_with_id({
+                id: d_dnd.Main.i().item_to_move!.id,
+                items: d_backgrounds.Main.i().backgrounds,
+            });
 
             // eslint-disable-next-line no-alert
             const val: string | null = globalThis.prompt(ext.msg('enter_new_background_no_prompt'));

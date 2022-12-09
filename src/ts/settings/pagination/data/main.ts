@@ -39,7 +39,7 @@ export class Main {
 
                     d_pagination.Page.i().set_page_backgrounds();
 
-                    d_backgrounds.VirtualizedList.i().calculate_height();
+                    d_backgrounds.Scrollable.i().calculate_height();
                 },
                 { fireImmediately: true },
             );

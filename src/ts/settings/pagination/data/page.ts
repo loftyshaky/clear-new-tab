@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import { makeObservable, observable, autorun, reaction, action } from 'mobx';
+import { makeObservable, observable, computed, autorun, reaction, action } from 'mobx';
 
 import { i_db } from 'shared/internal';
-import { d_backgrounds, d_pagination, d_virtualized_list } from 'settings/internal';
+import { d_backgrounds, d_pagination, d_scrollable } from 'settings/internal';
 
 export class Page {
     private static i0: Page;
@@ -17,6 +17,8 @@ export class Page {
             page: observable,
             page_backgrounds: observable,
             backgrounds_per_page: observable,
+            there_are_backgrounds_for_more_than_one_page: computed,
+            pagination_visibility_cls: computed,
             change: action,
             set_last: action,
             set_page_backgrounds: action,
@@ -31,11 +33,21 @@ export class Page {
     public backgrounds_per_page_max_val: number = 10000000;
     public page_backgrounds: i_db.Background[] = [];
 
+    public get there_are_backgrounds_for_more_than_one_page() {
+        return (
+            d_backgrounds.Main.i().backgrounds.length > d_pagination.Page.i().backgrounds_per_page
+        );
+    }
+
+    public get pagination_visibility_cls() {
+        return this.there_are_backgrounds_for_more_than_one_page ? '' : 'visibility_hidden';
+    }
+
     public change = (page: number): void =>
         err(() => {
             this.page = page;
 
-            d_virtualized_list.Main.i().set_scroll_scroll_backgrounds_virtualized_list_to_top_bool({
+            d_scrollable.Main.i().set_scroll_backgrounds_scrollable_to_top_bool({
                 bool: true,
             });
         }, 'cnt_1442');
@@ -47,9 +59,9 @@ export class Page {
             );
 
             // eslint-disable-next-line max-len
-            d_virtualized_list.Main.i().set_scroll_scroll_backgrounds_virtualized_list_to_bottom_bool(
-                { bool: true },
-            );
+            d_scrollable.Main.i().set_scroll_backgrounds_scrollable_to_bottom_bool({
+                bool: true,
+            });
         }, 'cnt_1443');
 
     public set_last_if_page_empty = (): void =>
@@ -71,7 +83,7 @@ export class Page {
 
             this.set_last();
 
-            d_backgrounds.VirtualizedList.i().calculate_height();
+            d_backgrounds.Scrollable.i().calculate_height();
         }, 'cnt_1459');
 
     private set_backgrounds_per_page_val_debounce = _.debounce(

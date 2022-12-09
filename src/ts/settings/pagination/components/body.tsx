@@ -6,7 +6,7 @@ import { svg } from 'shared/internal';
 import { d_pagination } from 'settings/internal';
 
 export const Body: React.FunctionComponent = observer(() => (
-    <div className='pagination_w'>
+    <div className={x.cls(['pagination_w', d_pagination.Page.i().pagination_visibility_cls])}>
         <Pagination
             activePage={d_pagination.Page.i().page}
             itemsCountPerPage={d_pagination.Page.i().backgrounds_per_page}

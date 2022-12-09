@@ -6,7 +6,7 @@ import { svg, i_db } from 'shared/internal';
 import { c_backgrounds, c_dnd, d_backgrounds, d_dnd, p_backgrounds } from 'settings/internal';
 
 export const Background: React.FunctionComponent<p_backgrounds.Background> = observer((props) => {
-    const { index, style, background, dragged } = props;
+    const { index, background, dragged, style } = props;
     const [background_thumbnail, set_background_thumbnail] = useState('');
     const bacground_fade_in_cls: string = d_backgrounds.Cache.i().background_fade_in_cls({
         background_id: background.id,
@@ -32,7 +32,18 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
 
     return (background as any).type === 'drop_zone' ? (
         <c_dnd.DropZone
-            style={style}
+            style={{
+                width: x.px(
+                    d_backgrounds.Dnd.i().dragged_background_dim({
+                        dim: 'width',
+                    }),
+                ),
+                height: x.px(
+                    d_backgrounds.Dnd.i().dragged_background_dim({
+                        dim: 'height',
+                    }),
+                ),
+            }}
             on_mouse_up={(): void => {
                 d_dnd.Main.i().drop();
             }}
@@ -51,10 +62,12 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                 }),
                 d_dnd.Main.i().cursor_default_cls,
             ])}
+            title={d_backgrounds.Main.i().developer_info({ background })}
             style={{
                 ...style,
+                width: x.px(d_backgrounds.Main.i().get_dim({ background, dim: 'width' })),
+                height: x.px(d_backgrounds.Main.i().get_dim({ background, dim: 'height' })),
             }}
-            title={d_backgrounds.Main.i().developer_info({ background })}
         >
             {background.type.includes('color') ? (
                 <c_backgrounds.ThumbnailW background_id={background.id}>
@@ -78,10 +91,6 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                         })}
                         alt='Background'
                         draggable='false'
-                        style={{
-                            width: style.width,
-                            height: style.height,
-                        }}
                     />
                 </c_backgrounds.ThumbnailW>
             )}

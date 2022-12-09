@@ -59,6 +59,8 @@ $task_gap: 5px;
             box-sizing: border-box;
             padding: 0 $task_gap;
             cursor: move;
+            margin: 0 $task_gap;
+            margin-top: $task_gap;
 
             .date_w {
                 display: flex;
@@ -93,16 +95,23 @@ $task_gap: 5px;
             }
         }
 
-        /* stylelint-disable-next-line selector-class-pattern */
-        .ReactVirtualized__List {
-            @include border;
-
-            padding: 5px;
-            padding-bottom: 0;
+        .padding_bottom {
+            height: $task_gap;
         }
+
+        /* stylelint-disable-next-line selector-class-pattern */
+        .scrollable {
+            @include border;
+        }
+    }
+
+    .dragged_task .task {
+        position: fixed;
     }
 
     .drop_zone {
         box-sizing: border-box;
+        margin: 0 $task_gap;
+        margin-top: $task_gap;
     }
 }

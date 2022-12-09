@@ -4,7 +4,7 @@ import { computedFn } from 'mobx-utils';
 import { BigNumber } from 'bignumber.js';
 
 import { vars, s_db, s_i as s_i_shared, i_db } from 'shared/internal';
-import { s_i, d_protecting_screen, d_scheduler, s_virtualized_list } from 'settings/internal';
+import { s_i, d_protecting_screen, d_scheduler, d_scrollable } from 'settings/internal';
 
 export class Tasks {
     private static i0: Tasks;
@@ -187,8 +187,8 @@ export class Tasks {
 
             await d_scheduler.TaskAnimation.i().forbid_animation();
 
-            s_virtualized_list.Main.i().set_scroll_position({
-                virtualized_list_type: 'tasks',
+            d_scrollable.Main.i().set_scroll_tasks_scrollable_to_bottom_bool({
+                bool: true,
             });
 
             ext.send_msg({ msg: 'schedule_background_display' });

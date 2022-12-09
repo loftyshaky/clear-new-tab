@@ -16,8 +16,14 @@ $delete_background_btn_svg_size: 12px;
     .background {
         @include border;
 
+        position: relative;
+        height: 94px;
+        max-width: 400px;
+        min-width: 80px;
         user-select: none;
         cursor: move;
+        margin-right: $gap;
+        margin-bottom: $gap;
 
         &.color {
             background-image: unset;
@@ -31,17 +37,19 @@ $delete_background_btn_svg_size: 12px;
             animation: var(--fade_out);
         }
 
+        .thumbnail_w {
+            @include full_dims;
+        }
+
         .img_thumbnail {
             @include checkerboard_gradient;
 
-            position: absolute;
             opacity: 0;
         }
 
         .color_thumbnail {
             @include full_dims;
 
-            position: absolute;
             opacity: 0;
         }
 
@@ -49,6 +57,7 @@ $delete_background_btn_svg_size: 12px;
             @include full_spread;
 
             position: absolute;
+            z-index: -1;
         }
 
         .ui {
@@ -162,5 +171,9 @@ $delete_background_btn_svg_size: 12px;
                 }
             }
         }
+    }
+
+    .dragged_background .background {
+        position: fixed;
     }
 }

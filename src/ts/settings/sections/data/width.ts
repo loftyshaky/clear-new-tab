@@ -71,19 +71,12 @@ export class Width {
 
                     backgrounds_sections_el.style.width = x.px(new_width + outer_margin + 2);
                     backgrounds_section_el.style.width = x.px(backgrounds_section_el_width);
-
-                    d_backgrounds.VirtualizedList.i().width = backgrounds_section_el_width;
                 } else {
                     backgrounds_sections_el.style.width = '';
                     backgrounds_section_el.style.width = '';
-
-                    d_backgrounds.VirtualizedList.i().width =
-                        backgrounds_sections_el_max_width -
-                        vars.scrollbar_width -
-                        vars.border_width;
                 }
 
-                d_backgrounds.VirtualizedList.i().calculate_height();
+                d_backgrounds.Scrollable.i().calculate_height();
             }
         }, 'cnt_1298');
 

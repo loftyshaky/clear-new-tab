@@ -1,39 +1,32 @@
 import React from 'react';
-import { Observer, observer } from 'mobx-react';
-import { List, AutoSizer } from 'react-virtualized';
+import { observer } from 'mobx-react';
+import { Virtuoso } from 'react-virtuoso';
 
-import { c_scheduler, d_scheduler } from 'settings/internal';
+import { c_scheduler, d_scheduler, d_scrollable } from 'settings/internal';
+import { i_db } from 'shared/internal';
 
-export const Tasks: React.FunctionComponent = observer(() => {
-    const ListAny = List as any;
-    const AutoSizerAny = AutoSizer as any;
+export const Tasks: React.FunctionComponent = observer(() => (
+    <div className={x.cls(['tasks', d_scheduler.Help.i().scheduler_inner_visibility_cls])}>
+        <Virtuoso
+            className='scrollable'
+            style={{ height: '100%' }}
+            increaseViewportBy={600}
+            data={d_scheduler.Tasks.i().tasks}
+            itemContent={(i: number, task: i_db.Task) => (
+                <c_scheduler.Task index={i} key={task.id} task={task} dragged={false} />
+            )}
+            totalListHeightChanged={async () => {
+                await x.delay(200);
 
-    return (
-        <div className={x.cls(['tasks', d_scheduler.Help.i().scheduler_inner_visibility_cls])}>
-            <AutoSizerAny>
-                {({ height, width }: any) => (
-                    <Observer>
-                        {() => (
-                            <ListAny
-                                width={width}
-                                height={height}
-                                rowCount={d_scheduler.Tasks.i().tasks.length}
-                                rowHeight={d_scheduler.Dims.i().task_height}
-                                rowRenderer={({ index, key, style }: any) => (
-                                    <c_scheduler.Task
-                                        index={index}
-                                        key={key}
-                                        style={style}
-                                        task={d_scheduler.Tasks.i().tasks[index]}
-                                        dragged={false}
-                                    />
-                                )}
-                            />
-                        )}
-                    </Observer>
-                )}
-            </AutoSizerAny>
-            <c_scheduler.DraaggedTask />
-        </div>
-    );
-});
+                d_scrollable.Main.i().set_scroll_position({
+                    scrollable_type: 'tasks',
+                    position: 'bottom',
+                });
+            }}
+            components={{
+                Footer: () => <div className='padding_bottom' />,
+            }}
+        />
+        <c_scheduler.DraaggedTask />
+    </div>
+));

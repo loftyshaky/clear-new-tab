@@ -15,7 +15,7 @@ import {
     d_sections,
     s_custom_code,
     s_theme,
-    s_virtualized_list,
+    s_scrollable,
     i_sections,
 } from 'settings/internal';
 
@@ -367,8 +367,8 @@ export class Restore {
 
                         d_pagination.Page.i().set_last();
 
-                        s_virtualized_list.Main.i().set_scroll_position({
-                            virtualized_list_type: 'backgrounds',
+                        s_scrollable.Main.i().set_scroll_position({
+                            scrollable_type: 'backgrounds',
                         });
                     }
                 }, 'cnt_1418');

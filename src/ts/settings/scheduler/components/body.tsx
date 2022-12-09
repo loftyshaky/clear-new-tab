@@ -2,15 +2,9 @@ import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 
 import { Tr } from 'shared/internal';
-import { c_scheduler, d_scheduler, s_virtualized_list } from 'settings/internal';
+import { c_scheduler, d_scheduler } from 'settings/internal';
 
 export const Body: React.FunctionComponent = observer(() => {
-    useEffect(() => {
-        s_virtualized_list.Main.i().remove_container_tab_index({
-            virtualized_list_type: 'tasks',
-        });
-    }, []);
-
     useEffect(() => {
         d_scheduler.Val.i().set_add_new_task_btn_ability();
         // eslint-disable-next-line react-hooks/exhaustive-deps

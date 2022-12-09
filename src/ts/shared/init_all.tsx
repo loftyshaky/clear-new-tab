@@ -197,7 +197,7 @@ export class InitAll {
                         d_scheduler,
                         d_sections,
                         s_theme: s_theme_settings,
-                        d_virtualized_list,
+                        d_scrollable,
                     } = await import('settings/internal');
 
                     s_theme_settings.CodeMirrorTheme.i().set_up_change_theme_reaction();
@@ -215,9 +215,9 @@ export class InitAll {
                     s_tab_index.Main.i().bind_set_input_type_f();
 
                     // eslint-disable-next-line max-len
-                    d_virtualized_list.Main.i().set_scroll_scroll_backgrounds_virtualized_list_to_bottom_bool(
-                        { bool: true },
-                    );
+                    d_scrollable.Main.i().set_scroll_backgrounds_scrollable_to_bottom_bool({
+                        bool: true,
+                    });
 
                     d_loading_screen.Main.i().hide({ app_id: s_suffix.app_id });
                 }, 'cnt_1357');

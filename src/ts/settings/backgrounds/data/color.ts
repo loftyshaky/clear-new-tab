@@ -4,7 +4,7 @@ import {
     d_pagination,
     d_protecting_screen,
     s_i,
-    s_virtualized_list,
+    s_scrollable,
 } from 'settings/internal';
 
 export class Color {
@@ -87,8 +87,8 @@ export class Color {
 
             d_pagination.Page.i().set_last();
 
-            s_virtualized_list.Main.i().set_scroll_position({
-                virtualized_list_type: 'backgrounds',
+            s_scrollable.Main.i().set_scroll_position({
+                scrollable_type: 'backgrounds',
             });
             d_protecting_screen.Visibility.i().hide();
         }, 'cnt_1108');

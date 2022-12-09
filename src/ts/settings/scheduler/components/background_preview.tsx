@@ -8,6 +8,14 @@ export const BackgroundPreview: React.FunctionComponent<p_scheduler.BackgroundPr
         const { background_id } = props;
         const [background, set_background] = useState('');
 
+        const BackgroundPreviewImg = () =>
+            background === '' ? (
+                // eslint-disable-next-line react/jsx-no-useless-fragment
+                <></>
+            ) : (
+                <img className='background_preview img' alt='Background preview' src={background} />
+            );
+
         useEffect(() => {
             const set_background_2 = (): Promise<void> =>
                 err_async(async () => {
@@ -25,7 +33,7 @@ export const BackgroundPreview: React.FunctionComponent<p_scheduler.BackgroundPr
             background !== d_scheduler.BackgroundPreview.i().placeholder_img ? (
             <div className='background_preview color' style={{ backgroundColor: background }} />
         ) : (
-            <img className='background_preview img' alt='Background preview' src={background} />
+            <BackgroundPreviewImg />
         );
     },
 );

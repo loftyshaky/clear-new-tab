@@ -16,7 +16,7 @@ export class Dims {
         });
     }
 
-    public task_height: number = 83;
+    public task_height: number = 78;
 
     public get task_width() {
         const task = s<HTMLDivElement>('.task');

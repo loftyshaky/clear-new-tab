@@ -11,7 +11,7 @@ import {
     d_protecting_screen,
     d_scheduler,
     d_sections,
-    s_virtualized_list,
+    s_scrollable,
     d_pagination,
 } from 'settings/internal';
 
@@ -197,8 +197,8 @@ export class BackgroundDeletion {
 
                 await d_browser_theme.Main.i().refresh_theme_backgrounds();
 
-                s_virtualized_list.Main.i().set_scroll_position({
-                    virtualized_list_type: 'backgrounds',
+                s_scrollable.Main.i().set_scroll_position({
+                    scrollable_type: 'backgrounds',
                 });
             }
 

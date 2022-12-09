@@ -23,6 +23,21 @@ export class Main {
 
     public backgrounds: i_db.Background[] = [];
 
+    public get_dim = ({
+        background,
+        dim,
+    }: {
+        background: i_db.Background;
+        dim: 'width' | 'height';
+    }): number | undefined =>
+        err(() => {
+            if (background.type === 'color') {
+                return undefined;
+            }
+
+            return background[`thumbnail_${dim}`];
+        }, 'cnt_1461');
+
     public thumbnail_src = ({
         id,
         background_thumbnail,

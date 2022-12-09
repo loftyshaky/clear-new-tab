@@ -70,15 +70,19 @@ $backgrounds_section_max_width: 922px;
         }
 
         &.backgrounds .section_content {
-            overflow: auto;
-            height: calc(100% - 42px);
+            padding: 0;
+        }
+
+        &.backgrounds .section_content .scrollable {
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
             box-sizing: border-box;
             padding: 0;
-
-            /* stylelint-disable-next-line selector-class-pattern */
-            .ReactVirtualized__Collection {
-                padding-bottom: $section_padding + 2px;
-            }
+            padding-left: $gap;
+            padding-top: $gap;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: start;
         }
 
         .section_name {

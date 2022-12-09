@@ -10,7 +10,7 @@ import {
     s_backgrounds,
     s_i,
     i_backgrounds,
-    s_virtualized_list,
+    s_scrollable,
 } from 'settings/internal';
 
 export class Upload {
@@ -191,8 +191,8 @@ export class Upload {
 
             show_err_ribbon(error_obj, 'cnt_1137', { silent: true }); // upload wrong file type (for example .txt) to cause this error
 
-            s_virtualized_list.Main.i().set_scroll_position({
-                virtualized_list_type: 'backgrounds',
+            s_scrollable.Main.i().set_scroll_position({
+                scrollable_type: 'backgrounds',
             });
             d_protecting_screen.Visibility.i().hide();
 
@@ -201,8 +201,8 @@ export class Upload {
 
         d_pagination.Page.i().set_last();
 
-        s_virtualized_list.Main.i().set_scroll_position({
-            virtualized_list_type: 'backgrounds',
+        s_scrollable.Main.i().set_scroll_position({
+            scrollable_type: 'backgrounds',
         });
         d_protecting_screen.Visibility.i().hide();
 
@@ -274,8 +274,8 @@ export class Upload {
                 d_inputs.Text.i().set_error_placeholder_text({ input });
             }
 
-            s_virtualized_list.Main.i().set_scroll_position({
-                virtualized_list_type: 'backgrounds',
+            s_scrollable.Main.i().set_scroll_position({
+                scrollable_type: 'backgrounds',
             });
             d_protecting_screen.Visibility.i().hide();
         }, 'cnt_1140');

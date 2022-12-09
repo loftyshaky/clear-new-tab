@@ -26,7 +26,6 @@ export class Main {
         makeObservable(this, {
             show_dragged_background: observable,
             dragging_item: observable,
-            drop_zone_item: observable,
             dragged_background_left: observable,
             dragged_background_top: observable,
             pointer_events_none_cls: computed,
@@ -53,6 +52,7 @@ export class Main {
     public item_to_move_i: number = 0;
     public hovering_over_item: i_db.Background | i_db.Task | undefined;
     public drop_zone_item: i_db.Background | i_db.Task | undefined = undefined;
+    private previous_drop_zone_background_i: number = 0;
     public dragged_background_offset: number = 7;
     public dragged_background_left: number = 0;
     public dragged_background_top: number = 0;
@@ -266,6 +266,13 @@ export class Main {
             this.remove_drop_zone();
 
             if (n(d_dnd.Main.i().item_to_move) && n(d_dnd.Main.i().drop_zone_item)) {
+                if (this.drag_type === 'background') {
+                    d_dnd.Main.i().item_to_move_i = s_i.Main.i().find_i_of_item_with_id({
+                        id: d_dnd.Main.i().item_to_move!.id,
+                        items: d_backgrounds.Main.i().backgrounds,
+                    });
+                }
+
                 const items: i_db.Background[] | i_db.Task[] =
                     this.drag_type === 'background'
                         ? d_backgrounds.Main.i().backgrounds
@@ -433,7 +440,6 @@ export class Main {
                             d_backgrounds.CurrentBackground.i().set_current_background_i();
                             d_pagination.Page.i().set_page_backgrounds();
                             // eslint-disable-next-line max-len
-                            d_backgrounds.Dnd.i().collection_ref.current.recomputeCellSizesAndPositions();
                         } else if (this.drag_type === 'task') {
                             d_scheduler.Tasks.i().tasks = s_i.Main.i().sort_by_i_ascending({
                                 data: items,
