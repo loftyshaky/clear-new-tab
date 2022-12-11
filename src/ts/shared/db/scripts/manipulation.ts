@@ -98,13 +98,6 @@ export class Manipulation {
             return backgrounds_thumbnails;
         }, 'cnt_1329');
 
-    public get_thumbnail = ({
-        id,
-    }: {
-        id: string;
-    }): Promise<i_db.BackgroundThumbnail | undefined> =>
-        err_async(async () => db.background_thumbnails.get(id as any), 'cnt_1443');
-
     public get_background_files = (): Promise<i_db.BackgroundFile[]> =>
         err_async(async () => {
             const backgrounds: i_db.BackgroundFile[] = await db.background_files.toArray();
