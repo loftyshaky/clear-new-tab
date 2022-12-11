@@ -52,7 +52,6 @@ export class Main {
     public item_to_move_i: number = 0;
     public hovering_over_item: i_db.Background | i_db.Task | undefined;
     public drop_zone_item: i_db.Background | i_db.Task | undefined = undefined;
-    private previous_drop_zone_background_i: number = 0;
     public dragged_background_offset: number = 7;
     public dragged_background_left: number = 0;
     public dragged_background_top: number = 0;
