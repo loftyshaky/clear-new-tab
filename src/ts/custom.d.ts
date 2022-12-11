@@ -3,6 +3,7 @@ declare module '*.svg' {
     export default content;
 }
 
+declare module 'paginator';
 declare module 'tinycolor2';
 declare module 'pica';
 declare module 'bignumber.js';

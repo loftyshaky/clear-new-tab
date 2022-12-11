@@ -2,6 +2,10 @@
     @include background_outline;
 }
 
+.keyboard .pagination_btn:not(.active, .disabled):focus, {
+    @include outline_solid_thick;
+}
+
 .keyboard .backgrounds .background .delete_background_btn,
 .keyboard .backgrounds .background .overlay_item,
 .keyboard .backgrounds .background .action_btns_w .btn {

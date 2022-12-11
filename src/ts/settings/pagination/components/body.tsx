@@ -1,22 +1,15 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import Pagination from 'react-js-pagination';
 
-import { svg } from 'shared/internal';
-import { d_pagination } from 'settings/internal';
+import { c_pagination, d_pagination, p_pagination } from 'settings/internal';
 
 export const Body: React.FunctionComponent = observer(() => (
-    <div className={x.cls(['pagination_w', d_pagination.Page.i().pagination_visibility_cls])}>
-        <Pagination
-            activePage={d_pagination.Page.i().page}
-            itemsCountPerPage={d_pagination.Page.i().backgrounds_per_page}
-            totalItemsCount={d_pagination.Main.i().total_backgrounds}
-            itemClass='btn pagination_btn'
-            prevPageText={<svg.NavigateBefore />}
-            nextPageText={<svg.NavigateNext />}
-            firstPageText={<svg.FirstPage />}
-            lastPageText={<svg.LastPage />}
-            onChange={d_pagination.Page.i().change}
-        />
+    <div className={x.cls(['pagination', d_pagination.Page.i().pagination_visibility_cls])}>
+        {d_pagination.Main.i().pagination_btns.map(
+            (page: p_pagination.PaginationBtn): JSX.Element => (
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                <c_pagination.PaginationBtn {...page} />
+            ),
+        )}
     </div>
 ));

@@ -22,13 +22,13 @@ export class Scrollable {
 
     public calculate_height = (): void =>
         err(() => {
-            const pagination_w_el = s<HTMLDivElement>('.pagination_w');
+            const pagination_el = s<HTMLDivElement>('.pagination');
 
-            if (n(pagination_w_el)) {
+            if (n(pagination_el)) {
                 this.height =
                     s_viewport.Main.i().get_dim({ dim: 'height' }) -
                     ((d_pagination.Page.i().there_are_backgrounds_for_more_than_one_page
-                        ? pagination_w_el.offsetHeight
+                        ? pagination_el.offsetHeight
                         : 0) +
                         76);
             }

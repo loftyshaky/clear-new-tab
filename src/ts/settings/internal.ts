@@ -40,6 +40,7 @@ export * as p_settings from 'settings/components/prop_types';
 export * as p_backgrounds from 'settings/backgrounds/components/prop_types';
 export * as p_custom_code from 'settings/custom_code/components/prop_types';
 export * as p_dnd from 'settings/dnd/components/prop_types';
+export * as p_pagination from 'settings/pagination/components/prop_types';
 export * as p_scheduler from 'settings/scheduler/components/prop_types';
 
 export * as i_backgrounds from 'settings/backgrounds/interfaces';

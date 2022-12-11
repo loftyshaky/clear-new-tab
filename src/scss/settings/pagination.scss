@@ -1,14 +1,12 @@
-.pagination_w {
+.pagination {
     @include border_top;
 
-    .pagination {
-        display: flex;
-        justify-content: center;
-        list-style-type: none;
-        padding: $gap 0;
-        box-sizing: border-box;
-        margin: 0;
-    }
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    padding: $gap 0;
+    box-sizing: border-box;
+    margin: 0;
 
     .pagination_btn {
         @include border;
@@ -20,6 +18,8 @@
         padding: 0 8px;
         height: 26px;
         margin: 0 !important;
+        line-height: 0;
+        outline-offset: -2px;
 
         svg {
             @include text_btn_svg;

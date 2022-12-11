@@ -13,6 +13,10 @@
     }
 }
 
+.keyboard .pagination_btn:not(.active, .disabled):focus {
+    outline-color: $ptn;
+}
+
 .keyboard .scheduler .btn.text_input::before,
 .keyboard .code_editor .btn.text_input::before,
 body.keyboard .scheduler .btn.text:focus,

@@ -43,7 +43,13 @@ export class Page {
         return this.there_are_backgrounds_for_more_than_one_page ? '' : 'visibility_hidden';
     }
 
-    public change = (page: number): void =>
+    public page_is_active_cls = ({ is_active }: { is_active: boolean }): string =>
+        err(() => (is_active ? 'active' : ''), 'cnt_1463');
+
+    public page_is_disabled_cls = ({ is_disabled }: { is_disabled: boolean }): string =>
+        err(() => (is_disabled ? 'disabled' : ''), 'cnt_1464');
+
+    public change = ({ page }: { page: number }): void =>
         err(() => {
             this.page = page;
 
@@ -84,6 +90,7 @@ export class Page {
             this.set_last();
 
             d_backgrounds.Scrollable.i().calculate_height();
+            d_pagination.Main.i().build_pages();
         }, 'cnt_1459');
 
     private set_backgrounds_per_page_val_debounce = _.debounce(
@@ -106,6 +113,7 @@ export class Page {
                 () => {
                     d_backgrounds.Cache.i().reset_background_thumbnail_cache();
                     Page.i().set_page_backgrounds();
+                    d_pagination.Main.i().build_pages();
                 },
             );
         }, 'cnt_1448');
