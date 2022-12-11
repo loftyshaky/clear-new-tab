@@ -44,7 +44,6 @@ export const Body: React.FunctionComponent = observer(() => {
                     ))}
                 </div>
                 <c_pagination.Body />
-                <c_backgrounds.DraaggedBackground />
             </c_settings.Section>
         </div>
     );

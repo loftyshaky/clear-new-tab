@@ -60,6 +60,7 @@ export const Body: React.FunctionComponent<p_settings.Body> = observer((props) =
                     <c_backgrounds.Body />
                     <c_scheduler.Body />
                     <c_custom_code.Body />
+                    <c_backgrounds.DraaggedBackground />
                 </div>
             </div>
             <c_progress.Progress />
