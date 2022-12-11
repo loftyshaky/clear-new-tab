@@ -1,4 +1,5 @@
 import React from 'react';
+import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import { Virtuoso } from 'react-virtuoso';
 
@@ -11,7 +12,7 @@ export const Tasks: React.FunctionComponent = observer(() => (
             className='scrollable'
             style={{ height: '100%' }}
             increaseViewportBy={600}
-            data={d_scheduler.Tasks.i().tasks}
+            data={toJS(d_scheduler.Tasks.i().tasks)}
             itemContent={(i: number, task: i_db.Task) => (
                 <c_scheduler.Task index={i} key={task.id} task={task} dragged={false} />
             )}
