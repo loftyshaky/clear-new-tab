@@ -45,7 +45,7 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                 ),
             }}
             on_mouse_up={(): void => {
-                d_dnd.Main.i().drop();
+                d_dnd.Main.i().drop({ move_by_move_btn: false });
             }}
         />
     ) : (

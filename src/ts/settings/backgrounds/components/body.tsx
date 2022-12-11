@@ -36,7 +36,7 @@ export const Body: React.FunctionComponent = observer(() => {
                 <div className='scrollable' style={{ height: d_backgrounds.Scrollable.i().height }}>
                     {page_backgrounds.map((background: i_db.Background, i: number) => (
                         <c_backgrounds.Background
-                            key={i}
+                            key={background.id}
                             index={i}
                             background={background}
                             dragged={false}

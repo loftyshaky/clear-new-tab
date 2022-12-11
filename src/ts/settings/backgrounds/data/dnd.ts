@@ -131,7 +131,7 @@ export class Dnd {
                     d_dnd.Main.i().drop_zone_item = d_backgrounds.Main.i().backgrounds[drop_i];
 
                     if (val_2 - 1 !== d_dnd.Main.i().item_to_move_i) {
-                        d_dnd.Main.i().drop();
+                        d_dnd.Main.i().drop({ move_by_move_btn: true });
                     }
                 }
             }
