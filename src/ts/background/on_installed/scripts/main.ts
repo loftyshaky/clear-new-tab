@@ -8,10 +8,6 @@ we.runtime.onInstalled.addListener(
                 s_announcement.Main.i().installing_ext = true;
 
                 await s_data.Main.i().set_from_storage();
-
-                // eslint-disable-next-line no-console
-                console.log('runtime.onInstalled');
-
                 await s_browser_theme.Main.i().get_theme_background();
             }
         }, 'cnt_1014'),
