@@ -14,7 +14,6 @@ export const DraaggedBackground: React.FunctionComponent = observer(() => (
     >
         {d_dnd.Main.i().drag_type === 'background' && n(d_dnd.Main.i().item_to_move) ? (
             <c_backgrounds.Background
-                key={0}
                 index={0}
                 style={{
                     width: x.px(

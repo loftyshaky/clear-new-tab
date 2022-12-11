@@ -23,6 +23,9 @@ export class Main {
 
     public backgrounds: i_db.Background[] = [];
 
+    public key = ({ background_id }: { background_id: string | undefined }): string =>
+        err(() => (n(background_id) ? background_id : 'drop_zone'), 'cnt_1469');
+
     public get_dim = ({
         background,
         dim,

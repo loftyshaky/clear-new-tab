@@ -14,7 +14,6 @@ export const DraaggedTask: React.FunctionComponent = observer(() => (
     >
         {d_dnd.Main.i().drag_type === 'task' && n(d_dnd.Main.i().item_to_move) ? (
             <c_scheduler.Task
-                key={0}
                 index={0}
                 style={{
                     width: d_scheduler.Dims.i().task_width,
