@@ -57,7 +57,7 @@ export class Main {
                 install_help_msg_is_visible: true,
                 id_of_last_installed_theme: '',
                 current_random_solid_color: '',
-                backgrounds_per_page: 500,
+                backgrounds_per_page: 200,
                 enable_video_repeat: false,
                 always_use_alarms_api_to_change_background_in_slideshow_mode: false,
                 show_item_developer_info_in_tooltip: false,
