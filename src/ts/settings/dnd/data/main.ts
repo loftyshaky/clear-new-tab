@@ -261,31 +261,22 @@ export class Main {
             }
         }, 'cnt_1214');
 
-    public drop = async ({ move_by_move_btn }: { move_by_move_btn: boolean }): Promise<void> =>
+    public drop = async (): Promise<void> =>
         err_async(async () => {
             d_protecting_screen.Visibility.i().show();
             this.remove_drop_zone();
 
             if (n(d_dnd.Main.i().item_to_move) && n(d_dnd.Main.i().drop_zone_item)) {
-                const get_backgrounds = (): i_db.Background[] =>
-                    err(
-                        () =>
-                            move_by_move_btn
-                                ? d_backgrounds.Main.i().backgrounds
-                                : d_pagination.Page.i().page_backgrounds,
-                        'cnt_1466',
-                    );
-
                 if (this.drag_type === 'background') {
                     d_dnd.Main.i().item_to_move_i = s_i.Main.i().find_i_of_item_with_id({
                         id: d_dnd.Main.i().item_to_move!.id,
-                        items: get_backgrounds(),
+                        items: d_backgrounds.Main.i().backgrounds,
                     });
                 }
 
                 const items: i_db.Background[] | i_db.Task[] =
                     this.drag_type === 'background'
-                        ? get_backgrounds()
+                        ? d_backgrounds.Main.i().backgrounds
                         : d_scheduler.Tasks.i().tasks;
                 const drop_zone_background_i: number = s_i.Main.i().find_i_of_item_with_id({
                     id: d_dnd.Main.i().drop_zone_item!.id,
@@ -334,15 +325,8 @@ export class Main {
                                         .toString();
 
                                     if (this.drag_type === 'background') {
-                                        if (move_by_move_btn) {
-                                            d_backgrounds.Main.i().backgrounds[
-                                                this.item_to_move_i
-                                            ].i = new_i;
-                                        } else {
-                                            d_pagination.Page.i().page_backgrounds[
-                                                this.item_to_move_i
-                                            ].i = new_i;
-                                        }
+                                        d_backgrounds.Main.i().backgrounds[this.item_to_move_i].i =
+                                            new_i;
                                     } else if (this.drag_type === 'task') {
                                         d_scheduler.Tasks.i().tasks[this.item_to_move_i].i = new_i;
                                     }
@@ -410,15 +394,9 @@ export class Main {
                                 .toString();
 
                             if (this.drag_type === 'background') {
-                                if (move_by_move_btn) {
-                                    d_backgrounds.Main.i().backgrounds[
-                                        d_dnd.Main.i().item_to_move_i
-                                    ].i = intermediate_i;
-                                } else {
-                                    d_pagination.Page.i().page_backgrounds[
-                                        d_dnd.Main.i().item_to_move_i
-                                    ].i = intermediate_i;
-                                }
+                                d_backgrounds.Main.i().backgrounds[
+                                    d_dnd.Main.i().item_to_move_i
+                                ].i = intermediate_i;
                             } else if (this.drag_type === 'task') {
                                 d_scheduler.Tasks.i().tasks[d_dnd.Main.i().item_to_move_i].i =
                                     intermediate_i;
@@ -432,7 +410,7 @@ export class Main {
                         if (data.settings.update_database_when_dnd_item) {
                             if (this.drag_type === 'background') {
                                 await s_db.Manipulation.i().update_background({
-                                    background: get_backgrounds()[
+                                    background: d_backgrounds.Main.i().backgrounds[
                                         d_dnd.Main.i().item_to_move_i
                                     ] as i_db.Background,
                                 });
@@ -449,23 +427,13 @@ export class Main {
                 const set_observable = action((): void =>
                     err(() => {
                         if (this.drag_type === 'background') {
-                            if (move_by_move_btn) {
-                                d_backgrounds.Main.i().backgrounds =
-                                    s_i.Main.i().sort_by_i_ascending({
-                                        data: get_backgrounds(),
-                                    }) as i_db.Background[];
-                            } else {
-                                d_pagination.Page.i().page_backgrounds =
-                                    s_i.Main.i().sort_by_i_ascending({
-                                        data: get_backgrounds(),
-                                    }) as i_db.Background[];
-                            }
+                            d_backgrounds.Main.i().backgrounds = s_i.Main.i().sort_by_i_ascending({
+                                data: d_backgrounds.Main.i().backgrounds,
+                            }) as i_db.Background[];
 
                             d_backgrounds.CurrentBackground.i().set_current_background_i();
+                            d_pagination.Page.i().set_page_backgrounds();
 
-                            if (move_by_move_btn) {
-                                d_pagination.Page.i().set_page_backgrounds();
-                            }
                             // eslint-disable-next-line max-len
                         } else if (this.drag_type === 'task') {
                             d_scheduler.Tasks.i().tasks = s_i.Main.i().sort_by_i_ascending({

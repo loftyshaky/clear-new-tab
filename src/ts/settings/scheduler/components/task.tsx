@@ -13,7 +13,7 @@ export const Task: React.FunctionComponent<p_scheduler.Task> = observer((props) 
         <c_dnd.DropZone
             style={{ height }}
             on_mouse_up={(): void => {
-                d_dnd.Main.i().drop({ move_by_move_btn: false });
+                d_dnd.Main.i().drop();
             }}
         />
     ) : (
