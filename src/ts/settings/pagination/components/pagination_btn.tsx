@@ -5,7 +5,7 @@ import { d_pagination, p_pagination } from 'settings/internal';
 
 export const PaginationBtn: React.FunctionComponent<p_pagination.PaginationBtn> = observer(
     (props) => {
-        const { on_click_page, page_btn_content, is_active, is_disabled } = props;
+        const { name, on_click_page, page_btn_content, is_active, is_disabled } = props;
 
         return (
             <button
@@ -16,6 +16,7 @@ export const PaginationBtn: React.FunctionComponent<p_pagination.PaginationBtn> 
                     d_pagination.Page.i().page_is_disabled_cls({ is_disabled }),
                 ])}
                 type='button'
+                title={ext.msg(`${name}_title`)}
                 disabled={is_active || is_disabled}
                 onClick={() => {
                     d_pagination.Page.i().change({ page: on_click_page });

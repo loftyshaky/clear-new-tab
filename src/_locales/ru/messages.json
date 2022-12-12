@@ -473,6 +473,18 @@
     "finalizing_status_text": {
         "message": "Завершение..."
     },
+    "previous_page_title": {
+        "message": "Предыдущая страница"
+    },
+    "next_page_title": {
+        "message": "Следующая страница"
+    },
+    "first_page_title": {
+        "message": "Первая страница"
+    },
+    "last_page_title": {
+        "message": "Последняя страница"
+    },
     "install_help_chrome_text": {
         "message": "Спасибо за установку Clear New Tab! Если в вашем Chrome установлена тема из <a class='link extension_store' href='https://bit.ly/cws-themes-ru' target='_blank' rel='noopener noreferrer'>Интернет-магазина Chrome</a>, подождите, пока ее фон не появится в разделе \"Фоны\", и затем откройте новую вкладку, чтобы увидеть его. В противном случае вы можете загрузить свой собственный фон с помощью формы ниже. Если вам нужна помощь по использованию расширения, кликните на кнопки ? или посмотрите <a class='link video_guide' href='https://bit.ly/3OP7u6J' target='_blank' rel='noopener noreferrer'>видеоруководство</a>. Нажмите <button class='btn link_btn hide_install_help' type='button' tabindex='0'>сюда</button>, чтобы скрыть это сообщение."
     },

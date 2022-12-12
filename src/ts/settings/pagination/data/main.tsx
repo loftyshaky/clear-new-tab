@@ -36,6 +36,7 @@ export class Main {
 
             for (let i = pagination_info.first_page; i <= pagination_info.last_page; i += 1) {
                 this.pagination_btns.push({
+                    name: undefined,
                     on_click_page: i,
                     page_btn_content: i,
                     is_active: i === d_pagination.Page.i().page,
@@ -44,24 +45,28 @@ export class Main {
             }
 
             this.pagination_btns.unshift({
+                name: 'previous_page',
                 on_click_page: d_pagination.Page.i().page - 1,
                 page_btn_content: <svg.NavigateBefore />,
                 is_active: false,
                 is_disabled: !pagination_info.has_previous_page,
             });
             this.pagination_btns.unshift({
+                name: 'first_page',
                 on_click_page: 1,
                 page_btn_content: <svg.FirstPage />,
                 is_active: false,
                 is_disabled: !pagination_info.has_previous_page,
             });
             this.pagination_btns.push({
+                name: 'next_page',
                 on_click_page: d_pagination.Page.i().page + 1,
                 page_btn_content: <svg.NavigateNext />,
                 is_active: false,
                 is_disabled: !pagination_info.has_next_page,
             });
             this.pagination_btns.push({
+                name: 'last_page',
                 on_click_page: this.total_backgrounds,
                 page_btn_content: <svg.LastPage />,
                 is_active: false,
