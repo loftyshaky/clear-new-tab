@@ -2,8 +2,9 @@ import _ from 'lodash';
 import { makeObservable, observable, action, toJS } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
+import { d_inputs, i_inputs } from '@loftyshaky/shared/inputs';
 import { d_backgrounds as d_backgrounds_shared, s_i, i_db } from 'shared/internal';
-import { d_background_settings, d_backgrounds, d_scheduler } from 'settings/internal';
+import { d_background_settings, d_backgrounds, d_scheduler, d_sections } from 'settings/internal';
 
 export class CurrentBackground {
     private static i0: CurrentBackground;
@@ -43,12 +44,22 @@ export class CurrentBackground {
             if (d_scheduler.Visibility.i().is_visible) {
                 d_scheduler.Tasks.i().set_background_id({ background_id: background.id });
             }
+
+            d_inputs.NestedInput.i().set_all_parents_disbled_vals({
+                sections: d_sections.Main.i().sections as i_inputs.Sections,
+                set_to_all_sections: true,
+            });
         }, 'cnt_1109');
 
     public deselect = (): void =>
         err(() => {
             if (!d_backgrounds.Dnd.i().lock_background_selection) {
                 this.selected_background_id = undefined;
+
+                d_inputs.NestedInput.i().set_all_parents_disbled_vals({
+                    sections: d_sections.Main.i().sections as i_inputs.Sections,
+                    set_to_all_sections: true,
+                });
             }
         }, 'cnt_1110');
 
