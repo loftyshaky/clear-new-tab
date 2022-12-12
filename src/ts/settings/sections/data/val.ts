@@ -351,4 +351,18 @@ export class Val {
                 (val === '0' || (val >= 0.1 && val <= 16)),
             'cnt_1294',
         );
+
+    public admin_change_visibility_of_content_save_callback = ({
+        bool,
+    }: {
+        bool: boolean;
+    }): Promise<void> =>
+        err_async(async () => {
+            await ext.send_msg_resp({
+                msg: 'update_settings_background',
+                settings: { admin_section_content_is_visible: bool },
+                update_instantly: false,
+                load_settings: false,
+            });
+        }, 'cnt_1470');
 }

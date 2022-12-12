@@ -7,6 +7,7 @@ export interface Settings extends i_data.Date {
     transition_duration: number;
     color_help_is_visible: boolean;
     enable_cut_features: boolean;
+    admin_section_content_is_visible: boolean;
     colors: i_color.Color[];
     last_version: undefined | string;
     install_help_is_visible: boolean;

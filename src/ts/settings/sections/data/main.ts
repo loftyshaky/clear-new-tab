@@ -549,6 +549,9 @@ export class Main {
                     back_up_help_msg: ext.msg('back_up_help_text'),
                     download_backup: false,
                     allow_multiple_file_backup_upload: true,
+                    admin_content_is_hideable: true,
+                    admin_change_visibility_of_content_save_callback:
+                        d_sections.Val.i().admin_change_visibility_of_content_save_callback,
                 }),
                 ...[
                     new o_inputs.Section({

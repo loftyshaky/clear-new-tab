@@ -25,6 +25,7 @@ export class Main {
                 transition_duration: 200,
                 color_help_is_visible: true,
                 enable_cut_features: false,
+                admin_section_content_is_visible: false,
                 colors: d_color.Color.i().default_colors,
                 last_version: undefined,
                 install_help_is_visible: true,
@@ -159,6 +160,10 @@ export class Main {
                 new o_schema.TransformItem({
                     new_key: 'backgrounds_per_page',
                     new_val: 500,
+                }),
+                new o_schema.TransformItem({
+                    new_key: 'admin_section_content_is_visible',
+                    new_val: false,
                 }),
             ];
 

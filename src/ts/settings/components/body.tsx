@@ -52,7 +52,10 @@ export const Body: React.FunctionComponent<p_settings.Body> = observer((props) =
                                     {section.name === 'background_upload' ? (
                                         <c_install_help.Body />
                                     ) : undefined}
-                                    <c_inputs.SectionContent inputs={section.inputs} />
+                                    <c_inputs.SectionContent
+                                        section={section}
+                                        inputs={section.inputs}
+                                    />
                                 </c_settings.Section>
                             ),
                         )}
