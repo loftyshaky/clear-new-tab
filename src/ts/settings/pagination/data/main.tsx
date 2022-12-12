@@ -44,26 +44,26 @@ export class Main {
             }
 
             this.pagination_btns.unshift({
-                on_click_page: 1,
-                page_btn_content: <svg.FirstPage />,
-                is_active: false,
-                is_disabled: !pagination_info.has_previous_page,
-            });
-            this.pagination_btns.unshift({
                 on_click_page: d_pagination.Page.i().page - 1,
                 page_btn_content: <svg.NavigateBefore />,
                 is_active: false,
                 is_disabled: !pagination_info.has_previous_page,
             });
-            this.pagination_btns.push({
-                on_click_page: this.total_backgrounds,
-                page_btn_content: <svg.LastPage />,
+            this.pagination_btns.unshift({
+                on_click_page: 1,
+                page_btn_content: <svg.FirstPage />,
                 is_active: false,
-                is_disabled: !pagination_info.has_next_page,
+                is_disabled: !pagination_info.has_previous_page,
             });
             this.pagination_btns.push({
                 on_click_page: d_pagination.Page.i().page + 1,
                 page_btn_content: <svg.NavigateNext />,
+                is_active: false,
+                is_disabled: !pagination_info.has_next_page,
+            });
+            this.pagination_btns.push({
+                on_click_page: this.total_backgrounds,
+                page_btn_content: <svg.LastPage />,
                 is_active: false,
                 is_disabled: !pagination_info.has_next_page,
             });
