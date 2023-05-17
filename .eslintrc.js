@@ -4,6 +4,7 @@ const restrictedGlobals = require('confusing-browser-globals');
 const rules = {
     js: {
         //> javascript
+        'prettier/prettier': 'error',
         'import/no-cycle': 'off',
         'import/named': 'off',
         'import/prefer-default-export': 'off',
