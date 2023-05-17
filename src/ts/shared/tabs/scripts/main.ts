@@ -67,3 +67,10 @@ we.tabs.onUpdated.addListener(
             }
         }, 'cnt_1429'),
 );
+
+we.tabs.onActivated.addListener(
+    (): Promise<void> =>
+        err_async(async () => {
+            await s_tabs.TabIds.i().set_last_visited_new_tab_id();
+        }, 'cnt_1471'),
+);
