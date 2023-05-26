@@ -1,4 +1,4 @@
-import { s_utils } from '@loftyshaky/shared';
+import { d_offers, s_utils } from '@loftyshaky/shared';
 import { o_inputs, o_color, i_inputs } from '@loftyshaky/shared/inputs';
 import { d_settings } from '@loftyshaky/shared/settings';
 import { svg } from 'shared/internal';
@@ -186,6 +186,15 @@ export class Main {
                             }),
                         ],
                     }),
+                    ...(d_offers.Main.i().found_offers_for_current_locale()
+                        ? [
+                              new o_inputs.Section({
+                                  name: 'offers',
+                                  include_offers: true,
+                                  inputs: [],
+                              }),
+                          ]
+                        : []),
                     new o_inputs.Section({
                         name: 'background_settings',
                         inputs: [

@@ -1,5 +1,13 @@
 $backgrounds_section_max_width: 922px;
 
+.offers {
+    border: 0;
+
+    .offers_inner {
+        margin: 0;
+    }
+}
+
 .sections {
     overflow: hidden;
     flex-grow: unset;

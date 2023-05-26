@@ -10,8 +10,25 @@ export const Section: React.FunctionComponent<p_settings.Section> = observer((pr
     const { section_name, section, children } = props;
 
     return (
-        <div className={x.cls(['section', section_name])}>
-            <h1 className='section_name'>{ext.msg(`${section_name}_section_text`)}</h1>
+        <Tr
+            tag='div'
+            name='fade'
+            cls={x.cls(['section', section_name])}
+            // eslint-disable-next-line max-len
+            state={
+                section_name !== 'offers' ||
+                (section_name === 'offers' && data.settings.offers_are_visible)
+            }
+        >
+            <h1
+                className='section_name'
+                role='none'
+                onClick={
+                    section_name === 'admin' ? d_sections.Val.i().enable_developer_mode : undefined
+                }
+            >
+                {ext.msg(`${section_name}_section_text`)}
+            </h1>
             <div className='section_help'>
                 {n(section) && section.include_help ? (
                     <c_inputs.HelpBtn section_or_input={section} />
@@ -36,6 +53,6 @@ export const Section: React.FunctionComponent<p_settings.Section> = observer((pr
                 {children}
                 {section_name === 'links' ? <c_app_version.Body /> : undefined}
             </Tr>
-        </div>
+        </Tr>
     );
 });

@@ -2,7 +2,7 @@ import { action } from 'mobx';
 
 import { i_data } from '@loftyshaky/shared';
 import { o_color, d_inputs, d_color, i_inputs, i_color } from '@loftyshaky/shared/inputs';
-import { s_settings } from '@loftyshaky/shared/settings';
+import { d_developer_mode, s_settings } from '@loftyshaky/shared/settings';
 import {
     vars,
     d_backgrounds as d_backgrounds_shared,
@@ -365,4 +365,17 @@ export class Val {
                 load_settings: false,
             });
         }, 'cnt_1470');
+
+    public enable_developer_mode = (): Promise<void> =>
+        err_async(async () => {
+            d_developer_mode.Main.i().enable_developer_mode({
+                save_callback: async () =>
+                    ext.send_msg_resp({
+                        msg: 'update_settings_background',
+                        settings: { developer_mode: data.settings.developer_mode },
+                        update_instantly: true,
+                        update_background: true,
+                    }),
+            });
+        }, 'ges_1210');
 }
