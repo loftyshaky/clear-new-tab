@@ -27,6 +27,7 @@ export class Main {
                 developer_mode: false,
                 enable_cut_features: false,
                 offers_are_visible: true,
+                offer_banner_type: 'vertical',
                 admin_section_content_is_visible: false,
                 colors: d_color.Color.i().default_colors,
                 last_version: undefined,
@@ -174,6 +175,10 @@ export class Main {
                 new o_schema.TransformItem({
                     new_key: 'offers_are_visible',
                     new_val: true,
+                }),
+                new o_schema.TransformItem({
+                    new_key: 'offer_banner_type',
+                    new_val: 'vertical',
                 }),
             ];
 

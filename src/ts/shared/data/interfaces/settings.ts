@@ -9,6 +9,7 @@ export interface Settings extends i_data.Date {
     developer_mode: boolean;
     enable_cut_features: boolean;
     offers_are_visible: boolean;
+    offer_banner_type: 'horizontal' | 'vertical';
     admin_section_content_is_visible: boolean;
     colors: i_color.Color[];
     last_version: undefined | string;
