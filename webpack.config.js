@@ -26,7 +26,7 @@ const app_root = appRoot.path;
 
 const manifest = new Manifest({ app_root });
 const env_instance = new Env({ app_root });
-const locales = new Locales({ app_root });
+const locales = new Locales({ app_root, exclude_shared_locales: ['de'] });
 
 const ext_id = 'nnmhbhoglljdlhbllfgkemgenlplalie';
 
