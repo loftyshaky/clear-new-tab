@@ -6,5 +6,6 @@ import { init } from 'background/internal';
 
 importScripts('/env.js');
 
+ext.force_local_storage_f();
 init_shared();
 init();
