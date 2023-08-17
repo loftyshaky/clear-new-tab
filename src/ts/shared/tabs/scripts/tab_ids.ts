@@ -1,7 +1,5 @@
 import { Tabs } from 'webextension-polyfill-ts';
 
-import { s_service_worker } from 'shared/internal';
-
 export class TabIds {
     private static i0: TabIds;
 
@@ -40,8 +38,6 @@ export class TabIds {
                     }
                 }
             }
-
-            s_service_worker.Lifeline.i().connect();
         }, 'cnt_1039');
 
     public set_last_visited_new_tab_id = (): Promise<void> =>

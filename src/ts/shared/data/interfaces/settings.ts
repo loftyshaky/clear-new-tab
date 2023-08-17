@@ -8,6 +8,7 @@ export interface Settings extends i_data.Date {
     color_help_is_visible: boolean;
     developer_mode: boolean;
     enable_cut_features: boolean;
+    persistent_service_worker: boolean;
     offers_are_visible: boolean;
     offer_banner_type: 'horizontal' | 'vertical';
     admin_section_content_is_visible: boolean;

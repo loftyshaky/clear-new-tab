@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { t, o_schema, d_schema } from '@loftyshaky/shared';
+import { t, o_schema, d_schema, s_service_worker } from '@loftyshaky/shared';
 import { d_color } from '@loftyshaky/shared/inputs';
 import { vars, d_backgrounds, s_background, i_data } from 'shared/internal';
 
@@ -26,6 +26,7 @@ export class Main {
                 color_help_is_visible: true,
                 developer_mode: false,
                 enable_cut_features: false,
+                persistent_service_worker: true,
                 offers_are_visible: true,
                 offer_banner_type: 'vertical',
                 admin_section_content_is_visible: false,
@@ -93,6 +94,8 @@ export class Main {
             }
 
             await ext.storage_set(settings_final);
+
+            s_service_worker.ServiceWorker.i().make_persistent();
 
             if (load_settings) {
                 await ext.send_msg_resp({ msg: 'load_settings' });
@@ -179,6 +182,10 @@ export class Main {
                 new o_schema.TransformItem({
                     new_key: 'offer_banner_type',
                     new_val: 'vertical',
+                }),
+                new o_schema.TransformItem({
+                    new_key: 'persistent_service_worker',
+                    new_val: true,
                 }),
             ];
 

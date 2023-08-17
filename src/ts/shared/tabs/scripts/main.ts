@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { Tabs } from 'webextension-polyfill-ts';
 
-import { s_background, s_service_worker, s_tabs } from 'shared/internal';
+import { s_background, s_tabs } from 'shared/internal';
 
 export class Main {
     private static i0: Main;
@@ -38,8 +38,6 @@ export class Main {
             }
 
             this.remove_id({ id_to_remove: tab_id });
-
-            s_service_worker.Lifeline.i().connect();
         }, 'cnt_1430');
 }
 
