@@ -45,7 +45,13 @@ export class TabIds {
             const active_tab: Tabs.Tab | undefined = await ext.get_active_tab();
 
             if (n(active_tab) && n(active_tab.id)) {
-                this.last_visited_new_tab_id = active_tab.id;
+                const this_tab_is_new_tab: boolean = await ext.send_msg_to_tab_resp(active_tab.id, {
+                    msg: 'confirm_this_tab_is_new_tab',
+                });
+
+                if (this_tab_is_new_tab) {
+                    this.last_visited_new_tab_id = active_tab.id;
+                }
             }
         }, 'cnt_1432');
 }

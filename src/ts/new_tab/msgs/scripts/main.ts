@@ -19,6 +19,8 @@ we.runtime.onMessage.addListener(
                 await d_settings.Main.i().set_from_storage();
             } else if (msg_str === 'set_custom_code') {
                 await s_custom_code.Msgs.i().send_set_custom_code_msg();
+            } else if (msg_str === 'confirm_this_tab_is_new_tab') {
+                return true;
             } else {
                 await x.delay(10000);
             }
