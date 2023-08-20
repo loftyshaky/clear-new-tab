@@ -105,7 +105,7 @@ export class Manipulation {
             return backgrounds;
         }, 'cnt_1330');
 
-    public get_background = ({ id }: { id: string }): Promise<i_db.Background> =>
+    public get_background = ({ id }: { id: string | number }): Promise<i_db.Background> =>
         err_async(async () => {
             const background: i_db.Background = await (db.backgrounds.get as any)(id);
 
@@ -121,7 +121,7 @@ export class Manipulation {
             return background_thumbnail;
         }, 'cnt_1332');
 
-    public get_background_file = ({ id }: { id: string }): Promise<i_db.BackgroundFile> =>
+    public get_background_file = ({ id }: { id: string | number }): Promise<i_db.BackgroundFile> =>
         err_async(async () => {
             const background_file: i_db.BackgroundFile = await (db.background_files.get as any)(id);
 

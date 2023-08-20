@@ -98,9 +98,8 @@ export class Main {
                     }
 
                     this.current_object_url_background_id = new_object_url_background_id;
-                    this.current_object_url = URL.createObjectURL(
-                        (background_file as i_db.BackgroundFile).background as File,
-                    );
+                    this.current_object_url = (background_file as i_db.BackgroundFile)
+                        .background as string;
 
                     return this.current_object_url;
                 }

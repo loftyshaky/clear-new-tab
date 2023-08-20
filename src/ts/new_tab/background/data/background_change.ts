@@ -60,17 +60,21 @@ export class BackgroundChange {
                 const preview_background_id = new URL(globalThis.location.href).searchParams.get(
                     'preview_background_id',
                 );
-                const background_id: string = n(preview_background_id)
-                    ? preview_background_id
-                    : data.settings.current_background_id;
-
-                const new_background_data = await s_db.Manipulation.i().get_background({
-                    id: background_id,
+                const preloaded_background_data = await ext.send_msg_resp({
+                    msg: 'get_preloaded_background_data',
                 });
 
-                const new_background_file = await s_db.Manipulation.i().get_background_file({
-                    id: background_id,
-                });
+                const new_background_data = n(preview_background_id)
+                    ? await s_db.Manipulation.i().get_background({
+                          id: preview_background_id,
+                      })
+                    : preloaded_background_data.current_background;
+
+                const new_background_file = n(preview_background_id)
+                    ? await s_db.Manipulation.i().get_background_file({
+                          id: preview_background_id,
+                      })
+                    : preloaded_background_data.current_background_file;
 
                 runInAction(() =>
                     err(() => {

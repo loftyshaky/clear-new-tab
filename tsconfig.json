@@ -16,6 +16,7 @@
             "background/*": ["./ts/background/*"],
             "settings/*": ["./ts/settings/*"],
             "new_tab/*": ["./ts/new_tab/*"],
+            "offscreen/*": ["./ts/offscreen/*"],
             "sandbox/*": ["./ts/sandbox/*"]
         }
     },

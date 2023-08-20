@@ -25,7 +25,7 @@ class Manifest {
             sandbox: {
                 pages: ['sandbox.html'],
             },
-            permissions: ['storage', 'alarms', 'management'],
+            permissions: ['storage', 'alarms', 'management', 'offscreen'],
             optional_permissions: ['clipboardRead'],
             host_permissions: [
                 // '<all_urls>',

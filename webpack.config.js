@@ -85,6 +85,7 @@ module.exports = (env, argv) => {
         ...config.resolve.alias,
         ...{
             new_tab: path.join(paths.ts, 'new_tab'),
+            offscreen: path.join(paths.ts, 'offscreen'),
             sandbox: path.join(paths.ts, 'sandbox'),
         },
     };
@@ -94,6 +95,7 @@ module.exports = (env, argv) => {
         ...{
             background: path.join(paths.ts, 'background', 'background.ts'),
             settings: path.join(paths.ts, 'settings', 'settings.ts'),
+            offscreen: path.join(paths.ts, 'offscreen', 'offscreen.ts'),
             new_tab: path.join(paths.ts, 'new_tab', 'new_tab.ts'),
             sandbox: path.join(paths.ts, 'sandbox', 'sandbox.ts'),
             preload_color: path.join(paths.ts, 'new_tab', 'preload_color.ts'),

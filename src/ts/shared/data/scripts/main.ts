@@ -101,6 +101,11 @@ export class Main {
                 await ext.send_msg_resp({ msg: 'load_settings' });
             }
 
+            await ext.send_msg_resp({
+                msg: 'set_current_background_data',
+                current_background_id: settings_final.current_background_id,
+            });
+
             if (n(update_background) && update_background) {
                 s_background.BackgroundChange.i().try_to_change_background({
                     allow_to_start_slideshow_timer: false,
