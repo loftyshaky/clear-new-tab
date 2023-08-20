@@ -33,7 +33,8 @@ export class CurrentBackground {
                         id: current_background_id,
                     });
 
-                background_file.background = URL.createObjectURL( // URL.createObjectURL can't be called in service worker
+                background_file.background = URL.createObjectURL(
+                    // URL.createObjectURL can't be called in service worker
                     (background_file as i_db.BackgroundFile).background as File,
                 );
 

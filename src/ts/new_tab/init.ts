@@ -1,11 +1,13 @@
 import { InitAll } from 'shared/init_all';
-import { d_background, s_custom_code } from 'new_tab/internal';
+import { d_background, s_background, s_custom_code } from 'new_tab/internal';
 
 export const init = (): Promise<void> =>
     err_async(async () => {
         await InitAll.i().init();
 
         s_custom_code.Msgs.i().send_set_custom_code_msg();
+
+        s_background.Preview.i().set_id();
 
         ext.send_msg({ msg: 'push_tab_id' });
         ext.send_msg({

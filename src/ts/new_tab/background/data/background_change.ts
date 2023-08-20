@@ -3,7 +3,7 @@ import { makeObservable, action, runInAction } from 'mobx';
 
 import { t } from '@loftyshaky/shared';
 import { s_db, i_db } from 'shared/internal';
-import { d_background, i_background, s_background } from 'new_tab/internal';
+import { d_background, s_background, i_background } from 'new_tab/internal';
 import { set_preload_color } from 'new_tab/preload_color';
 
 export class BackgroundChange {
@@ -57,12 +57,11 @@ export class BackgroundChange {
                     URL.revokeObjectURL(d_background.Main.i().current_object_url);
                 }
 
-                const preview_background_id = new URL(globalThis.location.href).searchParams.get(
-                    'preview_background_id',
-                );
                 const preloaded_background_data = await ext.send_msg_resp({
                     msg: 'get_preloaded_background_data',
                 });
+
+                const preview_background_id = s_background.Preview.i().id;
 
                 const new_background_data = n(preview_background_id)
                     ? await s_db.Manipulation.i().get_background({

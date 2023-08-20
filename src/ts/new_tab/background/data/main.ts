@@ -98,8 +98,12 @@ export class Main {
                     }
 
                     this.current_object_url_background_id = new_object_url_background_id;
-                    this.current_object_url = (background_file as i_db.BackgroundFile)
-                        .background as string;
+                    this.current_object_url = n(s_background.Preview.i().id)
+                        ? URL.createObjectURL(
+                              // URL.createObjectURL can't be called in service worker
+                              (background_file as i_db.BackgroundFile).background as File,
+                          )
+                        : ((background_file as i_db.BackgroundFile).background as string);
 
                     return this.current_object_url;
                 }
