@@ -105,12 +105,14 @@ export class Classes {
     get_no_tr_cls = ({ is_background }: { is_background: boolean }): string =>
         err(() => {
             const active_cls: string = 'no_tr';
+            const is_no_effect_background_change_effect: boolean =
+                data.settings.background_change_effect === 'no_effect';
 
             if (this.no_tr) {
                 return active_cls;
             }
 
-            return is_background ? '' : 'no_tr';
+            return is_background && !is_no_effect_background_change_effect ? '' : 'no_tr';
         }, 'cnt_1052');
 
     public select_slide_direction = (): string =>

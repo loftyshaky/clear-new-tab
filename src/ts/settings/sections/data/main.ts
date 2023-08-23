@@ -61,6 +61,7 @@ export class Main {
                     new o_inputs.Option({ name: '4_weeks', val: 2419200000 }),
                 ],
                 background_change_effect: [
+                    new o_inputs.Option({ name: 'no_effect' }),
                     new o_inputs.Option({ name: 'crossfade' }),
                     new o_inputs.Option({ name: 'slide' }),
                 ],

@@ -272,6 +272,9 @@
     "4_weeks_option_text": {
         "message": "4 Weeks"
     },
+    "no_effect_option_text": {
+        "message": "No effect"
+    },
     "crossfade_option_text": {
         "message": "Сrossfade"
     },
