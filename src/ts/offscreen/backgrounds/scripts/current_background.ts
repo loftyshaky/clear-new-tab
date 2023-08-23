@@ -18,11 +18,13 @@ export class CurrentBackground {
 
     public set_current_background_data = ({
         current_background_id,
+        force,
     }: {
         current_background_id: string | number;
+        force: boolean;
     }): Promise<void> =>
         err_async(async () => {
-            if (current_background_id !== this.last_current_background_id) {
+            if (current_background_id !== this.last_current_background_id || force) {
                 this.last_current_background_id = current_background_id;
 
                 const background: i_db.Background = await s_db.Manipulation.i().get_background({
@@ -33,13 +35,26 @@ export class CurrentBackground {
                         id: current_background_id,
                     });
 
-                background_file.background = URL.createObjectURL(
-                    // URL.createObjectURL can't be called in service worker
-                    (background_file as i_db.BackgroundFile).background as File,
-                );
+                if (n(background_file) && typeof background_file.background !== 'string') {
+                    background_file.background = URL.createObjectURL(
+                        // URL.createObjectURL can't be called in service worker
+                        (background_file as i_db.BackgroundFile).background as File,
+                    );
+                }
 
                 this.current_background = background;
                 this.current_background_file = background_file;
             }
         }, 'cnt_1473');
+
+    public set_current_background_data_from_empty = ({
+        current_background_id,
+    }: {
+        current_background_id: string | number;
+    }): Promise<void> =>
+        err_async(async () => {
+            if (!n(this.current_background) || !n(this.current_background_file)) {
+                await this.set_current_background_data({ current_background_id, force: true });
+            }
+        }, 'cnt_1477');
 }

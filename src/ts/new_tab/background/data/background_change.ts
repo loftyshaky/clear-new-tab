@@ -57,18 +57,17 @@ export class BackgroundChange {
                     URL.revokeObjectURL(d_background.Main.i().current_object_url);
                 }
 
+                const preview_background_id = s_background.Preview.i().id;
                 const preloaded_background_data = await ext.send_msg_resp({
                     msg: 'get_preloaded_background_data',
+                    current_background_id: data.settings.current_background_id,
                 });
-
-                const preview_background_id = s_background.Preview.i().id;
 
                 const new_background_data = n(preview_background_id)
                     ? await s_db.Manipulation.i().get_background({
                           id: preview_background_id,
                       })
                     : preloaded_background_data.current_background;
-
                 const new_background_file = n(preview_background_id)
                     ? await s_db.Manipulation.i().get_background_file({
                           id: preview_background_id,

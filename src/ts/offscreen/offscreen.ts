@@ -1,1 +1,5 @@
-import 'offscreen/internal';
+import { init } from 'offscreen/internal';
+
+(async () => {
+    await init();
+})();

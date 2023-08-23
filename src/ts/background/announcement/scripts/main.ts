@@ -12,8 +12,6 @@ export class Main {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
-    public installing_ext: boolean = false;
-
     public display_announcement = (): Promise<void> =>
         err_async(async () => {
             const settings: i_data.Settings = await ext.storage_get();

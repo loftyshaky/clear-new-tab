@@ -18,6 +18,8 @@ we.runtime.onMessage.addListener(
                 s_browser_theme.Main.i().try_to_get_theme_background();
             } else if (msg_str === 'update_tasks') {
                 await d_scheduler.Tasks.i().set_tasks();
+
+                return 'u67676';
             } else if (msg_str === 'confirm_this_tab_is_new_tab') {
                 return false;
             } else {

@@ -420,14 +420,6 @@ export class Restore {
                         }, 'cnt_1375'),
                     );
 
-                    await ext.send_msg_resp({
-                        msg: 'update_settings_background',
-                        settings,
-                        update_background: true,
-                        update_instantly: true,
-                        transform: true,
-                    });
-
                     await s_theme.Main.i().reset_theme({ transition_duration });
                     s_css_vars.Main.i().set();
 
@@ -450,6 +442,14 @@ export class Restore {
                 s_preload_color.Storage.i().set_preload_color();
                 d_backgrounds.CurrentBackground.i().set_current_background_i();
                 d_scheduler.Tasks.i().reset_background_id();
+
+                await ext.send_msg_resp({
+                    msg: 'update_settings_background',
+                    settings,
+                    update_background: true,
+                    update_instantly: true,
+                    transform: true,
+                });
 
                 ext.send_msg({ msg: 'get_background', force_update: true });
             }

@@ -1,13 +1,13 @@
-import { s_data } from 'shared/internal';
-import { s_announcement, s_browser_theme } from 'background/internal';
+import { db, s_data } from 'shared/internal';
+import { s_browser_theme } from 'background/internal';
 
 we.runtime.onInstalled.addListener(
     (details): Promise<void> =>
         err_async(async () => {
             if (details.reason === 'install') {
-                s_announcement.Main.i().installing_ext = true;
-
+                s_data.Main.i().init_defaults();
                 await s_data.Main.i().set_from_storage();
+                db.init_db();
                 await s_browser_theme.Main.i().get_theme_background();
             }
         }, 'cnt_1014'),

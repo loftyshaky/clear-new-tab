@@ -1,3 +1,4 @@
+$img_height: 94px;
 $overlay_item_size: 14px;
 $overlay_item_font_size: 10px;
 $overlay_item_side_padding: 2px;
@@ -16,7 +17,7 @@ span.background {
     @include border;
 
     position: relative;
-    height: 94px;
+    height: $img_height;
     max-width: 400px;
     min-width: 80px;
     user-select: none;
@@ -43,6 +44,7 @@ span.background {
     .img_thumbnail {
         @include checkerboard_gradient;
 
+        height: $img_height;
         opacity: 0;
     }
 

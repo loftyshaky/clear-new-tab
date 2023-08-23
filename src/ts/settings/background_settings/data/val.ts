@@ -65,6 +65,12 @@ export class Val {
                 background: d_background_settings.SettingsContext.i().selected_background!,
             });
 
+            await ext.send_msg_resp({
+                msg: 'set_current_background_data',
+                current_background_id: data.settings.current_background_id,
+                force: true,
+            });
+
             ext.send_msg({
                 msg: 'get_background',
                 allow_to_start_slideshow_timer: false,

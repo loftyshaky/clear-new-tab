@@ -3,11 +3,19 @@ import { s_announcement, s_db, s_offscreen, s_scheduler } from 'background/inter
 
 export const init = (): Promise<void> =>
     err_async(async () => {
+        await s_offscreen.Main.i().create_document();
         s_data.Main.i().init_defaults();
         await s_data.Main.i().set_from_storage({ transform: true });
         await s_announcement.Main.i().display_announcement();
         await s_scheduler.Main.i().schedule_background_display();
         db.init_db();
         await s_db.Main.i().delete_old_db();
-        await s_offscreen.Main.i().create_document();
+
+        const settings = await ext.storage_get();
+
+        await ext.send_msg_resp({
+            msg: 'set_current_background_data',
+            current_background_id: settings.current_background_id,
+            force: true,
+        });
     }, 'cnt_1010');

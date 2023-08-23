@@ -95,15 +95,13 @@ export class Main {
 
             await ext.storage_set(settings_final);
 
-            s_service_worker.ServiceWorker.i().make_persistent();
+            const settings_new: i_data.Settings = await ext.storage_get();
 
-            if (load_settings) {
-                await ext.send_msg_resp({ msg: 'load_settings' });
-            }
+            s_service_worker.ServiceWorker.i().make_persistent();
 
             await ext.send_msg_resp({
                 msg: 'set_current_background_data',
-                current_background_id: settings_final.current_background_id,
+                current_background_id: settings_new.current_background_id,
             });
 
             if (n(update_background) && update_background) {
@@ -111,6 +109,10 @@ export class Main {
                     allow_to_start_slideshow_timer: false,
                     force_update: true,
                 });
+            }
+
+            if (load_settings) {
+                ext.send_msg_resp({ msg: 'load_settings' });
             }
         }, 'cnt_1320');
 

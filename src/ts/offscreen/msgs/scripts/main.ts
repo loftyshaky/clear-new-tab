@@ -6,18 +6,21 @@ we.runtime.onMessage.addListener(
         err_async(async () => {
             const msg_str: string = msg.msg;
 
-            if (msg_str === 'get_preloaded_background_data') {
+            if (msg_str === 'set_current_background_data') {
+                await s_backgrounds.CurrentBackground.i().set_current_background_data({
+                    current_background_id: msg.current_background_id,
+                    force: n(msg.force) ? msg.force : false,
+                });
+            } else if (msg_str === 'get_preloaded_background_data') {
+                await s_backgrounds.CurrentBackground.i().set_current_background_data_from_empty({
+                    current_background_id: msg.current_background_id,
+                });
+
                 return {
                     current_background: s_backgrounds.CurrentBackground.i().current_background,
                     current_background_file:
                         s_backgrounds.CurrentBackground.i().current_background_file,
                 };
-            }
-
-            if (msg_str === 'set_current_background_data') {
-                await s_backgrounds.CurrentBackground.i().set_current_background_data({
-                    current_background_id: msg.current_background_id,
-                });
             } else {
                 await x.delay(10000);
             }
