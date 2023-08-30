@@ -192,6 +192,7 @@ export class Main {
                               new o_inputs.Section({
                                   name: 'offers',
                                   include_offers: true,
+                                  offer_banner_type: 'vertical',
                                   inputs: [],
                               }),
                           ]
