@@ -1,4 +1,4 @@
-import { i_backgrounds } from 'settings/internal';
+import { i_backgrounds } from 'shared/internal';
 
 export class FileType {
     private static i0: FileType;
@@ -32,4 +32,7 @@ export class FileType {
 
             return 'img_link';
         }, 'cnt_1149');
+
+    public is_base64 = ({ file }: { file: File | string }): boolean =>
+        err(() => (typeof file === 'string' ? file.includes('data:') : false), 'cnt_1511');
 }

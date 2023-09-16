@@ -34,7 +34,7 @@ export class Restore {
     public restored_background_thumbnails: i_db.BackgroundThumbnail[] = [];
     public restored_tasks: i_db.Task[] = [];
 
-    public restore_confirm = ({ settings }: { settings?: i_data.Settings } = {}): Promise<void> =>
+    public restore_confirm = (): Promise<void> =>
         err_async(async () => {
             // eslint-disable-next-line no-alert
             const confirmed_restore: boolean = globalThis.confirm(
@@ -46,7 +46,7 @@ export class Restore {
 
                 const { transition_duration } = _.clone(data.settings);
 
-                const settings_final: i_data.Settings = await this.set({ settings });
+                const settings_final: i_data.Settings = await this.set();
 
                 await ext.send_msg_resp({
                     msg: 'update_settings_background',
@@ -420,6 +420,14 @@ export class Restore {
                         }, 'cnt_1375'),
                     );
 
+                    await ext.send_msg_resp({
+                        msg: 'update_settings_background',
+                        settings,
+                        update_background: true,
+                        update_instantly: true,
+                        transform: true,
+                    });
+
                     await s_theme.Main.i().reset_theme({ transition_duration });
                     s_css_vars.Main.i().set();
 
@@ -442,14 +450,6 @@ export class Restore {
                 s_preload_color.Storage.i().set_preload_color();
                 d_backgrounds.CurrentBackground.i().set_current_background_i();
                 d_scheduler.Tasks.i().reset_background_id();
-
-                await ext.send_msg_resp({
-                    msg: 'update_settings_background',
-                    settings,
-                    update_background: true,
-                    update_instantly: true,
-                    transform: true,
-                });
 
                 ext.send_msg({ msg: 'get_background', force_update: true });
             }

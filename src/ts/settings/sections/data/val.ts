@@ -16,7 +16,6 @@ import {
     d_optional_permission_settings,
     d_pagination,
     d_sections,
-    s_browser_theme,
     d_scheduler,
 } from 'settings/internal';
 
@@ -88,9 +87,10 @@ export class Val {
 
                             if (input.name === 'mode') {
                                 if (val === 'theme_background') {
-                                    await s_browser_theme.Main.i().get_theme_background({
-                                        theme_id: undefined,
+                                    await ext.send_msg_resp({
+                                        msg: 'get_theme_background',
                                         force_theme_redownload: false,
+                                        triggered_by_load_theme_background_btn: false,
                                     });
                                 }
                                 if (val === 'multiple_backgrounds') {

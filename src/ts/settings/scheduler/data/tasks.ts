@@ -3,8 +3,8 @@ import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 import { BigNumber } from 'bignumber.js';
 
-import { vars, s_db, s_i as s_i_shared, i_db } from 'shared/internal';
-import { s_i, d_protecting_screen, d_scheduler, d_scrollable } from 'settings/internal';
+import { vars, s_db, s_i, i_db } from 'shared/internal';
+import { d_protecting_screen, d_scheduler, d_scrollable } from 'settings/internal';
 
 export class Tasks {
     private static i0: Tasks;
@@ -111,7 +111,7 @@ export class Tasks {
 
             runInAction(() =>
                 err(() => {
-                    this.tasks = s_i_shared.Main.i().sort_by_i_ascending({
+                    this.tasks = s_i.Main.i().sort_by_i_ascending({
                         data: tasks,
                     }) as i_db.Task[];
                 }, 'cnt_1254'),
@@ -120,14 +120,14 @@ export class Tasks {
 
     public set_tasks_from_arg = ({ tasks }: { tasks: i_db.Task[] }): void =>
         err(() => {
-            this.tasks = s_i_shared.Main.i().sort_by_i_ascending({
+            this.tasks = s_i.Main.i().sort_by_i_ascending({
                 data: tasks,
             }) as i_db.Task[];
         }, 'cnt_1256');
 
     public merge_tasks = ({ tasks }: { tasks: i_db.Task[] }): void =>
         err(() => {
-            this.tasks = s_i_shared.Main.i().sort_by_i_ascending({
+            this.tasks = s_i.Main.i().sort_by_i_ascending({
                 data: _.union(this.tasks, tasks),
             }) as i_db.Task[];
         }, 'cnt_1421');
@@ -157,7 +157,7 @@ export class Tasks {
         err_async(async () => {
             d_protecting_screen.Visibility.i().show();
 
-            const next_i: string = s_i.I.i().get_next_i({
+            const next_i: string = s_i.Main.i().get_next_i({
                 items: this.tasks,
             });
 

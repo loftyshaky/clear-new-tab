@@ -7,4 +7,5 @@ export * from 'settings/backgrounds/data/dnd';
 export * from 'settings/backgrounds/data/cache';
 export * from 'settings/backgrounds/data/main';
 export * from 'settings/backgrounds/data/upload';
+export * from 'settings/backgrounds/data/side_effects';
 export * from 'settings/backgrounds/data/scrollable';

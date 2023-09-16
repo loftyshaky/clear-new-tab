@@ -51,7 +51,7 @@ we.management.onEnabled.addListener(
                 s_browser_theme.Main.i().theme_id = ext_info.id;
                 s_browser_theme.Main.i().force_theme_redownload = false;
 
-                await s_browser_theme.Main.i().get_theme_background();
+                await s_browser_theme.Main.i().attempt_to_run_try_to_get_theme_background();
             }
         }, 'cnt_1012'),
 );

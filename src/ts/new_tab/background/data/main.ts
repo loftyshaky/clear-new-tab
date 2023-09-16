@@ -56,15 +56,19 @@ export class Main {
     public default_val_5: number[] = [0, 0];
     private default_val_6: t.AnyRecord[] = [{}, {}];
     public background_container_i: number = 1;
-    public background_data: (i_db.Background | undefined)[] = this.default_val_1;
-    public background_file: (i_db.BackgroundFile | string | undefined)[] = this.default_val_2;
-    public background: string[] = this.default_val_3;
-    public background_position: string[] = this.default_val_3;
-    public background_repeat: string[] = this.default_val_3;
-    public color_of_area_around_background: string[] = this.default_val_3;
-    public video_speed: number[] = this.default_val_4;
-    public video_volume: number[] = this.default_val_5;
-    public background_css: t.AnyRecord[] = this.default_val_6;
+    public background_data: (i_db.Background | undefined)[] = _.merge({}, this.default_val_1);
+    public background_file: (i_db.BackgroundFile | string | undefined)[] = _.merge(
+        {},
+        this.default_val_2,
+    );
+
+    public background: string[] = _.merge({}, this.default_val_3);
+    public background_position: string[] = _.merge({}, this.default_val_3);
+    public background_repeat: string[] = _.merge({}, this.default_val_3);
+    public color_of_area_around_background: string[] = _.merge({}, this.default_val_3);
+    public video_speed: number[] = _.merge({}, this.default_val_4);
+    public video_volume: number[] = _.merge({}, this.default_val_5);
+    public background_css: t.AnyRecord[] = _.merge({}, this.default_val_6);
     public current_object_url: string = '';
     public current_object_url_background_id: string = '';
 

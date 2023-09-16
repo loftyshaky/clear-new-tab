@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { makeObservable, observable, action } from 'mobx';
 
 import { i_db } from 'shared/internal';
@@ -21,10 +22,10 @@ export class BackgroundSize {
         });
     }
 
-    public background_size_setting: string[] = d_background.Main.i().default_val_3;
-    public background_size: string[] = d_background.Main.i().default_val_3;
-    public video_width: string[] = d_background.Main.i().default_val_3;
-    public video_height: string[] = d_background.Main.i().default_val_3;
+    public background_size_setting: string[] = _.merge({}, d_background.Main.i().default_val_3);
+    public background_size: string[] = _.merge({}, d_background.Main.i().default_val_3);
+    public video_width: string[] = _.merge({}, d_background.Main.i().default_val_3);
+    public video_height: string[] = _.merge({}, d_background.Main.i().default_val_3);
     private screen_width: number = globalThis.screen.width;
     private screen_height: number = globalThis.screen.height;
 

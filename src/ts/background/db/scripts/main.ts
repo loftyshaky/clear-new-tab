@@ -20,7 +20,7 @@ export class Main {
             if (old_database_exists) {
                 await Dexie.delete('Clear New Tab');
 
-                await s_browser_theme.Main.i().get_theme_background();
+                await s_browser_theme.Main.i().attempt_to_run_try_to_get_theme_background();
             }
         }, 'cnt_1008');
 }

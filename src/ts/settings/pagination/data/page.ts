@@ -58,8 +58,10 @@ export class Page {
             });
         }, 'cnt_1442');
 
-    public set_last = (): void =>
-        err(() => {
+    public set_last = (): Promise<void> =>
+        err_async(async () => {
+            await d_pagination.Main.i().set_total_backgrounds();
+
             this.page = Math.ceil(
                 d_pagination.Main.i().total_backgrounds / this.backgrounds_per_page,
             );

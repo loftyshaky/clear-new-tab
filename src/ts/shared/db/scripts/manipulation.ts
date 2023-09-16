@@ -47,9 +47,11 @@ export class Manipulation {
                         await db.background_thumbnails.bulkAdd(background_thumbnails_chunked[i]);
                         await db.background_files.bulkAdd(background_files_chunked[i]);
 
-                        d_progress.ProgressVal.i().increment_progress({
-                            increment_amount: backgrounds_chunked[i].length,
-                        });
+                        if (page === 'settings') {
+                            d_progress.ProgressVal.i().increment_progress({
+                                increment_amount: backgrounds_chunked[i].length,
+                            });
+                        }
 
                         i += 1;
                     }

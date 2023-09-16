@@ -2,7 +2,7 @@ import _ from 'lodash';
 import JSZip from 'jszip';
 
 import { t } from '@loftyshaky/shared';
-import { s_browser_theme, i_browser_theme } from 'settings/internal';
+import { s_browser_theme, i_browser_theme } from 'background/internal';
 
 export class Crx {
     private static i0: Crx;

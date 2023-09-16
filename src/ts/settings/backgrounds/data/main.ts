@@ -3,7 +3,7 @@ import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
 import { vars, o_schema, d_schema } from '@loftyshaky/shared';
-import { s_db, s_i, i_db } from 'shared/internal';
+import { d_backgrounds as d_backgrounds_shared, s_db, s_i, i_db } from 'shared/internal';
 import { d_backgrounds, d_pagination } from 'settings/internal';
 
 export class Main {
@@ -138,7 +138,9 @@ export class Main {
                 }, 'cnt_1128'),
             );
 
-            d_backgrounds.CurrentBackground.i().set_current_background_i();
+            d_backgrounds_shared.CurrentBackground.i().set_current_background_i({
+                backgrounds: backgrounds_2,
+            });
         }, 'cnt_1129');
 
     public merge_backgrounds = ({
@@ -147,15 +149,22 @@ export class Main {
     }: {
         backgrounds: i_db.Background[];
         sort?: boolean;
-    }): void =>
+    }): i_db.Background[] =>
         err(() => {
             const merged_backgrounds: i_db.Background[] = _.union(this.backgrounds, backgrounds);
+            const merged_backgrounds_unique_theme_backgrounds: i_db.Background[] = _.unionBy(
+                merged_backgrounds,
+                (background: i_db.Background) =>
+                    n(background.theme_id) ? background.theme_id : x.unique_id(),
+            );
 
             this.backgrounds = sort
                 ? (s_i.Main.i().sort_by_i_ascending({
-                      data: merged_backgrounds,
+                      data: merged_backgrounds_unique_theme_backgrounds,
                   }) as i_db.Background[])
-                : merged_backgrounds;
+                : merged_backgrounds_unique_theme_backgrounds;
+
+            return this.backgrounds;
         }, 'cnt_1130');
 
     public get_missing_items = ({

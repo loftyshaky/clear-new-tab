@@ -111,7 +111,7 @@ export class Main {
             }
 
             if (load_settings) {
-                ext.send_msg_resp({ msg: 'load_settings' });
+                await ext.send_msg_resp({ msg: 'load_settings' });
             }
         }, 'cnt_1320');
 

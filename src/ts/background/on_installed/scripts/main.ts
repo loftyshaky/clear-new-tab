@@ -8,7 +8,9 @@ we.runtime.onInstalled.addListener(
                 s_data.Main.i().init_defaults();
                 await s_data.Main.i().set_from_storage();
                 db.init_db();
-                await s_browser_theme.Main.i().get_theme_background();
+                await s_browser_theme.Main.i().attempt_to_run_try_to_get_theme_background();
+
+                we.runtime.openOptionsPage();
             }
         }, 'cnt_1014'),
 );

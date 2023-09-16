@@ -38,7 +38,8 @@ export class Classes {
     public video_no_tr_cls: string[] = ['no_tr', 'no_tr'];
     public img_is_visible_cls: string[] = ['opacity_0', 'opacity_0'];
     public video_is_visible_cls: string[] = ['opacity_0', 'opacity_0'];
-    public background_is_sliding_cls: string[] = d_background.Main.i().default_val_3;
+    public background_is_sliding_cls: string[] = _.merge({}, d_background.Main.i().default_val_3);
+    public background_is_no_effect_cls: string[] = _.merge({}, d_background.Main.i().default_val_3);
 
     public get videos_load_video_is_visible_cls() {
         return d_background.VideoReapeat.i().loaded_videos_count >=
@@ -67,6 +68,8 @@ export class Classes {
             });
             const is_crossfade_background_change_effect: boolean =
                 data.settings.background_change_effect === 'crossfade';
+            const is_no_effect_background_change_effect: boolean =
+                data.settings.background_change_effect === 'no_effect';
 
             this.z_index_plus_1_cls[background_container_i] = '';
             this.z_index_plus_1_cls[opposite_background_container_i] = 'z_index_plus_1';
@@ -82,14 +85,22 @@ export class Classes {
 
             this.img_is_visible_cls[background_container_i] = is_img_or_color ? '' : 'opacity_0';
             this.img_is_visible_cls[opposite_background_container_i] =
-                is_crossfade_background_change_effect ? 'opacity_0' : '';
+                is_crossfade_background_change_effect || is_no_effect_background_change_effect
+                    ? 'opacity_0'
+                    : '';
             this.video_is_visible_cls[background_container_i] = is_video ? '' : 'opacity_0';
             this.video_is_visible_cls[opposite_background_container_i] =
-                is_crossfade_background_change_effect ? 'opacity_0' : '';
+                is_crossfade_background_change_effect || is_no_effect_background_change_effect
+                    ? 'opacity_0'
+                    : '';
 
             this.background_is_sliding_cls[background_container_i] = '';
             this.background_is_sliding_cls[opposite_background_container_i] =
                 this.select_slide_direction();
+
+            this.background_is_no_effect_cls[background_container_i] = '';
+            this.background_is_no_effect_cls[opposite_background_container_i] =
+                is_no_effect_background_change_effect ? 'no_effect' : '';
 
             if (n(background_file[background_container_i])) {
                 const new_object_url_background_id: string = (
@@ -105,14 +116,12 @@ export class Classes {
     get_no_tr_cls = ({ is_background }: { is_background: boolean }): string =>
         err(() => {
             const active_cls: string = 'no_tr';
-            const is_no_effect_background_change_effect: boolean =
-                data.settings.background_change_effect === 'no_effect';
 
             if (this.no_tr) {
                 return active_cls;
             }
 
-            return is_background && !is_no_effect_background_change_effect ? '' : 'no_tr';
+            return is_background ? '' : 'no_tr';
         }, 'cnt_1052');
 
     public select_slide_direction = (): string =>

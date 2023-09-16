@@ -94,6 +94,8 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
             d_background.Classes.i().video_is_visible_cls[background_container_i];
         const background_is_sliding_cls: string =
             d_background.Classes.i().background_is_sliding_cls[background_container_i];
+        const background_is_no_effect_cls: string =
+            d_background.Classes.i().background_is_no_effect_cls[background_container_i];
 
         return _.isEmpty(background_css) ? null : (
             <>
@@ -106,6 +108,7 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
                         video_is_visible_cls,
                         d_background.Classes.i().videos_load_video_is_visible_cls,
                         background_is_sliding_cls,
+                        background_is_no_effect_cls,
                     ])}
                     style={{
                         backgroundColor: color_of_area_around_background,
@@ -143,6 +146,7 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
                         img_no_tr_cls,
                         img_is_visible_cls,
                         background_is_sliding_cls,
+                        background_is_no_effect_cls,
                     ])}
                     style={background_css}
                 />

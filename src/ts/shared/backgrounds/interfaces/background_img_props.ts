@@ -1,4 +1,4 @@
-import { i_backgrounds } from 'settings/internal';
+import { i_backgrounds } from 'shared/internal';
 
 export interface BackgroundImgProps
     extends i_backgrounds.BackgroundDims,

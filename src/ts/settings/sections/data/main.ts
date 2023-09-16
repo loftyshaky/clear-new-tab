@@ -5,7 +5,6 @@ import { svg } from 'shared/internal';
 import {
     d_backgrounds,
     d_sections,
-    s_browser_theme,
     d_custom_code,
     d_scheduler,
     s_custom_code,
@@ -128,8 +127,8 @@ export class Main {
                             new o_inputs.Btn({
                                 name: 'load_theme_background',
                                 event_callback: (): void => {
-                                    s_browser_theme.Main.i().get_theme_background({
-                                        theme_id: undefined,
+                                    ext.send_msg({
+                                        msg: 'get_theme_background',
                                         force_theme_redownload: true,
                                         triggered_by_load_theme_background_btn: true,
                                     });

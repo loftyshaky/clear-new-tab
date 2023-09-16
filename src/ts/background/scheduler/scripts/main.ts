@@ -372,7 +372,7 @@ export class Main {
 
                     await s_db.Manipulation.i().delete_tasks({ ids: expired_task_ids });
 
-                    ext.send_msg_resp({ msg: 'update_tasks' });
+                    await ext.send_msg_resp({ msg: 'update_tasks' });
                 }, 'cnt_1026');
 
             const alarm_data: i_db.AlarmDataItem[] = await this.convert_tasks_to_alarm_data();

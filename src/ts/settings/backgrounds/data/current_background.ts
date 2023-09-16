@@ -3,7 +3,7 @@ import { makeObservable, observable, action, toJS } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
 import { d_inputs, i_inputs } from '@loftyshaky/shared/inputs';
-import { d_backgrounds as d_backgrounds_shared, s_i, i_db } from 'shared/internal';
+import { d_backgrounds as d_backgrounds_shared, i_db } from 'shared/internal';
 import { d_background_settings, d_backgrounds, d_scheduler, d_sections } from 'settings/internal';
 
 export class CurrentBackground {
@@ -15,12 +15,10 @@ export class CurrentBackground {
     }
 
     private constructor() {
-        makeObservable<CurrentBackground, 'set_current_background_i'>(this, {
+        makeObservable(this, {
             selected_background_id: observable,
             select: action,
             deselect: action,
-            set_current_background_i: action,
-            set_background_as_current: action,
             reset_current_background_id: action,
             set_current_and_future_background_id_to_default: action,
         });
@@ -75,21 +73,10 @@ export class CurrentBackground {
 
     public set_current_background_i = (): void =>
         err(() => {
-            const no_backgrounds_exist: boolean = d_backgrounds.Main.i().backgrounds.length === 0;
-
-            if (no_backgrounds_exist) {
-                data.ui.current_background_i = d_backgrounds_shared.CurrentBackground.i().reset_val;
-            } else {
-                const i_of_background_with_current_id: number = s_i.Main.i().find_i_of_item_with_id(
-                    {
-                        id: data.settings.current_background_id,
-                        items: d_backgrounds.Main.i().backgrounds,
-                    },
-                );
-
-                data.ui.current_background_i = i_of_background_with_current_id + 1;
-            }
-        }, 'cnt_1111');
+            d_backgrounds_shared.CurrentBackground.i().set_current_background_i({
+                backgrounds: d_backgrounds.Main.i().backgrounds,
+            });
+        }, 'cnt_1481');
 
     public set_background_as_current = ({
         id,
@@ -97,30 +84,11 @@ export class CurrentBackground {
         id: string | number | undefined;
     }): Promise<void> =>
         err_async(async () => {
-            data.settings.current_background_id = id;
-
-            this.set_current_background_i();
-
-            if (id === 0) {
-                data.settings.future_background_id = id;
-            }
-
-            data.settings.background_change_time = new Date().getTime();
-
-            await ext.send_msg_resp({
-                msg: 'update_settings_background',
-                settings: data.settings,
-                update_instantly: true,
+            d_backgrounds_shared.CurrentBackground.i().set_background_as_current({
+                id,
+                backgrounds: d_backgrounds.Main.i().backgrounds,
             });
-
-            d_backgrounds_shared.CurrentBackground.i().set_future_background_id();
-
-            ext.send_msg({
-                msg: 'get_background',
-                allow_to_start_slideshow_timer: false,
-                force_update: true,
-            });
-        }, 'cnt_1112');
+        }, 'cnt_1482');
 
     public set_selected_background_as_current = (): void =>
         err(() => {

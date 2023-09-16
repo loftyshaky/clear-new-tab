@@ -9,7 +9,7 @@ export const init = (): Promise<void> =>
 
         s_background.Preview.i().set_id();
 
-        ext.send_msg({ msg: 'push_tab_id' });
+        await ext.send_msg_resp({ msg: 'push_tab_id' });
         ext.send_msg({
             msg: 'get_background',
             allow_to_start_slideshow_timer: data.settings.slideshow ? !document.hidden : true,

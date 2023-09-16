@@ -13,6 +13,41 @@ export class Main {
     // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
     private constructor() {}
 
+    public get_next_i = ({ items }: { items: i_db.Background[] | i_db.Task[] }): string =>
+        err(
+            () => {
+                const highest_i: string = this.get_last_i({ items });
+
+                if (items.length === 0) {
+                    return '0';
+                }
+
+                return highest_i;
+            },
+            'cnt_1220',
+            { silent: true },
+        );
+
+    private get_last_i = ({ items }: { items: i_db.Background[] | i_db.Task[] }): string =>
+        err(
+            () => {
+                let added_items_count: string = '0';
+                const at_least_one_item_exists: boolean = items.length !== 0;
+
+                if (at_least_one_item_exists) {
+                    const last_i: string = items[items.length - 1].i;
+
+                    if (n(last_i)) {
+                        added_items_count = BigNumber(last_i).plus(added_items_count).toString();
+                    }
+                }
+
+                return added_items_count;
+            },
+            'cnt_1219',
+            { silent: true },
+        );
+
     public sort_by_i_ascending = ({
         data,
     }: {

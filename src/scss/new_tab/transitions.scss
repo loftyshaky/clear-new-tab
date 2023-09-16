@@ -1,4 +1,8 @@
 .background_container {
     transition: all 1s ease-in-out;
     transition-property: opacity, left, right, top, bottom;
+
+    &.no_effect {
+        transition: all 1ms ease-in-out;
+    }
 }

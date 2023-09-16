@@ -45,6 +45,7 @@ span.background {
         @include checkerboard_gradient;
 
         height: $img_height;
+        width: 100%;
         opacity: 0;
     }
 
