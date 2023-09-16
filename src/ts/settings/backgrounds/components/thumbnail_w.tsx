@@ -6,12 +6,6 @@ import { d_backgrounds, p_backgrounds } from 'settings/internal';
 export const ThumbnailW: React.FunctionComponent<p_backgrounds.ThumbnailW> = observer((props) => {
     const { background_id, children } = props;
 
-    d_backgrounds.Cache.i().set_prop_of_background_thumbnail_cache_item({
-        background_id,
-        key: 'placeholder_color',
-        val: x.pastel_color(),
-    });
-
     return (
         <div className='thumbnail_w'>
             <div

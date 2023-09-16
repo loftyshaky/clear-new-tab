@@ -13,7 +13,7 @@ export class SideEffects {
 
     public upload_success = (): Promise<void> =>
         err_async(async () => {
-            d_pagination.Page.i().set_last();
+            await d_pagination.Page.i().set_last();
 
             s_scrollable.Main.i().set_scroll_position({
                 scrollable_type: 'backgrounds',

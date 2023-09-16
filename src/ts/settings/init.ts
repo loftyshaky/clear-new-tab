@@ -24,7 +24,7 @@ export const init = (): Promise<void> =>
         d_scheduler.DatePicker.i().init_inputs();
         await d_backgrounds.Main.i().set_backgrounds();
         await d_pagination.Main.i().set_total_backgrounds();
-        d_pagination.Page.i().set_backgrounds_per_page_val();
+        await d_pagination.Page.i().set_backgrounds_per_page_val();
         d_pagination.Main.i().on_backgrounds_reaction();
         d_pagination.Page.i().on_page_reaction();
         d_pagination.Page.i().on_page_backgrounds_autorun();

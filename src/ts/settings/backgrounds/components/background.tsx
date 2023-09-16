@@ -1,4 +1,4 @@
-import React, { useEffect, useState, MouseEvent } from 'react';
+import React, { useEffect, useLayoutEffect, useState, MouseEvent } from 'react';
 import { observer } from 'mobx-react';
 
 import { s_tab_index } from '@loftyshaky/shared';
@@ -10,6 +10,14 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
     const [background_thumbnail, set_background_thumbnail] = useState('');
     const bacground_fade_in_cls: string = d_backgrounds.Cache.i().background_fade_in_cls({
         background_id: background.id,
+    });
+
+    useLayoutEffect(() => {
+        d_backgrounds.Cache.i().set_prop_of_background_thumbnail_cache_item({
+            background_id: background.id,
+            key: 'placeholder_color',
+            val: x.pastel_color(),
+        });
     });
 
     useEffect(() => {
@@ -28,7 +36,7 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
             }, 'cnt_1444');
 
         set_background_thumbnail_2();
-    }, [background]);
+    });
 
     return (background as any).type === 'drop_zone' ? (
         <c_dnd.DropZone

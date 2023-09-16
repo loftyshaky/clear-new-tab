@@ -33,6 +33,8 @@ export class Restore {
     public restored_backgrounds: i_db.Background[] = [];
     public restored_background_thumbnails: i_db.BackgroundThumbnail[] = [];
     public restored_tasks: i_db.Task[] = [];
+    public restoring_from_back_up: boolean = false;
+    public restoring_from_back_up_pagination: boolean = false;
 
     public restore_confirm = (): Promise<void> =>
         err_async(async () => {
@@ -256,6 +258,8 @@ export class Restore {
             // when backgrounds are deleted delete_all_backgrounds_transition_end_callback() fires
             d_protecting_screen.Visibility.i().show({ enable_progress: true });
 
+            this.restoring_from_back_up = true;
+            this.restoring_from_back_up_pagination = true;
             this.restored_backgrounds = [];
             this.restored_background_thumbnails = [];
             this.restored_tasks = [];
@@ -365,7 +369,7 @@ export class Restore {
 
                         await d_backgrounds.BackgroundAnimation.i().forbid_animation();
 
-                        d_pagination.Page.i().set_last();
+                        await d_pagination.Page.i().set_last();
 
                         s_scrollable.Main.i().set_scroll_position({
                             scrollable_type: 'backgrounds',
@@ -450,6 +454,8 @@ export class Restore {
                 s_preload_color.Storage.i().set_preload_color();
                 d_backgrounds.CurrentBackground.i().set_current_background_i();
                 d_scheduler.Tasks.i().reset_background_id();
+
+                this.restoring_from_back_up = false;
 
                 ext.send_msg({ msg: 'get_background', force_update: true });
             }

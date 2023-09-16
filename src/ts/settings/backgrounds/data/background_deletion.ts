@@ -145,7 +145,7 @@ export class BackgroundDeletion {
             d_backgrounds.BackgroundAnimation.i().remove_already_animated_ids({ ids });
             await this.react_to_all_background_deletion();
 
-            d_pagination.Page.i().set_last_if_page_empty();
+            await d_pagination.Page.i().set_last_if_page_empty();
 
             runInAction(() =>
                 err(() => {
@@ -170,9 +170,11 @@ export class BackgroundDeletion {
 
     public delete_all_backgrounds_transition_end_callback = (): Promise<void> =>
         err_async(async () => {
-            d_sections.SectionContent.i().set_backgrounds_section_content_visibility({
-                is_visible: true,
-            });
+            if (!d_sections.Restore.i().restoring_from_back_up_pagination) {
+                d_sections.SectionContent.i().set_backgrounds_section_content_visibility({
+                    is_visible: true,
+                });
+            }
 
             d_backgrounds.BackgroundAnimation.i().remove_all_already_animated_ids();
 

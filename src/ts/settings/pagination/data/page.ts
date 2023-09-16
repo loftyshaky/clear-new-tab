@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import { makeObservable, observable, computed, autorun, reaction, action } from 'mobx';
+import { makeObservable, observable, computed, autorun, reaction, action, runInAction } from 'mobx';
 
 import { i_db } from 'shared/internal';
-import { d_backgrounds, d_pagination, d_scrollable } from 'settings/internal';
+import { d_backgrounds, d_pagination, d_scrollable, d_sections } from 'settings/internal';
 
 export class Page {
     private static i0: Page;
@@ -22,7 +22,6 @@ export class Page {
             change: action,
             set_last: action,
             set_page_backgrounds: action,
-            set_backgrounds_per_page_val: action,
         });
     }
 
@@ -34,9 +33,7 @@ export class Page {
     public page_backgrounds: i_db.Background[] = [];
 
     public get there_are_backgrounds_for_more_than_one_page() {
-        return (
-            d_backgrounds.Main.i().backgrounds.length > d_pagination.Page.i().backgrounds_per_page
-        );
+        return d_pagination.Main.i().pagination_btns.length > 5;
     }
 
     public get pagination_visibility_cls() {
@@ -62,8 +59,12 @@ export class Page {
         err_async(async () => {
             await d_pagination.Main.i().set_total_backgrounds();
 
-            this.page = Math.ceil(
-                d_pagination.Main.i().total_backgrounds / this.backgrounds_per_page,
+            runInAction(() =>
+                err(() => {
+                    this.page = Math.ceil(
+                        d_pagination.Main.i().total_backgrounds / this.backgrounds_per_page,
+                    );
+                }, 'cnt_1513'),
             );
 
             // eslint-disable-next-line max-len
@@ -72,27 +73,37 @@ export class Page {
             });
         }, 'cnt_1443');
 
-    public set_last_if_page_empty = (): void =>
-        err(() => {
+    public set_last_if_page_empty = (): Promise<void> =>
+        err_async(async () => {
             if (this.page_backgrounds.length === 0) {
-                this.set_last();
+                await this.set_last();
             }
         }, 'cnt_1443');
 
-    public set_backgrounds_per_page_val = (): void =>
-        err(() => {
-            if (data.settings.backgrounds_per_page < this.backgrounds_per_page_min_val) {
-                this.backgrounds_per_page = this.backgrounds_per_page_min_val;
-            } else if (data.settings.backgrounds_per_page > this.backgrounds_per_page_max_val) {
-                this.backgrounds_per_page = this.backgrounds_per_page_max_val;
-            } else {
-                this.backgrounds_per_page = data.settings.backgrounds_per_page;
+    public set_backgrounds_per_page_val = (): Promise<void> =>
+        err_async(async () => {
+            if (!d_sections.Restore.i().restoring_from_back_up) {
+                runInAction(() =>
+                    err(() => {
+                        if (
+                            data.settings.backgrounds_per_page < this.backgrounds_per_page_min_val
+                        ) {
+                            this.backgrounds_per_page = this.backgrounds_per_page_min_val;
+                        } else if (
+                            data.settings.backgrounds_per_page > this.backgrounds_per_page_max_val
+                        ) {
+                            this.backgrounds_per_page = this.backgrounds_per_page_max_val;
+                        } else {
+                            this.backgrounds_per_page = data.settings.backgrounds_per_page;
+                        }
+                    }, 'cnt_1512'),
+                );
+
+                await this.set_last();
+
+                d_backgrounds.Scrollable.i().calculate_height();
+                d_pagination.Main.i().build_pages();
             }
-
-            this.set_last();
-
-            d_backgrounds.Scrollable.i().calculate_height();
-            d_pagination.Main.i().build_pages();
         }, 'cnt_1459');
 
     private set_backgrounds_per_page_val_debounce = _.debounce(
@@ -113,8 +124,6 @@ export class Page {
             reaction(
                 () => this.page,
                 () => {
-                    d_backgrounds.Cache.i().reset_background_thumbnail_cache();
-                    Page.i().set_page_backgrounds();
                     d_pagination.Main.i().build_pages();
                 },
             );
@@ -122,9 +131,9 @@ export class Page {
 
     public on_page_backgrounds_autorun = (): void =>
         err(() => {
-            autorun(() => {
+            autorun(async () => {
                 if (d_pagination.Page.i().page_backgrounds.length === 0) {
-                    d_pagination.Page.i().set_last();
+                    await d_pagination.Page.i().set_last();
                 }
             });
         }, 'cnt_1448');

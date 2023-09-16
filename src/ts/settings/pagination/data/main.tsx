@@ -1,11 +1,11 @@
 import React from 'react';
-import { makeObservable, observable, reaction, runInAction } from 'mobx';
+import { makeObservable, observable, reaction, action, runInAction } from 'mobx';
 
 import Paginator from 'paginator';
 
 import { svg, db } from 'shared/internal';
 
-import { d_backgrounds, d_pagination, p_pagination } from 'settings/internal';
+import { d_backgrounds, d_pagination, d_sections, p_pagination } from 'settings/internal';
 
 export class Main {
     private static i0: Main;
@@ -19,6 +19,7 @@ export class Main {
         makeObservable(this, {
             total_backgrounds: observable,
             pagination_btns: observable,
+            build_pages: action,
         });
     }
 
@@ -27,6 +28,9 @@ export class Main {
 
     public build_pages = (): void =>
         err(() => {
+            d_backgrounds.Cache.i().reset_background_thumbnail_cache();
+            d_pagination.Page.i().set_page_backgrounds();
+
             this.pagination_btns = [];
 
             const pagination_info = new Paginator(
@@ -90,11 +94,21 @@ export class Main {
             reaction(
                 () => d_backgrounds.Main.i().backgrounds,
                 async () => {
-                    await this.set_total_backgrounds();
+                    if (d_sections.Restore.i().restoring_from_back_up_pagination) {
+                        d_sections.Restore.i().restoring_from_back_up_pagination = false;
 
-                    d_pagination.Page.i().set_page_backgrounds();
+                        await d_pagination.Page.i().set_backgrounds_per_page_val();
 
-                    d_backgrounds.Scrollable.i().calculate_height();
+                        d_sections.SectionContent.i().set_backgrounds_section_content_visibility({
+                            is_visible: true,
+                        });
+                    } else {
+                        await this.set_total_backgrounds();
+
+                        d_pagination.Page.i().set_page_backgrounds();
+
+                        d_backgrounds.Scrollable.i().calculate_height();
+                    }
                 },
                 { fireImmediately: true },
             );
