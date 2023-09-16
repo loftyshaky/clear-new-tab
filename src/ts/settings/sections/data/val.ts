@@ -348,7 +348,7 @@ export class Val {
             () =>
                 n(val) &&
                 /^[+-]?\d+(\.\d+)?$/.test(val as string) &&
-                (val === '0' || (val >= 0.1 && val <= 16)),
+                (val === '0' || (+val >= 0.1 && +val <= 16)),
             'cnt_1294',
         );
 
