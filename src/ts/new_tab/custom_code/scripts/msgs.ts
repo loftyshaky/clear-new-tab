@@ -15,7 +15,7 @@ export class Msgs {
 
     public send_set_custom_code_msg = (): Promise<void> =>
         err_async(async () => {
-            x.remove(s('.sandbox'));
+            x.remove(sa('.sandbox'));
 
             const sandbox: HTMLIFrameElement = x.create('iframe', 'sandbox');
             sandbox.style.border = '0';
