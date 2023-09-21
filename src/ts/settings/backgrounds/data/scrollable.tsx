@@ -14,23 +14,25 @@ export class Scrollable {
     private constructor() {
         makeObservable(this, {
             height: observable,
+            pagination_height: observable,
             calculate_height: action,
         });
     }
 
     public height: number = 0;
+    public pagination_height: number = 0;
 
     public calculate_height = (): void =>
         err(() => {
             const pagination_el = s<HTMLDivElement>('.pagination');
 
             if (n(pagination_el)) {
+                this.pagination_height = d_pagination.Page.i()
+                    .there_are_backgrounds_for_more_than_one_page
+                    ? pagination_el.offsetHeight
+                    : 0;
                 this.height =
-                    s_viewport.Main.i().get_dim({ dim: 'height' }) -
-                    ((d_pagination.Page.i().there_are_backgrounds_for_more_than_one_page
-                        ? pagination_el.offsetHeight
-                        : 0) +
-                        76);
+                    s_viewport.Main.i().get_dim({ dim: 'height' }) - (this.pagination_height + 76);
             }
         }, 'cnt_1144');
 }

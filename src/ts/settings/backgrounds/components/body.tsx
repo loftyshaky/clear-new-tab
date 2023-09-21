@@ -8,6 +8,7 @@ import {
     d_backgrounds,
     d_pagination,
     d_scrollable,
+    s_scrollable,
 } from 'settings/internal';
 import { i_db } from 'shared/internal';
 
@@ -27,6 +28,11 @@ export const Body: React.FunctionComponent = observer(() => {
         d_scrollable.Main.i().set_scroll_position({
             scrollable_type: 'backgrounds',
             position: 'bottom',
+        });
+
+        d_backgrounds.Scrollable.i().calculate_height();
+        s_scrollable.Main.i().set_scroll_position({
+            scrollable_type: 'backgrounds',
         });
     }, [height, scroll_backgrounds_scrollable_to_top, scroll_backgrounds_scrollable_to_bottom]);
 

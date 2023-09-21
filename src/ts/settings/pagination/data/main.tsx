@@ -106,8 +106,6 @@ export class Main {
                         await this.set_total_backgrounds();
 
                         d_pagination.Page.i().set_page_backgrounds();
-
-                        d_backgrounds.Scrollable.i().calculate_height();
                     }
                 },
                 { fireImmediately: true },

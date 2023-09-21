@@ -37,7 +37,12 @@ export class Page {
     }
 
     public get pagination_visibility_cls() {
-        return this.there_are_backgrounds_for_more_than_one_page ? '' : 'visibility_hidden';
+        return this.there_are_backgrounds_for_more_than_one_page &&
+            d_backgrounds.Main.i().backgrounds.length >
+                d_pagination.Page.i().backgrounds_per_page &&
+            d_backgrounds.Scrollable.i().pagination_height !== 0
+            ? ''
+            : 'visibility_hidden';
     }
 
     public page_is_active_cls = ({ is_active }: { is_active: boolean }): string =>
@@ -101,7 +106,6 @@ export class Page {
 
                 await this.set_last();
 
-                d_backgrounds.Scrollable.i().calculate_height();
                 d_pagination.Main.i().build_pages();
             }
         }, 'cnt_1459');

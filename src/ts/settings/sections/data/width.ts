@@ -2,7 +2,6 @@ import _ from 'lodash';
 import { makeObservable, action, observable } from 'mobx';
 
 import { s_viewport } from '@loftyshaky/shared';
-import { d_backgrounds } from 'settings/internal';
 import { vars } from 'shared/internal';
 
 export class Width {
@@ -75,8 +74,6 @@ export class Width {
                     backgrounds_sections_el.style.width = '';
                     backgrounds_section_el.style.width = '';
                 }
-
-                d_backgrounds.Scrollable.i().calculate_height();
             }
         }, 'cnt_1298');
 

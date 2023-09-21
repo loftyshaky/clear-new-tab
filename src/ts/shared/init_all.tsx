@@ -192,6 +192,7 @@ export class InitAll {
             const on_css_load = (): Promise<void> =>
                 err_async(async () => {
                     const {
+                        d_backgrounds,
                         s_custom_code,
                         d_install_help,
                         d_scheduler,
@@ -218,6 +219,8 @@ export class InitAll {
                     d_scrollable.Main.i().set_scroll_backgrounds_scrollable_to_bottom_bool({
                         bool: true,
                     });
+
+                    d_backgrounds.Scrollable.i().calculate_height();
 
                     d_loading_screen.Main.i().hide({ app_id: s_suffix.app_id });
                 }, 'cnt_1357');
