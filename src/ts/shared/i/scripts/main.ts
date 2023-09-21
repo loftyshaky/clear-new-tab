@@ -22,13 +22,13 @@ export class Main {
                     return '0';
                 }
 
-                return highest_i;
+                return BigNumber(highest_i).plus(1);
             },
             'cnt_1220',
             { silent: true },
         );
 
-    private get_last_i = ({ items }: { items: i_db.Background[] | i_db.Task[] }): string =>
+    public get_last_i = ({ items }: { items: i_db.Background[] | i_db.Task[] }): string =>
         err(
             () => {
                 let added_items_count: string = '0';
@@ -38,7 +38,7 @@ export class Main {
                     const last_i: string = items[items.length - 1].i;
 
                     if (n(last_i)) {
-                        added_items_count = BigNumber(last_i).plus(added_items_count).toString();
+                        added_items_count = BigNumber(last_i).toString();
                     }
                 }
 

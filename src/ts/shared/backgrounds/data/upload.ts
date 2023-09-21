@@ -67,7 +67,7 @@ export class Upload {
                 show_protecting_screen({ enable_progress });
             }
 
-            const next_i: string = s_i.Main.i().get_next_i({
+            const next_i: string = s_i.Main.i().get_last_i({
                 items:
                     backgrounds_before_delete.length === 0
                         ? backgrounds
