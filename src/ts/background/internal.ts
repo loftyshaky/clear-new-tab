@@ -9,6 +9,7 @@ export * from 'background/init';
 
 export * as s_announcement from 'background/announcement/scripts';
 export * as s_backgrounds from 'background/backgrounds/scripts';
+export * as s_badge from 'background/badge/scripts';
 export * as s_browser_theme from 'background/browser_theme/scripts';
 export * as s_db from 'background/db/scripts';
 export * as s_home_btn from 'background/home_btn/scripts';

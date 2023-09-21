@@ -10,7 +10,7 @@ import {
     i_data,
     i_db,
 } from 'shared/internal';
-import { s_browser_theme } from 'background/internal';
+import { s_badge, s_browser_theme } from 'background/internal';
 
 export class Main {
     private static i0: Main;
@@ -144,6 +144,8 @@ export class Main {
                 msg: 'run_theme_background_upload_begin_side_effect',
             });
 
+            s_badge.Main.i().set_badge_text({ uploading_theme_background: true });
+
             const settings = await ext.storage_get();
 
             settings.id_of_last_installed_theme = this.theme_id_final;
@@ -221,6 +223,8 @@ export class Main {
                         : undefined;
 
                     if (is_valid_img_file && !is_valid_img_file && env.browser === 'firefox') {
+                        s_badge.Main.i().set_badge_text({ uploading_theme_background: false });
+
                         throw 'Image is not valid image'; // eslint-disable-line no-throw-literal
                     }
 
@@ -287,6 +291,8 @@ export class Main {
                 backgrounds: new_backgrounds,
                 current_background_i: n(last_theme_background) ? last_theme_background.id : 0,
             });
+
+            s_badge.Main.i().set_badge_text({ uploading_theme_background: false });
 
             this.getting_theme_background = false;
         }, 'cnt_1374');
