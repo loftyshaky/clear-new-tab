@@ -67,7 +67,7 @@ export class Upload {
                 show_protecting_screen({ enable_progress });
             }
 
-            const next_i: string = s_i.Main.i().get_last_i({
+            const last_i: string = s_i.Main.i().get_last_i({
                 items:
                     backgrounds_before_delete.length === 0
                         ? backgrounds
@@ -92,7 +92,7 @@ export class Upload {
                     file_i += 1;
 
                     const id: string = x.unique_id();
-                    const i: string = new BigNumber(next_i).plus(file_i).toString();
+                    const i: string = new BigNumber(last_i).plus(file_i).toString();
                     const file_type: i_backgrounds.FileType =
                         s_backgrounds.FileType.i().get_file_type({
                             file,

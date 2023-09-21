@@ -22,7 +22,7 @@ export class Main {
                     return '0';
                 }
 
-                return BigNumber(highest_i).plus(1);
+                return BigNumber(highest_i).plus(1).toString();
             },
             'cnt_1220',
             { silent: true },
