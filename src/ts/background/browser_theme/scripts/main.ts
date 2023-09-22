@@ -91,6 +91,8 @@ export class Main {
                         });
                     }
                 }
+
+                this.getting_theme_background = false;
             }
         }, 'cnt_1175');
 
@@ -293,7 +295,5 @@ export class Main {
             });
 
             s_badge.Main.i().set_badge_text({ uploading_theme_background: false });
-
-            this.getting_theme_background = false;
         }, 'cnt_1374');
 }
