@@ -20,6 +20,9 @@ export class BackgroundChange {
         });
     }
 
+    private previous_browser_window_width: number = 0;
+    private previous_browser_window_height: number = 0;
+
     public update_background = ({
         no_tr = false,
         force_update = false,
@@ -134,9 +137,15 @@ export class BackgroundChange {
 
     public react_to_visibility_change = (): void =>
         err(() => {
+            const browser_window_width: number = globalThis.innerWidth;
+            const browser_window_height: number = globalThis.outerHeight;
+            const window_resized =
+                this.previous_browser_window_width !== browser_window_width ||
+                this.previous_browser_window_height !== browser_window_height;
+
             if (document.visibilityState === 'visible') {
-                if (data.settings.slideshow) {
-                    ext.send_msg({ msg: 'get_background' });
+                if (data.settings.slideshow || window_resized) {
+                    ext.send_msg({ msg: 'get_background', force_update: window_resized });
                 }
 
                 d_background.VideoPlayback.i().set_play_status({ is_playing: true });
@@ -145,7 +154,8 @@ export class BackgroundChange {
 
                 d_background.VideoPlayback.i().set_play_status({ is_playing: false });
             }
-        }, 'cnt_1046');
 
-    public react_to_visibility_change_debounce = _.debounce(this.react_to_visibility_change, 500);
+            this.previous_browser_window_width = browser_window_width;
+            this.previous_browser_window_height = browser_window_height;
+        }, 'cnt_1046');
 }
