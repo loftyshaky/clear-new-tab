@@ -44,7 +44,7 @@ span.background {
     .img_thumbnail {
         @include checkerboard_gradient;
 
-        height: $img_height;
+        height: 100%;
         width: 100%;
         opacity: 0;
     }
