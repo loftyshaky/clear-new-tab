@@ -489,13 +489,13 @@
         "message": "Последняя страница"
     },
     "install_help_chrome_text": {
-        "message": "Спасибо за установку Clear New Tab! Если в вашем Chrome установлена тема из <a class='link extension_store' href='https://bit.ly/cws-themes-ru' target='_blank' rel='noopener noreferrer'>Интернет-магазина Chrome</a>, подождите, пока ее фон не появится в разделе \"Фоны\", и затем откройте новую вкладку, чтобы увидеть его. В противном случае вы можете загрузить свой собственный фон с помощью формы ниже. Если вам нужна помощь по использованию расширения, кликните на кнопки ? или посмотрите <a class='link video_guide' href='https://bit.ly/3OP7u6J' target='_blank' rel='noopener noreferrer'>видеоруководство</a>. Нажмите <button class='btn link_btn hide_install_help' type='button' tabindex='0'>сюда</button>, чтобы скрыть это сообщение."
+        "message": "Спасибо за установку Clear New Tab! Если в вашем Chrome установлена тема из <a class='link extension_store' href='https://chromewebstore.google.com/category/themes' target='_blank' rel='noopener noreferrer'>Интернет-магазина Chrome</a>, подождите, пока ее фон не появится в разделе \"Фоны\", и затем откройте новую вкладку, чтобы увидеть его. В противном случае вы можете загрузить свой собственный фон с помощью формы ниже. Если вам нужна помощь по использованию расширения, кликните на кнопки ? или посмотрите <a class='link video_guide' href='https://www.youtube.com/watch?v=_Z9Lxb7qx2Y' target='_blank' rel='noopener noreferrer'>видеоруководство</a>. Нажмите <button class='btn link_btn hide_install_help' type='button' tabindex='0'>сюда</button>, чтобы скрыть это сообщение."
     },
     "install_help_edge_text": {
-        "message": "Спасибо за установку Clear New Tab! Если в вашем Edge установлена тема из <a class='link extension_store' href='https://bit.ly/edge-add-ons-themes-ru' target='_blank' rel='noopener noreferrer'>магазина Надстройки Edge</a>, подождите, пока ее фон не появится в разделе \"Фоны\", и затем откройте новую вкладку, чтобы увидеть его. В противном случае вы можете загрузить свой собственный фон с помощью формы ниже. Если вам нужна помощь по использованию расширения, кликните на кнопки ? или посмотрите <a class='link video_guide' href='https://bit.ly/3kBjF9l' target='_blank' rel='noopener noreferrer'>видеоруководство</a>. Нажмите <button class='btn link_btn hide_install_help' type='button' tabindex='0'>сюда</button>, чтобы скрыть это сообщение."
+        "message": "Спасибо за установку Clear New Tab! Если в вашем Edge установлена тема из <a class='link extension_store' href='https://microsoftedge.microsoft.com/addons/microsoft-edge-themes' target='_blank' rel='noopener noreferrer'>магазина Надстройки Edge</a>, подождите, пока ее фон не появится в разделе \"Фоны\", и затем откройте новую вкладку, чтобы увидеть его. В противном случае вы можете загрузить свой собственный фон с помощью формы ниже. Если вам нужна помощь по использованию расширения, кликните на кнопки ? или посмотрите <a class='link video_guide' href='https://www.youtube.com/watch?v=dBLZ0j1PJWw' target='_blank' rel='noopener noreferrer'>видеоруководство</a>. Нажмите <button class='btn link_btn hide_install_help' type='button' tabindex='0'>сюда</button>, чтобы скрыть это сообщение."
     },
     "install_help_firefox_text": {
-        "message": "Спасибо за установку Clear New Tab! Вы можете установить тему из <a class='link extension_store' href='https://bit.ly/cws-themes-ru' target='_blank' rel='noopener noreferrer'>интернет-магазина Chrome</a> или загрузить свой фон с помощью формы ниже. Если вам нужна помощь по использованию расширения, кликните на кнопки ? или посмотрите <a class='link video_guide' href='https://bit.ly/3OP7u6J' target='_blank' rel='noopener noreferrer'>видеоруководство</a>. Нажмите <button class='btn link_btn hide_install_help' type='button' tabindex='0'>сюда</button>, чтобы скрыть это сообщение."
+        "message": "Спасибо за установку Clear New Tab! Вы можете установить тему из <a class='link extension_store' href='https://chromewebstore.google.com/category/themes' target='_blank' rel='noopener noreferrer'>интернет-магазина Chrome</a> или загрузить свой фон с помощью формы ниже. Если вам нужна помощь по использованию расширения, кликните на кнопки ? или посмотрите <a class='link video_guide' href='https://www.youtube.com/watch?v=_Z9Lxb7qx2Y' target='_blank' rel='noopener noreferrer'>видеоруководство</a>. Нажмите <button class='btn link_btn hide_install_help' type='button' tabindex='0'>сюда</button>, чтобы скрыть это сообщение."
     },
     "back_up_help_text": {
         "message": "Здесь вы можете скачать и восстановить резервную копию данных Clear New Tab. Все данные Clear New Tab будут включены в резервную копию, включая ваши фоны и пользовательский HTML. Если размер данных превысит 512 мб, резервная копия будет разделена на несколько файлов. Восстановить резервную копию можно загрузив все файлы сразу. Если что-то пошло не так, вы можете загрузить каждый файл по отдельности начиная с первой части (Part 1)."
@@ -545,47 +545,17 @@
     "home_btn_is_visible_help_text": {
         "message": "Отображает кнопку \"Домой\" на странице новой вкладки, которая ведет на стандартную страницу новой вкладки."
     },
-    "clear_new_tab_for_chrome_link_text": {
+    "clear_new_tab_chrome_link_text": {
         "message": "⚗️ Clear New Tab для Chrome"
     },
-    "clear_new_tab_for_edge_link_text": {
+    "clear_new_tab_edge_link_text": {
         "message": "⚗️ Clear New Tab для Edge"
     },
-    "clear_new_tab_for_firefox_link_text": {
+    "clear_new_tab_firefox_link_text": {
         "message": "⚗️ Clear New Tab для Firefox"
     },
     "empty_new_tab_page_link_text": {
         "message": "📄 Пустая новая вкладка - облегченная версия Clear New Tab"
-    },
-    "theme_path_link_text": {
-        "message": "🛠️ Создайте свою собственную тему с помощью приложения ThemePath"
-    },
-    "rate_chrome_link_href": {
-        "message": "http://bit.ly/clear-new-tab-rate-ru"
-    },
-    "rate_edge_link_href": {
-        "message": "https://bit.ly/clear-new-tab-edge-ru"
-    },
-    "rate_firefox_link_href": {
-        "message": "https://bit.ly/clear-new-tab-firefox"
-    },
-    "clear_new_tab_for_chrome_link_href": {
-        "message": "https://bit.ly/clear-new-tab-ru"
-    },
-    "clear_new_tab_for_edge_link_href": {
-        "message": "https://bit.ly/clear-new-tab-edge-ru"
-    },
-    "clear_new_tab_for_firefox_link_href": {
-        "message": "https://bit.ly/clear-new-tab-firefox"
-    },
-    "empty_new_tab_page_for_chrome_link_href": {
-        "message": "https://bit.ly/empty-new-tab-page-ru"
-    },
-    "empty_new_tab_page_for_edge_link_href": {
-        "message": "https://bit.ly/empty-new-tab-page-edge-ru"
-    },
-    "empty_new_tab_page_for_firefox_link_href": {
-        "message": "https://bit.ly/empty-new-tab-page-ru"
     },
     "new_tab_title_text": {
         "message": "Новая вкладка"

@@ -569,7 +569,7 @@ export class Main {
                         inputs: [
                             new o_inputs.Link({
                                 name: 'privacy_policy',
-                                href: 'https://bit.ly/extensions-privacy-policy',
+                                href: ext.msg('privacy_policy_link_href'),
                             }),
                             new o_inputs.Link({
                                 name: 'rate',
@@ -580,15 +580,15 @@ export class Main {
                                 ? []
                                 : [
                                       new o_inputs.Link({
-                                          name: 'clear_new_tab_for_chrome',
+                                          name: 'clear_new_tabi1i',
                                           browser: 'chrome',
                                       }),
                                       new o_inputs.Link({
-                                          name: 'clear_new_tab_for_edge',
+                                          name: 'clear_new_tabi2i',
                                           browser: 'edge',
                                       }),
                                       new o_inputs.Link({
-                                          name: 'clear_new_tab_for_firefox',
+                                          name: 'clear_new_tabi3i',
                                           browser: 'firefox',
                                       }),
                                   ]),
@@ -598,7 +598,7 @@ export class Main {
                                       new o_inputs.Link({
                                           name: 'empty_new_tab_page',
                                           href: ext.msg(
-                                              `empty_new_tab_page_for_${env.browser}_link_href`,
+                                              `offer_empty_new_tab_page_${env.browser}_link_href`,
                                           ),
                                       }),
                                   ]),
@@ -607,16 +607,16 @@ export class Main {
                                 : [
                                       new o_inputs.Link({
                                           name: 'theme_path',
-                                          href: 'http://bit.ly/theme-path',
+                                          href: ext.msg('theme_path_link_href'),
                                       }),
                                   ]),
                             new o_inputs.Link({
                                 name: 'facebook_page',
-                                href: 'http://bit.ly/browservery',
+                                href: ext.msg('facebook_page_link_href'),
                             }),
                             new o_inputs.Link({
                                 name: 'support_page',
-                                href: 'http://bit.ly/browservery-support',
+                                href: ext.msg('support_page_link_href'),
                             }),
                         ],
                     }),

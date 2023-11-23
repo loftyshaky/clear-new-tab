@@ -2,8 +2,8 @@ A browser extension that removes everything from the new tab page and displays a
 
 ## Links
 
-[Chrome Web Store](https://bit.ly/clear-new-tab)<br>
-[Edge Add-ons](https://bit.ly/clear-new-tab-edge)
+[Chrome Web Store](https://chromewebstore.google.com/detail/felphkbfjadmcejnibcmcncimlappdde)<br>
+[Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ifphophaconbhfmkpdlfldelkjpjmlbj)
 
 ## Build steps
 

@@ -501,13 +501,13 @@
         "message": "Last page"
     },
     "install_help_chrome_text": {
-        "message": "Thank you for installing Clear New Tab! If your Chrome has a theme from the <a class='link extension_store' href='https://bit.ly/cws-themes' target='_blank' rel='noopener noreferrer'>Chrome Web Store</a> installed, wait till its background appears in the \"Backgrounds\" section, and then open the new tab to see it. Otherwise, you can upload your own background with the form below. If you need help on how to use the extension click on ? buttons or watch the <a class='link video_guide' href='https://bit.ly/3OP7u6J' target='_blank' rel='noopener noreferrer'>video guide</a>. Click <button class='btn link_btn hide_install_help' type='button' tabindex='0'>here</button> to hide this message."
+        "message": "Thank you for installing Clear New Tab! If your Chrome has a theme from the <a class='link extension_store' href='https://chromewebstore.google.com/category/themes' target='_blank' rel='noopener noreferrer'>Chrome Web Store</a> installed, wait till its background appears in the \"Backgrounds\" section, and then open the new tab to see it. Otherwise, you can upload your own background with the form below. If you need help on how to use the extension click on ? buttons or watch the <a class='link video_guide' href='https://www.youtube.com/watch?v=_Z9Lxb7qx2Y' target='_blank' rel='noopener noreferrer'>video guide</a>. Click <button class='btn link_btn hide_install_help' type='button' tabindex='0'>here</button> to hide this message."
     },
     "install_help_edge_text": {
-        "message": "Thank you for installing Clear New Tab! If your Edge has a theme from the <a class='link extension_store' href='https://bit.ly/edge-add-ons-themes' target='_blank' rel='noopener noreferrer'>Edge Add-ons store</a> installed, wait till its background appears in the \"Backgrounds\" section, and then open the new tab to see it. Otherwise, you can upload your own background with the form below. If you need help on how to use the extension click on ? buttons or watch the <a class='link video_guide' href='https://bit.ly/3kBjF9l' target='_blank' rel='noopener noreferrer'>video guide</a>. Click <button class='btn link_btn hide_install_help' type='button' tabindex='0'>here</button> to hide this message."
+        "message": "Thank you for installing Clear New Tab! If your Edge has a theme from the <a class='link extension_store' href='https://microsoftedge.microsoft.com/addons/microsoft-edge-themes' target='_blank' rel='noopener noreferrer'>Edge Add-ons store</a> installed, wait till its background appears in the \"Backgrounds\" section, and then open the new tab to see it. Otherwise, you can upload your own background with the form below. If you need help on how to use the extension click on ? buttons or watch the <a class='link video_guide' href='https://www.youtube.com/watch?v=dBLZ0j1PJWw' target='_blank' rel='noopener noreferrer'>video guide</a>. Click <button class='btn link_btn hide_install_help' type='button' tabindex='0'>here</button> to hide this message."
     },
     "install_help_firefox_text": {
-        "message": "Thank you for installing Clear New Tab! You can install a theme from the <a class='link extension_store' href='https://bit.ly/cws-themes' target='_blank' rel='noopener noreferrer'>Chrome Web Store</a> or upload your own background with the form below. If you need help on how to use the extension click on ? buttons or watch the <a class='link video_guide' href='https://bit.ly/3OP7u6J' target='_blank' rel='noopener noreferrer'>video guide</a>. Click <button class='btn link_btn hide_install_help' type='button' tabindex='0'>here</button> to hide this message."
+        "message": "Thank you for installing Clear New Tab! You can install a theme from the <a class='link extension_store' href='https://chromewebstore.google.com/category/themes' target='_blank' rel='noopener noreferrer'>Chrome Web Store</a> or upload your own background with the form below. If you need help on how to use the extension click on ? buttons or watch the <a class='link video_guide' href='https://www.youtube.com/watch?v=_Z9Lxb7qx2Y' target='_blank' rel='noopener noreferrer'>video guide</a>. Click <button class='btn link_btn hide_install_help' type='button' tabindex='0'>here</button> to hide this message."
     },
     "back_up_help_text": {
         "message": "Here you can download and restore a Clear New Tab data back up. All Clear New Tab data is included in the back up, including your backgrounds and custom HTML/CSS/JS. If the data size exceeds 512 megabytes, the backup will be split into multiple files. You can restore a backup by uploading all files at once. Or, if something went wrong, you can download each file individually starting from the first part (Part 1)."
@@ -557,47 +557,26 @@
     "home_btn_is_visible_help_text": {
         "message": "Displays \"Home\" button in the new tab page that leads to the default new tab page."
     },
-    "clear_new_tab_for_chrome_link_text": {
+    "clear_new_tab_chrome_link_text": {
         "message": "⚗️ Clear New Tab for Chrome"
     },
-    "clear_new_tab_for_edge_link_text": {
+    "clear_new_tab_edge_link_text": {
         "message": "⚗️ Clear New Tab for Edge"
     },
-    "clear_new_tab_for_firefox_link_text": {
+    "clear_new_tab_firefox_link_text": {
         "message": "⚗️ Clear New Tab for Firefox"
     },
     "empty_new_tab_page_link_text": {
         "message": "📄 Empty New Tab Page - a lighter version of Clear New Tab"
     },
-    "theme_path_link_text": {
-        "message": "🛠️ Create your own theme with the ThemePath app"
-    },
     "rate_chrome_link_href": {
-        "message": "https://bit.ly/clear-new-tab-rate"
+        "message": "https://chromewebstore.google.com/detail/felphkbfjadmcejnibcmcncimlappdde/reviews"
     },
     "rate_edge_link_href": {
-        "message": "https://bit.ly/clear-new-tab-edge"
+        "message": "https://microsoftedge.microsoft.com/addons/detail/ifphophaconbhfmkpdlfldelkjpjmlbj"
     },
     "rate_firefox_link_href": {
-        "message": "https://bit.ly/clear-new-tab-firefox"
-    },
-    "clear_new_tab_for_chrome_link_href": {
-        "message": "https://bit.ly/clear-new-tab"
-    },
-    "clear_new_tab_for_edge_link_href": {
-        "message": "https://bit.ly/clear-new-tab-edge"
-    },
-    "clear_new_tab_for_firefox_link_href": {
-        "message": "https://bit.ly/clear-new-tab-firefox"
-    },
-    "empty_new_tab_page_for_chrome_link_href": {
-        "message": "https://bit.ly/empty-new-tab-page"
-    },
-    "empty_new_tab_page_for_edge_link_href": {
-        "message": "https://bit.ly/empty-new-tab-page-edge"
-    },
-    "empty_new_tab_page_for_firefox_link_href": {
-        "message": "https://bit.ly/empty-new-tab-page"
+        "message": "https://addons.mozilla.org/firefox/addon/clear-new-tab"
     },
     "new_tab_title_text": {
         "message": "New Tab"
