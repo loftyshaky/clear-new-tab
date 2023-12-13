@@ -25,14 +25,21 @@ export class Scrollable {
     public calculate_height = (): void =>
         err(() => {
             const pagination_el = s<HTMLDivElement>('.pagination');
+            const offset: number = 76;
 
-            if (n(pagination_el)) {
+            if (
+                n(pagination_el) &&
+                d_pagination.Page.i().there_are_backgrounds_for_more_than_one_page
+            ) {
                 this.pagination_height = d_pagination.Page.i()
                     .there_are_backgrounds_for_more_than_one_page
                     ? pagination_el.offsetHeight
                     : 0;
                 this.height =
-                    s_viewport.Main.i().get_dim({ dim: 'height' }) - (this.pagination_height + 76);
+                    s_viewport.Main.i().get_dim({ dim: 'height' }) -
+                    (this.pagination_height + offset);
+            } else {
+                this.height = s_viewport.Main.i().get_dim({ dim: 'height' }) - (offset + 2);
             }
         }, 'cnt_1144');
 }

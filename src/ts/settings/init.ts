@@ -42,6 +42,7 @@ export const init = (): Promise<void> =>
         x.bind(window, 'scroll', s_color.Position.i().set);
         x.bind(window, 'resize', s_color.Position.i().set);
         x.bind(window, 'resize', d_scheduler.Position.i().set_left);
+        x.bind(window, 'resize', d_backgrounds.Scrollable.i().calculate_height);
         x.bind(document, 'mousedown', d_color.Visibility.i().hide_all);
         x.bind(document, 'mousemove', d_dnd.Main.i().set_dragged_item_position);
         x.bind(document, 'mouseup', d_backgrounds.Dnd.i().stop_drag);
