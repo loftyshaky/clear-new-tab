@@ -31,6 +31,7 @@ export class InitAll {
     private announcement_root: HTMLDivElement | undefined = undefined;
     private settings_root: HTMLDivElement | undefined = undefined;
     private new_tab_root: HTMLDivElement | undefined = undefined;
+    private dependencies_root: HTMLDivElement | undefined = undefined;
 
     public init = (): Promise<void> =>
         new Promise((reslove) => {
@@ -50,7 +51,7 @@ export class InitAll {
                             if (n(loading_screen_css)) {
                                 x.bind(loading_screen_css, 'load', (): void =>
                                     err(() => {
-                                        if (page === 'settings') {
+                                        if (page !== 'new_tab') {
                                             s_theme_shared.Main.i().set({
                                                 name: data.settings.options_page_theme,
                                                 additional_theme_callback: s_theme.Main.i().set,
@@ -99,6 +100,11 @@ export class InitAll {
                     }) as HTMLDivElement;
 
                     this.render_new_tab();
+                } else if (page === 'dependencies') {
+                    this.dependencies_root = this.create_root({
+                        prefix: 'dependencies',
+                        shadow_root: false,
+                    }) as HTMLDivElement;
                 }
 
                 ReactDOM.createRoot(error_root).render(
@@ -274,4 +280,40 @@ export class InitAll {
                 );
             }
         }, 'cnt_1362');
+
+    public render_dependencies = (): Promise<void> =>
+        err_async(async () => {
+            const { Body } = await import('dependencies/components/body');
+
+            const on_css_load = (): Promise<void> =>
+                err_async(async () => {
+                    d_loading_screen.Main.i().hide({ app_id: s_suffix.app_id });
+                }, 'cnt_1516');
+
+            if (n(this.dependencies_root)) {
+                ReactDOM.createRoot(this.dependencies_root).render(
+                    <c_crash_handler.Body>
+                        <Body
+                            on_render={(): void =>
+                                err(() => {
+                                    const dependencies_css = x.css(
+                                        'dependencies_css',
+                                        document.head,
+                                    );
+
+                                    s_theme_shared.Main.i().set({
+                                        name: data.settings.options_page_theme,
+                                        additional_theme_callback: s_theme.Main.i().set,
+                                    });
+
+                                    if (n(dependencies_css)) {
+                                        x.bind(dependencies_css, 'load', on_css_load);
+                                    }
+                                }, 'cnt_1518')
+                            }
+                        />
+                    </c_crash_handler.Body>,
+                );
+            }
+        }, 'cnt_1517');
 }

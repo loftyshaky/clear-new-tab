@@ -11,10 +11,5 @@ export const Body: React.FunctionComponent<p_announcement.Body> = observer((prop
         on_render();
     }, [on_render]);
 
-    return (
-        <c_announcement.Body>
-            {/* eslint-disable-next-line react/no-danger */}
-            <div dangerouslySetInnerHTML={{ __html: ext.msg(`msg_to_user_${env.browser}_text`) }} />
-        </c_announcement.Body>
-    );
+    return <c_announcement.Body />;
 });

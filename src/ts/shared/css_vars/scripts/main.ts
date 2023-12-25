@@ -13,7 +13,7 @@ export class Main {
 
     public set = (): void =>
         err(() => {
-            const roots = ['announcement', 'settings', 'new_tab'].includes(page)
+            const roots = ['announcement', 'dependencies', 'settings', 'new_tab'].includes(page)
                 ? [document.documentElement]
                 : [];
 

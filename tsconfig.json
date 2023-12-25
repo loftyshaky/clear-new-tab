@@ -17,7 +17,8 @@
             "settings/*": ["./ts/settings/*"],
             "new_tab/*": ["./ts/new_tab/*"],
             "offscreen/*": ["./ts/offscreen/*"],
-            "sandbox/*": ["./ts/sandbox/*"]
+            "sandbox/*": ["./ts/sandbox/*"],
+            "dependencies/*": ["./ts/dependencies/*"]
         }
     },
     "include": ["src"],
