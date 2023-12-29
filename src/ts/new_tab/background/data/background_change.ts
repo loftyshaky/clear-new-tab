@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { makeObservable, action, runInAction } from 'mobx';
 
 import { t } from '@loftyshaky/shared';
