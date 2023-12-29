@@ -104,6 +104,7 @@ export class Val {
                             await ext.send_msg_resp({
                                 msg: 'update_settings_background',
                                 settings: { [input.name]: val },
+                                update_background: input.name === 'enable_video_repeat', // Whithout this, video in new tab would disappear when you enable video repeat. To reproduce this bug do the following: 1. Remove update_background: input.name === 'enable_video_repeat'. 2. Open options page and disable "Enable the ability to repeat video backgrounds". 2. Open new tab. 3. Enable "Enable the ability to repeat video backgrounds". 4. Go to new tab and observe no video there.
                                 update_instantly: !is_text_input,
                                 load_settings: !is_text_input,
                             });
