@@ -592,6 +592,9 @@ export class Main {
                                           browser: 'firefox',
                                       }),
                                   ]),
+                            new o_inputs.Link({
+                                name: 'github',
+                            }),
                             ...(env.browser === 'firefox'
                                 ? []
                                 : [

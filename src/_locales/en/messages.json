@@ -557,6 +557,9 @@
     "home_btn_is_visible_help_text": {
         "message": "Displays \"Home\" button in the new tab page that leads to the default new tab page."
     },
+    "github_link_href": {
+        "message": "https://github.com/loftyshaky/clear-new-tab"
+    },
     "clear_new_tab_chrome_link_text": {
         "message": "⚗️ Clear New Tab for Chrome"
     },
@@ -565,6 +568,9 @@
     },
     "clear_new_tab_firefox_link_text": {
         "message": "⚗️ Clear New Tab for Firefox"
+    },
+    "github_link_text": {
+        "message": "😼 Clear New Tab on Github"
     },
     "empty_new_tab_page_link_text": {
         "message": "📄 Empty New Tab Page - a lighter version of Clear New Tab"
