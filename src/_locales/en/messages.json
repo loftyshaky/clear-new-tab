@@ -584,6 +584,12 @@
     "rate_firefox_link_href": {
         "message": "https://addons.mozilla.org/firefox/addon/clear-new-tab"
     },
+    "offer_animated_themes_text": {
+        "message": "@Animated themes for Clear New Tab@"
+    },
+    "offer_animated_themes_link_href": {
+        "message": "https://www.facebook.com/browservery-links/posts/805111281629380"
+    },
     "new_tab_title_text": {
         "message": "New Tab"
     },

@@ -560,6 +560,9 @@
     "empty_new_tab_page_link_text": {
         "message": "📄 Пустая новая вкладка - облегченная версия Clear New Tab"
     },
+    "offer_animated_themes_text": {
+        "message": "@Анимированные темы для Clear New Tab@"
+    },
     "new_tab_title_text": {
         "message": "Новая вкладка"
     },
