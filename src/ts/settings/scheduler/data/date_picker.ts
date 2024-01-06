@@ -11,7 +11,7 @@ export class DatePicker {
         return this.i0 || (this.i0 = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
+    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     private options: i_inputs.Options = {};
@@ -32,10 +32,7 @@ export class DatePicker {
                         'saturday',
                     ].map(
                         (name: string, i: number): o_inputs.Option =>
-                            err(
-                                () => new o_inputs.Option({ name, val: i.toString() }),
-                                'cnt_1230',
-                            ),
+                            err(() => new o_inputs.Option({ name, val: i.toString() }), 'cnt_1230'),
                     ),
                 ],
                 month: [
@@ -55,10 +52,7 @@ export class DatePicker {
                         'december',
                     ].map(
                         (name: string, i: number): o_inputs.Option =>
-                            err(
-                                () => new o_inputs.Option({ name, val: i.toString() }),
-                                'cnt_1231',
-                            ),
+                            err(() => new o_inputs.Option({ name, val: i.toString() }), 'cnt_1231'),
                     ),
                 ],
                 day_of_the_month: [

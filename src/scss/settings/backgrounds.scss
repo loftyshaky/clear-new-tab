@@ -3,12 +3,10 @@ $overlay_item_size: 14px;
 $overlay_item_font_size: 10px;
 $overlay_item_side_padding: 2px;
 $overlay_item_block_offset: 4px;
-
 $checkerboard_color_1: white;
 $checkerboard_color_2: #ccc;
 $checkerboard_size: 16px;
 $checkerboard_position: 8px;
-
 $delete_background_btn_offset: 5px;
 $delete_background_btn_size: 22px;
 $delete_background_btn_svg_size: 12px;
@@ -104,7 +102,9 @@ span.background {
         top: unset !important;
         bottom: $overlay_item_size + 4px;
         left: 2px;
-        box-shadow: rgb(0 0 0 / 60%) 0 0 2px, rgb(0 0 0 / 60%) 0 4px 8px;
+        box-shadow:
+            rgb(0 0 0 / 60%) 0 0 2px,
+            rgb(0 0 0 / 60%) 0 4px 8px;
 
         .btn.text {
             width: 100%;

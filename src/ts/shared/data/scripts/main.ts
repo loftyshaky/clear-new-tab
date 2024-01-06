@@ -12,7 +12,7 @@ export class Main {
         return this.i0 || (this.i0 = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
+    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public defaults: i_data.Settings | t.EmptyRecord = {};
@@ -66,7 +66,7 @@ export class Main {
                 always_use_alarms_api_to_change_background_in_slideshow_mode: false,
                 show_item_developer_info_in_tooltip: false,
                 update_database_when_dnd_item: true,
-                one_backup_file_size_in_bytes: 536870888,
+                one_backup_file_size_in_bytes: 419430400,
             };
         }, 'cnt_1319');
 

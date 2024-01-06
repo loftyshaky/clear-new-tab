@@ -1,3 +1,6 @@
+// eslint-disable-next-line spaced-comment
+/// <reference types="../@loftyshaky/shared/globals.d.ts" />
+
 export * from 'shared/init_all';
 
 export { Tr } from 'shared/tr';
@@ -23,7 +26,6 @@ export * as s_i from 'shared/i/scripts';
 export * as s_preload_color from 'shared/preload_color/scripts';
 export * as s_suffix from 'shared/suffix/scripts';
 export * as s_tabs from 'shared/tabs/scripts';
-
 export * as s_theme from 'shared/theme/scripts';
 
 export * as i_backgrounds from 'shared/backgrounds/interfaces';

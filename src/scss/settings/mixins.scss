@@ -15,7 +15,8 @@ $checkerboard_position: 8px;
         linear-gradient(45deg, transparent 75%, $checkerboard_color_2 75%),
         linear-gradient(-45deg, $checkerboard_color_1 75%, $checkerboard_color_2 75%);
     background-size: $checkerboard_size $checkerboard_size;
-    background-position: 0 0,
+    background-position:
+        0 0,
         0 $checkerboard_position,
         $checkerboard_position (-$checkerboard_position),
         (-$checkerboard_position) 0;

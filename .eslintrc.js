@@ -126,14 +126,20 @@ const rules = {
 };
 
 module.exports = {
-    extends: ['airbnb', 'airbnb/hooks', 'prettier'],
+    extends: ['eslint:recommended', 'airbnb', 'airbnb/hooks', 'prettier'],
     plugins: ['react', 'prettier'],
     parser: '@babel/eslint-parser',
     parserOptions: { requireConfigFile: false },
     rules: rules.js,
     overrides: [
         {
-            extends: ['airbnb', 'plugin:@typescript-eslint/recommended', 'prettier'],
+            extends: [
+                'eslint:recommended',
+                'plugin:@typescript-eslint/recommended',
+                'airbnb',
+                'prettier',
+            ],
+            plugins: ['@typescript-eslint'],
             parser: '@typescript-eslint/parser',
             files: ['*.ts', '*.tsx'],
             parserOptions: {
@@ -146,7 +152,11 @@ module.exports = {
                     typescript: {},
                 },
             },
-            rules: _.merge({ 'no-use-before-define': 'off' }, rules.js, rules.ts),
+            rules: _.merge(
+                { 'no-use-before-define': 'off', 'no-undef': 'off', 'no-unused-vars': 'off' },
+                rules.js,
+                rules.ts,
+            ),
         },
     ],
     globals: {

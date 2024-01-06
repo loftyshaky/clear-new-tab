@@ -82,8 +82,7 @@ $backgrounds_section_max_width: 922px;
         }
 
         &.backgrounds .section_content .scrollable {
-            overflow-y: auto !important;
-            overflow-x: hidden !important;
+            overflow: hidden auto !important;
             box-sizing: border-box;
             padding: 0;
             padding-left: $gap;

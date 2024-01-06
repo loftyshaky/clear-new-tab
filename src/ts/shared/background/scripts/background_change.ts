@@ -1,4 +1,4 @@
-import { Tabs } from 'webextension-polyfill-ts';
+import { Tabs } from 'webextension-polyfill';
 
 import { d_backgrounds, s_background, s_data, s_tabs, i_data } from 'shared/internal';
 
@@ -10,7 +10,7 @@ export class BackgroundChange {
         return this.i0 || (this.i0 = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
+    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     private slideshow_timers: number[] = [];

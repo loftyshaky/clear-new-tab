@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Tabs } from 'webextension-polyfill-ts';
+import { Tabs } from 'webextension-polyfill';
 
 import { s_background, s_tabs } from 'shared/internal';
 
@@ -11,7 +11,7 @@ export class Main {
         return this.i0 || (this.i0 = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
+    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     private remove_id = ({ id_to_remove }: { id_to_remove: number }): void =>

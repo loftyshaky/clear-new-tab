@@ -1,8 +1,9 @@
 import CodeMirrorLib, { Editor } from 'codemirror';
 import prettier from 'prettier/standalone';
-import parserHtml from 'prettier/parser-html';
-import parserPostcss from 'prettier/parser-postcss';
-import parserBabel from 'prettier/parser-babel';
+import parserHtml from 'prettier/plugins/html';
+import parserPostcss from 'prettier/plugins/postcss';
+import parserBabel from 'prettier/plugins/babel';
+import prettierPluginEstree from 'prettier/plugins/estree';
 
 import { t } from '@loftyshaky/shared';
 import { d_custom_code, s_custom_code, i_custom_code } from 'settings/internal';
@@ -15,7 +16,7 @@ export class CodeMirror {
         return this.i0 || (this.i0 = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
+    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public init_calls: t.CallbackVoid[] = [];
@@ -117,43 +118,44 @@ export class CodeMirror {
 
     public format = (): void =>
         err(() => {
-            this.monde_mirror_insts.forEach((code_mirror_inst: Editor): void =>
-                err(
-                    () => {
-                        const type: i_custom_code.Type = this.get_type({ code_mirror_inst });
-                        const custom_code = d_custom_code.Main.i().custom_code[type];
+            this.monde_mirror_insts.forEach(
+                (code_mirror_inst: Editor): Promise<void> =>
+                    err_async(
+                        async () => {
+                            const type: i_custom_code.Type = this.get_type({ code_mirror_inst });
+                            const custom_code = d_custom_code.Main.i().custom_code[type];
 
-                        if (n(custom_code)) {
-                            let formatted_code: string = '';
+                            if (n(custom_code)) {
+                                let formatted_code: string = '';
 
-                            if (type === 'html') {
-                                formatted_code = prettier.format(custom_code, {
-                                    parser: 'html',
-                                    plugins: [parserHtml],
-                                    ...this.prettier_options,
-                                });
-                            } else if (type === 'css') {
-                                formatted_code = prettier.format(custom_code, {
-                                    parser: 'css',
-                                    plugins: [parserPostcss],
-                                    ...this.prettier_options,
-                                });
-                            } else if (type === 'js') {
-                                formatted_code = prettier.format(custom_code, {
-                                    parser: 'babel',
-                                    plugins: [parserBabel],
-                                    ...this.prettier_options,
-                                });
+                                if (type === 'html') {
+                                    formatted_code = await prettier.format(custom_code, {
+                                        parser: 'html',
+                                        plugins: [parserHtml],
+                                        ...this.prettier_options,
+                                    });
+                                } else if (type === 'css') {
+                                    formatted_code = await prettier.format(custom_code, {
+                                        parser: 'css',
+                                        plugins: [parserPostcss],
+                                        ...this.prettier_options,
+                                    });
+                                } else if (type === 'js') {
+                                    formatted_code = await prettier.format(custom_code, {
+                                        parser: 'babel',
+                                        plugins: [parserBabel, prettierPluginEstree],
+                                        ...this.prettier_options,
+                                    });
+                                }
+
+                                code_mirror_inst.setOption('value', '');
+                                code_mirror_inst.setOption('value', formatted_code);
+                                s_custom_code.Db.i().save_val({ type, val: formatted_code });
                             }
-
-                            code_mirror_inst.setOption('value', '');
-                            code_mirror_inst.setOption('value', formatted_code);
-                            s_custom_code.Db.i().save_val({ type, val: formatted_code });
-                        }
-                    },
-                    'cnt_1198',
-                    { silent: true },
-                ),
+                        },
+                        'cnt_1198',
+                        { silent: true },
+                    ),
             );
         }, 'cnt_1199');
 

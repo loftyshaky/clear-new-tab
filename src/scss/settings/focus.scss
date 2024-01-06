@@ -2,7 +2,7 @@
     @include background_outline;
 }
 
-.keyboard .pagination_btn:not(.active, .disabled):focus, {
+.keyboard .pagination_btn:not(.active, .disabled):focus {
     @include outline_solid_thick;
 }
 

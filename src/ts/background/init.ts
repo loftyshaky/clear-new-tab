@@ -13,7 +13,7 @@ export const init = (): Promise<void> =>
         db.init_db();
         await s_db.Main.i().delete_old_db();
 
-        const settings = await ext.storage_get();
+        const settings = await ext.storage_get(undefined, true);
 
         await ext.send_msg_resp({
             msg: 'set_current_background_data',

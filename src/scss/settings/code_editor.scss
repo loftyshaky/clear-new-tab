@@ -38,7 +38,9 @@ $code_editor_offset: ($main_margin * 2) + ($section_padding * 4) + $border_width
                     margin-left: $gap;
                 }
 
-                .name.js { margin-left: 2px; }
+                .name.js {
+                    margin-left: 2px;
+                }
 
                 /* stylelint-disable-next-line selector-class-pattern */
                 .CodeMirror {

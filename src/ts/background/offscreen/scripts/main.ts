@@ -6,17 +6,15 @@ export class Main {
         return this.i0 || (this.i0 = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
+    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public create_document = (): Promise<void> =>
         err_async(async () => {
-            const offscreen_document_already_exists: boolean = await (
-                chrome as any
-            ).offscreen.hasDocument();
+            const offscreen_document_already_exists: boolean = await we.offscreen.hasDocument();
 
             if (!offscreen_document_already_exists) {
-                await (chrome as any).offscreen.createDocument({
+                await we.offscreen.createDocument({
                     url: 'offscreen.html',
                     reasons: ['DOM_PARSER'],
                     justification: 'Run URL.createObjectURL.',

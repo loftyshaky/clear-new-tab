@@ -1,8 +1,10 @@
+import { Runtime } from 'webextension-polyfill';
+
 import { db, s_data } from 'shared/internal';
 import { s_browser_theme } from 'background/internal';
 
 we.runtime.onInstalled.addListener(
-    (details): Promise<void> =>
+    (details: Runtime.OnInstalledDetailsType): Promise<void> =>
         err_async(async () => {
             if (details.reason === 'install') {
                 s_data.Main.i().init_defaults();

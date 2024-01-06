@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Management } from 'webextension-polyfill-ts';
+import { Management } from 'webextension-polyfill';
 
 import { s_management } from 'background/internal';
 
@@ -11,7 +11,7 @@ export class ThemeId {
         return this.i0 || (this.i0 = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
+    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public get_installed = (): Promise<string | undefined> =>

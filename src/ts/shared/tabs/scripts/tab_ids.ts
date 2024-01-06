@@ -1,4 +1,4 @@
-import { Tabs } from 'webextension-polyfill-ts';
+import { Tabs } from 'webextension-polyfill';
 
 export class TabIds {
     private static i0: TabIds;
@@ -8,8 +8,9 @@ export class TabIds {
         return this.i0 || (this.i0 = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
+    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
+
     public main_tab_id: number | undefined;
     public last_visited_new_tab_id: number | undefined;
     public tab_ids: number[] = []; // other than main

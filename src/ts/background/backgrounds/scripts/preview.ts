@@ -6,7 +6,7 @@ export class Preview {
         return this.i0 || (this.i0 = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
+    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public open = ({ background_id }: { background_id: string }): void =>
@@ -15,6 +15,6 @@ export class Preview {
                 `new_tab.html?preview_background_id=${background_id}`,
             );
 
-            chrome.tabs.create({ active: true, url });
+            we.tabs.create({ active: true, url });
         }, 'cnt_1002');
 }

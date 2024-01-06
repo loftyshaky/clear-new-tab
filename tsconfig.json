@@ -19,7 +19,8 @@
             "offscreen/*": ["./ts/offscreen/*"],
             "sandbox/*": ["./ts/sandbox/*"],
             "dependencies/*": ["./ts/dependencies/*"]
-        }
+        },
+        "plugins": [{ "transform": "typescript-transform-paths", "afterDeclarations": true }]
     },
     "include": ["src"],
     "exclude": ["node_modules", "dist"]

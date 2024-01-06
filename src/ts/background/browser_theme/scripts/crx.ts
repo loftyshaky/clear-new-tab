@@ -12,7 +12,7 @@ export class Crx {
         return this.i0 || (this.i0 = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
+    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     /* eslint-disable @typescript-eslint/naming-convention */
@@ -68,8 +68,9 @@ export class Crx {
             async () => {
                 const chrome_crx_url: string = `https://clients2.google.com/service/update2/crx?response=redirect&prodversion=9999.0.9999.0&acceptformat=crx2,crx3&x=id%3D${theme_id}%26uc`;
                 const edge_crx_url: string = `https://edge.microsoft.com/extensionwebstorebase/v1/crx?response=redirect&prod=chromiumcrx&prodchannel=&x=id%3D${theme_id}%26installsource%3Dondemand%26uc`;
+                l(1);
                 let response = await fetch(chrome_crx_url);
-
+                l(response);
                 if (!response.ok) {
                     response = await fetch(edge_crx_url);
                 }

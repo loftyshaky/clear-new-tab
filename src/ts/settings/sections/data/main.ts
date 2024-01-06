@@ -621,10 +621,14 @@ export class Main {
                                 name: 'support_page',
                                 href: ext.msg('support_page_link_href'),
                             }),
-                            new o_inputs.Link({
-                                name: 'dependencies',
-                                href: ext.msg('dependencies_link_href'),
-                            }),
+                            ...(env.browser === 'edge'
+                                ? []
+                                : [
+                                      new o_inputs.Link({
+                                          name: 'dependencies',
+                                          href: ext.msg('dependencies_link_href'),
+                                      }),
+                                  ]),
                         ],
                     }),
                 ],
