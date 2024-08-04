@@ -1,7 +1,7 @@
 import { runInAction } from 'mobx';
 
 import { i_inputs, i_color } from '@loftyshaky/shared/inputs';
-import { i_data } from 'shared/internal';
+import { i_data } from 'shared_clean/internal';
 import { d_scheduler, d_sections } from 'settings/internal';
 
 export class Val {

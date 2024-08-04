@@ -3,7 +3,8 @@ import { makeObservable, observable, reaction, action, runInAction } from 'mobx'
 
 import Paginator from 'paginator';
 
-import { svg, db } from 'shared/internal';
+import { db } from 'shared_clean/internal';
+import { svg } from 'shared/internal';
 
 import { d_backgrounds, d_pagination, d_sections, p_pagination } from 'settings/internal';
 

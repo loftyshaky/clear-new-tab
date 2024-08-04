@@ -1,7 +1,8 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import { Tr, i_db } from 'shared/internal';
+import { i_db } from 'shared_clean/internal';
+import { Tr } from 'shared/internal';
 import { c_backgrounds, d_backgrounds, d_dnd } from 'settings/internal';
 
 export const DraaggedBackground: React.FunctionComponent = observer(() => (

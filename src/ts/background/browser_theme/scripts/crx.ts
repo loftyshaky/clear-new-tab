@@ -1,7 +1,7 @@
-import _ from 'lodash';
+import get from 'lodash/get';
 import JSZip from 'jszip';
 
-import { t } from '@loftyshaky/shared';
+import { t } from '@loftyshaky/shared/shared_clean';
 import { s_browser_theme, i_browser_theme } from 'background/internal';
 
 export class Crx {
@@ -68,9 +68,9 @@ export class Crx {
             async () => {
                 const chrome_crx_url: string = `https://clients2.google.com/service/update2/crx?response=redirect&prodversion=9999.0.9999.0&acceptformat=crx2,crx3&x=id%3D${theme_id}%26uc`;
                 const edge_crx_url: string = `https://edge.microsoft.com/extensionwebstorebase/v1/crx?response=redirect&prod=chromiumcrx&prodchannel=&x=id%3D${theme_id}%26installsource%3Dondemand%26uc`;
-                l(1);
+
                 let response = await fetch(chrome_crx_url);
-                l(response);
+
                 if (!response.ok) {
                     response = await fetch(edge_crx_url);
                 }
@@ -107,7 +107,7 @@ export class Crx {
             const manifest_obj = JSON.parse(manifest.trim()); // trim fixes bug with some themes. ex: https://chrome.google.com/webstore/detail/sexy-girl-chrome-theme-ar/pkibpgkliocdchedibhioiibdiddomac
             const theme_obj = manifest_obj.theme;
             //> folder or file name may be uppercase, but in manifest it can be listed as lower case and the theme will still work. To prevent this I read actual path to theme_ntp_background (https://chrome.google.com/webstore/detail/bmw-by-rb-themes/ccgmejigoahjchphkfcjnjddmcjcgpfp)
-            const img_file_name_listed_in_manifest: string | undefined = _.get(theme_obj, [
+            const img_file_name_listed_in_manifest: string | undefined = get(theme_obj, [
                 'images',
                 'theme_ntp_background',
             ]);
@@ -125,29 +125,29 @@ export class Crx {
                 );
             }
             //<
-            const size_manifest: string = _.get(theme_obj, ['clear_new_tab', 'size'], '');
-            const position_manifest: string = _.get(
+            const size_manifest: string = get(theme_obj, ['clear_new_tab', 'size'], '');
+            const position_manifest: string = get(
                 theme_obj,
                 ['properties', 'ntp_background_alignment'],
                 '',
             );
-            const repeat_manifest: string = _.get(
+            const repeat_manifest: string = get(
                 theme_obj,
                 ['properties', 'ntp_background_repeat'],
                 '',
             );
 
-            const color_of_area_around_background_manifest = _.get(
+            const color_of_area_around_background_manifest = get(
                 theme_obj,
                 ['colors', 'ntp_background'],
                 undefined,
             );
-            const video_speed_manifest: number = _.get(
+            const video_speed_manifest: number = get(
                 theme_obj,
                 ['clear_new_tab', 'video_speed'],
                 Infinity,
             );
-            const video_volume_manifest: number = _.get(
+            const video_volume_manifest: number = get(
                 theme_obj,
                 ['clear_new_tab', 'video_volume'],
                 Infinity,

@@ -1,4 +1,4 @@
-import { i_db } from 'shared/internal';
+import { i_db } from 'shared_clean/internal';
 import { d_backgrounds } from 'settings/internal';
 
 export class BackgroundPreview {

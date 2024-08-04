@@ -10,7 +10,7 @@ import {
     d_scrollable,
     s_scrollable,
 } from 'settings/internal';
-import { i_db } from 'shared/internal';
+import { i_db } from 'shared_clean/internal';
 
 export const Body: React.FunctionComponent = observer(() => {
     d_backgrounds.Dnd.i().collection_ref = useRef<any>(null);

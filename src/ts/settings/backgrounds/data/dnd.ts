@@ -1,8 +1,9 @@
-import _ from 'lodash';
+import reject from 'lodash/reject';
+import isInteger from 'lodash/isInteger';
 import { MouseEvent } from 'react';
 import { makeObservable, action } from 'mobx';
 
-import { s_i, i_db } from 'shared/internal';
+import { s_i, i_db } from 'shared_clean/internal';
 import { d_backgrounds, d_pagination, d_dnd, s_backgrounds } from 'settings/internal';
 
 export class Dnd {
@@ -39,7 +40,7 @@ export class Dnd {
 
     public remove_drop_zone = (): void =>
         err(() => {
-            (d_pagination.Page.i().page_backgrounds as any) = _.reject(
+            (d_pagination.Page.i().page_backgrounds as any) = reject(
                 d_pagination.Page.i().page_backgrounds,
                 (background: i_db.BackgroundDropZone): boolean => background.type === 'drop_zone',
             );
@@ -108,7 +109,7 @@ export class Dnd {
 
             if (n(val)) {
                 const val_2: number = +val;
-                const val_is_integer: boolean = _.isInteger(val_2);
+                const val_is_integer: boolean = isInteger(val_2);
 
                 if (val_is_integer) {
                     const last_background_i: number = d_backgrounds.Main.i().backgrounds.length - 1;

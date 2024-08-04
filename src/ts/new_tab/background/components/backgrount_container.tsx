@@ -1,9 +1,9 @@
-import _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import React, { useEffect, useRef } from 'react';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 
-import { t } from '@loftyshaky/shared';
+import { t } from '@loftyshaky/shared/shared';
 import {
     c_background,
     d_background,
@@ -97,7 +97,7 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
         const background_is_no_effect_cls: string =
             d_background.Classes.i().background_is_no_effect_cls[background_container_i];
 
-        return _.isEmpty(background_css) ? null : (
+        return isEmpty(background_css) ? null : (
             <>
                 <div
                     className={x.cls([

@@ -1,4 +1,4 @@
-import { i_db } from 'shared/internal';
+import { i_db } from 'shared_clean/internal';
 
 export interface Task {
     index: number;

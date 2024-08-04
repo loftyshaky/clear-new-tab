@@ -1,10 +1,10 @@
-import _ from 'lodash';
+import reject from 'lodash/reject';
 import { MouseEvent } from 'react';
 import { makeObservable, observable, computed, action, toJS } from 'mobx';
 import { BigNumber } from 'bignumber.js';
 
-import { t } from '@loftyshaky/shared';
-import { s_db, s_i, i_db } from 'shared/internal';
+import { t } from '@loftyshaky/shared/shared';
+import { s_db, s_i, i_db } from 'shared_clean/internal';
 import {
     d_backgrounds,
     d_dnd,
@@ -150,7 +150,7 @@ export class Main {
                     }, 'cnt_1210');
 
                 const items_2: i_db.Background[] | i_db.Task[] = toJS(
-                    _.reject(items as any, (item: any) => item.type === 'drop_zone'),
+                    reject(items as any, (item: any) => item.type === 'drop_zone'),
                 );
 
                 const only_one_background_exist = items_2.length === 1;

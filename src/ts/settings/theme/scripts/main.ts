@@ -1,5 +1,5 @@
-import { s_theme as s_theme_shared } from '@loftyshaky/shared';
-import { s_theme } from 'shared/internal';
+import { s_theme as s_theme_shared } from '@loftyshaky/shared/shared';
+import { s_theme } from 'shared_clean/internal';
 
 export class Main {
     private static i0: Main;

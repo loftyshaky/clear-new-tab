@@ -1,7 +1,7 @@
-import _ from 'lodash';
+import clone from 'lodash/clone';
 import { makeObservable, observable, action } from 'mobx';
 
-import { i_db } from 'shared/internal';
+import { i_db } from 'shared_clean/internal';
 import { d_background, i_background } from 'new_tab/internal';
 
 export class VideoReapeat {
@@ -28,11 +28,11 @@ export class VideoReapeat {
         this.repeated_video_positions_item_default_val,
     ];
 
-    public single_video_repeat_positions: i_background.Position[] = _.clone(
+    public single_video_repeat_positions: i_background.Position[] = clone(
         this.repeated_video_positions_item_default_val,
     );
 
-    private horizontal_video_repeat_positions: i_background.Position[] = _.clone(
+    private horizontal_video_repeat_positions: i_background.Position[] = clone(
         this.repeated_video_positions_item_default_val,
     );
 
@@ -125,13 +125,13 @@ export class VideoReapeat {
                 const calculate_modifier = ({ axis }: { axis: 'x' | 'y' }): number =>
                     err(() => (this[`background_position_is_center_${axis}`] ? 1 : 0), 'cnt_1385');
 
-                this.horizontal_video_repeat_positions = _.clone(
+                this.horizontal_video_repeat_positions = clone(
                     this.repeated_video_positions_item_default_val,
                 );
-                this.single_video_repeat_positions = _.clone(
+                this.single_video_repeat_positions = clone(
                     this.repeated_video_positions_item_default_val,
                 );
-                this.video_repeat_count = _.clone(this.video_repeat_count_default_vals);
+                this.video_repeat_count = clone(this.video_repeat_count_default_vals);
 
                 const {
                     background_container_i,
@@ -477,7 +477,7 @@ export class VideoReapeat {
         direction: i_background.Direction;
     }): void =>
         err(() => {
-            const horizontal_video_repeat_positions_cloned = _.clone(
+            const horizontal_video_repeat_positions_cloned = clone(
                 this.horizontal_video_repeat_positions,
             );
 

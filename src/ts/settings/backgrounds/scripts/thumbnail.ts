@@ -1,4 +1,4 @@
-import { i_db } from 'shared/internal';
+import { i_db } from 'shared_clean/internal';
 
 export class Thumbnail {
     private static i0: Thumbnail;

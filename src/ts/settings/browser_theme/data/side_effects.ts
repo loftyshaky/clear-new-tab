@@ -1,4 +1,5 @@
-import { d_backgrounds as d_backgrounds_shared, i_db } from 'shared/internal';
+import { i_db } from 'shared_clean/internal';
+import { d_backgrounds as d_backgrounds_shared } from 'shared/internal';
 import { d_backgrounds, d_protecting_screen, d_sections } from 'settings/internal';
 
 export class SideEffects {

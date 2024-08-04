@@ -1,7 +1,7 @@
 import { makeObservable, action, runInAction } from 'mobx';
 
-import { t } from '@loftyshaky/shared';
-import { s_db, i_db } from 'shared/internal';
+import { t } from '@loftyshaky/shared/shared';
+import { s_db, i_db } from 'shared_clean/internal';
 import { d_background, s_background, i_background } from 'new_tab/internal';
 import { set_preload_color } from 'new_tab/preload_color';
 

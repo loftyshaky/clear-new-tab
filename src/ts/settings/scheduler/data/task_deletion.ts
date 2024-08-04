@@ -1,8 +1,8 @@
-import _ from 'lodash';
+import reject from 'lodash/reject';
 import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
-import { vars, s_db, i_db } from 'shared/internal';
+import { vars, s_db, i_db } from 'shared_clean/internal';
 import { d_protecting_screen, d_scheduler } from 'settings/internal';
 
 export class TaskDeletion {
@@ -46,7 +46,7 @@ export class TaskDeletion {
         err_async(async () => {
             runInAction(() =>
                 err(() => {
-                    d_scheduler.Tasks.i().tasks = _.reject(
+                    d_scheduler.Tasks.i().tasks = reject(
                         d_scheduler.Tasks.i().tasks,
                         (task: i_db.Task) => task.id === id,
                     );

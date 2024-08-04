@@ -1,6 +1,6 @@
 import { makeObservable, observable, action } from 'mobx';
 
-import { vars } from 'shared/internal';
+import { vars } from 'shared_clean/internal';
 
 export class Position {
     private static i0: Position;

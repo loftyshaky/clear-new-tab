@@ -1,4 +1,4 @@
-import { d_offers, s_utils } from '@loftyshaky/shared';
+import { d_offers, s_utils } from '@loftyshaky/shared/shared';
 import { o_inputs, o_color, i_inputs } from '@loftyshaky/shared/inputs';
 import { d_settings } from '@loftyshaky/shared/settings';
 import { svg } from 'shared/internal';

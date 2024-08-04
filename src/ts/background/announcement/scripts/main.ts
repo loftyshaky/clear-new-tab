@@ -1,5 +1,5 @@
-import { i_data } from 'shared/internal';
-import { s_announcement } from '@loftyshaky/shared/announcement';
+import { i_data } from 'shared_clean/internal';
+import { s_announcement } from '@loftyshaky/shared/shared_clean';
 
 export class Main {
     private static i0: Main;

@@ -1,4 +1,4 @@
-import { db, d_data, s_data } from 'shared/internal';
+import { db, d_data, s_data } from 'shared_clean/internal';
 import { s_announcement, s_badge, s_db, s_offscreen, s_scheduler } from 'background/internal';
 
 export const init = (): Promise<void> =>

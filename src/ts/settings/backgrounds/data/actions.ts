@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import clone from 'lodash/clone';
 import { MouseEvent } from 'react';
 import { makeObservable, observable, action } from 'mobx';
 import { computedFn } from 'mobx-utils';
@@ -28,7 +28,7 @@ export class Actions {
         err(() => {
             e.stopPropagation();
 
-            const is_visible: boolean = _.clone(this.actions_visibility)[background_id];
+            const is_visible: boolean = clone(this.actions_visibility)[background_id];
 
             this.actions_visibility = {};
 

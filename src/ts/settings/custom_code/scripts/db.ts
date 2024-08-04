@@ -1,6 +1,6 @@
-import _ from 'lodash';
+import debounce from 'lodash/debounce';
 
-import { s_custom_code as s_custom_code_shared, s_db, i_db } from 'shared/internal';
+import { s_custom_code as s_custom_code_shared_clean, s_db, i_db } from 'shared_clean/internal';
 import { d_custom_code, i_custom_code } from 'settings/internal';
 
 export class Db {
@@ -38,14 +38,14 @@ export class Db {
             await ext.send_msg({ msg: 'set_custom_code' });
         }, 'cnt_1202');
 
-    public save_val_debounce = _.debounce(this.save_val, 250);
+    public save_val_debounce = debounce(this.save_val, 250);
 
     public delete_custom_code = (): Promise<void> =>
         err_async(async () => {
             // eslint-disable-next-line no-alert
             if (globalThis.confirm(ext.msg('delete_custom_code_confirm'))) {
                 await this.save_custom_code({
-                    custom_code: s_custom_code_shared.Main.i().default_custom_code,
+                    custom_code: s_custom_code_shared_clean.Main.i().default_custom_code,
                 });
             }
         }, 'cnt_1203');

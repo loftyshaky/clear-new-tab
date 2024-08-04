@@ -1,8 +1,9 @@
 import React, { useEffect, useLayoutEffect, useState, MouseEvent } from 'react';
 import { observer } from 'mobx-react';
 
-import { s_tab_index } from '@loftyshaky/shared';
-import { svg, i_db } from 'shared/internal';
+import { s_tab_index } from '@loftyshaky/shared/shared';
+import { i_db } from 'shared_clean/internal';
+import { svg } from 'shared/internal';
 import { c_backgrounds, c_dnd, d_backgrounds, d_dnd, p_backgrounds } from 'settings/internal';
 
 export const Background: React.FunctionComponent<p_backgrounds.Background> = observer((props) => {
@@ -146,6 +147,7 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                         'delete_background_btn',
                         d_dnd.Main.i().pointer_events_none_cls,
                     ])}
+                    aria-label='Delete background'
                     onClick={(e: MouseEvent): void => {
                         d_backgrounds.BackgroundDeletion.i().trigger_delete(
                             { ids: [background.id], deleting_background_with_delete_button: true },

@@ -1,10 +1,13 @@
-import _ from 'lodash';
+import clone from 'lodash/clone';
+import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import { runInAction } from 'mobx';
 
-import { t } from '@loftyshaky/shared';
+import { t } from '@loftyshaky/shared/shared';
 import { d_inputs, i_inputs } from '@loftyshaky/shared/inputs';
 import { d_settings } from '@loftyshaky/shared/settings';
-import { d_progress, s_css_vars, s_db, s_preload_color, i_data, i_db } from 'shared/internal';
+import { s_css_vars, s_db, i_data, i_db } from 'shared_clean/internal';
+import { d_progress, s_preload_color } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
@@ -46,7 +49,7 @@ export class Restore {
             if (confirmed_restore) {
                 d_protecting_screen.Visibility.i().show();
 
-                const { transition_duration } = _.clone(data.settings);
+                const { transition_duration } = clone(data.settings);
 
                 const settings_final: i_data.Settings = await this.set();
 
@@ -134,7 +137,7 @@ export class Restore {
 
             let chunks: string = '';
             let is_first_chunk: boolean = true;
-            const settings_to_store_in_file: i_data.Settings = _.clone(data.settings);
+            const settings_to_store_in_file: i_data.Settings = clone(data.settings);
 
             settings_to_store_in_file.id_of_last_installed_theme = '';
 
@@ -391,7 +394,7 @@ export class Restore {
                     if (
                         n(full_data_obj) &&
                         !n(data_obj.settings) &&
-                        !_.isEqual(full_data_obj, data_obj)
+                        !isEqual(full_data_obj, data_obj)
                     ) {
                         full_data_obj.chunks = [...full_data_obj.chunks, ...data_obj.chunks];
                     }
@@ -408,7 +411,7 @@ export class Restore {
                     } as i_data.Settings;
                     settings.id_of_last_installed_theme = data.settings.id_of_last_installed_theme;
 
-                    const { transition_duration } = _.clone(data.settings);
+                    const { transition_duration } = clone(data.settings);
 
                     await this.set({ settings });
 
@@ -467,7 +470,7 @@ export class Restore {
         err_async(async () => {
             let settings_final: i_data.Settings;
 
-            if (_.isEmpty(settings)) {
+            if (isEmpty(settings)) {
                 const default_settings = await ext.send_msg_resp({ msg: 'get_defaults' });
 
                 settings_final = {

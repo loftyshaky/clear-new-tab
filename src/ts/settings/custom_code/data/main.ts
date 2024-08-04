@@ -1,6 +1,6 @@
 import { makeObservable, observable, action, runInAction } from 'mobx';
 
-import { s_custom_code, i_db, s_db } from 'shared/internal';
+import { s_custom_code, i_db, s_db } from 'shared_clean/internal';
 import { i_custom_code } from 'settings/internal';
 
 export class Main {

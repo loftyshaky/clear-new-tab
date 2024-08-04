@@ -1,9 +1,11 @@
-import _ from 'lodash';
+import debounce from 'lodash/debounce';
+import random from 'lodash/random';
 import { makeObservable, observable, action, toJS } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
 import { d_inputs, i_inputs } from '@loftyshaky/shared/inputs';
-import { d_backgrounds as d_backgrounds_shared, i_db } from 'shared/internal';
+import { i_db } from 'shared_clean/internal';
+import { d_backgrounds as d_backgrounds_shared } from 'shared/internal';
 import { d_background_settings, d_backgrounds, d_scheduler, d_sections } from 'settings/internal';
 
 export class CurrentBackground {
@@ -123,7 +125,7 @@ export class CurrentBackground {
             }
         }, 'cnt_1114');
 
-    public save_current_background_id_from_i = _.debounce(
+    public save_current_background_id_from_i = debounce(
         (): void =>
             err(() => {
                 if (d_backgrounds.Main.i().backgrounds.length !== 0) {
@@ -235,7 +237,7 @@ export class CurrentBackground {
             ) {
                 future_background_id =
                     d_backgrounds.Main.i().backgrounds[
-                        _.random(0, d_backgrounds.Main.i().backgrounds.length - 1)
+                        random(0, d_backgrounds.Main.i().backgrounds.length - 1)
                     ].id;
             }
 

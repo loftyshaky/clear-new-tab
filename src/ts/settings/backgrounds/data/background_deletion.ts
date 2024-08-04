@@ -1,9 +1,10 @@
-import _ from 'lodash';
+import reject from 'lodash/reject';
 import { MouseEvent } from 'react';
 import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
-import { vars, s_db, s_preload_color, s_i, i_db } from 'shared/internal';
+import { vars, s_db, s_i, i_db } from 'shared_clean/internal';
+import { s_preload_color } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
@@ -107,11 +108,11 @@ export class BackgroundDeletion {
 
             runInAction(() =>
                 err(() => {
-                    d_backgrounds.Main.i().backgrounds = _.reject(
+                    d_backgrounds.Main.i().backgrounds = reject(
                         d_backgrounds.Main.i().backgrounds,
                         (background: i_db.Background) => ids.includes(background.id),
                     );
-                    d_pagination.Page.i().page_backgrounds = _.reject(
+                    d_pagination.Page.i().page_backgrounds = reject(
                         d_pagination.Page.i().page_backgrounds,
                         (background: i_db.Background) => ids.includes(background.id),
                     );

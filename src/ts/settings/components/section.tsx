@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import { c_app_version } from '@loftyshaky/shared';
+import { c_app_version } from '@loftyshaky/shared/shared';
 import { c_inputs } from '@loftyshaky/shared/inputs';
 import { Tr } from 'shared/internal';
 import { d_backgrounds, d_sections, p_settings } from 'settings/internal';

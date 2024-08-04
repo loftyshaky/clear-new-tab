@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { Management } from 'webextension-polyfill';
 
 import { s_management } from 'background/internal';
@@ -23,7 +23,7 @@ export class ThemeId {
                     err(() => item.type === 'theme' && item.enabled, 'cnt_1180'),
             );
 
-            const found_enabled_themes = !_.isEmpty(enabled_themes);
+            const found_enabled_themes = !isEmpty(enabled_themes);
 
             if (found_enabled_themes) {
                 return enabled_themes[0].id;

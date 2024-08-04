@@ -1,4 +1,4 @@
-import { t } from '@loftyshaky/shared';
+import { t } from '@loftyshaky/shared/shared';
 
 export interface DropZone {
     style?: React.CSSProperties;

@@ -1,4 +1,4 @@
-import { s_background, s_data, i_data } from 'shared/internal';
+import { s_background, s_data, i_data } from 'shared_clean/internal';
 
 export class Main {
     private static i0: Main;

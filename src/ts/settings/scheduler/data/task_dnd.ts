@@ -1,8 +1,8 @@
-import _ from 'lodash';
+import reject from 'lodash/reject';
 import { MouseEvent } from 'react';
 import { makeObservable, action } from 'mobx';
 
-import { s_i, i_db } from 'shared/internal';
+import { s_i, i_db } from 'shared_clean/internal';
 import { d_dnd, d_scheduler } from 'settings/internal';
 
 export class TaskDnd {
@@ -66,7 +66,7 @@ export class TaskDnd {
 
     public remove_drop_zone = (): void =>
         err(() => {
-            (d_scheduler.Tasks.i().tasks as any) = _.reject(
+            (d_scheduler.Tasks.i().tasks as any) = reject(
                 d_scheduler.Tasks.i().tasks,
                 (task: i_db.TaskDropZone): boolean => task.type === 'drop_zone',
             );

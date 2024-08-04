@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import upperFirst from 'lodash/upperFirst';
 
 export class ThemeFile {
     private static i0: ThemeFile;
@@ -36,7 +36,7 @@ export class ThemeFile {
                 const img_file = await theme_package_data.file(img_file_name); // download theme image
                 const img_file_final = n(img_file)
                     ? img_file
-                    : await theme_package_data.file(_.upperFirst(img_file)); // download theme image (convert first letter of image name to uppercase);
+                    : await theme_package_data.file(upperFirst(img_file)); // download theme image (convert first letter of image name to uppercase);
                 const is_img_file: boolean = !n(clear_new_tab_video_file_name);
                 const file_type: string = `${is_img_file ? 'image/' : 'video/'}${this.get_file_ext({
                     file_name: is_img_file ? img_file_name : clear_new_tab_video_file_name,

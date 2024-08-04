@@ -1,7 +1,7 @@
-import _ from 'lodash';
+import debounce from 'lodash/debounce';
 import { makeObservable, observable, computed, autorun, reaction, action, runInAction } from 'mobx';
 
-import { i_db } from 'shared/internal';
+import { i_db } from 'shared_clean/internal';
 import { d_backgrounds, d_pagination, d_scrollable, d_sections } from 'settings/internal';
 
 export class Page {
@@ -110,7 +110,7 @@ export class Page {
             }
         }, 'cnt_1459');
 
-    private set_backgrounds_per_page_val_debounce = _.debounce(
+    private set_backgrounds_per_page_val_debounce = debounce(
         this.set_backgrounds_per_page_val,
         500,
     );

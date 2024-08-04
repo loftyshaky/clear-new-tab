@@ -1,6 +1,6 @@
 import { makeObservable, action } from 'mobx';
 
-import { d_browser_theme, i_browser_theme } from 'shared/internal';
+import { d_browser_theme, i_browser_theme } from 'shared_clean/internal';
 import { d_backgrounds } from 'settings/internal';
 
 export class Main {

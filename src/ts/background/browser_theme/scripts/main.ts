@@ -1,6 +1,6 @@
-import _ from 'lodash';
+import remove from 'lodash/remove';
 
-import { t } from '@loftyshaky/shared';
+import { t } from '@loftyshaky/shared/shared_clean';
 import {
     d_backgrounds,
     d_browser_theme,
@@ -9,7 +9,7 @@ import {
     i_browser_theme,
     i_data,
     i_db,
-} from 'shared/internal';
+} from 'shared_clean/internal';
 import { s_badge, s_browser_theme } from 'background/internal';
 
 export class Main {
@@ -110,7 +110,7 @@ export class Main {
 
             await s_db.Manipulation.i().delete_backgrounds({ ids: ids_to_delete });
 
-            const backgrounds_no_deleted: i_db.Background[] = _.remove(
+            const backgrounds_no_deleted: i_db.Background[] = remove(
                 backgrounds,
                 (background: i_db.Background) => ids_to_delete.includes(background.id),
             );

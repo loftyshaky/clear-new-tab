@@ -1,4 +1,4 @@
-import { i_db } from 'shared/internal';
+import { i_db } from 'shared_clean/internal';
 import { d_background } from 'new_tab/internal';
 
 export class Type {

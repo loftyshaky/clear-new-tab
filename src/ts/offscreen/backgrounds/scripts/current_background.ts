@@ -1,4 +1,4 @@
-import { s_db, i_db } from 'shared/internal';
+import { s_db, i_db } from 'shared_clean/internal';
 
 export class CurrentBackground {
     private static i0: CurrentBackground;

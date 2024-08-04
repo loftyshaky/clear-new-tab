@@ -1,7 +1,7 @@
 import { makeObservable, observable, action } from 'mobx';
 
-import * as s_custom_code from 'shared/custom_code/scripts';
-import * as i_db from 'shared/db/interfaces';
+import * as s_custom_code from 'shared_clean/custom_code/scripts';
+import * as i_db from 'shared_clean/db/interfaces';
 
 export class Main {
     private static i0: Main;

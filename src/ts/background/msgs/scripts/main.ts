@@ -1,5 +1,5 @@
-import { t } from '@loftyshaky/shared';
-import { s_background, s_data, s_tabs } from 'shared/internal';
+import { t } from '@loftyshaky/shared/shared_clean';
+import { s_background, s_data, s_tabs } from 'shared_clean/internal';
 import { s_backgrounds, s_browser_theme, s_home_btn, s_scheduler } from 'background/internal';
 
 we.runtime.onMessage.addListener((msg: t.Msg): any =>

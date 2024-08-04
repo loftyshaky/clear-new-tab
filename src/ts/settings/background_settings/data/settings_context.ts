@@ -1,6 +1,6 @@
 import { makeObservable, action } from 'mobx';
 
-import { i_db } from 'shared/internal';
+import { i_db } from 'shared_clean/internal';
 import {
     d_background_settings,
     s_background_settings,

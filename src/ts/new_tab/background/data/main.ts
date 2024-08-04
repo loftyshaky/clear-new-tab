@@ -1,9 +1,10 @@
-import _ from 'lodash';
+import merge from 'lodash/merge';
+import clone from 'lodash/clone';
 import { makeObservable, observable, computed } from 'mobx';
 
-import { t } from '@loftyshaky/shared';
-import { d_color, i_color } from '@loftyshaky/shared/inputs';
-import { i_db } from 'shared/internal';
+import { t, i_color } from '@loftyshaky/shared/shared';
+import { d_color } from '@loftyshaky/shared/inputs';
+import { i_db } from 'shared_clean/internal';
 import { d_background, s_background } from 'new_tab/internal';
 
 export class Main {
@@ -56,24 +57,24 @@ export class Main {
     public default_val_5: number[] = [0, 0];
     private default_val_6: t.AnyRecord[] = [{}, {}];
     public background_container_i: number = 1;
-    public background_data: (i_db.Background | undefined)[] = _.merge({}, this.default_val_1);
-    public background_file: (i_db.BackgroundFile | string | undefined)[] = _.merge(
+    public background_data: (i_db.Background | undefined)[] = merge({}, this.default_val_1);
+    public background_file: (i_db.BackgroundFile | string | undefined)[] = merge(
         {},
         this.default_val_2,
     );
 
-    public background: string[] = _.merge({}, this.default_val_3);
-    public background_position: string[] = _.merge({}, this.default_val_3);
-    public background_repeat: string[] = _.merge({}, this.default_val_3);
-    public color_of_area_around_background: string[] = _.merge({}, this.default_val_3);
-    public video_speed: number[] = _.merge({}, this.default_val_4);
-    public video_volume: number[] = _.merge({}, this.default_val_5);
-    public background_css: t.AnyRecord[] = _.merge({}, this.default_val_6);
+    public background: string[] = merge({}, this.default_val_3);
+    public background_position: string[] = merge({}, this.default_val_3);
+    public background_repeat: string[] = merge({}, this.default_val_3);
+    public color_of_area_around_background: string[] = merge({}, this.default_val_3);
+    public video_speed: number[] = merge({}, this.default_val_4);
+    public video_volume: number[] = merge({}, this.default_val_5);
+    public background_css: t.AnyRecord[] = merge({}, this.default_val_6);
     public current_object_url: string = '';
     public current_object_url_background_id: string = '';
 
     public get opposite_background_container_i() {
-        return _.clone(this).background_container_i === 0 ? 1 : 0;
+        return clone(this).background_container_i === 0 ? 1 : 0;
     }
 
     public get_background = (): string =>

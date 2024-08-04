@@ -1,9 +1,9 @@
-import _ from 'lodash';
+import union from 'lodash/union';
 import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 import { BigNumber } from 'bignumber.js';
 
-import { vars, s_db, s_i, i_db } from 'shared/internal';
+import { vars, s_db, s_i, i_db } from 'shared_clean/internal';
 import { d_protecting_screen, d_scheduler, d_scrollable } from 'settings/internal';
 
 export class Tasks {
@@ -128,7 +128,7 @@ export class Tasks {
     public merge_tasks = ({ tasks }: { tasks: i_db.Task[] }): void =>
         err(() => {
             this.tasks = s_i.Main.i().sort_by_i_ascending({
-                data: _.union(this.tasks, tasks),
+                data: union(this.tasks, tasks),
             }) as i_db.Task[];
         }, 'cnt_1421');
 

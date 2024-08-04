@@ -1,5 +1,6 @@
 import { o_inputs, d_inputs } from '@loftyshaky/shared/inputs';
-import { d_backgrounds as d_backgrounds_shared, d_progress, i_db } from 'shared/internal';
+import { d_backgrounds as d_backgrounds_shared_clean, i_db } from 'shared_clean/internal';
+import { d_progress } from 'shared/internal';
 import { d_backgrounds, d_protecting_screen, s_scrollable } from 'settings/internal';
 
 export class Upload {
@@ -26,7 +27,7 @@ export class Upload {
         show_error_in_upload_box?: boolean;
         update_current_background_id?: boolean;
     }): Promise<void> => {
-        await d_backgrounds_shared.Upload.i().upload_with_browse_btn({
+        await d_backgrounds_shared_clean.Upload.i().upload_with_browse_btn({
             files,
             theme_id,
             backgrounds: d_backgrounds.Main.i().backgrounds,

@@ -5,7 +5,7 @@ import parserPostcss from 'prettier/plugins/postcss';
 import parserBabel from 'prettier/plugins/babel';
 import prettierPluginEstree from 'prettier/plugins/estree';
 
-import { t } from '@loftyshaky/shared';
+import { t } from '@loftyshaky/shared/shared';
 import { d_custom_code, s_custom_code, i_custom_code } from 'settings/internal';
 
 export class CodeMirror {

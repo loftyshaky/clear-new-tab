@@ -5,4 +5,4 @@ export const init = (): Promise<void> =>
         await InitAll.i().init();
 
         InitAll.i().render_dependencies();
-    }, 'ges_1229');
+    }, 'cnt_1229');

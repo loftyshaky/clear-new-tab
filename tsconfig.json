@@ -11,6 +11,7 @@
         "sourceMap": true,
         "typeRoots": ["node_modules/@types", "node_modules/web-ext-types"],
         "paths": {
+            "shared_clean/*": ["./ts/shared_clean/*"],
             "shared/*": ["./ts/shared/*"],
             "announcement/*": ["./ts/announcement/*"],
             "background/*": ["./ts/background/*"],

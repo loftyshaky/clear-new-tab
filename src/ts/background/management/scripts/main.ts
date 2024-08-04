@@ -1,6 +1,6 @@
 import { Management } from 'webextension-polyfill';
 
-import { s_data, i_data } from 'shared/internal';
+import { s_data, i_data } from 'shared_clean/internal';
 import { s_browser_theme } from 'background/internal';
 
 export class Main {

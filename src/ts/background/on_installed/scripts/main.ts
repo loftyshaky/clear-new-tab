@@ -1,6 +1,6 @@
 import { Runtime } from 'webextension-polyfill';
 
-import { db, s_data } from 'shared/internal';
+import { db, s_data } from 'shared_clean/internal';
 import { s_browser_theme } from 'background/internal';
 
 we.runtime.onInstalled.addListener(

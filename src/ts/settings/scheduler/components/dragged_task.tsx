@@ -1,7 +1,8 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import { Tr, i_db } from 'shared/internal';
+import { i_db } from 'shared_clean/internal';
+import { Tr } from 'shared/internal';
 import { c_scheduler, d_dnd, d_scheduler } from 'settings/internal';
 
 export const DraaggedTask: React.FunctionComponent = observer(() => (

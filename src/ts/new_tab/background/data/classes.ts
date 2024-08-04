@@ -1,7 +1,8 @@
-import _ from 'lodash';
+import merge from 'lodash/merge';
+import random from 'lodash/random';
 import { makeObservable, observable, computed, action } from 'mobx';
 
-import { i_db } from 'shared/internal';
+import { i_db } from 'shared_clean/internal';
 import { d_background, s_background } from 'new_tab/internal';
 
 export class Classes {
@@ -38,8 +39,8 @@ export class Classes {
     public video_no_tr_cls: string[] = ['no_tr', 'no_tr'];
     public img_is_visible_cls: string[] = ['opacity_0', 'opacity_0'];
     public video_is_visible_cls: string[] = ['opacity_0', 'opacity_0'];
-    public background_is_sliding_cls: string[] = _.merge({}, d_background.Main.i().default_val_3);
-    public background_is_no_effect_cls: string[] = _.merge({}, d_background.Main.i().default_val_3);
+    public background_is_sliding_cls: string[] = merge({}, d_background.Main.i().default_val_3);
+    public background_is_no_effect_cls: string[] = merge({}, d_background.Main.i().default_val_3);
 
     public get videos_load_video_is_visible_cls() {
         return d_background.VideoReapeat.i().loaded_videos_count >=
@@ -128,7 +129,7 @@ export class Classes {
         err(() => {
             if (data.settings.background_change_effect === 'slide') {
                 if (data.settings.slide_direction === 'random') {
-                    const random_slide_direction_i: number = _.random(
+                    const random_slide_direction_i: number = random(
                         0,
                         this.slide_directions.length - 1,
                     );

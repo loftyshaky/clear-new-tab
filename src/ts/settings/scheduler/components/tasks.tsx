@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { Virtuoso } from 'react-virtuoso';
 
 import { c_scheduler, d_scheduler, d_scrollable } from 'settings/internal';
-import { i_db } from 'shared/internal';
+import { i_db } from 'shared_clean/internal';
 
 export const Tasks: React.FunctionComponent = observer(() => (
     <div className={x.cls(['tasks', d_scheduler.Help.i().scheduler_inner_visibility_cls])}>

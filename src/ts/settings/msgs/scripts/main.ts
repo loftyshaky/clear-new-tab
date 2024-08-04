@@ -1,4 +1,4 @@
-import { t, d_settings } from '@loftyshaky/shared';
+import { t, d_settings } from '@loftyshaky/shared/shared';
 import { d_backgrounds as d_backgrounds_shared } from 'shared/internal';
 import {
     d_backgrounds,

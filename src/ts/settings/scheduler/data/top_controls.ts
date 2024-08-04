@@ -1,4 +1,4 @@
-import { s_utils } from '@loftyshaky/shared';
+import { s_utils } from '@loftyshaky/shared/shared';
 import { o_inputs, i_inputs } from '@loftyshaky/shared/inputs';
 import { svg } from 'shared/internal';
 import { d_scheduler } from 'settings/internal';

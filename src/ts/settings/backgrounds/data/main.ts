@@ -1,9 +1,12 @@
-import _ from 'lodash';
+import union from 'lodash/union';
+import unionBy from 'lodash/unionBy';
 import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
-import { vars, o_schema, d_schema } from '@loftyshaky/shared';
-import { d_backgrounds as d_backgrounds_shared, s_db, s_i, i_db } from 'shared/internal';
+import { vars, o_schema, d_schema } from '@loftyshaky/shared/shared';
+import { s_db, s_i, i_db } from 'shared_clean/internal';
+
+import { d_backgrounds as d_backgrounds_shared } from 'shared/internal';
 import { d_backgrounds, d_pagination } from 'settings/internal';
 
 export class Main {
@@ -151,8 +154,8 @@ export class Main {
         sort?: boolean;
     }): i_db.Background[] =>
         err(() => {
-            const merged_backgrounds: i_db.Background[] = _.union(this.backgrounds, backgrounds);
-            const merged_backgrounds_unique_theme_backgrounds: i_db.Background[] = _.unionBy(
+            const merged_backgrounds: i_db.Background[] = union(this.backgrounds, backgrounds);
+            const merged_backgrounds_unique_theme_backgrounds: i_db.Background[] = unionBy(
                 merged_backgrounds,
                 (background: i_db.Background) =>
                     n(background.theme_id) ? background.theme_id : x.unique_id(),

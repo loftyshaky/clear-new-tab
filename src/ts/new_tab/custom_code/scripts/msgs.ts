@@ -1,4 +1,4 @@
-import { s_custom_code, s_db, i_db } from 'shared/internal';
+import { s_custom_code, s_db, i_db } from 'shared_clean/internal';
 
 export class Msgs {
     private static i0: Msgs;

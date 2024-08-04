@@ -1,15 +1,15 @@
 import { action } from 'mobx';
 
-import { i_data } from '@loftyshaky/shared';
+import { i_data, i_color as i_color_shared } from '@loftyshaky/shared/shared';
 import { o_color, d_inputs, d_color, i_inputs, i_color } from '@loftyshaky/shared/inputs';
 import { d_developer_mode, s_settings } from '@loftyshaky/shared/settings';
 import {
     vars,
     d_backgrounds as d_backgrounds_shared,
     s_css_vars,
-    s_preload_color,
     s_theme,
-} from 'shared/internal';
+} from 'shared_clean/internal';
+import { s_preload_color } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
@@ -325,7 +325,7 @@ export class Val {
     public restore_default_palette_callback = ({
         default_colors,
     }: {
-        default_colors: i_color.Color[];
+        default_colors: i_color_shared.Color[];
     }): Promise<void> =>
         err_async(async () => {
             await ext.send_msg_resp({
@@ -378,5 +378,5 @@ export class Val {
                         update_background: true,
                     }),
             });
-        }, 'ges_1210');
+        }, 'cnt_1210');
 }

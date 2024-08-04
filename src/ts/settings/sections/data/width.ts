@@ -1,8 +1,8 @@
-import _ from 'lodash';
+import maxBy from 'lodash/maxBy';
 import { makeObservable, action, observable } from 'mobx';
 
-import { s_viewport } from '@loftyshaky/shared';
-import { vars } from 'shared/internal';
+import { s_viewport } from '@loftyshaky/shared/shared';
+import { vars } from 'shared_clean/internal';
 
 export class Width {
     private static i0: Width;
@@ -27,7 +27,7 @@ export class Width {
             const section_els = sa<HTMLDivElement>('.sections.settings .section');
 
             if (n(section_els)) {
-                const max_width_section_el: HTMLDivElement | undefined = _.maxBy(
+                const max_width_section_el: HTMLDivElement | undefined = maxBy(
                     section_els,
                     (section_el: HTMLDivElement): number => section_el.offsetWidth,
                 );

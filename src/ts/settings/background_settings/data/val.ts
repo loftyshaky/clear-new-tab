@@ -1,7 +1,7 @@
 import { makeObservable, action } from 'mobx';
 
-import { i_data } from '@loftyshaky/shared';
-import { s_db } from 'shared/internal';
+import { i_data } from '@loftyshaky/shared/shared';
+import { s_db } from 'shared_clean/internal';
 import { d_background_settings } from 'settings/internal';
 
 export class Val {

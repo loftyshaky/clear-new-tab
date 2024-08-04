@@ -1,8 +1,9 @@
-import _ from 'lodash';
+import maxBy from 'lodash/maxBy';
+import minBy from 'lodash/minBy';
 import { isPresent } from 'ts-is-present';
 import * as dateFns from 'date-fns';
 import { BigNumber } from 'bignumber.js';
-import { s_db, i_db } from 'shared/internal';
+import { s_db, i_db } from 'shared_clean/internal';
 import { s_backgrounds } from 'background/internal';
 
 export class Main {
@@ -347,7 +348,7 @@ export class Main {
                         (alarm_data_item: i_db.AlarmDataItem): boolean =>
                             err(() => alarm_data_item.date < now, 'cnt_1023'),
                     );
-                    const closest_alarm_data_item_2: i_db.AlarmDataItem | undefined = _.maxBy(
+                    const closest_alarm_data_item_2: i_db.AlarmDataItem | undefined = maxBy(
                         alarm_data_only_old,
                         'date',
                     );
@@ -386,7 +387,7 @@ export class Main {
                     err(() => alarm_data_item.date < now, 'cnt_1028'),
             );
 
-            const closest_alarm_data_item: i_db.AlarmDataItem | undefined = _.minBy(
+            const closest_alarm_data_item: i_db.AlarmDataItem | undefined = minBy(
                 alarm_data_no_expired,
                 'date',
             );

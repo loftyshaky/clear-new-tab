@@ -1,4 +1,5 @@
-import { d_backgrounds as d_backgrounds_shared, d_progress } from 'shared/internal';
+import { d_backgrounds as d_backgrounds_shared_clean } from 'shared_clean/internal';
+import { d_progress } from 'shared/internal';
 import { d_backgrounds, d_protecting_screen } from 'settings/internal';
 
 export class Color {
@@ -22,7 +23,7 @@ export class Color {
         update_current_background_id?: boolean;
     }): Promise<void> =>
         err_async(async () => {
-            await d_backgrounds_shared.Color.i().create_solid_color_background({
+            await d_backgrounds_shared_clean.Color.i().create_solid_color_background({
                 color,
                 theme_id,
                 backgrounds: d_backgrounds.Main.i().backgrounds,

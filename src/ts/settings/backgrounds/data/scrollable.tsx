@@ -1,6 +1,6 @@
 import { makeObservable, observable, action } from 'mobx';
 
-import { s_viewport } from '@loftyshaky/shared';
+import { s_viewport } from '@loftyshaky/shared/shared';
 import { d_pagination } from 'settings/internal';
 
 export class Scrollable {

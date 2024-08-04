@@ -1,6 +1,6 @@
 import { Alarms } from 'webextension-polyfill';
 
-import { s_background } from 'shared/internal';
+import { s_background } from 'shared_clean/internal';
 import { s_backgrounds, s_scheduler } from 'background/internal';
 
 we.alarms.onAlarm.addListener(

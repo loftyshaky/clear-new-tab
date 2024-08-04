@@ -1,5 +1,6 @@
 import { d_color, s_color } from '@loftyshaky/shared/inputs';
-import { InitAll, d_data, s_preload_color } from 'shared/internal';
+import { d_data } from 'shared_clean/internal';
+import { InitAll, s_preload_color } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
