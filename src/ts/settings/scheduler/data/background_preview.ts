@@ -1,12 +1,11 @@
 import { i_db } from 'shared_clean/internal';
 import { d_backgrounds } from 'settings/internal';
 
-export class BackgroundPreview {
-    private static i0: BackgroundPreview;
+class Class {
+    private static instance: Class;
 
-    public static i(): BackgroundPreview {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -17,7 +16,7 @@ export class BackgroundPreview {
     public get = ({ background_id }: { background_id: string }): Promise<string> =>
         err_async(
             async () =>
-                d_backgrounds.Main.i().get_background_thumbnail_by_id({
+                d_backgrounds.Backgrounds.get_background_thumbnail_by_id({
                     id: background_id,
                     placeholder_img: this.placeholder_img,
                 }),
@@ -27,7 +26,7 @@ export class BackgroundPreview {
     public background_is_color = ({ background_id }: { background_id: string }): boolean =>
         err(() => {
             const background: i_db.Background | undefined =
-                d_backgrounds.Main.i().get_background_by_id({
+                d_backgrounds.Backgrounds.get_background_by_id({
                     id: background_id,
                 });
 
@@ -38,3 +37,5 @@ export class BackgroundPreview {
             return false;
         }, 'cnt_1428');
 }
+
+export const BackgroundPreview = Class.get_instance();

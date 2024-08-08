@@ -5,12 +5,11 @@ import { makeObservable, action } from 'mobx';
 import { s_i, i_db } from 'shared_clean/internal';
 import { d_dnd, d_scheduler } from 'settings/internal';
 
-export class TaskDnd {
-    private static i0: TaskDnd;
+class Class {
+    private static instance: Class;
 
-    public static i(): TaskDnd {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     private constructor() {
@@ -22,22 +21,22 @@ export class TaskDnd {
 
     public start_drag = ({ task_to_move }: { task_to_move: i_db.Task }, e: MouseEvent): void =>
         err(() => {
-            d_dnd.Main.i().drag_type = 'task';
-            d_dnd.Main.i().mouse_is_down = true;
-            d_dnd.Main.i().item_to_move = task_to_move;
+            d_dnd.Dnd.drag_type = 'task';
+            d_dnd.Dnd.mouse_is_down = true;
+            d_dnd.Dnd.item_to_move = task_to_move;
 
-            d_dnd.Main.i().initial_x = e.clientX;
-            d_dnd.Main.i().initial_y = e.clientY;
+            d_dnd.Dnd.initial_x = e.clientX;
+            d_dnd.Dnd.initial_y = e.clientY;
 
-            d_dnd.Main.i().item_to_move_i = s_i.Main.i().find_i_of_item_with_id({
-                id: d_dnd.Main.i().item_to_move!.id,
-                items: d_scheduler.Tasks.i().tasks,
+            d_dnd.Dnd.item_to_move_i = s_i.I.find_i_of_item_with_id({
+                id: d_dnd.Dnd.item_to_move!.id,
+                items: d_scheduler.Tasks.tasks,
             });
         }, 'cnt_1248');
 
     public stop_drag = (): Promise<void> =>
         err_async(async () => {
-            await d_dnd.Main.i().stop_drag({ remove_drop_zone: this.remove_drop_zone });
+            await d_dnd.Dnd.stop_drag({ remove_drop_zone: this.remove_drop_zone });
         }, 'cnt_1249');
 
     public create_drop_zone = (
@@ -45,30 +44,32 @@ export class TaskDnd {
         e: MouseEvent,
     ): void =>
         err(() => {
-            const drag_threshold_surpassed: boolean = d_dnd.Main.i().drag_threshold_surpassed({
+            const drag_threshold_surpassed: boolean = d_dnd.Dnd.drag_threshold_surpassed({
                 e,
             });
 
             if (
-                d_dnd.Main.i().drag_type === 'task' &&
-                (drag_threshold_surpassed || d_dnd.Main.i().dragging_item)
+                d_dnd.Dnd.drag_type === 'task' &&
+                (drag_threshold_surpassed || d_dnd.Dnd.dragging_item)
             ) {
-                d_dnd.Main.i().dragging_item = true;
-                d_dnd.Main.i().hovering_over_item = hovering_over_task;
+                d_dnd.Dnd.dragging_item = true;
+                d_dnd.Dnd.hovering_over_item = hovering_over_task;
 
-                d_dnd.Main.i().set_drag_direction(e);
-                d_dnd.Main.i().get_drop_zone_item({
-                    items: d_scheduler.Tasks.i().tasks,
+                d_dnd.Dnd.set_drag_direction(e);
+                d_dnd.Dnd.get_drop_zone_item({
+                    items: d_scheduler.Tasks.tasks,
                 });
-                d_dnd.Main.i().insert_drop_zone();
+                d_dnd.Dnd.insert_drop_zone();
             }
         }, 'cnt_1250');
 
     public remove_drop_zone = (): void =>
         err(() => {
-            (d_scheduler.Tasks.i().tasks as any) = reject(
-                d_scheduler.Tasks.i().tasks,
+            (d_scheduler.Tasks.tasks as any) = reject(
+                d_scheduler.Tasks.tasks,
                 (task: i_db.TaskDropZone): boolean => task.type === 'drop_zone',
             );
         }, 'cnt_1251');
 }
+
+export const TaskDnd = Class.get_instance();

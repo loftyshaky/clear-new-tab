@@ -1,9 +1,8 @@
-export class LinkToImage {
-    private static i0: LinkToImage;
+class Class {
+    private static instance: Class;
 
-    public static i(): LinkToImage {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -14,3 +13,5 @@ export class LinkToImage {
             ext.send_msg({ msg: 'open_theme_background' });
         }, 'cnt_1300');
 }
+
+export const LinkToImage = Class.get_instance();

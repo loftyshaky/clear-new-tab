@@ -24,7 +24,7 @@ export const Section: React.FunctionComponent<p_settings.Section> = observer((pr
                 className='section_name'
                 role='none'
                 onClick={
-                    section_name === 'admin' ? d_sections.Val.i().enable_developer_mode : undefined
+                    section_name === 'admin' ? d_sections.Val.enable_developer_mode : undefined
                 }
             >
                 {ext.msg(`${section_name}_section_text`)}
@@ -42,12 +42,11 @@ export const Section: React.FunctionComponent<p_settings.Section> = observer((pr
                 name='fade'
                 cls='section_content'
                 // eslint-disable-next-line max-len
-                state={d_sections.SectionContent.i().backgrounds_section_content_is_visible_computed(
-                    { section_name },
-                )}
+                state={d_sections.SectionContent.backgrounds_section_content_is_visible_computed({
+                    section_name,
+                })}
                 tr_end_unactive={[
-                    d_backgrounds.BackgroundDeletion.i()
-                        .delete_all_backgrounds_transition_end_callback,
+                    d_backgrounds.BackgroundDeletion.delete_all_backgrounds_transition_end_callback,
                 ]}
             >
                 {children}

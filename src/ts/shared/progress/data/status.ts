@@ -2,12 +2,11 @@ import { makeObservable, observable, computed, action } from 'mobx';
 
 import { i_progress } from 'shared/internal';
 
-export class Status {
-    private static i0: Status;
+class Class {
+    private static instance: Class;
 
-    public static i(): Status {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     private constructor() {
@@ -29,3 +28,5 @@ export class Status {
             this.status = status;
         }, 'cnt_1437');
 }
+
+export const Status = Class.get_instance();

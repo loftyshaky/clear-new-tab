@@ -2,12 +2,11 @@ import chunk from 'lodash/chunk';
 
 import { db, s_custom_code, s_i, i_db } from 'shared_clean/internal';
 
-export class Manipulation {
-    private static i0: Manipulation;
+class Class {
+    private static instance: Class;
 
-    public static i(): Manipulation {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -53,7 +52,7 @@ export class Manipulation {
                         await db.background_files.bulkAdd(background_files_chunked[i]);
 
                         if (n(d_progress_ref)) {
-                            d_progress_ref.ProgressVal.i().increment_progress({
+                            d_progress_ref.ProgressVal.increment_progress({
                                 increment_amount: backgrounds_chunked[i].length,
                             });
                         }
@@ -90,7 +89,7 @@ export class Manipulation {
     public get_backgrounds = (): Promise<i_db.Background[]> =>
         err_async(async () => {
             const backgrounds: i_db.Background[] = await db.backgrounds.toArray();
-            const backgrounds_sorted = s_i.Main.i().sort_by_i_ascending({
+            const backgrounds_sorted = s_i.I.sort_by_i_ascending({
                 data: backgrounds,
             }) as i_db.Background[];
 
@@ -139,7 +138,7 @@ export class Manipulation {
         err_async(async () => {
             const tasks: i_db.Task[] = await db.tasks.toArray();
 
-            const tasks_sorted = s_i.Main.i().sort_by_i_ascending({
+            const tasks_sorted = s_i.I.sort_by_i_ascending({
                 data: tasks,
             }) as i_db.Task[];
 
@@ -229,7 +228,9 @@ export class Manipulation {
     public reset_custom_code_table = (): Promise<void> =>
         err_async(async () => {
             await this.save_custom_code({
-                custom_code: s_custom_code.Main.i().default_custom_code,
+                custom_code: s_custom_code.CustomCode.default_custom_code,
             });
         }, 'cnt_1345');
 }
+
+export const Manipulation = Class.get_instance();

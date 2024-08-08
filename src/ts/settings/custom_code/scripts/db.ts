@@ -3,12 +3,11 @@ import debounce from 'lodash/debounce';
 import { s_custom_code as s_custom_code_shared_clean, s_db, i_db } from 'shared_clean/internal';
 import { d_custom_code, i_custom_code } from 'settings/internal';
 
-export class Db {
-    private static i0: Db;
+class Class {
+    private static instance: Class;
 
-    public static i(): Db {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -16,8 +15,8 @@ export class Db {
 
     public save_custom_code = ({ custom_code }: { custom_code: i_db.CustomCode }): Promise<void> =>
         err_async(async () => {
-            await s_db.Manipulation.i().save_custom_code({ custom_code });
-            await d_custom_code.Main.i().set_custom_code({
+            await s_db.Manipulation.save_custom_code({ custom_code });
+            await d_custom_code.CustomCode.set_custom_code({
                 custom_code,
             });
 
@@ -28,9 +27,9 @@ export class Db {
         err_async(async () => {
             const custom_code: i_db.CustomCode = { [type]: val };
 
-            await s_db.Manipulation.i().save_custom_code({ custom_code });
+            await s_db.Manipulation.save_custom_code({ custom_code });
 
-            await d_custom_code.Main.i().set_custom_code_item({
+            await d_custom_code.CustomCode.set_custom_code_item({
                 type,
                 val,
             });
@@ -45,8 +44,10 @@ export class Db {
             // eslint-disable-next-line no-alert
             if (globalThis.confirm(ext.msg('delete_custom_code_confirm'))) {
                 await this.save_custom_code({
-                    custom_code: s_custom_code_shared_clean.Main.i().default_custom_code,
+                    custom_code: s_custom_code_shared_clean.CustomCode.default_custom_code,
                 });
             }
         }, 'cnt_1203');
 }
+
+export const Db = Class.get_instance();

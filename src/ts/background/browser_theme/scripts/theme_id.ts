@@ -3,12 +3,11 @@ import { Management } from 'webextension-polyfill';
 
 import { s_management } from 'background/internal';
 
-export class ThemeId {
-    private static i0: ThemeId;
+class Class {
+    private static instance: Class;
 
-    public static i(): ThemeId {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -16,7 +15,8 @@ export class ThemeId {
 
     public get_installed = (): Promise<string | undefined> =>
         err_async(async () => {
-            const ext_info: Management.ExtensionInfo[] = await s_management.Main.i().get_all_exts();
+            const ext_info: Management.ExtensionInfo[] =
+                await s_management.Extensions.get_all_exts();
 
             const enabled_themes: Management.ExtensionInfo[] = ext_info.filter(
                 (item: Management.ExtensionInfo): boolean =>
@@ -52,3 +52,5 @@ export class ThemeId {
             { silent: true },
         );
 }
+
+export const ThemeId = Class.get_instance();

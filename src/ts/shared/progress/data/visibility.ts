@@ -2,12 +2,11 @@ import { makeObservable, observable, computed, action } from 'mobx';
 
 import { d_progress } from 'shared/internal';
 
-export class Visibility {
-    private static i0: Visibility;
+class Class {
+    private static instance: Class;
 
-    public static i(): Visibility {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     private constructor() {
@@ -27,10 +26,12 @@ export class Visibility {
     public change = ({ is_visible }: { is_visible: boolean }): void =>
         err(() => {
             if (is_visible) {
-                d_progress.ProgressVal.i().reset_progress_val();
-                d_progress.Status.i().set({ status: 'pre_processing' });
+                d_progress.ProgressVal.reset_progress_val();
+                d_progress.Status.set({ status: 'pre_processing' });
             }
 
             this.is_visible = is_visible;
         }, 'cnt_1435');
 }
+
+export const Visibility = Class.get_instance();

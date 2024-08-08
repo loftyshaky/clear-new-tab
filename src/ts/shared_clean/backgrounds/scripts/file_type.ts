@@ -1,11 +1,10 @@
 import { i_backgrounds } from 'shared_clean/internal';
 
-export class FileType {
-    private static i0: FileType;
+class Class {
+    private static instance: Class;
 
-    public static i(): FileType {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -36,3 +35,5 @@ export class FileType {
     public is_base64 = ({ file }: { file: File | string }): boolean =>
         err(() => (typeof file === 'string' ? file.includes('data:') : false), 'cnt_1511');
 }
+
+export const FileType = Class.get_instance();

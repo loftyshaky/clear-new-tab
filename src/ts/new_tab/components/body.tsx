@@ -10,7 +10,7 @@ export const Body: React.FunctionComponent<p_new_tab.Body> = observer((props) =>
     }, [on_render]);
 
     // eslint-disable-next-line no-unused-expressions
-    d_background.Main.i().background_container_i;
+    d_background.Background.background_container_i;
 
     return (
         <>

@@ -2,16 +2,15 @@ import { makeObservable, action, runInAction } from 'mobx';
 
 import { d_backgrounds, i_db } from 'shared_clean/internal';
 
-export class CurrentBackground {
-    private static i0: CurrentBackground;
+class Class {
+    private static instance: Class;
 
-    public static i(): CurrentBackground {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     private constructor() {
-        makeObservable<CurrentBackground, 'set_current_background_i'>(this, {
+        makeObservable<Class, 'set_current_background_i'>(this, {
             set_current_background_i: action,
         });
     }
@@ -26,7 +25,7 @@ export class CurrentBackground {
         current_background_id?: string | number;
     }): void =>
         err(() => {
-            d_backgrounds.CurrentBackground.i().set_current_background_i({
+            d_backgrounds.CurrentBackground.set_current_background_i({
                 backgrounds,
                 current_background_id,
                 run_in_action: runInAction,
@@ -41,10 +40,12 @@ export class CurrentBackground {
         backgrounds: i_db.Background[];
     }): Promise<void> =>
         err_async(async () => {
-            await d_backgrounds.CurrentBackground.i().set_background_as_current({
+            await d_backgrounds.CurrentBackground.set_background_as_current({
                 id,
                 backgrounds,
                 run_in_action: runInAction,
             });
         }, 'cnt_1521');
 }
+
+export const CurrentBackground = Class.get_instance();

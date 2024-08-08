@@ -1,11 +1,10 @@
 import { d_custom_code } from 'sandbox/internal';
 
-export class Js {
-    private static i0: Js;
+class Class {
+    private static instance: Class;
 
-    public static i(): Js {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -20,7 +19,7 @@ export class Js {
         }
 
         if (sandbox_el) {
-            const { js } = d_custom_code.Main.i().custom_code;
+            const { js } = d_custom_code.CustomCode.custom_code;
 
             if (js) {
                 const script = document.createElement('script');
@@ -32,3 +31,5 @@ export class Js {
         }
     };
 }
+
+export const Js = Class.get_instance();

@@ -6,12 +6,11 @@ import { BigNumber } from 'bignumber.js';
 import { vars, s_db, s_i, i_db } from 'shared_clean/internal';
 import { d_protecting_screen, d_scheduler, d_scrollable } from 'settings/internal';
 
-export class Tasks {
-    private static i0: Tasks;
+class Class {
+    private static instance: Class;
 
-    public static i(): Tasks {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     private constructor() {
@@ -54,7 +53,7 @@ export class Tasks {
     /* eslint-disable @typescript-eslint/naming-convention */
 
     public developer_info = computedFn(function (
-        this: Tasks,
+        this: Class,
         { task }: { task: i_db.Task },
     ): string | undefined {
         if (data.settings.show_item_developer_info_in_tooltip) {
@@ -107,11 +106,11 @@ export class Tasks {
 
     public set_tasks = (): Promise<void> =>
         err_async(async () => {
-            const tasks: i_db.Task[] = await s_db.Manipulation.i().get_tasks();
+            const tasks: i_db.Task[] = await s_db.Manipulation.get_tasks();
 
             runInAction(() =>
                 err(() => {
-                    this.tasks = s_i.Main.i().sort_by_i_ascending({
+                    this.tasks = s_i.I.sort_by_i_ascending({
                         data: tasks,
                     }) as i_db.Task[];
                 }, 'cnt_1254'),
@@ -120,14 +119,14 @@ export class Tasks {
 
     public set_tasks_from_arg = ({ tasks }: { tasks: i_db.Task[] }): void =>
         err(() => {
-            this.tasks = s_i.Main.i().sort_by_i_ascending({
+            this.tasks = s_i.I.sort_by_i_ascending({
                 data: tasks,
             }) as i_db.Task[];
         }, 'cnt_1256');
 
     public merge_tasks = ({ tasks }: { tasks: i_db.Task[] }): void =>
         err(() => {
-            this.tasks = s_i.Main.i().sort_by_i_ascending({
+            this.tasks = s_i.I.sort_by_i_ascending({
                 data: union(this.tasks, tasks),
             }) as i_db.Task[];
         }, 'cnt_1421');
@@ -155,9 +154,9 @@ export class Tasks {
 
     public add = (): Promise<void> =>
         err_async(async () => {
-            d_protecting_screen.Visibility.i().show();
+            d_protecting_screen.Visibility.show();
 
-            const next_i: string = s_i.Main.i().get_next_i({
+            const next_i: string = s_i.I.get_next_i({
                 items: this.tasks,
             });
 
@@ -175,9 +174,9 @@ export class Tasks {
                 time: data.settings.time,
             };
 
-            await s_db.Manipulation.i().save_tasks({ tasks: [new_task] });
+            await s_db.Manipulation.save_tasks({ tasks: [new_task] });
 
-            d_scheduler.TaskAnimation.i().trigger_animation({ id });
+            d_scheduler.TaskAnimation.trigger_animation({ id });
 
             runInAction(() =>
                 err(() => {
@@ -185,14 +184,16 @@ export class Tasks {
                 }, 'cnt_1260'),
             );
 
-            await d_scheduler.TaskAnimation.i().forbid_animation();
+            await d_scheduler.TaskAnimation.forbid_animation();
 
-            d_scrollable.Main.i().set_scroll_tasks_scrollable_to_bottom_bool({
+            d_scrollable.Scrollable.set_scroll_tasks_scrollable_to_bottom_bool({
                 bool: true,
             });
 
             ext.send_msg({ msg: 'schedule_background_display' });
 
-            d_protecting_screen.Visibility.i().hide();
+            d_protecting_screen.Visibility.hide();
         }, 'cnt_1261');
 }
+
+export const Tasks = Class.get_instance();

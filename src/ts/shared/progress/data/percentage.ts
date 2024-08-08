@@ -2,12 +2,11 @@ import { makeObservable, computed } from 'mobx';
 
 import { d_progress } from 'shared/internal';
 
-export class Percentage {
-    private static i0: Percentage;
+class Class {
+    private static instance: Class;
 
-    public static i(): Percentage {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     private constructor() {
@@ -18,13 +17,15 @@ export class Percentage {
 
     public get percentage(): string {
         return `${
-            d_progress.Status.i().status === 'pre_processing'
+            d_progress.Status.status === 'pre_processing'
                 ? 0
                 : x.percentage(
-                      d_progress.ProgressVal.i().progress_val,
-                      d_progress.ProgressVal.i().progress_max,
+                      d_progress.ProgressVal.progress_val,
+                      d_progress.ProgressVal.progress_max,
                       true,
                   )
         }%`;
     }
 }
+
+export const Percentage = Class.get_instance();

@@ -1,1 +1,1 @@
-export * from 'background/badge/scripts/main';
+export * from 'background/badge/scripts/badge';

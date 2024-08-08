@@ -1,12 +1,11 @@
 import { i_db } from 'shared_clean/internal';
 import { d_background } from 'new_tab/internal';
 
-export class Type {
-    private static i0: Type;
+class Class {
+    private static instance: Class;
 
-    public static i(): Type {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -19,7 +18,7 @@ export class Type {
     }): boolean =>
         err(() => {
             const background_data: i_db.Background | undefined =
-                d_background.Main.i().background_data[background_container_i];
+                d_background.Background.background_data[background_container_i];
 
             return (
                 data.settings.mode !== 'random_solid_color' &&
@@ -35,7 +34,7 @@ export class Type {
     }): boolean =>
         err(() => {
             const background_data: i_db.Background | undefined =
-                d_background.Main.i().background_data[background_container_i];
+                d_background.Background.background_data[background_container_i];
 
             return (
                 data.settings.mode !== 'random_solid_color' &&
@@ -56,7 +55,7 @@ export class Type {
     public is_color = ({ background_container_i }: { background_container_i: number }): boolean =>
         err(() => {
             const background_data: i_db.Background | undefined =
-                d_background.Main.i().background_data[background_container_i];
+                d_background.Background.background_data[background_container_i];
 
             return (
                 data.settings.mode === 'random_solid_color' ||
@@ -67,7 +66,7 @@ export class Type {
     public is_video = ({ background_container_i }: { background_container_i: number }): boolean =>
         err(() => {
             const background_data: i_db.Background | undefined =
-                d_background.Main.i().background_data[background_container_i];
+                d_background.Background.background_data[background_container_i];
 
             return (
                 data.settings.mode !== 'random_solid_color' &&
@@ -76,3 +75,5 @@ export class Type {
             );
         }, 'cnt_1070');
 }
+
+export const Type = Class.get_instance();

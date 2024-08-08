@@ -1,1 +1,1 @@
-export * from 'shared_clean/theme/scripts/main';
+export * from 'shared_clean/theme/scripts/theme';

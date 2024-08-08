@@ -1,11 +1,10 @@
 import { i_custom_code } from 'settings/internal';
 
-export class Type {
-    private static i0: Type;
+class Class {
+    private static instance: Class;
 
-    public static i(): Type {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -37,3 +36,5 @@ export class Type {
             return mode;
         }, 'cnt_1205');
 }
+
+export const Type = Class.get_instance();

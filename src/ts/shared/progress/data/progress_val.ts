@@ -2,12 +2,11 @@ import { makeObservable, observable, action } from 'mobx';
 
 import { d_progress } from 'shared/internal';
 
-export class ProgressVal {
-    private static i0: ProgressVal;
+class Class {
+    private static instance: Class;
 
-    public static i(): ProgressVal {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     private constructor() {
@@ -29,7 +28,7 @@ export class ProgressVal {
 
     public set_progress_max = ({ progress_max }: { progress_max: number }): void =>
         err(() => {
-            d_progress.Status.i().set({ status: 'processing' });
+            d_progress.Status.set({ status: 'processing' });
 
             this.progress_max = progress_max;
         }, 'cnt_1433');
@@ -39,7 +38,9 @@ export class ProgressVal {
             this.progress_val += increment_amount;
 
             if (this.progress_val === this.progress_max) {
-                d_progress.Status.i().set({ status: 'finalizing' });
+                d_progress.Status.set({ status: 'finalizing' });
             }
         }, 'cnt_1434');
 }
+
+export const ProgressVal = Class.get_instance();

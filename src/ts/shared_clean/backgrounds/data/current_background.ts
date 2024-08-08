@@ -12,12 +12,11 @@ import {
     i_db,
 } from 'shared_clean/internal';
 
-export class CurrentBackground {
-    private static i0: CurrentBackground;
+class Class {
+    private static instance: Class;
 
-    public static i(): CurrentBackground {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -40,11 +39,10 @@ export class CurrentBackground {
             run_in_action(() =>
                 err(() => {
                     if (no_backgrounds_exist) {
-                        data.ui.current_background_i =
-                            d_backgrounds.CurrentBackground.i().reset_val;
+                        data.ui.current_background_i = d_backgrounds.CurrentBackground.reset_val;
                     } else {
                         const i_of_background_with_current_id: number =
-                            s_i.Main.i().find_i_of_item_with_id({
+                            s_i.I.find_i_of_item_with_id({
                                 id: n(current_background_id)
                                     ? current_background_id
                                     : data.settings.current_background_id,
@@ -88,7 +86,7 @@ export class CurrentBackground {
                 );
 
                 if (page === 'background') {
-                    await s_data.Main.i().update_settings({
+                    await s_data.Data.update_settings({
                         settings,
                     });
                 } else if (page === 'settings') {
@@ -102,7 +100,7 @@ export class CurrentBackground {
                 this.set_future_background_id();
 
                 if (page === 'background') {
-                    s_background.BackgroundChange.i().try_to_change_background({
+                    s_background.BackgroundChange.try_to_change_background({
                         allow_to_start_slideshow_timer: false,
                         force_update: true,
                     });
@@ -125,15 +123,12 @@ export class CurrentBackground {
             if (!current_background_is_the_only_background && settings.shuffle_backgrounds) {
                 settings.future_background_id = await this.get_id_of_random_background();
             } else {
-                const backgrounds: i_db.Background[] =
-                    await s_db.Manipulation.i().get_backgrounds();
+                const backgrounds: i_db.Background[] = await s_db.Manipulation.get_backgrounds();
 
-                const i_of_background_with_current_id: number = s_i.Main.i().find_i_of_item_with_id(
-                    {
-                        id: settings.current_background_id,
-                        items: backgrounds,
-                    },
-                );
+                const i_of_background_with_current_id: number = s_i.I.find_i_of_item_with_id({
+                    id: settings.current_background_id,
+                    items: backgrounds,
+                });
 
                 if (i_of_background_with_current_id !== -1) {
                     const current_background_is_last_background: boolean =
@@ -153,7 +148,7 @@ export class CurrentBackground {
             }
 
             if (page === 'background') {
-                await s_data.Main.i().update_settings({
+                await s_data.Data.update_settings({
                     settings,
                 });
 
@@ -191,3 +186,5 @@ export class CurrentBackground {
             return future_background_id;
         }, 'cnt_1316');
 }
+
+export const CurrentBackground = Class.get_instance();

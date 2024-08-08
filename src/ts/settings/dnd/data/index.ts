@@ -1,1 +1,1 @@
-export * from 'settings/dnd/data/main';
+export * from 'settings/dnd/data/dnd';

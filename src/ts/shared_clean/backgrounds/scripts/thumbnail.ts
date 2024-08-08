@@ -1,17 +1,18 @@
 import { s_backgrounds, i_backgrounds as i_backgrounds_shared_clean } from 'shared_clean/internal';
 
-export class Thumbnail {
-    private static i0: Thumbnail;
+class Class {
+    private static instance: Class;
 
-    public static i(): Thumbnail {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
-    private canvas: HTMLCanvasElement = document.createElement('canvas');
+    private canvas: HTMLCanvasElement | undefined =
+        page === 'background' ? undefined : document.createElement('canvas');
+
     private min_width: number = 80;
     private max_width: number = 400;
     private background_file_base64: string = ''; // builded from chunks
@@ -30,10 +31,11 @@ export class Thumbnail {
                         const file_cond: File | string = n(file)
                             ? file
                             : this.background_file_base64;
-                        const file_final: File | Blob | string =
-                            s_backgrounds.FileType.i().is_base64({ file: file_cond })
-                                ? await x.convert_base64_to_blob(file_cond as string)
-                                : file_cond || '';
+                        const file_final: File | Blob | string = s_backgrounds.FileType.is_base64({
+                            file: file_cond,
+                        })
+                            ? await x.convert_base64_to_blob(file_cond as string)
+                            : file_cond || '';
                         const background: HTMLImageElement | HTMLVideoElement = [
                             'img_file',
                             'img_link',
@@ -219,22 +221,24 @@ export class Thumbnail {
     }): string | undefined =>
         err(
             () => {
-                this.canvas.width = thumbnail_dims.width;
-                this.canvas.height = thumbnail_dims.height;
+                if (n(this.canvas)) {
+                    this.canvas.width = thumbnail_dims.width;
+                    this.canvas.height = thumbnail_dims.height;
 
-                const context: CanvasRenderingContext2D | null = this.canvas.getContext('2d');
+                    const context: CanvasRenderingContext2D | null = this.canvas.getContext('2d');
 
-                if (n(context)) {
-                    context.drawImage(
-                        background,
-                        0,
-                        0,
-                        thumbnail_dims.width,
-                        thumbnail_dims.height,
-                    );
-                    const thumbnail = this.canvas.toDataURL();
+                    if (n(context)) {
+                        context.drawImage(
+                            background,
+                            0,
+                            0,
+                            thumbnail_dims.width,
+                            thumbnail_dims.height,
+                        );
+                        const thumbnail = this.canvas.toDataURL();
 
-                    return thumbnail;
+                        return thumbnail;
+                    }
                 }
 
                 return undefined;
@@ -248,3 +252,5 @@ export class Thumbnail {
             this.background_file_base64 += chunk;
         }, 'cnt_1510');
 }
+
+export const Thumbnail = Class.get_instance();

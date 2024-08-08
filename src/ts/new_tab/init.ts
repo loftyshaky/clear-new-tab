@@ -1,13 +1,15 @@
-import { InitAll } from 'shared/init_all';
+import { InitAll } from 'shared/internal';
 import { d_background, s_background, s_custom_code } from 'new_tab/internal';
 
 export const init = (): Promise<void> =>
     err_async(async () => {
-        await InitAll.i().init();
+        await InitAll.init();
 
-        s_custom_code.Msgs.i().send_set_custom_code_msg();
-
-        s_background.Preview.i().set_id();
+        s_custom_code.Msgs.send_set_custom_code_msg();
+        d_background.Background.init_vars();
+        d_background.BackgroundSize.init_vars();
+        d_background.Classes.init_vars();
+        s_background.Preview.set_id();
 
         await ext.send_msg_resp({ msg: 'push_tab_id' });
         ext.send_msg({
@@ -19,7 +21,7 @@ export const init = (): Promise<void> =>
         x.bind(
             document,
             'visibilitychange',
-            d_background.BackgroundChange.i().react_to_visibility_change,
+            d_background.BackgroundChange.react_to_visibility_change,
         );
-        x.bind(window, 'resize', d_background.BackgroundChange.i().react_to_visibility_change);
+        x.bind(window, 'resize', d_background.BackgroundChange.react_to_visibility_change);
     }, 'cnt_1078');

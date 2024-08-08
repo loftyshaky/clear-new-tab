@@ -1,11 +1,10 @@
 import { d_background } from 'new_tab/internal';
 
-export class VideoPlayback {
-    private static i0: VideoPlayback;
+class Class {
+    private static instance: Class;
 
-    public static i(): VideoPlayback {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -19,7 +18,7 @@ export class VideoPlayback {
         background_container_i: number;
     }): boolean =>
         err(
-            () => background_container_i === d_background.Main.i().background_container_i,
+            () => background_container_i === d_background.Background.background_container_i,
             'cnt_1071',
         );
 
@@ -114,3 +113,5 @@ export class VideoPlayback {
             }
         }, 'cnt_1399');
 }
+
+export const VideoPlayback = Class.get_instance();

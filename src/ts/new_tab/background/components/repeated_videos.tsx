@@ -17,9 +17,7 @@ export const RepeatedVideos: React.FunctionComponent<p_background.RepeatedVideos
                             src={background}
                             style={video_repeat_position}
                             loop
-                            onLoadedData={
-                                d_background.VideoReapeat.i().increment_loaded_videos_count
-                            }
+                            onLoadedData={d_background.VideoReapeat.increment_loaded_videos_count}
                             ref={(el: HTMLVideoElement) => {
                                 repeated_video_el_refs.current[i] = el;
                             }}

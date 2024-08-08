@@ -3,12 +3,11 @@ import { computedFn } from 'mobx-utils';
 
 import { i_backgrounds } from 'settings/internal';
 
-export class Cache {
-    private static i0: Cache;
+class Class {
+    private static instance: Class;
 
-    public static i(): Cache {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     private constructor() {
@@ -29,16 +28,16 @@ export class Cache {
         background_id: string;
     }): string {
         const loaded_once: boolean | undefined =
-            (Cache.i().access_prop_of_background_thumbnail_cache_item({
+            (Cache.access_prop_of_background_thumbnail_cache_item({
                 background_id,
                 key: 'loaded_once',
-            }) && Cache.i().background_thumbnail_cache_items[background_id].loaded_once) as boolean;
+            }) && Cache.background_thumbnail_cache_items[background_id].loaded_once) as boolean;
 
         const faded_in_once: boolean | undefined =
-            (Cache.i().access_prop_of_background_thumbnail_cache_item({
+            (Cache.access_prop_of_background_thumbnail_cache_item({
                 background_id,
                 key: 'faded_in_once',
-            }) && Cache.i().background_thumbnail_cache_items[background_id].faded_in_once) as
+            }) && Cache.background_thumbnail_cache_items[background_id].faded_in_once) as
                 | boolean
                 | undefined;
 
@@ -100,10 +99,12 @@ export class Cache {
     }): string | boolean | undefined =>
         err(
             () =>
-                n(Cache.i().background_thumbnail_cache_items[background_id]) &&
-                n(Cache.i().background_thumbnail_cache_items[background_id][key])
-                    ? Cache.i().background_thumbnail_cache_items[background_id][key]
+                n(Cache.background_thumbnail_cache_items[background_id]) &&
+                n(Cache.background_thumbnail_cache_items[background_id][key])
+                    ? Cache.background_thumbnail_cache_items[background_id][key]
                     : undefined,
             'cnt_1453',
         );
 }
+
+export const Cache = Class.get_instance();

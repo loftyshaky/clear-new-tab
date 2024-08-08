@@ -1,11 +1,10 @@
 import upperFirst from 'lodash/upperFirst';
 
-export class ThemeFile {
-    private static i0: ThemeFile;
+class Class {
+    private static instance: Class;
 
-    public static i(): ThemeFile {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -74,3 +73,5 @@ export class ThemeFile {
         file_type: string;
     }): File => err(() => new globalThis.File([blob], '', { type: file_type }), 'cnt_1179');
 }
+
+export const ThemeFile = Class.get_instance();

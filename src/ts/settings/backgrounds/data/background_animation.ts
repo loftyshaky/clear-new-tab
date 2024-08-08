@@ -1,16 +1,15 @@
 import { makeObservable, observable, action, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
-export class BackgroundAnimation {
-    private static i0: BackgroundAnimation;
+class Class {
+    private static instance: Class;
 
-    public static i(): BackgroundAnimation {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     private constructor() {
-        makeObservable<BackgroundAnimation, 'animated'>(this, {
+        makeObservable<Class, 'animated'>(this, {
             animated: observable,
             allow_animation: action,
         });
@@ -19,10 +18,7 @@ export class BackgroundAnimation {
     private animated: boolean = false;
     private already_animated_ids: string[] = [];
 
-    public animated_cls = computedFn(function (
-        this: BackgroundAnimation,
-        { id }: { id: string },
-    ): string {
+    public animated_cls = computedFn(function (this: Class, { id }: { id: string }): string {
         const already_animated_image_with_this_id: boolean = this.already_animated_ids.some(
             (id_2: string): boolean => err(() => id === id_2, 'cnt_1094'),
         );
@@ -79,3 +75,5 @@ export class BackgroundAnimation {
             this.already_animated_ids = [];
         }, 'cnt_1416');
 }
+
+export const BackgroundAnimation = Class.get_instance();

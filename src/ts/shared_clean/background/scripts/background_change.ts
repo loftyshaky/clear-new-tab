@@ -2,12 +2,11 @@ import { Tabs } from 'webextension-polyfill';
 
 import { d_backgrounds, s_background, s_data, s_tabs, i_data } from 'shared_clean/internal';
 
-export class BackgroundChange {
-    private static i0: BackgroundChange;
+class Class {
+    private static instance: Class;
 
-    public static i(): BackgroundChange {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -91,7 +90,7 @@ export class BackgroundChange {
 
             await this.update_background({ no_tr });
 
-            d_backgrounds.CurrentBackground.i().set_future_background_id();
+            d_backgrounds.CurrentBackground.set_future_background_id();
 
             ext.send_msg({
                 msg: 'set_current_background_i',
@@ -110,15 +109,15 @@ export class BackgroundChange {
 
             if (settings.mode === 'random_solid_color') {
                 settings.current_random_solid_color =
-                    await s_background.RandomSolidColor.i().generate();
+                    await s_background.RandomSolidColor.generate();
 
-                await s_data.Main.i().update_settings({
+                await s_data.Data.update_settings({
                     settings,
                 });
             } else {
                 settings.current_background_id = settings.future_background_id;
 
-                await s_data.Main.i().update_settings({
+                await s_data.Data.update_settings({
                     settings,
                 });
             }
@@ -132,7 +131,7 @@ export class BackgroundChange {
             const settings: i_data.Settings = await ext.storage_get();
             const current_tab: Tabs.Tab | undefined = await ext.get_active_tab();
             const user_is_in_new_tab: boolean =
-                n(current_tab) && current_tab.id === s_tabs.TabIds.i().last_visited_new_tab_id;
+                n(current_tab) && current_tab.id === s_tabs.TabIds.last_visited_new_tab_id;
 
             const schedule_background_change = ({
                 rerun_2 = false,
@@ -206,3 +205,5 @@ export class BackgroundChange {
             }
         }, 'cnt_1424');
 }
+
+export const BackgroundChange = Class.get_instance();

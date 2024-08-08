@@ -1,1 +1,1 @@
-import 'background/on_installed/scripts/main';
+import 'background/on_installed/scripts/evens';

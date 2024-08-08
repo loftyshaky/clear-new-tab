@@ -17,12 +17,11 @@ import { s_css_vars, s_suffix, s_theme } from 'shared_clean/internal';
 // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, @typescript-eslint/no-unused-vars
 declare let __webpack_public_path__: string;
 
-export class InitAll {
-    private static i0: InitAll;
+class Class {
+    private static instance: Class;
 
-    public static i(): InitAll {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -39,7 +38,7 @@ export class InitAll {
                 const on_loading_screen_render = (): void =>
                     err(() => {
                         const loading_screen_root_el = s<HTMLDivElement>(
-                            `.${new s_suffix.Main('loading_screen').result}`,
+                            `.${new s_suffix.Suffix('loading_screen').result}`,
                         );
 
                         if (n(loading_screen_root_el) && n(loading_screen_root_el.shadowRoot)) {
@@ -52,13 +51,13 @@ export class InitAll {
                                 x.bind(loading_screen_css, 'load', (): void =>
                                     err(() => {
                                         if (page !== 'new_tab') {
-                                            s_theme_shared.Main.i().set({
+                                            s_theme_shared.Theme.set({
                                                 name: data.settings.options_page_theme,
-                                                additional_theme_callback: s_theme.Main.i().set,
+                                                additional_theme_callback: s_theme.Theme.set,
                                             });
                                         }
 
-                                        d_loading_screen.Main.i().show();
+                                        d_loading_screen.Visibility.show();
 
                                         reslove();
                                     }, 'cnt_1350'),
@@ -70,9 +69,9 @@ export class InitAll {
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 __webpack_public_path__ = we.runtime.getURL('');
 
-                s_title.Main.i().set();
+                s_title.Title.set();
 
-                s_css_vars.Main.i().set();
+                s_css_vars.CssVars.set();
 
                 const error_root: ShadowRoot = this.create_root({ prefix: 'error' }) as ShadowRoot;
                 let loading_screen_root: ShadowRoot | undefined;
@@ -143,7 +142,7 @@ export class InitAll {
         err(() => {
             const root = x.create(
                 'div',
-                x.cls([new s_suffix.Main('root').result, new s_suffix.Main(prefix).result]),
+                x.cls([new s_suffix.Suffix('root').result, new s_suffix.Suffix(prefix).result]),
             );
 
             x.append(document.body, root);
@@ -161,7 +160,7 @@ export class InitAll {
 
             const on_css_load = (): Promise<void> =>
                 err_async(async () => {
-                    d_loading_screen.Main.i().hide({ app_id: s_suffix.app_id });
+                    d_loading_screen.Visibility.hide({ app_id: s_suffix.app_id });
                 }, 'cnt_1354');
 
             if (n(this.announcement_root)) {
@@ -175,9 +174,9 @@ export class InitAll {
                                         document.head,
                                     );
 
-                                    s_theme_shared.Main.i().set({
+                                    s_theme_shared.Theme.set({
                                         name: data.settings.options_page_theme,
-                                        additional_theme_callback: s_theme.Main.i().set,
+                                        additional_theme_callback: s_theme.Theme.set,
                                     });
 
                                     if (n(announcement_css)) {
@@ -207,28 +206,28 @@ export class InitAll {
                         d_scrollable,
                     } = await import('settings/internal');
 
-                    s_theme_settings.CodeMirrorTheme.i().set_up_change_theme_reaction();
-                    s_custom_code.CodeMirror.i().init_all();
+                    s_theme_settings.CodeMirrorTheme.set_up_change_theme_reaction();
+                    s_custom_code.CodeMirror.init_all();
 
-                    d_install_help.Visibility.i().bind_hide();
-                    await d_inputs.InputWidth.i().calculate_for_all_sections({
-                        sections: d_sections.Main.i().sections as i_inputs.Sections,
+                    d_install_help.Visibility.bind_hide();
+                    await d_inputs.InputWidth.calculate_for_all_sections({
+                        sections: d_sections.Sections.sections as i_inputs.Sections,
                         all_sections_inputs_equal_width: true,
                     });
-                    d_sections.Width.i().set();
-                    d_scheduler.Position.i().set_left();
-                    await d_scheduler.Val.i().set_add_new_task_btn_ability();
+                    d_sections.Width.set();
+                    d_scheduler.Position.set_left();
+                    await d_scheduler.Val.set_add_new_task_btn_ability();
 
-                    s_tab_index.Main.i().bind_set_input_type_f();
+                    s_tab_index.TabIndex.bind_set_input_type_f();
 
                     // eslint-disable-next-line max-len
-                    d_scrollable.Main.i().set_scroll_backgrounds_scrollable_to_bottom_bool({
+                    d_scrollable.Scrollable.set_scroll_backgrounds_scrollable_to_bottom_bool({
                         bool: true,
                     });
 
-                    d_backgrounds.Scrollable.i().calculate_height();
+                    d_backgrounds.Scrollable.calculate_height();
 
-                    d_loading_screen.Main.i().hide({ app_id: s_suffix.app_id });
+                    d_loading_screen.Visibility.hide({ app_id: s_suffix.app_id });
                 }, 'cnt_1357');
 
             if (n(this.settings_root)) {
@@ -238,9 +237,9 @@ export class InitAll {
                             err(() => {
                                 const settings_css = x.css('settings_css', document.head);
 
-                                s_theme_shared.Main.i().set({
+                                s_theme_shared.Theme.set({
                                     name: data.settings.options_page_theme,
-                                    additional_theme_callback: s_theme.Main.i().set,
+                                    additional_theme_callback: s_theme.Theme.set,
                                 });
 
                                 if (n(settings_css)) {
@@ -259,7 +258,7 @@ export class InitAll {
 
             const on_css_load = (): Promise<void> =>
                 err_async(async () => {
-                    s_tab_index.Main.i().bind_set_input_type_f();
+                    s_tab_index.TabIndex.bind_set_input_type_f();
                 }, 'cnt_1360');
 
             if (n(this.new_tab_root)) {
@@ -287,7 +286,7 @@ export class InitAll {
 
             const on_css_load = (): Promise<void> =>
                 err_async(async () => {
-                    d_loading_screen.Main.i().hide({ app_id: s_suffix.app_id });
+                    d_loading_screen.Visibility.hide({ app_id: s_suffix.app_id });
                 }, 'cnt_1516');
 
             if (n(this.dependencies_root)) {
@@ -301,9 +300,9 @@ export class InitAll {
                                         document.head,
                                     );
 
-                                    s_theme_shared.Main.i().set({
+                                    s_theme_shared.Theme.set({
                                         name: data.settings.options_page_theme,
-                                        additional_theme_callback: s_theme.Main.i().set,
+                                        additional_theme_callback: s_theme.Theme.set,
                                     });
 
                                     if (n(dependencies_css)) {
@@ -317,3 +316,5 @@ export class InitAll {
             }
         }, 'cnt_1517');
 }
+
+export const InitAll = Class.get_instance();

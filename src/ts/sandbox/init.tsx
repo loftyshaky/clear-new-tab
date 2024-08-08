@@ -10,5 +10,5 @@ export const init = (): void => {
         ReactDOM.createRoot(root).render(<c_sandbox.Body />);
     }
 
-    globalThis.addEventListener('message', d_custom_code.Msgs.i().listen);
+    globalThis.addEventListener('message', d_custom_code.Msgs.listen);
 };

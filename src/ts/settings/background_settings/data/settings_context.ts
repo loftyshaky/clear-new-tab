@@ -8,12 +8,11 @@ import {
     d_sections,
 } from 'settings/internal';
 
-export class SettingsContext {
-    private static i0: SettingsContext;
+class Class {
+    private static instance: Class;
 
-    public static i(): SettingsContext {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     private constructor() {
@@ -37,7 +36,7 @@ export class SettingsContext {
             data.ui.video_speed = data.settings.video_speed;
             data.ui.video_volume = data.settings.video_volume;
 
-            const sections = d_sections.Main.i().sections as any;
+            const sections = d_sections.Sections.sections as any;
 
             this.reset_is_enabled_state({ val: true });
 
@@ -47,11 +46,11 @@ export class SettingsContext {
             sections.background_settings.inputs.video_speed_group.inputs[1].is_enabled = false;
             sections.background_settings.inputs.video_volume_group.inputs[1].is_enabled = false;
 
-            d_background_settings.GlobalCheckboxes.i().set_ui_vals();
+            d_background_settings.GlobalCheckboxes.set_ui_vals();
 
-            s_background_settings.GlobalOptions.i().hide();
+            s_background_settings.GlobalOptions.hide();
 
-            d_backgrounds.CurrentBackground.i().deselect();
+            d_backgrounds.CurrentBackground.deselect();
         }, 'cnt_1084');
 
     public react_to_background_selection = ({
@@ -65,7 +64,7 @@ export class SettingsContext {
 
                 this.selected_background = background;
 
-                const sections = d_sections.Main.i().sections as any;
+                const sections = d_sections.Sections.sections as any;
                 const is_img: boolean =
                     background.type === 'img_link' || background.type.includes('img');
                 const is_video: boolean = background.type.includes('video');
@@ -114,14 +113,14 @@ export class SettingsContext {
                     this.reset_is_enabled_state({ val: false });
                 }
 
-                d_background_settings.GlobalCheckboxes.i().set_ui_vals();
-                s_background_settings.GlobalOptions.i().show();
+                d_background_settings.GlobalCheckboxes.set_ui_vals();
+                s_background_settings.GlobalOptions.show();
             }
         }, 'cnt_1085');
 
     private reset_is_enabled_state = ({ val }: { val: boolean }): void =>
         err(() => {
-            const sections = d_sections.Main.i().sections as any;
+            const sections = d_sections.Sections.sections as any;
 
             sections.background_settings.inputs.background_repeat.is_enabled = val;
             sections.background_settings.inputs.background_size.is_enabled = val;
@@ -167,3 +166,5 @@ export class SettingsContext {
             });
         }, 'cnt_1087');
 }
+
+export const SettingsContext = Class.get_instance();

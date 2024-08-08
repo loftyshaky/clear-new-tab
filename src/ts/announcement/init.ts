@@ -1,8 +1,8 @@
-import { InitAll } from 'shared/init_all';
+import { InitAll } from 'shared/internal';
 
 export const init = (): Promise<void> =>
     err_async(async () => {
-        await InitAll.i().init();
+        await InitAll.init();
 
-        InitAll.i().render_announcement();
+        InitAll.render_announcement();
     }, 'cnt_1000');

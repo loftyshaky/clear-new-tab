@@ -1,1 +1,1 @@
-import 'background/browser_action/scripts/main';
+import 'background/browser_action/scripts/browser_action';

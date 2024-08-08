@@ -1,1 +1,1 @@
-export * from 'background/db/scripts/main';
+export * from 'background/db/scripts/db';

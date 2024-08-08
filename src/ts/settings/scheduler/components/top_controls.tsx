@@ -6,7 +6,7 @@ import { d_scheduler } from 'settings/internal';
 
 export const TopControls: React.FunctionComponent = observer(() => (
     <div className='top_controls'>
-        {Object.values(d_scheduler.TopControls.i().top_controls).map(
+        {Object.values(d_scheduler.TopControls.top_controls).map(
             (top_control: o_inputs.IconBtn, i: number): JSX.Element => (
                 <c_inputs.IconBtn key={i} input={top_control} />
             ),

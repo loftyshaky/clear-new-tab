@@ -1,17 +1,16 @@
 import { s_custom_code, s_db, i_db } from 'shared_clean/internal';
 
-export class Msgs {
-    private static i0: Msgs;
+class Class {
+    private static instance: Class;
 
-    public static i(): Msgs {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
-    public custom_code: i_db.CustomCode = s_custom_code.Main.i().default_custom_code;
+    public custom_code: i_db.CustomCode = s_custom_code.CustomCode.default_custom_code;
 
     public send_set_custom_code_msg = (): Promise<void> =>
         err_async(async () => {
@@ -21,7 +20,7 @@ export class Msgs {
             sandbox.style.border = '0';
             sandbox.src = 'sandbox.html';
 
-            const custom_code: i_db.CustomCode = await s_db.Manipulation.i().get_custom_code();
+            const custom_code: i_db.CustomCode = await s_db.Manipulation.get_custom_code();
 
             x.bind(sandbox, 'load', (): void =>
                 err(() => {
@@ -40,3 +39,5 @@ export class Msgs {
             x.append(document.body, sandbox);
         }, 'cnt_1076');
 }
+
+export const Msgs = Class.get_instance();

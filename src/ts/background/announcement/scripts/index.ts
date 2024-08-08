@@ -1,1 +1,1 @@
-export * from 'background/announcement/scripts/main';
+export * from 'background/announcement/scripts/visibility';

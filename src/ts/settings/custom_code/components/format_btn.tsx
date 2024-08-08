@@ -9,7 +9,7 @@ export const FormatBtn: React.FunctionComponent = observer(() => (
         input={
             new o_inputs.Btn({
                 name: 'format',
-                event_callback: s_custom_code.CodeMirror.i().format,
+                event_callback: s_custom_code.CodeMirror.format,
             })
         }
     />

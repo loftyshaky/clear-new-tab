@@ -11,26 +11,26 @@ export const DraaggedBackground: React.FunctionComponent = observer(() => (
         name='fade'
         cls='dragged_background'
         // eslint-disable-next-line max-len
-        state={d_dnd.Main.i().show_dragged_background}
+        state={d_dnd.Dnd.show_dragged_background}
     >
-        {d_dnd.Main.i().drag_type === 'background' && n(d_dnd.Main.i().item_to_move) ? (
+        {d_dnd.Dnd.drag_type === 'background' && n(d_dnd.Dnd.item_to_move) ? (
             <c_backgrounds.Background
                 index={0}
                 style={{
                     width: x.px(
-                        d_backgrounds.Dnd.i().dragged_background_dim({
+                        d_backgrounds.Dnd.dragged_background_dim({
                             dim: 'width',
                         }),
                     ),
                     height: x.px(
-                        d_backgrounds.Dnd.i().dragged_background_dim({
+                        d_backgrounds.Dnd.dragged_background_dim({
                             dim: 'height',
                         }),
                     ),
-                    left: x.px(d_dnd.Main.i().dragged_background_left),
-                    top: x.px(d_dnd.Main.i().dragged_background_top),
+                    left: x.px(d_dnd.Dnd.dragged_background_left),
+                    top: x.px(d_dnd.Dnd.dragged_background_top),
                 }}
-                background={d_dnd.Main.i().item_to_move as i_db.Background}
+                background={d_dnd.Dnd.item_to_move as i_db.Background}
                 dragged
             />
         ) : undefined}

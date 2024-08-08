@@ -1,1 +1,1 @@
-export * from 'settings/scrollable/scripts/main';
+export * from 'settings/scrollable/scripts/scrollable';

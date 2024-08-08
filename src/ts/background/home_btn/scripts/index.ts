@@ -1,1 +1,1 @@
-export * from 'background/home_btn/scripts/main';
+export * from 'background/home_btn/scripts/home_btn';

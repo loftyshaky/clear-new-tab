@@ -11,10 +11,10 @@ export const Actions: React.FunctionComponent<p_backgrounds.Actions> = observer(
     return (
         <c_backgrounds.OverlayItemBtn
             name='actions'
-            cls={d_backgrounds.Actions.i().is_opened({ background_id: background.id })}
+            cls={d_backgrounds.Actions.is_opened({ background_id: background.id })}
             text={ext.msg('actions_btn_text')}
             on_click={(e: MouseEvent): void => {
-                d_backgrounds.Actions.i().change_visibility({ background_id: background.id }, e);
+                d_backgrounds.Actions.change_visibility({ background_id: background.id }, e);
             }}
         >
             <Tr
@@ -22,14 +22,14 @@ export const Actions: React.FunctionComponent<p_backgrounds.Actions> = observer(
                 name='fade'
                 cls='action_btns_w'
                 // eslint-disable-next-line max-len
-                state={d_backgrounds.Actions.i().is_visible({ background_id: background.id })}
+                state={d_backgrounds.Actions.is_visible({ background_id: background.id })}
             >
                 <c_inputs.Btn
                     input={
                         new o_inputs.Btn({
                             name: 'preview_background',
                             event_callback: () =>
-                                s_backgrounds.Preview.i().open({ background_id: background.id }),
+                                s_backgrounds.Preview.open({ background_id: background.id }),
                         })
                     }
                 />
@@ -39,7 +39,7 @@ export const Actions: React.FunctionComponent<p_backgrounds.Actions> = observer(
                         new o_inputs.Btn({
                             name: 'move_background',
                             event_callback: (): void => {
-                                d_backgrounds.Dnd.i().move_by_move_btn({ background });
+                                d_backgrounds.Dnd.move_by_move_btn({ background });
                             },
                         })
                     }
@@ -51,7 +51,7 @@ export const Actions: React.FunctionComponent<p_backgrounds.Actions> = observer(
                             new o_inputs.Btn({
                                 name: 'copy_background_id',
                                 event_callback: () =>
-                                    s_backgrounds.BackgroundId.i().copy_to_clipboard({
+                                    s_backgrounds.BackgroundId.copy_to_clipboard({
                                         background_id: background.id,
                                     }),
                             })

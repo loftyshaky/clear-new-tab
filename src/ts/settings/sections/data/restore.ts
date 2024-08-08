@@ -22,12 +22,11 @@ import {
     i_sections,
 } from 'settings/internal';
 
-export class Restore {
-    private static i0: Restore;
+class Class {
+    private static instance: Class;
 
-    public static i(): Restore {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -47,7 +46,7 @@ export class Restore {
             );
 
             if (confirmed_restore) {
-                d_protecting_screen.Visibility.i().show();
+                d_protecting_screen.Visibility.show();
 
                 const { transition_duration } = clone(data.settings);
 
@@ -59,18 +58,18 @@ export class Restore {
                     update_background: true,
                 });
 
-                await s_theme.Main.i().reset_theme({ transition_duration });
-                s_css_vars.Main.i().set();
-                s_preload_color.Storage.i().set_preload_color();
-                await d_browser_theme.Main.i().refresh_theme_backgrounds();
+                await s_theme.Theme.reset({ transition_duration });
+                s_css_vars.CssVars.set();
+                s_preload_color.Storage.set_preload_color();
+                await d_browser_theme.Backgrounds.refresh_theme_backgrounds();
 
-                d_protecting_screen.Visibility.i().hide();
+                d_protecting_screen.Visibility.hide();
             }
         }, 'cnt_1270');
 
     public download_back_up = (): Promise<void> =>
         err_async(async () => {
-            d_protecting_screen.Visibility.i().show({ enable_progress: true });
+            d_protecting_screen.Visibility.show({ enable_progress: true });
 
             const check_if_v8_limit_reached = ({
                 chunks_size,
@@ -117,7 +116,7 @@ export class Restore {
 
             const download_backup_part = ({ chunks_2 }: { chunks_2: string }): void =>
                 err(() => {
-                    d_settings.BackUp.i().download({
+                    d_settings.BackUp.download({
                         data_obj: first_back_up_part_downloaded
                             ? backup_data_leading_chunks_only + chunks_2 + backup_data_trailing
                             : backup_data_leading + chunks_2 + backup_data_trailing,
@@ -129,11 +128,11 @@ export class Restore {
             let v8_limit_reached: boolean = false;
             let part_i: number = 0;
             let first_back_up_part_downloaded: boolean = false;
-            const custom_code: i_db.CustomCode = await s_db.Manipulation.i().get_custom_code();
+            const custom_code: i_db.CustomCode = await s_db.Manipulation.get_custom_code();
             const background_files: i_db.BackgroundFile[] =
-                await s_db.Manipulation.i().get_background_files();
+                await s_db.Manipulation.get_background_files();
             const background_thumbnails: i_db.BackgroundThumbnail[] =
-                await s_db.Manipulation.i().get_background_thumbnails();
+                await s_db.Manipulation.get_background_thumbnails();
 
             let chunks: string = '';
             let is_first_chunk: boolean = true;
@@ -152,15 +151,16 @@ export class Restore {
 
             let chunks_size: number = 0;
             let background_count = 0;
-            const at_least_one_background_exists = d_backgrounds.Main.i().backgrounds.length !== 0;
+            const at_least_one_background_exists =
+                d_backgrounds.Backgrounds.backgrounds.length !== 0;
 
             if (at_least_one_background_exists) {
-                d_progress.ProgressVal.i().set_progress_max({
-                    progress_max: d_backgrounds.Main.i().backgrounds.length,
+                d_progress.ProgressVal.set_progress_max({
+                    progress_max: d_backgrounds.Backgrounds.backgrounds.length,
                 });
 
                 // eslint-disable-next-line no-restricted-syntax
-                for await (const background of d_backgrounds.Main.i().backgrounds) {
+                for await (const background of d_backgrounds.Backgrounds.backgrounds) {
                     background_count += 1;
 
                     const background_file: i_db.BackgroundFile | undefined = background_files.find(
@@ -172,7 +172,7 @@ export class Restore {
                             (background_thumbnail_2: i_db.BackgroundFile): boolean =>
                                 err(() => background_thumbnail_2.id === background.id, 'cnt_1273'),
                         );
-                    const tasks: i_db.Task[] = d_scheduler.Tasks.i().tasks.filter(
+                    const tasks: i_db.Task[] = d_scheduler.Tasks.tasks.filter(
                         (task: i_db.Task): boolean =>
                             err(() => task.background_id === background.id, 'cnt_1274'),
                     );
@@ -207,7 +207,7 @@ export class Restore {
                         )},"file":${JSON.stringify(file)},"tasks":${JSON.stringify(tasks)}}`;
                         const new_chunk_size = new TextEncoder().encode(new_chunk).length;
                         const is_last_background =
-                            background_count === d_backgrounds.Main.i().backgrounds.length;
+                            background_count === d_backgrounds.Backgrounds.backgrounds.length;
 
                         chunks_size += new_chunk_size;
 
@@ -241,25 +241,25 @@ export class Restore {
                         }
 
                         if (is_last_background) {
-                            d_protecting_screen.Visibility.i().hide();
+                            d_protecting_screen.Visibility.hide();
                         }
                     }
 
-                    d_progress.ProgressVal.i().increment_progress({
+                    d_progress.ProgressVal.increment_progress({
                         increment_amount: 1,
                     });
                 }
             } else {
                 download_backup_part({ chunks_2: chunks });
 
-                d_protecting_screen.Visibility.i().hide();
+                d_protecting_screen.Visibility.hide();
             }
         }, 'cnt_1275');
 
     public restore_back_up = ({ data_objs }: { data_objs: t.AnyRecord[] }): Promise<void> =>
         err_async(async () => {
             // when backgrounds are deleted delete_all_backgrounds_transition_end_callback() fires
-            d_protecting_screen.Visibility.i().show({ enable_progress: true });
+            d_protecting_screen.Visibility.show({ enable_progress: true });
 
             this.restoring_from_back_up = true;
             this.restoring_from_back_up_pagination = true;
@@ -276,7 +276,7 @@ export class Restore {
                         for await (const chunk of full_data_obj.chunks) {
                             this.restored_tasks = [...this.restored_tasks, ...chunk.tasks];
 
-                            chunk.data = await d_backgrounds.Main.i().transform_background({
+                            chunk.data = await d_backgrounds.Backgrounds.transform_background({
                                 background: chunk.data,
                             });
 
@@ -312,7 +312,7 @@ export class Restore {
                                     background: file,
                                 });
                             }
-                            d_progress.ProgressVal.i().increment_progress({
+                            d_progress.ProgressVal.increment_progress({
                                 increment_amount: 1,
                             });
                         }
@@ -322,7 +322,7 @@ export class Restore {
             const save_backgrounds = (): Promise<void> =>
                 err_async(async () => {
                     if (one_of_the_uploaded_files_has_settings) {
-                        await s_db.Manipulation.i().save_backgrounds({
+                        await s_db.Manipulation.save_backgrounds({
                             backgrounds: this.restored_backgrounds,
                             background_thumbnails: this.restored_background_thumbnails,
                             background_files: restored_background_files,
@@ -330,51 +330,51 @@ export class Restore {
 
                         ext.send_msg({ msg: 'schedule_background_display' });
 
-                        d_backgrounds.BackgroundDeletion.i().deletion_reason = 'restore_back_up';
+                        d_backgrounds.BackgroundDeletion.deletion_reason = 'restore_back_up';
 
-                        d_sections.SectionContent.i().set_backgrounds_section_content_visibility({
+                        d_sections.SectionContent.set_backgrounds_section_content_visibility({
                             is_visible: false,
                         });
                     } else {
                         const missing_backgrounds: i_db.Background[] =
-                            d_backgrounds.Main.i().get_missing_backgrounds({
+                            d_backgrounds.Backgrounds.get_missing_backgrounds({
                                 backgrounds: this.restored_backgrounds,
                             });
                         const missing_background_thumbnails: i_db.BackgroundThumbnail[] =
-                            d_backgrounds.Main.i().get_missing_background_thumbnails({
+                            d_backgrounds.Backgrounds.get_missing_background_thumbnails({
                                 background_thumbnails: this.restored_background_thumbnails,
                             });
 
                         const missing_background_files: i_db.BackgroundFile[] =
-                            d_backgrounds.Main.i().get_missing_background_files({
+                            d_backgrounds.Backgrounds.get_missing_background_files({
                                 background_files: restored_background_files,
                             });
 
-                        await s_db.Manipulation.i().save_backgrounds({
+                        await s_db.Manipulation.save_backgrounds({
                             backgrounds: missing_backgrounds,
                             background_thumbnails: missing_background_thumbnails,
                             background_files: missing_background_files,
                         });
 
-                        d_backgrounds.BackgroundAnimation.i().allow_animation();
+                        d_backgrounds.BackgroundAnimation.allow_animation();
 
-                        d_backgrounds.Main.i().merge_backgrounds({
+                        d_backgrounds.Backgrounds.merge_backgrounds({
                             backgrounds: missing_backgrounds,
                             sort: true,
                         });
 
-                        await s_db.Manipulation.i().save_tasks({
-                            tasks: d_sections.Restore.i().restored_tasks,
+                        await s_db.Manipulation.save_tasks({
+                            tasks: d_sections.Restore.restored_tasks,
                         });
-                        d_scheduler.Tasks.i().merge_tasks({
-                            tasks: d_sections.Restore.i().restored_tasks,
+                        d_scheduler.Tasks.merge_tasks({
+                            tasks: d_sections.Restore.restored_tasks,
                         });
 
-                        await d_backgrounds.BackgroundAnimation.i().forbid_animation();
+                        await d_backgrounds.BackgroundAnimation.forbid_animation();
 
-                        await d_pagination.Page.i().set_last();
+                        await d_pagination.Page.set_last();
 
-                        s_scrollable.Main.i().set_scroll_position({
+                        s_scrollable.Scrollable.set_scroll_position({
                             scrollable_type: 'backgrounds',
                         });
                     }
@@ -416,12 +416,12 @@ export class Restore {
                     await this.set({ settings });
 
                     Object.values(
-                        (d_sections.Main.i().sections as any).background_settings.inputs,
+                        (d_sections.Sections.sections as any).background_settings.inputs,
                     ).forEach((input: any): void =>
                         err(() => {
-                            d_inputs.NestedInput.i().set_parent_disbled_vals({
+                            d_inputs.NestedInput.set_parent_disbled_vals({
                                 input,
-                                sections: d_sections.Main.i().sections as i_inputs.Sections,
+                                sections: d_sections.Sections.sections as i_inputs.Sections,
                                 set_to_all_sections: true,
                             });
                         }, 'cnt_1375'),
@@ -435,35 +435,35 @@ export class Restore {
                         transform: true,
                     });
 
-                    await s_theme.Main.i().reset_theme({ transition_duration });
-                    s_css_vars.Main.i().set();
+                    await s_theme.Theme.reset({ transition_duration });
+                    s_css_vars.CssVars.set();
 
-                    await s_db.Manipulation.i().reset_custom_code_table();
-                    await s_db.Manipulation.i().clear_all_background_tables();
-                    await s_db.Manipulation.i().clear_task_table();
+                    await s_db.Manipulation.reset_custom_code_table();
+                    await s_db.Manipulation.clear_all_background_tables();
+                    await s_db.Manipulation.clear_task_table();
 
-                    await s_custom_code.Db.i().save_custom_code({
+                    await s_custom_code.Db.save_custom_code({
                         custom_code: full_data_obj.custom_code,
                     });
                 }
 
-                d_progress.ProgressVal.i().set_progress_max({
+                d_progress.ProgressVal.set_progress_max({
                     progress_max: full_data_obj.chunks.length * 2,
                 });
 
                 await generate_resored_backgrounds();
                 await save_backgrounds();
 
-                s_preload_color.Storage.i().set_preload_color();
-                d_backgrounds.CurrentBackground.i().set_current_background_i();
-                d_scheduler.Tasks.i().reset_background_id();
+                s_preload_color.Storage.set_preload_color();
+                d_backgrounds.CurrentBackground.set_current_background_i();
+                d_scheduler.Tasks.reset_background_id();
 
                 this.restoring_from_back_up = false;
 
                 ext.send_msg({ msg: 'get_background', force_update: true });
             }
 
-            d_protecting_screen.Visibility.i().hide();
+            d_protecting_screen.Visibility.hide();
         }, 'cnt_1278');
 
     private set = ({ settings }: { settings?: i_data.Settings } = {}): Promise<i_data.Settings> =>
@@ -486,7 +486,7 @@ export class Restore {
                     err(() => {
                         data.settings = settings_final;
 
-                        d_background_settings.SettingsContext.i().react_to_global_selection();
+                        d_background_settings.SettingsContext.react_to_global_selection();
                     }, 'cnt_1279'),
                 );
 
@@ -505,3 +505,5 @@ export class Restore {
             'cnt_1281',
         );
 }
+
+export const Restore = Class.get_instance();

@@ -3,12 +3,11 @@ import { BigNumber } from 'bignumber.js';
 import { t } from '@loftyshaky/shared/shared_clean';
 import { s_backgrounds, s_db, s_i, i_backgrounds, i_db } from 'shared_clean/internal';
 
-export class Upload {
-    private static i0: Upload;
+class Class {
+    private static instance: Class;
 
-    public static i(): Upload {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -67,7 +66,7 @@ export class Upload {
                 show_protecting_screen({ enable_progress });
             }
 
-            const last_i: string = s_i.Main.i().get_last_i({
+            const last_i: string = s_i.I.get_last_i({
                 items:
                     backgrounds_before_delete.length === 0
                         ? backgrounds
@@ -93,17 +92,16 @@ export class Upload {
 
                     const id: string = x.unique_id();
                     const i: string = new BigNumber(last_i).plus(file_i).toString();
-                    const file_type: i_backgrounds.FileType =
-                        s_backgrounds.FileType.i().get_file_type({
-                            file,
-                        });
+                    const file_type: i_backgrounds.FileType = s_backgrounds.FileType.get_file_type({
+                        file,
+                    });
                     const file_final: string =
                         page === 'settings' || file_type === 'img_link'
                             ? (file as string)
                             : await x.convert_blob_to_base64(file as File);
 
                     if (
-                        s_backgrounds.FileType.i().is_base64({
+                        s_backgrounds.FileType.is_base64({
                             file: file_final,
                         })
                     ) {
@@ -123,7 +121,7 @@ export class Upload {
 
                     const background_img_props: i_backgrounds.BackgroundImgProps = await (page ===
                     'settings'
-                        ? s_backgrounds.Thumbnail.i().get_background_width_height_and_thumbnail({
+                        ? s_backgrounds.Thumbnail.get_background_width_height_and_thumbnail({
                               file: file_final,
                               file_type,
                           })
@@ -152,7 +150,7 @@ export class Upload {
                         id,
                         theme_id,
                         i,
-                        type: `${s_backgrounds.FileType.i().get_file_type({
+                        type: `${s_backgrounds.FileType.get_file_type({
                             file,
                         })}`,
                         width: background_img_props.width,
@@ -217,7 +215,7 @@ export class Upload {
                     ),
             );
 
-            await s_db.Manipulation.i().save_backgrounds({
+            await s_db.Manipulation.save_backgrounds({
                 backgrounds: new_backgrounds_final,
                 background_thumbnails: new_background_thumbnails,
                 background_files: new_background_files,
@@ -282,3 +280,5 @@ export class Upload {
         return new_backgrounds_final;
     };
 }
+
+export const Upload = Class.get_instance();

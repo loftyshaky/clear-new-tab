@@ -2,12 +2,11 @@ import { reaction } from 'mobx';
 
 import { s_custom_code } from 'settings/internal';
 
-export class CodeMirrorTheme {
-    private static i0: CodeMirrorTheme;
+class Class {
+    private static instance: Class;
 
-    public static i(): CodeMirrorTheme {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -19,8 +18,10 @@ export class CodeMirrorTheme {
                 () => data.settings.options_page_theme,
                 (): void =>
                     err(() => {
-                        s_custom_code.CodeMirror.i().change_theme();
+                        s_custom_code.CodeMirror.change_theme();
                     }, 'cnt_1378'),
             );
         }, 'cnt_1377');
 }
+
+export const CodeMirrorTheme = Class.get_instance();

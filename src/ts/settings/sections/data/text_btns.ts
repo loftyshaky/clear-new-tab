@@ -1,9 +1,8 @@
-export class TextBtns {
-    private static i0: TextBtns;
+class Class {
+    private static instance: Class;
 
-    public static i(): TextBtns {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -15,3 +14,5 @@ export class TextBtns {
     public decide_paste_background_btn_visibility = (): boolean =>
         err(() => data.ui.paste_btn_is_visible, 'cnt_1283');
 }
+
+export const TextBtns = Class.get_instance();

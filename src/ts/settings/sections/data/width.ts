@@ -4,12 +4,11 @@ import { makeObservable, action, observable } from 'mobx';
 import { s_viewport } from '@loftyshaky/shared/shared';
 import { vars } from 'shared_clean/internal';
 
-export class Width {
-    private static i0: Width;
+class Class {
+    private static instance: Class;
 
-    public static i(): Width {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     private constructor() {
@@ -46,7 +45,7 @@ export class Width {
 
     public set_backgrounds_section_width = (): void =>
         err(() => {
-            const viewport_width = s_viewport.Main.i().get_dim({ dim: 'width' });
+            const viewport_width = s_viewport.Viewport.get_dim({ dim: 'width' });
             const settings_sections_el = s<HTMLDivElement>('.sections.settings');
             const backgrounds_sections_el = s<HTMLDivElement>('.sections.backgrounds');
             const backgrounds_section_el = s<HTMLDivElement>('.section.backgrounds');
@@ -83,3 +82,5 @@ export class Width {
             this.set_backgrounds_section_width();
         }, 'cnt_1299');
 }
+
+export const Width = Class.get_instance();

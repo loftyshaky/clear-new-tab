@@ -13,13 +13,13 @@ export const Body: React.FunctionComponent = observer(() => (
         name='fade'
         cls='code_editor'
         // eslint-disable-next-line max-len
-        state={d_custom_code.Visibility.i().is_visible}
+        state={d_custom_code.Visibility.is_visible}
     >
         <c_custom_code.TopControls />
         <div
             className={x.cls([
                 'code_editor_inner',
-                d_custom_code.Help.i().custom_code_inner_visibility_cls,
+                d_custom_code.Help.custom_code_inner_visibility_cls,
             ])}
         >
             <div className='edit_areas'>

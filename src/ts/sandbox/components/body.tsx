@@ -7,7 +7,7 @@ export const Body: React.FunctionComponent = observer(() => {
     const sandbox_ref = useRef<any>(null);
 
     useEffect(() => {
-        s_custom_code.Js.i().run({ sandbox_el: sandbox_ref.current });
+        s_custom_code.Js.run({ sandbox_el: sandbox_ref.current });
     });
 
     return (
@@ -15,9 +15,9 @@ export const Body: React.FunctionComponent = observer(() => {
             <div
                 className='html'
                 // eslint-disable-next-line react/no-danger
-                dangerouslySetInnerHTML={{ __html: d_custom_code.Main.i().custom_code.html! }}
+                dangerouslySetInnerHTML={{ __html: d_custom_code.CustomCode.custom_code.html! }}
             />
-            <style type='text/css'>{d_custom_code.Main.i().custom_code.css}</style>
+            <style type='text/css'>{d_custom_code.CustomCode.custom_code.css}</style>
         </div>
     );
 });

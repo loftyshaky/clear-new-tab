@@ -8,12 +8,11 @@ import prettierPluginEstree from 'prettier/plugins/estree';
 import { t } from '@loftyshaky/shared/shared';
 import { d_custom_code, s_custom_code, i_custom_code } from 'settings/internal';
 
-export class CodeMirror {
-    private static i0: CodeMirror;
+class Class {
+    private static instance: Class;
 
-    public static i(): CodeMirror {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -48,7 +47,7 @@ export class CodeMirror {
     }): void =>
         err(() => {
             if (n(editor_el)) {
-                const mode: i_custom_code.Mode = s_custom_code.Type.i().get_mode_from_type({
+                const mode: i_custom_code.Mode = s_custom_code.Type.get_mode_from_type({
                     type,
                 });
                 const code_mirror_inst: Editor = CodeMirrorLib(editor_el, {
@@ -61,7 +60,7 @@ export class CodeMirror {
                     if (this.attempted_to_save_code_val_count >= 3) {
                         const val: string = inst.getValue();
 
-                        s_custom_code.Db.i().save_val_debounce({
+                        s_custom_code.Db.save_val_debounce({
                             type,
                             val,
                         });
@@ -101,7 +100,7 @@ export class CodeMirror {
 
     public set_vals = (): void =>
         err(() => {
-            if (d_custom_code.Visibility.i().is_visible) {
+            if (d_custom_code.Visibility.is_visible) {
                 this.monde_mirror_insts.forEach((code_mirror_inst: Editor): void =>
                     err(() => {
                         const type: i_custom_code.Type = this.get_type({
@@ -109,7 +108,7 @@ export class CodeMirror {
                         });
 
                         (code_mirror_inst as any).doc.setValue(
-                            d_custom_code.Main.i().custom_code[type],
+                            d_custom_code.CustomCode.custom_code[type],
                         );
                     }, 'cnt_1196'),
                 );
@@ -123,7 +122,7 @@ export class CodeMirror {
                     err_async(
                         async () => {
                             const type: i_custom_code.Type = this.get_type({ code_mirror_inst });
-                            const custom_code = d_custom_code.Main.i().custom_code[type];
+                            const custom_code = d_custom_code.CustomCode.custom_code[type];
 
                             if (n(custom_code)) {
                                 let formatted_code: string = '';
@@ -150,7 +149,7 @@ export class CodeMirror {
 
                                 code_mirror_inst.setOption('value', '');
                                 code_mirror_inst.setOption('value', formatted_code);
-                                s_custom_code.Db.i().save_val({ type, val: formatted_code });
+                                s_custom_code.Db.save_val({ type, val: formatted_code });
                             }
                         },
                         'cnt_1198',
@@ -162,10 +161,12 @@ export class CodeMirror {
     private get_type = ({ code_mirror_inst }: { code_mirror_inst: Editor }): i_custom_code.Type =>
         err(
             () =>
-                s_custom_code.Type.i().get_type_from_mode({
+                s_custom_code.Type.get_type_from_mode({
                     mode: (code_mirror_inst as any).options.mode.name,
                 }),
 
             'cnt_1200',
         );
 }
+
+export const CodeMirror = Class.get_instance();

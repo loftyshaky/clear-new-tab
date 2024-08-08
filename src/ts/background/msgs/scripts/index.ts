@@ -1,1 +1,1 @@
-import 'background/msgs/scripts/main';
+import 'background/msgs/scripts/events';

@@ -3,12 +3,11 @@ import { makeObservable, observable, action } from 'mobx';
 import { s_viewport } from '@loftyshaky/shared/shared';
 import { d_pagination } from 'settings/internal';
 
-export class Scrollable {
-    private static i0: Scrollable;
+class Class {
+    private static instance: Class;
 
-    public static i(): Scrollable {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     private constructor() {
@@ -29,17 +28,19 @@ export class Scrollable {
 
             if (
                 n(pagination_el) &&
-                d_pagination.Page.i().there_are_backgrounds_for_more_than_one_page
+                d_pagination.Page.there_are_backgrounds_for_more_than_one_page
             ) {
-                this.pagination_height = d_pagination.Page.i()
+                this.pagination_height = d_pagination.Page
                     .there_are_backgrounds_for_more_than_one_page
                     ? pagination_el.offsetHeight
                     : 0;
                 this.height =
-                    s_viewport.Main.i().get_dim({ dim: 'height' }) -
+                    s_viewport.Viewport.get_dim({ dim: 'height' }) -
                     (this.pagination_height + offset);
             } else {
-                this.height = s_viewport.Main.i().get_dim({ dim: 'height' }) - (offset + 2);
+                this.height = s_viewport.Viewport.get_dim({ dim: 'height' }) - (offset + 2);
             }
         }, 'cnt_1144');
 }
+
+export const Scrollable = Class.get_instance();

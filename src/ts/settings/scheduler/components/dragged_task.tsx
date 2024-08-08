@@ -11,18 +11,18 @@ export const DraaggedTask: React.FunctionComponent = observer(() => (
         name='fade'
         cls='dragged_task'
         // eslint-disable-next-line max-len
-        state={d_dnd.Main.i().show_dragged_background}
+        state={d_dnd.Dnd.show_dragged_background}
     >
-        {d_dnd.Main.i().drag_type === 'task' && n(d_dnd.Main.i().item_to_move) ? (
+        {d_dnd.Dnd.drag_type === 'task' && n(d_dnd.Dnd.item_to_move) ? (
             <c_scheduler.Task
                 index={0}
                 style={{
-                    width: d_scheduler.Dims.i().task_width,
-                    height: d_scheduler.Dims.i().task_height,
-                    left: x.px(d_dnd.Main.i().dragged_background_left),
-                    top: x.px(d_dnd.Main.i().dragged_background_top),
+                    width: d_scheduler.Dims.task_width,
+                    height: d_scheduler.Dims.task_height,
+                    left: x.px(d_dnd.Dnd.dragged_background_left),
+                    top: x.px(d_dnd.Dnd.dragged_background_top),
                 }}
-                task={d_dnd.Main.i().item_to_move as i_db.Task}
+                task={d_dnd.Dnd.item_to_move as i_db.Task}
                 dragged
             />
         ) : undefined}

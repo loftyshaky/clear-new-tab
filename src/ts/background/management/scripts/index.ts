@@ -1,1 +1,3 @@
-export * from 'background/management/scripts/main';
+import 'background/management/scripts/events';
+
+export * from 'background/management/scripts/extensions';

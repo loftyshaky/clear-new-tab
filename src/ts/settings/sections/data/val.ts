@@ -14,17 +14,15 @@ import {
     d_background_settings,
     d_backgrounds,
     d_optional_permission_settings,
-    d_pagination,
     d_sections,
     d_scheduler,
 } from 'settings/internal';
 
-export class Val {
-    private static i0: Val;
+class Class {
+    private static instance: Class;
 
-    public static i(): Val {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -47,30 +45,30 @@ export class Val {
                 let val: i_data.Val;
                 const set_val = (): Promise<void> =>
                     err_async(async () => {
-                        d_inputs.Val.i().set({
+                        d_inputs.Val.set({
                             val,
                             input,
                         });
 
-                        d_inputs.NestedInput.i().set_parent_disbled_vals({
+                        d_inputs.NestedInput.set_parent_disbled_vals({
                             input,
-                            sections: d_sections.Main.i().sections as i_inputs.Sections,
+                            sections: d_sections.Sections.sections as i_inputs.Sections,
                             set_to_all_sections: true,
                         });
 
-                        s_css_vars.Main.i().set();
+                        s_css_vars.CssVars.set();
 
-                        if (d_background_settings.Val.i().allowed_keys.includes(input.name)) {
-                            await d_background_settings.Val.i().change({
+                        if (d_background_settings.Val.allowed_keys.includes(input.name)) {
+                            await d_background_settings.Val.change({
                                 name: input.name,
                                 new_val: val,
                             });
                         } else if (
-                            d_background_settings.GlobalCheckboxes.i().global_checkboxes.includes(
+                            d_background_settings.GlobalCheckboxes.global_checkboxes.includes(
                                 input.name,
                             )
                         ) {
-                            d_background_settings.GlobalCheckboxes.i().restore_global_val({
+                            d_background_settings.GlobalCheckboxes.restore_global_val({
                                 name: input.name.replace('_global', ''),
                             });
                         } else if (
@@ -95,7 +93,7 @@ export class Val {
                                 }
                                 if (val === 'multiple_backgrounds') {
                                     // eslint-disable-next-line max-len
-                                    d_backgrounds_shared.CurrentBackground.i().set_future_background_id();
+                                    d_backgrounds_shared.CurrentBackground.set_future_background_id();
                                 }
                             }
                         } else if (input.name !== 'create_solid_color_background') {
@@ -127,12 +125,12 @@ export class Val {
                     }, 'cnt_1287');
 
                 if (input.type === 'color' && n(i)) {
-                    val = d_color.Color.i().access({
+                    val = d_color.Color.access({
                         input,
                         i,
                     });
                 } else {
-                    val = d_inputs.Val.i().access({ input });
+                    val = d_inputs.Val.access({ input });
 
                     if (
                         ['background_change_interval', 'video_volume', 'video_speed'].includes(
@@ -145,7 +143,7 @@ export class Val {
                 }
 
                 if (input.type === 'text') {
-                    if (!this.validate_input({ input })) {
+                    if (!d_sections.Validation.validate_input({ input })) {
                         if (
                             n(val) &&
                             [
@@ -159,9 +157,9 @@ export class Val {
                         }
 
                         if (input.name === 'current_background_id') {
-                            d_backgrounds.CurrentBackground.i().save_current_background_id_from_i();
+                            d_backgrounds.CurrentBackground.save_current_background_id_from_i();
                         } else if (input.name === 'paste_background') {
-                            d_inputs.Val.i().set({
+                            d_inputs.Val.set({
                                 val: '',
                                 input,
                             });
@@ -171,49 +169,48 @@ export class Val {
                     }
                 } else if (input.type !== 'color' || i === 'main') {
                     if (input.name === 'mode') {
-                        d_sections.Upload.i().set_visibility_of_error_msg({
+                        d_sections.Upload.set_visibility_of_error_msg({
                             is_visible: false,
                         });
                     }
 
                     const is_optional_permission_checkbox: boolean = Object.keys(
-                        d_optional_permission_settings.Main.i().optional_permission_checkbox_dict,
+                        d_optional_permission_settings.Permission.optional_permission_checkbox_dict,
                     ).includes(input.name);
 
                     if (is_optional_permission_checkbox) {
-                        d_inputs.Val.i().set({
+                        d_inputs.Val.set({
                             val: !val,
                             input,
                         });
 
-                        await d_optional_permission_settings.Main.i().set_permission({
+                        await d_optional_permission_settings.Permission.set({
                             name: input.name,
                         });
                     } else {
                         await set_val();
                     }
 
-                    s_settings.Theme.i().change({
+                    s_settings.Theme.change({
                         input,
                         name: val as string,
-                        additional_theme_callback: s_theme.Main.i().set,
+                        additional_theme_callback: s_theme.Theme.set,
                     });
 
                     if (input.name === 'create_solid_color_background') {
-                        d_backgrounds.Color.i().create_solid_color_background({
+                        d_backgrounds.Color.create_solid_color_background({
                             color: val as string,
                         });
                     } else if (input.name === 'settings_context') {
                         if (val === 'global') {
-                            d_background_settings.SettingsContext.i().react_to_global_selection();
+                            d_background_settings.SettingsContext.react_to_global_selection();
                         } else if (val === 'selected_background') {
                             // eslint-disable-next-line max-len
-                            d_background_settings.SettingsContext.i().show_selected_background_notification();
+                            d_background_settings.SettingsContext.show_selected_background_notification();
                         }
                     } else if (input.name === 'enable_video_repeat') {
-                        d_background_settings.SettingsContext.i().react_to_background_selection({
-                            background:
-                                d_background_settings.SettingsContext.i().selected_background,
+                        d_background_settings.SettingsContext.react_to_background_selection({
+                            background: d_background_settings.SettingsContext.selected_background,
                         });
                     }
                 } else if (n(i)) {
@@ -221,7 +218,7 @@ export class Val {
 
                     colors[i] = val;
 
-                    s_css_vars.Main.i().set();
+                    s_css_vars.CssVars.set();
 
                     await ext.send_msg_resp({
                         msg: 'update_settings_background',
@@ -231,58 +228,9 @@ export class Val {
                     });
                 }
 
-                s_preload_color.Storage.i().set_preload_color();
+                s_preload_color.Storage.set_preload_color();
             }, 'cnt_1288'),
     );
-
-    public validate_input = ({ input }: { input: i_inputs.Input }): boolean =>
-        err(() => {
-            const val: i_data.Val = d_inputs.Val.i().access({ input }) as number;
-
-            if (typeof val === 'string') {
-                if (input.name === 'paste_background') {
-                    return false;
-                }
-
-                if (input.name === 'current_background_id') {
-                    return !this.validate_current_background_i({ val });
-                }
-
-                if (input.name === 'video_speed') {
-                    return !this.validate_video_speed({ val });
-                }
-
-                if (input.name === 'transition_duration') {
-                    return d_inputs.Val.i().validate_input({ input });
-                }
-
-                if (input.name === 'one_backup_file_size_in_bytes') {
-                    return val < 52428800 || val > 536870888;
-                }
-
-                if (input.name === 'backgrounds_per_page') {
-                    return (
-                        val < d_pagination.Page.i().backgrounds_per_page_min_val ||
-                        val > d_pagination.Page.i().backgrounds_per_page_max_val
-                    );
-                }
-
-                if (input.name === 'year') {
-                    return !(
-                        (/^2\d{3}$/.test(val) && +val >= new Date().getFullYear()) ||
-                        val === ''
-                    );
-                }
-
-                if (input.name === 'time') {
-                    return !(/^(2[0-3]|[0-1][\d]):[0-5][\d]:[0-5][\d]$/.test(val) || val === '');
-                }
-
-                return !/^1$|^0$|^(0\.[0-9]{1,2}|1\.00?)$/.test(val);
-            }
-
-            return false;
-        }, 'cnt_1289');
 
     public remove_val = ({ input }: { input: i_inputs.Input }): Promise<void> =>
         err_async(async () => {
@@ -295,7 +243,7 @@ export class Val {
                     update_instantly: true,
                 });
 
-                await d_scheduler.Val.i().set_add_new_task_btn_ability();
+                await d_scheduler.Val.set_add_new_task_btn_ability();
             }
         }, 'cnt_1290');
 
@@ -308,9 +256,9 @@ export class Val {
     }): Promise<void> =>
         err_async(async () => {
             if (input.name !== 'create_solid_color_background') {
-                await d_background_settings.Val.i().change({ name: input.name, new_val: i });
+                await d_background_settings.Val.change({ name: input.name, new_val: i });
 
-                s_preload_color.Storage.i().set_preload_color();
+                s_preload_color.Storage.set_preload_color();
             }
         }, 'cnt_1291');
 
@@ -334,25 +282,6 @@ export class Val {
             });
         }, 'cnt_1293');
 
-    private validate_current_background_i = ({ val }: { val: i_data.Val }): boolean =>
-        err(() => {
-            const i: number = (val as number) - 1;
-
-            return (
-                /^(?!0)\d+$/.test(val as string) &&
-                i <= d_backgrounds.Main.i().backgrounds.length - 1
-            );
-        }, 'cnt_1294');
-
-    private validate_video_speed = ({ val }: { val: i_data.Val }): boolean =>
-        err(
-            () =>
-                n(val) &&
-                /^[+-]?\d+(\.\d+)?$/.test(val as string) &&
-                (val === '0' || (+val >= 0.1 && +val <= 16)),
-            'cnt_1294',
-        );
-
     public admin_change_visibility_of_content_save_callback = ({
         bool,
     }: {
@@ -369,7 +298,7 @@ export class Val {
 
     public enable_developer_mode = (): Promise<void> =>
         err_async(async () => {
-            d_developer_mode.Main.i().enable_developer_mode({
+            d_developer_mode.DeveloperMode.enable({
                 save_callback: async () =>
                     ext.send_msg_resp({
                         msg: 'update_settings_background',
@@ -380,3 +309,5 @@ export class Val {
             });
         }, 'cnt_1210');
 }
+
+export const Val = Class.get_instance();

@@ -1,1 +1,1 @@
-export * from 'background/scheduler/scripts/main';
+export * from 'background/scheduler/scripts/scheduler';

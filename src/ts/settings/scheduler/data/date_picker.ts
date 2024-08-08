@@ -3,12 +3,11 @@ import { o_inputs, i_inputs } from '@loftyshaky/shared/inputs';
 import { vars } from 'shared_clean/internal';
 import { d_scheduler, d_sections } from 'settings/internal';
 
-export class DatePicker {
-    private static i0: DatePicker;
+class Class {
+    private static instance: Class;
 
-    public static i(): DatePicker {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -72,9 +71,9 @@ export class DatePicker {
                 new o_inputs.Text({
                     name: 'year',
                     text_type: 'number',
-                    event_callback: d_scheduler.Val.i().change,
-                    remove_val_callback: d_sections.Val.i().remove_val,
-                    warn_state_checker: d_sections.Val.i().validate_input,
+                    event_callback: d_scheduler.Val.change,
+                    remove_val_callback: d_sections.Val.remove_val,
+                    warn_state_checker: d_sections.Validation.validate_input,
                 }),
                 new o_inputs.Select({
                     name: 'day_of_the_week',
@@ -85,12 +84,12 @@ export class DatePicker {
                             pass_vals: [vars.scheduler_none_val],
                         },
                     ],
-                    event_callback: d_scheduler.Val.i().change,
+                    event_callback: d_scheduler.Val.change,
                 }),
                 new o_inputs.Select({
                     name: 'month',
                     options: this.options,
-                    event_callback: d_scheduler.Val.i().change,
+                    event_callback: d_scheduler.Val.change,
                 }),
                 new o_inputs.Select({
                     name: 'day_of_the_month',
@@ -101,22 +100,24 @@ export class DatePicker {
                             pass_vals: [vars.scheduler_none_val],
                         },
                     ],
-                    event_callback: d_scheduler.Val.i().change,
+                    event_callback: d_scheduler.Val.change,
                 }),
                 new o_inputs.Text({
                     name: 'time',
-                    event_callback: d_scheduler.Val.i().change,
-                    remove_val_callback: d_sections.Val.i().remove_val,
-                    warn_state_checker: d_sections.Val.i().validate_input,
+                    event_callback: d_scheduler.Val.change,
+                    remove_val_callback: d_sections.Val.remove_val,
+                    warn_state_checker: d_sections.Validation.validate_input,
                 }),
                 new o_inputs.Btn({
                     name: 'add_new_task',
-                    event_callback: d_scheduler.Tasks.i().add,
+                    event_callback: d_scheduler.Tasks.add,
                 }),
             ];
 
-            this.inputs = s_utils.Main.i().to_object({
+            this.inputs = s_utils.Utils.to_object({
                 arr: this.inputs as i_inputs.Input[],
             });
         }, 'cnt_1233');
 }
+
+export const DatePicker = Class.get_instance();

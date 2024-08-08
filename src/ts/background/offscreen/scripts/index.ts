@@ -1,1 +1,1 @@
-export * from 'background/offscreen/scripts/main';
+export * from 'background/offscreen/scripts/document';

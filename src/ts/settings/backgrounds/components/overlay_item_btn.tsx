@@ -13,7 +13,7 @@ export const OverlayItemBtn: React.FunctionComponent<p_backgrounds.OverlayItemBt
                     'overlay_item',
                     'btn',
                     name,
-                    d_dnd.Main.i().pointer_events_none_cls,
+                    d_dnd.Dnd.pointer_events_none_cls,
                     cls,
                 ])}
                 role='button'

@@ -12,7 +12,7 @@ export const ThumbnailW: React.FunctionComponent<p_backgrounds.ThumbnailW> = obs
                 className='color'
                 style={{
                     backgroundColor:
-                        d_backgrounds.Cache.i().access_prop_of_background_thumbnail_cache_item({
+                        d_backgrounds.Cache.access_prop_of_background_thumbnail_cache_item({
                             background_id,
                             key: 'placeholder_color',
                         }) as string | undefined,

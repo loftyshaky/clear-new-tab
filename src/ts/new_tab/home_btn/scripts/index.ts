@@ -1,1 +1,1 @@
-export * from 'new_tab/home_btn/scripts/main';
+export * from 'new_tab/home_btn/scripts/home_btn';

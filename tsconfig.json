@@ -10,6 +10,7 @@
         "esModuleInterop": true,
         "sourceMap": true,
         "typeRoots": ["node_modules/@types", "node_modules/web-ext-types"],
+        "skipLibCheck": true,
         "paths": {
             "shared_clean/*": ["./ts/shared_clean/*"],
             "shared/*": ["./ts/shared/*"],

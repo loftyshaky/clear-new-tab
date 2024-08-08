@@ -4,12 +4,11 @@ import JSZip from 'jszip';
 import { t } from '@loftyshaky/shared/shared_clean';
 import { s_browser_theme, i_browser_theme } from 'background/internal';
 
-export class Crx {
-    private static i0: Crx;
+class Class {
+    private static instance: Class;
 
-    public static i(): Crx {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -99,7 +98,7 @@ export class Crx {
         err_async(async () => {
             const theme_package_data: t.AnyRecord = await JSZip.loadAsync(theme_package);
             const clear_new_tab_video_file_name: string | undefined =
-                s_browser_theme.ThemeFile.i().clear_new_tab_video_file_names.find(
+                s_browser_theme.ThemeFile.clear_new_tab_video_file_names.find(
                     (file_name: string): void =>
                         err(() => theme_package_data.files[file_name], 'cnt_1164'),
                 );
@@ -216,3 +215,5 @@ export class Crx {
             return hex_final;
         }, 'cnt_1167');
 }
+
+export const Crx = Class.get_instance();

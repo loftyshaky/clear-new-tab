@@ -5,9 +5,11 @@ const rules = {
     js: {
         //> javascript
         'prettier/prettier': 'error',
+        'local-rules/no-return-assign-allow-instance-assignment': ['error', 'always'],
         'import/no-cycle': 'off',
         'import/named': 'off',
         'import/prefer-default-export': 'off',
+        'no-return-assign': 'off',
         'prefer-arrow-callback': 'off',
         'func-names': 'off',
         'no-param-reassign': 'off',
@@ -127,7 +129,7 @@ const rules = {
 
 module.exports = {
     extends: ['eslint:recommended', 'airbnb', 'airbnb/hooks', 'prettier'],
-    plugins: ['react', 'prettier'],
+    plugins: ['react', 'prettier', 'local-rules'],
     parser: '@babel/eslint-parser',
     parserOptions: { requireConfigFile: false },
     rules: rules.js,

@@ -1,1 +1,1 @@
-import 'offscreen/msgs/scripts/main';
+import 'offscreen/msgs/scripts/events';

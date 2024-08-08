@@ -4,12 +4,11 @@ import { makeObservable, observable, computed, autorun, reaction, action, runInA
 import { i_db } from 'shared_clean/internal';
 import { d_backgrounds, d_pagination, d_scrollable, d_sections } from 'settings/internal';
 
-export class Page {
-    private static i0: Page;
+class Class {
+    private static instance: Class;
 
-    public static i(): Page {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     private constructor() {
@@ -33,14 +32,13 @@ export class Page {
     public page_backgrounds: i_db.Background[] = [];
 
     public get there_are_backgrounds_for_more_than_one_page() {
-        return d_pagination.Main.i().pagination_btns.length > 5;
+        return d_pagination.Pagination.pagination_btns.length > 5;
     }
 
     public get pagination_visibility_cls() {
         return this.there_are_backgrounds_for_more_than_one_page &&
-            d_backgrounds.Main.i().backgrounds.length >
-                d_pagination.Page.i().backgrounds_per_page &&
-            d_backgrounds.Scrollable.i().pagination_height !== 0
+            d_backgrounds.Backgrounds.backgrounds.length > d_pagination.Page.backgrounds_per_page &&
+            d_backgrounds.Scrollable.pagination_height !== 0
             ? ''
             : 'visibility_hidden';
     }
@@ -55,25 +53,25 @@ export class Page {
         err(() => {
             this.page = page;
 
-            d_scrollable.Main.i().set_scroll_backgrounds_scrollable_to_top_bool({
+            d_scrollable.Scrollable.set_scroll_backgrounds_scrollable_to_top_bool({
                 bool: true,
             });
         }, 'cnt_1442');
 
     public set_last = (): Promise<void> =>
         err_async(async () => {
-            await d_pagination.Main.i().set_total_backgrounds();
+            await d_pagination.Pagination.set_total_backgrounds();
 
             runInAction(() =>
                 err(() => {
                     this.page = Math.ceil(
-                        d_pagination.Main.i().total_backgrounds / this.backgrounds_per_page,
+                        d_pagination.Pagination.total_backgrounds / this.backgrounds_per_page,
                     );
                 }, 'cnt_1513'),
             );
 
             // eslint-disable-next-line max-len
-            d_scrollable.Main.i().set_scroll_backgrounds_scrollable_to_bottom_bool({
+            d_scrollable.Scrollable.set_scroll_backgrounds_scrollable_to_bottom_bool({
                 bool: true,
             });
         }, 'cnt_1443');
@@ -87,7 +85,7 @@ export class Page {
 
     public set_backgrounds_per_page_val = (): Promise<void> =>
         err_async(async () => {
-            if (!d_sections.Restore.i().restoring_from_back_up) {
+            if (!d_sections.Restore.restoring_from_back_up) {
                 runInAction(() =>
                     err(() => {
                         if (
@@ -106,7 +104,7 @@ export class Page {
 
                 await this.set_last();
 
-                d_pagination.Main.i().build_pages();
+                d_pagination.Pagination.build_pages();
             }
         }, 'cnt_1459');
 
@@ -120,7 +118,7 @@ export class Page {
             this.offset = (this.page - 1) * this.backgrounds_per_page;
             const limit: number = this.offset + this.backgrounds_per_page;
 
-            this.page_backgrounds = d_backgrounds.Main.i().backgrounds.slice(this.offset, limit);
+            this.page_backgrounds = d_backgrounds.Backgrounds.backgrounds.slice(this.offset, limit);
         }, 'cnt_1447');
 
     public on_page_reaction = (): void =>
@@ -128,7 +126,7 @@ export class Page {
             reaction(
                 () => this.page,
                 () => {
-                    d_pagination.Main.i().build_pages();
+                    d_pagination.Pagination.build_pages();
                 },
             );
         }, 'cnt_1448');
@@ -136,8 +134,8 @@ export class Page {
     public on_page_backgrounds_autorun = (): void =>
         err(() => {
             autorun(async () => {
-                if (d_pagination.Page.i().page_backgrounds.length === 0) {
-                    await d_pagination.Page.i().set_last();
+                if (d_pagination.Page.page_backgrounds.length === 0) {
+                    await d_pagination.Page.set_last();
                 }
             });
         }, 'cnt_1448');
@@ -150,3 +148,5 @@ export class Page {
             );
         }, 'cnt_1457');
 }
+
+export const Page = Class.get_instance();

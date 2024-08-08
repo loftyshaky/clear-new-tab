@@ -1,9 +1,8 @@
-export class GlobalOptions {
-    private static i0: GlobalOptions;
+class Class {
+    private static instance: Class;
 
-    public static i(): GlobalOptions {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -19,3 +18,5 @@ export class GlobalOptions {
             x.remove(s('.global_hidden_link'));
         }, 'cnt_1091');
 }
+
+export const GlobalOptions = Class.get_instance();

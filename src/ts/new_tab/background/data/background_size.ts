@@ -4,12 +4,11 @@ import { makeObservable, observable, action } from 'mobx';
 import { i_db } from 'shared_clean/internal';
 import { d_background, s_background } from 'new_tab/internal';
 
-export class BackgroundSize {
-    private static i0: BackgroundSize;
+class Class {
+    private static instance: Class;
 
-    public static i(): BackgroundSize {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     private constructor() {
@@ -19,20 +18,29 @@ export class BackgroundSize {
             video_width: observable,
             video_height: observable,
             determine_background_size: action,
+            init_vars: action,
         });
     }
 
-    public background_size_setting: string[] = merge({}, d_background.Main.i().default_val_3);
-    public background_size: string[] = merge({}, d_background.Main.i().default_val_3);
-    public video_width: string[] = merge({}, d_background.Main.i().default_val_3);
-    public video_height: string[] = merge({}, d_background.Main.i().default_val_3);
+    public background_size_setting: string[] = [];
+    public background_size: string[] = [];
+    public video_width: string[] = [];
+    public video_height: string[] = [];
     private screen_width: number = globalThis.screen.width;
     private screen_height: number = globalThis.screen.height;
 
+    public init_vars = (): void =>
+        err(() => {
+            this.background_size_setting = merge({}, d_background.Background.default_val_3);
+            this.background_size = merge({}, d_background.Background.default_val_3);
+            this.video_width = merge({}, d_background.Background.default_val_3);
+            this.video_height = merge({}, d_background.Background.default_val_3);
+        }, 'cnt_1524');
+
     private get_background_size_setting = (): void =>
         err(() => {
-            const { background_container_i } = d_background.Main.i();
-            const background_data = d_background.Main.i().background_data[background_container_i];
+            const { background_container_i } = d_background.Background;
+            const background_data = d_background.Background.background_data[background_container_i];
 
             if (n(background_data)) {
                 this.background_size_setting[background_container_i] =
@@ -44,7 +52,7 @@ export class BackgroundSize {
 
     public get_background_size = (): string =>
         err(() => {
-            const { background_container_i } = d_background.Main.i();
+            const { background_container_i } = d_background.Background;
 
             return this.background_size_setting[background_container_i];
         }, 'cnt_1397');
@@ -53,13 +61,13 @@ export class BackgroundSize {
         err(() => {
             this.get_background_size_setting();
 
-            const { background_container_i } = d_background.Main.i();
+            const { background_container_i } = d_background.Background;
             const background_size_setting: string =
                 this.background_size_setting[background_container_i];
 
             if (
-                s_background.Type.i().is_img({ background_container_i }) ||
-                s_background.Type.i().is_video({ background_container_i })
+                s_background.Type.is_img({ background_container_i }) ||
+                s_background.Type.is_video({ background_container_i })
             ) {
                 if (
                     ['dont_resize', 'fit_browser', 'cover_browser', 'stretch_browser'].includes(
@@ -71,7 +79,7 @@ export class BackgroundSize {
                 }
 
                 if (background_size_setting === 'dont_resize') {
-                    this.background_size[background_container_i] = s_background.Type.i().is_img({
+                    this.background_size[background_container_i] = s_background.Type.is_img({
                         background_container_i,
                     })
                         ? 'auto auto'
@@ -87,7 +95,7 @@ export class BackgroundSize {
                 }
 
                 if (background_size_setting === 'stretch_browser') {
-                    this.background_size[background_container_i] = s_background.Type.i().is_img({
+                    this.background_size[background_container_i] = s_background.Type.is_img({
                         background_container_i,
                     })
                         ? '100% 100%'
@@ -109,7 +117,7 @@ export class BackgroundSize {
             const browser_window_width: number = globalThis.innerWidth;
             const browser_window_height: number = globalThis.outerHeight;
 
-            const { background_container_i } = d_background.Main.i();
+            const { background_container_i } = d_background.Background;
             const background_size_setting: string =
                 this.background_size_setting[background_container_i];
             const browser_is_in_fullscreen_mode: boolean =
@@ -161,32 +169,32 @@ export class BackgroundSize {
             }
 
             if (['stretch_screen', 'fit_screen'].includes(background_size_setting)) {
-                if (s_background.Type.i().is_img({ background_container_i })) {
+                if (s_background.Type.is_img({ background_container_i })) {
                     this.background_size[background_container_i] = `${x.px(dims.width)} ${x.px(
                         dims.height,
                     )}`;
-                } else if (s_background.Type.i().is_video({ background_container_i })) {
+                } else if (s_background.Type.is_video({ background_container_i })) {
                     this.video_width[background_container_i] = x.px(dims.width.toString());
                     this.video_height[background_container_i] = x.px(dims.height.toString());
                 }
             } else if (background_size_setting === 'cover_screen') {
                 if (dims.width === window_size.width) {
-                    if (s_background.Type.i().is_img({ background_container_i })) {
+                    if (s_background.Type.is_img({ background_container_i })) {
                         this.background_size[background_container_i] = `auto ${x.px(
                             window_size.height,
                         )}`;
-                    } else if (s_background.Type.i().is_video({ background_container_i })) {
+                    } else if (s_background.Type.is_video({ background_container_i })) {
                         this.video_width[background_container_i] = 'auto';
                         this.video_height[background_container_i] = x.px(
                             window_size.height.toString(),
                         );
                     }
                 } else if (dims.height === window_size.height) {
-                    if (s_background.Type.i().is_img({ background_container_i })) {
+                    if (s_background.Type.is_img({ background_container_i })) {
                         this.background_size[background_container_i] = `${x.px(
                             window_size.width,
                         )} auto`;
-                    } else if (s_background.Type.i().is_video({ background_container_i })) {
+                    } else if (s_background.Type.is_video({ background_container_i })) {
                         this.video_width[background_container_i] = x.px(
                             window_size.width.toString(),
                         );
@@ -195,7 +203,7 @@ export class BackgroundSize {
                 }
             }
 
-            if (s_background.Type.i().is_video({ background_container_i })) {
+            if (s_background.Type.is_video({ background_container_i })) {
                 this.background_size[background_container_i] = 'unset';
             }
         }, 'cnt_1049');
@@ -208,13 +216,17 @@ export class BackgroundSize {
         window_height: number;
     }): { width: number; height: number } =>
         err(() => {
-            const { background_container_i } = d_background.Main.i();
+            const { background_container_i } = d_background.Background;
 
             const background_width = (
-                d_background.Main.i().background_data[background_container_i] as i_db.FileBackground
+                d_background.Background.background_data[
+                    background_container_i
+                ] as i_db.FileBackground
             ).width;
             const background_height = (
-                d_background.Main.i().background_data[background_container_i] as i_db.FileBackground
+                d_background.Background.background_data[
+                    background_container_i
+                ] as i_db.FileBackground
             ).height;
 
             const aspect_ratio = Math.min(
@@ -231,3 +243,5 @@ export class BackgroundSize {
             };
         }, 'cnt_1050');
 }
+
+export const BackgroundSize = Class.get_instance();

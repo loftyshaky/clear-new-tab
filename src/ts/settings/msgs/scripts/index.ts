@@ -1,1 +1,1 @@
-import 'settings/msgs/scripts/main';
+import 'settings/msgs/scripts/events';

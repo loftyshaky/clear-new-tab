@@ -3,12 +3,11 @@ import { MouseEvent } from 'react';
 import { makeObservable, observable, action } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
-export class Actions {
-    private static i0: Actions;
+class Class {
+    private static instance: Class;
 
-    public static i(): Actions {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     private constructor() {
@@ -40,7 +39,7 @@ export class Actions {
         }, 'cnt_1092');
 
     public is_visible = computedFn(function (
-        this: Actions,
+        this: Class,
         {
             background_id,
         }: {
@@ -55,7 +54,7 @@ export class Actions {
     });
 
     public is_opened = computedFn(function (
-        this: Actions,
+        this: Class,
         {
             background_id,
         }: {
@@ -76,3 +75,5 @@ export class Actions {
             }
         }, 'cnt_1093');
 }
+
+export const Actions = Class.get_instance();

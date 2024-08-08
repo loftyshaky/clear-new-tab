@@ -1,12 +1,11 @@
 import { t } from '@loftyshaky/shared/shared_clean';
 import { s_db, s_i, i_db } from 'shared_clean/internal';
 
-export class Color {
-    private static i0: Color;
+class Class {
+    private static instance: Class;
 
-    public static i(): Color {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -57,7 +56,7 @@ export class Color {
                 {
                     id,
                     theme_id,
-                    i: s_i.Main.i().get_next_i({
+                    i: s_i.I.get_next_i({
                         items: backgrounds,
                     }),
                     type: 'color',
@@ -78,7 +77,7 @@ export class Color {
                 },
             ];
 
-            await s_db.Manipulation.i().save_backgrounds({
+            await s_db.Manipulation.save_backgrounds({
                 backgrounds: new_backgrounds,
                 background_thumbnails: new_background_thumbnails,
                 background_files: new_background_files,
@@ -124,3 +123,5 @@ export class Color {
             return new_backgrounds;
         }, 'cnt_1108');
 }
+
+export const Color = Class.get_instance();

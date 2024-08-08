@@ -4,12 +4,11 @@ import { makeObservable, observable, action } from 'mobx';
 import { i_db } from 'shared_clean/internal';
 import { d_background, i_background } from 'new_tab/internal';
 
-export class VideoReapeat {
-    private static i0: VideoReapeat;
+class Class {
+    private static instance: Class;
 
-    public static i(): VideoReapeat {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     private constructor() {
@@ -137,16 +136,15 @@ export class VideoReapeat {
                     background_container_i,
                     get_background_position_no_dict,
                     get_background_repeat_no_dict,
-                } = d_background.Main.i();
+                } = d_background.Background;
 
                 this.browser_window_width = globalThis.innerWidth;
                 this.browser_window_height = globalThis.innerHeight;
                 const center_x: number = this.browser_window_width / 2;
                 const center_y: number = this.browser_window_height / 2;
 
-                const background_data: i_db.FileBackground = d_background.Main.i().background_data[
-                    background_container_i
-                ] as i_db.FileBackground;
+                const background_data: i_db.FileBackground = d_background.Background
+                    .background_data[background_container_i] as i_db.FileBackground;
 
                 if (n(background_data)) {
                     const set_repeat_positions = (): void =>
@@ -223,12 +221,12 @@ export class VideoReapeat {
                         }, 'cnt_1519');
 
                     this.background_width = (
-                        d_background.Main.i().background_data[
+                        d_background.Background.background_data[
                             background_container_i
                         ] as i_db.FileBackground
                     ).width;
                     this.background_height = (
-                        d_background.Main.i().background_data[
+                        d_background.Background.background_data[
                             background_container_i
                         ] as i_db.FileBackground
                     ).height;
@@ -237,7 +235,7 @@ export class VideoReapeat {
                     const background_position: string = get_background_position_no_dict();
                     const background_repeat: string = get_background_repeat_no_dict();
                     const background_size: string =
-                        d_background.BackgroundSize.i().get_background_size();
+                        d_background.BackgroundSize.get_background_size();
                     this.background_position_is_center_x = ['top', 'center', 'bottom'].includes(
                         background_position,
                     );
@@ -403,7 +401,7 @@ export class VideoReapeat {
             this.bottom = undefined;
             const is_first_repeating_video = video_i === 0;
             const background_position: string =
-                d_background.Main.i().get_background_position_no_dict();
+                d_background.Background.get_background_position_no_dict();
             this.main_video_positioned_to_left_edge = [
                 'left_top',
                 'left_center',
@@ -566,3 +564,5 @@ export class VideoReapeat {
             this.loaded_videos_count += 1;
         }, 'cnt_1399');
 }
+
+export const VideoReapeat = Class.get_instance();

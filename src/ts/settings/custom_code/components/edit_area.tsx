@@ -9,8 +9,8 @@ export const EditArea: React.FunctionComponent<p_custom_code.EditArea> = observe
     const { type } = props;
 
     useEffect(() => {
-        s_custom_code.CodeMirror.i().init_calls.push((): void => {
-            s_custom_code.CodeMirror.i().init({ type, editor_el: editor_ref.current });
+        s_custom_code.CodeMirror.init_calls.push((): void => {
+            s_custom_code.CodeMirror.init({ type, editor_el: editor_ref.current });
         });
     }, [type]);
 

@@ -1,1 +1,1 @@
-import 'new_tab/msgs/scripts/main';
+import 'new_tab/msgs/scripts/events';

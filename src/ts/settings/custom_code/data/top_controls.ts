@@ -3,12 +3,11 @@ import { o_inputs, i_inputs } from '@loftyshaky/shared/inputs';
 import { svg } from 'shared/internal';
 import { d_custom_code } from 'settings/internal';
 
-export class TopControls {
-    private static i0: TopControls;
+class Class {
+    private static instance: Class;
 
-    public static i(): TopControls {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -22,18 +21,19 @@ export class TopControls {
                 new o_inputs.IconBtn({
                     name: 'show_code_editor_help',
                     Svg: svg.Help,
-                    event_callback: d_custom_code.Help.i().change_help_visibility,
+                    event_callback: d_custom_code.Help.change_help_visibility,
                 }),
                 new o_inputs.IconBtn({
                     name: 'close_code_editor',
                     Svg: svg.Close,
-                    event_callback: () =>
-                        d_custom_code.Visibility.i().change({ is_visible: false }),
+                    event_callback: () => d_custom_code.Visibility.change({ is_visible: false }),
                 }),
             ];
 
-            this.top_controls = s_utils.Main.i().to_object({
+            this.top_controls = s_utils.Utils.to_object({
                 arr: this.top_controls as o_inputs.IconBtn[],
             });
         }, 'cnt_1188');
 }
+
+export const TopControls = Class.get_instance();

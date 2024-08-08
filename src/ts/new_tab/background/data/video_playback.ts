@@ -1,11 +1,10 @@
 import { makeObservable, observable, action } from 'mobx';
 
-export class VideoPlayback {
-    private static i0: VideoPlayback;
+class Class {
+    private static instance: Class;
 
-    public static i(): VideoPlayback {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     private constructor() {
@@ -22,3 +21,5 @@ export class VideoPlayback {
             this.is_playing = is_playing;
         }, 'cnt_1061');
 }
+
+export const VideoPlayback = Class.get_instance();

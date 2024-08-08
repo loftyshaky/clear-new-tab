@@ -2,12 +2,11 @@ import { makeObservable, observable, action } from 'mobx';
 
 import { vars } from 'shared_clean/internal';
 
-export class Position {
-    private static i0: Position;
+class Class {
+    private static instance: Class;
 
-    public static i(): Position {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     private constructor() {
@@ -35,3 +34,5 @@ export class Position {
             }
         }, 'cnt_1235');
 }
+
+export const Position = Class.get_instance();

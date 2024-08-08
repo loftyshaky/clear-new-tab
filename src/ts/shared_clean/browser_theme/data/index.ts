@@ -1,1 +1,1 @@
-export * from 'shared_clean/browser_theme/data/main';
+export * from 'shared_clean/browser_theme/data/backgrounds';

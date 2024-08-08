@@ -19,7 +19,7 @@ export const BackgroundPreview: React.FunctionComponent<p_scheduler.BackgroundPr
         useEffect(() => {
             const set_background_2 = (): Promise<void> =>
                 err_async(async () => {
-                    const background_2: string = await d_scheduler.BackgroundPreview.i().get({
+                    const background_2: string = await d_scheduler.BackgroundPreview.get({
                         background_id,
                     });
 
@@ -29,8 +29,8 @@ export const BackgroundPreview: React.FunctionComponent<p_scheduler.BackgroundPr
             set_background_2();
         }, [background_id]);
 
-        return d_scheduler.BackgroundPreview.i().background_is_color({ background_id }) &&
-            background !== d_scheduler.BackgroundPreview.i().placeholder_img ? (
+        return d_scheduler.BackgroundPreview.background_is_color({ background_id }) &&
+            background !== d_scheduler.BackgroundPreview.placeholder_img ? (
             <div className='background_preview color' style={{ backgroundColor: background }} />
         ) : (
             <BackgroundPreviewImg />

@@ -4,12 +4,11 @@ import { i_data } from '@loftyshaky/shared/shared';
 import { s_db } from 'shared_clean/internal';
 import { d_background_settings } from 'settings/internal';
 
-export class Val {
-    private static i0: Val;
+class Class {
+    private static instance: Class;
 
-    public static i(): Val {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     private constructor() {
@@ -34,7 +33,7 @@ export class Val {
                 if (data.ui.settings_context === 'global') {
                     data.settings[name] = new_val;
 
-                    d_background_settings.SettingsContext.i().react_to_global_selection();
+                    d_background_settings.SettingsContext.react_to_global_selection();
 
                     await ext.send_msg_resp({
                         msg: 'update_settings_background',
@@ -55,14 +54,14 @@ export class Val {
         new_val: i_data.Val;
     }): Promise<void> =>
         err_async(async () => {
-            (d_background_settings.SettingsContext.i().selected_background as any)[name] = new_val;
+            (d_background_settings.SettingsContext.selected_background as any)[name] = new_val;
 
-            d_background_settings.SettingsContext.i().react_to_background_selection({
-                background: d_background_settings.SettingsContext.i().selected_background,
+            d_background_settings.SettingsContext.react_to_background_selection({
+                background: d_background_settings.SettingsContext.selected_background,
             });
 
-            await s_db.Manipulation.i().update_background({
-                background: d_background_settings.SettingsContext.i().selected_background!,
+            await s_db.Manipulation.update_background({
+                background: d_background_settings.SettingsContext.selected_background!,
             });
 
             await ext.send_msg_resp({
@@ -78,3 +77,4 @@ export class Val {
             });
         }, 'cnt_1089');
 }
+export const Val = Class.get_instance();

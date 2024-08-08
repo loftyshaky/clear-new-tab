@@ -1,11 +1,10 @@
 import { d_background, s_background } from 'new_tab/internal';
 
-export class Load {
-    private static i0: Load;
+class Class {
+    private static instance: Class;
 
-    public static i(): Load {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -15,15 +14,15 @@ export class Load {
         new Promise((resolve, reject) => {
             err(() => {
                 try {
-                    const { background_container_i } = d_background.Main.i();
+                    const { background_container_i } = d_background.Background;
                     const background: HTMLImageElement | HTMLVideoElement =
-                        s_background.Type.i().is_img({ background_container_i })
+                        s_background.Type.is_img({ background_container_i })
                             ? new globalThis.Image()
                             : document.createElement('video');
 
                     x.bind(
                         background,
-                        s_background.Type.i().is_img({ background_container_i })
+                        s_background.Type.is_img({ background_container_i })
                             ? 'load'
                             : 'loadeddata',
                         () =>
@@ -43,14 +42,14 @@ export class Load {
                     );
 
                     if (
-                        s_background.Type.i().is_img({ background_container_i }) ||
-                        s_background.Type.i().is_video({ background_container_i })
+                        s_background.Type.is_img({ background_container_i }) ||
+                        s_background.Type.is_video({ background_container_i })
                     ) {
-                        background.src = s_background.Type.i().is_img_link({
+                        background.src = s_background.Type.is_img_link({
                             background_container_i,
                         })
-                            ? (d_background.Main.i().background[background_container_i] as string)
-                            : d_background.Main.i().background[background_container_i];
+                            ? (d_background.Background.background[background_container_i] as string)
+                            : d_background.Background.background[background_container_i];
                     } else {
                         resolve();
                     }
@@ -63,15 +62,17 @@ export class Load {
     public wait_to_visibility = (): Promise<void> =>
         err_async(
             async () => {
-                const { background_container_i } = d_background.Main.i();
+                const { background_container_i } = d_background.Background;
 
-                if (!s_background.Type.i().is_color({ background_container_i })) {
+                if (!s_background.Type.is_color({ background_container_i })) {
                     await this.load_background();
                 }
 
-                d_background.Classes.i().set_classes();
+                d_background.Classes.set_classes();
             },
             'cnt_1065',
             { silent: true },
         );
 }
+
+export const Load = Class.get_instance();

@@ -5,12 +5,11 @@ import { makeObservable, observable, computed, action } from 'mobx';
 import { i_db } from 'shared_clean/internal';
 import { d_background, s_background } from 'new_tab/internal';
 
-export class Classes {
-    private static i0: Classes;
+class Class {
+    private static instance: Class;
 
-    public static i(): Classes {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     private constructor() {
@@ -22,6 +21,7 @@ export class Classes {
             video_is_visible_cls: observable,
             videos_load_video_is_visible_cls: computed,
             set_classes: action,
+            init_vars: action,
         });
     }
 
@@ -39,32 +39,38 @@ export class Classes {
     public video_no_tr_cls: string[] = ['no_tr', 'no_tr'];
     public img_is_visible_cls: string[] = ['opacity_0', 'opacity_0'];
     public video_is_visible_cls: string[] = ['opacity_0', 'opacity_0'];
-    public background_is_sliding_cls: string[] = merge({}, d_background.Main.i().default_val_3);
-    public background_is_no_effect_cls: string[] = merge({}, d_background.Main.i().default_val_3);
+    public background_is_sliding_cls: string[] = [];
+    public background_is_no_effect_cls: string[] = [];
 
     public get videos_load_video_is_visible_cls() {
-        return d_background.VideoReapeat.i().loaded_videos_count >=
-            d_background.VideoReapeat.i().total_videos_count
+        return d_background.VideoReapeat.loaded_videos_count >=
+            d_background.VideoReapeat.total_videos_count
             ? ''
             : 'opacity_0';
     }
 
+    public init_vars = (): void =>
+        err(() => {
+            this.background_is_sliding_cls = merge({}, d_background.Background.default_val_3);
+            this.background_is_no_effect_cls = merge({}, d_background.Background.default_val_3);
+        }, 'cnt_1526');
+
     public set_classes = (): void =>
         err(() => {
             const { background_file, background_container_i, opposite_background_container_i } =
-                d_background.Main.i();
+                d_background.Background;
             const is_img_or_color =
-                s_background.Type.i().is_img({ background_container_i }) ||
-                s_background.Type.i().is_color({ background_container_i });
+                s_background.Type.is_img({ background_container_i }) ||
+                s_background.Type.is_color({ background_container_i });
             const is_img_or_color_opposite =
-                s_background.Type.i().is_img({
+                s_background.Type.is_img({
                     background_container_i: opposite_background_container_i,
                 }) ||
-                s_background.Type.i().is_color({
+                s_background.Type.is_color({
                     background_container_i: opposite_background_container_i,
                 });
-            const is_video = s_background.Type.i().is_video({ background_container_i });
-            const is_video_opposite = s_background.Type.i().is_video({
+            const is_video = s_background.Type.is_video({ background_container_i });
+            const is_video_opposite = s_background.Type.is_video({
                 background_container_i: opposite_background_container_i,
             });
             const is_crossfade_background_change_effect: boolean =
@@ -109,7 +115,7 @@ export class Classes {
                 ).id;
 
                 this.no_tr =
-                    d_background.Main.i().current_object_url_background_id ===
+                    d_background.Background.current_object_url_background_id ===
                     new_object_url_background_id;
             }
         }, 'cnt_1051');
@@ -143,3 +149,5 @@ export class Classes {
             return '';
         }, 'cnt_1053');
 }
+
+export const Classes = Class.get_instance();

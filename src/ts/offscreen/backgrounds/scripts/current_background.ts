@@ -1,11 +1,10 @@
 import { s_db, i_db } from 'shared_clean/internal';
 
-export class CurrentBackground {
-    private static i0: CurrentBackground;
+class Class {
+    private static instance: Class;
 
-    public static i(): CurrentBackground {
-        // eslint-disable-next-line no-return-assign
-        return this.i0 || (this.i0 = new this());
+    public static get_instance(): Class {
+        return this.instance || (this.instance = new this());
     }
 
     // eslint-disable-next-line no-useless-constructor, no-empty-function
@@ -27,11 +26,11 @@ export class CurrentBackground {
             if (current_background_id !== this.last_current_background_id || force) {
                 this.last_current_background_id = current_background_id;
 
-                const background: i_db.Background = await s_db.Manipulation.i().get_background({
+                const background: i_db.Background = await s_db.Manipulation.get_background({
                     id: current_background_id,
                 });
                 const background_file: i_db.BackgroundFile =
-                    await s_db.Manipulation.i().get_background_file({
+                    await s_db.Manipulation.get_background_file({
                         id: current_background_id,
                     });
 
@@ -58,3 +57,5 @@ export class CurrentBackground {
             }
         }, 'cnt_1477');
 }
+
+export const CurrentBackground = Class.get_instance();
