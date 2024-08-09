@@ -21,6 +21,7 @@ we.runtime.onMessage.addListener((msg: t.Msg): any =>
                     update_background: msg.update_background,
                     transform: n(msg.transform) ? msg.transform : false,
                     load_settings: n(msg.load_settings) ? msg.load_settings : true,
+                    transform_force: n(msg.transform_force) ? msg.transform_force : false,
                 })
                     .then(() => true)
                     .catch((error_obj: any) => show_err_ribbon(error_obj, 'cnt_1483'));
@@ -31,6 +32,7 @@ we.runtime.onMessage.addListener((msg: t.Msg): any =>
                 msg.update_background,
                 n(msg.transform) ? msg.transform : false,
                 n(msg.load_settings) ? msg.load_settings : true,
+                n(msg.transform_force) ? msg.transform_force : false,
             )
                 .then(() => true)
                 .catch((error_obj: any) => show_err_ribbon(error_obj, 'cnt_1484'));

@@ -3,6 +3,7 @@ import { i_data } from 'shared_clean/internal';
 
 export interface Settings extends i_data.Date {
     [index: string]: any;
+    version: string;
     options_page_theme: string;
     transition_duration: number;
     color_help_is_visible: boolean;
@@ -12,7 +13,6 @@ export interface Settings extends i_data.Date {
     offers_are_visible: boolean;
     admin_section_content_is_visible: boolean;
     colors: i_color.Color[];
-    last_version: undefined | string;
     install_help_is_visible: boolean;
     mode: string;
     color_type: string;

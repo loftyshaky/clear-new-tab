@@ -17,20 +17,11 @@ class Class {
 
             if (
                 env.mode === 'production' &&
-                n(settings.last_version) &&
-                ((env.browser === 'chrome' && settings.last_version === '5.10.0') ||
-                    (env.browser === 'edge' && settings.last_version === '5.10.2'))
+                n(settings.version) &&
+                ((env.browser === 'chrome' && settings.version === '5.10.0') ||
+                    (env.browser === 'edge' && settings.version === '5.10.2'))
             ) {
                 s_announcement.Visibility.display();
-            }
-
-            const version: string = await we.runtime.getManifest().version;
-
-            // if condition needed to prevent overwriting current_background_id by current value when uploading background while background service worker inactive
-            if (settings.last_version !== version) {
-                settings.last_version = version;
-
-                await ext.storage_set(settings);
             }
         }, 'cnt_1369');
 }

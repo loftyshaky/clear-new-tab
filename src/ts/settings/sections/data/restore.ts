@@ -433,6 +433,7 @@ class Class {
                         update_background: true,
                         update_instantly: true,
                         transform: true,
+                        transform_force: true,
                     });
 
                     await s_theme.Theme.reset({ transition_duration });

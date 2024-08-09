@@ -19,6 +19,7 @@ class Class {
     public init_defaults = (): void =>
         err(() => {
             this.defaults = {
+                version: ext.get_app_version(),
                 options_page_theme: 'lavender',
                 transition_duration: 200,
                 color_help_is_visible: true,
@@ -28,7 +29,6 @@ class Class {
                 offers_are_visible: true,
                 admin_section_content_is_visible: false,
                 colors: s_color.Colors.default_colors,
-                last_version: undefined,
                 install_help_is_visible: true,
                 mode: 'theme_background',
                 color_type: 'pastel',
@@ -73,11 +73,13 @@ class Class {
         update_background,
         transform = false,
         load_settings = true,
+        transform_force = false,
     }: {
         settings?: i_data.Settings;
         update_background?: boolean;
         transform?: boolean;
         load_settings?: boolean;
+        transform_force?: boolean;
     } = {}): Promise<void> =>
         err_async(async () => {
             const settings_2: i_data.Settings = n(settings)
@@ -87,7 +89,10 @@ class Class {
             let settings_final: i_data.Settings = settings_2;
 
             if (transform) {
-                settings_final = await this.transform({ settings: settings_2 });
+                settings_final = await this.transform({
+                    settings: settings_2,
+                    force: transform_force,
+                });
             }
 
             await ext.storage_set(settings_final);
@@ -119,6 +124,7 @@ class Class {
             update_background?: boolean,
             transform: boolean = false,
             load_settings: boolean = true,
+            transform_force: boolean = false,
         ) =>
             err_async(async () => {
                 await this.update_settings({
@@ -126,6 +132,7 @@ class Class {
                     update_background,
                     transform,
                     load_settings,
+                    transform_force,
                 });
             }, 'cnt_1321'),
         500,
@@ -147,7 +154,13 @@ class Class {
             }
         }, 'cnt_1322');
 
-    private transform = ({ settings }: { settings: i_data.Settings }): Promise<i_data.Settings> =>
+    private transform = ({
+        settings,
+        force = false,
+    }: {
+        settings: i_data.Settings;
+        force?: boolean;
+    }): Promise<i_data.Settings> =>
         err_async(async () => {
             // This function is also fired when restoring backup
             const transform_items: o_schema.TransformItem[] = [
@@ -169,7 +182,7 @@ class Class {
                 }),
                 new o_schema.TransformItem({
                     new_key: 'backgrounds_per_page',
-                    new_val: 500,
+                    new_val: 200,
                 }),
                 new o_schema.TransformItem({
                     new_key: 'admin_section_content_is_visible',
@@ -179,24 +192,20 @@ class Class {
                     new_key: 'developer_mode',
                     new_val: false,
                 }),
-                new o_schema.TransformItem({
-                    new_key: 'offers_are_visible',
-                    new_val: true,
-                }),
-                new o_schema.TransformItem({
-                    new_key: 'persistent_service_worker',
-                    new_val: true,
-                }),
             ];
 
-            const settings_final: i_data.Settings = await d_schema.Schema.transform({
+            const updated_settings: i_data.Settings = await d_schema.Schema.transform({
                 data: settings,
                 transform_items,
-                remove_from_storage: false,
-                keys_to_remove: ['upload_background', 'options_page_tab_id'],
+                keys_to_remove: ['upload_background', 'options_page_tab_id', 'last_version'],
+                force,
             });
 
-            return settings_final;
+            updated_settings.version = ext.get_app_version();
+
+            await d_schema.Schema.replace({ data: updated_settings });
+
+            return updated_settings;
         }, 'cnt_1199');
 }
 
