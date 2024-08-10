@@ -13,7 +13,7 @@ class Class {
             we.tabs.update({
                 url:
                     env.browser === 'edge'
-                        ? 'https://ntp.msn.com/edge/ntp?sp=Bing'
+                        ? 'https://ntp.msn.com/edge/ntp'
                         : 'chrome://new-tab-page',
             });
         }, 'cnt_1009');
