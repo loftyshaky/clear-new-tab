@@ -11,9 +11,6 @@
     "msg_to_user_firefox_text": {
         "message": ""
     },
-    "color_of_area_around_background_label_width": {
-        "message": "217px"
-    },
     "select_background_notification": {
         "message": "Чтобы изменить настройки определённого фона, сначала выберите его из секции \"Фоны\"."
     },

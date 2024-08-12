@@ -50,11 +50,12 @@ $backgrounds_section_max_width: 922px;
                 margin-left: $gap !important;
             }
 
-            &.group .input_item.text {
+            &.group .input_item.text,
+            .group .input_item.range {
                 width: 100%;
 
                 .input_w {
-                    width: 100%;
+                    width: 100% !important;
                 }
             }
         }

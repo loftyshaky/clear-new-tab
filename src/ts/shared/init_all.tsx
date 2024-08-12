@@ -11,7 +11,7 @@ import {
     s_theme as s_theme_shared,
     s_title,
 } from '@loftyshaky/shared/shared';
-import { d_inputs, i_inputs } from '@loftyshaky/shared/inputs';
+import { d_inputs } from '@loftyshaky/shared/inputs';
 import { s_css_vars, s_suffix, s_theme } from 'shared_clean/internal';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, @typescript-eslint/no-unused-vars
@@ -210,10 +210,7 @@ class Class {
                     s_custom_code.CodeMirror.init_all();
 
                     d_install_help.Visibility.bind_hide();
-                    await d_inputs.InputWidth.calculate_for_all_sections({
-                        sections: d_sections.Sections.sections as i_inputs.Sections,
-                        all_sections_inputs_equal_width: true,
-                    });
+                    await d_inputs.InputWidth.calculate();
                     d_sections.Width.set();
                     d_scheduler.Position.set_left();
                     await d_scheduler.Val.set_add_new_task_btn_ability();

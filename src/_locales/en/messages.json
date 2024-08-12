@@ -5,6 +5,9 @@
     "description": {
         "message": "Remove everything from the new tab page while keeping your theme background, or use any image, GIF, or video as a custom wallpaper."
     },
+    "input_min_width_css": {
+        "message": "0"
+    },
     "msg_to_user_chrome_text": {
         "message": "Clear New Tab has been updated to version 6.0.0 ✨. All backgrounds were removed and settings were restored to default. Sorry for the inconvenience 😊.\n\nThe video about new features:<iframe width=\"1280\" height=\"720\" src=\"https://www.youtube.com/embed/g0X-iZyeDnc\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>"
     },
@@ -13,9 +16,6 @@
     },
     "msg_to_user_firefox_text": {
         "message": ""
-    },
-    "color_of_area_around_background_label_width": {
-        "message": "229px"
     },
     "select_background_notification": {
         "message": "To change settings of a particular background, select it from the \"Backgrounds\" section first."
