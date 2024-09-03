@@ -1,4 +1,4 @@
-A browser extension that removes everything from the new tab page and displays any image, gif or video in it as a wallpaper.
+A browser extension that enables you to remove everything from the new tab page while keeping your theme background, or use any image, GIF, or video as a custom wallpaper.
 
 ## Links
 
