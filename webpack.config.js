@@ -84,7 +84,7 @@ module.exports = (env, argv) => {
             } else {
                 reloader.reload({
                     ext_id,
-                    play_sound: true,
+                    play_notifications: true,
                 });
             }
         },
