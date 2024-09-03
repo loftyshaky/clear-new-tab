@@ -494,7 +494,7 @@
     "install_help_firefox_text": {
         "message": "Спасибо за установку Clear New Tab! Вы можете установить тему из <a class='link extension_store' href='https://chromewebstore.google.com/category/themes' target='_blank' rel='noopener noreferrer'>интернет-магазина Chrome</a> или загрузить свой фон с помощью формы ниже. Если вам нужна помощь по использованию расширения, кликните на кнопки ? или посмотрите <a class='link video_guide' href='https://www.youtube.com/watch?v=_Z9Lxb7qx2Y' target='_blank' rel='noopener noreferrer'>видеоруководство</a>. Нажмите <button class='btn link_btn hide_install_help' type='button' tabindex='0'>сюда</button>, чтобы скрыть это сообщение."
     },
-    "back_up_help_text": {
+    "restore_help_text": {
         "message": "Здесь вы можете скачать и восстановить резервную копию данных Clear New Tab. Все данные Clear New Tab будут включены в резервную копию, включая ваши фоны и пользовательский HTML. Если размер данных превысит 512 мб, резервная копия будет разделена на несколько файлов. Восстановить резервную копию можно загрузив все файлы сразу. Если что-то пошло не так, вы можете загрузить каждый файл по отдельности начиная с первой части (Part 1)."
     },
     "scheduler_help_text": {

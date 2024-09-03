@@ -509,7 +509,7 @@
     "install_help_firefox_text": {
         "message": "Thank you for installing Clear New Tab! You can install a theme from the <a class='link extension_store' href='https://chromewebstore.google.com/category/themes' target='_blank' rel='noopener noreferrer'>Chrome Web Store</a> or upload your own background with the form below. If you need help on how to use the extension click on ? buttons or watch the <a class='link video_guide' href='https://www.youtube.com/watch?v=_Z9Lxb7qx2Y' target='_blank' rel='noopener noreferrer'>video guide</a>. Click <button class='btn link_btn hide_install_help' type='button' tabindex='0'>here</button> to hide this message."
     },
-    "back_up_help_text": {
+    "restore_help_text": {
         "message": "Here you can download and restore a Clear New Tab data back up. All Clear New Tab data is included in the back up, including your backgrounds and custom HTML/CSS/JS. If the data size exceeds 512 megabytes, the backup will be split into multiple files. You can restore a backup by uploading all files at once. Or, if something went wrong, you can upload each file individually starting from the first part (Part 1)."
     },
     "scheduler_help_text": {

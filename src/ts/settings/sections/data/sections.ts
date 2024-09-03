@@ -460,7 +460,7 @@ class Class {
                         }),
                     ],
                     include_back_up_help: true,
-                    back_up_help_msg: ext.msg('back_up_help_text'),
+                    restore_help_msg: ext.msg('restore_help_text'),
                     download_backup: false,
                     allow_multiple_file_backup_upload: true,
                     admin_content_is_hideable: true,
