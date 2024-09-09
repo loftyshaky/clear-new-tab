@@ -33,7 +33,7 @@ const env_instance = new Env({ app_root });
 const locales = new Locales({ app_root, exclude_shared_locales: ['de'] });
 const dependencies = new Dependencies();
 
-const ext_id = 'nnmhbhoglljdlhbllfgkemgenlplalie';
+const extension_id = 'nnmhbhoglljdlhbllfgkemgenlplalie';
 
 module.exports = (env, argv) => {
     const paths = {
@@ -80,10 +80,10 @@ module.exports = (env, argv) => {
             const an_error_occured = stats.compilation.errors.length !== 0;
 
             if (an_error_occured) {
-                reloader.play_error_notification({ ext_id });
+                reloader.play_error_notification({ extension_id });
             } else {
                 reloader.reload({
-                    ext_id,
+                    extension_id,
                     play_notifications: true,
                 });
             }
