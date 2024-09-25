@@ -113,8 +113,6 @@ const rules = {
         'brace-style': 'off',
         '@typescript-eslint/no-inferrable-types': 'off',
         '@typescript-eslint/no-non-null-assertion': 'off',
-        '@typescript-eslint/brace-style': ['error', '1tbs', { allowSingleLine: true }],
-        '@typescript-eslint/type-annotation-spacing': 'error',
         '@typescript-eslint/prefer-includes': 'error',
         //< typescript
 
