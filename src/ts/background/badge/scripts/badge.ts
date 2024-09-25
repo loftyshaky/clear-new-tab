@@ -8,7 +8,7 @@ class Class {
     // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
-    public set_badge_text = ({
+    public set_text = ({
         uploading_theme_background,
     }: {
         uploading_theme_background: boolean;
