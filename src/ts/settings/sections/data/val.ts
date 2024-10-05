@@ -2,10 +2,11 @@ import { action } from 'mobx';
 
 import { i_data, i_color as i_color_shared } from '@loftyshaky/shared/shared';
 import { o_color, d_inputs, d_color, i_inputs, i_color } from '@loftyshaky/shared/inputs';
-import { d_developer_mode, s_settings } from '@loftyshaky/shared/settings';
+import { d_developer_mode, s_sections } from '@loftyshaky/shared/settings';
 import {
     vars,
     d_backgrounds as d_backgrounds_shared,
+    d_data,
     s_css_vars,
     s_theme,
 } from 'shared_clean/internal';
@@ -74,12 +75,12 @@ class Class {
                         } else if (
                             ['mode', 'slideshow', 'background_change_interval'].includes(input.name)
                         ) {
-                            data.settings[input.name] = val;
-                            data.settings.background_change_time = new Date().getTime();
+                            data.settings.prefs[input.name] = val;
+                            data.settings.prefs.background_change_time = new Date().getTime();
 
-                            await ext.send_msg_resp({
-                                msg: 'update_settings_background',
+                            await d_data.Manipulation.send_msg_to_update_settings({
                                 settings: data.settings,
+                                load_settings: true,
                                 update_instantly: true,
                             });
 
@@ -99,9 +100,13 @@ class Class {
                         } else if (input.name !== 'create_solid_color_background') {
                             const is_text_input: boolean = input.type === 'text';
 
-                            await ext.send_msg_resp({
-                                msg: 'update_settings_background',
-                                settings: { [input.name]: val },
+                            await d_data.Manipulation.send_msg_to_update_settings({
+                                settings: {
+                                    prefs: {
+                                        ...data.settings.prefs,
+                                        [input.name]: val,
+                                    },
+                                },
                                 update_background: input.name === 'enable_video_repeat', // Whithout this, video in new tab would disappear when you enable video repeat. To reproduce this bug do the following: 1. Remove update_background: input.name === 'enable_video_repeat'. 2. Open options page and disable "Enable the ability to repeat video backgrounds". 2. Open new tab. 3. Enable "Enable the ability to repeat video backgrounds". 4. Go to new tab and observe no video there.
                                 update_instantly: !is_text_input,
                                 load_settings: !is_text_input,
@@ -191,7 +196,7 @@ class Class {
                         await set_val();
                     }
 
-                    s_settings.Theme.change({
+                    s_sections.Theme.change({
                         input,
                         name: val as string,
                         additional_theme_callback: s_theme.Theme.set,
@@ -214,15 +219,20 @@ class Class {
                         });
                     }
                 } else if (n(i)) {
-                    const { colors } = data.settings;
+                    const { colors } = data.settings.prefs;
 
                     colors[i] = val;
 
                     s_css_vars.CssVars.set();
 
-                    await ext.send_msg_resp({
-                        msg: 'update_settings_background',
-                        settings: { colors },
+                    await d_data.Manipulation.send_msg_to_update_settings({
+                        settings: {
+                            prefs: {
+                                ...data.settings.prefs,
+                                colors,
+                            },
+                        },
+                        load_settings: true,
                         update_instantly: true,
                         update_background: true,
                     });
@@ -237,9 +247,14 @@ class Class {
             if (['year', 'time'].includes(input.name)) {
                 this.change({ input });
 
-                await ext.send_msg_resp({
-                    msg: 'update_settings_background',
-                    settings: { [input.name]: vars.scheduler_none_val },
+                await d_data.Manipulation.send_msg_to_update_settings({
+                    settings: {
+                        prefs: {
+                            ...data.settings.prefs,
+                            [input.name]: vars.scheduler_none_val,
+                        },
+                    },
+                    load_settings: true,
                     update_instantly: true,
                 });
 
@@ -264,9 +279,14 @@ class Class {
 
     public remove_color_callback = ({ input }: { input: o_color.Color }): Promise<void> =>
         err_async(async () => {
-            await ext.send_msg_resp({
-                msg: 'update_settings_background',
-                settings: { [input.name]: '' },
+            await d_data.Manipulation.send_msg_to_update_settings({
+                settings: {
+                    prefs: {
+                        ...data.settings.prefs,
+                        [input.name]: '',
+                    },
+                },
+                load_settings: true,
             });
         }, 'cnt_1292');
 
@@ -275,34 +295,52 @@ class Class {
     }: {
         default_colors: i_color_shared.Color[];
     }): Promise<void> =>
-        err_async(async () => {
-            await ext.send_msg_resp({
-                msg: 'update_settings_background',
-                settings: { colors: default_colors },
-            });
-        }, 'cnt_1293');
+        err_async(
+            async () =>
+                d_data.Manipulation.send_msg_to_update_settings({
+                    settings: {
+                        prefs: {
+                            ...data.settings.prefs,
+                            colors: default_colors,
+                        },
+                    },
+                    load_settings: true,
+                }),
+            'cnt_1293',
+        );
 
     public admin_change_visibility_of_content_save_callback = ({
         bool,
     }: {
         bool: boolean;
     }): Promise<void> =>
-        err_async(async () => {
-            await ext.send_msg_resp({
-                msg: 'update_settings_background',
-                settings: { admin_section_content_is_visible: bool },
-                update_instantly: false,
-                load_settings: false,
-            });
-        }, 'cnt_1470');
+        err_async(
+            async () =>
+                d_data.Manipulation.send_msg_to_update_settings({
+                    settings: {
+                        prefs: {
+                            ...data.settings.prefs,
+                            admin_section_content_is_visible: bool,
+                        },
+                    },
+                    update_instantly: false,
+                    load_settings: false,
+                }),
+            'cnt_1470',
+        );
 
     public enable_developer_mode = (): Promise<void> =>
         err_async(async () => {
             d_developer_mode.DeveloperMode.enable({
                 save_callback: async () =>
-                    ext.send_msg_resp({
-                        msg: 'update_settings_background',
-                        settings: { developer_mode: data.settings.developer_mode },
+                    d_data.Manipulation.send_msg_to_update_settings({
+                        settings: {
+                            prefs: {
+                                ...data.settings.prefs,
+                                developer_mode: data.settings.prefs.developer_mode,
+                            },
+                        },
+                        load_settings: true,
                         update_instantly: true,
                         update_background: true,
                     }),

@@ -5,7 +5,7 @@ import { svg } from 'shared/internal';
 import { d_home_btn, s_home_btn } from 'new_tab/internal';
 
 export const Body: React.FunctionComponent = observer(() =>
-    data.settings.home_btn_is_visible ? (
+    data.settings.prefs.home_btn_is_visible ? (
         <a
             className={x.cls(['home_btn', d_home_btn.Position.position])}
             href='chrome://new-tab-page'

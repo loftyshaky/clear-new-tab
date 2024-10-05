@@ -14,7 +14,7 @@ export const init = (): Promise<void> =>
         await ext.send_msg_resp({ msg: 'push_tab_id' });
         ext.send_msg({
             msg: 'get_background',
-            allow_to_start_slideshow_timer: data.settings.slideshow ? !document.hidden : true,
+            allow_to_start_slideshow_timer: data.settings.prefs.slideshow ? !document.hidden : true,
             force_update: true,
         });
 

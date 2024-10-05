@@ -1,4 +1,4 @@
-import { s_background, s_data, i_data } from 'shared_clean/internal';
+import { s_background, s_data } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -12,16 +12,15 @@ class Class {
 
     public update_background = ({ background_id }: { background_id: string }): Promise<void> =>
         err_async(async () => {
-            const settings: i_data.Settings = await ext.storage_get();
+            if (data.settings.prefs.current_background_id !== background_id) {
+                data.settings.prefs.current_background_id = background_id;
 
-            if (settings.current_background_id !== background_id) {
-                settings.current_background_id = background_id;
-
-                await s_data.Data.update_settings({
-                    settings,
+                await s_data.Manipulation.update_settings({
+                    settings: data.settings,
+                    load_settings: true,
                 });
 
-                if (settings.slideshow) {
+                if (data.settings.prefs.slideshow) {
                     await s_background.BackgroundChange.update_background({ no_tr: false });
                 }
             }

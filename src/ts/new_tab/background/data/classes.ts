@@ -74,9 +74,9 @@ class Class {
                 background_container_i: opposite_background_container_i,
             });
             const is_crossfade_background_change_effect: boolean =
-                data.settings.background_change_effect === 'crossfade';
+                data.settings.prefs.background_change_effect === 'crossfade';
             const is_no_effect_background_change_effect: boolean =
-                data.settings.background_change_effect === 'no_effect';
+                data.settings.prefs.background_change_effect === 'no_effect';
 
             this.z_index_plus_1_cls[background_container_i] = '';
             this.z_index_plus_1_cls[opposite_background_container_i] = 'z_index_plus_1';
@@ -133,8 +133,8 @@ class Class {
 
     public select_slide_direction = (): string =>
         err(() => {
-            if (data.settings.background_change_effect === 'slide') {
-                if (data.settings.slide_direction === 'random') {
+            if (data.settings.prefs.background_change_effect === 'slide') {
+                if (data.settings.prefs.slide_direction === 'random') {
                     const random_slide_direction_i: number = random(
                         0,
                         this.slide_directions.length - 1,
@@ -143,7 +143,7 @@ class Class {
                     return this.slide_directions[random_slide_direction_i];
                 }
 
-                return data.settings.slide_direction;
+                return data.settings.prefs.slide_direction;
             }
 
             return '';

@@ -33,7 +33,7 @@ class Class {
 
     public forbid_animation = (): Promise<void> =>
         err_async(async () => {
-            await x.delay(data.settings.transition_duration);
+            await x.delay(data.settings.prefs.transition_duration);
 
             runInAction(() =>
                 err(() => {
@@ -51,7 +51,7 @@ class Class {
 
     public push_already_animated_id_deferred = ({ id }: { id: string }): Promise<void> =>
         err_async(async () => {
-            await x.delay(data.settings.transition_duration);
+            await x.delay(data.settings.prefs.transition_duration);
 
             this.push_already_animated_id({
                 id,

@@ -15,7 +15,7 @@ class Class {
     public set_up_change_theme_reaction = (): void =>
         err(() => {
             reaction(
-                () => data.settings.options_page_theme,
+                () => data.settings.prefs.options_page_theme,
                 (): void =>
                     err(() => {
                         s_custom_code.CodeMirror.change_theme();

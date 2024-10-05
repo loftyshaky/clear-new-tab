@@ -80,7 +80,7 @@ class Class {
 
                     if (
                         data.ui.allow_downloading_img_by_link &&
-                        data.settings.download_img_when_link_given &&
+                        data.settings.prefs.download_img_when_link_given &&
                         input_given_text
                     ) {
                         const response: Response = await globalThis.fetch(clipboard_text);

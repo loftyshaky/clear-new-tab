@@ -16,11 +16,9 @@ class Class {
         backgrounds,
     }: i_browser_theme.GetThemeBackgroundWithBackgrounds): Promise<string[]> =>
         err_async(async () => {
-            const settings = await ext.storage_get();
-
             let ids_to_delete: string[] = [];
 
-            if (!settings.keep_old_theme_backgrounds) {
+            if (!data.settings.prefs.keep_old_theme_backgrounds) {
                 const backgrounds_to_delete: i_db.Background[] = backgrounds.filter(
                     (background: i_db.Background): boolean =>
                         err(

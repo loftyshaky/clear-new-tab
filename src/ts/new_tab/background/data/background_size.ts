@@ -45,7 +45,7 @@ class Class {
             if (n(background_data)) {
                 this.background_size_setting[background_container_i] =
                     (background_data as i_db.FileBackground).background_size === 'global'
-                        ? data.settings.background_size
+                        ? data.settings.prefs.background_size
                         : (background_data as i_db.FileBackground).background_size;
             }
         }, 'cnt_1047');

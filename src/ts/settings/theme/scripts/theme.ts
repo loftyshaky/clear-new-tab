@@ -16,7 +16,7 @@ class Class {
             await x.delay(transition_duration);
 
             await s_theme_shared.Theme.set({
-                name: data.settings.options_page_theme,
+                name: data.settings.prefs.options_page_theme,
                 additional_theme_callback: s_theme.Theme.set,
             });
         }, 'cnt_1301');

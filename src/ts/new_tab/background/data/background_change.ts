@@ -30,8 +30,8 @@ class Class {
     } = {}): Promise<void> =>
         err_async(async () => {
             if (
-                (!data.settings.slideshow && !document.hidden) ||
-                data.settings.slideshow ||
+                (!data.settings.prefs.slideshow && !document.hidden) ||
+                data.settings.prefs.slideshow ||
                 force_update
             ) {
                 d_background.Classes.no_tr = no_tr;
@@ -61,7 +61,7 @@ class Class {
                 const preview_background_id = s_background.Preview.id;
                 const preloaded_background_data = await ext.send_msg_resp({
                     msg: 'get_preloaded_background_data',
-                    current_background_id: data.settings.current_background_id,
+                    current_background_id: data.settings.prefs.current_background_id,
                 });
 
                 const new_background_data = n(preview_background_id)
@@ -82,8 +82,8 @@ class Class {
                         d_background.Background.background_data[opposite_background_container_i] =
                             new_background_data;
                         d_background.Background.background_file[opposite_background_container_i] =
-                            data.settings.mode === 'random_solid_color'
-                                ? data.settings.current_random_solid_color
+                            data.settings.prefs.mode === 'random_solid_color'
+                                ? data.settings.prefs.current_random_solid_color
                                 : new_background_file;
                     }, 'cnt_1043'),
                 );
@@ -143,7 +143,7 @@ class Class {
                 this.previous_browser_window_height !== browser_window_height;
 
             if (document.visibilityState === 'visible') {
-                if (data.settings.slideshow || window_resized) {
+                if (data.settings.prefs.slideshow || window_resized) {
                     ext.send_msg({ msg: 'get_background', force_update: window_resized });
                 }
 

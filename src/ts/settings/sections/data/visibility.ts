@@ -1,3 +1,5 @@
+import { d_data } from 'shared_clean/internal';
+
 class Class {
     private static instance: Class;
 
@@ -10,9 +12,14 @@ class Class {
 
     public hide_color_help = (): void =>
         err(() => {
-            ext.send_msg({
-                msg: 'update_settings_background',
-                settings: { color_help_is_visible: false },
+            d_data.Manipulation.send_msg_to_update_settings({
+                settings: {
+                    prefs: {
+                        ...data.settings.prefs,
+                        color_help_is_visible: false,
+                    },
+                },
+                load_settings: true,
             });
         }, 'cnt_1295');
 }

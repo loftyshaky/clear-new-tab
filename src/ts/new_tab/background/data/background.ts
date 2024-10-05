@@ -92,7 +92,7 @@ class Class {
             const background_file = this.background_file[this.background_container_i];
 
             if (n(background_file)) {
-                if (data.settings.mode === 'random_solid_color') {
+                if (data.settings.prefs.mode === 'random_solid_color') {
                     return this.background_file[this.background_container_i] as string;
                 }
 
@@ -154,7 +154,7 @@ class Class {
             if (n(background_data)) {
                 if (this.is_dont_resize_or_browser_background_size()) {
                     return (background_data as i_db.FileBackground).background_position === 'global'
-                        ? data.settings.background_position
+                        ? data.settings.prefs.background_position
                         : (background_data as i_db.FileBackground).background_position;
                 }
 
@@ -164,7 +164,7 @@ class Class {
                     })
                 ) {
                     return (background_data as i_db.FileBackground).background_position === 'global'
-                        ? data.settings.background_position
+                        ? data.settings.prefs.background_position
                         : (background_data as i_db.FileBackground).background_position;
                 }
             }
@@ -178,7 +178,7 @@ class Class {
 
             if (n(background_data)) {
                 return (background_data as i_db.FileBackground).background_repeat === 'global'
-                    ? data.settings.background_repeat
+                    ? data.settings.prefs.background_repeat
                     : (background_data as i_db.FileBackground).background_repeat;
             }
 
@@ -200,7 +200,7 @@ class Class {
     public get_color_of_area_around_background = (): string =>
         err(() => {
             const background_data = this.background_data[this.background_container_i];
-            const no_backgrounds: boolean = data.settings.current_background_id === 0;
+            const no_backgrounds: boolean = data.settings.prefs.current_background_id === 0;
 
             if (
                 (n(background_data) &&
@@ -216,7 +216,7 @@ class Class {
                     (background_data as i_db.FileBackground).color_of_area_around_background ===
                         'global'
                     ? d_color.Color.access_from_val({
-                          val: data.settings.color_of_area_around_background,
+                          val: data.settings.prefs.color_of_area_around_background,
                       })
                     : d_color.Color.access_from_val({
                           val: (background_data as i_db.FileBackground)
@@ -239,7 +239,7 @@ class Class {
 
                 return n(background_data) &&
                     (background_data as i_db.FileBackground)[key] === 'global'
-                    ? data.settings[key]
+                    ? data.settings.prefs[key]
                     : (background_data as i_db.FileBackground)[key];
             }
 
@@ -248,7 +248,7 @@ class Class {
 
     public get_background_css = (): t.AnyRecord =>
         err(() => {
-            if (data.settings.mode === 'random_solid_color') {
+            if (data.settings.prefs.mode === 'random_solid_color') {
                 const background_file = this.background_file[this.background_container_i];
 
                 return {

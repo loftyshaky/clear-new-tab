@@ -7,7 +7,6 @@ import {
     s_data,
     s_db,
     i_browser_theme,
-    i_data,
     i_db,
 } from 'shared_clean/internal';
 import { s_badge, s_browser_theme } from 'background/internal';
@@ -29,15 +28,17 @@ class Class {
 
     public attempt_to_run_try_to_get_theme_background = (): Promise<void> =>
         err_async(async () => {
-            const settings: i_data.Settings = await ext.storage_get();
             const already_tried_install_this_theme: boolean =
-                this.theme_id === settings.id_of_last_installed_theme;
+                this.theme_id === data.settings.prefs.id_of_last_installed_theme;
             const is_local_theme = await s_browser_theme.ThemeId.check_if_theme_is_local({
                 theme_id: this.theme_id,
             });
 
             if (!is_local_theme) {
-                if (settings.mode === 'theme_background' && !already_tried_install_this_theme) {
+                if (
+                    data.settings.prefs.mode === 'theme_background' &&
+                    !already_tried_install_this_theme
+                ) {
                     this.try_to_get_theme_background();
                 }
             }
@@ -59,8 +60,6 @@ class Class {
         err_async(async () => {
             this.force_theme_redownload = force_theme_redownload;
 
-            const settings = await ext.storage_get();
-
             this.theme_id_final = n(theme_id)
                 ? theme_id
                 : await s_browser_theme.ThemeId.get_installed();
@@ -78,7 +77,7 @@ class Class {
             if (
                 ((this.force_theme_redownload && !this.getting_theme_background) ||
                     !this.force_theme_redownload) &&
-                settings.mode === 'theme_background'
+                data.settings.prefs.mode === 'theme_background'
             ) {
                 this.getting_theme_background = true;
 
@@ -147,12 +146,11 @@ class Class {
 
             s_badge.Badge.set_text({ uploading_theme_background: true });
 
-            const settings = await ext.storage_get();
+            data.settings.prefs.id_of_last_installed_theme = this.theme_id_final;
 
-            settings.id_of_last_installed_theme = this.theme_id_final;
-
-            await s_data.Data.update_settings({
-                settings,
+            await s_data.Manipulation.update_settings({
+                settings: data.settings,
+                load_settings: true,
             });
 
             const current_backgrounds: i_db.Background[] =

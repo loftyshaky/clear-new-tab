@@ -14,7 +14,7 @@ class Class {
     }
 
     public get position() {
-        return `home_btn_${data.settings.home_btn_position}`;
+        return `home_btn_${data.settings.prefs.home_btn_position}`;
     }
 }
 

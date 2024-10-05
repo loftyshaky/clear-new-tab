@@ -16,7 +16,7 @@ class Class {
                 localStorage.setItem(
                     'preload_color',
                     d_color.Color.access_from_val({
-                        val: data.settings.color_of_area_around_background,
+                        val: data.settings.prefs.color_of_area_around_background,
                     }),
                 );
             }

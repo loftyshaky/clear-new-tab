@@ -16,7 +16,7 @@ import {
 export const init = (): Promise<void> =>
     err_async(async () => {
         await InitAll.init();
-        d_data.Data.create_objs();
+        d_data.Ui.create_ui_objs();
         d_sections.Options.init();
         d_sections.Sections.init();
         d_scheduler.TopControls.init();

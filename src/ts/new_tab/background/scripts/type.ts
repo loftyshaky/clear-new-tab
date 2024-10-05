@@ -21,7 +21,7 @@ class Class {
                 d_background.Background.background_data[background_container_i];
 
             return (
-                data.settings.mode !== 'random_solid_color' &&
+                data.settings.prefs.mode !== 'random_solid_color' &&
                 n(background_data) &&
                 background_data.type.includes('img_file')
             );
@@ -37,7 +37,7 @@ class Class {
                 d_background.Background.background_data[background_container_i];
 
             return (
-                data.settings.mode !== 'random_solid_color' &&
+                data.settings.prefs.mode !== 'random_solid_color' &&
                 n(background_data) &&
                 background_data.type === 'img_link'
             );
@@ -46,7 +46,7 @@ class Class {
     public is_img = ({ background_container_i }: { background_container_i: number }): boolean =>
         err(
             () =>
-                data.settings.mode !== 'random_solid_color' &&
+                data.settings.prefs.mode !== 'random_solid_color' &&
                 (this.is_img_file({ background_container_i }) ||
                     this.is_img_link({ background_container_i })),
             'cnt_1068',
@@ -58,7 +58,7 @@ class Class {
                 d_background.Background.background_data[background_container_i];
 
             return (
-                data.settings.mode === 'random_solid_color' ||
+                data.settings.prefs.mode === 'random_solid_color' ||
                 (n(background_data) && background_data.type.includes('color'))
             );
         }, 'cnt_1069');
@@ -69,7 +69,7 @@ class Class {
                 d_background.Background.background_data[background_container_i];
 
             return (
-                data.settings.mode !== 'random_solid_color' &&
+                data.settings.prefs.mode !== 'random_solid_color' &&
                 n(background_data) &&
                 background_data.type.includes('video')
             );

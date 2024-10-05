@@ -1,7 +1,6 @@
 import { runInAction } from 'mobx';
 
 import { i_inputs, i_color } from '@loftyshaky/shared/inputs';
-import { i_data } from 'shared_clean/internal';
 import { d_scheduler, d_sections } from 'settings/internal';
 
 class Class {
@@ -23,8 +22,6 @@ class Class {
 
     public set_add_new_task_btn_ability = (): Promise<void> =>
         err_async(async () => {
-            const settings: i_data.Settings = await ext.storage_get();
-
             const background_is_selected: boolean =
                 (await d_scheduler.BackgroundPreview.get({
                     background_id: data.ui.background_id,
@@ -32,7 +29,12 @@ class Class {
             const one_of_inputs_in_date_picker_is_set_to_val = Object.values(
                 d_scheduler.DatePicker.inputs,
             ).some((input: i_inputs.Input): boolean =>
-                err(() => n(settings[input.name]) && settings[input.name] !== '', 'cnt_1264'),
+                err(
+                    () =>
+                        n(data.settings.prefs[input.name]) &&
+                        data.settings.prefs[input.name] !== '',
+                    'cnt_1264',
+                ),
             );
             const all_inputs_are_in_success_state = Object.values(
                 d_scheduler.DatePicker.inputs,

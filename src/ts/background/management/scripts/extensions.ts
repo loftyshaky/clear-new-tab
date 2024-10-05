@@ -1,6 +1,6 @@
 import { Management } from 'webextension-polyfill';
 
-import { s_data, i_data } from 'shared_clean/internal';
+import { s_data } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -21,17 +21,16 @@ class Class {
         ext_info: Management.ExtensionInfo;
     }): Promise<void> =>
         err_async(async () => {
-            const settings: i_data.Settings = await ext.storage_get();
-
             if (
-                settings.mode === 'theme_background' &&
+                data.settings.prefs.mode === 'theme_background' &&
                 ext_info.type === 'theme' &&
-                ext_info.id === settings.id_of_last_installed_theme
+                ext_info.id === data.settings.prefs.id_of_last_installed_theme
             ) {
-                settings.id_of_last_installed_theme = '';
+                data.settings.prefs.id_of_last_installed_theme = '';
 
-                await s_data.Data.update_settings({
-                    settings,
+                await s_data.Manipulation.update_settings({
+                    settings: data.settings,
+                    load_settings: true,
                 });
 
                 await ext.send_msg_resp({

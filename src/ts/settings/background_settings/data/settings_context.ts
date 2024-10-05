@@ -29,12 +29,13 @@ class Class {
         err(() => {
             data.ui.settings_context = 'global';
 
-            data.ui.background_size = data.settings.background_size;
-            data.ui.background_position = data.settings.background_position;
-            data.ui.background_repeat = data.settings.background_repeat;
-            data.ui.color_of_area_around_background = data.settings.color_of_area_around_background;
-            data.ui.video_speed = data.settings.video_speed;
-            data.ui.video_volume = data.settings.video_volume;
+            data.ui.background_size = data.settings.prefs.background_size;
+            data.ui.background_position = data.settings.prefs.background_position;
+            data.ui.background_repeat = data.settings.prefs.background_repeat;
+            data.ui.color_of_area_around_background =
+                data.settings.prefs.color_of_area_around_background;
+            data.ui.video_speed = data.settings.prefs.video_speed;
+            data.ui.video_volume = data.settings.prefs.video_volume;
 
             const sections = d_sections.Sections.sections as any;
 
@@ -83,7 +84,7 @@ class Class {
                     data.ui.color_of_area_around_background =
                         (background as i_db.FileBackground).color_of_area_around_background ===
                         'global'
-                            ? data.settings.color_of_area_around_background
+                            ? data.settings.prefs.color_of_area_around_background
                             : (background as i_db.FileBackground).color_of_area_around_background;
                 }
 
@@ -95,16 +96,16 @@ class Class {
                 if (is_video) {
                     data.ui.video_speed =
                         (background as i_db.FileBackground).video_speed === 'global'
-                            ? data.settings.video_speed
+                            ? data.settings.prefs.video_speed
                             : (background as i_db.FileBackground).video_speed;
 
                     data.ui.video_volume =
                         (background as i_db.FileBackground).video_volume === 'global'
-                            ? data.settings.video_volume
+                            ? data.settings.prefs.video_volume
                             : (background as i_db.FileBackground).video_volume;
 
                     sections.background_settings.inputs.background_repeat.is_enabled =
-                        !!data.settings.enable_video_repeat;
+                        !!data.settings.prefs.enable_video_repeat;
                     sections.background_settings.inputs.video_speed_group.is_enabled = true;
                     sections.background_settings.inputs.video_volume_group.is_enabled = true;
                 }

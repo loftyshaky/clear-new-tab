@@ -1,4 +1,5 @@
 import { makeObservable, action } from 'mobx';
+import { d_data } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -15,11 +16,11 @@ class Class {
 
     private hide = (): Promise<void> =>
         err_async(async () => {
-            data.settings.install_help_is_visible = false;
+            data.settings.prefs.install_help_is_visible = false;
 
-            await ext.send_msg_resp({
-                msg: 'update_settings_background',
+            await d_data.Manipulation.send_msg_to_update_settings({
                 settings: data.settings,
+                load_settings: true,
                 update_instantly: true,
             });
         }, 'cnt_1222');

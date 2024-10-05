@@ -236,7 +236,7 @@ class Class {
             if (update_current_background_id && n(set_background_as_current)) {
                 if (
                     no_backgrounds_before_upload &&
-                    !data.settings.automatically_set_last_uploaded_background_as_current
+                    !data.settings.prefs.automatically_set_last_uploaded_background_as_current
                 ) {
                     await set_background_as_current({
                         id: n(backgrounds[0]) ? backgrounds[0].id : 0,

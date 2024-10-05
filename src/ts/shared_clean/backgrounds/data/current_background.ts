@@ -4,11 +4,11 @@ import { run_in_action_placeholder } from '@loftyshaky/shared/shared_clean';
 import {
     db,
     d_backgrounds,
+    d_data,
     s_background,
     s_data,
     s_db,
     s_i,
-    i_data,
     i_db,
 } from 'shared_clean/internal';
 
@@ -45,7 +45,7 @@ class Class {
                             s_i.I.find_i_of_item_with_id({
                                 id: n(current_background_id)
                                     ? current_background_id
-                                    : data.settings.current_background_id,
+                                    : data.settings.prefs.current_background_id,
                                 items: backgrounds,
                             });
 
@@ -65,12 +65,10 @@ class Class {
         run_in_action?: any;
     }): Promise<void> =>
         err_async(async () => {
-            const settings: i_data.Settings = await ext.storage_get();
-
             if (n(id)) {
                 run_in_action(() =>
                     err(() => {
-                        settings.current_background_id = id;
+                        data.settings.prefs.current_background_id = id;
 
                         this.set_current_background_i({
                             backgrounds,
@@ -78,21 +76,22 @@ class Class {
                         });
 
                         if (id === 0) {
-                            data.settings.future_background_id = id;
+                            data.settings.prefs.future_background_id = id;
                         }
 
-                        data.settings.background_change_time = new Date().getTime();
+                        data.settings.prefs.background_change_time = new Date().getTime();
                     }, 'cnt_1520'),
                 );
 
                 if (page === 'background') {
-                    await s_data.Data.update_settings({
-                        settings,
+                    await s_data.Manipulation.update_settings({
+                        settings: data.settings,
+                        load_settings: true,
                     });
                 } else if (page === 'settings') {
-                    await ext.send_msg_resp({
-                        msg: 'update_settings_background',
-                        settings,
+                    await d_data.Manipulation.send_msg_to_update_settings({
+                        settings: data.settings,
+                        load_settings: true,
                         update_instantly: true,
                     });
                 }
@@ -116,17 +115,19 @@ class Class {
 
     public set_future_background_id = (): Promise<void> =>
         err_async(async () => {
-            const settings: i_data.Settings = await ext.storage_get();
             const background_count: number = await db.backgrounds.count();
             const current_background_is_the_only_background: boolean = background_count === 1;
 
-            if (!current_background_is_the_only_background && settings.shuffle_backgrounds) {
-                settings.future_background_id = await this.get_id_of_random_background();
+            if (
+                !current_background_is_the_only_background &&
+                data.settings.prefs.shuffle_backgrounds
+            ) {
+                data.settings.prefs.future_background_id = await this.get_id_of_random_background();
             } else {
                 const backgrounds: i_db.Background[] = await s_db.Manipulation.get_backgrounds();
 
                 const i_of_background_with_current_id: number = s_i.I.find_i_of_item_with_id({
-                    id: settings.current_background_id,
+                    id: data.settings.prefs.current_background_id,
                     items: backgrounds,
                 });
 
@@ -134,11 +135,11 @@ class Class {
                     const current_background_is_last_background: boolean =
                         background_count - 1 === i_of_background_with_current_id;
                     if (current_background_is_last_background) {
-                        settings.future_background_id = n(backgrounds[0])
+                        data.settings.prefs.future_background_id = n(backgrounds[0])
                             ? backgrounds[0].id
                             : this.reset_val;
                     } else {
-                        settings.future_background_id = n(
+                        data.settings.prefs.future_background_id = n(
                             backgrounds[i_of_background_with_current_id + 1],
                         )
                             ? backgrounds[i_of_background_with_current_id + 1].id
@@ -148,17 +149,16 @@ class Class {
             }
 
             if (page === 'background') {
-                await s_data.Data.update_settings({
-                    settings,
+                await s_data.Manipulation.update_settings({
+                    settings: data.settings,
+                    load_settings: true,
                 });
 
                 ext.send_msg({ msg: 'update_settings_settings' });
             } else if (page === 'settings') {
-                data.settings.future_background_id = settings.future_background_id;
-
-                await ext.send_msg_resp({
-                    msg: 'update_settings_background',
-                    settings,
+                await d_data.Manipulation.send_msg_to_update_settings({
+                    settings: data.settings,
+                    load_settings: true,
                     update_instantly: true,
                 });
             }
@@ -166,13 +166,12 @@ class Class {
 
     private get_id_of_random_background = (): Promise<string | number> =>
         err_async(async () => {
-            const settings: i_data.Settings = await ext.storage_get();
             const background_count: number = await db.backgrounds.count();
             let future_background_id: string | number = 0;
 
             while (
                 future_background_id === 0 ||
-                future_background_id === settings.current_background_id
+                future_background_id === data.settings.prefs.current_background_id
             ) {
                 const random_background_i = random(0, background_count - 1);
                 // eslint-disable-next-line no-await-in-loop

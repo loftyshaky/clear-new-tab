@@ -13,13 +13,11 @@ class Class {
 
     public display_announcement = (): Promise<void> =>
         err_async(async () => {
-            const settings: i_data.Settings = await ext.storage_get();
-
             if (
                 env.mode === 'production' &&
-                n(settings.version) &&
-                ((env.browser === 'chrome' && settings.version === '5.10.0') ||
-                    (env.browser === 'edge' && settings.version === '5.10.2'))
+                n(data.settings.prefs.version) &&
+                ((env.browser === 'chrome' && data.settings.prefs.version === '5.10.0') ||
+                    (env.browser === 'edge' && data.settings.prefs.version === '5.10.2'))
             ) {
                 s_announcement.Visibility.display();
             }

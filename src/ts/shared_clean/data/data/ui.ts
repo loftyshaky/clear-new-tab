@@ -8,10 +8,10 @@ class Class {
     // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
-    public create_objs = (): void =>
+    public create_ui_objs = (): void =>
         err(() => {
             data.ui = {};
         }, 'cnt_1318');
 }
 
-export const Data = Class.get_instance();
+export const Ui = Class.get_instance();

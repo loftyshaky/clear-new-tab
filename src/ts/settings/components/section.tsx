@@ -17,7 +17,7 @@ export const Section: React.FunctionComponent<p_settings.Section> = observer((pr
             // eslint-disable-next-line max-len
             state={
                 section_name !== 'offers' ||
-                (section_name === 'offers' && data.settings.offers_are_visible)
+                (section_name === 'offers' && data.settings.prefs.offers_are_visible)
             }
         >
             <h1

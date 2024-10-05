@@ -1,12 +1,10 @@
 import clone from 'lodash/clone';
 import isEqual from 'lodash/isEqual';
-import isEmpty from 'lodash/isEmpty';
-import { runInAction } from 'mobx';
 
 import { t } from '@loftyshaky/shared/shared';
 import { d_inputs, i_inputs } from '@loftyshaky/shared/inputs';
-import { d_settings } from '@loftyshaky/shared/settings';
-import { s_css_vars, s_db, i_data, i_db } from 'shared_clean/internal';
+import { d_sections as d_sections_loftyshaky } from '@loftyshaky/shared/settings';
+import { d_data, s_css_vars, s_data, s_db, i_data, i_db } from 'shared_clean/internal';
 import { d_progress, s_preload_color } from 'shared/internal';
 import {
     d_background_settings,
@@ -37,6 +35,8 @@ class Class {
     public restored_tasks: i_db.Task[] = [];
     public restoring_from_back_up: boolean = false;
     public restoring_from_back_up_pagination: boolean = false;
+    private one_of_the_uploaded_files_has_settings: boolean = false;
+    private full_data_obj: t.AnyRecord | undefined;
 
     public restore_confirm = (): Promise<void> =>
         err_async(async () => {
@@ -48,16 +48,18 @@ class Class {
             if (confirmed_restore) {
                 d_protecting_screen.Visibility.show();
 
-                const { transition_duration } = clone(data.settings);
-
-                const settings_final: i_data.Settings = await this.set();
-
-                await ext.send_msg_resp({
-                    msg: 'update_settings_background',
-                    settings: settings_final,
-                    update_background: true,
+                const { transition_duration } = clone(data.settings.prefs);
+                const default_settings = await ext.send_msg_resp({ msg: 'get_defaults' });
+                const default_settings_final = s_data.Settings.apply_unchanged_prefs({
+                    settings: default_settings,
                 });
 
+                await d_data.Manipulation.send_msg_to_update_settings({
+                    settings: default_settings_final,
+                    load_settings: true,
+                    update_background: true,
+                });
+                d_background_settings.SettingsContext.react_to_global_selection();
                 await s_theme.Theme.reset({ transition_duration });
                 s_css_vars.CssVars.set();
                 s_preload_color.Storage.set_preload_color();
@@ -96,13 +98,13 @@ class Class {
                         }
 
                         if (first_back_up_part_downloaded) {
-                            // eslint-disable-next-line no-unused-expressions
+                            // eslint-disable-next-line no-unused-expressions, @typescript-eslint/no-unused-expressions
                             backup_data_leading_chunks_only +
                                 chunks_2 +
                                 new_chunk_2 +
                                 backup_data_trailing;
                         } else {
-                            // eslint-disable-next-line no-unused-expressions
+                            // eslint-disable-next-line no-unused-expressions, @typescript-eslint/no-unused-expressions
                             backup_data_leading + chunks_2 + new_chunk_2 + backup_data_trailing;
                         }
 
@@ -116,7 +118,7 @@ class Class {
 
             const download_backup_part = ({ chunks_2 }: { chunks_2: string }): void =>
                 err(() => {
-                    d_settings.BackUp.download({
+                    d_sections_loftyshaky.BackUp.download({
                         data_obj: first_back_up_part_downloaded
                             ? backup_data_leading_chunks_only + chunks_2 + backup_data_trailing
                             : backup_data_leading + chunks_2 + backup_data_trailing,
@@ -124,7 +126,7 @@ class Class {
                     });
                 }, 'cnt_1409');
 
-            const v8_limit: number = data.settings.one_backup_file_size_in_bytes;
+            const v8_limit: number = data.settings.prefs.one_backup_file_size_in_bytes;
             let v8_limit_reached: boolean = false;
             let part_i: number = 0;
             let first_back_up_part_downloaded: boolean = false;
@@ -136,14 +138,14 @@ class Class {
 
             let chunks: string = '';
             let is_first_chunk: boolean = true;
-            const settings_to_store_in_file: i_data.Settings = clone(data.settings);
+            const prefs_to_store_in_file: i_data.Prefs = clone(data.settings.prefs);
 
-            settings_to_store_in_file.id_of_last_installed_theme = '';
+            prefs_to_store_in_file.id_of_last_installed_theme = '';
 
             const backup_data_leading_chunks_only: string = '{"chunks":[';
-            const backup_data_leading: string = `{"settings":${JSON.stringify(
-                settings_to_store_in_file,
-            )},"custom_code":${JSON.stringify(custom_code)},"chunks":[`;
+            const backup_data_leading: string = `{"settings":{"prefs":${JSON.stringify(
+                prefs_to_store_in_file,
+            )}},"custom_code":${JSON.stringify(custom_code)},"chunks":[`;
             const backup_data_trailing: string = ']}';
 
             const backup_data_leading_size = new TextEncoder().encode(backup_data_leading).length;
@@ -267,17 +269,76 @@ class Class {
             this.restored_background_thumbnails = [];
             this.restored_tasks = [];
 
+            const data_obj_with_settings = data_objs.find((data_obj: t.AnyRecord): boolean =>
+                err(() => n(data_obj.settings), 'cnt_1410'),
+            );
+            this.one_of_the_uploaded_files_has_settings = n(data_obj_with_settings);
+
+            this.full_data_obj = this.one_of_the_uploaded_files_has_settings
+                ? data_obj_with_settings
+                : data_objs[0];
+
+            data_objs.forEach((data_obj: t.AnyRecord): void =>
+                err(() => {
+                    if (
+                        n(this.full_data_obj) &&
+                        !n(data_obj.settings) &&
+                        !isEqual(this.full_data_obj, data_obj)
+                    ) {
+                        this.full_data_obj.chunks = [
+                            ...this.full_data_obj.chunks,
+                            ...data_obj.chunks,
+                        ];
+                    }
+                }, 'cnt_1410'),
+            );
+
+            let settings: i_data.Settings | undefined;
+
+            if (n(this.full_data_obj)) {
+                if (this.one_of_the_uploaded_files_has_settings) {
+                    settings = this.full_data_obj.settings;
+
+                    Object.values(
+                        (d_sections.Sections.sections as any).background_settings.inputs,
+                    ).forEach((input: any): void =>
+                        err(() => {
+                            d_inputs.NestedInput.set_parent_disbled_vals({
+                                input,
+                                sections: d_sections.Sections.sections as i_inputs.Sections,
+                                set_to_all_sections: true,
+                            });
+                        }, 'cnt_1375'),
+                    );
+
+                    await d_data.Manipulation.send_msg_to_update_settings({
+                        settings,
+                        replace: true,
+                        update_instantly: true,
+                        transform: true,
+                        transform_force: true,
+                        load_settings: true,
+                        restore_back_up: true,
+                        update_background: true,
+                    });
+                }
+            }
+        }, 'cnt_1278');
+
+    public restore_back_up_react = (): Promise<void> =>
+        err_async(async () => {
             const restored_background_files: i_db.BackgroundFile[] = [];
 
             const generate_resored_backgrounds = (): Promise<void> =>
                 err_async(async () => {
-                    if (n(full_data_obj)) {
+                    if (n(this.full_data_obj)) {
                         // eslint-disable-next-line no-restricted-syntax
-                        for await (const chunk of full_data_obj.chunks) {
+                        for await (const chunk of this.full_data_obj.chunks) {
                             this.restored_tasks = [...this.restored_tasks, ...chunk.tasks];
 
                             chunk.data = await d_backgrounds.Backgrounds.transform_background({
                                 background: chunk.data,
+                                version: 0,
                             });
 
                             this.restored_backgrounds.push(chunk.data);
@@ -321,7 +382,7 @@ class Class {
 
             const save_backgrounds = (): Promise<void> =>
                 err_async(async () => {
-                    if (one_of_the_uploaded_files_has_settings) {
+                    if (this.one_of_the_uploaded_files_has_settings) {
                         await s_db.Manipulation.save_backgrounds({
                             backgrounds: this.restored_backgrounds,
                             background_thumbnails: this.restored_background_thumbnails,
@@ -380,63 +441,13 @@ class Class {
                     }
                 }, 'cnt_1418');
 
-            const data_obj_with_settings = data_objs.find((data_obj: t.AnyRecord): boolean =>
-                err(() => n(data_obj.settings), 'cnt_1410'),
-            );
-            const one_of_the_uploaded_files_has_settings: boolean = n(data_obj_with_settings);
+            if (n(this.full_data_obj)) {
+                if (this.one_of_the_uploaded_files_has_settings) {
+                    d_background_settings.SettingsContext.react_to_global_selection();
 
-            const full_data_obj = one_of_the_uploaded_files_has_settings
-                ? data_obj_with_settings
-                : data_objs[0];
-
-            data_objs.forEach((data_obj: t.AnyRecord): void =>
-                err(() => {
-                    if (
-                        n(full_data_obj) &&
-                        !n(data_obj.settings) &&
-                        !isEqual(full_data_obj, data_obj)
-                    ) {
-                        full_data_obj.chunks = [...full_data_obj.chunks, ...data_obj.chunks];
-                    }
-                }, 'cnt_1410'),
-            );
-
-            let settings: i_data.Settings | undefined;
-
-            if (n(full_data_obj)) {
-                if (one_of_the_uploaded_files_has_settings) {
-                    settings = {
-                        ...full_data_obj.settings,
-                        ...this.get_unchanged_settings(),
-                    } as i_data.Settings;
-                    settings.id_of_last_installed_theme = data.settings.id_of_last_installed_theme;
-
-                    const { transition_duration } = clone(data.settings);
-
-                    await this.set({ settings });
-
-                    Object.values(
-                        (d_sections.Sections.sections as any).background_settings.inputs,
-                    ).forEach((input: any): void =>
-                        err(() => {
-                            d_inputs.NestedInput.set_parent_disbled_vals({
-                                input,
-                                sections: d_sections.Sections.sections as i_inputs.Sections,
-                                set_to_all_sections: true,
-                            });
-                        }, 'cnt_1375'),
-                    );
-
-                    await ext.send_msg_resp({
-                        msg: 'update_settings_background',
-                        settings,
-                        update_background: true,
-                        update_instantly: true,
-                        transform: true,
-                        transform_force: true,
+                    await s_theme.Theme.reset({
+                        transition_duration: data.settings.prefs.transition_duration,
                     });
-
-                    await s_theme.Theme.reset({ transition_duration });
                     s_css_vars.CssVars.set();
 
                     await s_db.Manipulation.reset_custom_code_table();
@@ -444,12 +455,12 @@ class Class {
                     await s_db.Manipulation.clear_task_table();
 
                     await s_custom_code.Db.save_custom_code({
-                        custom_code: full_data_obj.custom_code,
+                        custom_code: this.full_data_obj.custom_code,
                     });
                 }
 
                 d_progress.ProgressVal.set_progress_max({
-                    progress_max: full_data_obj.chunks.length * 2,
+                    progress_max: this.full_data_obj.chunks.length * 2,
                 });
 
                 await generate_resored_backgrounds();
@@ -465,46 +476,7 @@ class Class {
             }
 
             d_protecting_screen.Visibility.hide();
-        }, 'cnt_1278');
-
-    private set = ({ settings }: { settings?: i_data.Settings } = {}): Promise<i_data.Settings> =>
-        err_async(async () => {
-            let settings_final: i_data.Settings;
-
-            if (isEmpty(settings)) {
-                const default_settings = await ext.send_msg_resp({ msg: 'get_defaults' });
-
-                settings_final = {
-                    ...default_settings,
-                    ...this.get_unchanged_settings(),
-                };
-            } else if (n(settings)) {
-                settings_final = settings;
-            }
-
-            const set_inner = (): i_data.Settings => {
-                runInAction(() =>
-                    err(() => {
-                        data.settings = settings_final;
-
-                        d_background_settings.SettingsContext.react_to_global_selection();
-                    }, 'cnt_1279'),
-                );
-
-                return settings_final;
-            };
-
-            return set_inner();
-        }, 'cnt_1280');
-
-    private get_unchanged_settings = (): t.AnyRecord =>
-        err(
-            () => ({
-                color_help_is_visible: data.settings.color_help_is_visible,
-                install_help_is_visible: data.settings.install_help_is_visible,
-            }),
-            'cnt_1281',
-        );
+        }, 'aer_1529');
 }
 
 export const Restore = Class.get_instance();

@@ -403,7 +403,7 @@ class Class {
 
                 const save_to_db = (): Promise<void> =>
                     err_async(async () => {
-                        if (data.settings.update_database_when_dnd_item) {
+                        if (data.settings.prefs.update_database_when_dnd_item) {
                             if (this.drag_type === 'background') {
                                 await s_db.Manipulation.update_background({
                                     background: d_backgrounds.Backgrounds.backgrounds[

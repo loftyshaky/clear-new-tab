@@ -34,7 +34,7 @@ class Class {
             this.background_to_delete_id = id;
             this.deleting_background = true;
 
-            await x.delay(data.settings.transition_duration + vars.item_deletion_delay);
+            await x.delay(data.settings.prefs.transition_duration + vars.item_deletion_delay);
 
             await this.delete({ id });
 

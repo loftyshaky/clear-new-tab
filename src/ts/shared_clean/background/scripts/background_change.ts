@@ -1,6 +1,6 @@
 import { Tabs } from 'webextension-polyfill';
 
-import { d_backgrounds, s_background, s_data, s_tabs, i_data } from 'shared_clean/internal';
+import { d_backgrounds, s_background, s_data, s_tabs } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -38,21 +38,20 @@ class Class {
 
             this.force_update = force_update;
 
-            const settings: i_data.Settings = await ext.storage_get();
-
             if (
-                ['multiple_backgrounds', 'random_solid_color'].includes(settings.mode) &&
+                ['multiple_backgrounds', 'random_solid_color'].includes(data.settings.prefs.mode) &&
                 allow_to_start_slideshow_timer
             ) {
                 const current_time: number = new Date().getTime();
                 const time_to_change_background: boolean =
-                    (settings.mode === 'random_solid_color' &&
-                        settings.current_random_solid_color === '') ||
+                    (data.settings.prefs.mode === 'random_solid_color' &&
+                        data.settings.prefs.current_random_solid_color === '') ||
                     current_time >
-                        settings.background_change_time + settings.background_change_interval ||
+                        data.settings.prefs.background_change_time +
+                            data.settings.prefs.background_change_interval ||
                     force_change;
 
-                const start_slideshow_timer: boolean = settings.slideshow;
+                const start_slideshow_timer: boolean = data.settings.prefs.slideshow;
 
                 if (time_to_change_background) {
                     await this.change_background({
@@ -103,22 +102,23 @@ class Class {
         current_time: number;
     }): Promise<void> =>
         err_async(async () => {
-            const settings: i_data.Settings = await ext.storage_get();
+            data.settings.prefs.background_change_time = current_time;
 
-            settings.background_change_time = current_time;
-
-            if (settings.mode === 'random_solid_color') {
-                settings.current_random_solid_color =
+            if (data.settings.prefs.mode === 'random_solid_color') {
+                data.settings.prefs.current_random_solid_color =
                     await s_background.RandomSolidColor.generate();
 
-                await s_data.Data.update_settings({
-                    settings,
+                await s_data.Manipulation.update_settings({
+                    settings: data.settings,
+                    load_settings: true,
                 });
             } else {
-                settings.current_background_id = settings.future_background_id;
+                data.settings.prefs.current_background_id =
+                    data.settings.prefs.future_background_id;
 
-                await s_data.Data.update_settings({
-                    settings,
+                await s_data.Manipulation.update_settings({
+                    settings: data.settings,
+                    load_settings: true,
                 });
             }
         }, 'cnt_1308');
@@ -128,7 +128,6 @@ class Class {
         rerun = false,
     }: { current_time?: number; rerun?: boolean } = {}): Promise<void> =>
         err_async(async () => {
-            const settings: i_data.Settings = await ext.storage_get();
             const current_tab: Tabs.Tab | undefined = await ext.get_active_tab();
             const user_is_in_new_tab: boolean =
                 n(current_tab) && current_tab.id === s_tabs.TabIds.last_visited_new_tab_id;
@@ -138,19 +137,20 @@ class Class {
             }: { rerun_2?: boolean } = {}): Promise<void> =>
                 err_async(async () => {
                     const background_change_interval_corrected: number =
-                        settings.background_change_interval === 1
+                        data.settings.prefs.background_change_interval === 1
                             ? 3000
-                            : settings.background_change_interval;
+                            : data.settings.prefs.background_change_interval;
                     const remaining_time: number =
-                        settings.background_change_time -
+                        data.settings.prefs.background_change_time -
                         current_time +
                         background_change_interval_corrected;
                     const delay = rerun_2 ? background_change_interval_corrected : remaining_time;
 
                     // 60000 = 1 minute
                     if (
-                        settings.background_change_interval >= 60000 ||
-                        settings.always_use_alarms_api_to_change_background_in_slideshow_mode
+                        data.settings.prefs.background_change_interval >= 60000 ||
+                        data.settings.prefs
+                            .always_use_alarms_api_to_change_background_in_slideshow_mode
                     ) {
                         await we.alarms.create('change_slideshow_background', {
                             when: Date.now() + delay,
@@ -171,8 +171,8 @@ class Class {
 
             if (
                 user_is_in_new_tab &&
-                ['multiple_backgrounds', 'random_solid_color'].includes(settings.mode) &&
-                settings.slideshow
+                ['multiple_backgrounds', 'random_solid_color'].includes(data.settings.prefs.mode) &&
+                data.settings.prefs.slideshow
             ) {
                 await schedule_background_change({ rerun_2: rerun });
             }
@@ -193,10 +193,9 @@ class Class {
 
     public change_slideshow_background = (): Promise<void> =>
         err_async(async () => {
-            const settings: i_data.Settings = await ext.storage_get();
             if (
-                ['multiple_backgrounds', 'random_solid_color'].includes(settings.mode) &&
-                settings.slideshow
+                ['multiple_backgrounds', 'random_solid_color'].includes(data.settings.prefs.mode) &&
+                data.settings.prefs.slideshow
             ) {
                 await this.change_background({
                     current_time: new Date().getTime(),

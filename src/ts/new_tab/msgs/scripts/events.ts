@@ -1,5 +1,5 @@
 import '@loftyshaky/shared/ext';
-import { t, d_settings } from '@loftyshaky/shared/shared';
+import { t, d_data } from '@loftyshaky/shared/shared';
 import { d_background, s_custom_code } from 'new_tab/internal';
 
 we.runtime.onMessage.addListener((msg: t.Msg): any =>
@@ -8,7 +8,7 @@ we.runtime.onMessage.addListener((msg: t.Msg): any =>
 
         if (msg_str === 'update_background') {
             if (!document.hidden || msg.force_update) {
-                return d_settings.Settings.set_from_storage()
+                return d_data.Settings.set_from_storage()
                     .then(() =>
                         d_background.BackgroundChange.update_background({
                             no_tr: document.hidden ? true : msg.no_tr,
@@ -23,7 +23,7 @@ we.runtime.onMessage.addListener((msg: t.Msg): any =>
         }
 
         if (['load_settings', 'update_settings_new_tab'].includes(msg_str)) {
-            return d_settings.Settings.set_from_storage()
+            return d_data.Settings.set_from_storage()
                 .then(() => true)
                 .catch((error_obj: any) => show_err_ribbon(error_obj, 'cnt_1500'));
         }

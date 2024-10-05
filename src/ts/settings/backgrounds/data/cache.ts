@@ -86,7 +86,7 @@ class Class {
                         key: 'faded_in_once',
                         val: true,
                     });
-                }, data.settings.transition_duration);
+                }, data.settings.prefs.transition_duration);
             }
         }, 'cnt_1451');
 

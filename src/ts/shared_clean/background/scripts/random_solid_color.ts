@@ -1,5 +1,3 @@
-import { i_data } from 'shared_clean/internal';
-
 class Class {
     private static instance: Class;
 
@@ -12,9 +10,7 @@ class Class {
 
     public generate = (): Promise<string> =>
         err_async(async () => {
-            const settings: i_data.Settings = await ext.storage_get();
-
-            if (settings.color_type === 'all') {
+            if (data.settings.prefs.color_type === 'all') {
                 const letters = '0123456789ABCDEF';
                 let color = '#';
 
@@ -25,7 +21,7 @@ class Class {
                 return color;
             }
 
-            if (settings.color_type === 'pastel') {
+            if (data.settings.prefs.color_type === 'pastel') {
                 return `hsl(${360 * Math.random()},${25 + 70 * Math.random()}%,${
                     70 + 10 * Math.random()
                 }%)`;

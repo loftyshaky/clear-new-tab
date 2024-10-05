@@ -56,7 +56,7 @@ class Class {
         this: Class,
         { task }: { task: i_db.Task },
     ): string | undefined {
-        if (data.settings.show_item_developer_info_in_tooltip) {
+        if (data.settings.prefs.show_item_developer_info_in_tooltip) {
             return `ID: ${task.id}\nIndex: ${task.i}\nBackground ID:${task.background_id}`;
         }
 
@@ -167,11 +167,11 @@ class Class {
                 id,
                 i,
                 background_id: data.ui.background_id,
-                year: data.settings.year,
-                day_of_the_week: data.settings.day_of_the_week,
-                month: data.settings.month,
-                day_of_the_month: data.settings.day_of_the_month,
-                time: data.settings.time,
+                year: data.settings.prefs.year,
+                day_of_the_week: data.settings.prefs.day_of_the_week,
+                month: data.settings.prefs.month,
+                day_of_the_month: data.settings.prefs.day_of_the_month,
+                time: data.settings.prefs.time,
             };
 
             await s_db.Manipulation.save_tasks({ tasks: [new_task] });

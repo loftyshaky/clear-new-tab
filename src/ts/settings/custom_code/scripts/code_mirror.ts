@@ -86,7 +86,10 @@ class Class {
 
     private set_theme = ({ code_mirror_inst }: { code_mirror_inst: Editor }): void =>
         err(() => {
-            code_mirror_inst.setOption('theme', this.theme_dict[data.settings.options_page_theme]);
+            code_mirror_inst.setOption(
+                'theme',
+                this.theme_dict[data.settings.prefs.options_page_theme],
+            );
         }, 'cnt_1193');
 
     public change_theme = (): void =>

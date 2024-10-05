@@ -67,7 +67,7 @@ class Class {
         this: Class,
         { background }: { background: i_db.Background },
     ): string | undefined {
-        if (data.settings.show_item_developer_info_in_tooltip) {
+        if (data.settings.prefs.show_item_developer_info_in_tooltip) {
             return `ID: ${background.id}\nIndex: ${background.i}`;
         }
 
@@ -212,8 +212,10 @@ class Class {
 
     public transform_background = ({
         background,
+        version,
     }: {
         background: i_db.Background;
+        version: number;
     }): Promise<i_db.Background> =>
         err_async(async () => {
             if (background.type.includes('color')) {
@@ -228,7 +230,8 @@ class Class {
             ];
 
             const background_final: i_db.Background = await d_schema.Schema.transform({
-                data: background,
+                data_obj: { ...background },
+                version,
                 transform_items,
             });
 

@@ -35,7 +35,7 @@ class Class {
         err_async(async () => {
             const theme_id: string | undefined = await ext.send_msg_resp({ msg: 'get_installed' });
 
-            if (data.settings.mode === 'theme_background') {
+            if (data.settings.prefs.mode === 'theme_background') {
                 if (n(theme_id)) {
                     await ext.send_msg_resp({
                         msg: 'get_theme_background',

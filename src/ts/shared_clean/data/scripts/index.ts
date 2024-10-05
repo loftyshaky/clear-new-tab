@@ -1,1 +1,2 @@
-export * from 'shared_clean/data/scripts/data';
+export * from 'shared_clean/data/scripts/manipulation';
+export * from 'shared_clean/data/scripts/settings';

@@ -52,7 +52,7 @@ class Class {
                                     err(() => {
                                         if (page !== 'new_tab') {
                                             s_theme_shared.Theme.set({
-                                                name: data.settings.options_page_theme,
+                                                name: data.settings.prefs.options_page_theme,
                                                 additional_theme_callback: s_theme.Theme.set,
                                             });
                                         }
@@ -175,7 +175,7 @@ class Class {
                                     );
 
                                     s_theme_shared.Theme.set({
-                                        name: data.settings.options_page_theme,
+                                        name: data.settings.prefs.options_page_theme,
                                         additional_theme_callback: s_theme.Theme.set,
                                     });
 
@@ -235,7 +235,7 @@ class Class {
                                 const settings_css = x.css('settings_css', document.head);
 
                                 s_theme_shared.Theme.set({
-                                    name: data.settings.options_page_theme,
+                                    name: data.settings.prefs.options_page_theme,
                                     additional_theme_callback: s_theme.Theme.set,
                                 });
 
@@ -298,7 +298,7 @@ class Class {
                                     );
 
                                     s_theme_shared.Theme.set({
-                                        name: data.settings.options_page_theme,
+                                        name: data.settings.prefs.options_page_theme,
                                         additional_theme_callback: s_theme.Theme.set,
                                     });
 

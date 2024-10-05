@@ -88,7 +88,7 @@ span.background {
         background-color: #d60000;
     }
 
-    .delete_background_btn svg {
+    .btn.delete_background_btn svg {
         position: absolute;
         width: $delete_background_btn_svg_size;
         height: $delete_background_btn_svg_size;
@@ -106,14 +106,27 @@ span.background {
             rgb(0 0 0 / 60%) 0 0 2px,
             rgb(0 0 0 / 60%) 0 4px 8px;
 
-        .btn.text {
-            width: 100%;
+        hr {
+            margin: 0;
+            background-color: #bbb;
+        }
+
+        .btn_w {
             margin: 0;
             border: 0;
+            width: 100%;
+        }
+
+        hr:last-child {
+            display: none;
+        }
+
+        .btn.text {
             outline: none;
             font-size: $overlay_item_font_size;
             background-color: white;
             color: $black;
+            width: 100%;
             height: $overlay_item_size;
             padding-left: $overlay_item_side_padding;
             padding-right: $overlay_item_side_padding;
@@ -122,11 +135,6 @@ span.background {
             &:hover {
                 background-color: #beffba;
             }
-        }
-
-        hr {
-            margin: 0;
-            background-color: #bbb;
         }
     }
 

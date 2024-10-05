@@ -18,19 +18,19 @@ class Class {
 
             s_css_vars.CssVars.set_transition_vars({
                 roots,
-                transition_duration: data.settings.transition_duration,
+                transition_duration: data.settings.prefs.transition_duration,
             });
 
             s_css_vars.CssVars.set_var({
                 roots,
                 name: 'fade_in',
-                val: `fade_in ${data.settings.transition_duration}ms ease-out forwards`,
+                val: `fade_in ${data.settings.prefs.transition_duration}ms ease-out forwards`,
             });
 
             s_css_vars.CssVars.set_var({
                 roots,
                 name: 'fade_out',
-                val: `fade_out ${data.settings.transition_duration}ms ease-out forwards`,
+                val: `fade_out ${data.settings.prefs.transition_duration}ms ease-out forwards`,
             });
         }, 'cnt_1317');
 }

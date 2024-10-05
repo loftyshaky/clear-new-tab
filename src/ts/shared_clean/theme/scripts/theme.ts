@@ -11,6 +11,7 @@ class Class {
     public set = ({ name, el = document.head }: { name: string; el?: HTMLElement }): void =>
         err(() => {
             const name_final = `settings_${name}_theme`;
+
             x.css(name_final, el, 'settings_theme_link');
         }, 'cnt_1368');
 }

@@ -89,15 +89,17 @@ class Class {
                 runInAction(() =>
                     err(() => {
                         if (
-                            data.settings.backgrounds_per_page < this.backgrounds_per_page_min_val
+                            data.settings.prefs.backgrounds_per_page <
+                            this.backgrounds_per_page_min_val
                         ) {
                             this.backgrounds_per_page = this.backgrounds_per_page_min_val;
                         } else if (
-                            data.settings.backgrounds_per_page > this.backgrounds_per_page_max_val
+                            data.settings.prefs.backgrounds_per_page >
+                            this.backgrounds_per_page_max_val
                         ) {
                             this.backgrounds_per_page = this.backgrounds_per_page_max_val;
                         } else {
-                            this.backgrounds_per_page = data.settings.backgrounds_per_page;
+                            this.backgrounds_per_page = data.settings.prefs.backgrounds_per_page;
                         }
                     }, 'cnt_1512'),
                 );
@@ -143,7 +145,7 @@ class Class {
     public on_backgrounds_per_page_reaction = (): void =>
         err(() => {
             reaction(
-                () => data.settings.backgrounds_per_page,
+                () => data.settings.prefs.backgrounds_per_page,
                 this.set_backgrounds_per_page_val_debounce,
             );
         }, 'cnt_1457');

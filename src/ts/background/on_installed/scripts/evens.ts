@@ -7,8 +7,8 @@ we.runtime.onInstalled.addListener(
     (details: Runtime.OnInstalledDetailsType): Promise<void> =>
         err_async(async () => {
             if (details.reason === 'install') {
-                s_data.Data.init_defaults();
-                await s_data.Data.set_from_storage();
+                s_data.Settings.init_defaults();
+                await s_data.Manipulation.set_from_storage();
                 db.init();
                 await s_browser_theme.Backgrounds.attempt_to_run_try_to_get_theme_background();
 

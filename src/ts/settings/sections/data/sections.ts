@@ -1,6 +1,6 @@
 import { d_offers, s_utils } from '@loftyshaky/shared/shared';
 import { o_inputs, o_color, i_inputs } from '@loftyshaky/shared/inputs';
-import { d_settings } from '@loftyshaky/shared/settings';
+import { d_sections as d_sections_loftyshaky } from '@loftyshaky/shared/settings';
 import { svg } from 'shared/internal';
 import {
     d_backgrounds,
@@ -371,7 +371,7 @@ class Class {
                     new o_inputs.Section({
                         name: 'other_settings',
                         inputs: [
-                            d_settings.Sections.get_shared_input({
+                            d_sections_loftyshaky.Sections.get_shared_input({
                                 input_change_val_callback: d_sections.Val.change,
                             }).options_page_theme,
                             new o_inputs.Checkbox({
@@ -404,7 +404,7 @@ class Class {
                         ],
                     }),
                 ],
-                ...d_settings.Sections.make_shared_sections({
+                ...d_sections_loftyshaky.Sections.make_shared_sections({
                     download_back_up_callback: d_sections.Restore.download_back_up,
                     download_back_up_final_callback: () => undefined,
                     upload_back_up_callback: d_sections.Restore.restore_back_up,
@@ -540,9 +540,6 @@ class Class {
 
             this.sections = s_utils.Utils.to_object({
                 arr: this.sections as o_inputs.Section[],
-            });
-            this.sections.back_up.inputs = s_utils.Utils.to_object({
-                arr: this.sections.back_up.inputs as o_inputs.Section[],
             });
             this.sections.restore.inputs = s_utils.Utils.to_object({
                 arr: this.sections.restore.inputs as o_inputs.Section[],

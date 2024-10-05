@@ -45,7 +45,7 @@ export const Actions: React.FunctionComponent<p_backgrounds.Actions> = observer(
                     }
                 />
                 <hr />
-                {data.settings.enable_cut_features ? (
+                {data.settings.prefs.enable_cut_features ? (
                     <c_inputs.Btn
                         input={
                             new o_inputs.Btn({

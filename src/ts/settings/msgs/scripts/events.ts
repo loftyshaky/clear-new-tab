@@ -1,4 +1,4 @@
-import { t, d_settings } from '@loftyshaky/shared/shared';
+import { t, d_data } from '@loftyshaky/shared/shared';
 import { d_backgrounds as d_backgrounds_shared } from 'shared/internal';
 import {
     d_backgrounds,
@@ -13,13 +13,19 @@ we.runtime.onMessage.addListener((msg: t.Msg): any =>
         const msg_str: string = msg.msg;
 
         if (['load_settings', 'update_settings_settings'].includes(msg_str)) {
-            return d_settings.Settings.set_from_storage()
-                .then(() => true)
+            return d_data.Settings.set_from_storage()
+                .then(() => {
+                    if (n(msg.restore_back_up) && msg.restore_back_up) {
+                        d_sections.Restore.restore_back_up_react();
+                    }
+
+                    return true;
+                })
                 .catch((error_obj: any) => show_err_ribbon(error_obj, 'cnt_1492'));
         }
 
         if (msg_str === 'set_current_background_i') {
-            return d_settings.Settings.set_from_storage()
+            return d_data.Settings.set_from_storage()
                 .then(() => {
                     d_backgrounds_shared.CurrentBackground.set_current_background_i({
                         backgrounds: d_backgrounds.Backgrounds.backgrounds,

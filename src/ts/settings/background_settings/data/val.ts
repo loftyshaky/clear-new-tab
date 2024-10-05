@@ -1,7 +1,7 @@
 import { makeObservable, action } from 'mobx';
 
 import { i_data } from '@loftyshaky/shared/shared';
-import { s_db } from 'shared_clean/internal';
+import { d_data, s_db } from 'shared_clean/internal';
 import { d_background_settings } from 'settings/internal';
 
 class Class {
@@ -31,13 +31,18 @@ class Class {
         err_async(async () => {
             if (this.allowed_keys.includes(name)) {
                 if (data.ui.settings_context === 'global') {
-                    data.settings[name] = new_val;
+                    data.settings.prefs[name] = new_val;
 
                     d_background_settings.SettingsContext.react_to_global_selection();
 
-                    await ext.send_msg_resp({
-                        msg: 'update_settings_background',
-                        settings: { [name]: new_val },
+                    await d_data.Manipulation.send_msg_to_update_settings({
+                        settings: {
+                            prefs: {
+                                ...data.settings.prefs,
+                                [name]: new_val,
+                            },
+                        },
+                        load_settings: true,
                         update_background: true,
                     });
                 } else if (data.ui.settings_context === 'selected_background') {
@@ -66,7 +71,7 @@ class Class {
 
             await ext.send_msg_resp({
                 msg: 'set_current_background_data',
-                current_background_id: data.settings.current_background_id,
+                current_background_id: data.settings.prefs.current_background_id,
                 force: true,
             });
 

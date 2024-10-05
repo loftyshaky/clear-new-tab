@@ -75,7 +75,7 @@ class Class {
 
     public calculate_video_repeat_positions = (): i_background.Position[] =>
         err(() => {
-            if (data.settings.enable_video_repeat) {
+            if (data.settings.prefs.enable_video_repeat) {
                 const calculate_video_repeat_positions_for_side = ({
                     dim,
                     direction,

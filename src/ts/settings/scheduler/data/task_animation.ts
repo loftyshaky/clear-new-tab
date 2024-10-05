@@ -30,7 +30,7 @@ class Class {
 
     public forbid_animation = (): Promise<void> =>
         err_async(async () => {
-            await x.delay(data.settings.transition_duration);
+            await x.delay(data.settings.prefs.transition_duration);
 
             runInAction(() =>
                 err(() => {

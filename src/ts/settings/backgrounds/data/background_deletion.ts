@@ -58,7 +58,7 @@ class Class {
             this.background_to_delete_ids = ids;
             this.deleting_background = true;
 
-            await x.delay(data.settings.transition_duration + vars.item_deletion_delay);
+            await x.delay(data.settings.prefs.transition_duration + vars.item_deletion_delay);
 
             await this.delete({ ids, deleting_background_with_delete_button });
 
@@ -91,7 +91,7 @@ class Class {
 
             if (deleting_background_with_delete_button) {
                 current_background_i = s_i.I.find_i_of_item_with_id({
-                    id: data.settings.current_background_id,
+                    id: data.settings.prefs.current_background_id,
                     items: d_backgrounds.Backgrounds.backgrounds,
                 });
                 deleted_background_i = s_i.I.find_i_of_item_with_id({
@@ -121,7 +121,7 @@ class Class {
                             err(() => n(background.theme_id), 'cnt_1103'),
                     );
 
-                if (data.settings.mode === 'theme_background' && n(last_theme_background)) {
+                if (data.settings.prefs.mode === 'theme_background' && n(last_theme_background)) {
                     if (n(last_theme_background)) {
                         await d_backgrounds.CurrentBackground.set_background_as_current({
                             id: last_theme_background.id,

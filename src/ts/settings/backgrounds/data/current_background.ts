@@ -4,7 +4,7 @@ import { makeObservable, observable, action, toJS } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
 import { d_inputs, i_inputs } from '@loftyshaky/shared/inputs';
-import { i_db } from 'shared_clean/internal';
+import { d_data, i_db } from 'shared_clean/internal';
 import { d_backgrounds as d_backgrounds_shared } from 'shared/internal';
 import { d_background_settings, d_backgrounds, d_scheduler, d_sections } from 'settings/internal';
 
@@ -112,12 +112,12 @@ class Class {
     }): Promise<void> =>
         err_async(async () => {
             if (
-                ['one_background', 'multiple_backgrounds'].includes(data.settings.mode) &&
-                data.settings.automatically_set_last_uploaded_background_as_current
+                ['one_background', 'multiple_backgrounds'].includes(data.settings.prefs.mode) &&
+                data.settings.prefs.automatically_set_last_uploaded_background_as_current
             ) {
                 this.set_background_as_current({ id });
             } else if (
-                data.settings.current_background_id ===
+                data.settings.prefs.current_background_id ===
                 d_backgrounds_shared.CurrentBackground.reset_val
             ) {
                 await this.set_current_background_id_to_id_of_first_background();
@@ -166,8 +166,8 @@ class Class {
                     deleted_background_i === current_background_i;
 
                 if (
-                    data.settings.mode === 'multiple_backgrounds' &&
-                    data.settings.shuffle_backgrounds &&
+                    data.settings.prefs.mode === 'multiple_backgrounds' &&
+                    data.settings.prefs.shuffle_backgrounds &&
                     deleting_current_background
                 ) {
                     new_current_background_id = this.get_id_of_random_background();
@@ -196,7 +196,8 @@ class Class {
 
     public reset_current_background_id = (): void =>
         err(() => {
-            data.settings.current_background_id = d_backgrounds_shared.CurrentBackground.reset_val;
+            data.settings.prefs.current_background_id =
+                d_backgrounds_shared.CurrentBackground.reset_val;
             data.ui.current_background_i = d_backgrounds_shared.CurrentBackground.reset_val;
 
             this.save_current_background_id_from_i();
@@ -204,13 +205,15 @@ class Class {
 
     public set_current_and_future_background_id_to_default = (): Promise<void> =>
         err_async(async () => {
-            data.settings.current_background_id = d_backgrounds_shared.CurrentBackground.reset_val;
-            data.settings.future_background_id = d_backgrounds_shared.CurrentBackground.reset_val;
+            data.settings.prefs.current_background_id =
+                d_backgrounds_shared.CurrentBackground.reset_val;
+            data.settings.prefs.future_background_id =
+                d_backgrounds_shared.CurrentBackground.reset_val;
             data.ui.current_background_i = d_backgrounds_shared.CurrentBackground.reset_val;
 
-            await ext.send_msg_resp({
-                msg: 'update_settings_background',
+            await d_data.Manipulation.send_msg_to_update_settings({
                 settings: data.settings,
+                load_settings: true,
                 update_instantly: true,
             });
         }, 'cnt_1423');
@@ -230,7 +233,7 @@ class Class {
 
             while (
                 future_background_id === 0 ||
-                future_background_id === data.settings.current_background_id
+                future_background_id === data.settings.prefs.current_background_id
             ) {
                 future_background_id =
                     d_backgrounds.Backgrounds.backgrounds[
