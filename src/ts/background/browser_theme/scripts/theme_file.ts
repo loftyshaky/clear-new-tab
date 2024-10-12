@@ -40,9 +40,8 @@ class Class {
                 const file_type: string = `${is_img_file ? 'image/' : 'video/'}${this.get_file_ext({
                     file_name: is_img_file ? img_file_name : clear_new_tab_video_file_name,
                 })}`;
-                const blob = await (n(clear_new_tab_video_file)
-                    ? clear_new_tab_video_file
-                    : img_file_final
+                const blob = await (
+                    n(clear_new_tab_video_file) ? clear_new_tab_video_file : img_file_final
                 ).async('blob');
                 const file = this.convert_to_file_object({ blob, file_type });
 
