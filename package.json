@@ -8,7 +8,7 @@
         "deve": "webpack --watch --mode=development --env test --env browser=edge",
         "prode": "webpack --mode=production --env browser=edge",
         "prodteste": "webpack --mode=production --env test --env browser=edge",
-        "fix": "prettier webpack.config.js **/*.js **/*.ts **/*.scss **/*.json **/*.html --write & eslint **/*.js **/*.ts --fix & stylelint **/*.scss --fix"
+        "fix": "prettier webpack.config.cjs **/*.js **/*.ts **/*.scss **/*.json **/*.html --write & eslint **/*.js **/*.ts --fix & stylelint **/*.scss --fix"
     },
     "devDependencies": {
         "@babel/eslint-parser": "^7.25.1",
