@@ -321,7 +321,7 @@ class Class {
                 }),
                 new o_schema.TransformItem({
                     new_key: 'one_backup_file_size_in_bytes',
-                    new_val: 536870888,
+                    new_val: 419430400,
                 }),
                 new o_schema.TransformItem({
                     new_key: 'backgrounds_per_page',

@@ -34,7 +34,7 @@ class Class {
                 }
 
                 if (input.name === 'one_backup_file_size_in_bytes') {
-                    return val < 52428800 || val > 536870888;
+                    return val < 52428800 || val > 419430400;
                 }
 
                 if (input.name === 'backgrounds_per_page') {
