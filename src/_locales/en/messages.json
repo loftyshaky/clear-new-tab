@@ -18,13 +18,13 @@
         "message": ""
     },
     "select_background_notification": {
-        "message": "To change settings of a particular background, select it from the \"Backgrounds\" section first."
+        "message": "To change the settings of a particular background, first select it in the \"Backgrounds\" section."
     },
     "set_background_as_current_notification": {
-        "message": "To set a background as current, select it from the \"Backgrounds\" section first."
+        "message": "To make a background current, first select it in the \"Backgrounds\" section."
     },
     "unable_to_load_background_of_local_theme_notification": {
-        "message": "Automatic loading of the background of a locally installed theme is not supported. To load the background of a locally installed theme manually, click on the \"Link to theme background\" button, in the opened tab right-click on the image and select \"Copy image\" from the context menu. Then go to the Clear New Tab settings page and paste the copied image into the \"Paste image or URL\" field."
+        "message": "Automatic loading of the background from a locally installed theme is not supported. To load it manually, click the \"View theme background\" button, in the newly opened tab, right-click the image and select \"Copy image\" from the context menu. Next, go to the Clear New Tab settings page and paste the copied image into the \"Paste image or its link\" field."
     },
     "delete_all_backgrounds_confirm": {
         "message": "Delete all backgrounds?"
@@ -36,7 +36,7 @@
         "message": "Delete custom HTML/CSS/JS?"
     },
     "enter_new_background_no_prompt": {
-        "message": "Enter the new background №:"
+        "message": "Enter the new background number:"
     },
     "background_upload_section_text": {
         "message": "Background upload"
@@ -54,16 +54,16 @@
         "message": "or drag images/videos here"
     },
     "link_to_theme_img_link_btn_text": {
-        "message": "Link to theme background"
+        "message": "View theme background"
     },
     "load_theme_background_btn_text": {
         "message": "Load theme background"
     },
     "paste_background_label_text": {
-        "message": "Paste image or URL"
+        "message": "Paste image or its link"
     },
     "download_img_when_link_given_label_text": {
-        "message": "Download image when link given"
+        "message": "Download image when a link is provided"
     },
     "create_solid_color_background_label_text": {
         "message": "Create solid color background"
@@ -78,13 +78,13 @@
         "message": "Color type"
     },
     "keep_old_theme_backgrounds_label_text": {
-        "message": "Keep old themes' backgrounds"
+        "message": "Keep backgrounds of old themes"
     },
     "current_background_id_label_text": {
-        "message": "Current background №"
+        "message": "Current background number"
     },
     "automatically_set_last_uploaded_background_as_current_label_text": {
-        "message": "Automatically set the last uploaded background as current"
+        "message": "Automatically set the last uploaded background as the current one."
     },
     "background_change_interval_label_text": {
         "message": "Change background every"
@@ -114,7 +114,7 @@
         "message": "Background repeat"
     },
     "color_of_area_around_background_label_text": {
-        "message": "Color of area around background"
+        "message": "Color of the area around the background"
     },
     "video_speed_group_label_text": {
         "message": "Video speed"
@@ -123,7 +123,7 @@
         "message": "Video volume"
     },
     "one_backup_file_size_in_bytes_label_text": {
-        "message": "One backup file size (bytes)"
+        "message": "Size of one backup file (bytes)"
     },
     "delete_all_backgrounds_btn_text": {
         "message": "Delete all backgrounds"
@@ -135,19 +135,19 @@
         "message": "Delete custom HTML/CSS/JS"
     },
     "home_btn_is_visible_label_text": {
-        "message": "Show \"Home\" button in new tab page"
+        "message": "Show \"Home\" button in the new tab page"
     },
     "home_btn_position_label_text": {
         "message": "\"Home\" button position"
     },
     "paste_btn_is_visible_label_text": {
-        "message": "Add \"Paste\" button to \"Paste image or URL\" input"
+        "message": "Add \"Paste\" button to the \"Paste image or its link\" input"
     },
     "custom_code_btn_text": {
         "message": "Custom HTML/CSS/JS"
     },
     "allow_downloading_img_by_link_label_text": {
-        "message": "Allow downloading an image when a link to an image pasted in \"Paste image or URL\" input"
+        "message": "Allow downloading an image when a link is pasted into the 'Paste image or its link' field"
     },
     "backgrounds_per_page_label_text": {
         "message": "Backgrounds per page"
@@ -156,13 +156,13 @@
         "message": "Enable the ability to repeat video backgrounds"
     },
     "always_use_alarms_api_to_change_background_in_slideshow_mode_label_text": {
-        "message": "Always use alarms API to change background in slideshow mode"
+        "message": "Always use the Alarms API to change background in slideshow mode"
     },
     "show_item_developer_info_in_tooltip_label_text": {
-        "message": "Show background/task developer info in tooltip"
+        "message": "Show developer info of background/task in tooltip"
     },
     "update_database_when_dnd_item_label_text": {
-        "message": "Update database when dragging and dropping background or task"
+        "message": "Update the database when dragging and dropping a background or task"
     },
     "year_label_text": {
         "message": "Year"
@@ -183,7 +183,7 @@
         "message": "Add new task"
     },
     "paste_background_text_btn_title": {
-        "message": "Paste image or URL from clipboard"
+        "message": "Paste image or its link from clipboard"
     },
     "set_background_as_current_text_btn_title": {
         "message": "Set selected background as current"
@@ -210,7 +210,7 @@
         "message": "Pastel"
     },
     "1_millisecond_option_text": {
-        "message": "Instant"
+        "message": "Instant (new background per tab)"
     },
     "3_seconds_option_text": {
         "message": "3 Seconds"
@@ -453,7 +453,7 @@
         "message": "Move"
     },
     "copy_background_id_btn_text": {
-        "message": "Copy id"
+        "message": "Copy ID"
     },
     "show_scheduler_help_btn_title": {
         "message": "Show/hide scheduler help"
@@ -501,61 +501,61 @@
         "message": "Last page"
     },
     "install_help_chrome_text": {
-        "message": "Thank you for installing Clear New Tab! If your Chrome has a theme from the <a class='link extension_store' href='https://chromewebstore.google.com/category/themes' target='_blank' rel='noopener noreferrer'>Chrome Web Store</a> installed, wait till its background appears in the \"Backgrounds\" section, and then open the new tab to see it. Otherwise, you can upload your own background with the form below. If you need help on how to use the extension click on ? buttons or watch the <a class='link video_guide' href='https://www.youtube.com/watch?v=_Z9Lxb7qx2Y' target='_blank' rel='noopener noreferrer'>video guide</a>. Click <button class='btn link_btn hide_install_help' type='button' tabindex='0'>here</button> to hide this message."
+        "message": "Thank you for installing Clear New Tab! If you have a theme installed from the <a class='link extension_store' href='https://chromewebstore.google.com/category/themes' target='_blank' rel='noopener noreferrer'>Chrome Web Store</a>, please wait until its background appears in the \"Backgrounds\" section, then open a new tab to see it. Otherwise, you can upload your own background using the form below. If you need help, click on the ? buttons or watch the <a class='link video_guide' href='https://www.youtube.com/watch?v=_Z9Lxb7qx2Y' target='_blank' rel='noopener noreferrer'>video guide</a>. Click <button class='btn link_btn hide_install_help' type='button' tabindex='0'>here</button> to hide this message."
     },
     "install_help_edge_text": {
-        "message": "Thank you for installing Clear New Tab! If your Edge has a theme from the <a class='link extension_store' href='https://microsoftedge.microsoft.com/addons/microsoft-edge-themes' target='_blank' rel='noopener noreferrer'>Edge Add-ons store</a> installed, wait till its background appears in the \"Backgrounds\" section, and then open the new tab to see it. Otherwise, you can upload your own background with the form below. If you need help on how to use the extension click on ? buttons or watch the <a class='link video_guide' href='https://www.youtube.com/watch?v=dBLZ0j1PJWw' target='_blank' rel='noopener noreferrer'>video guide</a>. Click <button class='btn link_btn hide_install_help' type='button' tabindex='0'>here</button> to hide this message."
+        "message": "Thank you for installing Clear New Tab! If you have a theme installed from the <a class='link extension_store' href='https://microsoftedge.microsoft.com/addons/microsoft-edge-themes' target='_blank' rel='noopener noreferrer'>Edge Add-ons store</a>, please wait until its background appears in the \"Backgrounds\" section, then open a new tab to see it. Otherwise, you can upload your own background using the form below. If you need help, click on the ? buttons or watch the <a class='link video_guide' href='https://www.youtube.com/watch?v=dBLZ0j1PJWw' target='_blank' rel='noopener noreferrer'>video guide</a>. Click <button class='btn link_btn hide_install_help' type='button' tabindex='0'>here</button> to hide this message."
     },
     "install_help_firefox_text": {
-        "message": "Thank you for installing Clear New Tab! You can install a theme from the <a class='link extension_store' href='https://chromewebstore.google.com/category/themes' target='_blank' rel='noopener noreferrer'>Chrome Web Store</a> or upload your own background with the form below. If you need help on how to use the extension click on ? buttons or watch the <a class='link video_guide' href='https://www.youtube.com/watch?v=_Z9Lxb7qx2Y' target='_blank' rel='noopener noreferrer'>video guide</a>. Click <button class='btn link_btn hide_install_help' type='button' tabindex='0'>here</button> to hide this message."
+        "message": "[text is not updated!] Thank you for installing Clear New Tab! You can install a theme from the <a class='link extension_store' href='https://chromewebstore.google.com/category/themes' target='_blank' rel='noopener noreferrer'>Chrome Web Store</a> or upload your own background with the form below. If you need help on how to use the extension click on ? buttons or watch the <a class='link video_guide' href='https://www.youtube.com/watch?v=_Z9Lxb7qx2Y' target='_blank' rel='noopener noreferrer'>video guide</a>. Click <button class='btn link_btn hide_install_help' type='button' tabindex='0'>here</button> to hide this message."
     },
     "restore_help_text": {
-        "message": "Here you can download and restore a Clear New Tab data back up. All Clear New Tab data is included in the back up, including your backgrounds and custom HTML/CSS/JS. If the data size exceeds 512 megabytes, the backup will be split into multiple files. You can restore a backup by uploading all files at once. Or, if something went wrong, you can upload each file individually starting from the first part (Part 1)."
+        "message": "Here, you can download and restore a backup of your Clear New Tab data. The backup includes all Clear New Tab data, such as your backgrounds and custom HTML/CSS/JS. If the total data size exceeds the limit set in the \"Size of one backup file (bytes)\" input (400 MB by default), the backup will be split into multiple files. You can restore a backup by uploading all files at once. If you encounter any issues, you can upload the files in batches or individually, starting with \"Part 1\"."
     },
     "scheduler_help_text": {
-        "message": "Here you can create tasks. A \"task\" is a background scheduled to appear in the new tab at a certain date and time. To create a task, click on a background from the \"Backgrounds\" section, choose desired date and time and then click on the \"Add new task\" button. It's not necessary to choose a full date, you can choose a date of any specificity. Omitting \"year\" will make the task recurrent - it will run every year on a specified date and time. Omitting \"Time\" will make the task run at 12:00:00 AM on the specified date. The \"Time\" field is in 24-Hour format.\n\nExamples:\nMarch 2, 2023 13:00:00 - the task will run once on March 2, 2023 13:00:00 after which the task will be removed from the list.\nMarch 2 - the task will run every year on March 2 00:00:00.\nMarch - the task will run every year on March 1 00:00:00.\n2 (day of the month) - the task will run on the 2nd of every month at 00:00:00.\nWednesday - the task will run every Wednesday at 00:00:00.\n13:00:00 - the task will run every day at 1:00:00 PM.\n\nTasks can be reordered by dragging them. If two tasks are scheduled to run at the same time, the task closer to the end of the list will take priority. For example, if you have a task scheduled to run every Sunday and other at December 25, 2022, you would need to move the \"Christmas\" task lower than the \"Sunday\" task if you want to see the \"Christmas\" background instead of the usual \"Sunday\" background.\n\nThe minimum interval between tasks is 1 minute."
+        "message": "Here you can create tasks. A \"task\" refers to a planned event that determines when a particular background will appear in the new tab, scheduled for a specific date and time. To create a task, click on a background from the \"Backgrounds\" section, select your desired date and time, and then click the \"Add new task\" button. It's not necessary to specify a complete date; you can choose a date with any level of specificity. If you don't provide a one-time exact date, the task will be set to repeat on a regular basis. Omitting \"Time\" will cause the task to run at 12:00:00 AM on the specified date. The \"Time\" field uses a 24-hour format.\n\nExamples:\nMarch 2, 2023 13:00:00 - the task will execute once on March 2, 2023, at 13:00:00, after which it will be removed from the list.\nMarch 2 - the task will run annually on March 2 at 00:00:00.\nMarch - the task will run every year on March 1 at 00:00:00.\n2 (day of the month) - the task will run on the 2nd of every month at 00:00:00.\nWednesday - the task will run every Wednesday at 00:00:00.\n13:00:00 - the task will run daily at 1:00:00 PM.\n\nTasks can be reordered by dragging them. If two tasks are scheduled to run simultaneously, the task located further down the list will take precedence. For instance, if you have a task scheduled to run every Sunday and another set for December 25, 2022, you will need to move the \"Christmas\" task below the \"Sunday\" task to see the \"Christmas\" background instead of the usual \"Sunday\" background.\n\nThe minimum interval between tasks is 1 minute."
     },
     "custom_code_help_text": {
-        "message": "Here you can put custom HTML/CSS/JS for the new tab page. The code here will not remove the functionality of backgrounds."
+        "message": "Here you can put custom HTML/CSS/JS for the new tab page. The code here will not remove the functionality of backgrounds. To make links work add target=\"_top\" to the <a> tag. Example: <a href=\"https://www.microsoft.com\" target=\"_top\">Microsoft</a>."
     },
     "upload_background_help_text": {
-        "message": "You can upload multiple files at once. If you upload with the \"Browse\" button, select multiple files before you click \"Open\". If you upload by drag and drop, select multiple files before dragging them.\n\nSupported formats: png, jpg, gif, mp4, webm, ogg."
+        "message": "You can upload multiple files simultaneously. When using the \"Browse\" button, select all the files you wish to upload before clicking \"Open\". If you prefer drag and drop, ensure you've selected multiple files before dragging them.\n\nSupported formats: PNG, JPG, GIF, MP4, WebM, OGG."
     },
     "paste_background_help_text": {
-        "message": "You can paste a direct link to an image or an image from the clipboard to this input. To get a direct link to an image right-click on it, select \"Open image in new tab\" from the context menu, go to the opened tab and then copy the link from the address bar. To copy an image to the clipboard right-click on it and then select \"Copy image\" from the context menu. Gif animation will not be preserved when you paste an image from clipboard, but will be presserved if you paste a direct link.\n\nSupported formats: png, jpg, gif."
+        "message": "You can paste a direct link to an image or an image from your clipboard into this field. To obtain a direct link, right-click on the image and select \"Open image in new tab\" from the context menu. Then, go to the opened tab and copy the link from the address bar. To copy an image to your clipboard, right-click on it and choose \"Copy image\" from the context menu. Please note that GIF animation will not be preserved when pasting an image from the clipboard; however, it will be preserved if you paste a direct link.\n\nSupported formats: PNG, JPG, GIF."
     },
     "mode_chrome_help_text": {
-        "message": "Theme background: when this mode is chosen, backgrounds of themes that you install in the Chrome Web Store will be automatically downloaded and appear in the new tab. In this mode, you do not need to upload your own backgrounds. If you uploaded your own backgrounds, use \"One background\", \"Multiple backgrounds\" or \"Scheduled\" modes.\n\nOne background: when this mode is chosen, the new tab will display one of the backgrounds you uploaded and chose as the current background in the \"Current background №\" input. Use this mode if you have uploaded your own backgrounds and want to see one of them in the new tab.\n\nMultiple backgrounds: when this mode is chosen, the new tab will display one of the backgrounds you uploaded, changing it at a given interval. If you want to see a different background every new tab, set the \"Change background every\" select value to \"1 Millisecond\". Use this mode if you want to see all backgrounds you uploaded. This mode does not guarantee that backgrounds will be displayed at a certain date. If you, for example, want a specific background to be displayed on each day of the week, use \"Scheduled\" mode.\n\nRandom solid color: when this mode is chosen, the new tab will display a randomly chosen color, changing it at a given interval.\n\nScheduled: when this mode is chosen, the new tab will display a specific background(s) at the date and time you choose. Use this mode if you want the specific background(s) to be displayed at the exact time."
+        "message": "Theme background: When this mode is selected, the backgrounds of themes you install from the Chrome Web Store will be automatically downloaded and displayed in the new tab. In this mode, there is no need to upload your own backgrounds. If you have uploaded your own backgrounds, you can switch to the \"One background\", \"Multiple backgrounds\", or \"Scheduled\" modes.\n\nOne background: In this mode, the new tab will display one of the backgrounds you uploaded, which you have designated as the current background in the \"Current background number\" field. Use this mode if you want to see one of your uploaded backgrounds in the new tab.\n\nMultiple backgrounds: In this mode, the new tab will showcase one of the uploaded backgrounds, changing it at a specified interval. If you want a different background for each new tab, set the \"Change background every\" option to \"Instant (new background per tab)\". Use this mode if you wish to cycle through all your uploaded backgrounds. Please note that this mode does not guarantee specific backgrounds will appear on certain dates. For instance, if you want particular backgrounds to display on each day of the week, use the \"Scheduled\" mode.\n\nRandom solid color: When this mode is selected, the new tab will display a randomly chosen color, changing at a specified interval.\n\nScheduled: In this mode, the new tab will display specific background(s) at the date and time you select. Use this mode if you want specific background(s) to appear at precise times."
     },
     "mode_edge_help_text": {
-        "message": "Theme background: when this mode is chosen, backgrounds of themes that you install in the Edge Add-ons store will be automatically downloaded and appear in the new tab. In this mode, you do not need to upload your own backgrounds. If you uploaded your own backgrounds, use \"One background\", \"Multiple backgrounds\" or \"Scheduled\" modes.\n\nOne background: when this mode is chosen, the new tab will display one of the backgrounds you uploaded and chose as the current background in the \"Current background №\" input. Use this mode if you have uploaded your own backgrounds and want to see one of them in the new tab.\n\nMultiple backgrounds: when this mode is chosen, the new tab will display one of the backgrounds you uploaded, changing it at a given interval. If you want to see a different background every new tab, set \"Change background every\" select value to \"1 Millisecond\". Use this mode if you want to see all backgrounds you uploaded. This mode does not guarantee that backgrounds will be displayed at a certain date. If you, for example, want a specific background to be displayed on each day of the week, use \"Scheduled\". mode\n\nRandom solid color: when this mode is chosen, the new tab will display a randomly chosen color, changing it at a given interval.\n\nScheduled: when this mode is chosen, the new tab will display a specific background(s) at the date and time you choose. Use this mode if you want the specific background(s) to be displayed at the exact time."
+        "message": "Theme background: When this mode is selected, the backgrounds of themes you install from the Edge Add-ons store will be automatically downloaded and displayed in the new tab. In this mode, there is no need to upload your own backgrounds. If you have uploaded your own backgrounds, you can switch to the \"One background\", \"Multiple backgrounds\", or \"Scheduled\" modes.\n\nOne background: In this mode, the new tab will display one of the backgrounds you uploaded, which you have designated as the current background in the \"Current background number\" field. Use this mode if you want to see one of your uploaded backgrounds in the new tab.\n\nMultiple backgrounds: In this mode, the new tab will showcase one of the uploaded backgrounds, changing it at a specified interval. If you want a different background for each new tab, set the \"Change background every\" option to \"Instant (new background per tab)\". Use this mode if you wish to cycle through all your uploaded backgrounds. Please note that this mode does not guarantee specific backgrounds will appear on certain dates. For instance, if you want a particular background to display on each day of the week, use the \"Scheduled\" mode.\n\nRandom solid color: When this mode is selected, the new tab will display a randomly chosen color, changing at a specified interval.\n\nScheduled: In this mode, the new tab will display specific background(s) at the date and time you select. Use this mode if you want specific background(s) to appear at precise times."
     },
     "slideshow_help_text": {
-        "message": "When сhecked, background will change dynamically right in the tab you are in. When unchecked, background in previously opened new tab pages will always stay the same, even if current background has changed."
+        "message": "When this option is enabled, the background will dynamically change on new tab pages that have already been opened. If the option is disabled, the background on previously opened new tab pages will remain unchanged, even if the current background has been updated."
     },
     "settings_context_help_text": {
-        "message": "This setting controls the specificity of all remaining settings in this section. These settings are: \"Background size\", \"Background position\", \"Background repeat\", \"Color of area around background\" and \"Video volume\".\n\nIf \"Global\" is chosen, listed settings apply to all backgrounds.\n\nIf \"Selected background\" is chosen, listed settings apply only to the background chosen in the \"Backgrounds\" section. To choose a background click on it. After you have chosen a background, the \"Settings context\" select will automatically change its value to \"Selected background\", indicating that background is successfully chosen. In addition, in this settings context, all listed settings would also allow you to use \"Global\" value."
+        "message": "This setting determines the scope of all other settings in this section, which include: \"Background size\", \"Background position\", \"Background repeat\", \"Color of the area around the background\", \"Video speed\", and \"Video volume\".\n\nIf \"Global\" is selected, these settings apply to all backgrounds.\n\nIf \"Selected background\" is chosen, they apply only to the background selected in the \"Backgrounds\" section. To select a background, click on it. Once chosen, the \"Settings context\" will automatically switch to \"Selected background\", confirming the background selection. In this context, each setting will also offer the option to use the \"Global\" value."
     },
     "background_size_help_text": {
-        "message": "Don't resize:\nKeep original size of the background.\n\nCover the screen/browser window:\nResize the background to cover the entire screen/browser window, even if it has to cut a part of it from the edges.\n\nFit to the screen/browser window:\nResize the background to make sure the background is fully visible on screen/browser window.\n\nStretch to fit the screen/browser window:\nResize the background to maximum screen/browser window width and height. Doesn't preserve the aspect ratio of the background.\n\nIf the background of the theme you installed is too big or small and you want to resize it to fill the screen and leave no empty space, then \"Cover the screen\" option is recommended."
+        "message": "Don't resize:\nKeep the original size of the background.\n\nCover the screen/browser window:\nResize the background to cover the entire screen/browser window, even if parts are cropped at the edges.\n\nFit to the screen/browser window:\nResize the background so that the entire image is fully visible within the screen/browser window, leaving empty space at the edges if necessary.\n\nStretch to fit the screen/browser window:\nResize the background to the maximum width and height of the screen/browser window, without preserving its aspect ratio.\n\nIf the background in your installed theme appears too large or small, and you want it to fill the screen without leaving empty space, selecting \"Cover the screen\" is recommended."
     },
     "background_position_help_text": {
-        "message": "This setting allows you to move a background around within the browser window. It behaves the same way as the CSS property background-position."
+        "message": "This setting allows you to adjust the background's position within the browser window, functioning similarly to the CSS property background-position."
     },
     "background_repeat_help_text": {
-        "message": "This setting allows you to duplicate a background infinitely over Y and/or X-axis. It behaves the same way as the CSS property background-repeat."
+        "message": "This setting allows you to infinitely duplicate the background along the Y and/or X-axis, functioning similarly to the CSS property background-repeat."
     },
     "color_of_area_around_background_group_help_text": {
-        "message": "Apart from the main function, this setting (in global settings context) also determines the color visible before any background is displayed when you open a new tab, so if you want to eliminate the \"white flash\" set this setting's value to a darker color."
+        "message": "In addition to its main function, this setting (in the global settings context) determines the color displayed before any background is loaded when you open a new tab. To eliminate the 'white flash,' set this value to a darker color."
     },
     "video_speed_group_help_text": {
-        "message": "This setting allows you to control a video playback speed. 1.0 is \"normal speed\". Values lower than 1.0 make the video play slower than normal. Higher values make it play faster. The minimum value is 0 (video does not play). The maximum value is 16."
+        "message": "This setting allows you to control the video playback speed. A value of 1.0 represents \"normal speed\". Values lower than 1.0 slow down the playback, while higher values increase the speed. The minimum value is 0 (video will not play), and the maximum value is 16."
     },
     "one_backup_file_size_in_bytes_help_text": {
-        "message": "This setting allows you to change the size of the files into which the backup will be split. If Clear New Tab crash during back up download you can try to lower this value.\n\nMinimum value: 52428800.\nMaximum value: 536870888."
+        "message": "This setting allows you to adjust the size of the files into which the backup will be split. If Clear New Tab crashes during the backup download, you may try to lower this value.\n\nMinimum value: 52428800 bytes (50 MB).\nMaximum value: 419430400 bytes (400 MB)."
     },
     "home_btn_is_visible_help_text": {
-        "message": "Displays \"Home\" button in the new tab page that leads to the default new tab page."
+        "message": "Displays a \"Home\" button on the new tab page that directs you to the default new tab page."
     },
     "github_link_href": {
         "message": "https://github.com/loftyshaky/clear-new-tab"
