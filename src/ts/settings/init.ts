@@ -1,4 +1,4 @@
-import { d_color, s_color } from '@loftyshaky/shared/inputs';
+import { d_inputs,d_color, s_color } from '@loftyshaky/shared/inputs';
 import { d_data } from 'shared_clean/internal';
 import { InitAll, s_preload_color } from 'shared/internal';
 import {
@@ -16,6 +16,7 @@ import {
 export const init = (): Promise<void> =>
     err_async(async () => {
         await InitAll.init();
+        d_inputs.InputWidth.set_min_and_max_width({ min_width: 323 });
         d_data.Ui.create_ui_objs();
         d_sections.Options.init();
         d_sections.Sections.init();
