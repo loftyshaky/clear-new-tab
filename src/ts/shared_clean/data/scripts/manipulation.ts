@@ -335,6 +335,14 @@ class Class {
                     new_key: 'developer_mode',
                     new_val: false,
                 }),
+                new o_schema.TransformItem({
+                    new_key: 'clipboard_read_permission',
+                    new_val: false,
+                }),
+                new o_schema.TransformItem({
+                    new_key: 'paste_btn_is_visible',
+                    new_val: false,
+                }),
             ];
 
             const updated_prefs = await d_schema.Schema.transform({

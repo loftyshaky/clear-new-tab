@@ -6,6 +6,7 @@ import {
     d_backgrounds,
     d_sections,
     d_custom_code,
+    s_optional_permissions,
     d_scheduler,
     s_custom_code,
     s_theme,
@@ -387,7 +388,6 @@ class Class {
                             }),
                             new o_inputs.Checkbox({
                                 name: 'paste_btn_is_visible',
-                                val_accessor: 'ui.paste_btn_is_visible',
                                 event_callback: d_sections.Val.change,
                             }),
                             new o_inputs.Checkbox({
@@ -404,6 +404,17 @@ class Class {
                         ],
                     }),
                 ],
+                new o_inputs.Section({
+                    name: 'permissions',
+                    inputs: [
+                        new o_inputs.Checkbox({
+                            name: 'clipboard_read_permission',
+                            alt_msg: ext.msg(`clipboard_read_permission_${env.browser}_label_text`),
+                            event_callback:
+                                s_optional_permissions.Permissions.change_clipboard_read_permission,
+                        }),
+                    ],
+                }),
                 ...d_sections_loftyshaky.Sections.make_shared_sections({
                     download_back_up_callback: d_sections.Restore.download_back_up,
                     download_back_up_final_callback: () => undefined,

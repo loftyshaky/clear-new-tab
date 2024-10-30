@@ -1,15 +1,20 @@
 import clone from 'lodash/clone';
 import isEqual from 'lodash/isEqual';
+import { runInAction } from 'mobx';
 
 import { t } from '@loftyshaky/shared/shared';
 import { d_inputs, i_inputs } from '@loftyshaky/shared/inputs';
-import { d_sections as d_sections_loftyshaky } from '@loftyshaky/shared/settings';
+import {
+    d_optional_permissions,
+    d_sections as d_sections_loftyshaky,
+} from '@loftyshaky/shared/settings';
 import { d_data, s_css_vars, s_data, s_db, i_data, i_db } from 'shared_clean/internal';
 import { d_progress, s_preload_color } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
     d_browser_theme,
+    s_optional_permissions,
     d_pagination,
     d_protecting_screen,
     d_scheduler,
@@ -440,6 +445,36 @@ class Class {
                         });
                     }
                 }, 'cnt_1418');
+
+            if (data.settings.prefs.paste_btn_is_visible) {
+                await d_optional_permissions.Permission.show_enable_permissions_notification({
+                    permissions: [
+                        {
+                            name: 'clipboardRead',
+                            permission:
+                                s_optional_permissions.Permissions.optional_permission_checkbox_dict
+                                    .paste_btn_is_visible,
+                        },
+                    ],
+                });
+            }
+
+            const clipboard_read_permission: boolean =
+                // eslint-disable-next-line max-len
+                await s_optional_permissions.Permissions.check_if_contains_permission({
+                    name: 'paste_btn_is_visible',
+                });
+
+            runInAction(() =>
+                err(() => {
+                    data.settings.prefs.clipboard_read_permission = clipboard_read_permission;
+                }, 'cot_1131'),
+            );
+
+            await d_data.Manipulation.send_msg_to_update_settings({
+                settings: data.settings,
+                update_instantly: true,
+            });
 
             if (n(this.full_data_obj)) {
                 if (this.one_of_the_uploaded_files_has_settings) {

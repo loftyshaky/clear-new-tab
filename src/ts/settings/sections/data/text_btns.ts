@@ -12,7 +12,7 @@ class Class {
         err(() => true, 'cnt_1282');
 
     public decide_paste_background_btn_visibility = (): boolean =>
-        err(() => data.ui.paste_btn_is_visible, 'cnt_1283');
+        err(() => data.settings.prefs.paste_btn_is_visible, 'cnt_1283');
 }
 
 export const TextBtns = Class.get_instance();

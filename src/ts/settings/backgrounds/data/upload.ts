@@ -1,7 +1,12 @@
 import { o_inputs, d_inputs } from '@loftyshaky/shared/inputs';
 import { d_backgrounds as d_backgrounds_shared_clean, i_db } from 'shared_clean/internal';
 import { d_progress } from 'shared/internal';
-import { d_backgrounds, d_protecting_screen, s_scrollable } from 'settings/internal';
+import {
+    d_backgrounds,
+    d_protecting_screen,
+    s_optional_permissions,
+    s_scrollable,
+} from 'settings/internal';
 
 class Class {
     private static instance: Class;
@@ -120,9 +125,22 @@ class Class {
             d_protecting_screen.Visibility.hide();
         }, 'cnt_1140');
 
-    public upload_with_paste_btn = (): void =>
-        err(() => {
-            document.execCommand('paste');
+    public upload_with_paste_btn = (): Promise<void> =>
+        err_async(async () => {
+            const clipboard_read_permission: boolean =
+                await s_optional_permissions.Permissions.check_if_contains_permission({
+                    name: 'paste_btn_is_visible',
+                });
+
+            if (clipboard_read_permission) {
+                document.execCommand('paste');
+            } else {
+                show_notification({
+                    error_msg_key: 'permissions_are_missing_error',
+                    notification_type: 'error',
+                    hide_delay: 15000,
+                });
+            }
         }, 'cnt_1141');
 
     private convert_blob_to_file_object = ({ blob }: { blob: Blob }): File =>

@@ -1,4 +1,4 @@
-import { action } from 'mobx';
+import { action, runInAction } from 'mobx';
 
 import { i_data, i_color as i_color_shared } from '@loftyshaky/shared/shared';
 import { o_color, d_inputs, d_color, i_inputs, i_color } from '@loftyshaky/shared/inputs';
@@ -14,7 +14,7 @@ import { s_preload_color } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
-    d_optional_permission_settings,
+    s_optional_permissions,
     d_sections,
     d_scheduler,
 } from 'settings/internal';
@@ -180,18 +180,39 @@ class Class {
                     }
 
                     const is_optional_permission_checkbox: boolean = Object.keys(
-                        d_optional_permission_settings.Permission.optional_permission_checkbox_dict,
+                        s_optional_permissions.Permissions.optional_permission_checkbox_dict,
                     ).includes(input.name);
 
                     if (is_optional_permission_checkbox) {
-                        d_inputs.Val.set({
-                            val: !val,
-                            input,
-                        });
+                        if (data.settings.prefs.paste_btn_is_visible) {
+                            // if paste_btn_is_visible was false
+                            const contains: boolean =
+                                // eslint-disable-next-line max-len
+                                await s_optional_permissions.Permissions.check_if_contains_permission(
+                                    {
+                                        name: 'paste_btn_is_visible',
+                                    },
+                                );
+                            const granted: boolean = contains
+                                ? true
+                                : await s_optional_permissions.Permissions.set_permission({
+                                      name: input.name,
+                                  });
 
-                        await d_optional_permission_settings.Permission.set({
-                            name: input.name,
-                        });
+                            val = granted;
+
+                            if (granted) {
+                                runInAction(() =>
+                                    err(() => {
+                                        data.settings.prefs.clipboard_read_permission = true;
+                                    }, 'cnt_1535'),
+                                );
+                            }
+                        } else {
+                            val = false;
+                        }
+
+                        await set_val();
                     } else {
                         await set_val();
                     }

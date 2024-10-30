@@ -18,6 +18,7 @@ class Class {
             this.defaults = {
                 prefs: {
                     version: ext.get_app_version(),
+                    clipboard_read_permission: false,
                     options_page_theme: 'lavender',
                     transition_duration: 200,
                     color_help_is_visible: true,
@@ -48,6 +49,7 @@ class Class {
                     download_img_when_link_given: false,
                     home_btn_is_visible: false,
                     home_btn_position: 'right_top',
+                    paste_btn_is_visible: false,
                     year: '',
                     day_of_the_week: vars.scheduler_none_val,
                     month: '',

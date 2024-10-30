@@ -2,6 +2,7 @@ import { i_color } from '@loftyshaky/shared/shared_clean';
 
 export interface Prefs {
     version: string;
+    clipboard_read_permission: boolean;
     options_page_theme: string;
     transition_duration: number;
     color_help_is_visible: boolean;
@@ -32,6 +33,7 @@ export interface Prefs {
     download_img_when_link_given: boolean;
     home_btn_is_visible: boolean;
     home_btn_position: string;
+    paste_btn_is_visible: boolean;
     year: string;
     day_of_the_week: string;
     month: string;

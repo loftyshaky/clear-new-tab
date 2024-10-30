@@ -7,7 +7,6 @@ import {
     d_browser_theme,
     d_custom_code,
     d_dnd,
-    d_optional_permission_settings,
     d_pagination,
     d_scheduler,
     d_sections,
@@ -36,7 +35,6 @@ export const init = (): Promise<void> =>
         d_backgrounds.CurrentBackground.set_current_background_i();
         d_background_settings.GlobalCheckboxes.set_ui_vals();
         d_background_settings.SettingsContext.react_to_global_selection();
-        d_optional_permission_settings.Ui.set_ui_vals();
         s_preload_color.Storage.set_preload_color();
         d_browser_theme.SideEffects.change_into_uploading_state();
 
