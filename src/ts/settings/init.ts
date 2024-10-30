@@ -1,4 +1,4 @@
-import { d_inputs,d_color, s_color } from '@loftyshaky/shared/inputs';
+import { d_inputs, d_color, s_color } from '@loftyshaky/shared/inputs';
 import { d_data } from 'shared_clean/internal';
 import { InitAll, s_preload_color } from 'shared/internal';
 import {
