@@ -27,10 +27,12 @@ class Class {
     public set_current_background_i = ({
         backgrounds,
         current_background_id,
+        force = false,
         run_in_action = run_in_action_placeholder,
     }: {
         backgrounds: i_db.Background[];
         current_background_id?: string | number;
+        force?: boolean;
         run_in_action?: any;
     }): void =>
         err(() => {
@@ -38,18 +40,27 @@ class Class {
 
             run_in_action(() =>
                 err(() => {
-                    if (no_backgrounds_exist) {
-                        data.ui.current_background_i = d_backgrounds.CurrentBackground.reset_val;
-                    } else {
-                        const i_of_background_with_current_id: number =
-                            s_i.I.find_i_of_item_with_id({
-                                id: n(current_background_id)
-                                    ? current_background_id
-                                    : data.settings.prefs.current_background_id,
-                                items: backgrounds,
-                            });
+                    const current_background_is_out_of_range =
+                        force ||
+                        !n(data.ui.current_background_i) ||
+                        (data.ui.current_background_i < 0 &&
+                            data.ui.current_background_i >= backgrounds.length - 1);
 
-                        data.ui.current_background_i = i_of_background_with_current_id + 1;
+                    if (current_background_is_out_of_range) {
+                        if (no_backgrounds_exist) {
+                            data.ui.current_background_i =
+                                d_backgrounds.CurrentBackground.reset_val;
+                        } else {
+                            const i_of_background_with_current_id: number =
+                                s_i.I.find_i_of_item_with_id({
+                                    id: n(current_background_id)
+                                        ? current_background_id
+                                        : data.settings.prefs.current_background_id,
+                                    items: backgrounds,
+                                });
+
+                            data.ui.current_background_i = i_of_background_with_current_id + 1;
+                        }
                     }
                 }, 'cnt_1523'),
             );
@@ -58,10 +69,12 @@ class Class {
     public set_background_as_current = ({
         id,
         backgrounds,
+        force = false,
         run_in_action = run_in_action_placeholder,
     }: {
         id: string | number | undefined;
         backgrounds: i_db.Background[];
+        force?: boolean;
         run_in_action?: any;
     }): Promise<void> =>
         err_async(async () => {
@@ -73,6 +86,7 @@ class Class {
                         this.set_current_background_i({
                             backgrounds,
                             current_background_id: id,
+                            force,
                         });
 
                         if (id === 0) {

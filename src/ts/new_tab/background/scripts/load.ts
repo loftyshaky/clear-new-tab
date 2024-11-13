@@ -10,6 +10,8 @@ class Class {
     // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
+    private ss: boolean = false;
+
     private load_background = (): Promise<void> =>
         new Promise((resolve, reject) => {
             err(() => {

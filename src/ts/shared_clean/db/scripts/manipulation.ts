@@ -44,7 +44,7 @@ class Class {
 
                     // eslint-disable-next-line no-restricted-syntax
                     for await (const backgrounds_chunked_chunk of backgrounds_chunked) {
-                        // eslint-disable-next-line no-unused-expressions
+                        // eslint-disable-next-line no-unused-expressions, @typescript-eslint/no-unused-expressions
                         backgrounds_chunked_chunk;
 
                         await db.backgrounds.bulkAdd(backgrounds_chunked[i]);

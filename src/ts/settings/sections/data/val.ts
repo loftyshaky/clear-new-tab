@@ -44,6 +44,13 @@ class Class {
         ({ input, i }: { input: i_inputs.Input; i?: i_color.I }): Promise<void> =>
             err_async(async () => {
                 let val: i_data.Val;
+                const switched_from_randm_solid_color_mode: boolean =
+                    input.name === 'mode' && d_inputs.Val.previous_val === 'random_solid_color';
+
+                await we.storage.session.set({
+                    switched_from_randm_solid_color_mode,
+                });
+
                 const set_val = (): Promise<void> =>
                     err_async(async () => {
                         d_inputs.Val.set({
@@ -97,6 +104,8 @@ class Class {
                                     d_backgrounds_shared.CurrentBackground.set_future_background_id();
                                 }
                             }
+                        } else if (input.name === 'shuffle_backgrounds') {
+                            d_backgrounds_shared.CurrentBackground.set_future_background_id();
                         } else if (input.name !== 'create_solid_color_background') {
                             const is_text_input: boolean = input.type === 'text';
 
@@ -161,9 +170,7 @@ class Class {
                             val = +val;
                         }
 
-                        if (input.name === 'current_background_id') {
-                            d_backgrounds.CurrentBackground.save_current_background_id_from_i();
-                        } else if (input.name === 'paste_background') {
+                        if (input.name === 'paste_background') {
                             d_inputs.Val.set({
                                 val: '',
                                 input,
@@ -171,6 +178,10 @@ class Class {
                         } else {
                             await set_val();
                         }
+                    }
+
+                    if (input.name === 'current_background_id') {
+                        d_backgrounds.CurrentBackground.save_current_background_id_from_i();
                     }
                 } else if (input.type !== 'color' || i === 'main') {
                     if (input.name === 'mode') {
@@ -261,6 +272,14 @@ class Class {
 
                 s_preload_color.Storage.set_preload_color();
             }, 'cnt_1288'),
+    );
+
+    public current_background_id_change_debounce = x.async_debounce(
+        ({ input, i }: { input: i_inputs.Input; i?: i_color.I }) =>
+            err_async(async () => {
+                await this.change({ input, i });
+            }, 'cnt_1536'),
+        200,
     );
 
     public remove_val = ({ input }: { input: i_inputs.Input }): Promise<void> =>

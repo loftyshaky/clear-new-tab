@@ -1,4 +1,3 @@
-import debounce from 'lodash/debounce';
 import random from 'lodash/random';
 import { makeObservable, observable, action, toJS } from 'mobx';
 import { computedFn } from 'mobx-utils';
@@ -20,6 +19,7 @@ class Class {
             selected_background_id: observable,
             select: action,
             deselect: action,
+            set_selected_background_as_current: action,
             reset_current_background_id: action,
             set_current_and_future_background_id_to_default: action,
         });
@@ -81,13 +81,16 @@ class Class {
 
     public set_background_as_current = ({
         id,
+        force = false,
     }: {
         id: string | number | undefined;
+        force?: boolean;
     }): Promise<void> =>
         err_async(async () => {
             d_backgrounds_shared.CurrentBackground.set_background_as_current({
                 id,
                 backgrounds: d_backgrounds.Backgrounds.backgrounds,
+                force,
             });
         }, 'cnt_1482');
 
@@ -96,7 +99,10 @@ class Class {
             if (this.selected_background_id) {
                 this.set_background_as_current({
                     id: this.selected_background_id,
+                    force: true,
                 });
+
+                this.remove_warn_state_from_current_background_id();
             } else {
                 show_notification({
                     error_msg_key: 'set_background_as_current_notification',
@@ -124,28 +130,43 @@ class Class {
             }
         }, 'cnt_1114');
 
-    public save_current_background_id_from_i = debounce(
-        (): void =>
-            err(() => {
-                if (d_backgrounds.Backgrounds.backgrounds.length !== 0) {
-                    const background_with_current_i: i_db.Background | undefined =
-                        d_backgrounds.Backgrounds.backgrounds[data.ui.current_background_i - 1];
+    public save_current_background_id_from_i = (): void =>
+        err(() => {
+            if (d_backgrounds.Backgrounds.backgrounds.length !== 0) {
+                const background_with_current_i: i_db.Background | undefined =
+                    d_backgrounds.Backgrounds.backgrounds[data.ui.current_background_i - 1];
+                const first_background: i_db.Background =
+                    d_backgrounds.Backgrounds.backgrounds[
+                        d_backgrounds_shared.CurrentBackground.reset_val
+                    ];
+                const last_background: i_db.Background =
+                    d_backgrounds.Backgrounds.backgrounds[
+                        d_backgrounds.Backgrounds.backgrounds.length - 1
+                    ];
+                let new_current_background: i_db.Background | undefined = background_with_current_i;
 
-                    this.set_background_as_current({
-                        id: n(background_with_current_i)
-                            ? background_with_current_i.id
-                            : d_backgrounds_shared.CurrentBackground.reset_val,
-                    });
-
-                    if (n(background_with_current_i)) {
-                        d_background_settings.SettingsContext.react_to_background_selection({
-                            background: background_with_current_i,
-                        });
-                    }
+                if (data.ui.current_background_i < 0) {
+                    new_current_background = first_background;
+                } else if (
+                    data.ui.current_background_i >=
+                    d_backgrounds.Backgrounds.backgrounds.length - 1
+                ) {
+                    new_current_background = last_background;
                 }
-            }, 'cnt_1115'),
-        200,
-    );
+
+                if (n(new_current_background)) {
+                    this.set_background_as_current({
+                        id: new_current_background.id,
+                    });
+                }
+
+                if (n(background_with_current_i)) {
+                    d_background_settings.SettingsContext.react_to_background_selection({
+                        background: background_with_current_i,
+                    });
+                }
+            }
+        }, 'cnt_1115');
 
     public decrement_current_background = ({
         deleted_background_i,
@@ -243,6 +264,13 @@ class Class {
 
             return future_background_id;
         }, 'cnt_1118');
+
+    public remove_warn_state_from_current_background_id = (): void =>
+        err(() => {
+            (
+                d_sections.Sections.sections as any
+            ).background_settings.inputs.current_background_id.is_in_warn_state = false;
+        }, 'cnt_1537');
 }
 
 export const CurrentBackground = Class.get_instance();

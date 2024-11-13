@@ -67,7 +67,7 @@ class Class {
     public video_speed: number[] = [];
     public video_volume: number[] = [];
     public background_css: t.AnyRecord[] = [];
-    public current_object_url: string = '';
+    public current_obj_url: string = '';
     public current_object_url_background_id: string = '';
 
     public get opposite_background_container_i() {
@@ -109,18 +109,18 @@ class Class {
                     ).id;
 
                     if (new_object_url_background_id === this.current_object_url_background_id) {
-                        return this.current_object_url;
+                        return this.current_obj_url;
                     }
 
                     this.current_object_url_background_id = new_object_url_background_id;
-                    this.current_object_url = n(s_background.Preview.id)
+                    this.current_obj_url = n(s_background.Preview.id)
                         ? URL.createObjectURL(
                               // URL.createObjectURL can't be called in service worker
                               (background_file as i_db.BackgroundFile).background as File,
                           )
                         : ((background_file as i_db.BackgroundFile).background as string);
 
-                    return this.current_object_url;
+                    return this.current_obj_url;
                 }
 
                 if (

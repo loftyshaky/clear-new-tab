@@ -87,7 +87,9 @@ class Class {
                 current_time,
             });
 
-            await this.update_background({ no_tr });
+            await this.update_background({
+                no_tr,
+            });
 
             d_backgrounds.CurrentBackground.set_future_background_id();
 
@@ -126,7 +128,10 @@ class Class {
     public run_slideshow_timer = ({
         current_time = 0,
         rerun = false,
-    }: { current_time?: number; rerun?: boolean } = {}): Promise<void> =>
+    }: {
+        current_time?: number;
+        rerun?: boolean;
+    } = {}): Promise<void> =>
         err_async(async () => {
             const current_tab: Tabs.Tab | undefined = await ext.get_active_tab();
             const user_is_in_new_tab: boolean =
@@ -160,7 +165,9 @@ class Class {
                             self.setTimeout(() => {
                                 err_async(async () => {
                                     await this.change_slideshow_background();
-                                    await this.run_slideshow_timer({ rerun: true });
+                                    await this.run_slideshow_timer({
+                                        rerun: true,
+                                    });
                                 }, 'cnt_1309');
                             }, delay),
                         );

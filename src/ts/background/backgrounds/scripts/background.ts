@@ -21,7 +21,9 @@ class Class {
                 });
 
                 if (data.settings.prefs.slideshow) {
-                    await s_background.BackgroundChange.update_background({ no_tr: false });
+                    await s_background.BackgroundChange.update_background({
+                        no_tr: false,
+                    });
                 }
             }
         }, 'cnt_1001');

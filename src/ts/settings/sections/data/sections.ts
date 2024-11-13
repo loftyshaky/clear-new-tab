@@ -169,7 +169,8 @@ class Class {
                                                 .set_selected_background_as_current,
                                     },
                                 ],
-                                event_callback: d_sections.Val.change,
+                                event_callback:
+                                    d_sections.Val.current_background_id_change_debounce,
                                 warn_state_checker: d_sections.Validation.validate_input,
                             }),
                             new o_inputs.Checkbox({

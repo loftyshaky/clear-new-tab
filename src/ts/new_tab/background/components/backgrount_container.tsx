@@ -14,7 +14,7 @@ import {
 
 export const BackgrountContainer: React.FunctionComponent<p_background.BackgrountContainer> =
     observer((props) => {
-        // eslint-disable-next-line no-unused-expressions
+        // eslint-disable-next-line no-unused-expressions, @typescript-eslint/no-unused-expressions
         d_background.VideoPlayback.is_playing;
 
         const video_el_ref = useRef<any>(null);

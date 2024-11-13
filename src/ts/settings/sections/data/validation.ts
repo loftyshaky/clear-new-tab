@@ -67,6 +67,7 @@ class Class {
 
             return (
                 /^(?!0)\d+$/.test(val as string) &&
+                i >= 0 &&
                 i <= d_backgrounds.Backgrounds.backgrounds.length - 1
             );
         }, 'cnt_1294');

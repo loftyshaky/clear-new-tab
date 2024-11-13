@@ -1,7 +1,7 @@
 import { makeObservable, action, runInAction } from 'mobx';
 
 import { t } from '@loftyshaky/shared/shared';
-import { s_db, i_db } from 'shared_clean/internal';
+import { s_db } from 'shared_clean/internal';
 import { d_background, s_background, i_background } from 'new_tab/internal';
 import { set_preload_color } from 'new_tab/preload_color';
 
@@ -37,10 +37,7 @@ class Class {
                 d_background.Classes.no_tr = no_tr;
 
                 const {
-                    background_container_i,
                     opposite_background_container_i,
-                    background,
-                    background_file,
                     get_background,
                     get_background_position,
                     get_background_repeat,
@@ -48,15 +45,6 @@ class Class {
                     get_video_val,
                     get_background_css,
                 } = d_background.Background;
-
-                if (
-                    typeof background[background_container_i] === 'string' &&
-                    n(background_file[background_container_i]) &&
-                    d_background.Background.current_object_url_background_id !==
-                        (background_file[background_container_i] as i_db.BackgroundFile).id
-                ) {
-                    URL.revokeObjectURL(d_background.Background.current_object_url);
-                }
 
                 const preview_background_id = s_background.Preview.id;
                 const preloaded_background_data = await ext.send_msg_resp({

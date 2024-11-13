@@ -19,6 +19,7 @@ class Class {
     private constructor() {}
 
     public service_worker_woken_up_by_update_settings_background_msg: boolean = false; // needed to prevent overwriting current_background_id by current value in set_from_storage function when uploading background while background service worker inactive
+    public switched_from_randm_solid_color_mode: boolean = false;
 
     public update_settings = ({
         settings,

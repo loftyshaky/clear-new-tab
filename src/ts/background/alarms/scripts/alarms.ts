@@ -8,13 +8,17 @@ we.alarms.onAlarm.addListener(
         err_async(async () => {
             if (alarm.name === 'change_slideshow_background') {
                 await s_background.BackgroundChange.change_slideshow_background();
-                await s_background.BackgroundChange.run_slideshow_timer({ rerun: true });
+                await s_background.BackgroundChange.run_slideshow_timer({
+                    rerun: true,
+                });
             } else if (alarm.name === 'schedule_background_display') {
                 s_scheduler.Scheduler.schedule_background_display({
                     called_after_task_completed: true,
                 });
             } else {
-                await s_backgrounds.Background.update_background({ background_id: alarm.name });
+                await s_backgrounds.Background.update_background({
+                    background_id: alarm.name,
+                });
 
                 we.alarms.create('schedule_background_display', {
                     when: Date.now() + 1000,

@@ -29,7 +29,10 @@ we.runtime.onMessage.addListener((msg: t.Msg): any =>
                 .then(() => {
                     d_backgrounds_shared.CurrentBackground.set_current_background_i({
                         backgrounds: d_backgrounds.Backgrounds.backgrounds,
+                        force: true,
                     });
+
+                    d_backgrounds.CurrentBackground.remove_warn_state_from_current_background_id();
                 })
                 .then(() => true)
                 .catch((error_obj: any) => show_err_ribbon(error_obj, 'cnt_1493'));
