@@ -80,7 +80,6 @@ class Class {
                             }),
                             new o_color.Color({
                                 name: 'create_solid_color_background',
-                                include_remove_color_btn: false,
                                 include_ok_btn: true,
                                 val_accessor: 'ui.create_solid_color_background',
                                 event_callback: d_sections.Val.change,
