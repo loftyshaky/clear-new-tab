@@ -181,7 +181,9 @@ class Class {
                     }
 
                     if (input.name === 'current_background_id') {
-                        d_backgrounds.CurrentBackground.save_current_background_id_from_i();
+                        d_backgrounds.CurrentBackground.save_current_background_id_from_i({
+                            adjusting_current_background_number_by_keyboard: true,
+                        });
                     }
                 } else if (input.type !== 'color' || i === 'main') {
                     if (input.name === 'mode') {

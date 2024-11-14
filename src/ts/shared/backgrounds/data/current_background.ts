@@ -19,17 +19,17 @@ class Class {
     public set_current_background_i = ({
         backgrounds,
         current_background_id,
-        force,
+        adjusting_current_background_number_by_keyboard = false,
     }: {
         backgrounds: i_db.Background[];
         current_background_id?: string | number;
-        force?: boolean;
+        adjusting_current_background_number_by_keyboard?: boolean;
     }): void =>
         err(() => {
             d_backgrounds.CurrentBackground.set_current_background_i({
                 backgrounds,
                 current_background_id,
-                force,
+                adjusting_current_background_number_by_keyboard,
                 run_in_action: runInAction,
             });
         }, 'cnt_1522');
@@ -37,16 +37,19 @@ class Class {
     public set_background_as_current = ({
         id,
         backgrounds,
+        adjusting_current_background_number_by_keyboard = false,
         force = false,
     }: {
         id: string | number | undefined;
         backgrounds: i_db.Background[];
+        adjusting_current_background_number_by_keyboard: boolean;
         force?: boolean;
     }): Promise<void> =>
         err_async(async () => {
             await d_backgrounds.CurrentBackground.set_background_as_current({
                 id,
                 backgrounds,
+                adjusting_current_background_number_by_keyboard,
                 force,
                 run_in_action: runInAction,
             });

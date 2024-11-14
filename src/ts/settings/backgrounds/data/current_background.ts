@@ -81,15 +81,18 @@ class Class {
 
     public set_background_as_current = ({
         id,
+        adjusting_current_background_number_by_keyboard = false,
         force = false,
     }: {
         id: string | number | undefined;
+        adjusting_current_background_number_by_keyboard?: boolean;
         force?: boolean;
     }): Promise<void> =>
         err_async(async () => {
             d_backgrounds_shared.CurrentBackground.set_background_as_current({
                 id,
                 backgrounds: d_backgrounds.Backgrounds.backgrounds,
+                adjusting_current_background_number_by_keyboard,
                 force,
             });
         }, 'cnt_1482');
@@ -130,7 +133,11 @@ class Class {
             }
         }, 'cnt_1114');
 
-    public save_current_background_id_from_i = (): void =>
+    public save_current_background_id_from_i = ({
+        adjusting_current_background_number_by_keyboard = false,
+    }: {
+        adjusting_current_background_number_by_keyboard?: boolean;
+    } = {}): void =>
         err(() => {
             if (d_backgrounds.Backgrounds.backgrounds.length !== 0) {
                 const background_with_current_i: i_db.Background | undefined =
@@ -157,6 +164,7 @@ class Class {
                 if (n(new_current_background)) {
                     this.set_background_as_current({
                         id: new_current_background.id,
+                        adjusting_current_background_number_by_keyboard,
                     });
                 }
 

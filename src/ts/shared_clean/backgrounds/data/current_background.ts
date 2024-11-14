@@ -27,12 +27,12 @@ class Class {
     public set_current_background_i = ({
         backgrounds,
         current_background_id,
-        force = false,
+        adjusting_current_background_number_by_keyboard = false,
         run_in_action = run_in_action_placeholder,
     }: {
         backgrounds: i_db.Background[];
         current_background_id?: string | number;
-        force?: boolean;
+        adjusting_current_background_number_by_keyboard: boolean;
         run_in_action?: any;
     }): void =>
         err(() => {
@@ -41,7 +41,7 @@ class Class {
             run_in_action(() =>
                 err(() => {
                     const current_background_is_out_of_range =
-                        force ||
+                        !adjusting_current_background_number_by_keyboard ||
                         !n(data.ui.current_background_i) ||
                         (data.ui.current_background_i < 0 &&
                             data.ui.current_background_i >= backgrounds.length - 1);
@@ -69,11 +69,12 @@ class Class {
     public set_background_as_current = ({
         id,
         backgrounds,
-        force = false,
+        adjusting_current_background_number_by_keyboard = false,
         run_in_action = run_in_action_placeholder,
     }: {
         id: string | number | undefined;
         backgrounds: i_db.Background[];
+        adjusting_current_background_number_by_keyboard?: boolean;
         force?: boolean;
         run_in_action?: any;
     }): Promise<void> =>
@@ -86,7 +87,7 @@ class Class {
                         this.set_current_background_i({
                             backgrounds,
                             current_background_id: id,
-                            force,
+                            adjusting_current_background_number_by_keyboard,
                         });
 
                         if (id === 0) {
