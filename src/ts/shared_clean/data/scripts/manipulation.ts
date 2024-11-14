@@ -98,20 +98,22 @@ class Class {
     public update_settings_debounce = x.async_debounce(
         (
             settings: i_data.Settings,
-            update_background?: boolean,
             replace: boolean = false,
             transform: boolean = false,
-            load_settings: boolean = true,
             transform_force: boolean = false,
+            load_settings: boolean = false,
+            restore_back_up: boolean = false,
+            update_background: boolean = false,
         ) =>
             err_async(async () => {
                 await this.update_settings({
                     settings,
                     replace,
-                    update_background,
                     transform,
-                    load_settings,
                     transform_force,
+                    load_settings,
+                    restore_back_up,
+                    update_background,
                 });
 
                 ext.updating_storage = false;
