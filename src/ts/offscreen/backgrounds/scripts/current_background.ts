@@ -11,7 +11,6 @@ class Class {
     private constructor() {}
 
     public reset_val: number = 0;
-    private background_file: i_db.BackgroundFile | undefined;
     private last_current_background_id: string | number | undefined = Infinity;
     private previous_current_background_id: string | number | undefined = Infinity;
     public current_background: i_db.Background | undefined;
@@ -55,11 +54,10 @@ class Class {
                         (background_file as i_db.BackgroundFile).background as File,
                     );
                     background_file.background = obj_url;
-                    this.background_file = background_file;
                 }
 
                 this.current_background = background;
-                this.current_background_file = this.background_file;
+                this.current_background_file = background_file;
 
                 if (data.switched_from_randm_solid_color_mode) {
                     s_data.Manipulation.switched_from_randm_solid_color_mode = false;
