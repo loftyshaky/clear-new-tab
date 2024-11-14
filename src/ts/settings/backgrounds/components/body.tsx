@@ -16,25 +16,22 @@ export const Body: React.FunctionComponent = observer(() => {
     d_backgrounds.Dnd.collection_ref = useRef<any>(null);
 
     const { height } = d_backgrounds.Scrollable;
-    const { page_backgrounds } = d_pagination.Page;
+    const { page_backgrounds, page } = d_pagination.Page;
     const { scroll_backgrounds_scrollable_to_top, scroll_backgrounds_scrollable_to_bottom } =
         d_scrollable.Scrollable;
 
     useEffect(() => {
-        d_scrollable.Scrollable.set_scroll_position({
-            scrollable_type: 'backgrounds',
-            position: 'top',
-        });
-        d_scrollable.Scrollable.set_scroll_position({
-            scrollable_type: 'backgrounds',
-            position: 'bottom',
-        });
-
         d_backgrounds.Scrollable.calculate_height();
         s_scrollable.Scrollable.set_scroll_position({
             scrollable_type: 'backgrounds',
+            position: scroll_backgrounds_scrollable_to_top ? 'top' : 'bottom',
         });
-    }, [height, scroll_backgrounds_scrollable_to_top, scroll_backgrounds_scrollable_to_bottom]);
+    }, [
+        height,
+        page,
+        scroll_backgrounds_scrollable_to_top,
+        scroll_backgrounds_scrollable_to_bottom,
+    ]);
 
     return (
         <div className='sections custom backgrounds'>
