@@ -51,7 +51,6 @@ class Class {
                     msg: 'get_preloaded_background_data',
                     current_background_id: data.settings.prefs.current_background_id,
                 });
-
                 const new_background_data = n(preview_background_id)
                     ? await s_db.Manipulation.get_background({
                           id: preview_background_id,

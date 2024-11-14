@@ -14,9 +14,4 @@ export const init = (): Promise<void> =>
         await s_scheduler.Scheduler.schedule_background_display();
         db.init();
         await s_db.Db.delete_old_db();
-        await ext.send_msg_resp({
-            msg: 'set_current_background_data',
-            current_background_id: data.settings.prefs.current_background_id,
-            force: true,
-        });
     }, 'cnt_1010');

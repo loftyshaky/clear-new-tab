@@ -64,7 +64,7 @@ class Class {
             await ext.storage_set(settings_final, replace);
             await ext.send_msg_resp({
                 msg: 'set_current_background_data',
-                current_background_id: settings_final.current_background_id,
+                current_background_id: settings_final.prefs.current_background_id,
             });
             await this.react_to_settings_change({ load_settings, restore_back_up });
 

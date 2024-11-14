@@ -1,4 +1,4 @@
-import { s_data, s_db, i_db } from 'shared_clean/internal';
+import { s_db, i_db } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -11,71 +11,52 @@ class Class {
     private constructor() {}
 
     public reset_val: number = 0;
-    private last_current_background_id: string | number | undefined = Infinity;
-    private previous_current_background_id: string | number | undefined = Infinity;
+    private last_current_background_id: string | number = Infinity;
     public current_background: i_db.Background | undefined;
     public current_background_file: i_db.BackgroundFile | undefined;
-    private previous_obj_url: string | File | undefined;
+    private obj_url_dict: { [index: string]: string } = {};
 
     public set_current_background_data = ({
         current_background_id,
         force,
     }: {
-        current_background_id: string | number | undefined;
+        current_background_id: string | number;
         force: boolean;
     }): Promise<void> =>
         err_async(async () => {
             if (current_background_id !== this.last_current_background_id || force) {
-                if (n(current_background_id)) {
-                    this.last_current_background_id = current_background_id;
-                }
+                this.last_current_background_id = current_background_id;
 
-                let background: i_db.Background | undefined;
-                let background_file: i_db.BackgroundFile | undefined;
-                let obj_url: string | undefined;
-
-                if (n(current_background_id)) {
-                    background = await s_db.Manipulation.get_background({
+                const background: i_db.Background = await s_db.Manipulation.get_background({
+                    id: current_background_id,
+                });
+                const background_file: i_db.BackgroundFile =
+                    await s_db.Manipulation.get_background_file({
                         id: current_background_id,
                     });
-                    background_file = await s_db.Manipulation.get_background_file({
-                        id: current_background_id,
-                    });
-                }
 
-                if (
-                    n(background_file) &&
-                    typeof background_file.background !== 'string' &&
-                    n(current_background_id) &&
-                    current_background_id !== this.previous_current_background_id
-                ) {
-                    obj_url = URL.createObjectURL(
-                        // URL.createObjectURL can't be called in service worker
-                        (background_file as i_db.BackgroundFile).background as File,
-                    );
-                    background_file.background = obj_url;
+                if (n(background_file) && typeof background_file.background !== 'string') {
+                    background_file.background = n(this.obj_url_dict[current_background_id])
+                        ? this.obj_url_dict[current_background_id]
+                        : URL.createObjectURL(
+                              // URL.createObjectURL can't be called in service worker
+                              (background_file as i_db.BackgroundFile).background as File,
+                          );
+
+                    this.obj_url_dict[current_background_id] = background_file.background;
+                    const obj_url_dict_keys: string[] = Object.keys(this.obj_url_dict);
+
+                    if (obj_url_dict_keys.length > 1) {
+                        const leading_obj_url = this.obj_url_dict[obj_url_dict_keys[0]];
+
+                        delete this.obj_url_dict[obj_url_dict_keys[0]];
+
+                        URL.revokeObjectURL(leading_obj_url);
+                    }
                 }
 
                 this.current_background = background;
                 this.current_background_file = background_file;
-
-                if (data.switched_from_randm_solid_color_mode) {
-                    s_data.Manipulation.switched_from_randm_solid_color_mode = false;
-                } else if (
-                    n(current_background_id) &&
-                    this.previous_current_background_id !== Infinity &&
-                    current_background_id !== this.previous_current_background_id
-                ) {
-                    URL.revokeObjectURL(this.previous_obj_url as string);
-                }
-
-                if (n(obj_url)) {
-                    this.previous_obj_url = obj_url;
-                }
-
-                if (n(current_background_id)) {
-                    this.previous_current_background_id = current_background_id;
-                }
             }
         }, 'cnt_1473');
 
@@ -85,9 +66,7 @@ class Class {
         current_background_id: string | number;
     }): Promise<void> =>
         err_async(async () => {
-            if (!n(this.current_background) || !n(this.current_background_file)) {
-                await this.set_current_background_data({ current_background_id, force: true });
-            }
+            await this.set_current_background_data({ current_background_id, force: true });
         }, 'cnt_1477');
 }
 
