@@ -20,6 +20,24 @@ class Class {
 
     public service_worker_woken_up_by_update_settings_background_msg: boolean = false; // needed to prevent overwriting current_background_id by current value in set_from_storage function when uploading background while background service worker inactive
     public switched_from_randm_solid_color_mode: boolean = false;
+    private cache_polulated_checks_done: number = 0;
+
+    public wait_until_cache_polulated = (): Promise<true> =>
+        err_async(async () => {
+            this.cache_polulated_checks_done += 1;
+
+            if (n(data.settings.prefs)) {
+                return true;
+            }
+
+            if (this.cache_polulated_checks_done <= 100) {
+                await x.delay(100);
+
+                return this.wait_until_cache_polulated();
+            }
+
+            return true;
+        }, 'cnt_1538');
 
     public update_settings = ({
         settings,

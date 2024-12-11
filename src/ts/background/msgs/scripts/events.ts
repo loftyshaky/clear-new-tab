@@ -12,6 +12,10 @@ we.runtime.onMessage.addListener((msg: t.Msg): any =>
             return Promise.resolve(true);
         }
 
+        if (msg_str === 'wait_until_cache_polulated') {
+            return s_data.Manipulation.wait_until_cache_polulated();
+        }
+
         if (msg_str === 'update_settings_background') {
             s_data.Manipulation.service_worker_woken_up_by_update_settings_background_msg = true;
 
