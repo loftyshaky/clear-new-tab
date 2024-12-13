@@ -1,6 +1,6 @@
 {
     "name": "clear-new-tab",
-    "version": "6.7.0",
+    "version": "6.8.0",
     "scripts": {
         "dev": "webpack --watch --mode=development --env test --env browser=chrome",
         "prod": "webpack --mode=production --env browser=chrome",
