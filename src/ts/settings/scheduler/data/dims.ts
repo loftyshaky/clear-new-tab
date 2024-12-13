@@ -30,7 +30,7 @@ class Class {
     }
 
     public get scheduler_width() {
-        // eslint-disable-next-line no-unused-expressions
+        // eslint-disable-next-line no-unused-expressions, @typescript-eslint/no-unused-expressions
         d_sections.Width.settings_section_width;
 
         const section_content = s<HTMLDivElement>('.section_content');

@@ -1,4 +1,3 @@
-import { i_data } from 'shared_clean/internal';
 import { s_announcement } from '@loftyshaky/shared/shared_clean';
 
 class Class {

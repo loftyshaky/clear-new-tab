@@ -143,8 +143,8 @@ class Class {
         transform = false,
     }: { transform?: boolean } = {}): Promise<void> =>
         err_async(async () => {
-            if (!x.prefs_are_filled() && !x.settings_are_filled()) {
-                // Runs on extension install, when the settings object is empty. The settings object is first set in @loftyshaky/shared.
+            if (!x.prefs_are_filled() && !x.found_old_settings()) {
+                // Runs on extension install, when the prefs object is empty. The prefs object is first set in @loftyshaky/shared.
                 await this.update_settings({
                     transform,
                 });
