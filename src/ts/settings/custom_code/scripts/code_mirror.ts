@@ -24,8 +24,10 @@ class Class {
         light: 'mdn-like',
         dark: 'material-palenight',
         very_dark: 'material-ocean',
-        lavender: 'mdn-like',
+        clover: 'mdn-like',
         aqua: 'mdn-like',
+        lavender: 'mdn-like',
+        ruby: 'mdn-like',
     };
 
     private attempted_to_save_code_val_count: number = 0;
