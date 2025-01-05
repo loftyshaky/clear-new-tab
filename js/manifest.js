@@ -52,7 +52,6 @@ class Manifest {
         manifest_shared.generate({
             manifest,
             browser,
-            monochrome_new_tab_icon: browser === 'edge',
         });
     };
 }
