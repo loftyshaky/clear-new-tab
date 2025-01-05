@@ -1,7 +1,7 @@
 import { makeObservable, observable, action } from 'mobx';
 
 import { s_viewport } from '@loftyshaky/shared/shared';
-import { d_pagination } from 'settings/internal';
+import { d_pagination, s_scrollable } from 'settings/internal';
 
 class Class {
     private static instance: Class;
@@ -21,8 +21,12 @@ class Class {
     public height: number = 0;
     public pagination_height: number = 0;
 
-    public calculate_height = (): void =>
+    public calculate_height = ({
+        auto_scroll_enabled = true,
+    }: { auto_scroll_enabled?: boolean } = {}): void =>
         err(() => {
+            s_scrollable.Scrollable.auto_scroll_enabled = auto_scroll_enabled;
+
             const pagination_el = s<HTMLDivElement>('.pagination');
             const offset: number = 76;
 

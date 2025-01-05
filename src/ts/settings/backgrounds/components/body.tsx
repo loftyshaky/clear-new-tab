@@ -21,7 +21,9 @@ export const Body: React.FunctionComponent = observer(() => {
         d_scrollable.Scrollable;
 
     useEffect(() => {
-        d_backgrounds.Scrollable.calculate_height();
+        d_backgrounds.Scrollable.calculate_height({
+            auto_scroll_enabled: s_scrollable.Scrollable.auto_scroll_enabled,
+        });
         s_scrollable.Scrollable.set_scroll_position({
             scrollable_type: 'backgrounds',
             position: scroll_backgrounds_scrollable_to_top ? 'top' : 'bottom',

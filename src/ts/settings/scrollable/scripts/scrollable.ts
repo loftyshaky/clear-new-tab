@@ -10,6 +10,8 @@ class Class {
     // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
+    public auto_scroll_enabled: boolean = true;
+
     private generate_full_react_scrollable_selector = ({
         scrollable_type,
     }: {
@@ -29,9 +31,11 @@ class Class {
                 this.generate_full_react_scrollable_selector({ scrollable_type }),
             );
 
-            if (n(scrollable)) {
+            if (this.auto_scroll_enabled && n(scrollable)) {
                 scrollable.scrollTop = position === 'top' ? 0 : scrollable.scrollHeight;
             }
+
+            this.auto_scroll_enabled = true;
         }, 'cnt_1304');
 }
 
