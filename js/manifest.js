@@ -52,6 +52,7 @@ class Manifest {
         manifest_shared.generate({
             manifest,
             browser,
+            add_colored_icon: true,
         });
     };
 }
