@@ -27,6 +27,7 @@ class Class {
         clover: 'mdn-like',
         aqua: 'mdn-like',
         lavender: 'mdn-like',
+        blaze: 'mdn-like',
         ruby: 'mdn-like',
     };
 

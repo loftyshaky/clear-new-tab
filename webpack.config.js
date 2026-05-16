@@ -118,6 +118,7 @@ module.exports = (env, argv) => {
             settings_clover_theme: path.join(paths.themes, 'clover_theme.scss'),
             settings_aqua_theme: path.join(paths.themes, 'aqua_theme.scss'),
             settings_lavender_theme: path.join(paths.themes, 'lavender_theme.scss'),
+            settings_blaze_theme: path.join(paths.themes, 'blaze_theme.scss'),
             settings_ruby_theme: path.join(paths.themes, 'ruby_theme.scss'),
             global_hidden: path.join(
                 app_root,
