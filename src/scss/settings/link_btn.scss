@@ -1,3 +1,10 @@
-.link_btn.link_to_theme_img {
-    font-size: $font_main;
+.link_btn_w {
+    &.hide_content,
+    &.show_content {
+        margin-bottom: $gap;
+    }
+
+    .link_btn.link_to_theme_img {
+        font-size: $font_main;
+    }
 }

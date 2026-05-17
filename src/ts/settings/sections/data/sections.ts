@@ -53,6 +53,7 @@ class Class {
                                 include_help: true,
                                 accept: '.png,.jpg,.jpeg,.gif,.mp4,.webm,.ogv',
                                 multiple: true,
+                                label_is_visible: false,
                                 event_callback: d_backgrounds.Upload.upload_with_browse_btn,
                             }),
                             new o_inputs.Text({
@@ -305,6 +306,7 @@ class Class {
                             new o_inputs.Group({
                                 name: 'color_of_area_around_background_group',
                                 include_help: true,
+                                label_is_visible: false,
                                 event_callback: () => undefined,
                                 inputs: [
                                     new o_color.Color({

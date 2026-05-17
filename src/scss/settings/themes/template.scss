@@ -93,43 +93,45 @@
     }
 }
 
-.scheduler,
-.code_editor {
-    color: $rbp;
-    background-color: $htc;
+.main:not(.loading_screen) {
+    .scheduler,
+    .code_editor {
+        color: $rbp;
+        background-color: $htc;
 
-    ::selection {
-        background-color: $hgb !important;
-    }
-
-    ::-webkit-scrollbar-track {
-        background-color: $gaq;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background-color: $hev;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-        background-color: $rbp;
-    }
-
-    ::-webkit-scrollbar-track:horizontal,
-    ::-webkit-scrollbar-track:vertical {
-        border-color: $hev;
-    }
-
-    .btn.text_input {
-        background-color: $gaq;
-
-        svg {
-            fill: $rbp;
+        ::selection {
+            background-color: $hgb !important;
         }
-    }
 
-    .btn.icon_btn {
-        svg {
-            fill: $rbp;
+        ::-webkit-scrollbar-track {
+            background-color: $gaq;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: $hev;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: $rbp;
+        }
+
+        ::-webkit-scrollbar-track:horizontal,
+        ::-webkit-scrollbar-track:vertical {
+            border-color: $hev;
+        }
+
+        .btn.text_input {
+            background-color: $gaq;
+
+            svg {
+                fill: $rbp;
+            }
+        }
+
+        .btn_w.icon_btn .btn {
+            svg {
+                fill: $rbp;
+            }
         }
     }
 }
@@ -137,7 +139,7 @@
 .code_editor,
 .main .scheduler,
 .input_item.color {
-    .btn.text {
+    .btn_w .btn.text {
         color: $rbp;
         background-color: $gaq;
         outline-color: $hev;

@@ -1,0 +1,9 @@
+.main:not(.loading_screen) .btn_w.icon_btn {
+    margin-top: 0;
+
+    .btn {
+        width: unset;
+        height: unset;
+        background-color: transparent;
+    }
+}
