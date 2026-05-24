@@ -21,9 +21,8 @@
 .keyboard .code_editor .btn.text_input::before,
 body.keyboard .scheduler .btn.text:focus,
 body.keyboard .code_editor .btn.text:focus,
-.keyboard .scheduler .btn.icon_btn:focus,
-.keyboard .code_editor .btn.icon_btn:focus,
-.keyboard .link_btn:focus,
+.keyboard .scheduler .icon_btn .btn:focus,
+.keyboard .code_editor .icon_btn .btn:focus,
 .keyboard .scheduler .code_editor .link_btn:focus,
 .keyboard .scheduler .input_item .input_w:not(.text, .textarea).is_in_focus_state::before,
 .keyboard .code_editor .input_item .input_w:not(.text, .textarea).is_in_focus_state::before {
