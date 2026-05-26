@@ -4,10 +4,7 @@ import { runInAction } from 'mobx';
 
 import { t } from '@loftyshaky/shared/shared';
 import { d_inputs, i_inputs } from '@loftyshaky/shared/inputs';
-import {
-    d_optional_permissions,
-    d_sections as d_sections_loftyshaky,
-} from '@loftyshaky/shared/settings';
+import { d_optional_permissions, s_sections } from '@loftyshaky/shared/settings';
 import { d_data, s_css_vars, s_data, s_db, i_data, i_db } from 'shared_clean/internal';
 import { d_progress, s_preload_color } from 'shared/internal';
 import {
@@ -123,7 +120,7 @@ class Class {
 
             const download_backup_part = ({ chunks_2 }: { chunks_2: string }): void =>
                 err(() => {
-                    d_sections_loftyshaky.BackUp.download({
+                    s_sections.BackUp.download({
                         data_obj: first_back_up_part_downloaded
                             ? backup_data_leading_chunks_only + chunks_2 + backup_data_trailing
                             : backup_data_leading + chunks_2 + backup_data_trailing,

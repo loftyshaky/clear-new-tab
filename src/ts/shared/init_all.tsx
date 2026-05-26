@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import '@loftyshaky/shared/ext';
+import { s_title } from '@loftyshaky/shared/shared_clean';
 import {
     c_crash_handler,
     c_error,
@@ -9,7 +10,6 @@ import {
     d_loading_screen,
     s_tab_index,
     s_theme as s_theme_shared,
-    s_title,
 } from '@loftyshaky/shared/shared';
 import { d_inputs } from '@loftyshaky/shared/inputs';
 import { s_css_vars, s_suffix, s_theme } from 'shared_clean/internal';
