@@ -1,8 +1,8 @@
 import merge from 'lodash/merge';
-import { makeObservable, observable, action } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 
-import { i_db } from 'shared_clean/internal';
 import { d_background, s_background } from 'new_tab/internal';
+import type { i_db } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -170,9 +170,8 @@ class Class {
 
             if (['stretch_screen', 'fit_screen'].includes(background_size_setting)) {
                 if (s_background.Type.is_img({ background_container_i })) {
-                    this.background_size[background_container_i] = `${x.px(dims.width)} ${x.px(
-                        dims.height,
-                    )}`;
+                    this.background_size[background_container_i] =
+                        `${x.px(dims.width)} ${x.px(dims.height)}`;
                 } else if (s_background.Type.is_video({ background_container_i })) {
                     this.video_width[background_container_i] = x.px(dims.width.toString());
                     this.video_height[background_container_i] = x.px(dims.height.toString());

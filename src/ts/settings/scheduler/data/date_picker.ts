@@ -1,7 +1,8 @@
+import type { i_inputs } from '@loftyshaky/shared/inputs';
+import { o_inputs } from '@loftyshaky/shared/inputs';
 import { s_utils } from '@loftyshaky/shared/shared';
-import { o_inputs, i_inputs } from '@loftyshaky/shared/inputs';
-import { vars } from 'shared_clean/internal';
 import { d_scheduler, d_sections } from 'settings/internal';
+import { vars } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -10,7 +11,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     private options: i_inputs.Options = {};
@@ -20,7 +20,7 @@ class Class {
         err(() => {
             this.options = {
                 day_of_the_week: [
-                    ...[new o_inputs.Option({ name: 'none', val: vars.scheduler_none_val })],
+                    new o_inputs.Option({ name: 'none', val: vars.scheduler_none_val }),
                     ...[
                         'sunday',
                         'monday',
@@ -35,7 +35,7 @@ class Class {
                     ),
                 ],
                 month: [
-                    ...[new o_inputs.Option({ name: 'none', val: vars.scheduler_none_val })],
+                    new o_inputs.Option({ name: 'none', val: vars.scheduler_none_val }),
                     ...[
                         'january',
                         'february',
@@ -55,11 +55,14 @@ class Class {
                     ),
                 ],
                 day_of_the_month: [
-                    ...[new o_inputs.Option({ name: 'none', val: vars.scheduler_none_val })],
+                    new o_inputs.Option({ name: 'none', val: vars.scheduler_none_val }),
                     ...Array.from(
                         { length: 31 },
-                        (not_used, i: number) =>
-                            new o_inputs.Option({ name: (i + 1).toString(), val: i.toString() }),
+                        (_not_used, i: number) =>
+                            new o_inputs.Option({
+                                name: (i + 1).toString(),
+                                val: i.toString(),
+                            }),
                     ),
                 ],
             };

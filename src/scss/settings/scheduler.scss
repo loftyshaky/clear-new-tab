@@ -1,3 +1,8 @@
+@use '../../../node_modules/@loftyshaky/shared/scss/shared/vars' as loftyshaky_vars;
+@use '../../../node_modules/@loftyshaky/shared/scss/shared/mixins' as loftyshaky_mixins;
+@use 'vars';
+@use 'mixins';
+
 $background_preview: 44px;
 $delete_task_btn_size: 14px;
 $task_gap: 5px;
@@ -7,18 +12,21 @@ $task_gap: 5px;
     display: flex;
     flex-direction: column;
     width: 300px;
-    height: calc(100vh - #{($main_margin * 2) + ($section_padding * 4) + $border_width * 2});
-    top: $main_margin + $section_padding + $border_width;
-    padding: $gap;
-    z-index: $popup_z_index;
-    box-shadow: $popup_shadow;
+    height: calc(
+        100vh - #{(loftyshaky_vars.$main_margin * 2) + (vars.$section_padding * 4) +
+            loftyshaky_vars.$border_width * 2}
+    );
+    top: loftyshaky_vars.$main_margin + vars.$section_padding + loftyshaky_vars.$border_width;
+    padding: loftyshaky_vars.$gap;
+    z-index: vars.$popup_z_index;
+    box-shadow: vars.$popup_shadow;
 
     .top_controls {
-        margin-bottom: $gap;
+        margin-bottom: loftyshaky_vars.$gap;
     }
 
     .scheduler_help {
-        font-size: $font_small;
+        font-size: loftyshaky_vars.$font_small;
         white-space: pre-line;
     }
 
@@ -34,13 +42,13 @@ $task_gap: 5px;
     }
 
     .background_preview {
-        @include border;
-        @include checkerboard_gradient;
+        @include loftyshaky_mixins.border;
+        @include mixins.checkerboard_gradient;
 
         display: block;
         height: $background_preview;
         margin: 0;
-        margin-bottom: $gap;
+        margin-bottom: loftyshaky_vars.$gap;
 
         &.color {
             width: $background_preview;
@@ -50,11 +58,11 @@ $task_gap: 5px;
 
     .tasks {
         height: 100%;
-        margin-top: $gap;
+        margin-top: loftyshaky_vars.$gap;
         user-select: none;
 
         .task {
-            @include border;
+            @include loftyshaky_mixins.border;
 
             box-sizing: border-box;
             padding: 0 $task_gap;
@@ -67,7 +75,7 @@ $task_gap: 5px;
                 margin-top: 3px;
 
                 .date {
-                    font-size: $font_small;
+                    font-size: loftyshaky_vars.$font_small;
                     width: 100%;
                 }
 
@@ -101,7 +109,7 @@ $task_gap: 5px;
 
         /* stylelint-disable-next-line selector-class-pattern */
         .scrollable {
-            @include border;
+            @include loftyshaky_mixins.border;
         }
     }
 

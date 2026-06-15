@@ -7,7 +7,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public display_announcement = (): Promise<void> =>
@@ -18,7 +17,7 @@ class Class {
                 ((env.browser === 'chrome' && data.settings.prefs.version === '5.10.0') ||
                     (env.browser === 'edge' && data.settings.prefs.version === '5.10.2'))
             ) {
-                s_announcement.Visibility.display();
+                await s_announcement.Visibility.display();
             }
         }, 'cnt_1369');
 }

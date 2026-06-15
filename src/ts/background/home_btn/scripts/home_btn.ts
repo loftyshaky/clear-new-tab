@@ -1,3 +1,5 @@
+import { s_links } from '@loftyshaky/shared/shared_clean';
+
 class Class {
     private static instance: Class;
 
@@ -5,16 +7,16 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
+
+    public opening_default_new_tab_page: number = 0;
 
     public open_default_new_tab_page = (): void =>
         err(() => {
-            we.tabs.update({
-                url:
-                    env.browser === 'edge'
-                        ? 'https://ntp.msn.com/edge/ntp'
-                        : 'chrome://new-tab-page',
+            this.opening_default_new_tab_page = 3;
+
+            void we.tabs.update({
+                url: s_links.Browser.new_tab[env.browser],
             });
         }, 'cnt_1009');
 }

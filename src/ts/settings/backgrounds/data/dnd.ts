@@ -1,10 +1,13 @@
-import reject from 'lodash/reject';
-import isInteger from 'lodash/isInteger';
-import { MouseEvent } from 'react';
-import { makeObservable, action } from 'mobx';
+import type { MouseEvent } from 'react';
 
-import { s_i, i_db } from 'shared_clean/internal';
-import { d_backgrounds, d_pagination, d_dnd, s_backgrounds } from 'settings/internal';
+import isInteger from 'lodash/isInteger';
+import reject from 'lodash/reject';
+import { action, makeObservable } from 'mobx';
+
+import type { t } from '@loftyshaky/shared/shared';
+import { d_backgrounds, d_dnd, d_pagination, s_backgrounds } from 'settings/internal';
+import type { i_db } from 'shared_clean/internal';
+import { s_i } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -22,16 +25,15 @@ class Class {
         });
     }
 
-    public collection_ref: any;
     public lock_background_selection: boolean = false;
     public background_to_move: i_db.Background | undefined;
 
     public dragged_background_dim = ({ dim }: { dim: 'width' | 'height' }): number =>
         err(() => {
             if (n(d_dnd.Dnd.item_to_move)) {
-                return (d_dnd.Dnd.item_to_move! as i_db.Background).type.includes('color')
+                return (d_dnd.Dnd.item_to_move as i_db.Background).type.includes('color')
                     ? s_backgrounds.Thumbnail.height
-                    : (d_dnd.Dnd.item_to_move as any)[`thumbnail_${dim}`];
+                    : (d_dnd.Dnd.item_to_move as t.AnyRecord)[`thumbnail_${dim}`];
             }
 
             return 0;
@@ -39,7 +41,7 @@ class Class {
 
     public remove_drop_zone = (): void =>
         err(() => {
-            (d_pagination.Page.page_backgrounds as any) = reject(
+            (d_pagination.Page.page_backgrounds as t.Any) = reject(
                 d_pagination.Page.page_backgrounds,
                 (background: i_db.BackgroundDropZone): boolean => background.type === 'drop_zone',
             );
@@ -58,7 +60,7 @@ class Class {
             d_dnd.Dnd.initial_y = e.clientY;
 
             d_dnd.Dnd.item_to_move_i = s_i.I.find_i_of_item_with_id({
-                id: d_dnd.Dnd.item_to_move!.id,
+                id: d_dnd.Dnd.item_to_move?.id,
                 items: d_pagination.Page.page_backgrounds,
             });
         }, 'cnt_1121');
@@ -99,11 +101,10 @@ class Class {
         err(() => {
             d_dnd.Dnd.item_to_move = background;
             d_dnd.Dnd.item_to_move_i = s_i.I.find_i_of_item_with_id({
-                id: d_dnd.Dnd.item_to_move!.id,
+                id: d_dnd.Dnd.item_to_move?.id,
                 items: d_backgrounds.Backgrounds.backgrounds,
             });
 
-            // eslint-disable-next-line no-alert
             const val: string | null = globalThis.prompt(ext.msg('enter_new_background_no_prompt'));
 
             if (n(val)) {
@@ -132,7 +133,7 @@ class Class {
                     d_dnd.Dnd.drop_zone_item = d_backgrounds.Backgrounds.backgrounds[drop_i];
 
                     if (val_2 - 1 !== d_dnd.Dnd.item_to_move_i) {
-                        d_dnd.Dnd.drop();
+                        void d_dnd.Dnd.drop();
                     }
                 }
             }

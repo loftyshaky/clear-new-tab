@@ -1,4 +1,4 @@
-import { i_scrollable } from 'settings/internal';
+import type { i_scrollable } from 'settings/internal';
 
 class Class {
     private static instance: Class;
@@ -7,7 +7,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public auto_scroll_enabled: boolean = true;
@@ -26,7 +25,6 @@ class Class {
         position?: i_scrollable.Position;
     }): void =>
         err(() => {
-            // eslint-disable-next-line @typescript-eslint/naming-convention
             const scrollable = s<HTMLElement>(
                 this.generate_full_react_scrollable_selector({ scrollable_type }),
             );

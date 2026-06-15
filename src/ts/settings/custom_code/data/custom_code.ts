@@ -1,7 +1,8 @@
-import { makeObservable, observable, action, runInAction } from 'mobx';
+import { action, makeObservable, observable, runInAction } from 'mobx';
 
-import { s_custom_code, i_db, s_db } from 'shared_clean/internal';
-import { i_custom_code } from 'settings/internal';
+import type { i_custom_code } from 'settings/internal';
+import type { i_db } from 'shared_clean/internal';
+import { s_custom_code, s_db } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -21,7 +22,9 @@ class Class {
 
     public set_custom_code = ({
         custom_code,
-    }: { custom_code?: i_db.CustomCode } = {}): Promise<void> =>
+    }: {
+        custom_code?: i_db.CustomCode;
+    } = {}): Promise<void> =>
         err_async(async () => {
             const custom_code_final: i_db.CustomCode = n(custom_code)
                 ? custom_code

@@ -1,7 +1,6 @@
-import React from 'react';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 
-import { d_backgrounds, p_backgrounds } from 'settings/internal';
+import { d_backgrounds, type p_backgrounds } from 'settings/internal';
 
 export const ThumbnailW: React.FunctionComponent<p_backgrounds.ThumbnailW> = observer((props) => {
     const { background_id, children } = props;

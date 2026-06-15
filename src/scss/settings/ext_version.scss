@@ -1,4 +1,6 @@
+@use '../../../node_modules/@loftyshaky/shared/scss/shared/vars';
+
 .ext_version {
     position: static;
-    margin-top: $gap;
+    margin-top: vars.$gap;
 }

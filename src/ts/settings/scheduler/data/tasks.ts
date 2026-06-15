@@ -1,10 +1,11 @@
-import union from 'lodash/union';
-import { makeObservable, observable, action, runInAction } from 'mobx';
-import { computedFn } from 'mobx-utils';
 import { BigNumber } from 'bignumber.js';
+import union from 'lodash/union';
+import { action, makeObservable, observable, runInAction } from 'mobx';
+import { computedFn } from 'mobx-utils';
 
-import { vars, s_db, s_i, i_db } from 'shared_clean/internal';
 import { d_protecting_screen, d_scheduler, d_scrollable } from 'settings/internal';
+import type { i_db } from 'shared_clean/internal';
+import { s_db, s_i, vars } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -24,7 +25,6 @@ class Class {
         });
     }
 
-    /* eslint-disable @typescript-eslint/naming-convention */
     public tasks: i_db.Task[] = [];
     private months: { [index: string]: string } = {
         '0': 'january',
@@ -50,7 +50,6 @@ class Class {
         '5': 'friday',
         '6': 'saturday',
     };
-    /* eslint-disable @typescript-eslint/naming-convention */
 
     public developer_info = computedFn(function (
         this: Class,
@@ -190,7 +189,7 @@ class Class {
                 bool: true,
             });
 
-            ext.send_msg({ msg: 'schedule_background_display' });
+            await ext.send_msg({ msg: 'schedule_background_display' });
 
             d_protecting_screen.Visibility.hide();
         }, 'cnt_1261');

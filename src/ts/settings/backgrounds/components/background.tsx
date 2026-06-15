@@ -1,10 +1,11 @@
-import React, { useEffect, useLayoutEffect, useState, MouseEvent } from 'react';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
+import { type MouseEvent, useEffect, useLayoutEffect, useState } from 'react';
 
+import type { t } from '@loftyshaky/shared/shared';
 import { s_tab_index } from '@loftyshaky/shared/shared';
-import { i_db } from 'shared_clean/internal';
+import { c_backgrounds, c_dnd, d_backgrounds, d_dnd, type p_backgrounds } from 'settings/internal';
 import { svg } from 'shared/internal';
-import { c_backgrounds, c_dnd, d_backgrounds, d_dnd, p_backgrounds } from 'settings/internal';
+import type { i_db } from 'shared_clean/internal';
 
 export const Background: React.FunctionComponent<p_backgrounds.Background> = observer((props) => {
     const { index, background, dragged, style } = props;
@@ -22,7 +23,7 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
     });
 
     useEffect(() => {
-        d_backgrounds.BackgroundAnimation.push_already_animated_id_deferred({
+        void d_backgrounds.BackgroundAnimation.push_already_animated_id_deferred({
             id: background.id,
         });
 
@@ -36,10 +37,10 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                 set_background_thumbnail(background_thumbnail_2);
             }, 'cnt_1444');
 
-        set_background_thumbnail_2();
+        void set_background_thumbnail_2();
     });
 
-    return (background as any).type === 'drop_zone' ? (
+    return (background as t.AnyRecord).type === 'drop_zone' ? (
         <c_dnd.DropZone
             style={{
                 width: x.px(
@@ -54,7 +55,7 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                 ),
             }}
             on_mouse_up={(): void => {
-                d_dnd.Dnd.drop();
+                void d_dnd.Dnd.drop();
             }}
         />
     ) : (
@@ -146,8 +147,11 @@ export const Background: React.FunctionComponent<p_backgrounds.Background> = obs
                     ])}
                     aria-label='Delete background'
                     onClick={(e: MouseEvent): void => {
-                        d_backgrounds.BackgroundDeletion.trigger_delete(
-                            { ids: [background.id], deleting_background_with_delete_button: true },
+                        void d_backgrounds.BackgroundDeletion.trigger_delete(
+                            {
+                                ids: [background.id],
+                                deleting_background_with_delete_button: true,
+                            },
                             e,
                         );
                     }}

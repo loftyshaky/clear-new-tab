@@ -1,4 +1,5 @@
-import { o_inputs, i_inputs } from '@loftyshaky/shared/inputs';
+import type { i_inputs } from '@loftyshaky/shared/inputs';
+import { o_inputs } from '@loftyshaky/shared/inputs';
 
 class Class {
     private static instance: Class;
@@ -7,7 +8,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public options: i_inputs.Options = {};
@@ -16,7 +16,9 @@ class Class {
         err(() => {
             this.options = {
                 mode: [
-                    new o_inputs.Option({ name: 'theme_background' }),
+                    ...(['chrome', 'edge'].includes(env.browser)
+                        ? [new o_inputs.Option({ name: 'theme_background' })]
+                        : []),
                     new o_inputs.Option({ name: 'one_background' }),
                     new o_inputs.Option({ name: 'multiple_backgrounds' }),
                     new o_inputs.Option({ name: 'random_solid_color' }),

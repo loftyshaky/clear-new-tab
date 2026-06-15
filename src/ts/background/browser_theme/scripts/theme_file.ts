@@ -1,5 +1,7 @@
 import upperFirst from 'lodash/upperFirst';
 
+import type { t } from '@loftyshaky/shared/shared_clean';
+
 class Class {
     private static instance: Class;
 
@@ -7,14 +9,12 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public valid_img_file_types: string[] = ['gif', 'jpeg', 'jpg', 'png'];
     public clear_new_tab_video_file_names: string[] = [
         'clear_new_tab_video.mp4',
         'clear_new_tab_video.webm',
-        'clear_new_tab_video.ogv',
         'clear_new_tab_video.gif',
     ];
 
@@ -23,7 +23,7 @@ class Class {
         img_file_name,
         clear_new_tab_video_file_name,
     }: {
-        theme_package_data: any;
+        theme_package_data: t.AnyRecord;
         img_file_name: string | undefined;
         clear_new_tab_video_file_name: string | undefined;
     }): Promise<File> =>
@@ -57,8 +57,6 @@ class Class {
 
             if (ext === 'jpg') {
                 ext = 'jpeg';
-            } else if (ext === 'ogv') {
-                ext = 'ogg';
             }
 
             return ext;

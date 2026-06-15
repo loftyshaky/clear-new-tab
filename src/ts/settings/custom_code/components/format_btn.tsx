@@ -1,5 +1,4 @@
-import React from 'react';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 
 import { c_inputs, o_inputs } from '@loftyshaky/shared/inputs';
 import { s_custom_code } from 'settings/internal';

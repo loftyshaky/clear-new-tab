@@ -1,4 +1,4 @@
-import { makeObservable, observable, action, runInAction } from 'mobx';
+import { action, makeObservable, observable, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
 class Class {

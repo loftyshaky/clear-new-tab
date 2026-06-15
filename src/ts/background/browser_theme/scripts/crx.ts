@@ -1,8 +1,9 @@
-import get from 'lodash/get';
 import JSZip from 'jszip';
+import get from 'lodash/get';
 
-import { t } from '@loftyshaky/shared/shared_clean';
-import { s_browser_theme, i_browser_theme } from 'background/internal';
+import type { t } from '@loftyshaky/shared/shared_clean';
+import type { i_browser_theme } from 'background/internal';
+import { s_browser_theme } from 'background/internal';
 
 class Class {
     private static instance: Class;
@@ -11,10 +12,8 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
-    /* eslint-disable @typescript-eslint/naming-convention */
     private position_dict: { [index: string]: string } = {
         top: 'top',
         'top center': 'top',
@@ -46,7 +45,6 @@ class Class {
         'repeat-y': 'repeat_y',
         'repeat-x': 'repeat_x',
     };
-    /* eslint-disable @typescript-eslint/naming-convention */
 
     //> purpose of this arrays is to exclude developers mistakes. Ex: ntp_background_alignment set to "middle" instead of "center" (https://chrome.google.com/webstore/detail/%D0%B1%D0%B5%D0%B3%D1%83%D1%89%D0%B0%D1%8F-%D0%BB%D0%B8%D1%81%D0%B8%D1%87%D0%BA%D0%B0/pcogoppjgcggbmflbmiihnbbdcbnbkjp)
     private positions: string[] = Object.keys(this.position_dict);

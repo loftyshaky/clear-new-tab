@@ -1,7 +1,7 @@
-import { i_db } from 'shared_clean/internal';
+import type { i_db } from 'shared_clean/internal';
 
 export interface FileBackground extends i_db.BackgroundProps {
-    [index: string]: string | number | i_db.FileBackgroundType | undefined;
+    [index: string]: string | number | undefined;
 
     id: string;
     theme_id: string | undefined;

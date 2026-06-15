@@ -1,4 +1,4 @@
-import { makeObservable, computed } from 'mobx';
+import { computed, makeObservable } from 'mobx';
 
 import { d_sections } from 'settings/internal';
 
@@ -30,8 +30,7 @@ class Class {
     }
 
     public get scheduler_width() {
-        // eslint-disable-next-line no-unused-expressions, @typescript-eslint/no-unused-expressions
-        d_sections.Width.settings_section_width;
+        void d_sections.Width.settings_section_width;
 
         const section_content = s<HTMLDivElement>('.section_content');
 

@@ -1,5 +1,5 @@
-import React from 'react';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
+
 import { d_custom_code } from 'settings/internal';
 
 export const Help: React.FunctionComponent = observer(() => (

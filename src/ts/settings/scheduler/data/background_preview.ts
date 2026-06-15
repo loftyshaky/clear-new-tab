@@ -1,5 +1,5 @@
-import { i_db } from 'shared_clean/internal';
 import { d_backgrounds } from 'settings/internal';
+import type { i_db } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -8,7 +8,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public placeholder_img: string = 'scheduler_background_preview_placeholder.png';

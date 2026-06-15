@@ -7,10 +7,9 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
-    public run = ({ sandbox_el }: { sandbox_el: HTMLDivElement | undefined }): void => {
+    public run = ({ sandbox_el }: { sandbox_el: HTMLDivElement | null }): void => {
         const sandbox_custom_script: HTMLScriptElement | null =
             document.querySelector('.sandbox script');
 

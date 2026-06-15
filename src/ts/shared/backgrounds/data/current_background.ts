@@ -1,5 +1,7 @@
-import { makeObservable, action, runInAction } from 'mobx';
-import { d_backgrounds, i_db } from 'shared_clean/internal';
+import { action, makeObservable, runInAction } from 'mobx';
+
+import type { i_db } from 'shared_clean/internal';
+import { d_backgrounds } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -37,7 +39,7 @@ class Class {
     public set_background_as_current = ({
         id,
         backgrounds,
-        adjusting_current_background_number_by_keyboard = false,
+        adjusting_current_background_number_by_keyboard,
         force = false,
     }: {
         id: string | number | undefined;

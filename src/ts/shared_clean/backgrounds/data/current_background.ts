@@ -1,16 +1,9 @@
 import random from 'lodash/random';
 
+import type { t } from '@loftyshaky/shared/shared';
 import { run_in_action_placeholder } from '@loftyshaky/shared/shared_clean';
-import {
-    db,
-    d_backgrounds,
-    d_data,
-    s_background,
-    s_data,
-    s_db,
-    s_i,
-    i_db,
-} from 'shared_clean/internal';
+import type { i_db } from 'shared_clean/internal';
+import { d_backgrounds, d_data, db, s_background, s_data, s_db, s_i } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -19,7 +12,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public reset_val: number = 0;
@@ -27,13 +19,13 @@ class Class {
     public set_current_background_i = ({
         backgrounds,
         current_background_id,
-        adjusting_current_background_number_by_keyboard = false,
+        adjusting_current_background_number_by_keyboard,
         run_in_action = run_in_action_placeholder,
     }: {
         backgrounds: i_db.Background[];
         current_background_id?: string | number;
         adjusting_current_background_number_by_keyboard: boolean;
-        run_in_action?: any;
+        run_in_action?: t.CallbackVariadicVoid;
     }): void =>
         err(() => {
             const no_backgrounds_exist: boolean = backgrounds.length === 0;
@@ -76,7 +68,7 @@ class Class {
         backgrounds: i_db.Background[];
         adjusting_current_background_number_by_keyboard?: boolean;
         force?: boolean;
-        run_in_action?: any;
+        run_in_action?: t.CallbackVariadicVoid;
     }): Promise<void> =>
         err_async(async () => {
             if (n(id)) {
@@ -94,7 +86,7 @@ class Class {
                             data.settings.prefs.future_background_id = id;
                         }
 
-                        data.settings.prefs.background_change_time = new Date().getTime();
+                        data.settings.prefs.background_change_time = Date.now();
                     }, 'cnt_1520'),
                 );
 
@@ -111,15 +103,15 @@ class Class {
                     });
                 }
 
-                this.set_future_background_id();
+                await this.set_future_background_id();
 
                 if (page === 'background') {
-                    s_background.BackgroundChange.try_to_change_background({
+                    await s_background.BackgroundChange.try_to_change_background({
                         allow_to_start_slideshow_timer: false,
                         force_update: true,
                     });
                 } else if (page === 'settings') {
-                    ext.send_msg({
+                    await ext.send_msg({
                         msg: 'get_background',
                         allow_to_start_slideshow_timer: false,
                         force_update: true,
@@ -169,7 +161,7 @@ class Class {
                     load_settings: true,
                 });
 
-                ext.send_msg({ msg: 'update_settings_settings' });
+                await ext.send_msg({ msg: 'update_settings_settings' });
             } else if (page === 'settings') {
                 await d_data.Manipulation.send_msg_to_update_settings({
                     settings: data.settings,
@@ -189,7 +181,7 @@ class Class {
                 future_background_id === data.settings.prefs.current_background_id
             ) {
                 const random_background_i = random(0, background_count - 1);
-                // eslint-disable-next-line no-await-in-loop
+
                 const random_background = await db.backgrounds.offset(random_background_i).first();
 
                 if (n(random_background)) {

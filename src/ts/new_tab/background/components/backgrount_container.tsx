@@ -1,28 +1,30 @@
 import isEmpty from 'lodash/isEmpty';
-import React, { useEffect, useRef } from 'react';
 import { toJS } from 'mobx';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
+import { useEffect, useRef } from 'react';
 
-import { t } from '@loftyshaky/shared/shared';
+import type { t } from '@loftyshaky/shared/shared';
 import {
     c_background,
     d_background,
+    type i_background,
+    type p_background,
     s_background,
-    p_background,
-    i_background,
 } from 'new_tab/internal';
 
 export const BackgrountContainer: React.FunctionComponent<p_background.BackgrountContainer> =
     observer((props) => {
-        // eslint-disable-next-line no-unused-expressions, @typescript-eslint/no-unused-expressions
-        d_background.VideoPlayback.is_playing;
+        void d_background.VideoPlayback.is_playing;
 
-        const video_el_ref = useRef<any>(null);
-        const repeated_video_el_refs = useRef<any>([]);
+        const video_el_ref = useRef<HTMLVideoElement>(null);
+        const repeated_video_el_refs = useRef<HTMLVideoElement[]>([]);
 
         useEffect(() => {
-            const video_els = [video_el_ref.current, ...repeated_video_el_refs.current].filter(
-                (item): boolean => err(() => n(item), 'cnt_1393'),
+            const video_els: HTMLVideoElement[] = [
+                video_el_ref.current,
+                ...repeated_video_el_refs.current,
+            ].flatMap((item: HTMLVideoElement | null): HTMLVideoElement[] =>
+                err(() => (n(item) ? [item] : []), 'cnt_1393'),
             );
 
             s_background.VideoPlayback.set_video_speed({
@@ -120,13 +122,14 @@ export const BackgrountContainer: React.FunctionComponent<p_background.Backgroun
                             {data.settings.prefs.enable_video_repeat &&
                             background_size === 'none' && // none = dont_resize
                             background_repeat.includes('repeat') ? undefined : (
-                                // eslint-disable-next-line jsx-a11y/media-has-caption
                                 <video
                                     src={background}
                                     style={video_background_css}
                                     loop
                                     ref={video_el_ref}
-                                />
+                                >
+                                    <track kind='captions' />
+                                </video>
                             )}
                             {data.settings.prefs.enable_video_repeat ? (
                                 <c_background.RepeatedVideos

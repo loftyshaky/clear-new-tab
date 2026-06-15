@@ -1,8 +1,8 @@
-import { makeObservable, action } from 'mobx';
+import { action, makeObservable } from 'mobx';
 
-import { i_data } from '@loftyshaky/shared/shared';
-import { d_data, s_db } from 'shared_clean/internal';
+import type { i_data, t } from '@loftyshaky/shared/shared';
 import { d_background_settings } from 'settings/internal';
+import { d_data, s_db, s_offscreen } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -59,27 +59,29 @@ class Class {
         new_val: i_data.Val;
     }): Promise<void> =>
         err_async(async () => {
-            (d_background_settings.SettingsContext.selected_background as any)[name] = new_val;
+            if (d_background_settings.SettingsContext.selected_background) {
+                (d_background_settings.SettingsContext.selected_background as t.AnyRecord)[name] =
+                    new_val;
 
-            d_background_settings.SettingsContext.react_to_background_selection({
-                background: d_background_settings.SettingsContext.selected_background,
-            });
+                d_background_settings.SettingsContext.react_to_background_selection({
+                    background: d_background_settings.SettingsContext.selected_background,
+                });
 
-            await s_db.Manipulation.update_background({
-                background: d_background_settings.SettingsContext.selected_background!,
-            });
+                await s_db.Manipulation.update_background({
+                    background: d_background_settings.SettingsContext.selected_background,
+                });
 
-            await ext.send_msg_resp({
-                msg: 'set_current_background_data',
-                current_background_id: data.settings.prefs.current_background_id,
-                force: true,
-            });
-
-            ext.send_msg({
-                msg: 'get_background',
-                allow_to_start_slideshow_timer: false,
-                force_update: true,
-            });
+                await s_offscreen.FirefoxMsgsAlt.set_current_background_data({
+                    mode: data.settings.prefs.mode,
+                    current_background_id: data.settings.prefs.current_background_id,
+                    future_background_id: data.settings.prefs.future_background_id,
+                });
+                await ext.send_msg({
+                    msg: 'get_background',
+                    allow_to_start_slideshow_timer: false,
+                    force_update: true,
+                });
+            }
         }, 'cnt_1089');
 }
 export const Val = Class.get_instance();

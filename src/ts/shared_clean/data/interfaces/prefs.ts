@@ -1,4 +1,4 @@
-import { i_color } from '@loftyshaky/shared/shared_clean';
+import type { i_color } from '@loftyshaky/shared/shared_clean';
 
 export interface Prefs {
     version: string;

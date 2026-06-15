@@ -1,9 +1,11 @@
-import { makeObservable, action, runInAction } from 'mobx';
-
-import { t } from '@loftyshaky/shared/shared';
-import { s_db } from 'shared_clean/internal';
-import { d_background, s_background, i_background } from 'new_tab/internal';
+import { action, makeObservable, runInAction } from 'mobx';
 import { set_preload_color } from 'new_tab/preload_color';
+
+import type { t } from '@loftyshaky/shared/shared';
+import type { i_background } from 'new_tab/internal';
+import { d_background, s_background } from 'new_tab/internal';
+import type { i_db } from 'shared_clean/internal';
+import { s_db } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -47,27 +49,44 @@ class Class {
                 } = d_background.Background;
 
                 const preview_background_id = s_background.Preview.id;
-                const preloaded_background_data = await ext.send_msg_resp({
+                const preloaded_background_data: t.Any = await ext.send_msg_resp({
                     msg: 'get_preloaded_background_data',
+                    mode: data.settings.prefs.mode,
                     current_background_id: data.settings.prefs.current_background_id,
+                    future_background_id: data.settings.prefs.future_background_id,
+                    force: true,
                 });
+                const preloaded_current_background: t.AnyRecord =
+                    n(preloaded_background_data) &&
+                    typeof preloaded_background_data !== 'string' &&
+                    typeof preloaded_background_data !== 'number' &&
+                    'current_background' in preloaded_background_data
+                        ? preloaded_background_data.current_background
+                        : undefined;
+                const current_background_file: t.AnyRecord =
+                    n(preloaded_background_data) &&
+                    typeof preloaded_background_data !== 'string' &&
+                    typeof preloaded_background_data !== 'number' &&
+                    'current_background_file' in preloaded_background_data
+                        ? preloaded_background_data.current_background_file
+                        : undefined;
                 const new_background_data = n(preview_background_id)
                     ? await s_db.Manipulation.get_background({
                           id: preview_background_id,
                       })
-                    : preloaded_background_data.current_background;
+                    : preloaded_current_background;
                 const new_background_file = n(preview_background_id)
                     ? await s_db.Manipulation.get_background_file({
                           id: preview_background_id,
                       })
-                    : preloaded_background_data.current_background_file;
+                    : current_background_file;
 
                 runInAction(() =>
                     err(() => {
                         d_background.Background.background_container_i =
                             opposite_background_container_i;
                         d_background.Background.background_data[opposite_background_container_i] =
-                            new_background_data;
+                            new_background_data as i_db.Background;
                         d_background.Background.background_file[opposite_background_container_i] =
                             data.settings.prefs.mode === 'random_solid_color'
                                 ? data.settings.prefs.current_random_solid_color
@@ -131,12 +150,12 @@ class Class {
 
             if (document.visibilityState === 'visible') {
                 if (data.settings.prefs.slideshow || window_resized) {
-                    ext.send_msg({ msg: 'get_background', force_update: window_resized });
+                    void ext.send_msg({ msg: 'get_background', force_update: window_resized });
                 }
 
                 d_background.VideoPlayback.set_play_status({ is_playing: true });
             } else if (document.visibilityState === 'hidden') {
-                ext.send_msg({ msg: 'clear_slideshow_timer' });
+                void ext.send_msg({ msg: 'clear_slideshow_timer' });
 
                 d_background.VideoPlayback.set_play_status({ is_playing: false });
             }

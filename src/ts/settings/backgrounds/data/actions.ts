@@ -1,6 +1,7 @@
+import type { MouseEvent } from 'react';
+
 import clone from 'lodash/clone';
-import { MouseEvent } from 'react';
-import { makeObservable, observable, action } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
 class Class {

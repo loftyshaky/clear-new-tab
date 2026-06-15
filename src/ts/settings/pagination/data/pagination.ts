@@ -1,10 +1,9 @@
-import React from 'react';
-import { makeObservable, observable, reaction, action, runInAction } from 'mobx';
+import { action, makeObservable, observable, reaction, runInAction } from 'mobx';
 import Paginator from 'paginator';
 
-import { svg } from 'shared/internal';
+import type { p_pagination } from 'settings/internal';
+import { d_backgrounds, d_pagination, d_sections } from 'settings/internal';
 import { db } from 'shared_clean/internal';
-import { d_backgrounds, d_pagination, d_sections, p_pagination } from 'settings/internal';
 
 class Class {
     private static instance: Class;
@@ -29,7 +28,7 @@ class Class {
             d_backgrounds.Cache.reset_background_thumbnail_cache();
             d_pagination.Page.set_page_backgrounds();
 
-            this.pagination_btns = [];
+            const btns: p_pagination.PaginationBtn[] = [];
 
             const pagination_info = new Paginator(d_pagination.Page.backgrounds_per_page, 5).build(
                 d_pagination.Pagination.total_backgrounds,
@@ -37,7 +36,7 @@ class Class {
             );
 
             for (let i = pagination_info.first_page; i <= pagination_info.last_page; i += 1) {
-                this.pagination_btns.push({
+                btns.push({
                     name: undefined,
                     on_click_page: i,
                     page_btn_content: i,
@@ -46,34 +45,36 @@ class Class {
                 });
             }
 
-            this.pagination_btns.unshift({
+            btns.unshift({
                 name: 'previous_page',
                 on_click_page: d_pagination.Page.page - 1,
-                page_btn_content: <svg.NavigateBefore />,
+                page_btn_content: 'NavigateBefore',
                 is_active: false,
                 is_disabled: !pagination_info.has_previous_page,
             });
-            this.pagination_btns.unshift({
+            btns.unshift({
                 name: 'first_page',
                 on_click_page: 1,
-                page_btn_content: <svg.FirstPage />,
+                page_btn_content: 'FirstPage',
                 is_active: false,
                 is_disabled: !pagination_info.has_previous_page,
             });
-            this.pagination_btns.push({
+            btns.push({
                 name: 'next_page',
                 on_click_page: d_pagination.Page.page + 1,
-                page_btn_content: <svg.NavigateNext />,
+                page_btn_content: 'NavigateNext',
                 is_active: false,
                 is_disabled: !pagination_info.has_next_page,
             });
-            this.pagination_btns.push({
+            btns.push({
                 name: 'last_page',
                 on_click_page: d_pagination.Pagination.total_backgrounds,
-                page_btn_content: <svg.LastPage />,
+                page_btn_content: 'LastPage',
                 is_active: false,
                 is_disabled: !pagination_info.has_next_page,
             });
+
+            this.pagination_btns = btns;
         }, 'cnt_1465');
 
     public set_total_backgrounds = (): Promise<void> =>

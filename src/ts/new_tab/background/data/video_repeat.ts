@@ -1,8 +1,9 @@
 import clone from 'lodash/clone';
-import { makeObservable, observable, action } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 
-import { i_db } from 'shared_clean/internal';
-import { d_background, i_background } from 'new_tab/internal';
+import type { i_background } from 'new_tab/internal';
+import { d_background } from 'new_tab/internal';
+import type { i_db } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -105,7 +106,7 @@ class Class {
                             .fill(0)
                             .map(
                                 (
-                                    video_repeat_count_item: number,
+                                    _video_repeat_count_item: number,
                                     i: number,
                                 ): i_background.Position =>
                                     err(
@@ -309,7 +310,7 @@ class Class {
                     }
 
                     /*
-            // eslint-disable-next-line no-console
+            
             console.log(
                 'video_repeat_count:',
                 this.video_repeat_count,
@@ -481,7 +482,7 @@ class Class {
 
             Array(this.video_repeat_count[direction])
                 .fill(0)
-                .forEach((video_repeat_count_item: number, i: number): void =>
+                .forEach((_video_repeat_count_item: number, i: number): void => {
                     err(() => {
                         const new_video_repeat_positions =
                             horizontal_video_repeat_positions_cloned.map(
@@ -526,8 +527,8 @@ class Class {
                             );
 
                         this.single_video_repeat_positions.push(...new_video_repeat_positions);
-                    }, 'cnt_1398'),
-                );
+                    }, 'cnt_1398');
+                });
         }, 'cnt_1400');
 
     private calculate_main_background_position = (): void =>
@@ -563,6 +564,29 @@ class Class {
         err(() => {
             this.loaded_videos_count += 1;
         }, 'cnt_1399');
+
+    public generate_repeat_position_react_key = ({
+        video_repeat_position,
+    }: {
+        video_repeat_position: i_background.Position;
+    }): string =>
+        err(
+            () =>
+                Object.entries(video_repeat_position).reduce(
+                    (accumulator: string, [key, val]: [string, string]) =>
+                        err(() => {
+                            if (val) {
+                                return accumulator === ''
+                                    ? key + val
+                                    : `${accumulator}.${key + val}`;
+                            }
+
+                            return accumulator;
+                        }, 'cnt_1539'),
+                    '',
+                ),
+            'cnt_1399',
+        );
 }
 
 export const VideoReapeat = Class.get_instance();

@@ -7,7 +7,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public set = (): void =>
@@ -20,13 +19,11 @@ class Class {
                 roots,
                 transition_duration: data.settings.prefs.transition_duration,
             });
-
             s_css_vars.CssVars.set_var({
                 roots,
                 name: 'fade_in',
                 val: `fade_in ${data.settings.prefs.transition_duration}ms ease-out forwards`,
             });
-
             s_css_vars.CssVars.set_var({
                 roots,
                 name: 'fade_out',

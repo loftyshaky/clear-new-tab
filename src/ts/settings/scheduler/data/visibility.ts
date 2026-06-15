@@ -1,4 +1,4 @@
-import { makeObservable, observable, action } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 
 class Class {
     private static instance: Class;

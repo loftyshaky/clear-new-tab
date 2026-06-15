@@ -1,5 +1,6 @@
+import type { Management } from 'webextension-polyfill';
+
 import isEmpty from 'lodash/isEmpty';
-import { Management } from 'webextension-polyfill';
 
 import { s_management } from 'background/internal';
 
@@ -10,7 +11,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public get_installed = (): Promise<string | undefined> =>

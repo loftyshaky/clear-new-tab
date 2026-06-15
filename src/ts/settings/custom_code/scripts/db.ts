@@ -1,7 +1,9 @@
 import debounce from 'lodash/debounce';
 
-import { s_custom_code as s_custom_code_shared_clean, s_db, i_db } from 'shared_clean/internal';
-import { d_custom_code, i_custom_code } from 'settings/internal';
+import type { i_custom_code } from 'settings/internal';
+import { d_custom_code } from 'settings/internal';
+import type { i_db } from 'shared_clean/internal';
+import { s_custom_code as s_custom_code_shared_clean, s_db } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -10,7 +12,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public save_custom_code = ({ custom_code }: { custom_code: i_db.CustomCode }): Promise<void> =>
@@ -29,7 +30,7 @@ class Class {
 
             await s_db.Manipulation.save_custom_code({ custom_code });
 
-            await d_custom_code.CustomCode.set_custom_code_item({
+            d_custom_code.CustomCode.set_custom_code_item({
                 type,
                 val,
             });
@@ -41,7 +42,6 @@ class Class {
 
     public delete_custom_code = (): Promise<void> =>
         err_async(async () => {
-            // eslint-disable-next-line no-alert
             if (globalThis.confirm(ext.msg('delete_custom_code_confirm'))) {
                 await this.save_custom_code({
                     custom_code: s_custom_code_shared_clean.CustomCode.default_custom_code,

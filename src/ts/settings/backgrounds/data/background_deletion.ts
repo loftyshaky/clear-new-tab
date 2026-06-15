@@ -1,20 +1,22 @@
+import type { MouseEvent } from 'react';
+
 import reject from 'lodash/reject';
-import { MouseEvent } from 'react';
-import { makeObservable, observable, action, runInAction } from 'mobx';
+import { action, makeObservable, observable, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
-import { vars, s_db, s_i, i_db } from 'shared_clean/internal';
-import { s_preload_color } from 'shared/internal';
 import {
     d_background_settings,
     d_backgrounds,
     d_browser_theme,
+    d_pagination,
     d_protecting_screen,
     d_scheduler,
     d_sections,
     s_scrollable,
-    d_pagination,
 } from 'settings/internal';
+import { s_preload_color } from 'shared/internal';
+import type { i_db } from 'shared_clean/internal';
+import { s_db, s_i, vars } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -34,6 +36,7 @@ class Class {
     public deletion_reason: 'delete_all_backgrounds' | 'restore_back_up' = 'delete_all_backgrounds';
     private deleting_background: boolean = false;
     private background_to_delete_ids: string[] = [];
+    public delete_all_backgrounds_hide_protecting_screen: boolean = true;
 
     public deleted_cls = computedFn(function (this: Class, { id }: { id: string }): string {
         return this.deleting_background && this.background_to_delete_ids.includes(id)
@@ -128,14 +131,14 @@ class Class {
                         });
                     }
                 } else {
-                    await d_backgrounds.CurrentBackground.decrement_current_background({
+                    d_backgrounds.CurrentBackground.decrement_current_background({
                         current_background_i,
                         deleted_background_i,
                     });
                 }
             }
 
-            await d_scheduler.TaskDeletion.delete_from_background_id({
+            d_scheduler.TaskDeletion.delete_from_background_id({
                 background_ids: ids,
             });
 
@@ -151,9 +154,8 @@ class Class {
             );
         }, 'cnt_1105');
 
-    public delete_all_backgrounds = (): Promise<void> =>
+    public delete_all_backgrounds_confirm = (): Promise<void> =>
         err_async(async () => {
-            // eslint-disable-next-line no-alert
             if (globalThis.confirm(ext.msg('delete_all_backgrounds_confirm'))) {
                 d_protecting_screen.Visibility.show();
 
@@ -163,6 +165,23 @@ class Class {
                     is_visible: false,
                 });
             }
+        }, 'cnt_1106');
+
+    public delete_all_backgrounds = ({
+        show_protecting_screen = true,
+    }: { show_protecting_screen?: boolean } = {}): Promise<void> =>
+        err_async(async () => {
+            if (show_protecting_screen) {
+                d_protecting_screen.Visibility.show();
+            } else {
+                this.delete_all_backgrounds_hide_protecting_screen = false;
+            }
+
+            this.deletion_reason = 'delete_all_backgrounds';
+
+            d_sections.SectionContent.set_backgrounds_section_content_visibility({
+                is_visible: false,
+            });
         }, 'cnt_1106');
 
     public delete_all_backgrounds_transition_end_callback = (): Promise<void> =>
@@ -190,7 +209,7 @@ class Class {
                 await s_db.Manipulation.save_tasks({
                     tasks: d_sections.Restore.restored_tasks,
                 });
-                await d_scheduler.Tasks.set_tasks_from_arg({
+                d_scheduler.Tasks.set_tasks_from_arg({
                     tasks: d_sections.Restore.restored_tasks,
                 });
 
@@ -202,18 +221,22 @@ class Class {
             }
 
             d_background_settings.SettingsContext.react_to_global_selection();
-            d_protecting_screen.Visibility.hide();
+
+            if (this.delete_all_backgrounds_hide_protecting_screen) {
+                d_protecting_screen.Visibility.hide();
+            }
+
+            this.delete_all_backgrounds_hide_protecting_screen = true;
         }, 'cnt_1107');
 
     private react_to_all_background_deletion = (): Promise<void> =>
         err_async(async () => {
             if (d_backgrounds.Backgrounds.backgrounds.length === 0) {
-                // eslint-disable-next-line max-len
                 await d_backgrounds.CurrentBackground.set_current_and_future_background_id_to_default();
 
                 s_preload_color.Storage.set_preload_color();
 
-                ext.send_msg({ msg: 'get_background', force_update: true });
+                await ext.send_msg({ msg: 'get_background', force_update: true });
             }
         }, 'cnt_1426');
 }

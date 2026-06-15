@@ -1,4 +1,4 @@
-import { Management } from 'webextension-polyfill';
+import type { Management } from 'webextension-polyfill';
 
 import { s_data } from 'shared_clean/internal';
 
@@ -9,7 +9,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public get_all_exts = (): Promise<Management.ExtensionInfo[]> =>
@@ -36,7 +35,7 @@ class Class {
                 await ext.send_msg_resp({
                     msg: 'set_current_background_id_to_id_of_first_background',
                 });
-                ext.send_msg({ msg: 'update_settings_settings' });
+                await ext.send_msg({ msg: 'update_settings_settings' });
             }
         }, 'cnt_1370');
 }

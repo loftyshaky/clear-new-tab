@@ -1,7 +1,6 @@
-import React from 'react';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 
-import { p_dnd } from 'settings/internal';
+import type { p_dnd } from 'settings/internal';
 
 export const DropZone: React.FunctionComponent<p_dnd.DropZone> = observer((props) => {
     const { style, on_mouse_up } = props;

@@ -7,12 +7,11 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public hide_color_help = (): void =>
         err(() => {
-            d_data.Manipulation.send_msg_to_update_settings({
+            void d_data.Manipulation.send_msg_to_update_settings({
                 settings: {
                     prefs: {
                         ...data.settings.prefs,

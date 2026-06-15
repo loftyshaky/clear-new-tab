@@ -5,7 +5,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public id: string | undefined;
@@ -16,7 +15,9 @@ class Class {
                 'preview_background_id',
             );
 
-            this.id = n(id) ? id : undefined;
+            if (n(id)) {
+                this.id = n(id) ? id : undefined;
+            }
         }, 'cnt_1476');
 }
 

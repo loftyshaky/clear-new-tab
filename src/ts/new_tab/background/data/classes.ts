@@ -1,9 +1,9 @@
 import merge from 'lodash/merge';
 import random from 'lodash/random';
-import { makeObservable, observable, computed, action } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 
-import { i_db } from 'shared_clean/internal';
 import { d_background, s_background } from 'new_tab/internal';
+import type { i_db } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;

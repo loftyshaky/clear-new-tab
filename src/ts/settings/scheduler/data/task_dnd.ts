@@ -1,9 +1,11 @@
-import reject from 'lodash/reject';
-import { MouseEvent } from 'react';
-import { makeObservable, action } from 'mobx';
+import type { MouseEvent } from 'react';
 
-import { s_i, i_db } from 'shared_clean/internal';
+import reject from 'lodash/reject';
+import { action, makeObservable } from 'mobx';
+
 import { d_dnd, d_scheduler } from 'settings/internal';
+import type { i_db } from 'shared_clean/internal';
+import { s_i } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -29,7 +31,7 @@ class Class {
             d_dnd.Dnd.initial_y = e.clientY;
 
             d_dnd.Dnd.item_to_move_i = s_i.I.find_i_of_item_with_id({
-                id: d_dnd.Dnd.item_to_move!.id,
+                id: d_dnd.Dnd.item_to_move?.id,
                 items: d_scheduler.Tasks.tasks,
             });
         }, 'cnt_1248');
@@ -65,10 +67,10 @@ class Class {
 
     public remove_drop_zone = (): void =>
         err(() => {
-            (d_scheduler.Tasks.tasks as any) = reject(
+            d_scheduler.Tasks.tasks = reject(
                 d_scheduler.Tasks.tasks,
                 (task: i_db.TaskDropZone): boolean => task.type === 'drop_zone',
-            );
+            ) as i_db.Task[];
         }, 'cnt_1251');
 }
 

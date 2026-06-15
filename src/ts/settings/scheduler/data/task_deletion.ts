@@ -1,9 +1,10 @@
 import reject from 'lodash/reject';
-import { makeObservable, observable, action, runInAction } from 'mobx';
+import { action, makeObservable, observable, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
-import { vars, s_db, i_db } from 'shared_clean/internal';
 import { d_protecting_screen, d_scheduler } from 'settings/internal';
+import type { i_db } from 'shared_clean/internal';
+import { s_db, vars } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -71,10 +72,12 @@ class Class {
                         );
 
                     if (n(task_with_background_id)) {
-                        this.trigger_delete({ id: task_with_background_id.id });
+                        void this.trigger_delete({ id: task_with_background_id.id });
                     }
 
-                    d_scheduler.Tasks.reset_background_id_from_background_id({ background_id });
+                    d_scheduler.Tasks.reset_background_id_from_background_id({
+                        background_id,
+                    });
                 }, 'cnt_1244'),
             );
         }, 'cnt_1245');
@@ -90,7 +93,6 @@ class Class {
 
     public delete_all_tasks_confirm = (): Promise<void> =>
         err_async(async () => {
-            // eslint-disable-next-line no-alert
             if (globalThis.confirm(ext.msg('delete_all_tasks_confirm'))) {
                 await this.delete_all_tasks();
             }

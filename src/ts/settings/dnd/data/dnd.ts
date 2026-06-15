@@ -1,10 +1,11 @@
-import reject from 'lodash/reject';
-import { MouseEvent } from 'react';
-import { makeObservable, observable, computed, action, toJS } from 'mobx';
-import { BigNumber } from 'bignumber.js';
+import type { MouseEvent } from 'react';
 
-import { t } from '@loftyshaky/shared/shared';
-import { s_db, s_i, i_db } from 'shared_clean/internal';
+import { BigNumber } from 'bignumber.js';
+import reject from 'lodash/reject';
+import { action, computed, makeObservable, observable, toJS } from 'mobx';
+
+import type { t } from '@loftyshaky/shared/shared';
+import type { i_backgrounds } from 'settings/internal';
 import {
     d_backgrounds,
     d_dnd,
@@ -12,8 +13,9 @@ import {
     d_protecting_screen,
     d_scheduler,
     s_backgrounds,
-    i_backgrounds,
 } from 'settings/internal';
+import type { i_db } from 'shared_clean/internal';
+import { s_db, s_i } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -149,7 +151,7 @@ class Class {
                     }, 'cnt_1210');
 
                 const items_2: i_db.Background[] | i_db.Task[] = toJS(
-                    reject(items as any, (item: any) => item.type === 'drop_zone'),
+                    reject(items as t.AnyRecord, (item: t.AnyRecord) => item.type === 'drop_zone'),
                 );
 
                 const only_one_background_exist = items_2.length === 1;
@@ -166,7 +168,7 @@ class Class {
                     this.drop_zone_item = undefined;
                 } else if (dragging_first_background_over_first_background) {
                     this.drop_zone_insert_direction = drag_direction_1;
-                    // eslint-disable-next-line prefer-destructuring
+
                     this.drop_zone_item = items_2[1];
                 } else if (dragging_last_background_over_last_background) {
                     this.drop_zone_insert_direction = drag_direction_2;
@@ -194,7 +196,7 @@ class Class {
                 this.remove_drop_zone();
 
                 const drop_zone_background_i: number = s_i.I.find_i_of_item_with_id({
-                    id: d_dnd.Dnd.drop_zone_item!.id,
+                    id: n(d_dnd.Dnd.drop_zone_item) ? d_dnd.Dnd.drop_zone_item.id : '',
                     items:
                         this.drag_type === 'background'
                             ? d_pagination.Page.page_backgrounds
@@ -266,7 +268,7 @@ class Class {
             if (n(d_dnd.Dnd.item_to_move) && n(d_dnd.Dnd.drop_zone_item)) {
                 if (this.drag_type === 'background') {
                     d_dnd.Dnd.item_to_move_i = s_i.I.find_i_of_item_with_id({
-                        id: d_dnd.Dnd.item_to_move!.id,
+                        id: d_dnd.Dnd.item_to_move?.id,
                         items: d_backgrounds.Backgrounds.backgrounds,
                     });
                 }
@@ -276,7 +278,7 @@ class Class {
                         ? d_backgrounds.Backgrounds.backgrounds
                         : d_scheduler.Tasks.tasks;
                 const drop_zone_background_i: number = s_i.I.find_i_of_item_with_id({
-                    id: d_dnd.Dnd.drop_zone_item!.id,
+                    id: d_dnd.Dnd.drop_zone_item?.id,
                     items,
                 });
 
@@ -308,7 +310,6 @@ class Class {
                                     dropped_at_trailing_right_position
                                 ) {
                                     const trailing_drop_zone_background_i: number =
-                                        // eslint-disable-next-line max-len
                                         s_i.I.find_i_of_item_with_id({
                                             id: items[drop_zone_background_i].id,
                                             items,
@@ -357,7 +358,6 @@ class Class {
                     err(
                         action(() => {
                             const drop_zone_background_left_i: number =
-                                // eslint-disable-next-line max-len
                                 s_i.I.find_i_of_item_with_id({
                                     id: items[
                                         drop_zone_background_i +
@@ -368,7 +368,6 @@ class Class {
                                     items,
                                 });
                             const drop_zone_background_right_i: number =
-                                // eslint-disable-next-line max-len
                                 s_i.I.find_i_of_item_with_id({
                                     id: items[
                                         drop_zone_background_i +
@@ -420,8 +419,8 @@ class Class {
                         }
                     }, 'cnt_1467');
 
-                const set_observable = action((): void =>
-                    err(() => {
+                const set_observable = (): Promise<void> =>
+                    err_async(async () => {
                         if (this.drag_type === 'background') {
                             d_backgrounds.Backgrounds.backgrounds = s_i.I.sort_by_i_ascending({
                                 data: d_backgrounds.Backgrounds.backgrounds,
@@ -429,15 +428,12 @@ class Class {
 
                             d_backgrounds.CurrentBackground.set_current_background_i();
                             d_pagination.Page.set_page_backgrounds();
-
-                            // eslint-disable-next-line max-len
                         } else if (this.drag_type === 'task') {
                             d_scheduler.Tasks.tasks = s_i.I.sort_by_i_ascending({
                                 data: items,
                             }) as i_db.Task[];
                         }
-                    }, 'cnt_1468'),
-                );
+                    }, 'cnt_1468');
 
                 if (d_dnd.Dnd.item_to_move_i < drop_zone_background_i) {
                     move_dragged_background({

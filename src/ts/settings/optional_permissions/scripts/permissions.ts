@@ -1,6 +1,8 @@
 import { runInAction } from 'mobx';
 
-import { d_optional_permissions, i_optional_permissions } from '@loftyshaky/shared/settings';
+import type { i_optional_permissions as loftyshaky_i_optional_permissions } from '@loftyshaky/shared/settings';
+import { d_optional_permissions } from '@loftyshaky/shared/settings';
+import type { i_optional_permissions } from 'settings/internal';
 import { d_data } from 'shared_clean/internal';
 
 class Class {
@@ -10,12 +12,34 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line max-len
-    public optional_permission_checkbox_dict: i_optional_permissions.OptionalPermissionCheckboxDict =
+    public contains_permission: i_optional_permissions.ContainsPermission = {
+        paste_btn_is_visible: false,
+        allow_downloading_img_by_link: false,
+    };
+
+    public optional_permission_checkbox_dict: loftyshaky_i_optional_permissions.OptionalPermissionCheckboxDict =
         {
             paste_btn_is_visible: { permissions: ['clipboardRead'], origins: [] },
-            allow_downloading_img_by_link: { permissions: [], origins: ['<all_urls>'] },
+            allow_downloading_img_by_link: {
+                permissions: [],
+                origins: ['<all_urls>'],
+            },
         };
+
+    public set_contains_permission_vals = (): Promise<void> =>
+        err_async(async () => {
+            await Promise.all(
+                Object.keys(this.contains_permission).map(
+                    async (permission_name: string): Promise<void> =>
+                        err_async(async () => {
+                            this.contains_permission[permission_name] =
+                                await we.permissions.contains(
+                                    this.optional_permission_checkbox_dict[permission_name],
+                                );
+                        }, 'cnt_1552'),
+                ),
+            );
+        }, 'cnt_1551');
 
     public check_if_contains_permission = ({ name }: { name: string }): Promise<boolean> =>
         err_async(
@@ -24,23 +48,26 @@ class Class {
         );
 
     public set_permission = ({ name }: { name: string }): Promise<boolean> =>
-        err_async(
-            async () =>
-                d_optional_permissions.Permission.set({
-                    name,
-                    optional_permission_checkbox_dict: this.optional_permission_checkbox_dict,
-                    set_checkbox_val: false,
-                }),
-            'cnt_1532',
-        );
+        err_async(async () => {
+            const granted: boolean = await d_optional_permissions.Permission.set({
+                name,
+                contains_permission: this.contains_permission[name],
+                optional_permission_checkbox_dict: this.optional_permission_checkbox_dict,
+                set_checkbox_val: false,
+            });
+
+            await this.set_contains_permission_vals();
+
+            return granted;
+        }, 'cnt_1532');
 
     public change_clipboard_read_permission = (): Promise<void> =>
         err_async(async () => {
-            const clipboard_read_permission: boolean = await this.check_if_contains_permission({
-                name: 'paste_btn_is_visible',
-            });
+            const permission_name: string = 'paste_btn_is_visible';
+            const clipboard_read_permission: boolean = this.contains_permission[permission_name];
+
             const permission_granted: boolean = await this.set_permission({
-                name: 'paste_btn_is_visible',
+                name: permission_name,
             });
 
             runInAction(() =>
@@ -53,7 +80,7 @@ class Class {
                 }, 'cnt_1534'),
             );
 
-            d_data.Manipulation.send_msg_to_update_settings({
+            await d_data.Manipulation.send_msg_to_update_settings({
                 settings: {
                     ...data.settings,
                     prefs: data.settings.prefs,

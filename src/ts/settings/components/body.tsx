@@ -1,18 +1,20 @@
-import React, { useEffect } from 'react';
-import { observer } from 'mobx-react';
+import type { JSX } from 'react';
 
-import { c_inputs, o_inputs, d_inputs, i_inputs } from '@loftyshaky/shared/inputs';
-import { c_progress } from 'shared/internal';
+import { observer } from 'mobx-react-lite';
+import { useEffect } from 'react';
+
+import { c_inputs, d_inputs, type i_inputs, type o_inputs } from '@loftyshaky/shared/inputs';
 import {
-    c_settings,
     c_backgrounds,
     c_custom_code,
     c_install_help,
     c_protecting_screen,
     c_scheduler,
+    c_settings,
     d_sections,
-    p_settings,
+    type p_settings,
 } from 'settings/internal';
+import { c_progress } from 'shared/internal';
 
 export const Body: React.FunctionComponent<p_settings.Body> = observer((props) => {
     const { on_render } = props;
@@ -32,7 +34,7 @@ export const Body: React.FunctionComponent<p_settings.Body> = observer((props) =
                         });
                     }, 'cnt_1182');
 
-                run();
+                void run();
             }, 'cnt_1183'),
         [],
     );
@@ -43,9 +45,9 @@ export const Body: React.FunctionComponent<p_settings.Body> = observer((props) =
                 <div className='main_2'>
                     <div className='sections custom settings'>
                         {Object.values(d_sections.Sections.sections).map(
-                            (section: o_inputs.Section, i: number): JSX.Element => (
+                            (section: o_inputs.Section): JSX.Element => (
                                 <c_settings.Section
-                                    key={i}
+                                    key={section.name}
                                     section_name={section.name}
                                     section={section}
                                 >
@@ -64,9 +66,9 @@ export const Body: React.FunctionComponent<p_settings.Body> = observer((props) =
                     <c_scheduler.Body />
                     <c_custom_code.Body />
                     <c_backgrounds.DraaggedBackground />
+                    <c_progress.Progress />
                 </div>
             </div>
-            <c_progress.Progress />
             <c_protecting_screen.Body />
         </>
     );

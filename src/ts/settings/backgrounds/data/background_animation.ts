@@ -1,4 +1,4 @@
-import { makeObservable, observable, action, runInAction } from 'mobx';
+import { action, makeObservable, observable, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
 class Class {
@@ -60,14 +60,14 @@ class Class {
 
     public remove_already_animated_ids = ({ ids }: { ids: string[] }): void =>
         err(() => {
-            ids.forEach((id_to_remove: string): void =>
+            ids.forEach((id_to_remove: string): void => {
                 err(() => {
                     x.remove_item(
                         this.already_animated_ids.indexOf(id_to_remove),
                         this.already_animated_ids,
                     );
-                }, 'cnt_1417'),
-            );
+                }, 'cnt_1417');
+            });
         }, 'cnt_1415');
 
     public remove_all_already_animated_ids = (): void =>

@@ -1,15 +1,10 @@
+import get from 'lodash/get';
 import remove from 'lodash/remove';
 
-import { t } from '@loftyshaky/shared/shared_clean';
-import {
-    d_backgrounds,
-    d_browser_theme,
-    s_data,
-    s_db,
-    i_browser_theme,
-    i_db,
-} from 'shared_clean/internal';
+import type { i_error, t } from '@loftyshaky/shared/shared_clean';
 import { s_badge, s_browser_theme } from 'background/internal';
+import type { i_browser_theme, i_db } from 'shared_clean/internal';
+import { d_backgrounds, d_browser_theme, s_data, s_db } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -18,16 +13,28 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public theme_id: string | undefined;
     public force_theme_redownload: boolean = false;
     public getting_theme_background: boolean = false;
     private theme_id_final: string | undefined;
+    private attempted_to_run_attempt_to_run_try_to_get_theme_background: number = 0;
 
     public attempt_to_run_try_to_get_theme_background = (): Promise<void> =>
         err_async(async () => {
+            if (!n(get(data.settings, 'prefs.id_of_last_installed_theme'))) {
+                this.attempted_to_run_attempt_to_run_try_to_get_theme_background += 1;
+
+                if (this.attempted_to_run_attempt_to_run_try_to_get_theme_background <= 10) {
+                    setTimeout(() => {
+                        void this.attempt_to_run_try_to_get_theme_background();
+                    }, 5000);
+                }
+
+                return;
+            }
+
             const already_tried_install_this_theme: boolean =
                 this.theme_id === data.settings.prefs.id_of_last_installed_theme;
             const is_local_theme = await s_browser_theme.ThemeId.check_if_theme_is_local({
@@ -39,7 +46,7 @@ class Class {
                     data.settings.prefs.mode === 'theme_background' &&
                     !already_tried_install_this_theme
                 ) {
-                    this.try_to_get_theme_background();
+                    await this.try_to_get_theme_background();
                 }
             }
         }, 'cnt_1005');
@@ -119,7 +126,7 @@ class Class {
     private ensure_that_uploading_last_installed_theme_background = ({
         callback,
     }: {
-        callback: t.CallbackVoid;
+        callback: t.CallbackVoidAsync;
     }): Promise<void> =>
         err_async(
             async () => {
@@ -144,7 +151,7 @@ class Class {
                 msg: 'run_theme_background_upload_begin_side_effect',
             });
 
-            s_badge.Badge.set_text({ uploading_theme_background: true });
+            await s_badge.Badge.set_text({ uploading_theme_background: true });
 
             data.settings.prefs.id_of_last_installed_theme = this.theme_id_final;
 
@@ -175,12 +182,14 @@ class Class {
                             theme_id: this.theme_id_final,
                         });
                     }
-                } catch (error_obj: any) {
-                    error_obj.exit = false;
+                } catch (error_obj: unknown) {
+                    if (n(error_obj)) {
+                        (error_obj as i_error.ErrorObj).exit = false;
 
-                    show_err_ribbon(error_obj, 'cnt_1373', {
-                        silent: true,
-                    }); // when theme crx fetch ends with 404. To test try to fetch non-existent id
+                        show_err_ribbon(error_obj as i_error.ErrorObj, 'cnt_1373', {
+                            silent: true,
+                        }); // when theme crx fetch ends with 404. To test try to fetch non-existent id
+                    }
 
                     sucessfully_got_crx = false;
                 }
@@ -221,10 +230,10 @@ class Class {
                           )
                         : undefined;
 
-                    if (is_valid_img_file && !is_valid_img_file && env.browser === 'firefox') {
-                        s_badge.Badge.set_text({ uploading_theme_background: false });
+                    if (!is_valid_img_file && env.browser === 'firefox') {
+                        await s_badge.Badge.set_text({ uploading_theme_background: false });
 
-                        throw 'Image is not valid image'; // eslint-disable-line no-throw-literal
+                        throw 'Image is not valid image';
                     }
 
                     const found_background_img_file_or_clear_new_tab_video_file =
@@ -256,7 +265,6 @@ class Class {
                     } else {
                         await this.ensure_that_uploading_last_installed_theme_background({
                             callback: async () => {
-                                // eslint-disable-next-line max-len
                                 new_backgrounds =
                                     await d_backgrounds.Color.create_solid_color_background({
                                         color: theme_background_data.background_props
@@ -292,7 +300,7 @@ class Class {
                 current_background_i: n(last_theme_background) ? last_theme_background.id : 0,
             });
 
-            s_badge.Badge.set_text({ uploading_theme_background: false });
+            await s_badge.Badge.set_text({ uploading_theme_background: false });
         }, 'cnt_1374');
 }
 

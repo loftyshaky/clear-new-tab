@@ -5,12 +5,11 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public open = (): void =>
         err(() => {
-            ext.send_msg({ msg: 'open_theme_background' });
+            void ext.send_msg({ msg: 'open_theme_background' });
         }, 'cnt_1300');
 }
 

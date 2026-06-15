@@ -1,4 +1,4 @@
-import { makeObservable, observable, action } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 
 import { s_viewport } from '@loftyshaky/shared/shared';
 import { d_pagination, s_scrollable } from 'settings/internal';
@@ -23,7 +23,9 @@ class Class {
 
     public calculate_height = ({
         auto_scroll_enabled = true,
-    }: { auto_scroll_enabled?: boolean } = {}): void =>
+    }: {
+        auto_scroll_enabled?: boolean;
+    } = {}): void =>
         err(() => {
             s_scrollable.Scrollable.auto_scroll_enabled = auto_scroll_enabled;
 

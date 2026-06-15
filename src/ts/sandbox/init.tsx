@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import { c_sandbox, d_custom_code } from 'sandbox/internal';

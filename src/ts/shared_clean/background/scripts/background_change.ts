@@ -1,4 +1,4 @@
-import { Tabs } from 'webextension-polyfill';
+import type { Tabs } from 'webextension-polyfill';
 
 import { d_backgrounds, s_background, s_data, s_tabs } from 'shared_clean/internal';
 
@@ -9,7 +9,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     private slideshow_timers: number[] = [];
@@ -19,6 +18,7 @@ class Class {
         err_async(async () => {
             await ext.send_msg_resp({
                 msg: 'update_background',
+                settings: data.settings,
                 force_update: this.force_update,
                 no_tr,
             });
@@ -42,7 +42,7 @@ class Class {
                 ['multiple_backgrounds', 'random_solid_color'].includes(data.settings.prefs.mode) &&
                 allow_to_start_slideshow_timer
             ) {
-                const current_time: number = new Date().getTime();
+                const current_time: number = Date.now();
                 const time_to_change_background: boolean =
                     (data.settings.prefs.mode === 'random_solid_color' &&
                         data.settings.prefs.current_random_solid_color === '') ||
@@ -50,7 +50,6 @@ class Class {
                         data.settings.prefs.background_change_time +
                             data.settings.prefs.background_change_interval ||
                     force_change;
-
                 const start_slideshow_timer: boolean = data.settings.prefs.slideshow;
 
                 if (time_to_change_background) {
@@ -60,11 +59,11 @@ class Class {
                     });
 
                     if (start_slideshow_timer) {
-                        this.run_slideshow_timer({ current_time });
+                        await this.run_slideshow_timer({ current_time });
                     }
                 } else if (start_slideshow_timer) {
                     await this.update_background({ no_tr: true });
-                    this.run_slideshow_timer({ current_time });
+                    await this.run_slideshow_timer({ current_time });
                 } else {
                     // multiple backgrounds, slideshow off
                     await this.update_background({ no_tr: true });
@@ -91,9 +90,9 @@ class Class {
                 no_tr,
             });
 
-            d_backgrounds.CurrentBackground.set_future_background_id();
+            await d_backgrounds.CurrentBackground.set_future_background_id();
 
-            ext.send_msg({
+            await ext.send_msg({
                 msg: 'set_current_background_i',
             });
         }, 'cnt_1307');
@@ -134,12 +133,14 @@ class Class {
     } = {}): Promise<void> =>
         err_async(async () => {
             const current_tab: Tabs.Tab | undefined = await ext.get_active_tab();
-            const user_is_in_new_tab: boolean =
+            const user_is_in_new_tab =
                 n(current_tab) && current_tab.id === s_tabs.TabIds.last_visited_new_tab_id;
 
             const schedule_background_change = ({
                 rerun_2 = false,
-            }: { rerun_2?: boolean } = {}): Promise<void> =>
+            }: {
+                rerun_2?: boolean;
+            } = {}): Promise<void> =>
                 err_async(async () => {
                     const background_change_interval_corrected: number =
                         data.settings.prefs.background_change_interval === 1
@@ -162,13 +163,11 @@ class Class {
                         });
                     } else {
                         this.slideshow_timers.push(
-                            self.setTimeout(() => {
-                                err_async(async () => {
-                                    await this.change_slideshow_background();
-                                    await this.run_slideshow_timer({
-                                        rerun: true,
-                                    });
-                                }, 'cnt_1309');
+                            self.setTimeout(async () => {
+                                await this.change_slideshow_background();
+                                await this.run_slideshow_timer({
+                                    rerun: true,
+                                });
                             }, delay),
                         );
                     }
@@ -185,17 +184,21 @@ class Class {
             }
         }, 'cnt_1311');
 
-    public clear_slideshow_timer = (): Promise<void> =>
+    public clear_slideshow_timer = ({ force = true }: { force?: boolean } = {}): Promise<void> =>
         err_async(async () => {
-            await we.alarms.clear('change_slideshow_background');
+            const user_is_in_new_tab: unknown = await this.check_if_user_is_in_new_tab();
 
-            this.slideshow_timers.forEach((slideshow_timer: number): void =>
-                err(() => {
-                    globalThis.clearTimeout(slideshow_timer);
-                }, 'cnt_1312'),
-            );
+            if (force || !user_is_in_new_tab) {
+                await we.alarms.clear('change_slideshow_background');
 
-            this.slideshow_timers = [];
+                this.slideshow_timers.forEach((slideshow_timer: number): void =>
+                    err(() => {
+                        globalThis.clearTimeout(slideshow_timer);
+                    }, 'cnt_1312'),
+                );
+
+                this.slideshow_timers = [];
+            }
         }, 'cnt_1313');
 
     public change_slideshow_background = (): Promise<void> =>
@@ -205,11 +208,23 @@ class Class {
                 data.settings.prefs.slideshow
             ) {
                 await this.change_background({
-                    current_time: new Date().getTime(),
+                    current_time: Date.now(),
                     no_tr: false,
                 });
             }
         }, 'cnt_1424');
+
+    public check_if_user_is_in_new_tab = (): Promise<boolean> =>
+        err_async(async () => {
+            const current_tab: Tabs.Tab | undefined = await ext.get_active_tab();
+            return Boolean(
+                n(current_tab) && current_tab.id
+                    ? await ext.send_msg_to_tab_resp(current_tab.id, {
+                          msg: 'confirm_this_tab_is_new_tab_page',
+                      })
+                    : false,
+            );
+        }, 'cnt_1554');
 }
 
 export const BackgroundChange = Class.get_instance();

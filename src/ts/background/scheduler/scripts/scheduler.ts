@@ -1,10 +1,12 @@
+import { BigNumber } from 'bignumber.js';
+import * as dateFns from 'date-fns';
 import maxBy from 'lodash/maxBy';
 import minBy from 'lodash/minBy';
 import { isPresent } from 'ts-is-present';
-import * as dateFns from 'date-fns';
-import { BigNumber } from 'bignumber.js';
-import { s_db, i_db } from 'shared_clean/internal';
+
 import { s_backgrounds } from 'background/internal';
+import type { i_db } from 'shared_clean/internal';
+import { s_db } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -13,7 +15,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     private split_time = ({ time }: { time: string }): number[] =>
@@ -96,7 +97,7 @@ class Class {
 
                                 let current_or_next_day_of_the_week_date: Date = dateFns.nextDay(
                                     date_2,
-                                    day_of_the_week as any,
+                                    day_of_the_week as dateFns.Day,
                                 );
                                 const date_is_in_previous_month: boolean =
                                     current_or_next_day_of_the_week_date.getMonth() < month &&
@@ -111,14 +112,14 @@ class Class {
                                 if (date_is_in_previous_month) {
                                     current_or_next_day_of_the_week_date = dateFns.nextDay(
                                         current_or_next_day_of_the_week_date,
-                                        day_of_the_week as any,
+                                        day_of_the_week as dateFns.Day,
                                     );
                                 } else if (date_is_in_next_month) {
                                     date_2.setDate(0);
 
                                     current_or_next_day_of_the_week_date = dateFns.nextDay(
                                         date_2,
-                                        day_of_the_week as any,
+                                        day_of_the_week as dateFns.Day,
                                     );
                                 }
 
@@ -404,9 +405,11 @@ class Class {
                     (alarm_data_item: i_db.AlarmDataItem): string =>
                         err(() => alarm_data_item.i, 'cnt_1030'),
                 );
-            const closest_alarm_data_item_i: string = BigNumber.max
-                .apply(null, all_alarm_data_items_with_closest_time_is)
-                .toString();
+
+            const closest_alarm_data_item_i: string =
+                all_alarm_data_items_with_closest_time_is.length === 0
+                    ? '0'
+                    : BigNumber.maximum(...all_alarm_data_items_with_closest_time_is).toString();
             const closest_alarm_data_item_final: i_db.AlarmDataItem | undefined =
                 all_alarm_data_items_with_closest_time.find(
                     (alarm_data_item: i_db.AlarmDataItem): boolean =>

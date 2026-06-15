@@ -1,6 +1,6 @@
-import { d_backgrounds as d_backgrounds_shared_clean } from 'shared_clean/internal';
-import { d_progress } from 'shared/internal';
 import { d_backgrounds, d_protecting_screen } from 'settings/internal';
+import { d_progress } from 'shared/internal';
+import { d_backgrounds as d_backgrounds_shared_clean } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -9,7 +9,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public create_solid_color_background = ({

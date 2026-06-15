@@ -1,9 +1,10 @@
-import React, { MouseEvent } from 'react';
-import { observer } from 'mobx-react';
-import { o_inputs, c_inputs } from '@loftyshaky/shared/inputs';
+import type { MouseEvent } from 'react';
 
+import { observer } from 'mobx-react-lite';
+
+import { c_inputs, o_inputs } from '@loftyshaky/shared/inputs';
+import { c_backgrounds, d_backgrounds, type p_backgrounds, s_backgrounds } from 'settings/internal';
 import { Tr } from 'shared/internal';
-import { c_backgrounds, d_backgrounds, s_backgrounds, p_backgrounds } from 'settings/internal';
 
 export const Actions: React.FunctionComponent<p_backgrounds.Actions> = observer((props) => {
     const { background } = props;
@@ -21,8 +22,9 @@ export const Actions: React.FunctionComponent<p_backgrounds.Actions> = observer(
                 tag='div'
                 name='fade'
                 cls='action_btns_w'
-                // eslint-disable-next-line max-len
-                state={d_backgrounds.Actions.is_visible({ background_id: background.id })}
+                state={d_backgrounds.Actions.is_visible({
+                    background_id: background.id,
+                })}
             >
                 <c_inputs.Btn
                     input={

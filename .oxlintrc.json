@@ -1,0 +1,24 @@
+{
+    "plugins": ["typescript", "unicorn", "oxc", "react"],
+    "ignorePatterns": ["node_modules/**/*", "dist/**/*"],
+    "categories": {
+        "correctness": "error"
+    },
+    "rules": {
+        "typescript/consistent-type-imports": "error",
+        "typescript/no-explicit-any": "error",
+        "react/no-array-index-key": "error",
+        "sort-imports": [
+            "error",
+            {
+                "ignoreDeclarationSort": true
+            }
+        ]
+    },
+    "env": {
+        "builtin": true
+    },
+    "options": {
+        "typeAware": true
+    }
+}

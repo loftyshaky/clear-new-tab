@@ -1,10 +1,12 @@
+@use '../../../node_modules/@loftyshaky/shared/scss/shared/vars';
+
 .link_btn_w {
     &.hide_content,
     &.show_content {
-        margin-bottom: $gap;
+        margin-bottom: vars.$gap;
     }
 
     .link_btn.link_to_theme_img {
-        font-size: $font_main;
+        font-size: vars.$font_main;
     }
 }

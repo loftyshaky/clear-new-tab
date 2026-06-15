@@ -1,8 +1,10 @@
+@use '../../../node_modules/@loftyshaky/shared/scss/shared/vars';
+
 .offers {
     .top_bar {
         order: unset;
         margin-top: 0;
-        margin-bottom: $gap;
+        margin-bottom: vars.$gap;
     }
 
     .offer img {

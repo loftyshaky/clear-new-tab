@@ -1,4 +1,4 @@
-import { i_browser_theme, i_db } from 'shared_clean/internal';
+import type { i_browser_theme, i_db } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -7,7 +7,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public get_ids_of_theme_backgrounds_to_delete = ({

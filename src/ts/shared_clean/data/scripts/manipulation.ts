@@ -1,12 +1,14 @@
 import cloneDeep from 'lodash/cloneDeep';
 
+import type { t } from '@loftyshaky/shared/shared';
 import {
+    d_schema,
     o_schema,
     s_data as s_data_loftyshaky_shared_clean,
-    d_schema,
     s_service_worker,
 } from '@loftyshaky/shared/shared_clean';
-import { s_background, s_data, i_data } from 'shared_clean/internal';
+import type { i_data } from 'shared_clean/internal';
+import { s_background, s_data, s_offscreen } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -15,11 +17,9 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public service_worker_woken_up_by_update_settings_background_msg: boolean = false; // needed to prevent overwriting current_background_id by current value in set_from_storage function when uploading background while background service worker inactive
-    public switched_from_randm_solid_color_mode: boolean = false;
     private cache_polulated_checks_done: number = 0;
 
     public wait_until_cache_polulated = (): Promise<true> =>
@@ -80,14 +80,16 @@ class Class {
                 settings: settings_final,
             });
             await ext.storage_set(settings_final, replace);
-            await ext.send_msg_resp({
-                msg: 'set_current_background_data',
+            await s_offscreen.FirefoxMsgsAlt.set_current_background_data({
+                mode: settings_final.prefs.mode,
                 current_background_id: settings_final.prefs.current_background_id,
+                future_background_id: settings_final.prefs.future_background_id,
+                force: true,
             });
             await this.react_to_settings_change({ load_settings, restore_back_up });
 
             if (n(update_background) && update_background) {
-                s_background.BackgroundChange.try_to_change_background({
+                await s_background.BackgroundChange.try_to_change_background({
                     allow_to_start_slideshow_timer: false,
                     force_update: true,
                 });
@@ -102,14 +104,18 @@ class Class {
         restore_back_up?: boolean;
     } = {}): Promise<void> =>
         err_async(async () => {
-            s_service_worker.ServiceWorker.make_persistent();
+            await s_service_worker.ServiceWorker.make_persistent();
             await s_data_loftyshaky_shared_clean.Cache.set({
                 key: 'updating_settings',
                 val: false,
             });
 
             if (load_settings) {
-                await ext.send_msg_resp({ msg: 'load_settings', restore_back_up, transform: true });
+                await ext.send_msg_resp({
+                    msg: 'load_settings',
+                    restore_back_up,
+                    transform: true,
+                });
             }
         }, 'cnt_1527');
 
@@ -141,7 +147,9 @@ class Class {
 
     public set_from_storage = ({
         transform = false,
-    }: { transform?: boolean } = {}): Promise<void> =>
+    }: {
+        transform?: boolean;
+    } = {}): Promise<void> =>
         err_async(async () => {
             if (!x.prefs_are_filled() && !x.found_old_settings()) {
                 // Runs on extension install, when the prefs object is empty. The prefs object is first set in @loftyshaky/shared.
@@ -364,6 +372,16 @@ class Class {
                     new_key: 'paste_btn_is_visible',
                     new_val: false,
                 }),
+                ...(['opera', 'yandex', 'firefox'].includes(env.browser) &&
+                settings.prefs.mode === 'theme_background'
+                    ? [
+                          new o_schema.TransformItem({
+                              old_key: 'mode',
+                              new_val: 'one_background',
+                              update_existing_val: true,
+                          }),
+                      ]
+                    : []),
             ];
 
             const updated_prefs = await d_schema.Schema.transform({
@@ -375,7 +393,7 @@ class Class {
 
             updated_prefs.version = ext.get_app_version();
 
-            settings.prefs = updated_prefs;
+            (settings as t.AnyRecord).prefs = updated_prefs;
 
             await d_schema.Schema.replace({ settings });
 

@@ -1,7 +1,10 @@
+@use '../../../node_modules/@loftyshaky/shared/scss/shared/vars';
+@use '../../../node_modules/@loftyshaky/shared/scss/shared/mixins';
+
 $progress_width: 500px;
 
 .progress_w {
-    @include full_spread;
+    @include mixins.full_spread;
 
     position: fixed;
     display: flex;
@@ -21,6 +24,6 @@ $progress_width: 500px;
 
     .text {
         position: absolute;
-        font-size: $font_main;
+        font-size: vars.$font_main;
     }
 }

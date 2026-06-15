@@ -1,7 +1,8 @@
-import { makeObservable, action } from 'mobx';
+import { action, makeObservable } from 'mobx';
 
-import { d_browser_theme, i_browser_theme } from 'shared_clean/internal';
 import { d_backgrounds } from 'settings/internal';
+import type { i_browser_theme } from 'shared_clean/internal';
+import { d_browser_theme } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -28,14 +29,23 @@ class Class {
                     force_theme_redownload,
                 });
 
-            await d_backgrounds.BackgroundDeletion.trigger_delete({ ids: ids_to_delete });
+            await d_backgrounds.BackgroundDeletion.trigger_delete({
+                ids: ids_to_delete,
+            });
         }, 'cnt_1162');
 
     public refresh_theme_backgrounds = (): Promise<void> =>
         err_async(async () => {
-            const theme_id: string | undefined = await ext.send_msg_resp({ msg: 'get_installed' });
+            const response = await ext.send_msg_resp({
+                msg: 'get_installed',
+            });
 
-            if (data.settings.prefs.mode === 'theme_background') {
+            if (
+                data.settings.prefs.mode === 'theme_background' &&
+                (!n(response) || typeof response === 'string')
+            ) {
+                const theme_id: string | undefined = response;
+
                 if (n(theme_id)) {
                     await ext.send_msg_resp({
                         msg: 'get_theme_background',
@@ -43,9 +53,10 @@ class Class {
                         triggered_by_load_theme_background_btn: false,
                     });
                 } else {
-                    // eslint-disable-next-line max-len
                     await d_backgrounds.CurrentBackground.set_current_background_id_to_id_of_first_background();
                 }
+            } else {
+                await d_backgrounds.CurrentBackground.set_current_background_id_to_id_of_first_background();
             }
         }, 'cnt_1424');
 }

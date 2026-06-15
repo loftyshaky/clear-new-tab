@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
+import { useEffect } from 'react';
 
-import { Tr } from 'shared/internal';
 import { c_scheduler, d_scheduler, s_scrollable } from 'settings/internal';
+import { Tr } from 'shared/internal';
 
 export const Body: React.FunctionComponent = observer(() => {
     const { is_visible } = d_scheduler.Visibility;
@@ -15,16 +15,14 @@ export const Body: React.FunctionComponent = observer(() => {
     }, [is_visible]);
 
     useEffect(() => {
-        d_scheduler.Val.set_add_new_task_btn_ability();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data.ui.background_id]);
+        void d_scheduler.Val.set_add_new_task_btn_ability();
+    }, []);
 
     return (
         <Tr
             tag='div'
             name='fade'
             cls={x.cls(['scheduler', d_scheduler.Help.scheduler_overflow_auto_cls])}
-            // eslint-disable-next-line max-len
             state={d_scheduler.Visibility.is_visible}
             style={{
                 width: x.px(d_scheduler.Dims.scheduler_width),

@@ -1,6 +1,7 @@
 import Dexie from 'dexie';
 
-import { i_db } from 'shared_clean/internal';
+import type { t } from '@loftyshaky/shared/shared';
+import type { i_db } from 'shared_clean/internal';
 
 export class Main extends Dexie {
     public backgrounds: Dexie.Table<i_db.Background, number>;
@@ -41,9 +42,9 @@ export class Main extends Dexie {
 
     public init = (): void =>
         err(() => {
-            this.open();
+            void this.open();
 
-            (this.custom_code as any).add(
+            (this.custom_code as t.AnyRecord).add(
                 {
                     html: '',
                     css: '',

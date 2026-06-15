@@ -1,7 +1,8 @@
+import type { i_inputs } from '@loftyshaky/shared/inputs';
+import { o_inputs } from '@loftyshaky/shared/inputs';
 import { s_utils } from '@loftyshaky/shared/shared';
-import { o_inputs, i_inputs } from '@loftyshaky/shared/inputs';
-import { svg } from 'shared/internal';
 import { d_custom_code } from 'settings/internal';
+import { svg } from 'shared/internal';
 
 class Class {
     private static instance: Class;
@@ -10,7 +11,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public top_controls: o_inputs.IconBtn[] | i_inputs.IconBtns = [];

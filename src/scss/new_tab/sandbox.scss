@@ -1,5 +1,7 @@
+@use '../../../node_modules/@loftyshaky/shared/scss/shared/mixins';
+
 .sandbox {
-    @include full_spread;
+    @include mixins.full_spread;
 
     position: fixed;
     z-index: 1;

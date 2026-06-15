@@ -1,4 +1,6 @@
-import { makeObservable, action } from 'mobx';
+import { action, makeObservable } from 'mobx';
+import { type MouseEvent } from 'react';
+
 import { d_data } from 'shared_clean/internal';
 
 class Class {
@@ -14,25 +16,21 @@ class Class {
         });
     }
 
-    private hide = (): Promise<void> =>
+    public hide = (e: MouseEvent): Promise<void> =>
         err_async(async () => {
-            data.settings.prefs.install_help_is_visible = false;
+            const is_hide_install_help_btn =
+                e.target instanceof HTMLElement && x.matches(e.target, '.hide_install_help');
 
-            await d_data.Manipulation.send_msg_to_update_settings({
-                settings: data.settings,
-                load_settings: true,
-                update_instantly: true,
-            });
-        }, 'cnt_1222');
+            if (is_hide_install_help_btn) {
+                data.settings.prefs.install_help_is_visible = false;
 
-    public bind_hide = (): void =>
-        err(() => {
-            const hide_install_help_el = s<HTMLButtonElement>('.hide_install_help');
-
-            if (n(hide_install_help_el)) {
-                x.bind(hide_install_help_el, 'click', this.hide);
+                await d_data.Manipulation.send_msg_to_update_settings({
+                    settings: data.settings,
+                    load_settings: true,
+                    update_instantly: true,
+                });
             }
-        }, 'cnt_1223');
+        }, 'cnt_1222');
 }
 
 export const Visibility = Class.get_instance();

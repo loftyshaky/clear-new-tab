@@ -1,8 +1,7 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import '@loftyshaky/shared/ext';
-import { s_title } from '@loftyshaky/shared/shared_clean';
+import { d_inputs } from '@loftyshaky/shared/inputs';
 import {
     c_crash_handler,
     c_error,
@@ -11,11 +10,8 @@ import {
     s_tab_index,
     s_theme as s_theme_shared,
 } from '@loftyshaky/shared/shared';
-import { d_inputs } from '@loftyshaky/shared/inputs';
+import { s_title } from '@loftyshaky/shared/shared_clean';
 import { s_css_vars, s_suffix, s_theme } from 'shared_clean/internal';
-
-// eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, @typescript-eslint/no-unused-vars
-declare let __webpack_public_path__: string;
 
 class Class {
     private static instance: Class;
@@ -24,7 +20,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     private announcement_root: HTMLDivElement | undefined = undefined;
@@ -34,7 +29,7 @@ class Class {
 
     public init = (): Promise<void> =>
         new Promise((reslove) => {
-            err_async(async () => {
+            void err_async(async () => {
                 const on_loading_screen_render = (): void =>
                     err(() => {
                         const loading_screen_root_el = s<HTMLDivElement>(
@@ -51,13 +46,13 @@ class Class {
                                 x.bind(loading_screen_css, 'load', (): void =>
                                     err(() => {
                                         if (page !== 'new_tab') {
-                                            s_theme_shared.Theme.set({
+                                            void s_theme_shared.Theme.set({
                                                 name: data.settings.prefs.options_page_theme,
                                                 additional_theme_callback: s_theme.Theme.set,
                                             });
                                         }
 
-                                        d_loading_screen.Visibility.show();
+                                        void d_loading_screen.Visibility.show();
 
                                         reslove();
                                     }, 'cnt_1350'),
@@ -66,14 +61,13 @@ class Class {
                         }
                     }, 'cnt_1351');
 
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                __webpack_public_path__ = we.runtime.getURL('');
-
                 s_title.Title.set();
 
                 s_css_vars.CssVars.set();
 
-                const error_root: ShadowRoot = this.create_root({ prefix: 'error' }) as ShadowRoot;
+                const error_root: ShadowRoot = this.create_root({
+                    prefix: 'error',
+                }) as ShadowRoot;
                 let loading_screen_root: ShadowRoot | undefined;
 
                 if (page !== 'new_tab') {
@@ -98,7 +92,7 @@ class Class {
                         shadow_root: false,
                     }) as HTMLDivElement;
 
-                    this.render_new_tab();
+                    await this.render_new_tab();
                 } else if (page === 'dependencies') {
                     this.dependencies_root = this.create_root({
                         prefix: 'dependencies',
@@ -160,7 +154,7 @@ class Class {
 
             const on_css_load = (): Promise<void> =>
                 err_async(async () => {
-                    d_loading_screen.Visibility.hide({ app_id: s_suffix.app_id });
+                    await d_loading_screen.Visibility.hide({ app_id: s_suffix.app_id });
                 }, 'cnt_1354');
 
             if (n(this.announcement_root)) {
@@ -174,7 +168,7 @@ class Class {
                                         document.head,
                                     );
 
-                                    s_theme_shared.Theme.set({
+                                    void s_theme_shared.Theme.set({
                                         name: data.settings.prefs.options_page_theme,
                                         additional_theme_callback: s_theme.Theme.set,
                                     });
@@ -199,7 +193,6 @@ class Class {
                     const {
                         d_backgrounds,
                         s_custom_code,
-                        d_install_help,
                         d_scheduler,
                         d_sections,
                         s_theme: s_theme_settings,
@@ -209,7 +202,6 @@ class Class {
                     s_theme_settings.CodeMirrorTheme.set_up_change_theme_reaction();
                     s_custom_code.CodeMirror.init_all();
 
-                    d_install_help.Visibility.bind_hide();
                     await d_inputs.InputWidth.calculate();
                     d_sections.Width.set();
                     d_scheduler.Position.set_left();
@@ -217,14 +209,13 @@ class Class {
 
                     s_tab_index.TabIndex.bind_set_input_type_f();
 
-                    // eslint-disable-next-line max-len
                     d_scrollable.Scrollable.set_scroll_backgrounds_scrollable_to_bottom_bool({
                         bool: true,
                     });
 
                     d_backgrounds.Scrollable.calculate_height();
 
-                    d_loading_screen.Visibility.hide({ app_id: s_suffix.app_id });
+                    await d_loading_screen.Visibility.hide({ app_id: s_suffix.app_id });
                 }, 'cnt_1357');
 
             if (n(this.settings_root)) {
@@ -234,7 +225,7 @@ class Class {
                             err(() => {
                                 const settings_css = x.css('settings_css', document.head);
 
-                                s_theme_shared.Theme.set({
+                                void s_theme_shared.Theme.set({
                                     name: data.settings.prefs.options_page_theme,
                                     additional_theme_callback: s_theme.Theme.set,
                                 });
@@ -283,7 +274,7 @@ class Class {
 
             const on_css_load = (): Promise<void> =>
                 err_async(async () => {
-                    d_loading_screen.Visibility.hide({ app_id: s_suffix.app_id });
+                    await d_loading_screen.Visibility.hide({ app_id: s_suffix.app_id });
                 }, 'cnt_1516');
 
             if (n(this.dependencies_root)) {
@@ -297,7 +288,7 @@ class Class {
                                         document.head,
                                     );
 
-                                    s_theme_shared.Theme.set({
+                                    void s_theme_shared.Theme.set({
                                         name: data.settings.prefs.options_page_theme,
                                         additional_theme_callback: s_theme.Theme.set,
                                     });

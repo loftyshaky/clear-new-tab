@@ -1,7 +1,7 @@
-import { makeObservable, observable, action } from 'mobx';
+import type * as i_db from 'shared_clean/db/interfaces';
 
+import { action, makeObservable, observable } from 'mobx';
 import * as s_custom_code from 'shared_clean/custom_code/scripts';
-import * as i_db from 'shared_clean/db/interfaces';
 
 class Class {
     private static instance: Class;

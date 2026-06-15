@@ -1,4 +1,4 @@
-import { makeObservable, observable, computed, action } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 
 import { d_progress } from 'shared/internal';
 
@@ -39,7 +39,11 @@ class Class {
             }
         }, 'cnt_1438');
 
-    public show = ({ enable_progress = false }: { enable_progress?: boolean } = {}): void =>
+    public show = ({
+        enable_progress = false,
+    }: {
+        enable_progress?: boolean;
+    } = {}): void =>
         err(() => {
             this.change({ is_visible: true, enable_progress });
         }, 'cnt_1227');

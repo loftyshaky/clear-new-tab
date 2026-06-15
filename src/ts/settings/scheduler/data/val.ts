@@ -1,6 +1,6 @@
 import { runInAction } from 'mobx';
 
-import { i_inputs, i_color } from '@loftyshaky/shared/inputs';
+import type { i_color, i_inputs } from '@loftyshaky/shared/inputs';
 import { d_scheduler, d_sections } from 'settings/internal';
 
 class Class {
@@ -10,7 +10,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public change = ({ input, i }: { input: i_inputs.Input; i?: i_color.I }): Promise<void> =>

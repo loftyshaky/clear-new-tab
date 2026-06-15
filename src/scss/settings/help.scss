@@ -1,7 +1,9 @@
+@use 'vars';
+
 .section_help {
     margin-bottom: 0;
 }
 
 .section_help:not(:empty) {
-    margin: $section_padding $section_padding 0 $section_padding;
+    margin: vars.$section_padding vars.$section_padding 0 vars.$section_padding;
 }

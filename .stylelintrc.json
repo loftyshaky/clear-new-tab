@@ -1,5 +1,5 @@
 {
-    "extends": ["stylelint-config-standard-scss", "stylelint-config-prettier-scss"],
+    "extends": ["stylelint-config-standard-scss"],
     "rules": {
         "selector-class-pattern": "^([a-z][a-z0-9_]*)([a-z0-9]+)*$",
         "scss/dollar-variable-pattern": "^([a-z][a-z0-9_]*)([a-z0-9]+)*$",
@@ -12,6 +12,8 @@
         "color-named": null,
         "selector-no-qualifying-type": null,
         "selector-max-compound-selectors": null,
-        "selector-max-id": null
-    }
+        "selector-max-id": null,
+        "scss/operator-no-newline-after": null
+    },
+    "ignoreFiles": ["node_modules/**/*", "dist/**/*"]
 }

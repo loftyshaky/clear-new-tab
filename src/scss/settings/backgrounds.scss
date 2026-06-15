@@ -1,3 +1,7 @@
+@use '../../../node_modules/@loftyshaky/shared/scss/shared/vars';
+@use '../../../node_modules/@loftyshaky/shared/scss/shared/mixins' as loftyshaky_mixins;
+@use 'mixins';
+
 $img_height: 94px;
 $overlay_item_size: 14px;
 $overlay_item_font_size: 10px;
@@ -12,16 +16,15 @@ $delete_background_btn_size: 22px;
 $delete_background_btn_svg_size: 12px;
 
 span.background {
-    @include border;
+    @include loftyshaky_mixins.border;
 
     position: relative;
     height: $img_height;
     max-width: 400px;
     min-width: 80px;
     user-select: none;
-    cursor: move;
-    margin-right: $gap;
-    margin-bottom: $gap;
+    margin-right: vars.$gap;
+    margin-bottom: vars.$gap;
 
     &.color {
         background-image: unset;
@@ -36,11 +39,11 @@ span.background {
     }
 
     .thumbnail_w {
-        @include full_dims;
+        @include loftyshaky_mixins.full_dims;
     }
 
     .img_thumbnail {
-        @include checkerboard_gradient;
+        @include mixins.checkerboard_gradient;
 
         height: 100%;
         width: 100%;
@@ -48,25 +51,26 @@ span.background {
     }
 
     .color_thumbnail {
-        @include full_dims;
+        @include loftyshaky_mixins.full_dims;
 
         opacity: 0;
     }
 
     .color {
-        @include full_spread;
+        @include loftyshaky_mixins.full_spread;
 
         position: absolute;
         z-index: -1;
     }
 
     .ui {
-        @include full_spread;
+        @include loftyshaky_mixins.full_spread;
 
         position: absolute;
+        cursor: move;
 
         &.selected {
-            @include background_outline;
+            @include mixins.background_outline;
         }
     }
 
@@ -125,7 +129,7 @@ span.background {
             outline: none;
             font-size: $overlay_item_font_size;
             background-color: white;
-            color: $black;
+            color: vars.$black;
             width: 100%;
             height: $overlay_item_size;
             padding-left: $overlay_item_side_padding;
@@ -153,7 +157,7 @@ span.background {
         padding-left: $overlay_item_side_padding;
         padding-right: $overlay_item_side_padding;
         font-size: $overlay_item_font_size;
-        background-color: $black;
+        background-color: vars.$black;
         opacity: 0.85;
         white-space: nowrap;
         text-overflow: ellipsis;

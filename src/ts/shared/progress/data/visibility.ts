@@ -1,4 +1,4 @@
-import { makeObservable, observable, computed, action } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 
 import { d_progress } from 'shared/internal';
 

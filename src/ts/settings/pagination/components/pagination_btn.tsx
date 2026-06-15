@@ -1,7 +1,6 @@
-import React from 'react';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 
-import { d_pagination, p_pagination } from 'settings/internal';
+import { d_pagination, type p_pagination } from 'settings/internal';
 
 export const PaginationBtn: React.FunctionComponent<p_pagination.PaginationBtn> = observer(
     (props) => {
@@ -23,7 +22,7 @@ export const PaginationBtn: React.FunctionComponent<p_pagination.PaginationBtn> 
                 }}
                 onKeyDown={() => undefined}
             >
-                {page_btn_content}
+                {d_pagination.Page.page_btn_svg({ page_btn_content })}
             </button>
         );
     },

@@ -1,6 +1,6 @@
-import { i_db } from 'shared_clean/internal';
-import { d_backgrounds as d_backgrounds_shared } from 'shared/internal';
 import { d_backgrounds, d_protecting_screen, d_sections } from 'settings/internal';
+import { d_backgrounds as d_backgrounds_shared } from 'shared/internal';
+import type { i_db } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -9,16 +9,18 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public change_into_uploading_state = (): Promise<void> =>
         err_async(async () => {
-            const uploading_theme_background_now: boolean = await ext.send_msg_resp({
+            const uploading_theme_background_now_response = await ext.send_msg_resp({
                 msg: 'uploading_theme_background_now',
             });
 
-            if (uploading_theme_background_now) {
+            if (
+                typeof uploading_theme_background_now_response === 'boolean' &&
+                uploading_theme_background_now_response
+            ) {
                 this.theme_background_upload_begin();
             }
         }, 'cnt_1508');
@@ -40,7 +42,7 @@ class Class {
             const new_backgrounds: i_db.Background[] = d_backgrounds.Backgrounds.merge_backgrounds({
                 backgrounds,
             });
-            d_backgrounds.SideEffects.upload_success();
+            void d_backgrounds.SideEffects.upload_success();
             d_backgrounds_shared.CurrentBackground.set_current_background_i({
                 backgrounds: new_backgrounds,
                 current_background_id,

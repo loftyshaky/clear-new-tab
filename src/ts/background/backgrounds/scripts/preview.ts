@@ -5,7 +5,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public open = ({ background_id }: { background_id: string }): void =>
@@ -14,7 +13,7 @@ class Class {
                 `new_tab.html?preview_background_id=${background_id}`,
             );
 
-            we.tabs.create({ active: true, url });
+            void we.tabs.create({ active: true, url });
         }, 'cnt_1002');
 }
 

@@ -1,4 +1,6 @@
-import { makeObservable, action } from 'mobx';
+import { action, makeObservable } from 'mobx';
+
+import type { t } from '@loftyshaky/shared/shared';
 import { d_sections } from 'settings/internal';
 
 class Class {
@@ -18,14 +20,14 @@ class Class {
     public set_visibility_of_loading_msg = ({ is_visible }: { is_visible: boolean }): void =>
         err(() => {
             (
-                d_sections.Sections.sections as any
+                d_sections.Sections.sections as t.AnyRecord
             ).background_upload.inputs.upload_background.loading_msg_is_visible = is_visible;
         }, 'cnt_1284');
 
     public set_visibility_of_error_msg = ({ is_visible }: { is_visible: boolean }): void =>
         err(() => {
             (
-                d_sections.Sections.sections as any
+                d_sections.Sections.sections as t.AnyRecord
             ).background_upload.inputs.upload_background.error_msg_is_visible = is_visible;
         }, 'cnt_1285');
 }

@@ -1,6 +1,6 @@
-import { makeObservable, observable, computed, action } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 
-import { i_progress } from 'shared/internal';
+import type { i_progress } from 'shared/internal';
 
 class Class {
     private static instance: Class;

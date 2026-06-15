@@ -1,4 +1,4 @@
-import { i_backgrounds } from 'shared_clean/internal';
+import type { i_backgrounds } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -7,7 +7,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public get_file_type = ({ file }: { file: File | string }): i_backgrounds.FileType =>
@@ -15,7 +14,7 @@ class Class {
             if (typeof file !== 'string') {
                 // some themes don't have file type in theme_ntp_background. Example: https://chrome.google.com/webstore/detail/hatsune-miku/kigfdicgjnpjkhbnngdfgjfffmdaonfg
 
-                const is_video: boolean = ['video/mp4', 'video/webm', 'video/ogg'].some(
+                const is_video: boolean = ['video/mp4', 'video/webm'].some(
                     (file_type: string): boolean =>
                         err(() => file_type === file.type, 'cnt_1148', { silent: true }),
                 );

@@ -1,6 +1,7 @@
-import '@loftyshaky/shared/ext';
 import 'offscreen/msgs/scripts';
 
-misplaced_dependency('offscreen');
+import '@loftyshaky/shared/ext';
+
+misplaced_dependency(env.browser === 'firefox' ? 'background' : 'offscreen');
 
 export * as s_backgrounds from 'offscreen/backgrounds/scripts';

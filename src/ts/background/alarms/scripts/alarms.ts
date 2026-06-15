@@ -1,7 +1,7 @@
-import { Alarms } from 'webextension-polyfill';
+import type { Alarms } from 'webextension-polyfill';
 
-import { s_background } from 'shared_clean/internal';
 import { s_backgrounds, s_scheduler } from 'background/internal';
+import { s_background } from 'shared_clean/internal';
 
 we.alarms.onAlarm.addListener(
     (alarm: Alarms.Alarm): Promise<void> =>
@@ -12,7 +12,7 @@ we.alarms.onAlarm.addListener(
                     rerun: true,
                 });
             } else if (alarm.name === 'schedule_background_display') {
-                s_scheduler.Scheduler.schedule_background_display({
+                await s_scheduler.Scheduler.schedule_background_display({
                     called_after_task_completed: true,
                 });
             } else {
@@ -20,11 +20,11 @@ we.alarms.onAlarm.addListener(
                     background_id: alarm.name,
                 });
 
-                we.alarms.create('schedule_background_display', {
+                await we.alarms.create('schedule_background_display', {
                     when: Date.now() + 1000,
                 });
 
-                ext.send_msg({ msg: 'set_current_background_i' });
+                await ext.send_msg({ msg: 'set_current_background_i' });
             }
         }, 'cnt_1015'),
 );

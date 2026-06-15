@@ -1,6 +1,6 @@
-import { i_db } from 'shared_clean/internal';
-
 import { BigNumber } from 'bignumber.js';
+
+import type { i_db } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -9,7 +9,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public get_next_i = ({ items }: { items: i_db.Background[] | i_db.Task[] }): string =>

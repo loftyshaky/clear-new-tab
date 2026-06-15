@@ -5,7 +5,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public decide_set_background_as_current_btn_visibility = (): boolean =>

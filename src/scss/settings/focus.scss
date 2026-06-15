@@ -1,9 +1,12 @@
+@use '../../../node_modules/@loftyshaky/shared/scss/shared/mixins' as loftyshaky_mixins;
+@use 'mixins';
+
 .keyboard .backgrounds .background .ui:focus {
-    @include background_outline;
+    @include mixins.background_outline;
 }
 
 .keyboard .pagination_btn:not(.active, .disabled):focus {
-    @include outline_solid_thick;
+    @include loftyshaky_mixins.outline_solid_thick;
 }
 
 .keyboard .backgrounds .background .delete_background_btn,

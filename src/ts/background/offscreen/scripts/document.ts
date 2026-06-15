@@ -1,3 +1,5 @@
+import type { t } from '@loftyshaky/shared/shared_clean';
+
 class Class {
     private static instance: Class;
 
@@ -5,19 +7,22 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public create = (): Promise<void> =>
         err_async(async () => {
-            const offscreen_document_already_exists: boolean = await we.offscreen.hasDocument();
+            if (env.browser !== 'firefox') {
+                const offscreen_document_already_exists: boolean = await (
+                    we as t.AnyRecord
+                ).offscreen.hasDocument();
 
-            if (!offscreen_document_already_exists) {
-                await we.offscreen.createDocument({
-                    url: 'offscreen.html',
-                    reasons: ['DOM_PARSER'],
-                    justification: 'Run URL.createObjectURL.',
-                });
+                if (!offscreen_document_already_exists) {
+                    await (we as t.AnyRecord).offscreen.createDocument({
+                        url: 'offscreen.html',
+                        reasons: ['DOM_PARSER'],
+                        justification: 'Run URL.createObjectURL.',
+                    });
+                }
             }
         }, 'cnt_1478');
 }

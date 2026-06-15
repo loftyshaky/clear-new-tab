@@ -1,13 +1,13 @@
 import union from 'lodash/union';
 import unionBy from 'lodash/unionBy';
-import { makeObservable, observable, action, runInAction } from 'mobx';
+import { action, makeObservable, observable, runInAction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
-import { vars, o_schema, d_schema } from '@loftyshaky/shared/shared';
-import { s_db, s_i, i_db } from 'shared_clean/internal';
-
-import { d_backgrounds as d_backgrounds_shared } from 'shared/internal';
+import { d_schema, o_schema, vars } from '@loftyshaky/shared/shared';
 import { d_backgrounds, d_pagination } from 'settings/internal';
+import { d_backgrounds as d_backgrounds_shared } from 'shared/internal';
+import type { i_db } from 'shared_clean/internal';
+import { s_db, s_i } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -206,7 +206,10 @@ class Class {
         background_files: i_db.BackgroundFile[];
     }): i_db.BackgroundFile[] =>
         err(
-            () => this.get_missing_items({ items: background_files }) as i_db.BackgroundFile[],
+            () =>
+                this.get_missing_items({
+                    items: background_files,
+                }) as i_db.BackgroundFile[],
             'cnt_1414',
         );
 
@@ -215,7 +218,7 @@ class Class {
         version,
     }: {
         background: i_db.Background;
-        version: number;
+        version: string;
     }): Promise<i_db.Background> =>
         err_async(async () => {
             if (background.type.includes('color')) {
@@ -229,11 +232,11 @@ class Class {
                 }),
             ];
 
-            const background_final: i_db.Background = await d_schema.Schema.transform({
+            const background_final: i_db.Background = (await d_schema.Schema.transform({
                 data_obj: { ...background },
                 version,
                 transform_items,
-            });
+            })) as i_db.Background;
 
             return background_final;
         }, 'cnt_1422');

@@ -1,5 +1,4 @@
-import React from 'react';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 
 import { c_inputs } from '@loftyshaky/shared/inputs';
 import { d_scheduler } from 'settings/internal';

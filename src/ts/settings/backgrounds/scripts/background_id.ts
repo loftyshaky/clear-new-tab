@@ -5,7 +5,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public copy_to_clipboard = ({ background_id }: { background_id: string }): Promise<void> =>

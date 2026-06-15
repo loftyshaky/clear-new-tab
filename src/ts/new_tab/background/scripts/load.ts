@@ -7,7 +7,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     private load_background = (): Promise<void> =>
@@ -53,7 +52,7 @@ class Class {
                     } else {
                         resolve();
                     }
-                } catch (error_obj: any) {
+                } catch (error_obj: unknown) {
                     reject(error_obj);
                 }
             }, 'cnt_1064');

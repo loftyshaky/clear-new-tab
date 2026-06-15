@@ -1,23 +1,24 @@
 import { action, runInAction } from 'mobx';
 
-import { i_data, i_color as i_color_shared } from '@loftyshaky/shared/shared';
-import { o_color, d_inputs, d_color, i_inputs, i_color } from '@loftyshaky/shared/inputs';
+import type { i_color, i_inputs, o_color } from '@loftyshaky/shared/inputs';
+import { d_color, d_inputs } from '@loftyshaky/shared/inputs';
 import { d_developer_mode, s_sections } from '@loftyshaky/shared/settings';
+import type { i_color as i_color_shared, i_data } from '@loftyshaky/shared/shared';
 import {
-    vars,
+    d_background_settings,
+    d_backgrounds,
+    d_scheduler,
+    d_sections,
+    s_optional_permissions,
+} from 'settings/internal';
+import { s_preload_color } from 'shared/internal';
+import {
     d_backgrounds as d_backgrounds_shared,
     d_data,
     s_css_vars,
     s_theme,
+    vars,
 } from 'shared_clean/internal';
-import { s_preload_color } from 'shared/internal';
-import {
-    d_background_settings,
-    d_backgrounds,
-    s_optional_permissions,
-    d_sections,
-    d_scheduler,
-} from 'settings/internal';
 
 class Class {
     private static instance: Class;
@@ -26,9 +27,8 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {
-        this.get_os();
+        void this.get_os();
     }
 
     private os: string = '';
@@ -44,12 +44,6 @@ class Class {
         ({ input, i }: { input: i_inputs.Input; i?: i_color.I }): Promise<void> =>
             err_async(async () => {
                 let val: i_data.Val;
-                const switched_from_randm_solid_color_mode: boolean =
-                    input.name === 'mode' && d_inputs.Val.previous_val === 'random_solid_color';
-
-                await we.storage.session.set({
-                    switched_from_randm_solid_color_mode,
-                });
 
                 const set_val = (): Promise<void> =>
                     err_async(async () => {
@@ -76,14 +70,18 @@ class Class {
                                 input.name,
                             )
                         ) {
-                            d_background_settings.GlobalCheckboxes.restore_global_val({
+                            await d_background_settings.GlobalCheckboxes.restore_global_val({
                                 name: input.name.replace('_global', ''),
                             });
                         } else if (
                             ['mode', 'slideshow', 'background_change_interval'].includes(input.name)
                         ) {
-                            data.settings.prefs[input.name] = val;
-                            data.settings.prefs.background_change_time = new Date().getTime();
+                            runInAction(() =>
+                                err(() => {
+                                    data.settings.prefs[input.name] = val;
+                                    data.settings.prefs.background_change_time = Date.now();
+                                }, 'cnt_1540'),
+                            );
 
                             await d_data.Manipulation.send_msg_to_update_settings({
                                 settings: data.settings,
@@ -100,12 +98,11 @@ class Class {
                                     });
                                 }
                                 if (val === 'multiple_backgrounds') {
-                                    // eslint-disable-next-line max-len
-                                    d_backgrounds_shared.CurrentBackground.set_future_background_id();
+                                    await d_backgrounds_shared.CurrentBackground.set_future_background_id();
                                 }
                             }
                         } else if (input.name === 'shuffle_backgrounds') {
-                            d_backgrounds_shared.CurrentBackground.set_future_background_id();
+                            await d_backgrounds_shared.CurrentBackground.set_future_background_id();
                         } else if (input.name !== 'create_solid_color_background') {
                             const is_text_input: boolean = input.type === 'text';
 
@@ -200,12 +197,8 @@ class Class {
                         if (data.settings.prefs.paste_btn_is_visible) {
                             // if paste_btn_is_visible was false
                             const contains: boolean =
-                                // eslint-disable-next-line max-len
-                                await s_optional_permissions.Permissions.check_if_contains_permission(
-                                    {
-                                        name: 'paste_btn_is_visible',
-                                    },
-                                );
+                                s_optional_permissions.Permissions.contains_permission
+                                    .paste_btn_is_visible;
                             const granted: boolean = contains
                                 ? true
                                 : await s_optional_permissions.Permissions.set_permission({
@@ -237,14 +230,13 @@ class Class {
                     });
 
                     if (input.name === 'create_solid_color_background') {
-                        d_backgrounds.Color.create_solid_color_background({
+                        await d_backgrounds.Color.create_solid_color_background({
                             color: val as string,
                         });
                     } else if (input.name === 'settings_context') {
                         if (val === 'global') {
                             d_background_settings.SettingsContext.react_to_global_selection();
                         } else if (val === 'selected_background') {
-                            // eslint-disable-next-line max-len
                             d_background_settings.SettingsContext.show_selected_background_notification();
                         }
                     } else if (input.name === 'enable_video_repeat') {
@@ -287,7 +279,7 @@ class Class {
     public remove_val = ({ input }: { input: i_inputs.Input }): Promise<void> =>
         err_async(async () => {
             if (['year', 'time'].includes(input.name)) {
-                this.change({ input });
+                await this.change({ input });
 
                 await d_data.Manipulation.send_msg_to_update_settings({
                     settings: {
@@ -313,7 +305,10 @@ class Class {
     }): Promise<void> =>
         err_async(async () => {
             if (input.name !== 'create_solid_color_background') {
-                await d_background_settings.Val.change({ name: input.name, new_val: i });
+                await d_background_settings.Val.change({
+                    name: input.name,
+                    new_val: i,
+                });
 
                 s_preload_color.Storage.set_preload_color();
             }
@@ -373,7 +368,7 @@ class Class {
 
     public enable_developer_mode = (): Promise<void> =>
         err_async(async () => {
-            d_developer_mode.DeveloperMode.enable({
+            await d_developer_mode.DeveloperMode.enable({
                 save_callback: async () =>
                     d_data.Manipulation.send_msg_to_update_settings({
                         settings: {

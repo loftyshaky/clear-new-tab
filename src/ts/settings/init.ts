@@ -1,6 +1,4 @@
-import { d_inputs, d_color, s_color } from '@loftyshaky/shared/inputs';
-import { d_data } from 'shared_clean/internal';
-import { InitAll, s_preload_color } from 'shared/internal';
+import { d_color, d_inputs, s_color } from '@loftyshaky/shared/inputs';
 import {
     d_background_settings,
     d_backgrounds,
@@ -9,12 +7,18 @@ import {
     d_dnd,
     d_pagination,
     d_scheduler,
+    d_scrollable,
     d_sections,
+    s_optional_permissions,
 } from 'settings/internal';
+import { InitAll, s_preload_color } from 'shared/internal';
+import { d_data } from 'shared_clean/internal';
 
 export const init = (): Promise<void> =>
     err_async(async () => {
         await InitAll.init();
+
+        await s_optional_permissions.Permissions.set_contains_permission_vals();
         d_inputs.InputWidth.set_min_and_max_width({ min_width: 323 });
         d_data.Ui.create_ui_objs();
         d_sections.Options.init();
@@ -30,13 +34,14 @@ export const init = (): Promise<void> =>
         d_pagination.Page.on_page_reaction();
         d_pagination.Page.on_page_backgrounds_autorun();
         d_pagination.Page.on_backgrounds_per_page_reaction();
-        d_scheduler.Tasks.set_tasks();
-        d_custom_code.CustomCode.set_custom_code();
+        d_scrollable.Scrollable.set_up_set_scroll_position_resize_observer();
+        await d_scheduler.Tasks.set_tasks();
+        await d_custom_code.CustomCode.set_custom_code();
         d_backgrounds.CurrentBackground.set_current_background_i();
         d_background_settings.GlobalCheckboxes.set_ui_vals();
         d_background_settings.SettingsContext.react_to_global_selection();
         s_preload_color.Storage.set_preload_color();
-        d_browser_theme.SideEffects.change_into_uploading_state();
+        await d_browser_theme.SideEffects.change_into_uploading_state();
 
         x.bind(window, 'resize', d_sections.Width.set_backgrounds_section_width);
         x.bind(window, 'scroll', s_color.Position.set);
@@ -51,5 +56,5 @@ export const init = (): Promise<void> =>
         x.bind(document, 'mouseup', d_scheduler.TaskDnd.stop_drag);
         x.bind(document, 'click', d_backgrounds.Actions.hide);
 
-        InitAll.render_settings();
+        await InitAll.render_settings();
     }, 'cnt_1221');

@@ -1,11 +1,11 @@
-import merge from 'lodash/merge';
 import clone from 'lodash/clone';
-import { makeObservable, observable, computed, action } from 'mobx';
+import merge from 'lodash/merge';
+import { action, computed, makeObservable, observable } from 'mobx';
 
-import { t, i_color } from '@loftyshaky/shared/shared';
 import { d_color } from '@loftyshaky/shared/inputs';
-import { i_db } from 'shared_clean/internal';
+import type { i_color, t } from '@loftyshaky/shared/shared';
 import { d_background, s_background } from 'new_tab/internal';
+import type { i_db } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -243,7 +243,7 @@ class Class {
                     : (background_data as i_db.FileBackground)[key];
             }
 
-            return '';
+            return type === 'speed' ? 1 : 0;
         }, 'cnt_1058');
 
     public get_background_css = (): t.AnyRecord =>

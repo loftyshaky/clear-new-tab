@@ -1,5 +1,5 @@
 import { s_data } from '@loftyshaky/shared/shared_clean';
-import { i_data } from 'shared_clean/internal';
+import type { i_data } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -8,7 +8,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public send_msg_to_update_settings = ({
@@ -38,7 +37,7 @@ class Class {
 
             await ext.send_msg_resp({
                 msg: 'update_settings_background',
-                settings,
+                settings: x.to_plain(settings),
                 replace,
                 update_background,
                 update_instantly,
@@ -47,7 +46,7 @@ class Class {
                 load_settings,
                 restore_back_up,
             });
-        }, 'aer_1124');
+        }, 'cnt_1550');
 }
 
 export const Manipulation = Class.get_instance();

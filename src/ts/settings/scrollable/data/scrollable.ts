@@ -1,6 +1,7 @@
-import { makeObservable, observable, action } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 
-import { s_scrollable, i_scrollable } from 'settings/internal';
+import type { i_scrollable } from 'settings/internal';
+import { s_scrollable } from 'settings/internal';
 
 class Class {
     private static instance: Class;
@@ -20,6 +21,7 @@ class Class {
         });
     }
 
+    public set_scroll_position_resize_observer: ResizeObserver | undefined;
     public scroll_backgrounds_scrollable_to_top: boolean = false;
     public scroll_backgrounds_scrollable_to_bottom: boolean = false;
     public scroll_tasks_scrollable_to_bottom: boolean = false;
@@ -41,13 +43,14 @@ class Class {
 
     public set_scroll_position = ({
         scrollable_type,
-        position = 'bottom',
+        position,
     }: {
         scrollable_type: 'backgrounds' | 'tasks';
         position: i_scrollable.Position;
     }): void =>
         err(() => {
             const is_backgrounds_scrollable_type = scrollable_type === 'backgrounds';
+
             if (
                 is_backgrounds_scrollable_type
                     ? this[`scroll_${scrollable_type}_scrollable_to_${position}`]
@@ -69,6 +72,18 @@ class Class {
                 }
             }
         }, 'cnt_1455');
+
+    public set_up_set_scroll_position_resize_observer = (): void =>
+        err(() => {
+            this.set_scroll_position_resize_observer = new ResizeObserver(() => {
+                s_scrollable.Scrollable.set_scroll_position({
+                    scrollable_type: 'backgrounds',
+                    position: 'bottom',
+                });
+            });
+
+            this.set_scroll_position_resize_observer.disconnect();
+        }, 'cnt_1558');
 }
 
 export const Scrollable = Class.get_instance();

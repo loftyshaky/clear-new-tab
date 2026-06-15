@@ -1,15 +1,18 @@
+@use '../../../node_modules/@loftyshaky/shared/scss/shared/vars';
+@use '../../../node_modules/@loftyshaky/shared/scss/shared/mixins';
+
 .pagination {
-    @include border_top;
+    @include mixins.border_top;
 
     display: flex;
     justify-content: center;
     list-style-type: none;
-    padding: $gap 0;
+    padding: vars.$gap 0;
     box-sizing: border-box;
     margin: 0;
 
     .pagination_btn {
-        @include border;
+        @include mixins.border;
 
         position: relative;
         display: flex;
@@ -22,7 +25,7 @@
         outline-offset: -2px;
 
         svg {
-            @include text_btn_svg;
+            @include mixins.text_btn_svg;
         }
 
         a {
@@ -31,7 +34,7 @@
         }
 
         &.disabled {
-            @include is_disabled;
+            @include mixins.is_disabled;
         }
 
         &.active {

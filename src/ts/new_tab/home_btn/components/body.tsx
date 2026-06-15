@@ -1,14 +1,12 @@
-import React from 'react';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 
-import { svg } from 'shared/internal';
 import { d_home_btn, s_home_btn } from 'new_tab/internal';
+import { svg } from 'shared/internal';
 
 export const Body: React.FunctionComponent = observer(() =>
-    data.settings.prefs.home_btn_is_visible ? (
+    d_home_btn.HomeBtn.show_home_btn ? (
         <a
             className={x.cls(['home_btn', d_home_btn.Position.position])}
-            href='chrome://new-tab-page'
             title={ext.msg('go_to_home_page_title')}
             aria-label='Home button'
             style={{ display: 'none' }}

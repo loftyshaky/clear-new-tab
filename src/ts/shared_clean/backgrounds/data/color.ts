@@ -1,5 +1,6 @@
-import { t } from '@loftyshaky/shared/shared_clean';
-import { s_db, s_i, i_db } from 'shared_clean/internal';
+import type { t } from '@loftyshaky/shared/shared_clean';
+import type { i_db } from 'shared_clean/internal';
+import { s_db, s_i } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -8,7 +9,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public create_solid_color_background = ({
@@ -100,11 +100,9 @@ class Class {
                 n(set_current_background_id_to_id_of_first_background)
             ) {
                 if (no_backgrounds_before_upload) {
-                    // eslint-disable-next-line max-len
-                    await set_current_background_id_to_id_of_first_background();
+                    set_current_background_id_to_id_of_first_background();
                 } else if (n(set_last_uploaded_background_as_current)) {
-                    // eslint-disable-next-line max-len
-                    await set_last_uploaded_background_as_current({
+                    set_last_uploaded_background_as_current({
                         id,
                     });
                 }

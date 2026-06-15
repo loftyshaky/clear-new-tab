@@ -1,4 +1,5 @@
-import { s_backgrounds, i_backgrounds as i_backgrounds_shared_clean } from 'shared_clean/internal';
+import type { i_backgrounds as i_backgrounds_shared_clean } from 'shared_clean/internal';
+import { s_backgrounds } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -7,7 +8,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     private canvas: HTMLCanvasElement | undefined =
@@ -25,7 +25,7 @@ class Class {
         file_type: string;
     }): Promise<i_backgrounds_shared_clean.BackgroundImgProps> =>
         new Promise((resolve, reject) => {
-            err_async(
+            void err_async(
                 async () => {
                     try {
                         const file_cond: File | string = n(file)
@@ -63,7 +63,6 @@ class Class {
                                         const natural_height: number =
                                             (background as HTMLImageElement).naturalHeight ||
                                             (background as HTMLVideoElement).videoHeight;
-                                        // eslint-disable-next-line max-len
                                         const thumbnail_dims: i_backgrounds_shared_clean.BackgroundDims =
                                             this.calculate_thumbnails_dims({
                                                 natural_width,
@@ -71,7 +70,7 @@ class Class {
                                             });
 
                                         if (file_type === 'img_file') {
-                                            thumbnail = await this.create_img_thumbnail({
+                                            thumbnail = this.create_img_thumbnail({
                                                 img: background as HTMLImageElement,
                                                 thumbnail_dims,
                                             });
@@ -95,7 +94,7 @@ class Class {
                                         } else {
                                             reject(err_obj('Upload error'));
                                         }
-                                    } catch (error_obj: any) {
+                                    } catch (error_obj: unknown) {
                                         reject(error_obj);
                                     }
                                 },
@@ -118,7 +117,7 @@ class Class {
                             file_type === 'img_link'
                                 ? (file as string)
                                 : URL.createObjectURL(file_final as File);
-                    } catch (error_obj: any) {
+                    } catch (error_obj: unknown) {
                         this.background_file_base64 = '';
 
                         reject(error_obj);

@@ -1,21 +1,19 @@
-import { InitAll } from 'shared/internal';
 import { d_background, s_background, s_custom_code } from 'new_tab/internal';
+import { InitAll } from 'shared/internal';
 
 export const init = (): Promise<void> =>
     err_async(async () => {
-        await InitAll.init();
+        void InitAll.init();
 
-        s_custom_code.Msgs.send_set_custom_code_msg();
+        void s_custom_code.Msgs.send_set_custom_code_msg();
         d_background.Background.init_vars();
         d_background.BackgroundSize.init_vars();
         d_background.Classes.init_vars();
         s_background.Preview.set_id();
-
-        await ext.send_msg_resp({ msg: 'push_tab_id' });
-        ext.send_msg({
-            msg: 'get_background',
+        void ext.send_msg({
+            msg: 'react_to_init_new_tab',
             allow_to_start_slideshow_timer: data.settings.prefs.slideshow ? !document.hidden : true,
-            force_update: true,
+            force_update: false,
         });
 
         x.bind(

@@ -1,5 +1,7 @@
-import { t, s_data, s_color } from '@loftyshaky/shared/shared_clean';
-import { vars, d_backgrounds, i_data } from 'shared_clean/internal';
+import type { t } from '@loftyshaky/shared/shared_clean';
+import { s_color, s_data } from '@loftyshaky/shared/shared_clean';
+import type { i_data } from 'shared_clean/internal';
+import { d_backgrounds, vars } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -8,7 +10,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public defaults: i_data.Settings | t.EmptyRecord = {};
@@ -29,7 +30,9 @@ class Class {
                     admin_section_content_is_visible: false,
                     colors: s_color.Colors.default_colors,
                     install_help_is_visible: true,
-                    mode: 'theme_background',
+                    mode: ['opera', 'yandex', 'firefox'].includes(env.browser)
+                        ? 'one_background'
+                        : 'theme_background',
                     color_type: 'pastel',
                     keep_old_theme_backgrounds: false,
                     current_background_id: d_backgrounds.CurrentBackground.reset_val,
@@ -69,7 +72,7 @@ class Class {
             };
         }, 'cnt_1319');
 
-    public apply_unchanged_prefs = ({ settings }: { settings: any }): t.AnyRecord =>
+    public apply_unchanged_prefs = ({ settings }: { settings: t.AnyRecord }): t.AnyRecord =>
         err(
             () =>
                 s_data.Settings.apply_unchanged_prefs({

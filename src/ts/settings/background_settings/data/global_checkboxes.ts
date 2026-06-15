@@ -1,7 +1,7 @@
-import { makeObservable, action } from 'mobx';
+import { action, makeObservable } from 'mobx';
 
-import { i_db } from 'shared_clean/internal';
 import { d_background_settings } from 'settings/internal';
+import type { i_db } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -31,24 +31,24 @@ class Class {
 
             if (
                 n(d_background_settings.SettingsContext.selected_background) &&
-                !d_background_settings.SettingsContext.selected_background!.type.includes('color')
+                !d_background_settings.SettingsContext.selected_background?.type.includes('color')
             ) {
                 color_of_area_around_background_is_global =
                     (
                         d_background_settings.SettingsContext
-                            .selected_background! as i_db.FileBackground
+                            .selected_background as i_db.FileBackground
                     ).color_of_area_around_background === 'global';
 
                 video_speed_is_global =
                     (
                         d_background_settings.SettingsContext
-                            .selected_background! as i_db.FileBackground
+                            .selected_background as i_db.FileBackground
                     ).video_speed === 'global';
 
                 video_volume_is_global =
                     (
                         d_background_settings.SettingsContext
-                            .selected_background! as i_db.FileBackground
+                            .selected_background as i_db.FileBackground
                     ).video_volume === 'global';
             }
 

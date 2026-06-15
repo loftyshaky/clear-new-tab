@@ -1,11 +1,14 @@
 import random from 'lodash/random';
-import { makeObservable, observable, action, toJS } from 'mobx';
+import { action, makeObservable, observable, toJS } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
-import { d_inputs, i_inputs } from '@loftyshaky/shared/inputs';
-import { d_data, i_db } from 'shared_clean/internal';
-import { d_backgrounds as d_backgrounds_shared } from 'shared/internal';
+import type { i_inputs } from '@loftyshaky/shared/inputs';
+import { d_inputs } from '@loftyshaky/shared/inputs';
+import type { t } from '@loftyshaky/shared/shared';
 import { d_background_settings, d_backgrounds, d_scheduler, d_sections } from 'settings/internal';
+import { d_backgrounds as d_backgrounds_shared } from 'shared/internal';
+import type { i_db } from 'shared_clean/internal';
+import { d_data } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -22,6 +25,7 @@ class Class {
             set_selected_background_as_current: action,
             reset_current_background_id: action,
             set_current_and_future_background_id_to_default: action,
+            remove_warn_state_from_current_background_id: action,
         });
     }
 
@@ -89,7 +93,7 @@ class Class {
         force?: boolean;
     }): Promise<void> =>
         err_async(async () => {
-            d_backgrounds_shared.CurrentBackground.set_background_as_current({
+            await d_backgrounds_shared.CurrentBackground.set_background_as_current({
                 id,
                 backgrounds: d_backgrounds.Backgrounds.backgrounds,
                 adjusting_current_background_number_by_keyboard,
@@ -100,7 +104,7 @@ class Class {
     public set_selected_background_as_current = (): void =>
         err(() => {
             if (this.selected_background_id) {
-                this.set_background_as_current({
+                void this.set_background_as_current({
                     id: this.selected_background_id,
                     force: true,
                 });
@@ -124,7 +128,7 @@ class Class {
                 ['one_background', 'multiple_backgrounds'].includes(data.settings.prefs.mode) &&
                 data.settings.prefs.automatically_set_last_uploaded_background_as_current
             ) {
-                this.set_background_as_current({ id });
+                await this.set_background_as_current({ id });
             } else if (
                 data.settings.prefs.current_background_id ===
                 d_backgrounds_shared.CurrentBackground.reset_val
@@ -162,7 +166,7 @@ class Class {
                 }
 
                 if (n(new_current_background)) {
-                    this.set_background_as_current({
+                    void this.set_background_as_current({
                         id: new_current_background.id,
                         adjusting_current_background_number_by_keyboard,
                     });
@@ -218,7 +222,7 @@ class Class {
                 }
 
                 if (n(new_current_background_id)) {
-                    this.set_background_as_current({ id: new_current_background_id });
+                    void this.set_background_as_current({ id: new_current_background_id });
                 }
             }
         }, 'cnt_1116');
@@ -276,7 +280,7 @@ class Class {
     public remove_warn_state_from_current_background_id = (): void =>
         err(() => {
             (
-                d_sections.Sections.sections as any
+                d_sections.Sections.sections as t.AnyRecord
             ).background_settings.inputs.current_background_id.is_in_warn_state = false;
         }, 'cnt_1537');
 }

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
+import { useEffect, useState } from 'react';
 
-import { d_scheduler, p_scheduler } from 'settings/internal';
+import { d_scheduler, type p_scheduler } from 'settings/internal';
 
 export const BackgroundPreview: React.FunctionComponent<p_scheduler.BackgroundPreview> = observer(
     (props) => {
@@ -10,7 +10,6 @@ export const BackgroundPreview: React.FunctionComponent<p_scheduler.BackgroundPr
 
         const BackgroundPreviewImg = () =>
             background === '' ? (
-                // eslint-disable-next-line react/jsx-no-useless-fragment
                 <></>
             ) : (
                 <img className='background_preview img' alt='Background preview' src={background} />
@@ -26,11 +25,12 @@ export const BackgroundPreview: React.FunctionComponent<p_scheduler.BackgroundPr
                     set_background(background_2);
                 }, 'cnt_1444');
 
-            set_background_2();
+            void set_background_2();
         }, [background_id]);
 
-        return d_scheduler.BackgroundPreview.background_is_color({ background_id }) &&
-            background !== d_scheduler.BackgroundPreview.placeholder_img ? (
+        return d_scheduler.BackgroundPreview.background_is_color({
+            background_id,
+        }) && background !== d_scheduler.BackgroundPreview.placeholder_img ? (
             <div className='background_preview color' style={{ backgroundColor: background }} />
         ) : (
             <BackgroundPreviewImg />

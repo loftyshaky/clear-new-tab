@@ -1,5 +1,5 @@
 import maxBy from 'lodash/maxBy';
-import { makeObservable, action, observable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 
 import { s_viewport } from '@loftyshaky/shared/shared';
 import { vars } from 'shared_clean/internal';

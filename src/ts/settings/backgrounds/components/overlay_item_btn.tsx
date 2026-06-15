@@ -1,7 +1,6 @@
-import React from 'react';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 
-import { d_dnd, p_backgrounds } from 'settings/internal';
+import { d_dnd, type p_backgrounds } from 'settings/internal';
 
 export const OverlayItemBtn: React.FunctionComponent<p_backgrounds.OverlayItemBtn> = observer(
     (props) => {

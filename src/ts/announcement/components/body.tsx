@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
+import { useEffect } from 'react';
 
 import { c_announcement } from '@loftyshaky/shared/announcement';
-import { p_announcement } from 'announcement/internal';
+import type { p_announcement } from 'announcement/internal';
 
 export const Body: React.FunctionComponent<p_announcement.Body> = observer((props) => {
     const { on_render } = props;

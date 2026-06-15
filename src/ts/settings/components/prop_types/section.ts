@@ -1,4 +1,4 @@
-import { o_inputs } from '@loftyshaky/shared/inputs';
+import type { o_inputs } from '@loftyshaky/shared/inputs';
 
 export interface Section {
     section_name: string;

@@ -7,7 +7,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public video_els: HTMLVideoElement[] = [];
@@ -30,11 +29,11 @@ class Class {
         video_els: HTMLVideoElement[];
     }): void =>
         err(() => {
-            video_els.forEach((video_el: HTMLVideoElement): void =>
+            video_els.forEach((video_el: HTMLVideoElement): void => {
                 err(() => {
                     video_el.playbackRate = video_speed;
-                }, 'cnt_1401'),
-            );
+                }, 'cnt_1401');
+            });
         }, 'cnt_1072');
 
     public set_video_volume = ({
@@ -50,13 +49,13 @@ class Class {
                     video_els[0].volume = video_volume;
                 }
 
-                video_els.forEach((video_el: HTMLVideoElement, i: number): void =>
+                video_els.forEach((video_el: HTMLVideoElement, i: number): void => {
                     err(() => {
                         if (i !== 0) {
                             video_el.volume = 0;
                         }
-                    }, 'cnt_1399'),
-                );
+                    }, 'cnt_1399');
+                });
             }
         }, 'cnt_1072');
 
@@ -84,7 +83,7 @@ class Class {
                         err(() => {
                             this.restart_video({ video_el });
 
-                            video_el[play_status]();
+                            void video_el[play_status]();
                         }, 'cnt_1392'),
                     );
                 }

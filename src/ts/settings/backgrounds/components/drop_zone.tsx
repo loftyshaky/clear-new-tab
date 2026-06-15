@@ -1,7 +1,6 @@
-import React from 'react';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 
-import { p_backgrounds } from 'settings/internal';
+import type { p_backgrounds } from 'settings/internal';
 
 export const DropZone: React.FunctionComponent<p_backgrounds.DropZone> = observer((props) => {
     const { style } = props;

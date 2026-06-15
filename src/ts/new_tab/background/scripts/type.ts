@@ -1,5 +1,5 @@
-import { i_db } from 'shared_clean/internal';
 import { d_background } from 'new_tab/internal';
+import type { i_db } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -8,7 +8,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public is_img_file = ({
@@ -19,7 +18,6 @@ class Class {
         err(() => {
             const background_data: i_db.Background | undefined =
                 d_background.Background.background_data[background_container_i];
-
             return (
                 data.settings.prefs.mode !== 'random_solid_color' &&
                 n(background_data) &&

@@ -1,12 +1,15 @@
-import { o_inputs, d_inputs } from '@loftyshaky/shared/inputs';
-import { d_backgrounds as d_backgrounds_shared_clean, i_db } from 'shared_clean/internal';
-import { d_progress } from 'shared/internal';
+import type { o_inputs } from '@loftyshaky/shared/inputs';
+import { d_inputs } from '@loftyshaky/shared/inputs';
+import type { i_error } from '@loftyshaky/shared/shared_clean';
 import {
     d_backgrounds,
     d_protecting_screen,
     s_optional_permissions,
     s_scrollable,
 } from 'settings/internal';
+import { d_progress } from 'shared/internal';
+import type { i_db } from 'shared_clean/internal';
+import { d_backgrounds as d_backgrounds_shared_clean } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -15,7 +18,6 @@ class Class {
         return this.instance || (this.instance = new this());
     }
 
-    // eslint-disable-next-line no-useless-constructor, no-empty-function
     private constructor() {}
 
     public upload_with_browse_btn = async ({
@@ -113,8 +115,10 @@ class Class {
 
                     d_inputs.Text.clear_placeholder_text({ input });
                 }
-            } catch (error_obj: any) {
-                show_err_ribbon(error_obj, 'cnt_1139', { silent: true }); // paste in paste input wrong link to cause this error
+            } catch (error_obj: unknown) {
+                if (n(error_obj)) {
+                    show_err_ribbon(error_obj as i_error.ErrorObj, 'cnt_1139', { silent: true }); // paste in paste input wrong link to cause this error
+                }
 
                 d_inputs.Text.set_error_placeholder_text({ input });
             }
@@ -128,9 +132,7 @@ class Class {
     public upload_with_paste_btn = (): Promise<void> =>
         err_async(async () => {
             const clipboard_read_permission: boolean =
-                await s_optional_permissions.Permissions.check_if_contains_permission({
-                    name: 'paste_btn_is_visible',
-                });
+                s_optional_permissions.Permissions.contains_permission.paste_btn_is_visible;
 
             if (clipboard_read_permission) {
                 document.execCommand('paste');

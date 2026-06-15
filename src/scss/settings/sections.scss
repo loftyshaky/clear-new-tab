@@ -1,3 +1,7 @@
+@use '../../../node_modules/@loftyshaky/shared/scss/shared/vars' as loftyshaky_vars;
+@use '../../../node_modules/@loftyshaky/shared/scss/shared/mixins';
+@use 'vars';
+
 $backgrounds_section_max_width: 922px;
 
 .offers {
@@ -23,7 +27,7 @@ $backgrounds_section_max_width: 922px;
     }
 
     .section {
-        @include border;
+        @include mixins.border;
 
         width: min-content;
         box-shadow: rgb(0 0 0 / 30%) 0 3px 8px;
@@ -41,13 +45,13 @@ $backgrounds_section_max_width: 922px;
 
             &.color_of_area_around_background_global {
                 display: inline-block;
-                margin-left: $gap !important;
+                margin-left: loftyshaky_vars.$gap !important;
                 vertical-align: 6px;
             }
 
             &.video_volume_global,
             &.video_speed_global {
-                margin-left: $gap !important;
+                margin-left: loftyshaky_vars.$gap !important;
             }
 
             &.group .input_item.text,
@@ -74,7 +78,7 @@ $backgrounds_section_max_width: 922px;
         }
 
         .section_content {
-            padding: $section_padding;
+            padding: vars.$section_padding;
             overflow: hidden !important;
         }
 
@@ -86,20 +90,20 @@ $backgrounds_section_max_width: 922px;
             overflow: hidden auto !important;
             box-sizing: border-box;
             padding: 0;
-            padding-left: $gap;
-            padding-top: $gap;
+            padding-left: loftyshaky_vars.$gap;
+            padding-top: loftyshaky_vars.$gap;
             display: flex;
             flex-wrap: wrap;
             align-content: start;
         }
 
         .section_name {
-            @include border_bottom;
+            @include mixins.border_bottom;
 
             margin: 0;
             width: 100%;
-            padding: 5px $section_padding;
-            font-size: $font_big;
+            padding: 5px vars.$section_padding;
+            font-size: loftyshaky_vars.$font_big;
             box-sizing: border-box;
         }
     }

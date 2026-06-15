@@ -1,19 +1,21 @@
-import React, { MouseEvent } from 'react';
-import { observer } from 'mobx-react';
+import type { MouseEvent } from 'react';
+
+import { observer } from 'mobx-react-lite';
 
 import { c_inputs, o_inputs } from '@loftyshaky/shared/inputs';
+import type { t } from '@loftyshaky/shared/shared';
+import { c_dnd, c_scheduler, d_dnd, d_scheduler, type p_scheduler } from 'settings/internal';
 import { svg } from 'shared/internal';
-import { c_dnd, c_scheduler, d_dnd, d_scheduler, p_scheduler } from 'settings/internal';
 
 export const Task: React.FunctionComponent<p_scheduler.Task> = observer((props) => {
     const { task, style, dragged } = props;
     const height: string = '78px';
 
-    return (task as any).type === 'drop_zone' ? (
+    return (task as t.AnyRecord).type === 'drop_zone' ? (
         <c_dnd.DropZone
             style={{ height }}
             on_mouse_up={(): void => {
-                d_dnd.Dnd.drop();
+                void d_dnd.Dnd.drop();
             }}
         />
     ) : (
@@ -52,7 +54,7 @@ export const Task: React.FunctionComponent<p_scheduler.Task> = observer((props) 
                             name: 'delete_task_btn',
                             Svg: svg.Close,
                             event_callback: (): void => {
-                                d_scheduler.TaskDeletion.trigger_delete({
+                                void d_scheduler.TaskDeletion.trigger_delete({
                                     id: task.id,
                                 });
                             },

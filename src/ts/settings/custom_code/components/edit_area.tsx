@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
+import { useEffect, useRef } from 'react';
 
-import { s_custom_code, p_custom_code } from 'settings/internal';
+import { type p_custom_code, s_custom_code } from 'settings/internal';
 
 export const EditArea: React.FunctionComponent<p_custom_code.EditArea> = observer((props) => {
-    const editor_ref = useRef<any>(null);
+    const editor_ref = useRef<HTMLDivElement>(null);
 
     const { type } = props;
 

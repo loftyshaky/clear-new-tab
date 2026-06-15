@@ -1,10 +1,9 @@
-import React from 'react';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 
-import { c_app_version } from '@loftyshaky/shared/shared';
 import { c_inputs } from '@loftyshaky/shared/inputs';
+import { c_app_version } from '@loftyshaky/shared/shared';
+import { d_backgrounds, d_sections, type p_settings } from 'settings/internal';
 import { Tr } from 'shared/internal';
-import { d_backgrounds, d_sections, p_settings } from 'settings/internal';
 
 export const Section: React.FunctionComponent<p_settings.Section> = observer((props) => {
     const { section_name, section, children } = props;
@@ -14,7 +13,6 @@ export const Section: React.FunctionComponent<p_settings.Section> = observer((pr
             tag='div'
             name='fade'
             cls={x.cls(['section', section_name])}
-            // eslint-disable-next-line max-len
             state={
                 section_name !== 'offers' ||
                 (section_name === 'offers' && data.settings.prefs.offers_are_visible)
@@ -41,7 +39,6 @@ export const Section: React.FunctionComponent<p_settings.Section> = observer((pr
                 tag='div'
                 name='fade'
                 cls='section_content'
-                // eslint-disable-next-line max-len
                 state={d_sections.SectionContent.backgrounds_section_content_is_visible_computed({
                     section_name,
                 })}

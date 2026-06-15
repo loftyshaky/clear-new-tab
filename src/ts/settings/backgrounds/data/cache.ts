@@ -1,7 +1,7 @@
-import { makeObservable, observable, action } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import { computedFn } from 'mobx-utils';
 
-import { i_backgrounds } from 'settings/internal';
+import type { i_backgrounds } from 'settings/internal';
 
 class Class {
     private static instance: Class;
@@ -22,35 +22,33 @@ class Class {
         [index: string]: i_backgrounds.BackgroundThumbnailCacheItem;
     } = {};
 
-    public background_fade_in_cls = computedFn(function ({
-        background_id,
-    }: {
-        background_id: string;
-    }): string {
-        const loaded_once: boolean | undefined =
-            (Cache.access_prop_of_background_thumbnail_cache_item({
-                background_id,
-                key: 'loaded_once',
-            }) && Cache.background_thumbnail_cache_items[background_id].loaded_once) as boolean;
+    public background_fade_in_cls = computedFn(
+        ({ background_id }: { background_id: string }): string => {
+            const loaded_once: boolean | undefined =
+                (Cache.access_prop_of_background_thumbnail_cache_item({
+                    background_id,
+                    key: 'loaded_once',
+                }) && Cache.background_thumbnail_cache_items[background_id].loaded_once) as boolean;
 
-        const faded_in_once: boolean | undefined =
-            (Cache.access_prop_of_background_thumbnail_cache_item({
-                background_id,
-                key: 'faded_in_once',
-            }) && Cache.background_thumbnail_cache_items[background_id].faded_in_once) as
-                | boolean
-                | undefined;
+            const faded_in_once: boolean | undefined =
+                (Cache.access_prop_of_background_thumbnail_cache_item({
+                    background_id,
+                    key: 'faded_in_once',
+                }) && Cache.background_thumbnail_cache_items[background_id].faded_in_once) as
+                    | boolean
+                    | undefined;
 
-        if (loaded_once && faded_in_once) {
-            return 'opacity_1';
-        }
+            if (loaded_once && faded_in_once) {
+                return 'opacity_1';
+            }
 
-        if (loaded_once && !faded_in_once) {
-            return 'background_fade_in';
-        }
+            if (loaded_once && !faded_in_once) {
+                return 'background_fade_in';
+            }
 
-        return '';
-    });
+            return '';
+        },
+    );
 
     public reset_background_thumbnail_cache = (): void =>
         err(() => {
@@ -74,10 +72,15 @@ class Class {
             if (!n(this.background_thumbnail_cache_items[background_id][key])) {
                 this.background_thumbnail_cache_items[background_id][key] = val;
             }
+
             if (
                 this.access_prop_of_background_thumbnail_cache_item({
                     background_id,
                     key: 'loaded_once',
+                }) &&
+                !this.access_prop_of_background_thumbnail_cache_item({
+                    background_id,
+                    key: 'faded_in_once',
                 })
             ) {
                 setTimeout(() => {

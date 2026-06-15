@@ -1,12 +1,13 @@
-import { makeObservable, action } from 'mobx';
+import { action, makeObservable } from 'mobx';
 
-import { i_db } from 'shared_clean/internal';
+import type { t } from '@loftyshaky/shared/shared';
 import {
     d_background_settings,
-    s_background_settings,
     d_backgrounds,
     d_sections,
+    s_background_settings,
 } from 'settings/internal';
+import type { i_db } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -37,13 +38,11 @@ class Class {
             data.ui.video_speed = data.settings.prefs.video_speed;
             data.ui.video_volume = data.settings.prefs.video_volume;
 
-            const sections = d_sections.Sections.sections as any;
+            const sections = d_sections.Sections.sections as t.AnyRecord;
 
             this.reset_is_enabled_state({ val: true });
 
-            // eslint-disable-next-line max-len
-            sections.background_settings.inputs.color_of_area_around_background_group.inputs[1].is_enabled =
-                false;
+            sections.background_settings.inputs.color_of_area_around_background_group.inputs[1].is_enabled = false;
             sections.background_settings.inputs.video_speed_group.inputs[1].is_enabled = false;
             sections.background_settings.inputs.video_volume_group.inputs[1].is_enabled = false;
 
@@ -65,7 +64,7 @@ class Class {
 
                 this.selected_background = background;
 
-                const sections = d_sections.Sections.sections as any;
+                const sections = d_sections.Sections.sections as t.AnyRecord;
                 const is_img: boolean =
                     background.type === 'img_link' || background.type.includes('img');
                 const is_video: boolean = background.type.includes('video');
@@ -121,17 +120,16 @@ class Class {
 
     private reset_is_enabled_state = ({ val }: { val: boolean }): void =>
         err(() => {
-            const sections = d_sections.Sections.sections as any;
+            const sections = d_sections.Sections.sections as t.AnyRecord;
 
             sections.background_settings.inputs.background_repeat.is_enabled = val;
             sections.background_settings.inputs.background_size.is_enabled = val;
             sections.background_settings.inputs.background_position.is_enabled = val;
 
             if (val) {
-                // eslint-disable-next-line max-len
                 sections.background_settings.inputs.color_of_area_around_background_group.inputs[0].is_enabled =
                     val;
-                // eslint-disable-next-line max-len
+
                 sections.background_settings.inputs.color_of_area_around_background_group.inputs[1].is_enabled =
                     val;
                 sections.background_settings.inputs.video_speed_group.inputs[0].is_enabled = val;
@@ -139,12 +137,9 @@ class Class {
                 sections.background_settings.inputs.video_volume_group.inputs[0].is_enabled = val;
                 sections.background_settings.inputs.video_volume_group.inputs[1].is_enabled = val;
             } else {
-                // eslint-disable-next-line max-len
-                sections.background_settings.inputs.color_of_area_around_background_group.inputs[0].is_enabled =
-                    true;
-                // eslint-disable-next-line max-len
-                sections.background_settings.inputs.color_of_area_around_background_group.inputs[1].is_enabled =
-                    true;
+                sections.background_settings.inputs.color_of_area_around_background_group.inputs[0].is_enabled = true;
+
+                sections.background_settings.inputs.color_of_area_around_background_group.inputs[1].is_enabled = true;
                 sections.background_settings.inputs.video_speed_group.inputs[0].is_enabled = true;
                 sections.background_settings.inputs.video_speed_group.inputs[1].is_enabled = true;
                 sections.background_settings.inputs.video_volume_group.inputs[0].is_enabled = true;

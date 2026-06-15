@@ -1,8 +1,11 @@
-import debounce from 'lodash/debounce';
-import { makeObservable, observable, computed, autorun, reaction, action, runInAction } from 'mobx';
+import type { JSX } from 'react';
 
-import { i_db } from 'shared_clean/internal';
+import debounce from 'lodash/debounce';
+import { action, autorun, computed, makeObservable, observable, reaction, runInAction } from 'mobx';
+
 import { d_backgrounds, d_pagination, d_scrollable, d_sections } from 'settings/internal';
+import { svg } from 'shared/internal';
+import type { i_db } from 'shared_clean/internal';
 
 class Class {
     private static instance: Class;
@@ -31,6 +34,38 @@ class Class {
     public backgrounds_per_page_max_val: number = 10000000;
     public page_backgrounds: i_db.Background[] = [];
 
+    public page_btn_svg({
+        page_btn_content,
+    }: {
+        page_btn_content: number | string;
+    }): number | JSX.Element | undefined {
+        if (typeof page_btn_content === 'number') {
+            return page_btn_content;
+        }
+
+        switch (page_btn_content) {
+            case 'NavigateBefore':
+                return <svg.NavigateBefore />;
+            case 'FirstPage':
+                return <svg.FirstPage />;
+            case 'NavigateNext':
+                return <svg.NavigateNext />;
+            case 'LastPage':
+                return <svg.LastPage />;
+            default:
+                return undefined;
+        }
+    }
+
+    public change = ({ page }: { page: number }): void =>
+        err(() => {
+            this.page = page;
+
+            d_scrollable.Scrollable.set_scroll_backgrounds_scrollable_to_top_bool({
+                bool: true,
+            });
+        }, 'cnt_1442');
+
     public get there_are_backgrounds_for_more_than_one_page() {
         return d_pagination.Pagination.pagination_btns.length > 5;
     }
@@ -49,15 +84,6 @@ class Class {
     public page_is_disabled_cls = ({ is_disabled }: { is_disabled: boolean }): string =>
         err(() => (is_disabled ? 'disabled' : ''), 'cnt_1464');
 
-    public change = ({ page }: { page: number }): void =>
-        err(() => {
-            this.page = page;
-
-            d_scrollable.Scrollable.set_scroll_backgrounds_scrollable_to_top_bool({
-                bool: true,
-            });
-        }, 'cnt_1442');
-
     public set_last = (): Promise<void> =>
         err_async(async () => {
             await d_pagination.Pagination.set_total_backgrounds();
@@ -70,7 +96,6 @@ class Class {
                 }, 'cnt_1513'),
             );
 
-            // eslint-disable-next-line max-len
             d_scrollable.Scrollable.set_scroll_backgrounds_scrollable_to_bottom_bool({
                 bool: true,
             });
