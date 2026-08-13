@@ -1,6 +1,7 @@
 import chunk from 'lodash/chunk';
 
 import type { t } from '@loftyshaky/shared/shared';
+import { d_error } from '@loftyshaky/shared/shared_clean';
 import type { i_db } from 'shared_clean/internal';
 import { db, s_custom_code, s_i } from 'shared_clean/internal';
 
@@ -44,6 +45,8 @@ class Class {
                     const background_files_chunked = chunk(background_files, chunk_size);
 
                     for (const _backgrounds_chunked_chunk of backgrounds_chunked) {
+                        d_error.Error.print_error_code({ error_code: 'cnt_1324', loop: true });
+
                         await db.backgrounds.bulkAdd(backgrounds_chunked[i]);
                         await db.background_thumbnails.bulkAdd(background_thumbnails_chunked[i]);
                         await db.background_files.bulkAdd(background_files_chunked[i]);

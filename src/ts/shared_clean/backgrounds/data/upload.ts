@@ -1,6 +1,7 @@
 import { BigNumber } from 'bignumber.js';
 
 import type { i_error, t } from '@loftyshaky/shared/shared_clean';
+import { d_error } from '@loftyshaky/shared/shared_clean';
 import type { i_backgrounds, i_db } from 'shared_clean/internal';
 import { s_backgrounds, s_db, s_i, s_offscreen } from 'shared_clean/internal';
 
@@ -51,263 +52,277 @@ class Class {
         forbid_animation?: t.CallbackVoid;
         upload_success?: t.CallbackVoid;
         upload_error?: t.CallbackVariadicVoid;
-    }): Promise<i_db.Background[] | undefined> => {
-        let new_backgrounds_final: i_db.Background[] = [];
+    }): Promise<i_db.Background[] | undefined> =>
+        err_async(async () => {
+            let new_backgrounds_final: i_db.Background[] = [];
 
-        try {
-            const enable_progress: boolean = files.length > 1;
+            try {
+                const enable_progress: boolean = files.length > 1;
 
-            if (page === 'background') {
-                await ext.send_msg_resp({
-                    msg: 'show_protecting_screen',
-                    enable_progress,
-                });
-            } else if (n(show_protecting_screen)) {
-                show_protecting_screen({ enable_progress });
-            }
-
-            const last_i: string = s_i.I.get_last_i({
-                items:
-                    backgrounds_before_delete.length === 0
-                        ? backgrounds
-                        : backgrounds_before_delete,
-            });
-            const ordered_thumbnails: i_backgrounds.OrderedThumbnails[] = [];
-            const ordered_files: i_backgrounds.OrderedFiles[] = [];
-            const no_backgrounds_before_upload: boolean = backgrounds.length === 0;
-
-            if (page === 'settings' && n(set_progress_max)) {
-                set_progress_max({
-                    progress_max: files.length * 2,
-                });
-            }
-
-            const new_backgrounds: (i_db.Background | undefined)[] = [];
-            let file_i: number = 0;
-
-            for (const file of files) {
-                try {
-                    file_i += 1;
-
-                    const id: string = x.unique_id();
-                    const i: string = new BigNumber(last_i).plus(file_i).toString();
-                    const file_type: i_backgrounds.FileType = s_backgrounds.FileType.get_file_type({
-                        file,
+                if (page === 'background') {
+                    await ext.send_msg_resp({
+                        msg: 'show_protecting_screen',
+                        enable_progress,
                     });
-                    const file_final: string =
-                        page === 'settings' || file_type === 'img_link'
-                            ? (file as string)
-                            : await x.convert_blob_to_base64(file as File);
+                } else if (n(show_protecting_screen)) {
+                    show_protecting_screen({ enable_progress });
+                }
 
-                    if (
-                        s_backgrounds.FileType.is_base64({
-                            file: file_final,
-                        })
-                    ) {
-                        const file_final_split: string[] = x.chunk_str(
-                            file_final,
-                            x.bytes_to_base64(1048576),
-                        ); // 1mb
+                const last_i: string = s_i.I.get_last_i({
+                    items:
+                        backgrounds_before_delete.length === 0
+                            ? backgrounds
+                            : backgrounds_before_delete,
+                });
+                const ordered_thumbnails: i_backgrounds.OrderedThumbnails[] = [];
+                const ordered_files: i_backgrounds.OrderedFiles[] = [];
+                const no_backgrounds_before_upload: boolean = backgrounds.length === 0;
 
-                        for (const chunk of file_final_split) {
-                            await s_offscreen.FirefoxMsgsAlt.append_chunk_to_background_file_base64(
-                                { chunk },
-                            );
-                        }
-                    }
-                    const get_background_width_height_and_thumbnail_response =
-                        page === 'settings'
-                            ? undefined
-                            : await s_offscreen.FirefoxMsgsAlt.get_background_width_height_and_thumbnail(
-                                  {
-                                      file:
-                                          page === 'settings' || file_type === 'img_link'
-                                              ? file_final
-                                              : undefined,
-                                      file_type,
-                                  },
-                              );
-                    const get_background_width_height_and_thumbnail_response_final =
-                        typeof get_background_width_height_and_thumbnail_response === 'string' ||
-                        typeof get_background_width_height_and_thumbnail_response === 'number' ||
-                        !n(get_background_width_height_and_thumbnail_response)
-                            ? undefined
-                            : get_background_width_height_and_thumbnail_response;
-                    const background_img_props:
-                        | i_backgrounds.BackgroundImgProps
-                        | t.AnyRecord
-                        | undefined =
-                        page === 'settings'
-                            ? await s_backgrounds.Thumbnail.get_background_width_height_and_thumbnail(
-                                  {
-                                      file: file_final,
-                                      file_type,
-                                  },
-                              )
-                            : get_background_width_height_and_thumbnail_response_final;
+                if (page === 'settings' && n(set_progress_max)) {
+                    set_progress_max({
+                        progress_max: files.length * 2,
+                    });
+                }
 
-                    ordered_files.push({ id, file });
+                const new_backgrounds: (i_db.Background | undefined)[] = [];
+                let file_i: number = 0;
 
-                    if (n(background_img_props) && 'thumbnail' in background_img_props) {
-                        ordered_thumbnails.push({
-                            id,
-                            thumbnail: background_img_props.thumbnail,
-                        });
-                    }
+                for (const file of files) {
+                    d_error.Error.print_error_code({ error_code: 'cnt_1561', loop: true });
 
-                    if (page === 'settings' && n(increment_progress)) {
-                        increment_progress({
-                            increment_amount: 1,
-                        });
-                    }
+                    try {
+                        file_i += 1;
 
-                    if (
-                        n(background_img_props) &&
-                        'width' in background_img_props &&
-                        'height' in background_img_props &&
-                        'width' in background_img_props &&
-                        'thumbnail_height' in background_img_props
-                    ) {
-                        new_backgrounds.push({
-                            id,
-                            theme_id,
-                            i,
-                            type: `${s_backgrounds.FileType.get_file_type({
+                        const id: string = x.unique_id();
+                        const i: string = new BigNumber(last_i).plus(file_i).toString();
+                        const file_type: i_backgrounds.FileType =
+                            s_backgrounds.FileType.get_file_type({
                                 file,
-                            })}`,
-                            width: background_img_props.width,
-                            height: background_img_props.height,
-                            thumbnail_width: background_img_props.thumbnail_width,
-                            thumbnail_height: background_img_props.thumbnail_height,
-                            background_size: n(background_props) // n(background_props) - adding theme background
-                                ? background_props.background_size
-                                : 'global',
-                            background_position: n(background_props)
-                                ? background_props.background_position
-                                : 'global',
-                            background_repeat: n(background_props)
-                                ? background_props.background_repeat
-                                : 'global',
-                            color_of_area_around_background: n(background_props)
-                                ? background_props.color_of_area_around_background
-                                : 'global',
-                            video_speed: n(background_props)
-                                ? background_props.video_speed
-                                : 'global',
-                            video_volume: n(background_props)
-                                ? background_props.video_volume
-                                : 'global',
+                            });
+                        const file_final: string =
+                            page === 'settings' || file_type === 'img_link'
+                                ? (file as string)
+                                : await x.convert_blob_to_base64(file as File);
+
+                        if (
+                            s_backgrounds.FileType.is_base64({
+                                file: file_final,
+                            })
+                        ) {
+                            const file_final_split: string[] = x.chunk_str(
+                                file_final,
+                                x.bytes_to_base64(1048576),
+                            ); // 1mb
+
+                            for (const chunk of file_final_split) {
+                                d_error.Error.print_error_code({
+                                    error_code: 'cnt_1561',
+                                    loop: true,
+                                });
+
+                                await s_offscreen.FirefoxMsgsAlt.append_chunk_to_background_file_base64(
+                                    { chunk },
+                                );
+                            }
+                        }
+                        const get_background_width_height_and_thumbnail_response =
+                            page === 'settings'
+                                ? undefined
+                                : await s_offscreen.FirefoxMsgsAlt.get_background_width_height_and_thumbnail(
+                                      {
+                                          file:
+                                              page === 'settings' || file_type === 'img_link'
+                                                  ? file_final
+                                                  : undefined,
+                                          file_type,
+                                      },
+                                  );
+                        const get_background_width_height_and_thumbnail_response_final =
+                            typeof get_background_width_height_and_thumbnail_response ===
+                                'string' ||
+                            typeof get_background_width_height_and_thumbnail_response ===
+                                'number' ||
+                            !n(get_background_width_height_and_thumbnail_response)
+                                ? undefined
+                                : get_background_width_height_and_thumbnail_response;
+                        const background_img_props:
+                            | i_backgrounds.BackgroundImgProps
+                            | t.AnyRecord
+                            | undefined =
+                            page === 'settings'
+                                ? await s_backgrounds.Thumbnail.get_background_width_height_and_thumbnail(
+                                      {
+                                          file: file_final,
+                                          file_type,
+                                      },
+                                  )
+                                : get_background_width_height_and_thumbnail_response_final;
+
+                        ordered_files.push({ id, file });
+
+                        if (n(background_img_props) && 'thumbnail' in background_img_props) {
+                            ordered_thumbnails.push({
+                                id,
+                                thumbnail: background_img_props.thumbnail,
+                            });
+                        }
+
+                        if (page === 'settings' && n(increment_progress)) {
+                            increment_progress({
+                                increment_amount: 1,
+                            });
+                        }
+
+                        if (
+                            n(background_img_props) &&
+                            'width' in background_img_props &&
+                            'height' in background_img_props &&
+                            'width' in background_img_props &&
+                            'thumbnail_height' in background_img_props
+                        ) {
+                            new_backgrounds.push({
+                                id,
+                                theme_id,
+                                i,
+                                type: `${s_backgrounds.FileType.get_file_type({
+                                    file,
+                                })}`,
+                                width: background_img_props.width,
+                                height: background_img_props.height,
+                                thumbnail_width: background_img_props.thumbnail_width,
+                                thumbnail_height: background_img_props.thumbnail_height,
+                                background_size: n(background_props) // n(background_props) - adding theme background
+                                    ? background_props.background_size
+                                    : 'global',
+                                background_position: n(background_props)
+                                    ? background_props.background_position
+                                    : 'global',
+                                background_repeat: n(background_props)
+                                    ? background_props.background_repeat
+                                    : 'global',
+                                color_of_area_around_background: n(background_props)
+                                    ? background_props.color_of_area_around_background
+                                    : 'global',
+                                video_speed: n(background_props)
+                                    ? background_props.video_speed
+                                    : 'global',
+                                video_volume: n(background_props)
+                                    ? background_props.video_volume
+                                    : 'global',
+                            });
+                        }
+                    } catch (error_obj: unknown) {
+                        if (n(error_obj)) {
+                            show_err_ribbon(error_obj as i_error.ErrorObj, 'cnt_1131', {
+                                silent: true,
+                            }); // upload wrong file type (for example .txt) to cause this error
+                            throw_err_obj(error_obj as i_error.ErrorObj);
+                        }
+
+                        return undefined;
+                    }
+                }
+
+                const at_least_one_background_is_broken: boolean = new_backgrounds.some(
+                    (background: i_db.Background | undefined): boolean =>
+                        err(() => !n(background), 'cnt_1133'),
+                );
+
+                // remove undefined backgrounds
+                new_backgrounds_final = new_backgrounds.flatMap(
+                    (background: i_db.Background | undefined): i_db.Background[] =>
+                        err(() => (n(background) ? [background] : []), 'cnt_1134'),
+                );
+
+                const new_background_thumbnails: i_db.BackgroundThumbnail[] =
+                    ordered_thumbnails.map(
+                        (
+                            ordered_thumbnail: i_backgrounds.OrderedThumbnails,
+                        ): i_db.BackgroundThumbnail =>
+                            err(
+                                () => ({
+                                    id: ordered_thumbnail.id,
+                                    background: ordered_thumbnail.thumbnail,
+                                }),
+                                'cnt_1135',
+                            ),
+                    );
+
+                const new_background_files: i_db.BackgroundFile[] = ordered_files.map(
+                    (ordered_file: i_backgrounds.OrderedFiles): i_db.BackgroundFile =>
+                        err(
+                            () => ({
+                                id: ordered_file.id,
+                                background: ordered_file.file,
+                            }),
+                            'cnt_1136',
+                        ),
+                );
+
+                await s_db.Manipulation.save_backgrounds({
+                    backgrounds: new_backgrounds_final,
+                    background_thumbnails: new_background_thumbnails,
+                    background_files: new_background_files,
+                });
+
+                if (page === 'background') {
+                    await ext.send_msg_resp({ msg: 'allow_animation' });
+                } else if (n(allow_animation)) {
+                    allow_animation();
+                }
+
+                if (page === 'settings' && n(merge_backgrounds)) {
+                    new_backgrounds_final = merge_backgrounds({
+                        backgrounds: new_backgrounds_final,
+                    });
+                }
+
+                if (update_current_background_id && n(set_background_as_current)) {
+                    if (
+                        no_backgrounds_before_upload &&
+                        !data.settings.prefs.automatically_set_last_uploaded_background_as_current
+                    ) {
+                        set_background_as_current({
+                            id: n(backgrounds[0]) ? backgrounds[0].id : 0,
+                        });
+                    } else if (n(set_last_uploaded_background_as_current)) {
+                        set_last_uploaded_background_as_current({
+                            id: new_backgrounds_final[new_backgrounds_final.length - 1].id,
                         });
                     }
-                } catch (error_obj: unknown) {
-                    if (n(error_obj)) {
-                        show_err_ribbon(error_obj as i_error.ErrorObj, 'cnt_1131', {
-                            silent: true,
-                        }); // upload wrong file type (for example .txt) to cause this error
-                        throw_err_obj(error_obj as i_error.ErrorObj);
-                    }
-
-                    return undefined;
                 }
-            }
 
-            const at_least_one_background_is_broken: boolean = new_backgrounds.some(
-                (background: i_db.Background | undefined): boolean =>
-                    err(() => !n(background), 'cnt_1133'),
-            );
+                if (page === 'background') {
+                    await ext.send_msg_resp({ msg: 'forbid_animation' });
+                } else if (n(forbid_animation)) {
+                    forbid_animation();
+                }
 
-            // remove undefined backgrounds
-            new_backgrounds_final = new_backgrounds.flatMap(
-                (background: i_db.Background | undefined): i_db.Background[] =>
-                    err(() => (n(background) ? [background] : []), 'cnt_1134'),
-            );
-
-            const new_background_thumbnails: i_db.BackgroundThumbnail[] = ordered_thumbnails.map(
-                (ordered_thumbnail: i_backgrounds.OrderedThumbnails): i_db.BackgroundThumbnail =>
-                    err(
-                        () => ({
-                            id: ordered_thumbnail.id,
-                            background: ordered_thumbnail.thumbnail,
-                        }),
-                        'cnt_1135',
-                    ),
-            );
-
-            const new_background_files: i_db.BackgroundFile[] = ordered_files.map(
-                (ordered_file: i_backgrounds.OrderedFiles): i_db.BackgroundFile =>
-                    err(
-                        () => ({
-                            id: ordered_file.id,
-                            background: ordered_file.file,
-                        }),
-                        'cnt_1136',
-                    ),
-            );
-
-            await s_db.Manipulation.save_backgrounds({
-                backgrounds: new_backgrounds_final,
-                background_thumbnails: new_background_thumbnails,
-                background_files: new_background_files,
-            });
-
-            if (page === 'background') {
-                await ext.send_msg_resp({ msg: 'allow_animation' });
-            } else if (n(allow_animation)) {
-                allow_animation();
-            }
-
-            if (page === 'settings' && n(merge_backgrounds)) {
-                new_backgrounds_final = merge_backgrounds({
-                    backgrounds: new_backgrounds_final,
-                });
-            }
-
-            if (update_current_background_id && n(set_background_as_current)) {
-                if (
-                    no_backgrounds_before_upload &&
-                    !data.settings.prefs.automatically_set_last_uploaded_background_as_current
-                ) {
-                    set_background_as_current({
-                        id: n(backgrounds[0]) ? backgrounds[0].id : 0,
-                    });
-                } else if (n(set_last_uploaded_background_as_current)) {
-                    set_last_uploaded_background_as_current({
-                        id: new_backgrounds_final[new_backgrounds_final.length - 1].id,
-                    });
+                if (at_least_one_background_is_broken) {
+                    throw_err('Upload error');
+                }
+            } catch (error_obj: unknown) {
+                if (page === 'background') {
+                    await ext.send_msg_resp({ msg: 'upload_error' });
+                } else if (n(upload_error)) {
+                    upload_error({ show_error_in_upload_box });
+                }
+                if (n(error_obj)) {
+                    show_err_ribbon(error_obj as i_error.ErrorObj, 'cnt_1137', { silent: true }); // upload wrong file type (for example .txt) to cause this error
+                    throw_err_obj(error_obj as i_error.ErrorObj); // needed for error in paste input to be shown
                 }
             }
 
             if (page === 'background') {
-                await ext.send_msg_resp({ msg: 'forbid_animation' });
-            } else if (n(forbid_animation)) {
-                forbid_animation();
+                await ext.send_msg_resp({ msg: 'upload_success' });
+                await ext.send_msg_resp({ msg: 'hide_protecting_screen' });
+            } else if (n(upload_success) && n(hide_protecting_screen)) {
+                upload_success();
+                hide_protecting_screen();
             }
 
-            if (at_least_one_background_is_broken) {
-                throw_err('Upload error');
-            }
-        } catch (error_obj: unknown) {
-            if (page === 'background') {
-                await ext.send_msg_resp({ msg: 'upload_error' });
-            } else if (n(upload_error)) {
-                upload_error({ show_error_in_upload_box });
-            }
-            if (n(error_obj)) {
-                show_err_ribbon(error_obj as i_error.ErrorObj, 'cnt_1137', { silent: true }); // upload wrong file type (for example .txt) to cause this error
-                throw_err_obj(error_obj as i_error.ErrorObj); // needed for error in paste input to be shown
-            }
-        }
-
-        if (page === 'background') {
-            await ext.send_msg_resp({ msg: 'upload_success' });
-            await ext.send_msg_resp({ msg: 'hide_protecting_screen' });
-        } else if (n(upload_success) && n(hide_protecting_screen)) {
-            upload_success();
-            hide_protecting_screen();
-        }
-
-        return new_backgrounds_final;
-    };
+            return new_backgrounds_final;
+        }, 'cnt_1561');
 }
 
 export const Upload = Class.get_instance();

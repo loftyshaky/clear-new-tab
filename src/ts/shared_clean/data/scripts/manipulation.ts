@@ -382,6 +382,10 @@ class Class {
                           }),
                       ]
                     : []),
+                new o_schema.TransformItem({
+                    new_key: 'detect_infinite_loops',
+                    new_val: false,
+                }),
             ];
 
             const updated_prefs = await d_schema.Schema.transform({

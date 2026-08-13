@@ -1,6 +1,7 @@
 import { action, makeObservable, observable, reaction, runInAction } from 'mobx';
 import Paginator from 'paginator';
 
+import { d_error } from '@loftyshaky/shared/shared_clean';
 import type { p_pagination } from 'settings/internal';
 import { d_backgrounds, d_pagination, d_sections } from 'settings/internal';
 import { db } from 'shared_clean/internal';
@@ -36,6 +37,8 @@ class Class {
             );
 
             for (let i = pagination_info.first_page; i <= pagination_info.last_page; i += 1) {
+                d_error.Error.print_error_code({ error_code: 'cnt_1465', loop: true });
+
                 btns.push({
                     name: undefined,
                     on_click_page: i,

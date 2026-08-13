@@ -7,6 +7,7 @@ import type { i_inputs, o_inputs } from '@loftyshaky/shared/inputs';
 import { d_inputs } from '@loftyshaky/shared/inputs';
 import { d_optional_permissions, s_sections } from '@loftyshaky/shared/settings';
 import type { t } from '@loftyshaky/shared/shared';
+import { d_error } from '@loftyshaky/shared/shared_clean';
 import type { i_error } from '@loftyshaky/shared/shared_clean';
 import type { i_sections } from 'settings/internal';
 import {
@@ -162,6 +163,8 @@ class Class {
                 });
 
                 for (const background of d_backgrounds.Backgrounds.backgrounds) {
+                    d_error.Error.print_error_code({ error_code: 'cnt_1275', loop: true });
+
                     background_count += 1;
 
                     const background_file: i_db.BackgroundFile | undefined = background_files.find(
@@ -302,12 +305,16 @@ class Class {
                 let chunk_count: number = 0;
 
                 for (const file of files_sorted) {
+                    d_error.Error.print_error_code({ error_code: 'cnt_1278', loop: true });
+
                     const data_obj = await parse_file({ file });
 
                     chunk_count += data_obj.chunks.length;
                 }
 
                 for (const file of files_sorted) {
+                    d_error.Error.print_error_code({ error_code: 'cnt_1278', loop: true });
+
                     this.restoring_from_back_up = true;
                     this.restoring_from_back_up_pagination = true;
                     this.restored_backgrounds = [];

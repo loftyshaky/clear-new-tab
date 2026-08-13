@@ -1,3 +1,5 @@
+import { d_error } from '@loftyshaky/shared/shared_clean';
+
 class Class {
     private static instance: Class;
 
@@ -14,6 +16,8 @@ class Class {
                 let color = '#';
 
                 for (let i = 0; i < 6; i += 1) {
+                    d_error.Error.print_error_code({ error_code: 'cnt_1314', loop: true });
+
                     color += letters[Math.floor(Math.random() * 16)];
                 }
 
