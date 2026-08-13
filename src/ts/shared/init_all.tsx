@@ -11,6 +11,7 @@ import {
     s_theme as s_theme_shared,
 } from '@loftyshaky/shared/shared';
 import { s_title } from '@loftyshaky/shared/shared_clean';
+import { d_error } from '@loftyshaky/shared/shared_clean';
 import { s_css_vars, s_suffix, s_theme } from 'shared_clean/internal';
 
 class Class {
@@ -60,6 +61,8 @@ class Class {
                             }
                         }
                     }, 'cnt_1351');
+
+                d_error.Error.set_detect_infinite_loops_val();
 
                 s_title.Title.set();
 
