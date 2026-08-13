@@ -360,8 +360,8 @@ class Class {
                             admin_section_content_is_visible: bool,
                         },
                     },
-                    update_instantly: false,
-                    load_settings: false,
+                    update_instantly: true,
+                    load_settings: true,
                 }),
             'cnt_1470',
         );
