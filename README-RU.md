@@ -1,5 +1,7 @@
 # Clear New Tab
 
+<a href="https://github.com/loftyshaky/clear-new-tab/tags"><img src="https://img.shields.io/github/v/tag/loftyshaky/clear-new-tab?label=Version&color=blue" alt="Version"></a> <a href="LICENSE.md"><img src="https://img.shields.io/badge/License-MIT-orange.svg" alt="License: MIT"></a> <img src="https://img.shields.io/github/downloads/loftyshaky/clear-new-tab/total?label=Downloads%20&color=green" alt="GitHub all releases"> <img src="https://img.shields.io/github/downloads/loftyshaky/clear-new-tab/latest/total?sort=date&label=Downloads@Latest&color=green" alt="GitHub Release">
+
 Браузерное расширение, позволяющее удалить всё со страницы новой вкладки, сохранив фон темы, или установить любое изображение, GIF или видео в качестве обоев.
 
 ## Ссылки
