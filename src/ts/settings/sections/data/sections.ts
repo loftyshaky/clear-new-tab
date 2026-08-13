@@ -497,7 +497,7 @@ class Class {
                             name: 'privacy_policy',
                             href: ext.msg('privacy_policy_link_href'),
                         }),
-                        ...(['opera', 'yandex'].includes(env.browser)
+                        ...(['opera', 'brave', 'yandex'].includes(env.browser)
                             ? []
                             : [
                                   new o_inputs.Link({

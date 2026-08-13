@@ -30,7 +30,7 @@ class Class {
                     admin_section_content_is_visible: false,
                     colors: s_color.Colors.default_colors,
                     install_help_is_visible: true,
-                    mode: ['opera', 'yandex', 'firefox'].includes(env.browser)
+                    mode: ['opera', 'brave', 'yandex', 'firefox'].includes(env.browser)
                         ? 'one_background'
                         : 'theme_background',
                     color_type: 'pastel',

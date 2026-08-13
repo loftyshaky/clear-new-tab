@@ -372,7 +372,7 @@ class Class {
                     new_key: 'paste_btn_is_visible',
                     new_val: false,
                 }),
-                ...(['opera', 'yandex', 'firefox'].includes(env.browser) &&
+                ...(['opera', 'brave', 'yandex', 'firefox'].includes(env.browser) &&
                 settings.prefs.mode === 'theme_background'
                     ? [
                           new o_schema.TransformItem({
