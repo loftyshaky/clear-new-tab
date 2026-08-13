@@ -52,6 +52,7 @@ class Class {
                 sections: d_sections.Sections.sections as i_inputs.Sections,
                 set_to_all_sections: true,
             });
+            void d_scheduler.Val.set_add_new_task_btn_ability();
         }, 'cnt_1109');
 
     public deselect = (): void =>
