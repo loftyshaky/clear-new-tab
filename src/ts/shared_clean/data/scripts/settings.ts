@@ -79,6 +79,7 @@ class Class {
                 s_data.Settings.apply_unchanged_prefs({
                     settings,
                     additional_unchanged_prefs: {
+                        clipboard_read_permission: data.settings.prefs.clipboard_read_permission,
                         install_help_is_visible: data.settings.prefs.install_help_is_visible,
                     },
                 }),

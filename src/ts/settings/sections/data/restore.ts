@@ -62,7 +62,7 @@ class Class {
                     typeof default_settings !== 'number'
                 ) {
                     const default_settings_final = s_data.Settings.apply_unchanged_prefs({
-                        settings: default_settings as t.AnyRecord,
+                        settings: default_settings as i_data.Settings,
                     });
 
                     await d_data.Manipulation.send_msg_to_update_settings({
@@ -435,44 +435,40 @@ class Class {
                             }, 'cnt_1418');
 
                         if (is_first_part) {
+                            const settings_clone: i_data.Settings | undefined = clone(settings);
+
                             runInAction(() =>
                                 err(() => {
                                     if (n(settings)) {
-                                        data.settings.prefs = settings.prefs;
+                                        const settings_final =
+                                            s_data.Settings.apply_unchanged_prefs({
+                                                settings: settings as i_data.Settings,
+                                            });
+
+                                        data.settings.prefs = settings_final.prefs;
                                     }
                                 }, 'cnt_1560'),
                             );
 
-                            if (n(settings)) {
-                                if (settings.prefs.paste_btn_is_visible) {
-                                    await d_optional_permissions.Permission.show_enable_permissions_notification(
-                                        {
-                                            permissions: [
-                                                {
-                                                    name: 'clipboardRead',
-                                                    permission:
-                                                        s_optional_permissions.Permissions
-                                                            .optional_permission_checkbox_dict
-                                                            .paste_btn_is_visible,
-                                                },
-                                            ],
-                                        },
-                                    );
-                                }
+                            if (
+                                n(settings_clone) &&
+                                settings_clone.prefs.clipboard_read_permission
+                            ) {
+                                await d_optional_permissions.Permission.show_enable_permissions_notification(
+                                    {
+                                        permissions: [
+                                            {
+                                                name: 'clipboardRead',
+                                                permission:
+                                                    s_optional_permissions.Permissions
+                                                        .optional_permission_checkbox_dict
+                                                        .paste_btn_is_visible,
+                                            },
+                                        ],
+                                        settings: settings_clone,
+                                    },
+                                );
                             }
-
-                            const clipboard_read_permission: boolean =
-                                s_optional_permissions.Permissions.contains_permission
-                                    .paste_btn_is_visible;
-
-                            runInAction(() =>
-                                err(() => {
-                                    if (n(settings)) {
-                                        settings.prefs.clipboard_read_permission =
-                                            clipboard_read_permission;
-                                    }
-                                }, 'cnt_1548'),
-                            );
 
                             await d_data.Manipulation.send_msg_to_update_settings({
                                 settings,
