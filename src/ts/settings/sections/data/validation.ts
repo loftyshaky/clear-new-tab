@@ -16,7 +16,7 @@ class Class {
         err(() => {
             const val: i_data.Val = d_inputs.Val.access({ input }) as number;
 
-            if (typeof val === 'string') {
+            if (typeof val === 'string' && input.name !== 'homepage') {
                 if (input.name === 'paste_background') {
                     return false;
                 }

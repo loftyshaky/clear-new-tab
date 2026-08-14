@@ -278,7 +278,7 @@ class Class {
 
     public remove_val = ({ input }: { input: i_inputs.Input }): Promise<void> =>
         err_async(async () => {
-            if (['year', 'time'].includes(input.name)) {
+            if (['year', 'time', 'homepage'].includes(input.name)) {
                 await this.change({ input });
 
                 await d_data.Manipulation.send_msg_to_update_settings({

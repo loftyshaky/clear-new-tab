@@ -14,9 +14,7 @@ class Class {
     }
 
     public get show_home_btn() {
-        return (
-            !['yandex', 'firefox'].includes(env.browser) && data.settings.prefs.home_btn_is_visible
-        );
+        return data.settings.prefs.home_btn_is_visible;
     }
 }
 

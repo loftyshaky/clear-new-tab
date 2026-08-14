@@ -131,6 +131,9 @@
     "home_btn_is_visible_label_text": {
         "message": "Показывать кнопку \"Домой\" на странице новой вкладки"
     },
+    "homepage_label_text": {
+        "message": "Домашняя страница"
+    },
     "home_btn_position_label_text": {
         "message": "Позиция кнопки \"Домой\""
     },

@@ -16,7 +16,10 @@ class Class {
             this.opening_default_new_tab_page = 3;
 
             void we.tabs.update({
-                url: s_links.Browser.new_tab[env.browser],
+                url:
+                    data.settings.prefs.homepage === ''
+                        ? s_links.Browser.new_tab[env.browser]
+                        : data.settings.prefs.homepage,
             });
         }, 'cnt_1009');
 }

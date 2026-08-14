@@ -33,6 +33,7 @@ export interface Prefs {
     video_volume: number;
     download_img_when_link_given: boolean;
     home_btn_is_visible: boolean;
+    homepage: string;
     home_btn_position: string;
     paste_btn_is_visible: boolean;
     year: string;

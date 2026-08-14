@@ -149,7 +149,6 @@ class Class {
                                       event_callback: d_sections.Val.change,
                                   }),
                               ]),
-
                         new o_inputs.Text({
                             name: 'current_background_id',
                             text_type: 'number',
@@ -383,21 +382,24 @@ class Class {
                         d_sections_loftyshaky.Sections.get_shared_input({
                             input_change_val_callback: d_sections.Val.change,
                         }).options_page_theme,
-                        ...(['yandex', 'firefox'].includes(env.browser)
-                            ? []
-                            : [
-                                  new o_inputs.Checkbox({
-                                      name: 'home_btn_is_visible',
-                                      include_help: true,
-                                      event_callback: d_sections.Val.change,
-                                  }),
-                                  new o_inputs.Select({
-                                      name: 'home_btn_position',
-                                      parent: 'home_btn_is_visible',
-                                      options: d_sections.Options.options,
-                                      event_callback: d_sections.Val.change,
-                                  }),
-                              ]),
+                        new o_inputs.Checkbox({
+                            name: 'home_btn_is_visible',
+                            include_help: true,
+                            event_callback: d_sections.Val.change,
+                        }),
+                        new o_inputs.Text({
+                            name: 'homepage',
+                            parent: 'home_btn_is_visible',
+                            placeholder: 'https://www.google.com',
+                            event_callback: d_sections.Val.change,
+                            remove_val_callback: d_sections.Val.remove_val,
+                        }),
+                        new o_inputs.Select({
+                            name: 'home_btn_position',
+                            parent: 'home_btn_is_visible',
+                            options: d_sections.Options.options,
+                            event_callback: d_sections.Val.change,
+                        }),
                         new o_inputs.Checkbox({
                             name: 'paste_btn_is_visible',
                             event_callback: d_sections.Val.change,

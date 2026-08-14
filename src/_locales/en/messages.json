@@ -137,6 +137,9 @@
     "home_btn_is_visible_label_text": {
         "message": "Show \"Home\" button in the new tab page"
     },
+    "homepage_label_text": {
+        "message": "Homepage"
+    },
     "home_btn_position_label_text": {
         "message": "\"Home\" button position"
     },

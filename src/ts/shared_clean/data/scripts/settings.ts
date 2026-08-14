@@ -52,6 +52,7 @@ class Class {
                     video_volume: 0,
                     download_img_when_link_given: false,
                     home_btn_is_visible: false,
+                    homepage: '',
                     home_btn_position: 'right_top',
                     paste_btn_is_visible: false,
                     year: '',

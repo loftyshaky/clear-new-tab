@@ -386,6 +386,10 @@ class Class {
                     new_key: 'detect_infinite_loops',
                     new_val: false,
                 }),
+                new o_schema.TransformItem({
+                    new_key: 'homepage',
+                    new_val: '',
+                }),
             ];
 
             const updated_prefs = await d_schema.Schema.transform({
