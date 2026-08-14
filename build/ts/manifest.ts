@@ -101,7 +101,8 @@ export class Manifest {
 
         manifest_shared.generate({
             manifest,
-            add_colored_icon: true,
+            env,
+            colored_icon: true,
         });
     };
 }
