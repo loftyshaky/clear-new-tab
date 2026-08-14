@@ -35,10 +35,6 @@ In Yandex Browser, the new tab page functionality was **completely removed** by 
 Once opened, it functions the same as in Opera, with one difference:
 - Use **F6** to select all text in the address bar (instead of F8).
 
-## Home button feature in Firefox version
-
-The home button feature is **not available** in the Firefox version of Clear New Tab due to a platform limitation — Firefox does not allow extensions to programmatically open the browser's default new tab page.
-
 ## Build steps
 
 1. `git clone https://github.com/loftyshaky/clear-new-tab`
