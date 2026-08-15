@@ -33,6 +33,7 @@ In Opera, I still managed to replace the default new tab page, but the behavior 
 In Yandex Browser, the new tab page functionality was **completely removed** by the developers. The only way to open Clear New Tab's new tab page is via the **extension icon**.
 
 Once opened, it functions the same as in Opera, with one difference:
+
 - Use **F6** to select all text in the address bar (instead of F8).
 
 ## Build steps
