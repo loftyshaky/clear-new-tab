@@ -45,10 +45,10 @@
         "pub": "powershell -File node_modules\\@loftyshaky\\shared\\build\\ps1\\extension_pub.ps1"
     },
     "dependencies": {
-        "@loftyshaky/shared": "2.7.0",
+        "@loftyshaky/shared": "2.7.1",
         "@simonwep/pickr": "^1.9.1",
         "@types/webextension-polyfill": "^0.12.5",
-        "advanced-extension-reloader-watch-2": "3.0.1",
+        "advanced-extension-reloader-watch-2": "3.1.0",
         "bignumber.js": "^11.1.3",
         "codemirror": "^5.65.21",
         "date-fns": "^4.4.0",
