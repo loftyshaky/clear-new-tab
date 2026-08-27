@@ -1,6 +1,6 @@
 {
     "name": "clear-new-tab",
-    "version": "6.12.0",
+    "version": "6.12.1",
     "type": "module",
     "scripts": {
         "dev": "cross-env env=ext browser=chrome test=true vite build --mode development",
