@@ -89,6 +89,7 @@ export class Manifest {
                           gecko: {
                               id: 'clear-new-tab@loftyshaky',
                           },
+                          ...(env.test === 'true' ? {} : { strict_min_version: '153.0.0' }),
                       },
                   }
                 : {}),
